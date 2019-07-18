@@ -12,3 +12,11 @@ Models here used GMACS .tpl file to run the model code therefore the most curren
 before beginning models download most recent GMACS .tpl file into the /GMACS folder. 
 
 Currently up-to-date 18-07-2019
+Instructions:
+- go to https://github.com/seacode/gmacs/tree/develop/src
+- download any updates to this folder (/src) - most likely this would be updates to gmacs.tpl or libraries
+- make sure current versions are stored in /GMACS/src in this project folder
+- navigate to GMACS/src folder with ADMB shell 'cd Documents\BSAI_crab_assessments\GMACS\src'
+- type 'make.bat'
+
+This should create libraries and gmacs.exe needed to run models.
