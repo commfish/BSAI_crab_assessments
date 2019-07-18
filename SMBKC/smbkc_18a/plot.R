@@ -12,9 +12,8 @@ require(gmr)
 # Model 1 plots -------------------------
 # ploting for model 1 under smbkc18a folder - using gmr and Jim's code 
 
-
 mod_names <- c("base_model_1")
-.MODELDIR = c("./smbkc_18a/model_1/")
+.MODELDIR = c("./SMBKC/smbkc_18a/model_1/")
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
@@ -23,7 +22,7 @@ mod_names <- c("base_model_1")
 .SHELL    = c("Aggregate","Aggregate")
 .MATURITY = c("Aggregate")
 .SEAS     = c("Annual")
-.FIGS     = c("./smbkc_18a/model_1/figure/")
+.FIGS     = c("./SMBKC/smbkc_18a/model_1/figure/")
 
 fn       <- paste0(.MODELDIR, "gmacs")
 M        <- lapply(fn, read_admb) #need .prj file to run gmacs and need .rep file here
@@ -65,7 +64,7 @@ plot_recruitment(M)
 ggsave(paste0(.FIGS, "recruitment.png"), width = ww, height = hh)
 dev.off()
 
-plot_selectivity(M, ncol = 5) # FIX not working
+plot_selectivity(M, ncol = 5) # **FIX** not working
 ggsave(paste0(.FIGS, "selectivity.png"), width = ww*1.5, height = hh*1.5)
 dev.off()
 
@@ -121,9 +120,6 @@ dev.off()
 # plot_size_comps(M, 6)
 # ggsave(paste0(.FIGS, "lf_6.png"), width = ww*2, height = hh*1.5)
 # # # dev.off()
-
-
-
 
 
 
