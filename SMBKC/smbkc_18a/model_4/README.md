@@ -14,7 +14,11 @@ Vast data should just be different input data for trawl survey
 
 3) code should run
 
-4) Open 'Gmacsall.out'
+4) Open 'Gmacsall.out' to view results
+
+
+# Plot the results
+1) look at plot_indiv_model to set up plot views for this model.
 
 
 
