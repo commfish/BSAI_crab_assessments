@@ -7,6 +7,7 @@
 #require(devtools)
 devtools::install_github("seacode/gmacs", subdir = "/gmr", ref = "develop")
 require(gmr)
+library(tidyverse)
 #setwd("./smbkc_18a/model_1")
 
 # Model 1 plots -------------------------
@@ -192,7 +193,7 @@ as.character(M[[1]]$spr_nyr)
 
 
 ofl_df <- data.frame(Bmsy, MMB, B_Bmsy, Fofl, years)
-write_csv(ofl_df, paste0('./smbkc_18a/model_1/ofl_table_', mod_names, '.csv'))
+write_csv(ofl_df, paste0('./SMBKC/smbkc_18a/model_1/ofl_table_', mod_names, '.csv'))
 
 ### cpue ---------------
 cpue <- .get_cpue_df(M)
