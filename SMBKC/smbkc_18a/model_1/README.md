@@ -20,7 +20,7 @@ Test mcmc run
 
 'gmacs -mcmc 10 -mcsave 3' make sure .psv file is created
 
-'gmacs -mcmc 1000000 -mcsave 1000' - started at 4:16pm 7-18-19
+'gmacs -mcmc 1000000 -mcsave 1000' - started at 4:16pm 7-18-19, ended 5:35pm
 
 
 # for projections
