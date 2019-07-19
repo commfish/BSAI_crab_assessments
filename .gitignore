@@ -5,6 +5,7 @@
 *.Rproj
 /SMBKC/data
 *.png
+/SMBKC/smbkc_18a/model_4/figure
 
 ## borrowed from GMACS gitignore
 *~
