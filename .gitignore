@@ -4,6 +4,7 @@
 .Ruserdata
 *.Rproj
 /SMBKC/data
+*.png
 
 ## borrowed from GMACS gitignore
 *~
