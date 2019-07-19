@@ -1,4 +1,4 @@
-# Base model 
+# Base model - model 1 for 2018a
 From Andre with projection options available.
 This is last year's accepted model with updates to GMACS.tpl - most Andres'
 
@@ -20,7 +20,7 @@ Test mcmc run
 
 'gmacs -mcmc 10 -mcsave 3' make sure .psv file is created
 
-'gmacs -mcmc 1000000 -mcsave 1000'
+'gmacs -mcmc 1000000 -mcsave 1000' - started at 4:16pm 7-18-19
 
 
 # for projections
