@@ -48,6 +48,25 @@ fn       <- paste0(.MODELDIR, "gmacs")
 M        <- lapply(fn, read_admb) #need .prj file to run gmacs and need .rep file here
 names(M) <- mod_names
 
+# model 5 plots -----------------------------
+# ploting for model 5 under smbkc18a folder - using gmr and Jim's code 
+
+mod_names <- c("fit_survey")
+.MODELDIR = c("./SMBKC/smbkc_18a/model_5/")
+.THEME    = theme_bw(base_size = 12, base_family = "")
+.OVERLAY  = TRUE
+.SEX      = c("Aggregate","Male")
+.FLEET    = c("Pot","Trawl bycatch","Fixed bycatch","NMFS Trawl","ADFG Pot")
+.TYPE     = c("Retained & Discarded","Retained","Discarded")
+.SHELL    = c("Aggregate","Aggregate")
+.MATURITY = c("Aggregate")
+.SEAS     = c("Annual")
+.FIGS     = c("./SMBKC/smbkc_18a/model_5/figure/")
+
+fn       <- paste0(.MODELDIR, "gmacs")
+M        <- lapply(fn, read_admb) #need .prj file to run gmacs and need .rep file here
+names(M) <- mod_names
+
 # Jim's plots -------------------------------
 ww <- 6
 hh <- 5
