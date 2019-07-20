@@ -4,8 +4,8 @@
 require(gmr)
 #setwd("./smbkc_18a/model_1")
 
-mod_names <- c("base_model_1", "model_1a")
-.MODELDIR = c("./smbkc_18a/model_1/", "./smbkc_18a/model_1a/")
+mod_names <- c("base_model_1", "VAST_model", "survey_fit_model")
+.MODELDIR = c("./SMBKC/smbkc_18a/model_1/", "./SMBKC/smbkc_18a/model_4/", "./SMBKC/smbkc_18a/model_5/")
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
@@ -14,7 +14,7 @@ mod_names <- c("base_model_1", "model_1a")
 .SHELL    = c("Aggregate","Aggregate")
 .MATURITY = c("Aggregate")
 .SEAS     = c("Annual")
-.FIGS     = c("figure/")
+.FIGS     = c("./SMBKC/smbkc_18a/figure/")
 
 fn       <- paste0(.MODELDIR, "gmacs")
 M        <- lapply(fn, read_admb) #need .prj file to run gmacs and need .rep file here
