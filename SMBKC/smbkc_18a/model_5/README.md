@@ -1,4 +1,4 @@
-# Model with higher weightings on the survies
+# Model with higher weightings on the survies "Fit Survey"
 From Andre with projection options available.
 Similar to last year's model 5 but with updates to gmacs.tpl
 
