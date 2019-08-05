@@ -32,4 +32,4 @@ Need to run mcmc above to get .psv file for projections
 2) run projection
 'gmacs -mceval'
 
-3) save output files created from projection into folder - proj#/letter
+3) save output files created from projection into folder - 'smbkc_18a/projections/proj#/letter'
