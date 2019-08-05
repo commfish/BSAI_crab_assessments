@@ -24,7 +24,11 @@ Test mcmc run
 
 
 # for projections
-1) update .prj file with the projection that you're running
+Need to run mcmc above to get .psv file for projections
+
+1) update .prj file with the projection that you're running (see projections folder and readme with descriptions)
+    a) change this file name to 'sm18.prj'
+  ** navigate to the folder using ADMB shell - see above **
 2) run projection
 'gmacs -mceval'
 
