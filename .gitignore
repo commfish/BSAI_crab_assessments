@@ -6,6 +6,8 @@
 /SMBKC/data
 *.png
 /SMBKC/smbkc_18a/model_4/figure
+*.docx
+*.pdf
 
 ## borrowed from GMACS gitignore
 *~
