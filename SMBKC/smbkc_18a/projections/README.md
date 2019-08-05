@@ -4,6 +4,8 @@ Modified from 2018 model version with updates for rebuilding
 
 # Base model - model 1 
 
+Stock is considered rebuilt once the Bmsy is above the proxy (NOT 2 years like originally plotted)
+
 ## Rebuilding Alternatives 
 All with random recruitment draws from the time period indicated.
 
