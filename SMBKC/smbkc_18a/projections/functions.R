@@ -25,7 +25,7 @@ f_test <- function(x){
 # function to output .csv and .png ------------------------
 
 write_rec_prob <- function(n_prob_yr, model, version) {
-  TheD <- read.table(paste0("./projections/", model, "/", version, "/mcoutProj.rep"))[,-c(4,5,6,7,8)]
+  TheD <- read.table(paste0(here::here(), "/SMBKC/smbkc_18a/projections/", model, "/", version, "/mcoutPROJ.rep"))[,-c(4,5,6,7,8)]
   
   Nyear <- length(TheD[1,])-4
   Nline <- length(TheD[,1])
@@ -78,7 +78,7 @@ write_rec_prob <- function(n_prob_yr, model, version) {
 # 1 year above Bmsy proxy -- function to output .csv and .png ------------------------
 
 write_rec_prob1 <- function(n_prob_yr, model, version) {
-  TheD <- read.table(paste0(here::here(), "/SMBKC/smbkc_18a/projections/", model, "/", version, "/mcoutProj.rep"))[,-c(4,5,6,7,8)]
+  TheD <- read.table(paste0(here::here(), "/SMBKC/smbkc_18a/projections/", model, "/", version, "/mcoutPROJ.rep"))[,-c(4,5,6,7,8)]
   
   Nyear <- length(TheD[1,])-4
   Nline <- length(TheD[,1])
