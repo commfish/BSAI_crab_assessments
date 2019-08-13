@@ -5,7 +5,7 @@
 
 # load -----
 library(tidyverse)
-library(xlsx)
+#library(xlsx)
 library(readxl)
 library(reshape2)
 library(scales)
