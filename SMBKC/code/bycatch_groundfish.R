@@ -9,14 +9,9 @@
 source("./SMBKC/code/packages.R")
 
 # data -----
-by_weight <- read.csv("C:/Users/kjpalof/Documents/SMBKC/DATA_SMBKC/EBSCrab_AB_Sizegroup.csv")
 gf_bycatch <- read.csv("C:/Users/kjpalof/Documents/SMBKC/DATA_SMBKC/Crab Bycatch Estimates.csv")
 
 # clean-up data ---------
-#head(by_weight)
-#by_weight %>% 
-#  filter(DISTRICT_CODE == "STMATT") 
-
 head(gf_bycatch)
 # group by fixed gear and trawl 
 # Agency.Gear.Code: HAL [hook & line], PTR [pelagic trawl], POT [pot], NPT [non-pelagic trawl]
