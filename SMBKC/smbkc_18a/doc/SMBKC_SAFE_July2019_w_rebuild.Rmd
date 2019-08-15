@@ -127,6 +127,7 @@ E - calculated from the 2018 model approved by the Crab Plan Team in September 2
   2016/17 & 1.97$^D$ & 2.23$^D$ & 0.00 & 0.00 & 0.001 & 0.14 & 0.11 \\ 
   2017/18 & `r round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2)`$^E$ & `r round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)-1]/1000, 2)`$^E$ & 0.00 & 0.00 & 0.003 & 0.12 & 0.10 \\
   2018/19 & & `r round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2)`$^E$ & & & & `r round(M[[rec_mod]]$spr_cofl/1000, 2)` & `r round(M[[rec_mod]]$spr_cofl/1000*0.8, 2)` \\
+  2019/20 \\
  \\
   \hline
 \end{tabular}
@@ -147,6 +148,7 @@ E - calculated from the 2018 model approved by the Crab Plan Team in September 2
   2016/17 & 4.3$^D$ & 4.91$^D$ & 0.000 & 0.000 & 0.002  & 0.31 & 0.25 \\ 
   2017/18 & `r sprintf("%.1f", round(M[[rec_mod]]$spr_bmsy * 2204.62/1e6 * 0.5, 1))`$^E$ & `r round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)-1] * 2204.62/1e6, 2)`$^E$ & 0.000 & 0.000 & 0.007 & 0.27 & 0.22 \\
   2018/19 & & `r round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)] * 2204.62/1e6, 2)`$^E$ & & & & `r round(M[[rec_mod]]$spr_cofl * 2204.62/1e6, 2)` & `r round(M[[rec_mod]]$spr_cofl * 2204.62/1e6*0.8, 2)` \\
+  2019/20 \\
   \hline
 \end{tabular}
 \end{table}
@@ -175,6 +177,7 @@ E - calculated from the 2018 model approved by the Crab Plan Team in September 2
   `r round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/M[[rec_mod]]$spr_bmsy, 2)` & 
   `r round(M[[rec_mod]]$sd_fofl[1], 3) ` & 
   1 & 1978-2018 & 0.18 \\ 
+  2019/20 \\
   \hline
 \end{tabular}
 \end{table}
@@ -188,10 +191,9 @@ There are no new changes in management of the fishery.
 ## Changes to the Input Data
 
 Data used in this assessment have been updated to include the most recently
-available fishery and survey numbers. This assessment makes use of two new
-survey data points including the 201? NMFS trawl-survey estimate of abudance,
-and the 2018 ADF&G pot survey CPUE, no ADF&G pot survey was conducted in 2019. Both of these surveys have associated size
-compositon data. The assessment also uses updated 2010-2017? groundfish and
+available fishery and survey numbers. This assessment makes use of one new
+survey data point - the 2019 NMFS trawl-survey estimate of abudance but no ADF&G pot survey was conducted in 2019. Both of these surveys have associated size
+compositon data. The assessment also uses updated 2010-2018 groundfish and
 fixed gear bycatch estimates based on NMFS Alaska Regional Office (AKRO) data. 
 The directed fishery has been closed since 2016/17 so fishery data in recent years are unavailable.
 
@@ -215,7 +217,7 @@ Both surveys indicate a decline over the past few years. The "reference" model i
 sensitivity. One involves a re-analysis of the NMFS trawl survey data using a spatio-temporal Delta-GLMM approach (VAST
 model; Thorson and Barnett 2017) and the other configuration (named "Fit survey") simply adds emphasis on 
 the design-based survey data
-(by assuming a lower input variance). The VAST model suggests a modest increase from the 2017 survey estimate. However,
+(by assuming a lower input variance). The VAST model suggests a XXX from the 2018 survey estimate. However,
  the model tends to moderate the noise in the survey observations and declines.
  
 # B. Responses to SSC and CPT Comments
