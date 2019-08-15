@@ -22,5 +22,7 @@ projection 5   			| 1996-2017			|	1996-2017		| Using current "regime" from break
 
 option  |	Description
 --------|	--------------
-aa  	| 	Groundfish bycatch max that it's every been - see Table 6 2018 SAFE document - 2007
-bb		|	
+aa    	| 	Groundfish bycatch max that it's every been - see Table 6 2018 SAFE document - 2007
+bb	  	|	  other levels of bycatch???
+
+-conclusions: increased bycatch to 2007 levels reduces the time to rebuilding over 10 years for both proj 1 and 5, the magnitude is greater for 5.
