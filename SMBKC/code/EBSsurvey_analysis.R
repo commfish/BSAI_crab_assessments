@@ -8,7 +8,18 @@
 # "Crab Data" - tab
 # "EBS Crab Survey" - "Summary Reports" - "Abundance/BIomass, Size Group Matrix" - 
 # drop down menu - 1975 to current year (2019) - Blue King Crab 
-# click "export" Data - csv
+# click "export" Data - csv 
+# for "by_weight"
+
+# size_group 
+# "EBS Crab Survey" - "Large Data Download" - "Abundance/BIomass, Large Data Download" - 
+# drop down menu - SIZE_GROUP - Blue King Crab - STMATT
+# click "export" Data - csv 
+
+# haul data 
+# "EBS Crab Survey" - "Large Data Download" - "Haul Data, Large Data Download" - 
+# drop down menu - Blue King Crab
+
 # load -----
 source("./SMBKC/code/packages.R")
 cur_yr = 2019
@@ -69,5 +80,23 @@ size_group %>%
          pct.total105 = MALE_105TO119/total, pct.total120 = MALE_GE120/total) %>% 
   as.data.frame() -> proportion_by_group
 
-
+## sample size for length comps??? ----------------
 head(haul_bkc) # how to determine which ones are st.matt's???
+
+# 2019 sampled
+haul_bkc %>% 
+  filter(AKFIN_SURVEY_YEAR == 2019 & MID_LATITUDE > 58.5) %>% 
+  select(AKFIN_SURVEY_YEAR, GIS_STATION, AREA_SWEPT, SPECIES_NAME, SEX, LENGTH, SAMPLING_FACTOR) %>% 
+  filter(SEX == 1 & LENGTH >= 90 & LENGTH <=135) %>% 
+  group_by(GIS_STATION) %>% 
+  summarise(numbers = sum(SAMPLING_FACTOR))%>% 
+  mutate(total = sum(numbers)) # looking at data file max appears to be 50....keep with this and ask Jie.
+
+# 2018 sampled
+haul_bkc %>% 
+  filter(AKFIN_SURVEY_YEAR == 2018 & MID_LATITUDE > 58.5) %>% 
+  select(AKFIN_SURVEY_YEAR, GIS_STATION, AREA_SWEPT, SPECIES_NAME, SEX, LENGTH, SAMPLING_FACTOR) %>% 
+  filter(SEX == 1 & LENGTH >= 90 & LENGTH <=135) %>% 
+  group_by(GIS_STATION) %>% 
+  summarise(numbers = sum(SAMPLING_FACTOR)) %>% 
+  mutate(total = sum(numbers)) # 2018 .dat file has 31....not sure how to get this, closest I got was 39
