@@ -15,8 +15,11 @@ cur_yr = 2019
 
 # data -----
 by_weight <- read.csv("C:/Users/kjpalof/Documents/SMBKC/DATA_SMBKC/EBSCrab_AB_Sizegroup_2019.csv")
+haul_bkc <- read.csv("C:/Users/kjpalof/Documents/SMBKC/DATA_SMBKC/EBSCrab_Haul_bkc_7519.csv")
+size_group <- read.csv("C:/Users/kjpalof/Documents/SMBKC/DATA_SMBKC/EBSCrab_Abundance_Biomass_2019.csv")
 
-# clean-up data and output ---------
+
+# survey biomass cleanup/results ---------
 head(by_weight)
 by_weight %>% 
   filter(DISTRICT_CODE == "STMATT") %>% 
@@ -38,10 +41,33 @@ biomass_mt %>%  # all using biomass_mt metric tons
   mutate(LT_MEAN = mean(BIOMASS_MT), pct.LT_MEAN = BIOMASS_MT/LT_MEAN)
          #avg3yr = ifelse(SURVEY_YEAR >= cur_yr -2, mean(BIOMASS_MT), 0))
 
+
 # 3 year average and percent of LT mean 
 
 
 # Trawl survey "recruitment" estimates  - line 91
-  
-  
-  
+
+
+# 6 year average recruitment % of LT mean 
+
+
+## Length comps - survey -------------
+
+head(size_group)
+unique(size_group$SIZE_GROUP)
+
+size_group %>% 
+  filter(SEX == "MALE") %>% 
+  group_by(SURVEY_YEAR, SIZE_GROUP) %>% 
+  summarise(numbers = sum(ABUNDANCE), biomass_lbs = sum(BIOMASS_LBS), biomass_mt= sum(BIOMASS_MT)) %>% 
+  filter(SIZE_GROUP == "MALE_90TO104" | SIZE_GROUP == "MALE_105TO119" | SIZE_GROUP == "MALE_GE120") %>% 
+  as.data.frame() %>% 
+  select(SURVEY_YEAR, SIZE_GROUP, numbers) %>% 
+  spread(SIZE_GROUP, numbers) %>% 
+  group_by(SURVEY_YEAR) %>% 
+  mutate(total = sum(MALE_105TO119, MALE_90TO104, MALE_GE120), pct.total90 = MALE_90TO104/total, 
+         pct.total105 = MALE_105TO119/total, pct.total120 = MALE_GE120/total) %>% 
+  as.data.frame() -> proportion_by_group
+
+
+head(haul_bkc) # how to determine which ones are st.matt's???
