@@ -12,8 +12,8 @@ require(gmr)
 # Model 1 plots -------------------------
 # ploting for model 1 under smbkc18a folder - using gmr and Jim's code 
 
-mod_names <- c("base_model_1")
-.MODELDIR = c("./SMBKC/smbkc_18a/model_1/")
+mod_names <- c("model_1")
+.MODELDIR = c("./SMBKC/smbkc_19/model_1/")
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
@@ -22,7 +22,7 @@ mod_names <- c("base_model_1")
 .SHELL    = c("Aggregate","Aggregate")
 .MATURITY = c("Aggregate")
 .SEAS     = c("Annual")
-.FIGS     = c("./SMBKC/smbkc_18a/model_1/figure/")
+.FIGS     = c("./SMBKC/smbkc_19/model_1/figure/")
 
 fn       <- paste0(.MODELDIR, "gmacs")
 M        <- lapply(fn, read_admb) #need .prj file to run gmacs and need .rep file here
@@ -88,7 +88,7 @@ dev.off()
 # ggsave(paste0(.FIGS, "length_weight.png"), width = ww, height = hh)
 # dev.off()
 # 
-plot_numbers(M)
+plot_numbers(M) # not updating for 2019 **FIX**
 ggsave(paste0(.FIGS, "numbers.png"), width = ww*2, height = hh*1.5)
 dev.off()
 # 
@@ -149,11 +149,11 @@ dev.off()
 # need ssb from above
 ssb %>% 
   summarise(Bmsy = mean(ssb)) %>% 
-  mutate(years = "1978-2017", label = "1978-2017 B_MSY" )-> Bmsy
+  mutate(years = "1978-2018", label = "1978-2018 B_MSY" )-> Bmsy
 ssb %>% 
   filter(year >= 1996) %>% 
   summarise(Bmsy = mean (ssb)) %>% 
-  mutate(years = "1996-2017", label = "1996-2017 B_MSY")->Bmsy2
+  mutate(years = "1996-2018", label = "1996-2018 B_MSY")->Bmsy2
 
 Bmsy %>% 
   bind_rows(Bmsy2) %>% 
@@ -173,7 +173,7 @@ as.character(M[[1]]$spr_nyr)
 
 
 ofl_df <- data.frame(Bmsy, MMB, B_Bmsy, Fofl, years)
-write_csv(ofl_df, paste0('./smbkc_18a/model_1/ofl_table_', mod_names, '.csv'))
+write_csv(ofl_df, paste0('./SMBKC/smbkc_19/model_1/ofl_table_', mod_names, '.csv'))
 
 ### cpue ---------------
 cpue <- .get_cpue_df(M)
@@ -213,7 +213,7 @@ rec %>%
   geom_line() +
   geom_ribbon(aes(x=year, ymax = ub/1000000, ymin = lb/1000000), alpha = 0.25) +
   expand_limits(y=0) +
-  ggtitle("Base model 2018") +
+  ggtitle("base model 2019") +
   ylab("Recruitment (millions of individuals)") + xlab("Year") +
   geom_hline(aes(yintercept = rbar[1]/1000000), color = "gray25") +
   geom_text(aes(x = 2000, y = rbar[1]/1000000, label = "R_bar"), 
@@ -232,11 +232,11 @@ dev.off()
 # need to pull rbar from model output with different recruitment years
 rec %>% 
   summarise(meanR = mean(exp(log_rec)/1000000)) %>% 
-  mutate(years = "1978-2017")-> avgR
+  mutate(years = "1978-2018")-> avgR
 rec %>% 
   filter(year >= 1996) %>% 
   summarise(meanR = mean (exp(log_rec)/1000000)) %>% 
-  mutate(years = "1996-2017")-> avgR2
+  mutate(years = "1996-2018")-> avgR2
 
 avgR %>% 
   bind_rows(avgR2) -> avgR_options
