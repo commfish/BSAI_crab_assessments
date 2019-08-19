@@ -34,6 +34,7 @@ update gmacs.dat with correct file names for .dat, .ctl, .prj
 Compare this code to what I got for May 2019 CPT meeting - if looks good run mcmc
 NOTE: identical likelihood to April/May results...looks good 
 
+NOTE: 
 
 # Run mcmc for projections
 Test mcmc run
