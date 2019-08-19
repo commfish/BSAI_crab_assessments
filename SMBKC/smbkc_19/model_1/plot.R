@@ -13,7 +13,7 @@ require(gmr)
 # ploting for model 1 under smbkc19 folder - using gmr and Jim's code 
 
 mod_names <- c("model_1")
-.MODELDIR = c("./SMBKC/smbkc_19/model_1/")
+.MODELDIR = c("./SMBKC/smbkc_19/model_1/initial_run/")
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
@@ -123,9 +123,9 @@ dev.off()
 
 
 
-# my plots -------------
+# SMBKC plots new  -------------
 # SSB -----------
-ssb <- .get_ssb_df(M)
+ssb <- .get_ssb_df(M) # ssb now does NOT include projection year so only up to 2018 crab year - 2019 projection (example)
 head(ssb)
 
 
@@ -184,9 +184,9 @@ cpue %>%
   ggplot(aes(year, cpue)) +
   expand_limits(y = 0) +
   geom_pointrange(aes(year, cpue, ymax = ub, ymin = lb), col = "black") +
-  geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe), color = "red", 
-                  shape = 1, linetype = "dotted", position = position_dodge(width = 1)) +
-  geom_line(aes(year, pred)) +
+  #geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe), color = "red", 
+  #                shape = 1, linetype = "dotted", position = position_dodge(width = 1)) +
+  geom_line(aes(year, pred), linetype = "solid", col = "red") +
   labs(x = "Year", y = "CPUE") +
   .THEME
 
@@ -201,6 +201,14 @@ cpue %>%
   geom_line(aes(year, pred)) +
   labs(x = "Year", y = "CPUE") +
   .THEME
+
+## predicted cpue trawl for executive summary - line 89
+cpue %>% 
+  filter(fleet==.FLEET[4]) %>% 
+  transmute(x = round(100*pred/mean(pred),0)) %>% 
+  tail(1) %>%
+  .$x
+
 
 # recruitment -------------
 rec <- .get_recruitment_df(M)
@@ -217,12 +225,12 @@ rec %>%
   ylab("Recruitment (millions of individuals)") + xlab("Year") +
   geom_hline(aes(yintercept = rbar[1]/1000000), color = "gray25") +
   geom_text(aes(x = 2000, y = rbar[1]/1000000, label = "R_bar"), 
-            hjust = -0.45, vjust = 1.75, nudge_y = 0.05, size = 3.0) +
+            hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 3.0) +
   .THEME +
   geom_hline(data = avgR_options, aes(yintercept = meanR), color = c("blue", "red"), 
              lty = c("solid", "dashed"))+
   geom_text(data = avgR_options, aes(x= 1980, y = meanR, label = years), 
-            hjust = -1.45, vjust = 2.5, nudge_y = 0.05, size = 3.5) 
+            hjust = -2.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) 
 ggsave(paste0(.FIGS, "recruitment_line_with years.png"), width = ww, height = hh)
 dev.off()
          
@@ -233,6 +241,7 @@ dev.off()
 rec %>% 
   summarise(meanR = mean(exp(log_rec)/1000000)) %>% 
   mutate(years = "1978-2018")-> avgR
+
 rec %>% 
   filter(year >= 1996) %>% 
   summarise(meanR = mean (exp(log_rec)/1000000)) %>% 
