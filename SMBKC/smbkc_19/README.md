@@ -33,7 +33,7 @@ update gmacs.dat with correct file names for .dat, .ctl, .prj
 4) Open 'Gmacsall.out'
 Look at model output - did model converge? how are parameter estimates? check all this and open plot.R to graphically view output.
 
-NOTE: check on ssb output. only has 41 years instead of 42...so 1979 to 2019?  what about 2020?
+NOTE: check on ssb output. only has 41 years instead of 42 - crab year so 1978 to 2018 does not included projection for 2019/20
 
 # Run mcmc for projections
 Test mcmc run
