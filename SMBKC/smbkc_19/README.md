@@ -31,8 +31,7 @@ update gmacs.dat with correct file names for .dat, .ctl, .prj
 3) code should run
 
 4) Open 'Gmacsall.out'
-Compare this code to what I got for May 2019 CPT meeting - if looks good run mcmc
-NOTE: identical likelihood to April/May results...looks good 
+Look at model output - did model converge? how are parameter estimates? check all this and open plot.R to graphically view output.
 
 NOTE: check on ssb output. only has 41 years instead of 42...so 1979 to 2019?  what about 2020?
 
