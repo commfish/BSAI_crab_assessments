@@ -43,21 +43,56 @@ smbkc_area_swept %>%
 write.csv(biomass_mt, paste0(here::here(), '/SMBKC/smbkc_19/data/survey_biomass_mt.csv'), 
             row.names = FALSE)
 
-# stats for current year data ---------
+# stats for current year data for SAFE executive summary---------
 # 2019 value rank  - rank biomass_mt???
-
+biomass_mt %>% 
+  filter(SURVEY_YEAR >= 1978) %>% 
+  select(SURVEY_YEAR, BIOMASS_MT) %>% 
+  mutate(rank = rank(BIOMASS_MT))
+  
+# rank since 2000
+biomass_mt %>% 
+  filter(SURVEY_YEAR >= 2000) %>% 
+  select(SURVEY_YEAR, BIOMASS_MT) %>% 
+  mutate(rank = rank(BIOMASS_MT), avg = mean(BIOMASS_MT))
+  
 # 1978 - 2019 mean survey biomass
 biomass_mt %>%  # all using biomass_mt metric tons
   filter(SURVEY_YEAR >= 1978) %>% 
-  mutate(LT_MEAN = mean(BIOMASS_MT), pct.LT_MEAN = BIOMASS_MT/LT_MEAN)
+  mutate(LT_MEAN = mean(BIOMASS_MT), pct.LT_MEAN = BIOMASS_MT/LT_MEAN) -> biomass_mt_mean
          #avg3yr = ifelse(SURVEY_YEAR >= cur_yr -2, mean(BIOMASS_MT), 0))
 
 
 # 3 year average and percent of LT mean 
+biomass_mt %>% 
+  filter(SURVEY_YEAR >= cur_yr-2) %>% 
+  summarise(mean_3yr = mean(BIOMASS_MT), pct.lt = mean_3yr/biomass_mt_mean$LT_MEAN[1])
 
+# last years percent change 
+biomass_mt %>% 
+  filter(SURVEY_YEAR >= cur_yr-1) %>% 
+  mutate(pct.change = (BIOMASS_MT[2]-BIOMASS_MT[1])/BIOMASS_MT[1])
 
-# Trawl survey "recruitment" estimates  - line 91
+# Trawl survey "recruitment" estimates  - line 91----------
+head(smbkc_area_swept) # line 37
+smbkc_area_swept %>% 
+  filter(SURVEY_YEAR >= 1978) %>% 
+  filter(SIZE_GROUP == "MALE_90TO104") %>% 
+  select(SURVEY_YEAR, SPECIES_NAME, SIZE_GROUP, ABUNDANCE, ABUNDANCE_CV,  
+       BIOMASS_LBS, BIOMASS_LBS_CV ,BIOMASS_MT, BIOMASS_MT_CV, BIOMASS_MT_CI) -> recruit90to104 
 
+recruit90to104 %>% 
+  select(SURVEY_YEAR, SIZE_GROUP, ABUNDANCE) %>% 
+  mutate(rank = rank(ABUNDANCE), lt_mean = mean(ABUNDANCE), 
+         pct.lt = ABUNDANCE/lt_mean)
+# 6 year average recruitment
+recruit90to104 %>% 
+  filter(SURVEY_YEAR >= cur_yr-5) %>% 
+  summarise(mean_6yr = mean(ABUNDANCE)) %>% 
+  mutate(mean_6yr/1026493)
+
+write.csv(recruit90to104, paste0(here::here(), '/SMBKC/smbkc_19/data/recruit90to104_biomass.csv'), 
+          row.names = FALSE)
 
 # 6 year average recruitment % of LT mean 
 
