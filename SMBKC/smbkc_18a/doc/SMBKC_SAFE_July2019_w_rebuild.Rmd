@@ -125,9 +125,9 @@ E - calculated from the 2018 model approved by the Crab Plan Team in September 2
   2014/15 & 1.86$^B$ & 2.48$^B$ & 0.30 & 0.14 & 0.15 & 0.43 & 0.34 \\ 
   2015/16 & 1.84$^C$ & 2.11$^C$ & 0.19 & 0.05 & 0.053 & 0.28 & 0.22 \\ 
   2016/17 & 1.97$^D$ & 2.23$^D$ & 0.00 & 0.00 & 0.001 & 0.14 & 0.11 \\ 
-  2017/18 & `r round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2)`$^E$ & `r round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)-1]/1000, 2)`$^E$ & 0.00 & 0.00 & 0.003 & 0.12 & 0.10 \\
-  2018/19 & & `r round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2)`$^E$ & & & & `r round(M[[rec_mod]]$spr_cofl/1000, 2)` & `r round(M[[rec_mod]]$spr_cofl/1000*0.8, 2)` \\
-  2019/20 \\
+  2017/18 & 1.85     & 1.29     & 0.00 & 0.00 & 0.003 & 0.12 & 0.10
+  2018/19 & `r round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2)`$^E$ & `r round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)-1]/1000, 2)`$^E$ & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
+  2019/20 & & `r round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2)`$^E$ & & & & `r round(M[[rec_mod]]$spr_cofl/1000, 2)` & `r round(M[[rec_mod]]$spr_cofl/1000*0.8, 2)` \\
  \\
   \hline
 \end{tabular}
