@@ -34,7 +34,7 @@ update gmacs.dat with correct file names for .dat, .ctl, .prj
 Compare this code to what I got for May 2019 CPT meeting - if looks good run mcmc
 NOTE: identical likelihood to April/May results...looks good 
 
-NOTE: 
+NOTE: check on ssb output. only has 41 years instead of 42...so 1979 to 2019?  what about 2020?
 
 # Run mcmc for projections
 Test mcmc run
