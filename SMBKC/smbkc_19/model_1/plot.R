@@ -215,7 +215,23 @@ rec <- .get_recruitment_df(M)
 head(rec)
 
 #rbar is estimated in model
+# need to pull rbar from model output with different recruitment years
+rec %>% 
+  summarise(meanR = mean(exp(log_rec)/1000000)) %>% 
+  mutate(years = "1978-2018")-> avgR
 
+rec %>% 
+  filter(year >= 1996) %>% 
+  summarise(meanR = mean (exp(log_rec)/1000000)) %>% 
+  mutate(years = "1996-2018")-> avgR2
+
+avgR %>% 
+  bind_rows(avgR2) -> avgR_options
+#mutate(Bmsy50 = 0.5*Bmsy) -> Bmsy_options
+avgR_options # see above is calculated average recruitment for each time series
+rec$rbar[1]
+
+# recruitment plot ----------
 rec %>% 
   ggplot(aes(year, y = exp(log_rec)/1000000)) +
   geom_line() +
@@ -235,26 +251,9 @@ ggsave(paste0(.FIGS, "recruitment_line_with years.png"), width = ww, height = hh
 dev.off()
          
 
+
 ### need option with new average recruitment    
 
-# need to pull rbar from model output with different recruitment years
-rec %>% 
-  summarise(meanR = mean(exp(log_rec)/1000000)) %>% 
-  mutate(years = "1978-2018")-> avgR
-
-rec %>% 
-  filter(year >= 1996) %>% 
-  summarise(meanR = mean (exp(log_rec)/1000000)) %>% 
-  mutate(years = "1996-2018")-> avgR2
-
-avgR %>% 
-  bind_rows(avgR2) -> avgR_options
-  #mutate(Bmsy50 = 0.5*Bmsy) -> Bmsy_options
-
-# recruitment changing years ------
-avgR_options # see above is calculated average recruitment for each time series
-
-rec$rbar[1]
 
 
 ### OFL --------
