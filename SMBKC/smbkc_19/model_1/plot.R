@@ -7,10 +7,10 @@
 #require(devtools)
 #devtools::install_github("seacode/gmacs", subdir = "/gmr", ref = "develop") - only needs to be performed once.
 require(gmr)
-#setwd("./smbkc_18a/model_1")
+#setwd("./smbkc_19/model_1")
 
 # Model 1 plots -------------------------
-# ploting for model 1 under smbkc18a folder - using gmr and Jim's code 
+# ploting for model 1 under smbkc19 folder - using gmr and Jim's code 
 
 mod_names <- c("model_1")
 .MODELDIR = c("./SMBKC/smbkc_19/model_1/")
@@ -135,10 +135,10 @@ ssb %>%
     geom_ribbon(aes(x=year, ymax = ub, ymin = lb), alpha = 0.2) +
     expand_limits(y=0) +
     scale_y_continuous(expand = c(0,0)) +
-    geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
-               lty = c("solid", "dashed"))+
-    geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
-              hjust = -0.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
+    #geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
+    #           lty = c("solid", "dashed"))+
+    #geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
+    #          hjust = -0.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
     ggtitle("Base model - model 1 (Model 3 2018)") +
     ylab("MMB (t)") + xlab("Year") +
     .THEME
