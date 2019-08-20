@@ -11,9 +11,10 @@ require(gmr)
 
 # Model 1 plots -------------------------
 # ploting for model 1 under smbkc19 folder - using gmr and Jim's code 
+cur_yr <- 2019 # update annually 
 
 mod_names <- c("model_1")
-.MODELDIR = c("./SMBKC/smbkc_19/model_1/initial_run/")
+.MODELDIR = c("./SMBKC/smbkc_19/model_1/initial_run/") # add /initial_run/ to get the initial run results
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
@@ -30,6 +31,7 @@ names(M) <- mod_names
 
 ww <- 6
 hh <- 5
+
 
 # Jim's plots -------------------------------
 plot_recruitment_size(M)
@@ -121,13 +123,21 @@ dev.off()
 # ggsave(paste0(.FIGS, "lf_6.png"), width = ww*2, height = hh*1.5)
 # # # dev.off()
 
+plot_cpue_res(M, "NMFS Trawl")
 
 
 # SMBKC plots new  -------------
 # SSB -----------
 ssb <- .get_ssb_df(M) # ssb now does NOT include projection year so only up to 2018 crab year - 2019 projection (example)
 head(ssb)
-
+# ssb vector only includes model years - here crab year 1978 to 2019 does NOT include projection, need to add
+#   projection year for graphical purposes
+ssb_last <- data.frame("year" = cur_yr, "ssb" = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
+                       "lb" = M[[1]]$spr_bmsy * M[[1]]$spr_depl, "ub" = M[[1]]$spr_bmsy * M[[1]]$spr_depl ) 
+# should be current crab year; update with lb and ub from projection file
+# update with 95% credible interval
+ssb %>% 
+  bind_rows(ssb_last) -> ssb
 
 ssb %>% 
   ggplot(aes(year, ssb)) +
@@ -140,17 +150,19 @@ ssb %>%
     #geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
     #          hjust = -0.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
     ggtitle("Base model - model 1 (Model 3 2018)") +
-    ylab("MMB (t)") + xlab("Year") +
+    ylab("Mature male biomass (t) on 15th February") + xlab("Year") +
     .THEME
-ggsave(paste0(.FIGS, "ssb_Bmsy.png"), width = ww, height = hh)
+ggsave(paste0(.FIGS, "ssb_wprojected_yr.png"), width = ww, height = hh)
 dev.off()
 
 # Bmsy proxy table --------
 # need ssb from above
 ssb %>% 
+  filter(year <= cur_yr-1) %>% 
   summarise(Bmsy = mean(ssb)) %>% 
   mutate(years = "1978-2018", label = "1978-2018 B_MSY" )-> Bmsy
 ssb %>% 
+  filter(year <= cur_yr-1) %>% 
   filter(year >= 1996) %>% 
   summarise(Bmsy = mean (ssb)) %>% 
   mutate(years = "1996-2018", label = "1996-2018 B_MSY")->Bmsy2
@@ -174,6 +186,22 @@ as.character(M[[1]]$spr_nyr)
 
 ofl_df <- data.frame(Bmsy, MMB, B_Bmsy, Fofl, years)
 write_csv(ofl_df, paste0('./SMBKC/smbkc_19/model_1/ofl_table_', mod_names, '.csv'))
+
+ssb %>% 
+  ggplot(aes(year, ssb)) +
+  geom_line() +
+  geom_ribbon(aes(x=year, ymax = ub, ymin = lb), alpha = 0.2) +
+  expand_limits(y=0) +
+  scale_y_continuous(expand = c(0,0)) +
+  geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
+             lty = c("solid", "dashed"))+
+  geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
+            hjust = -1.25, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
+  ggtitle("Base model - model 1 (Model 3 2018)") +
+  ylab("Mature male biomass (t) on 15th February") + xlab("Year") +
+  .THEME
+ggsave(paste0(.FIGS, "ssb_Bmsy_wprojected_yr.png"), width = ww, height = hh)
+dev.off()
 
 ### cpue ---------------
 cpue <- .get_cpue_df(M)
