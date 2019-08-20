@@ -1,6 +1,5 @@
 # St. Matthews Blue King Crab 2019
-2019 model version with updates for rebuilding
-prep for sept 2019 meeting
+Regime version - with only data from 1996 on.  Current regime
 
 ## Alternatives
 
@@ -53,3 +52,5 @@ Need to run mcmc above to get .psv file for projections
 'gmacs -mceval'
 
 3) save output files created from projection into folder - 'smbkc_18a/projections/proj#/letter'
+
+
