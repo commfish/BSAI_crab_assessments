@@ -5,12 +5,12 @@ author: "| Katie Palof$^1$, Jie Zheng$^1$, Jim Ianelli$^2$ \n|
   \n| $^2$NOAA, jim.ianelli@noaa.gov\n|"
 date: "`r format(Sys.time(), '%B %Y')`"
 output:
+  word_document: default
+    toc: no
   pdf_document:
     highlight: zenburn
     includes: null
     toc: no
-  word_document:
-    toc: yes
 ---
 
 ```{r global_options, include=FALSE }
@@ -194,7 +194,7 @@ There are no new changes in management of the fishery.
 
 Data used in this assessment have been updated to include the most recently
 available fishery and survey numbers. This assessment makes use of one new
-survey data point - the 2019 NMFS trawl-survey estimate of abudance but no ADF&G pot survey was conducted in 2019. Both of these surveys have associated size
+survey data point - the 2019 NMFS trawl-survey estimate of abudance but no ADF&G pot survey was conducted in 2019. THe NMFS trawl-surveys has associated size
 compositon data. The assessment also uses updated 2010-2018 groundfish and
 fixed gear bycatch estimates based on NMFS Alaska Regional Office (AKRO) data. 
 The directed fishery has been closed since 2016/17 so fishery data in recent years are unavailable.
@@ -208,14 +208,14 @@ A difference from the original approach, and that used here, is that natural and
 continuous within `r M[[1]]$nseason` discrete seasons (using the appropriate
 catch equation rather than assuming an applied pulse removal). Season length in Gmacs
 is controlled by changing the proportion of natural mortality that is applied
-each season. Diagnostic output includes estimates of the "dynamic $B_0$" which simply
-computes the ratio of the spawning biomass as estimated relative to the spawning biomass that would have occurred 
-had there been no historical fishing mortality. 
+each season. 
 Details of this implementation and other model details are provided in Appendix A (re-order appendices).
 
 ## Changes in Assessment Results
 
-Both surveys indicate a decline over the past few years. The "reference" model is that which was selected for use in 2018.  There is only one new data set to be included this year so this becomes the updated reference model. Two alternative models are presented for
+Both surveys indicate a decline over the past few years. The "reference" model is that which was selected for use in 2018.  There is only one new data set to be included this year so this becomes the updated reference model. 
+
+Two alternative models are presented for
 sensitivity. One involves a re-analysis of the NMFS trawl survey data using a spatio-temporal Delta-GLMM approach (VAST
 model; Thorson and Barnett 2017) and the other configuration (named "Fit survey") simply adds emphasis on 
 the design-based survey data
@@ -664,7 +664,49 @@ Zheng, J., M.C. Murphy, and G.H. Kruse. 1997. Application of catch-survey analys
 
 \pagebreak 
 
-## Tables 
+# Tables
+
+\begin{table}[ht]
+\centering
+\caption{Observed proportion of crab by size class during the ADF\&G crab observer pot-lift sampling. Source: ADF\&G Crab Observer Database.} 
+\label{tab:stage_cpue_1}
+\begin{tabular}{lrrrrrr}
+  \hline
+  Year & Total pot lifts & Pot lifts sampled & Number of crab (90 mm+ CL) & Stage 1 & Stage 2 & Stage 3 \\
+  \hline
+  1990/91 & 26,264 &  10 &   150 & 0.113 & 0.393 & 0.493 \\
+  1991/92 & 37,104 & 125 & 3,393 & 0.133 & 0.177 & 0.690 \\
+  1992/93 & 56,630 &  71 & 1,606 & 0.191 & 0.268 & 0.542 \\
+  1993/94 & 58,647 &  84 & 2,241 & 0.281 & 0.210 & 0.510 \\
+  1994/95 & 60,860 & 203 & 4,735 & 0.294 & 0.271 & 0.434 \\
+  1995/96 & 48,560 &  47 &   663 & 0.148 & 0.212 & 0.640 \\
+  1996/97 & 91,085 &  96 &   489 & 0.160 & 0.223 & 0.618 \\
+  1997/98 & 81,117 & 133 & 3,195 & 0.182 & 0.205 & 0.613 \\
+  1998/99 & 91,826 & 135 & 1.322 & 0.193 & 0.216 & 0.591 \\
+  \multicolumn{2}{l}{1999/00 - 2008/09} & \multicolumn{5}{c}{FISHERY CLOSED} \\
+  2009/10 & 10,484 & 989   & 19,802 & 0.141 & 0.324 & 0.535 \\
+  2010/11 & 29,356 & 2,419 & 45,466 & 0.131 & 0.315 & 0.553 \\
+  2011/12 & 48,554 & 3,359 & 58,666 & 0.131 & 0.305 & 0.564 \\
+  2012/13 & 37,065 & 2,841 & 57,298 & 0.141 & 0.318 & 0.541 \\
+  \multicolumn{2}{l}{2013/14} & \multicolumn{5}{c}{FISHERY CLOSED} \\
+  2014/15 & 10,133 & 895 & 9,906 & 0.094 & 0.228 & 0.679 \\
+  2015/16 &  5,475 & 419 & 3,248 & 0.115 & 0.252 & 0.633 \\
+  \multicolumn{2}{l}{2016/17} & \multicolumn{5}{c}{FISHERY CLOSED} \\
+  \multicolumn{2}{l}{2017/18} & \multicolumn{5}{c}{FISHERY CLOSED} \\
+  \multicolumn{2}{l}{2018/19} & \multicolumn{5}{c}{FISHERY CLOSED} \\
+  \hline
+\end{tabular}
+\end{table}
+
+```{r smbkc_groundfish_bycatch, results = "asis"}
+df <- dplyr::filter(data.frame(M[[rec_mod]]$dCatchData_out), V2 == 2, V3 %in% c(2,3)) %>%
+  dplyr::select(V1, V3, V5) %>%
+  tidyr::spread(key = V3, value = V5) #%>%
+  #dplyr::mutate(V1 = paste0(V1, "/", as.numeric(sub('.*(?=.{2}$)', '', V1, perl = TRUE)) + 1))
+names(df) <- c("Year","Trawl bycatch","Fixed gear bycatch")
+tab <- xtable(df, caption = "Groundfish SMBKC male bycatch biomass (t) estimates. Trawl includes pelagic trawl and non-pelagic trawl types. Source: J. Zheng, ADF\\&G, and author estimates based on data from R. Foy, NMFS. Estimates used after 2008/09 are from NMFS Alaska Regional Office.", label = "tab:smbkc_groundfish_bycatch", digits = c(0,0,3,3))
+print(tab, caption.placement = "top", include.rownames = FALSE)
+```
 
 
 
