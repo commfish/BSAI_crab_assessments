@@ -14,9 +14,9 @@ require(gmr)
 # still reference 2018 models since I'm currently runing 2019 **FIX**
 cur_yr <- 2019 # update annually 
 
-mod_names <- c("2018 Model", "Reference", "VAST", "Fit surveys") 
-.MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_18a/model_1/"), paste0(here::here(), "/SMBKC/smbkc_19/model_1a/"), 
-              paste0(here::here(), "/SMBKC/smbkc_18a/model_4/"), paste0(here::here(), "/SMBKC/smbkc_18a/model_5/")) #need to update these model options
+mod_names <- c("model 18.0", "model 19.0 (reference)", "model 19.0a (alt regime)", "model 19.1 (survey fit)") 
+.MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_18a/model_1/"), paste0(here::here(), "/SMBKC/smbkc_19/model_1/"), 
+              paste0(here::here(), "/SMBKC/smbkc_19/model_1a/"), paste0(here::here(), "/SMBKC/smbkc_19/model_5/")) #need to update these model options
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
@@ -71,6 +71,7 @@ plot_recruitment(A[1:2])
 ## ssb -----------
 #"Sensitivity of new data in 2019 on estimated mature male biomass (MMB); 1978-2019. \\label{fig:ssb1}"}
 plot_ssb(M[1:2], ylab = "Mature male biomass (tons) on 15 February")
-```
+
+## this is NOT correct **FIX** since it doesn't include projected 2019 biomass
 
 
