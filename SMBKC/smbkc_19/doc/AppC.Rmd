@@ -87,3 +87,45 @@ The projections considered here produced a range of $T_{min}$ values (Table \ref
 The most biologically and environmental plausible projection would be projection 4, which suggests that it would be unlikely for the stock to rebuild to the current $B_{MSY}$ proxy under current recruitment conditions. However, adjusting the $B_{MSY}$ time frame (projection 5) would allow the stock to rebuild to a a more representative $B_{MSY}$ that is based on current recruitment conditions. 
 
 Combinations of the projections, weighted based on their plausibility, are possible but more justification and thought is needed to determine why these combinations would be a better representation of the current biology and environment of the stock. Also, reasoning for the weighting of projections in a combination would need to be established. 
+
+
+## Tables 
+
+
+\begin{table}[ht]
+\centering
+\caption{$B_{MSY}$ proxy options for 2018 model 3, all Tier 4b.} 
+\label{tab:B_msy proxy}
+\begin{tabular}{lcccccccc}
+  \hline
+  Year & Basis for $B_\mathit{MSY}$ & $B_\mathit{MSY}$ proxy & MSST & Biomass($MMB_{mating}$) & B/$B_{MSY}$ & $F_{OFL}$ & M \\ 
+  \hline
+  2018/19 & 1978-2017 & 3.48 & 1.74 & 1.09 & 0.31 & 0.041 & 0.18 \\ 
+  2018/19 & 1978-2017 & 2.03 & 1.015 & 1.08 & 0.53 & 0.087 & 0.18 \\ 
+  \hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[ht]
+\centering
+\caption{$T_{min}$ for each projection version d with no directed fishing (F=0).} 
+\label{tab:t_min}
+\begin{tabular}{lcccccccc}
+  \hline
+  Projection & recruitment & $B_\mathit{MSY}$ proxy & recruitment yrs & $T_{min}$ \\ 
+  \hline
+  1 & random recruitment & 1978-2017 & 1978-2017 & 7.5 years \\ 
+  2 & ricker & 1979-2017 &  & 16.5 years \\
+  3 & Beverton-Holt & 1979-2017 &  & 14.5 years \\
+  4 & random recruitment & 1978-2017 & 1996-2017 & 100+ years \\
+  5 & random recruitment & 1996-2017 & 1996-2017 & 10.5 years \\
+  6 & random recruitment & 1978-2017 & 1999-2017 & 100+ years \\
+  7 & random recruitment & 1978-2017 & 1989-2017 & 10 years \\
+  \hline
+\end{tabular}
+\end{table}
+
+\pagebreak 
+
+## Figures
