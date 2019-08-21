@@ -5,11 +5,11 @@ author: "| Katie Palof$^1$, Jie Zheng$^1$, Jim Ianelli$^2$ \n|
   \n| $^2$NOAA, jim.ianelli@noaa.gov\n|"
 date: "`r format(Sys.time(), '%B %Y')`"
 output:
-  word_document:
-    toc: no
   pdf_document:
     highlight: zenburn
     includes: null
+    toc: no
+  word_document:
     toc: no
 ---
 
@@ -28,7 +28,7 @@ options(xtable.comment = FALSE)
 #mod_names <- c("Andre","2018 BTS","Reference","VAST","Fit surveys") #,"Gmacs M","Gmacs Francis","fit surveys")
 #mod_names <- c("Base Model 1", "Base Model 1a", "VAST", "VAST a", "Fit surveys", "Fit surveys a") #,"2018 BTS","Reference","VAST","Fit surveys")
 mod_names <- c("Base Model 1", "VAST", "Fit surveys") 
-.MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_18a/model_1/"), paste0(here::here(), "/SMBKC/smbkc_18a/model_4/"), paste0(here::here(), "/SMBKC/smbkc_18a/model_5/"))
+.MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_18a/model_1/"), paste0(here::here(), "/SMBKC/smbkc_18a/model_4/"), paste0(here::here(), "/SMBKC/smbkc_18a/model_5/")) #need to update these model options
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
@@ -60,7 +60,7 @@ rinline <- function(code){
 
 ref_mod <- 1 # base
 rec_mod <- 1 # base
-mod_scen<- 3:5
+mod_scen<- 1:3 #scenarios you want graphed together
 ```
 
 
@@ -80,12 +80,11 @@ The retained catch in 2015/16 was even lower at 48 t (0.105 million pounds) and 
 3. **Stock biomass**: The 1978-2018 NMFS trawl survey mean biomass is 5,605 t with the 2019 value being the
 15th lowest (3,170 t; the tenth lowest since 2000). This 2019 biomass of $\ge$ 90 mm carapace length (CL) male crab is 
 57% of the long term mean  at 6.99 million pounds (with a CV of 34%), and is a 83% increase from the 2018 mean biomass.
-
 The most recent 3-year average of the NMFS survey is 40% of the mean value, indicating a decline in biomass compared to
 historical survey estimates, notably in 2010 and 2011 that were over four times the current average. However, the 2019 value is substantially larger than the two previous years (3,170 t compared to 1,731 t in 2018 and 1,794 t in 2017).
 The ADFG pot survey was did not take place in 2019, but in 2018 the relative biomass in this index was the lowest
 in the time series (12% of the mean from the 11 surveys conducted since 1995).
-The assessment model estimates appears exagerate this increase and suggests that the stock (in survey biomass units) is presently at about
+The assessment model estimates tempers this increase and suggests that the stock (in survey biomass units) is presently at about
 `r .get_cpue_df(Mbase) %>% filter(fleet==.FLEET[4]) %>% transmute(x = round(100*pred/mean(pred),0)) %>% tail(1) %>% .$x `% 
 of the long term model-predicted survey biomass average. The trend from these values suggests a substantial increase, which does not fit the observed survey data points well.
 
@@ -214,7 +213,6 @@ Details of this implementation and other model details are provided in Appendix 
 ## Changes in Assessment Results
 
 Both surveys indicate a decline over the past few years. The "reference" model is that which was selected for use in 2018.  There is only one new data set to be included this year so this becomes the updated reference model. 
-
 Two alternative models are presented for
 sensitivity. One involves a re-analysis of the NMFS trawl survey data using a spatio-temporal Delta-GLMM approach (VAST
 model; Thorson and Barnett 2017) and the other configuration (named "Fit survey") simply adds emphasis on 
@@ -466,47 +464,6 @@ Zheng, J., M.C. Murphy, and G.H. Kruse. 1997. Application of catch-survey analys
 
 # Tables
 
-\begin{table}[ht]
-\centering
-\caption{Observed proportion of crab by size class during the ADF\&G crab observer pot-lift sampling. Source: ADF\&G Crab Observer Database.} 
-\label{tab:stage_cpue_1}
-\begin{tabular}{lrrrrrr}
-  \hline
-  Year & Total pot lifts & Pot lifts sampled & Number of crab (90 mm+ CL) & Stage 1 & Stage 2 & Stage 3 \\
-  \hline
-  1990/91 & 26,264 &  10 &   150 & 0.113 & 0.393 & 0.493 \\
-  1991/92 & 37,104 & 125 & 3,393 & 0.133 & 0.177 & 0.690 \\
-  1992/93 & 56,630 &  71 & 1,606 & 0.191 & 0.268 & 0.542 \\
-  1993/94 & 58,647 &  84 & 2,241 & 0.281 & 0.210 & 0.510 \\
-  1994/95 & 60,860 & 203 & 4,735 & 0.294 & 0.271 & 0.434 \\
-  1995/96 & 48,560 &  47 &   663 & 0.148 & 0.212 & 0.640 \\
-  1996/97 & 91,085 &  96 &   489 & 0.160 & 0.223 & 0.618 \\
-  1997/98 & 81,117 & 133 & 3,195 & 0.182 & 0.205 & 0.613 \\
-  1998/99 & 91,826 & 135 & 1.322 & 0.193 & 0.216 & 0.591 \\
-  \multicolumn{2}{l}{1999/00 - 2008/09} & \multicolumn{5}{c}{FISHERY CLOSED} \\
-  2009/10 & 10,484 & 989   & 19,802 & 0.141 & 0.324 & 0.535 \\
-  2010/11 & 29,356 & 2,419 & 45,466 & 0.131 & 0.315 & 0.553 \\
-  2011/12 & 48,554 & 3,359 & 58,666 & 0.131 & 0.305 & 0.564 \\
-  2012/13 & 37,065 & 2,841 & 57,298 & 0.141 & 0.318 & 0.541 \\
-  \multicolumn{2}{l}{2013/14} & \multicolumn{5}{c}{FISHERY CLOSED} \\
-  2014/15 & 10,133 & 895 & 9,906 & 0.094 & 0.228 & 0.679 \\
-  2015/16 &  5,475 & 419 & 3,248 & 0.115 & 0.252 & 0.633 \\
-  \multicolumn{2}{l}{2016/17} & \multicolumn{5}{c}{FISHERY CLOSED} \\
-  \multicolumn{2}{l}{2017/18} & \multicolumn{5}{c}{FISHERY CLOSED} \\
-  \multicolumn{2}{l}{2018/19} & \multicolumn{5}{c}{FISHERY CLOSED} \\
-  \hline
-\end{tabular}
-\end{table}
-
-```{r smbkc_groundfish_bycatch, results = "asis"}
-df <- dplyr::filter(data.frame(M[[rec_mod]]$dCatchData_out), V2 == 2, V3 %in% c(2,3)) %>%
-  dplyr::select(V1, V3, V5) %>%
-  tidyr::spread(key = V3, value = V5) #%>%
-  #dplyr::mutate(V1 = paste0(V1, "/", as.numeric(sub('.*(?=.{2}$)', '', V1, perl = TRUE)) + 1))
-names(df) <- c("Year","Trawl bycatch","Fixed gear bycatch")
-tab <- xtable(df, caption = "Groundfish SMBKC male bycatch biomass (t) estimates. Trawl includes pelagic trawl and non-pelagic trawl types. Source: J. Zheng, ADF\\&G, and author estimates based on data from R. Foy, NMFS. Estimates used after 2008/09 are from NMFS Alaska Regional Office.", label = "tab:smbkc_groundfish_bycatch", digits = c(0,0,3,3))
-print(tab, caption.placement = "top", include.rownames = FALSE)
-```
 
 
 
@@ -514,7 +471,19 @@ print(tab, caption.placement = "top", include.rownames = FALSE)
 
 ## Figures
 
+![Distribution of blue king crab (*Paralithodes platypus*) in the Gulf of Alaska, Bering Sea, and Aleutian Islands
+waters (shown in blue).\label{fig:distribution}](figure/Fig1.png)
 
-\newpage 
+
+![King crab Registration Area Q (Bering Sea).\label{fig:registration_area}](figure/Fig2.png)
+
+<!--Data extent  -->
+
+```{r data_extent, fig.cap = "Data extent for the SMBKC assessment.\\label{fig:data_extent}"}
+plot_datarange(M[rec_mod])
+
+```
+
+
 
 
