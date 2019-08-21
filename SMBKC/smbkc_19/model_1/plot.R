@@ -14,7 +14,7 @@ require(gmr)
 cur_yr <- 2019 # update annually 
 
 mod_names <- c("model_1")
-.MODELDIR = c("./SMBKC/smbkc_19/model_1/initial_run/") # add /initial_run/ to get the initial run results
+.MODELDIR = c("./SMBKC/smbkc_19/model_1/") # add /initial_run/ to get the initial run results
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
@@ -66,7 +66,7 @@ plot_recruitment(M)
 ggsave(paste0(.FIGS, "recruitment.png"), width = ww, height = hh)
 dev.off()
 
-plot_selectivity(M, ncol = 5) # **FIX** not working
+plot_selectivity(M) # **FIX** not working
 ggsave(paste0(.FIGS, "selectivity.png"), width = ww*1.5, height = hh*1.5)
 dev.off()
 
@@ -286,4 +286,9 @@ dev.off()
 
 ### OFL --------
 M[[base_model_1]]$spr_cofl
+
+## Dynamic B0 ----
+#.get_dynB0_df(M)  # not currently in output, can I add this?
+
+## plot selectivity -----------
 
