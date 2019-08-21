@@ -5,11 +5,11 @@ author: "| Katie Palof$^1$, Jie Zheng$^1$, Jim Ianelli$^2$ \n|
   \n| $^2$NOAA, jim.ianelli@noaa.gov\n|"
 date: "`r format(Sys.time(), '%B %Y')`"
 output:
+  word_document:
+    toc: no
   pdf_document:
     highlight: zenburn
     includes: null
-    toc: no
-  word_document:
     toc: no
 ---
 
@@ -27,8 +27,8 @@ options(xtable.comment = FALSE)
 # The model specs
 #mod_names <- c("Andre","2018 BTS","Reference","VAST","Fit surveys") #,"Gmacs M","Gmacs Francis","fit surveys")
 #mod_names <- c("Base Model 1", "Base Model 1a", "VAST", "VAST a", "Fit surveys", "Fit surveys a") #,"2018 BTS","Reference","VAST","Fit surveys")
-mod_names <- c("Base Model 1", "VAST", "Fit surveys") 
-.MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_18a/model_1/"), paste0(here::here(), "/SMBKC/smbkc_18a/model_4/"), paste0(here::here(), "/SMBKC/smbkc_18a/model_5/")) #need to update these model options
+mod_names <- c("2018 Model", "Reference", "VAST", "Fit surveys") 
+.MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_18a/model_1/"), paste0(here::here(), "/SMBKC/smbkc_18a/model_1/"), paste0(here::here(), "/SMBKC/smbkc_18a/model_4/"), paste0(here::here(), "/SMBKC/smbkc_18a/model_5/")) #need to update these model options
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
@@ -42,6 +42,7 @@ mod_names <- c("Base Model 1", "VAST", "Fit surveys")
 fn       <- paste0(.MODELDIR, "gmacs")
 M        <- lapply(fn, read_admb)
 names(M) <- mod_names
+jj <- 1 # The position in the list that Jies model outputs sit
 
 nmult_1 <- 1e+06
 nmult_2 <- 0.0004535923 * 1e+6
@@ -49,7 +50,7 @@ nmult_2 <- 0.0004535923 * 1e+6
 #Mmatch <- lapply(fn, read_admb)
 #names(Mmatch) <- c("SMBKC")
 
-fn <- paste0(.MODELDIR[1], "gmacs")
+fn <- paste0(.MODELDIR[2], "gmacs")
 Mbase <- lapply(fn, read_admb)
 names(Mbase) <- c("SMBKC")
 
@@ -58,9 +59,9 @@ rinline <- function(code){
   sub("CODE", code, html)
 }
 
-ref_mod <- 1 # base
-rec_mod <- 1 # base
-mod_scen<- 1:3 #scenarios you want graphed together
+ref_mod <- 2 # base
+rec_mod <- 2 # base
+mod_scen<- 2:4 #scenarios you want graphed together
 ```
 
 
@@ -483,6 +484,18 @@ waters (shown in blue).\label{fig:distribution}](figure/Fig1.png)
 plot_datarange(M[rec_mod])
 
 ```
+
+<!--  stations -->
+
+![Trawl and pot-survey stations used in the SMBKC stock assessment.\label{fig:stations}](figure/Fig3.png)
+
+
+<!--  -->
+
+![Catches (in numbers) of male blue king crab $/ge$ 90 mm CL from the 2012-2017 NMFS trawl-survey at the 56 stations used
+to assess the SMBKC stock. Note that the area north of St. Matthew Island, which often shows large catches of crab
+at station R-24 is not covered in the ADF&G pot-survey data used in the
+assessment.\label{fig:catch181}](figure/CrabN_Station.png)
 
 
 
