@@ -73,6 +73,13 @@ round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_1819
 round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_1920
 round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_1920
 round(M[[rec_mod]]$spr_cofl/1000*0.8, 2) -> abc_1920
+
+round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_1819_lb
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]* 2204.62/1e6, 2) -> mmb_1819_lb
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_1920_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 2) -> ofl_1920_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.8, 2) -> abc_1920_lb
+
 ```
 
 \pagenumbering{gobble}
@@ -126,7 +133,7 @@ Computations which indicate the relative impact of fishing
  
  \begin{table}[ht]
  \centering
- \caption{Status and catch specifications (1000 t) fpr tje reference model.}
+ \caption{Status and catch specifications (1000 t) for the reference model.}
  \label{tab:status}
  \begin{tabular}{lccccccc}
   \hline
@@ -140,6 +147,27 @@ Computations which indicate the relative impact of fishing
   2017/18 & 1.85$^D$ & 1.29$^D$ & 0.00 & 0.00 & 0.003 & 0.12 & 0.10 \\
   2018/19 & `r msst_1819 ` & `r mmb_1819` & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
   2019/20 &                & `r mmb_1920` &  &  &  & `r ofl_1920` & `r abc_1920` \\
+ \\
+  \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[ht]
+\centering
+\caption{Status and catch specifications (million pounds) for the reference model.}
+\label{tab:status_pounds}
+\begin{tabular}{lccccccc}
+  \hline
+  & & Biomass & & Retained & Total & & \\
+  Year & MSST & ($\mathit{MMB}_\text{mating}$) & TAC & catch & male catch & OFL & ABC \\
+  \hline
+  2013/14 & 3.4$^A$ & 6.64$^A$ & 0.000 & 0.000 & 0.001  & 1.24 & 0.99 \\ 
+  2014/15 & 4.1$^B$ & 5.47$^B$ & 0.655 & 0.309 & 0.332  & 0.94 & 0.75 \\ 
+  2015/16 & 4.1$^C$ & 4.65$^C$ & 0.419 & 0.110 & 0.117  & 0.62 & 0.49 \\ 
+  2016/17 & 4.3$^D$ & 4.91$^D$ & 0.000 & 0.000 & 0.002  & 0.31 & 0.25 \\ 
+  2017/18 & 4.1$^E$ & 2.85$^E$ & 0.000 & 0.000 & 0.007  & 0.27 & 0.22 \\ 
+  2018/19 & `r msst_1819_lb ` & `r mmb_1819_lb` & 0.00 & 0.00 & 0.002 & 0.08 & 0.07 \\
+  2019/20 &                & `r mmb_1920_lb` &  &  &  & `r ofl_1920_lb` & `r abc_1920_lb` \\
  \\
   \hline
 \end{tabular}
