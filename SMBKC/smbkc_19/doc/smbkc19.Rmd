@@ -292,8 +292,38 @@ cold water areas of the Gulf of Alaska (NPFMC 1998). The St. Matthew Island Sect
 (Figure \@ref(fig:registration)), which is the Northern District of the Bering Sea king crab registration area and
 includes the waters north of Cape Newenham (58&deg;39' N. lat.) and south of Cape Romanzof (61&deg;49' N. lat.).
 
+## Stock Structure {-}
 
+The Alaska Department of Fish and Game (ADF&G) Gene Conservation Laboratory, has detected regional population
+differences between blue king crab collected from St. Matthew Island and the Pribilof Islands^[NOAA grant Bering Sea
+Crab Research II, NA16FN2621, 1997.]. 
+NMFS tag-return data from studies on blue king crab in the Pribilof Islands and
+St. Matthew Island support the idea that legal-sized males do not migrate between the two areas (Otto and Cummiskey
+1990). St. Matthew Island blue king crab tend to be smaller than their Pribilof conspecifics, and the two stocks are
+managed separately.
 
+## Life History {-}
+
+Like the red king crab, *Paralithodes camtshaticus*, the blue king crab is considered a shallow water species by
+comparison with other lithodids such as golden king crab, *Lithodes aequispinus*, and the scarlet king crab, 
+*Lithodes couesi* (Donaldson and Byersdorfer 2005). Adult male blue king crab are found at an average depth of 70 m (NPFMC 1998).
+The reproductive cycle appears to be annual for the first two reproductive cycles and biennial thereafter (Jensen
+and Armstrong 1989), and mature crab seasonally migrate inshore where they molt and mate. Unlike red king crab, juvenile
+blue king crab do not form pods, but instead rely on cryptic coloration for protection from predators and require
+suitable habitat such as cobble and shell hash. Somerton and MacIntosh (1983) estimated SMBKC male size at sexual
+maturity to be 77 mm carapace length (CL). Paul et al. (1991) found that spermatophores were present in the vas deferens
+of 50% of the St. Matthew Island blue king crab males examined with sizes of 40-49 mm CL and in 100% of the males at
+least 100 mm CL. Spermataphore diameter also increased with increasing CL with an asymptote at ~ 100 mm CL. It was noted,
+however, that although spermataphore presence indicates physiological sexual maturity, it may not be an indicator of
+functional sexual maturity. For purposes of management of the St. Matthew Island blue king crab fishery, the State of
+Alaska uses 105 mm CL to define the lower size bound of functionally mature males (Pengilly and Schmidt 1995). Otto and
+Cummiskey (1990) report an average growth increment of 14.1 mm CL for adult SMBKC males.
+
+## Management History {-}
+
+The SMBKC fishery developed subsequent to baseline ecological studies associated with oil exploration (Otto 1990). Ten
+U.S. vessels harvested 545 t (1.202 million pounds) in 1977, and harvests peaked in 1983 when 164 vessels landed 4,288 t
+(9.454 million pounds) (Fitch et al. 2012; Table \ref{tab:smbkc_fishery}).
 
 \pagebreak 
 
