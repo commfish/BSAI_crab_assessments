@@ -289,8 +289,10 @@ Blue king crab are sporadically distributed throughout the North Pacific Ocean f
 Alaska (Figure \@ref(fig:distribution)).  In the eastern Bering Sea small populations are distributed around St. Matthew
 Island, the Pribilof Islands, St. Lawrence Island, and Nunivak Island. Isolated populations also exist in some other
 cold water areas of the Gulf of Alaska (NPFMC 1998). The St. Matthew Island Section for blue king crab is within Area Q2
-(Figure ), which is the Northern District of the Bering Sea king crab registration area and
+(Figure \@ref(fig:registration)), which is the Northern District of the Bering Sea king crab registration area and
 includes the waters north of Cape Newenham (58&deg;39' N. lat.) and south of Cape Romanzof (61&deg;49' N. lat.).
+
+
 
 
 \pagebreak 
@@ -302,4 +304,6 @@ includes the waters north of Cape Newenham (58&deg;39' N. lat.) and south of Cap
 knitr::include_graphics("safe_figure/Fig1.png", dpi = 125)
 ```
 
-
+```{r registration, fig.cap = "Blue king crab Registration Area Q (Bering Sea)"}
+knitr::include_graphics("safe_figure/Fig2.png", dpi = 150)
+```
