@@ -14,9 +14,9 @@ require(gmr)
 # still reference 2018 models since I'm currently runing 2019 **FIX**
 cur_yr <- 2019 # update annually 
 
-mod_names <- c("model 18.0", "model 19.0 (reference)", "model 19.1 (survey fit)") 
-.MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_18a/model_1/"), paste0(here::here(), "/SMBKC/smbkc_19/model_1/"),
-              paste0(here::here(), "/SMBKC/smbkc_19/model_5/")) #need to update these model options
+mod_names <- c("model 18.0", "model 19.0 (reference)", "model 19.1 (survey fit)", "model 19.0a (current regime)") 
+.MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_18a/model_1/"), paste0(here::here(), "/SMBKC/smbkc_19/model_1/initial_run/"),
+              paste0(here::here(), "/SMBKC/smbkc_19/model_5/"), paste0(here::here(), "/SMBKC/smbkc_19/model_1a/")) #need to update these model options
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
@@ -50,6 +50,14 @@ rinline <- function(code){
 ref_mod <- 2 # base
 rec_mod <- 2 # base
 mod_scen<- 2:3 #scenarios you want graphed together
+
+# executive summary -----------
+.get_cpue_df(Mbase) %>% 
+  filter(fleet==.FLEET[4]) %>% 
+  mutate(x = round(100*pred/mean(pred),0)) %>% 
+  select(x) %>% 
+  tail(1) %>%
+  .$x -> bio_lt_percent
 
 ## data extent -----------
 plot_datarange(M[rec_mod])
