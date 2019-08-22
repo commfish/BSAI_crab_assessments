@@ -7,7 +7,7 @@ author: |
 date: "`r format(Sys.time(), '%B %Y')`"
 output:
   bookdown::pdf_document2:
-    fig_caption: yes
+    fig_caption: true
     includes: null
     toc: no
 ---
@@ -168,7 +168,7 @@ Computations which indicate the relative impact of fishing
 \begin{table}[ht]
 \centering
 \caption{Status and catch specifications (million pounds) for the reference model.}
-\label{tab:status_pounds}
+\label{tab:status-pounds}
 \begin{tabular}{lccccccc}
   \hline
   & & Biomass & & Retained & Total & & \\
@@ -195,7 +195,7 @@ Computations which indicate the relative impact of fishing
 \begin{table}[ht]
 \centering
 \caption{Basis for the OFL (1000 t) from the reference model.}
-\label{tab:ofl_basis}
+\label{tab:ofl-basis}
 \begin{tabular}{lcccccccc}
   \hline
   & & & Biomass & & & & & Natural \\ 
@@ -215,3 +215,46 @@ Computations which indicate the relative impact of fishing
   \hline
 \end{tabular}
 \end{table}
+
+# A. Summary of Major Changes {-}
+
+## Changes in Management of the Fishery {-}
+
+There are no new changes in management of the fishery.
+
+## Changes to the Input Data {-}
+
+Data used in this assessment have been updated to include the most recently
+available fishery and survey numbers. This assessment makes use of one new
+survey data point - the 2019 NMFS trawl-survey estimate of abudance but no ADF&G pot survey was conducted in 2019.
+The NMFS trawl-surveys has associated size
+compositon data. The assessment also uses updated 2010-2018 groundfish and
+fixed gear bycatch estimates based on NMFS Alaska Regional Office (AKRO) data. 
+The directed fishery has been closed since 2016/17 so fishery data in recent years are unavailable.
+
+## Changes in Assessment Methodology {-}
+
+This assessment uses the General model for Alasks crab stocks (Gmacs) framework. The
+model is configured to track three stages of length categories and was 
+first presented in May 2011 by Bill Gaeuman and accepted by the CPT in May 2012. 
+A difference from the original approach, and that used here, is that natural and fishing mortality are
+continuous within `r M[[ref_mod]]$nseason` discrete seasons (using the appropriate
+catch equation rather than assuming an applied pulse removal). Season length in Gmacs
+is controlled by changing the proportion of natural mortality that is applied
+each season. 
+Diagnostic output includes estimates of the "dynamic $B_0$" which simply
+computes the ratio of the spawning biomass as estimated relative to the spawning biomass that would have occurred 
+had there been no historical fishing mortality. 
+Details of this implementation and other model details are provided in Appendix A.
+
+## Changes in Assessment Results {-}
+
+Both surveys indicate a decline over the past few years. The "reference" model is that which was selected for use in 2018.
+There is only one new data set to be included this year so this becomes the updated reference model. 
+One alternative models is presented for sensitivity, this configuration (named "Fit survey") simply adds emphasis on 
+the design-based survey data (by assuming a lower input variance). 
+Additionally, reference points calculated using a alternative time frame are presented here
+(Table \@ref(tab:ofl-basis)) for consideration as a result of possible regimes present in the data.
+
+
+
