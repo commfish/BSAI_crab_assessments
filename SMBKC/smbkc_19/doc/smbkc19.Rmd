@@ -67,6 +67,12 @@ mod_scen<- 2:3 #scenarios you want graphed together
   select(x) %>% 
   tail(1) %>%
   .$x -> bio_lt_percent
+
+round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_1819
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_1819
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_1920
+round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_1920
+round(M[[rec_mod]]$spr_cofl/1000*0.8, 2) -> abc_1920
 ```
 
 \pagenumbering{gobble}
@@ -118,4 +124,23 @@ Computations which indicate the relative impact of fishing
 <!--- `r #.get_dynB0_df(Mbase) %>% transmute(round(100*ssb,0)) %>% slice(n())`%  -->
  of what it would have been in the absence of fishing, assuming the same level of recruitment as estimated. 
  
- 
+ \begin{table}[ht]
+ \centering
+ \caption{Status and catch specifications (1000 t) fpr tje reference model.}
+ \label{tab:status}
+ \begin{tabular}{lccccccc}
+  \hline
+  & & Biomass & & Retained & Total & & \\
+  Year & MSST & ($\mathit{MMB}_\text{mating}$) & TAC & catch & male catch & OFL & ABC \\
+  \hline
+  2013/14 & 1.50$^A$ & 3.01$^A$ & 0.00 & 0.00 & 0.00  & 0.56 & 0.45 \\ 
+  2014/15 & 1.86$^B$ & 2.48$^B$ & 0.30 & 0.14 & 0.15  & 0.43 & 0.34 \\ 
+  2015/16 & 1.84$^C$ & 2.11$^C$ & 0.19 & 0.05 & 0.053 & 0.28 & 0.22 \\ 
+  2016/17 & 1.97$^D$ & 2.23$^D$ & 0.00 & 0.00 & 0.001 & 0.14 & 0.11 \\
+  2017/18 & 1.85$^D$ & 1.29$^D$ & 0.00 & 0.00 & 0.003 & 0.12 & 0.10 \\
+  2018/19 & `r msst_1819 ` & `r mmb_1819` & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
+  2019/20 &                & `r mmb_1920` &  &  &  & `r ofl_1920` & `r abc_1920` \\
+ \\
+  \hline
+\end{tabular}
+\end{table}
