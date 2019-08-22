@@ -8,23 +8,28 @@ library(leaflet)
 library(leaflet.extras)
 library(tidyverse)
 library(ggmap)
-hnames
+
 #w/o zeros
 
 # m.df <- data.frame(read.csv("pos.csv",header=T,as.is=T)) %>% filter(SIZE_GROUP=="MALE_GE90")
 #w/ zeros
 setwd("map")
-hnames <- read.csv("hdr.csv",header=T)
+hnames <- read.csv(paste0(here::here(), "/SMBKC/smbkc_19/doc/map/hdr.csv"),header=T)
 #m.df <- data.frame(read.csv("mge90_2017.csv",header=F,as.is=T)) 
+smbkc_haul_cpue <-data.frame(read.csv(paste0(here::here(), "/SMBKC/smbkc_19/doc/map/ebscrab-cpue-69323-stmatt-6.csv"),header=T))
+smbkc_haul_cpue %>% 
+  filter(SURVEY_YEAR >= 2011, SIZE_GROUP == "MALE_GE90") ->   
+  
+  
 
-getwd()
+m.df <- data.frame(read.csv(paste0(here::here(), "/SMBKC/smbkc_19/doc/map/male_ge90.csv"),header=F,as.is=T)) 
 names(m.df) <- names(hnames)
 str(m.df)
 dim(m.df)
 names(m.df)
 unique(m.df$SIZE_GROUP)
 summary(m.df$CRAB_NUM)
-m.df <- data.frame(read.csv("male_ge90.csv",header=F,as.is=T)) 
+
 p.df <- transmute(m.df,yr=as.numeric(SURVEY_YEAR), loc = STRATUM_NAME, lat= as.numeric(MID_LATITUDE), long=as.numeric(MID_LONGITUDE),CrabN=as.numeric(CRAB_NUM),cpueN=as.numeric(CRAB_CPUENUM),cpueKG=as.numeric(CRAB_CPUEWGT_MT)/1e3)
 str(p.df)
 max(p.df$yr)
