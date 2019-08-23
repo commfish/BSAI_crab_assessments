@@ -490,7 +490,7 @@ The SDNRs for the directed pot fishery and other size compositions were  similar
 Model parameter estimates for each of the Gmacs scenarios are summarized in Tables \@ref(tab:est-pars-ref),
 \@ref(tab:est-pars-3), and \@ref(tab:est-pars-all). These parameter
 estimates are compared in Table \@ref(tab:est-pars-all). Negative log-likelihood values and management measures for each
-of the model configurations are compared in Tables \ref{tab:management_quants} through \ref{tab:likelihood_components}.
+of the model configurations are compared in Tables \ref{tab:management_quants} through \@ref(tab:likelihood-components).
 
 There are some differences in parameter estimates among models as 
 reflected in the log-likelihood components and the management quantities. 
@@ -882,6 +882,18 @@ df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_19/doc/safe_tables/all_parms.c
 tab <- xtable(df, caption = "Comparisons of parameter estimates for the model scenarios.", label = "tab:est-pars-all", digits = 3)
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, NA.string = "-")
 ```
+
+```{r data_weighting, results = "asis"}
+## issues with output no in .rep file. Need to look into this. E-mail Jim
+```
+
+```{r likelihood-components, results = "asis"}
+df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_19/doc/safe_tables/neg_log_like.csv"))
+
+tab <- xtable(df, caption = "Comparisons of negative log-likelihood values for the selected model scenarios. It is important to note that comparisons among models may be limited since the assumed variances are modified (e.g., {\\bf Fit surveys} model).", label = "tab:likelihood-components")
+print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
+```
+
 
 
 
