@@ -607,3 +607,48 @@ plot_cpue(M[c(mod_scen)],  "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
 ```{r pot-add-cv, fig.cap = "Comparisons of total (90+ mm CL) male pot survey CPUEs and model predictions for the 'add CV pot' scenario. The black error bars are plus and minus 2 standard deviations, while the red ones incorporate the additional variability ."}
 plot_cpue(M[4],  ShowEstErr = TRUE, "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
 ```
+
+```{r bts-resid-nmfs, fig.cap = "Standardized residuals for area-swept estimates of total male survey biomass for the model scenarios."}
+A <- M[mod_scen];
+plot_cpue_res(A, "NMFS Trawl")
+```
+
+```{r bts-resid-adfg, fig.cap = "Standardized residuals for total male pot survey CPUEs for each of the Gmacs model scenarios."}
+A <- M[mod_scen];
+plot_cpue_res(A, "ADF&G Pot")
+```
+
+```{r sc-pot, fig.cap = "Observed and model estimated size-frequencies of SMBKC by year retained in the directed pot fishery for the model scenarios."}
+plot_size_comps(M[mod_scen], 1)
+```
+
+```{r sc-pot-discarded, fig.cap = "Observed and model estimated size-frequencies of discarded male SMBKC by year in the NMFS trawl survey for the model scenarios."}
+plot_size_comps(M[mod_scen], 2)
+```
+
+```{r sc-trawl-discarded, fig.cap = "Observed and model estimated size-frequencies of discarded SMBKC by year in the ADF&G pot survey for the model scenarios."}
+plot_size_comps(M[mod_scen], 3)
+```
+
+```{r sc-pot-res-selex, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADF&G pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **reference** model (19.0)."}
+plot_size_comps_res(M[ref_mod])
+```
+
+```{r sc-trawl-discarded-res, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADF&G pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **fit surveys** model (19.1)."}
+plot_size_comps_res(M[3])
+```
+
+```{r sc-trawl-discarded-cv, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADF&G pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **add CV pot** model (19.2)."}
+plot_size_comps_res(M[4])
+```
+
+```{r fit-to-catch, fig.cap = "Comparison of observed and model predicted retained catch and bycatches in each of the Gmacs models. Note that difference in units between each of the panels, some panels are expressed in numbers of crab, some as biomass (tons).", fig.height =12}
+plot_catch(M[rec_mod]) # Note this should be rec_mod or all models
+```
+
+```{r Dynamic_Bzero, eval = FALSE, fig.cap = "Comparisons of mature male biomass relative to the dynamic $B_0$ value, (15 February, 1978-2018) for  each of the model scenarios."}
+#plot_dynB0(M[mod_scen])
+```
+
+
+
