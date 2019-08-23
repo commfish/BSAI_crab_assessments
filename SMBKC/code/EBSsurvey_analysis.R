@@ -43,6 +43,25 @@ smbkc_area_swept %>%
 write.csv(biomass_mt, paste0(here::here(), '/SMBKC/smbkc_19/data/survey_biomass_mt.csv'), 
             row.names = FALSE)
 
+
+## table 8 in SAFE - table of abundance by size group and total biomass ------
+Model_size <- c("MALE_90TO104", "MALE_105TO119", "MALE_GE120")
+smbkc_area_swept %>% 
+  filter(SIZE_GROUP %in% Model_size) %>% 
+  filter(SURVEY_YEAR >= 2015) %>% 
+  group_by(SURVEY_YEAR, SIZE_GROUP) %>% 
+  summarise(numbers = sum(ABUNDANCE)/1000000)
+
+smbkc_area_swept %>% 
+  filter(SIZE_GROUP == "MALE_GE90") %>% 
+  filter(SURVEY_YEAR >= 2015) %>% 
+  group_by(SURVEY_YEAR, SIZE_GROUP) %>% 
+  summarise(numbers = round(sum(ABUNDANCE)/1000000, 3), 
+            n_cv = round(ABUNDANCE_CV, 3), 
+            lb = round(sum(BIOMASS_LBS)/1000000, 3),
+            lb_cv = round(BIOMASS_LBS_CV, 3)) %>% 
+  as.data.frame()
+
 # stats for current year data for SAFE executive summary---------
 # 2019 value rank  - rank biomass_mt???
 biomass_mt %>% 
@@ -122,16 +141,17 @@ head(haul_bkc) # how to determine which ones are st.matt's???
 haul_bkc %>% 
   filter(AKFIN_SURVEY_YEAR == 2019 & MID_LATITUDE > 58.5) %>% 
   select(AKFIN_SURVEY_YEAR, GIS_STATION, AREA_SWEPT, SPECIES_NAME, SEX, LENGTH, SAMPLING_FACTOR) %>% 
-  filter(SEX == 1 & LENGTH >= 90 & LENGTH <=135) %>% 
+  filter(SEX == 1 & LENGTH >= 90) %>% 
   group_by(GIS_STATION) %>% 
   summarise(numbers = sum(SAMPLING_FACTOR))%>% 
   mutate(total = sum(numbers)) # looking at data file max appears to be 50....keep with this and ask Jie.
+# update Table 11 in SAFE with this value also
 
 # 2018 sampled
 haul_bkc %>% 
   filter(AKFIN_SURVEY_YEAR == 2018 & MID_LATITUDE > 58.5) %>% 
   select(AKFIN_SURVEY_YEAR, GIS_STATION, AREA_SWEPT, SPECIES_NAME, SEX, LENGTH, SAMPLING_FACTOR) %>% 
-  filter(SEX == 1 & LENGTH >= 90 & LENGTH <=135) %>% 
+  filter(SEX == 1 & LENGTH >= 90) %>% 
   group_by(GIS_STATION) %>% 
   summarise(numbers = sum(SAMPLING_FACTOR)) %>% 
-  mutate(total = sum(numbers)) # 2018 .dat file has 31....not sure how to get this, closest I got was 39
+  mutate(total = sum(numbers)) # 2018 .dat file has 31 as input, 62 as actual, I got 55 actual?????
