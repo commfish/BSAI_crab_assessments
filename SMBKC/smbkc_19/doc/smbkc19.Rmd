@@ -460,7 +460,11 @@ presented above.
 ## Results {-}
 
 ### a. Sensitivity to new data {-}
-
+Results for scenarios are provided with comparisons to the 2017 model and sensitivity new data are shown in 
+Figures \@ref(fig:surv1) and \@ref(fig:surv2) with recruitment and spawning biomass shown in 
+Figures \ref{fig:rec1} and \ref{fig:ssb1}, respectively. 
+The fits to survey CPUEs and spawning biomass show that the addition of new data results in more of a decline than 
+in the 2017 assessment, especially with the addition of the pot survey. 
 
 
 
@@ -514,4 +518,12 @@ knitr::include_graphics("safe_figure/Fig3.png", dpi = 125)
 
 ```{r catch181, fig.cap = "Catches (in numbers) of male blue king crab > 90mm CL from the 2011-2019 NMFS trawl-survey at the 56 stations used to assess the SMBKC stock."}
 knitr::include_graphics("safe_figure/CrabN_Station.png", dpi = 400)
+```
+
+```{r surv1, fig.cap = "Fits to NMFS area-swept trawl estimates of total ($/ge$ 90mm) male survey biomass with the addition of new data (the Reference Model is with new data, 2018 Model is last year's accepted model). Error bars are plus and minus 2 standard deviations."} 
+plot_cpue(M[1:2], "NMFS Trawl", ylab = "Survey biomass (t)") 
+```
+
+```{r surv2, fig.cap = "Comparisons of fits to CPUE from the ADF&G pot surveys with the addition of new data (note that there is no new pot data for 2019). Error bars are plus and minus 2 standard deviations."} 
+plot_cpue(M[1:2], "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
 ```
