@@ -488,14 +488,14 @@ The SDNRs for the directed pot fishery and other size compositions were  similar
 
 ### d. Parameter estimates {-}
 Model parameter estimates for each of the Gmacs scenarios are summarized in Tables \@ref(tab:est-pars-ref),
-\@ref(tab:est-pars-3), and \ref{tab:est_pars_all}. These parameter
-estimates are compared in Table \ref{tab:est_pars_all}. Negative log-likelihood values and management measures for each
+\@ref(tab:est-pars-3), and \@ref(tab:est-pars-all). These parameter
+estimates are compared in Table \@ref(tab:est-pars-all). Negative log-likelihood values and management measures for each
 of the model configurations are compared in Tables \ref{tab:management_quants} through \ref{tab:likelihood_components}.
 
 There are some differences in parameter estimates among models as 
 reflected in the log-likelihood components and the management quantities. 
 The parameter estimates in the "fit survey" and "add CV pot" scenarios differ the most, as expected, 
-particularly the estimate of the ADF&G pot survey catchability ($q$) (see Table \ref{tab:est_pars_all}). 
+particularly the estimate of the ADF&G pot survey catchability ($q$) (see Table \@ref(tab:est-pars-all)). 
 Also, the residuals for recruitment in the first size group are large for these
 model runs, presumably because higher estimates of recruits in some years are required by the model 
 to match the observed biomass trends. 
@@ -876,7 +876,12 @@ tab <- xtable(df, caption = "Model parameter estimates, selected derived quantit
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
 ```
 
+```{r est-pars-all, results = "asis"}
+df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_19/doc/safe_tables/all_parms.csv"))
 
+tab <- xtable(df, caption = "Comparisons of parameter estimates for the model scenarios.", label = "tab:est-pars-all", digits = 3)
+print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, NA.string = "-")
+```
 
 
 
