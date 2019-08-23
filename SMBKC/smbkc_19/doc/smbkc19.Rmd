@@ -488,7 +488,7 @@ The SDNRs for the directed pot fishery and other size compositions were  similar
 
 ### d. Parameter estimates {-}
 Model parameter estimates for each of the Gmacs scenarios are summarized in Tables \@ref(tab:est-pars-ref),
-\ref{tab:est_pars_vast}, and \ref{tab:est_pars_all}. These parameter
+\@ref(tab:est-pars-3), and \ref{tab:est_pars_all}. These parameter
 estimates are compared in Table \ref{tab:est_pars_all}. Negative log-likelihood values and management measures for each
 of the model configurations are compared in Tables \ref{tab:management_quants} through \ref{tab:likelihood_components}.
 
@@ -803,6 +803,74 @@ df2 <- data.frame(Parameter = c("$F_\\text{OFL}$","OFL"),
 df1 %>% 
   bind_rows(df2) -> df
 tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the reference model.", label = "tab:est-pars-ref", digits = 3)
+print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
+```
+
+```{r est-pars-3, results = "asis"}
+x <- M[[3]]$fit
+i <- c(grep("m_dev", x$names)[1],
+       grep("theta", x$names),
+       grep("survey_q", x$names),
+       grep("log_fbar", x$names),
+       grep("log_slx_pars", x$names)
+       #grep("sd_fofl", x$names),
+       #grep("spr_cofl", x$names)
+)
+Parameter <- x$names[i]
+Estimate <- x$est[i]
+SD <- x$std[i]
+j <- grep("survey_q", Parameter)
+Estimate[j] <- Estimate[j] * 1000
+SD[j] <- SD[j] * 1000
+Parameter <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
+               "$\\log (\\bar{R})$","$\\log (n^0_1)$","$\\log (n^0_2)$","$\\log (n^0_3)$",
+               "$q_{pot}$", "$\\log (\\bar{F}^\\text{df})$","$\\log (\\bar{F}^\\text{tb})$","$\\log (\\bar{F}^\\text{fb})$",
+               "log Stage-1 directed pot selectivity 1978-2008","log Stage-2 directed pot selectivity 1978-2008",
+               "log Stage-1 directed pot selectivity 2009-2017","log Stage-2 directed pot selectivity 2009-2017",
+               "log Stage-1 NMFS trawl selectivity","log Stage-2 NMFS trawl selectivity",
+               "log Stage-1 ADF\\&G pot selectivity","log Stage-2 ADF\\&G pot selectivity")
+               #"$F_\\text{OFL}$","OFL")
+df1 <- data.frame(Parameter, Estimate, SD)
+df2 <- data.frame(Parameter = c("$F_\\text{OFL}$","OFL"), 
+                  Estimate = c(M[[3]]$sd_fofl[1], M[[3]]$spr_cofl))
+df1 %>% 
+  bind_rows(df2) -> df
+tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the 'fit surveys' model.", label = "tab:est-pars-3", digits = 3)
+print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
+```
+
+```{r est-pars-4, results = "asis"}
+x <- M[[4]]$fit
+i <- c(grep("m_dev", x$names)[1],
+       grep("theta", x$names),
+       grep("survey_q", x$names),
+       grep("log_fbar", x$names),
+       grep("log_slx_pars", x$names),
+       grep("log_add_cv", x$names)
+       #grep("sd_fofl", x$names),
+       #grep("spr_cofl", x$names)
+)
+Parameter <- x$names[i]
+Estimate <- x$est[i]
+SD <- x$std[i]
+j <- grep("survey_q", Parameter)
+Estimate[j] <- Estimate[j] * 1000
+SD[j] <- SD[j] * 1000
+Parameter <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
+               "$\\log (\\bar{R})$","$\\log (n^0_1)$","$\\log (n^0_2)$","$\\log (n^0_3)$",
+               "$q_{pot}$", "$\\log (\\bar{F}^\\text{df})$","$\\log (\\bar{F}^\\text{tb})$","$\\log (\\bar{F}^\\text{fb})$",
+               "log Stage-1 directed pot selectivity 1978-2008","log Stage-2 directed pot selectivity 1978-2008",
+               "log Stage-1 directed pot selectivity 2009-2017","log Stage-2 directed pot selectivity 2009-2017",
+               "log Stage-1 NMFS trawl selectivity","log Stage-2 NMFS trawl selectivity",
+               "log Stage-1 ADF\\&G pot selectivity","log Stage-2 ADF\\&G pot selectivity", 
+               "log add $CV_{pot}$")
+               #"$F_\\text{OFL}$","OFL")
+df1 <- data.frame(Parameter, Estimate, SD)
+df2 <- data.frame(Parameter = c("$F_\\text{OFL}$","OFL"), 
+                  Estimate = c(M[[4]]$sd_fofl[1], M[[4]]$spr_cofl))
+df1 %>% 
+  bind_rows(df2) -> df
+tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the 'add CV pot' model.", label = "tab:est-pars-4", digits = 3)
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
 ```
 
