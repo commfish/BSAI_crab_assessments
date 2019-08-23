@@ -23,7 +23,7 @@ library(xtable)
 options(xtable.comment = FALSE)
 
 # the model specs
-mod_names <- c("model 18.0", "model 19.0 (reference)", "model 19.1 (survey fit)", "model 19.2 (add CV pot)", "model 19.0a (current regime)") 
+mod_names <- c("model 18.0", "model 19.0 (ref)", "model 19.1 (fit survey)", "model 19.2 (add CV pot)", "model 19.0a (current regime)") 
 .MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_18a/model_1/"), paste0(here::here(), "/SMBKC/smbkc_19/model_1/initial_run/"),
               paste0(here::here(), "/SMBKC/smbkc_19/model_5/"), paste0(here::here(), "/SMBKC/smbkc_19/model_1b/"), 
               paste0(here::here(), "/SMBKC/smbkc_19/model_1a/")) #need to update these model options
@@ -460,13 +460,50 @@ presented above.
 ## Results {-}
 
 ### a. Sensitivity to new data {-}
-Results for scenarios are provided with comparisons to the 2017 model and sensitivity new data are shown in 
+Results for scenarios are provided with comparisons to the 2018 model and sensitivity to new 2019 data are shown in 
 Figures \@ref(fig:surv1) and \@ref(fig:surv2) with recruitment and spawning biomass shown in 
-Figures \ref{fig:rec1} and \ref{fig:ssb1}, respectively. 
-The fits to survey CPUEs and spawning biomass show that the addition of new data results in more of a decline than 
-in the 2017 assessment, especially with the addition of the pot survey. 
+Figures \@ref(fig:rec1) and \ref(fig:ssb1), respectively. 
+The fits to survey CPUEs and spawning biomass show that the addition of new data results in a slight increase compared
+to the 2018 assessment. However, neither last years or this years reference model capture the recent survey declines in
+the ADF&G pot survey, or fit post 2005 trawl survey data points well. 
 
+### b. Effective sample sizes and weighting factors {-}
+Need to update this section with model results!
+Observed and estimated effective sample sizes are compared in Table \ref{tab:effn}. 
+Data weighting factors, standard deviation of normalized residuals (SDNRs), and median absolute residual (MAR) are 
+presented in Table \ref{tab:data_weighting}. The SDNR for the trawl survey
+is acceptable at 1.66 in the reference model. Francis (2011) weighting was applied in 2017
+but given the relatively few size
+bins in this assessment, this application was suspended this year.  
+The SDNRs for the pot surveys show a similar pattern in each of the
+scenarios, but are much higher suggesting an inconsistency between 
+the pot survey data and the model structure and other data
+components. Rather than re-weighting, we chose to retain the values 
+as specified, noting that down-weighting these data would effectively 
+exclude the signal from this series. 
+The MAR values for the trawl and pot surveys shows the same pattern among each of the
+scenarios as the SDNR. The SDNR and MAR values for the trawl survey and pot survey size compositions were relatively good,
+ranging from 0.54 to 0.73 for the reference case.
+The SDNRs for the directed pot fishery and other size compositions were  similar to previous estimates.
 
+### d. Parameter estimates {-}
+Model parameter estimates for each of the Gmacs scenarios are summarized in Tables \ref{tab:est_pars_ref},
+\ref{tab:est_pars_vast}, and \ref{tab:est_pars_all}. These parameter
+estimates are compared in Table \ref{tab:est_pars_all}. Negative log-likelihood values and management measures for each
+of the model configurations are compared in Tables \ref{tab:management_quants} through \ref{tab:likelihood_components}.
+
+There are some differences in parameter estimates among models as 
+reflected in the log-likelihood components and the management quantities. 
+The parameter estimates in the "fit survey" and "add CV pot" scenarios differ the most, as expected, 
+particularly the estimate of the ADF&G pot survey catchability ($q$) (see Table \ref{tab:est_pars_all}). 
+Also, the residuals for recruitment in the first size group are large for these
+model runs, presumably because higher estimates of recruits in some years are required by the model 
+to match the observed biomass trends. 
+
+Selectivity estimates show some variability between models (Figure \@ref(fig:selectivity)). Estimated recruitment is
+variable over time for all models and in recent years is well below average (Figure \@ref(fig:recruitment)).  Estimated
+mature male biomass on 15 February also fluctuates considerably (Figure \@ref(fig:mmb)). Estimated natural mortality each
+year ($M_t$) is presented in Figure \@ref(fig:M-t).
 
 # G. Rebuilding Analysis {-}
 
@@ -497,7 +534,7 @@ and Andre Punt for his input into refinements to the Gmacs model code, specifica
 
 \pagebreak 
 
-## Figures {-}
+# Figures {-}
 \newpage
 
 ```{r distribution, fig.cap = "Distribution of blue king crab (Paralithodes platypus) in the Gulf of Alaska, Bering Sea, and Aleutian Islands waters (shown in blue)."}
@@ -526,4 +563,47 @@ plot_cpue(M[1:2], "NMFS Trawl", ylab = "Survey biomass (t)")
 
 ```{r surv2, fig.cap = "Comparisons of fits to CPUE from the ADF&G pot surveys with the addition of new data (note that there is no new pot data for 2019). Error bars are plus and minus 2 standard deviations."} 
 plot_cpue(M[1:2], "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
+```
+
+```{r rec1, fig.cap = "Sensitivity of new data in 2019 on estimated recruitment ; 1978-2017."}
+A <- M[1:2]
+ii <- which(A[[2]]$fit$names %in% "sd_log_recruits"); ii <- ii[length(ii)]
+A[[2]]$fit$est[ii] <- NA
+A[[2]]$fit$std[ii] <- NA
+
+plot_recruitment(A[1:2])
+#plot_recruitment(M[1:2])
+```
+
+```{r ssb1, fig.cap = "Sensitivity of new data in 2019 on estimated mature male biomass (MMB); 1978-2019."}
+plot_ssb(M[1:2], ylab = "Mature male biomass (tons) on 15 February")
+# needs to be fixed **FIX**  to refect curernt year projection and error associated.
+```
+
+```{r selectivity, fig.cap = "Comparisons of the estimated stage-1 and stage-2 selectivities for the different model scenarios (the stage-3 selectivities are all fixed at 1). Estimated selectivities are shown for the directed pot fishery, the trawl bycatch fishery, the fixed bycatch fishery, the NMFS trawl survey, and the ADF&G pot survey. Two selectivity periods are estimated in the directed pot fishery, from 1978-2008 and 2009-2017.\\label{fig:selectivity}", fig.height = 15}
+#plot_selectivity(M[mod_scen], ncol = 5)
+```
+
+```{r recruitment, fig.cap = "Estimated recruitment 1979-2018 comparing model alternatives. The solid horizontal lines in the background represent the estimate of the average recruitment parameter ($\\bar{R}$) in each model scenario."}
+plot_recruitment(M[mod_scen])
+```
+
+```{r mmb, fig.cap = "Comparisons of estimated mature male biomass (MMB) time series on 15 February during 1978-2019 for each of the model scenarios."}
+plot_ssb(M[mod_scen], ylab = "Mature male biomass (tons) on 15 February")
+```
+
+```{r M-t, fig.cap = "Time-varying natural mortality ($M_t$). Estimated pulse period occurs in 1998/99 (i.e. $M_{1998}$)."}
+plot_natural_mortality(M, knots = NULL, slab = "Model")
+```
+
+```{r trawl-survey-biomass, fig.cap = "Comparisons of area-swept estimates of total (90+ mm CL) male survey biomass (tons) and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations."} 
+plot_cpue(M[c(mod_scen)],  "NMFS Trawl", ylab = "NMFS survey biomass (t)")
+```
+
+```{r pot-survey-cpue, fig.cap = "Comparisons of total (90+ mm CL) male pot survey CPUEs and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations."}
+plot_cpue(M[c(mod_scen)],  "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
+```
+
+```{r pot-add-cv, fig.cap = "Comparisons of total (90+ mm CL) male pot survey CPUEs and model predictions for the 'add CV pot' scenario. The black error bars are plus and minus 2 standard deviations, while the red ones incorporate the additional variability ."}
+plot_cpue(M[4],  ShowEstErr = TRUE, "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
 ```
