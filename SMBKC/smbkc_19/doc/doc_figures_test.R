@@ -14,9 +14,10 @@ require(gmr)
 # still reference 2018 models since I'm currently runing 2019 **FIX**
 cur_yr <- 2019 # update annually 
 
-mod_names <- c("model 18.0", "model 19.0 (reference)", "model 19.1 (survey fit)", "model 19.0a (current regime)") 
+mod_names <- c("model 18.0", "model 19.0 (ref)", "model 19.1 (fit survey)", "model 19.2 (add CV pot)", "model 19.0a (current regime)") 
 .MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_18a/model_1/"), paste0(here::here(), "/SMBKC/smbkc_19/model_1/initial_run/"),
-              paste0(here::here(), "/SMBKC/smbkc_19/model_5/"), paste0(here::here(), "/SMBKC/smbkc_19/model_1a/")) #need to update these model options
+              paste0(here::here(), "/SMBKC/smbkc_19/model_5/"), paste0(here::here(), "/SMBKC/smbkc_19/model_1b/"), 
+              paste0(here::here(), "/SMBKC/smbkc_19/model_1a/")) #need to update these model options
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
@@ -25,6 +26,7 @@ mod_names <- c("model 18.0", "model 19.0 (reference)", "model 19.1 (survey fit)"
 .SHELL    = c("Aggregate")
 .MATURITY = c("Aggregate")
 .SEAS     = c("1","2","3","4","5")
+.FIGS     = c("./SMBKC/smbkc_19/doc/safe_figure/")
 
 # Read report file and create gmacs report object (a list):
 fn       <- paste0(.MODELDIR, "gmacs")
@@ -47,9 +49,13 @@ rinline <- function(code){
   sub("CODE", code, html)
 }
 
+alt_mod <- 5 # alt reference time frame
 ref_mod <- 2 # base
 rec_mod <- 2 # base
-mod_scen<- 2:3 #scenarios you want graphed together
+mod_scen<- 2:4 #scenarios you want graphed together
+
+ww <- 6
+hh <- 5
 
 # executive summary -----------
 .get_cpue_df(Mbase) %>% 
@@ -61,11 +67,14 @@ mod_scen<- 2:3 #scenarios you want graphed together
 
 ## data extent -----------
 plot_datarange(M[rec_mod])
+#ggsave(paste0(.FIGS, "data_extent.png"), width = ww, height = hh)
 
 ## fig 6/7 2018 safe - 2018 compared to reference model --------
 plot_cpue(M[1:2], "NMFS Trawl", ylab = "Survey biomass (t)") 
+ggsave(paste0(.FIGS, "trawl_cpue_ref.png"), width = ww*1.25, height = hh*.9)
 
 plot_cpue(M[1:2], "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
+ggsave(paste0(.FIGS, "pot_cpue_ref.png"), width = ww*1.5, height = hh)
 
 ### Sensitivity of new data in 2018 on estimated recruitment ; 1978-2018
 A <- M
@@ -75,6 +84,7 @@ for (i in c(1,2)) {
   A[[i]]$fit$std[ii] <- NA
 }
 plot_recruitment(A[1:2])
+plot_recruitment(M[1:2])
 
 ## ssb -----------
 #"Sensitivity of new data in 2019 on estimated mature male biomass (MMB); 1978-2019. \\label{fig:ssb1}"}
@@ -91,13 +101,14 @@ plot_selectivity(M[mod_scen])
 
 ## recruitment mod scen ----------------
 # "Estimated recruitment 1979-2018 comparing model alternatives. The solid horizontal lines in the background represent the estimate of the average recruitment parameter ($\\bar{R}$) in each model scenario.\\label{fig:recruitment}"}
-A <- M
-for (i in mod_scen) {
-  ii <- which(A[[i]]$fit$names %in% "sd_log_recruits"); ii <- ii[length(ii)]
-  A[[i]]$fit$est[ii] <- NA
-  A[[i]]$fit$std[ii] <- NA
-}
-plot_recruitment(A[mod_scen])
+#A <- M
+#for (i in mod_scen) {
+#  ii <- which(A[[i]]$fit$names %in% "sd_log_recruits"); ii <- ii[length(ii)]
+#  A[[i]]$fit$est[ii] <- NA
+#  A[[i]]$fit$std[ii] <- NA
+#}
+#plot_recruitment(A[mod_scen])
+plot_recruitment(M[mod_scen])
 
 # ssb mod scen ---------------
   
@@ -118,6 +129,9 @@ plot_cpue(M[c(mod_scen)],  "NMFS Trawl", ylab = "NMFS survey biomass (t)")
 
 #{r pot_survey_cpue, fig.cap = "Comparisons of total (90+ mm CL) male pot survey CPUEs and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations.\\label{fig:pot_survey_cpue}"}
 plot_cpue(M[c(mod_scen)],  "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
+
+# add cv on pot survey -----------
+plot_cpue(M[4],  ShowEstErr = TRUE,"ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
 
 #{r bts_resid_nmfs, fig.cap = "Standardized residuals for area-swept estimates of total male survey biomass for the model scenarios. \\label{fig:bts_resid_nmfs}"}
 A <- M[mod_scen];
@@ -151,4 +165,170 @@ plot_catch(M[rec_mod]) # Note this should be rec_mod or all models
 #{r Dynamic_Bzero, fig.cap = "Comparisons of mature male biomass relative to the dynamic $B_0$ value, (15 February, 1978-2018) for  each of the model scenarios.\\label{fig:dynB0}"}
 #plot_dynB0(M[mod_scen])
 # **FIX ** not currently being output in .rep file - made Jim aware of this I need to talk to him again about this.
+
+
+## create table for model parameter estimates-----------
+
+x <- M[[ref_mod]]$fit
+i <- c(grep("m_dev", x$names)[1],
+       grep("theta", x$names),
+       grep("survey_q", x$names),
+       grep("log_fbar", x$names),
+       grep("log_slx_pars", x$names)
+       #grep("sd_fofl", x$names),
+       #grep("spr_cofl", x$names)
+)
+Parameter <- x$names[i]
+Estimate <- x$est[i]
+SD <- x$std[i]
+j <- grep("survey_q", Parameter)
+Estimate[j] <- Estimate[j] * 1000
+SD[j] <- SD[j] * 1000
+Parameter <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
+               "$\\log (\\bar{R})$","$\\log (n^0_1)$","$\\log (n^0_2)$","$\\log (n^0_3)$",
+               "$q_{pot}$", "$\\log (\\bar{F}^\\text{df})$","$\\log (\\bar{F}^\\text{tb})$","$\\log (\\bar{F}^\\text{fb})$",
+               "log Stage-1 directed pot selectivity 1978-2008","log Stage-2 directed pot selectivity 1978-2008",
+               "log Stage-1 directed pot selectivity 2009-2017","log Stage-2 directed pot selectivity 2009-2017",
+               "log Stage-1 NMFS trawl selectivity","log Stage-2 NMFS trawl selectivity",
+               "log Stage-1 ADF\\&G pot selectivity","log Stage-2 ADF\\&G pot selectivity")
+               #"$F_\\text{OFL}$","OFL")
+df1 <- data.frame(Parameter, Estimate, SD)
+df2 <- data.frame(Parameter = c("$F_\\text{OFL}$","OFL"), 
+                  Estimate = c(M[[ref_mod]]$sd_fofl[1], M[[ref_mod]]$spr_cofl))
+df1 %>% 
+  bind_rows(df2) -> df
+
+## !!table of all parameter output -------
+#```{r est_pars_all, results = "asis"}
+Parameter <- NULL
+Estimate <- NULL
+Model <- NULL
+Mname <- c("2018", "Ref","FitSurvey","addCVpot")
+for (ii in 2:4)
+{
+  x <- M[[ii]]$fit
+  i <- c(grep("m_dev", x$names)[1],
+         grep("theta", x$names),
+         grep("survey_q", x$names),
+         grep("log_fbar", x$names),
+         grep("log_slx_pars", x$names))
+         #grep("sd_fofl", x$names),
+         #grep("sd_ofl", x$names) )
+  Parameter <- c(Parameter, x$names[i])
+  Estimate <- c(Estimate, x$est[i])
+  Model <- c(Model, rep(Mname[ii], length(i)))
+}
+j <- grep("survey_q", Parameter)
+Estimate[j] <- Estimate[j] * 1000
+Parameter <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
+               "$\\log (\\bar{R})$","$\\log (n^0_1)$","$\\log (n^0_2)$","$\\log (n^0_3)$",
+               "$q_{pot}$", "$\\log (\\bar{F}^\\text{df})$","$\\log (\\bar{F}^\\text{tb})$","$\\log (\\bar{F}^\\text{fb})$",
+               "log Stage-1 directed pot selectivity 1978-2008","log Stage-2 directed pot selectivity 1978-2008",
+               "log Stage-1 directed pot selectivity 2009-2017","log Stage-2 directed pot selectivity 2009-2017",
+               "log Stage-1 NMFS trawl selectivity","log Stage-2 NMFS trawl selectivity",
+               "log Stage-1 ADF\\&G pot selectivity","log Stage-2 ADF\\&G pot selectivity")
+               #"$F_\\text{OFL}$","OFL")
+Parameter <- c(Parameter, Parameter, Parameter) 
+df1 <- data.frame(Model, Parameter, Estimate)
+
+df2 <- data.frame(Model = c("Ref", "Ref", "FitSurvey", "FitSurvey", "addCVpot", "addCVpot"),
+                  Parameter = c("$F_\\text{OFL}$","OFL", "$F_\\text{OFL}$","OFL", "$F_\\text{OFL}$","OFL"), 
+                  Estimate = c(M[[ref_mod]]$sd_fofl[1], M[[ref_mod]]$spr_cofl,
+                                M[[3]]$sd_fofl[1], M[[3]]$spr_cofl, 
+                                M[[4]]$sd_fofl[1], M[[4]]$spr_cofl))
+df1 %>% 
+  bind_rows(df2) -> df
+df <- tidyr::spread(df, Model, Estimate) %>% dplyr::select(Parameter, Ref, FitSurvey, addCVpot)
+write.csv(df, paste0(here::here(), '/SMBKC/smbkc_19/doc/safe_tables/all_parms.csv'), 
+          row.names = FALSE)
+### see chunk in .rmd to bring this file in
+
+## data weighting ---------------------
+#```{r data_weighting, results = "asis"}
+df <- NULL
+for (ii in mod_scen)
+{
+  x       <- M[[ii]]
+  SDNR    <- c(x$sdnr_MAR_cpue[,1], x$sdnr_MAR_lf[,1]); names(SDNR) <- c("SDNR NMFS trawl survey","SDNR ADF\\&G pot survey","SDNR directed pot LF","SDNR NMFS trawl survey LF","SDNR ADF\\&G pot survey LF")
+  MAR     <- c(x$sdnr_MAR_cpue[,2], x$sdnr_MAR_lf[,2]); names(MAR) <- c("MAR NMFS trawl survey","MAR ADF\\&G pot survey","MAR directed pot LF","MAR NMFS trawl survey LF","MAR ADF\\&G pot survey LF")
+  Francis <- x$Francis_weights; names(Francis) <- c("Fancis weight for directed pot LF","Francis weight for NMFS trawl survey LF","Francis weight for ADF\\&G pot survey LF")
+  wt_cpue <- x$cpue_lambda; names(wt_cpue) <- c("NMFS trawl survey weight","ADF\\&G pot survey weight")
+  wt_lf   <- x$lf_lambda; names(wt_lf) <- c("Directed pot LF weight","NMFS trawl survey LF weight","ADF\\&G pot survey LF weight")
+  v       <- c(wt_cpue, wt_lf, Francis, SDNR, MAR)
+  df      <- cbind(df, v)
+}
+df        <- data.frame(rownames(df), df, row.names = NULL)
+names(df) <- c("Component",mod_names[mod_scen])
+tab       <- xtable(df, caption = "Comparisons of data weights, Francis LF weights (i.e. the new weights that should be applied to the LFs), SDNR and MAR (standard deviation of normalized residuals and median absolute residual) values for the model scenarios.", label = "tab:data_weighting")
+print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,5,8,13,nrow(tab)))
+
+
+# !!Likelihood components -----------------
+#```{r likelihood_components, results = "asis"}
+df <- NULL
+for (ii in mod_scen)
+{
+  x        <- M[[ii]]
+  # Catch
+  ll_catch <- x$nloglike[1,]
+  dc       <- .get_catch_df(M[1])
+  names(ll_catch) <- unique(paste0(dc$fleet, " ", dc$type, " Catch"))
+  # Abundance indices
+  ll_cpue  <- x$nloglike[2,1:2]
+  names(ll_cpue) <- c("NMFS Trawl Survey","ADF\\&G Pot Survey CPUE")
+  # Size compositions
+  ll_lf    <- x$nloglike[3,1:3]
+  names(ll_lf) <- c("Directed Pot LF","NMFS Trawl LF","ADF\\&G Pot LF")
+  # Recruitment deviations
+  ll_rec <- sum(x$nloglike[4,], na.rm = TRUE)
+  names(ll_rec) <- "Recruitment deviations"
+  # Penalties
+  F_pen <- x$nlogPenalty[2]; names(F_pen) <- "F penalty"
+  M_pen <- x$nlogPenalty[3]; names(M_pen) <- "M penalty"
+  # Priors
+  prior <- sum(x$priorDensity); names(prior) <- "Prior"
+  v <- c(ll_catch, ll_cpue, ll_lf, ll_rec, F_pen, M_pen, prior)
+  sv <- sum(v); names(sv) <- "Total"
+  npar <- x$fit$nopar; names(npar) <- "Total estimated parameters"
+  v <- c(v, sv, npar)
+  df <- cbind(df, v)
+}
+df <- data.frame(rownames(df), df, row.names = NULL)
+names(df) <- c("Component",mod_names[mod_scen])
+write.csv(df, paste0(here::here(), '/SMBKC/smbkc_19/doc/safe_tables/neg_log_like.csv'), 
+          row.names = FALSE)
+
+### !!population abundance 2018 model -----------------------
+#```{r pop-abundance-2018, results = "asis"}
+A         <- M[[1]]
+i         <- grep("sd_log_ssb", A$fit$names) #does not have proj value in here
+SD        <- A$fit$std[i]
+tl        <- length(A$mod_yrs)
+
+years = c(as.integer(A$mod_yrs[1:tl]), A$mod_yrs[tl]+1)
+ssb = c(A$ssb, A$spr_bmsy*A$spr_depl)
+ssb_cv = c((exp(SD[1:tl])-1), 999)
+
+df        <- data.frame(years, A$N_males[ ,1], A$N_males[ ,2], 
+                        A$N_males[ ,3], ssb, ssb_cv)
+names(df) <- c("Year","$n_1$","$n_2$","$n_3$","MMB","CV MMB")
+write.csv(df, paste0(here::here(), '/SMBKC/smbkc_19/doc/safe_tables/numbers_last_yrs.csv'), 
+          row.names = FALSE)
+
+### !!population abundance 2019 base model -----------------------
+#```{r pop-abundance-2019, results = "asis"}
+A         <- M[[ref_mod]]
+i         <- grep("sd_log_ssb", A$fit$names) #does not have proj value in here
+SD        <- A$fit$std[i]
+tl        <- length(A$mod_yrs)
+
+years = c(as.integer(A$mod_yrs[1:tl]), A$mod_yrs[tl]+1)
+ssb = c(A$ssb, A$spr_bmsy*A$spr_depl)
+ssb_cv = c((exp(SD[1:tl])-1), 999)
+
+df        <- data.frame(years, A$N_males[ ,1], A$N_males[ ,2], 
+                        A$N_males[ ,3], ssb, ssb_cv)
+names(df) <- c("Year","$n_1$","$n_2$","$n_3$","MMB","CV MMB")
+write.csv(df, paste0(here::here(), '/SMBKC/smbkc_19/doc/safe_tables/numbers_current_yrs.csv'), 
+          row.names = FALSE)
 
