@@ -380,7 +380,7 @@ Major data sources used in this assessment include annual directed-fishery retai
 (1978/79-1998/99, 2009/10-2012/13, and 2014/15-2015/16; Table \@ref(tab:smbkc_fishery)); results from the annual NMFS
 eastern Bering Sea trawl survey (1978-2019; Table \@ref(tab:stage-cpue-nmfs)); results from the ADF&G SMBKC pot
 survey (every third year during 1995-2013, then 2015-2018; Table \@ref(tab:stage-cpue));
-mean somatic mass given length category by year (Table \ref{tab:length_weight}); 
+mean somatic mass given length category by year (Table \@ref(tab:length-weight)); 
 size-frequency information from ADF&G crab-observer pot-lift sampling (1990/91-1998/99, 2009/10-2012/13, and
 2014/15-2016/17; Table \@ref(tab:stage-cpue-1)); and the NMFS groundfish-observer bycatch biomass estimates (1992/93-2018/19;
 Table \@ref(tab:smbkc-groundfish-bycatch)).
@@ -469,7 +469,7 @@ the ADF&G pot survey, or fit post 2005 trawl survey data points well.
 
 ### b. Effective sample sizes and weighting factors {-}
 Need to update this section with model results!
-Observed and estimated effective sample sizes are compared in Table \ref{tab:effn}. 
+Observed and estimated effective sample sizes are compared in Table \@ref(tab:effn). 
 Data weighting factors, standard deviation of normalized residuals (SDNRs), and median absolute residual (MAR) are 
 presented in Table \ref{tab:data_weighting}. The SDNR for the trawl survey
 is acceptable at 1.66 in the reference model. Francis (2011) weighting was applied in 2017
@@ -709,8 +709,68 @@ from the 96 common stations surveyed during the ADF\&G SMBKC pot surveys. Source
 \end{table}
 
 
+```{r length-weight, results = "asis"}
+df <- data.frame(M[[2]]$mod_yrs, M[[2]]$mean_wt[1:length(M[[2]]$mod_yrs), ] * 1000)
+names(df) <- c("Year","Stage-1","Stage-2","Stage-3")
+tab <- xtable(df, caption = "Mean weight (kg) by stage in used in all of the models (provided as a vector of weights at length each year to Gmacs).", label = "tab:length-weight", digits = c(0,0,1,1,1))
+print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
+```
 
 
+\begin{table}[ht]
+\centering
+\caption{Observed and input sample sizes for observer data from the directed pot fishery, the NMFS trawl survey, and the ADF\&G pot survey.} 
+\label{tab:effn}
+\begin{tabular}{lccccccc}
+  \hline
+  & \multicolumn{3}{c}{Number measured} & \multicolumn{3}{c}{Input sample sizes} \\
+  \cline{2-4}\cline{6-8}
+  Year & Observer pot & NMFS trawl & ADF\&G pot & & Observer pot & NMFS trawl & ADF\&G pot \\ 
+  \hline
+  1978 &              & 157        &          & &              & 50         & \\
+  1979 &              & 178        &          & &              & 50         & \\
+  1980 &              & 185        &          & &              & 50         & \\
+  1981 &              & 140        &          & &              & 50         & \\
+  1982 &              & 271        &          & &              & 50         & \\
+  1983 &              & 231        &          & &              & 50         & \\
+  1984 &              & 105        &          & &              & 50         & \\
+  1985 &              &  93        &          & &              & 46.5       & \\
+  1986 &              &  46        &          & &              & 23         & \\
+  1987 &              &  71        &          & &              & 35.5       & \\
+  1988 &              &  81        &          & &              & 40.5       & \\
+  1989 &              & 208        &          & &              & 50         & \\
+  1990 &  150         & 170        &          & & 15           & 50         & \\
+  1991 &  3393        & 197        &          & & 25           & 50         & \\
+  1992 &  1606        & 220        &          & & 25           & 50         & \\
+  1993 &  2241        & 324        &          & & 25           & 50         & \\
+  1994 &  4735        & 211        &          & & 25           & 50         & \\
+  1995 &  663         & 178        &  4624    & & 25           & 50         & 100 \\
+  1996 &  489         & 285        &          & & 25           & 50         & \\
+  1997 &  3195        & 296        &          & & 25           & 50         & \\
+  1998 &  1323        & 243        &  4812    & & 25           & 50         & 100 \\
+  1999 &              &  52        &          & &              & 26         & \\
+  2000 &              &  61        &          & &              & 30.5       & \\
+  2001 &              &  91        &  3255    & &              & 45.5       & 100 \\
+  2002 &              &  38        &          & &              & 19         & \\
+  2003 &              &  65        &          & &              & 32.5       & \\
+  2004 &              &  48        &  640     & &              & 24         & 100 \\
+  2005 &              &  42        &          & &              & 21         & \\
+  2006 &              & 126        &          & &              & 50         & \\
+  2007 &              & 250        &  3319    & &              & 50         & 100 \\
+  2008 &              & 167        &          & &              & 50         & \\
+  2009 &  19802       & 251        &          & & 50           & 50         & \\
+  2010 &  45466       & 388        &  3920    & & 50           & 50         & 100 \\
+  2011 &  58667       & 318        &          & & 50           & 50         & \\
+  2012 &  57282       & 193        &          & & 50           & 50         & \\
+  2013 &              &  74        &  2167    & &              & 37         & 100 \\
+  2014 &  9906        & 181        &          & & 50           & 50         & \\
+  2015 &  3248        & 153        &  1077    & & 50           & 50         & 100 \\
+  2016 &              & 108        &   777    & &              & 50         & 100 \\
+  2017 &              & 42         &   643    & &              & 21         & 100 \\
+  2018 &              & 62         &   286    & &              & 31         & 100 \\
+  \hline
+\end{tabular}
+\end{table}
 
 
 
