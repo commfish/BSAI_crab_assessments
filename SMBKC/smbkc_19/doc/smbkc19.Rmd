@@ -768,6 +768,7 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
   2016 &              & 108        &   777    & &              & 50         & 100 \\
   2017 &              & 42         &   643    & &              & 21         & 100 \\
   2018 &              & 62         &   286    & &              & 31         & 100 \\
+  2019 &              & 105        &          & &              & 50         & \\
   \hline
 \end{tabular}
 \end{table}
@@ -873,6 +874,9 @@ df1 %>%
 tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the 'add CV pot' model.", label = "tab:est-pars-4", digits = 3)
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
 ```
+
+
+
 
 
 \clearpage
