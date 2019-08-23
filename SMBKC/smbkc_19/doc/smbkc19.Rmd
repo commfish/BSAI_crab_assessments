@@ -894,6 +894,19 @@ tab <- xtable(df, caption = "Comparisons of negative log-likelihood values for t
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
 ```
 
+```{r pop-abundance-lastyr, results = "asis"}
+df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_19/doc/safe_tables/numbers_last_yrs.csv"))
+names(df) <- c("Year","$n_1$","$n_2$","$n_3$","MMB","CV MMB")
+tab <- xtable(df, digits = c(0,0,0,0,0,0,3), caption = "Population abundances ($\\boldsymbol{n}$) by crab stage in numbers of crab at the time of the survey and mature male biomass (MMB) in tons on 15 February for the {\\bf model configuration used in 2017}.", label = "tab:pop-abundance-lastyr")
+print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function=function(x){x})
+```
+
+```{r pop-abundance-base, results = "asis"}
+df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_19/doc/safe_tables/numbers_current_yrs.csv"))
+names(df) <- c("Year","$n_1$","$n_2$","$n_3$","MMB","CV MMB")
+tab <- xtable(df, digits = c(0,0,0,0,0,0,3), caption = "Population abundances ($\\boldsymbol{n}$) by crab stage in numbers of crab at the time of the survey (1 July, season 1) and mature male biomass (MMB) in tons on 15 February for the reference model.", label = "tab:pop-abundance-base")
+print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function=function(x){x})
+```
 
 
 
