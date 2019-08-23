@@ -361,7 +361,7 @@ ADF&G, pers. comm.]. Some bycatch of discarded blue king crab has also been obse
 Sea snow crab fishery, but in recent years it has generally been negligible.  The St. Matthew Island golden king crab
 fishery, the third commercial crab fishery to have taken place in the area,  typically occurred in areas with depths
 exceeding blue king crab distribution. The NMFS observer data suggest that variable, but mostly limited, SMBKC bycatch has
-also occurred in the eastern Bering Sea groundfish fisheries (Table \ref{tab:smbkc_groundfish_bycatch}).
+also occurred in the eastern Bering Sea groundfish fisheries (Table \@ref(tab:smbkc-groundfish-bycatch)).
 
 # D. Data {-}
 
@@ -383,7 +383,7 @@ survey (every third year during 1995-2013, then 2015-2018; Table \ref{tab:stage_
 mean somatic mass given length category by year (Table \ref{tab:length_weight}); 
 size-frequency information from ADF&G crab-observer pot-lift sampling (1990/91-1998/99, 2009/10-2012/13, and
 2014/15-2016/17; Table \@ref(tab:stage-cpue-1)); and the NMFS groundfish-observer bycatch biomass estimates (1992/93-2018/19;
-Table \ref{tab:smbkc_groundfish_bycatch}).
+Table \@ref(tab:smbkc-groundfish-bycatch)).
 
 Figure \@ref(fig:stations) maps stations from which SMBKC trawl-survey and pot-survey data were obtained. 
 Further information concerning the NMFS trawl survey as it relates to commercial crab species is available in Daly et al.
@@ -571,9 +571,11 @@ df <- dplyr::filter(data.frame(M[[rec_mod]]$dCatchData_out), V2 == 2, V3 %in% c(
   tidyr::spread(key = V3, value = V5) #%>%
   #dplyr::mutate(V1 = paste0(V1, "/", as.numeric(sub('.*(?=.{2}$)', '', V1, perl = TRUE)) + 1))
 names(df) <- c("Year","Trawl bycatch","Fixed gear bycatch")
-tab <- xtable(df, caption = "Groundfish SMBKC male bycatch biomass (t) estimates. Trawl includes pelagic trawl and non-pelagic trawl types. Source: J. Zheng, ADF\\&G, and author estimates based on data from R. Foy, NMFS. Estimates used after 2008/09 are from NMFS Alaska Regional Office.", digits = c(0,0,3,3))
+tab <- xtable(df, caption = "Groundfish SMBKC male bycatch biomass (t) estimates. Trawl includes pelagic trawl and non-pelagic trawl types. Source: J. Zheng, ADF\\&G, and author estimates based on data from R. Foy, NMFS. Estimates used after 2008/09 are from NMFS Alaska Regional Office.", label = "tab:smbkc-groundfish-bycatch", digits = c(0,0,3,3))
 print(tab, caption.placement = "top", include.rownames = FALSE)
 ```
+
+\clearpage
 
 \pagebreak 
 
