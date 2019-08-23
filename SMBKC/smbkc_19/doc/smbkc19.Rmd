@@ -352,7 +352,7 @@ the directed blue king crab fishery off St. Matthew Island was relatively high h
 bycatch in terms of number of crab captured sometimes more than twice as high as the catch of legal crab (Moore et al.
 2000; ADF&G Crab Observer Database). Pot-lift sampling by ADF&G crab observers (Gaeuman 2013; ADF&G Crab Observer
 Database) indicates similar bycatch rates of discarded male crab since the reopening of the fishery (Table
-\ref{tab:stage_cpue_1}), with total male discard mortality in the 2012/13 directed fishery estimated at about 12% (88
+\@ref(tab:stage-cpue-1)), with total male discard mortality in the 2012/13 directed fishery estimated at about 12% (88
 t or 0.193 million pounds) of the reported retained catch weight, assuming 20% handling mortality.
 
 These data suggest a reduction in the bycatch of females, which may be attributable to the later timing of the
@@ -382,7 +382,7 @@ eastern Bering Sea trawl survey (1978-2019; Table \ref{tab:stage_cpue_nmfs}); re
 survey (every third year during 1995-2013, then 2015-2018; Table \ref{tab:stage_cpue});
 mean somatic mass given length category by year (Table \ref{tab:length_weight}); 
 size-frequency information from ADF&G crab-observer pot-lift sampling (1990/91-1998/99, 2009/10-2012/13, and
-2014/15-2016/17; Table \ref{tab:stage_cpue_1}); and the NMFS groundfish-observer bycatch biomass estimates (1992/93-2018/19;
+2014/15-2016/17; Table \@ref(tab:stage-cpue-1)); and the NMFS groundfish-observer bycatch biomass estimates (1992/93-2018/19;
 Table \ref{tab:smbkc_groundfish_bycatch}).
 
 Figure \@ref(fig:stations) maps stations from which SMBKC trawl-survey and pot-survey data were obtained. 
@@ -530,6 +530,40 @@ The following topics have been listed as areas where more research on SMBKC is n
 
 We thank the Crab Plan Team and ADF&G staff for reviewing an earlier draft of this report 
 and Andre Punt for his input into refinements to the Gmacs model code, specifically the projections module.
+
+
+\pagebreak 
+# Tables {-}
+
+\begin{table}[ht]
+\centering
+\caption{Observed proportion of crab by size class during the ADF\&G crab observer pot-lift sampling. Source: ADF\&G Crab Observer Database.} 
+\label{tab:stage-cpue-1}
+\begin{tabular}{lrrrrrr}
+  \hline
+  Year & Total pot lifts & Pot lifts sampled & Number of crab (90 mm+ CL) & Stage 1 & Stage 2 & Stage 3 \\
+  \hline
+  1990/91 & 26,264 &  10 &   150 & 0.113 & 0.393 & 0.493 \\
+  1991/92 & 37,104 & 125 & 3,393 & 0.133 & 0.177 & 0.690 \\
+  1992/93 & 56,630 &  71 & 1,606 & 0.191 & 0.268 & 0.542 \\
+  1993/94 & 58,647 &  84 & 2,241 & 0.281 & 0.210 & 0.510 \\
+  1994/95 & 60,860 & 203 & 4,735 & 0.294 & 0.271 & 0.434 \\
+  1995/96 & 48,560 &  47 &   663 & 0.148 & 0.212 & 0.640 \\
+  1996/97 & 91,085 &  96 &   489 & 0.160 & 0.223 & 0.618 \\
+  1997/98 & 81,117 & 133 & 3,195 & 0.182 & 0.205 & 0.613 \\
+  1998/99 & 91,826 & 135 & 1.322 & 0.193 & 0.216 & 0.591 \\
+  \multicolumn{2}{l}{1999/00 - 2008/09} & \multicolumn{5}{c}{FISHERY CLOSED} \\
+  2009/10 & 10,484 & 989   & 19,802 & 0.141 & 0.324 & 0.535 \\
+  2010/11 & 29,356 & 2,419 & 45,466 & 0.131 & 0.315 & 0.553 \\
+  2011/12 & 48,554 & 3,359 & 58,666 & 0.131 & 0.305 & 0.564 \\
+  2012/13 & 37,065 & 2,841 & 57,298 & 0.141 & 0.318 & 0.541 \\
+  \multicolumn{2}{l}{2013/14} & \multicolumn{5}{c}{FISHERY CLOSED} \\
+  2014/15 & 10,133 & 895 & 9,906 & 0.094 & 0.228 & 0.679 \\
+  2015/16 &  5,475 & 419 & 3,248 & 0.115 & 0.252 & 0.633 \\
+  \multicolumn{2}{l}{2016/17 - 2018/19} & \multicolumn{5}{c}{FISHERY CLOSED} \\
+  \hline
+\end{tabular}
+\end{table}
 
 
 \pagebreak 
