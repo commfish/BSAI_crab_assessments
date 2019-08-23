@@ -565,6 +565,15 @@ and Andre Punt for his input into refinements to the Gmacs model code, specifica
 \end{tabular}
 \end{table}
 
+```{r smbkc-groundfish-bycatch, results = "asis"}
+df <- dplyr::filter(data.frame(M[[rec_mod]]$dCatchData_out), V2 == 2, V3 %in% c(2,3)) %>%
+  dplyr::select(V1, V3, V5) %>%
+  tidyr::spread(key = V3, value = V5) #%>%
+  #dplyr::mutate(V1 = paste0(V1, "/", as.numeric(sub('.*(?=.{2}$)', '', V1, perl = TRUE)) + 1))
+names(df) <- c("Year","Trawl bycatch","Fixed gear bycatch")
+tab <- xtable(df, caption = "Groundfish SMBKC male bycatch biomass (t) estimates. Trawl includes pelagic trawl and non-pelagic trawl types. Source: J. Zheng, ADF\\&G, and author estimates based on data from R. Foy, NMFS. Estimates used after 2008/09 are from NMFS Alaska Regional Office.", digits = c(0,0,3,3))
+print(tab, caption.placement = "top", include.rownames = FALSE)
+```
 
 \pagebreak 
 
