@@ -52,7 +52,7 @@ rinline <- function(code){
 alt_mod <- 5 # alt reference time frame
 ref_mod <- 2 # base
 rec_mod <- 2 # base
-mod_scen<- 2:4 #scenarios you want graphed together
+mod_scen<- 2:5 #scenarios you want graphed together
 
 ww <- 6
 hh <- 5
@@ -203,8 +203,8 @@ df1 %>%
 Parameter <- NULL
 Estimate <- NULL
 Model <- NULL
-Mname <- c("2018", "Ref","FitSurvey","addCVpot")
-for (ii in 2:4)
+Mname <- c("2018", "Ref","FitSurvey","addCVpot", "altregime")
+for (ii in 2:5)
 {
   x <- M[[ii]]$fit
   i <- c(grep("m_dev", x$names)[1],
@@ -228,17 +228,18 @@ Parameter <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
                "log Stage-1 NMFS trawl selectivity","log Stage-2 NMFS trawl selectivity",
                "log Stage-1 ADF\\&G pot selectivity","log Stage-2 ADF\\&G pot selectivity")
                #"$F_\\text{OFL}$","OFL")
-Parameter <- c(Parameter, Parameter, Parameter) 
+Parameter <- c(Parameter, Parameter, Parameter, Parameter) 
 df1 <- data.frame(Model, Parameter, Estimate)
 
-df2 <- data.frame(Model = c("Ref", "Ref", "FitSurvey", "FitSurvey", "addCVpot", "addCVpot"),
-                  Parameter = c("$F_\\text{OFL}$","OFL", "$F_\\text{OFL}$","OFL", "$F_\\text{OFL}$","OFL"), 
+df2 <- data.frame(Model = c("Ref", "Ref", "FitSurvey", "FitSurvey", "addCVpot", "addCVpot", "altregime", "altregime"),
+                  Parameter = c("$F_\\text{OFL}$","OFL", "$F_\\text{OFL}$","OFL", "$F_\\text{OFL}$","OFL", "$F_\\text{OFL}$","OFL"), 
                   Estimate = c(M[[ref_mod]]$sd_fofl[1], M[[ref_mod]]$spr_cofl,
                                 M[[3]]$sd_fofl[1], M[[3]]$spr_cofl, 
-                                M[[4]]$sd_fofl[1], M[[4]]$spr_cofl))
+                                M[[4]]$sd_fofl[1], M[[4]]$spr_cofl, 
+                                M[[5]]$sd_fofl[1], M[[5]]$spr_cofl))
 df1 %>% 
   bind_rows(df2) -> df
-df <- tidyr::spread(df, Model, Estimate) %>% dplyr::select(Parameter, Ref, FitSurvey, addCVpot)
+df <- tidyr::spread(df, Model, Estimate) %>% dplyr::select(Parameter, Ref, FitSurvey, addCVpot, altregime)
 write.csv(df, paste0(here::here(), '/SMBKC/smbkc_19/doc/safe_tables/all_parms.csv'), 
           row.names = FALSE)
 ### see chunk in .rmd to bring this file in
