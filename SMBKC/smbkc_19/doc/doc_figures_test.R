@@ -14,7 +14,7 @@ require(gmr)
 # still reference 2018 models since I'm currently runing 2019 **FIX**
 cur_yr <- 2019 # update annually 
 
-mod_names <- c("model 18.0", "model 19.0 (ref)", "model 19.1 (fit survey)", "model 19.2 (add CV pot)", "model 19.0a (current regime)") 
+mod_names <- c("model 18.0", "model 19.0 (ref)", "model 19.1 (fit survey)", "model 19.2 (add CV pot)", "model 19.0a (alt regime)") 
 .MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_18a/model_1/"), paste0(here::here(), "/SMBKC/smbkc_19/model_1/initial_run/"),
               paste0(here::here(), "/SMBKC/smbkc_19/model_5/"), paste0(here::here(), "/SMBKC/smbkc_19/model_1b/"), 
               paste0(here::here(), "/SMBKC/smbkc_19/model_1a/")) #need to update these model options
@@ -332,3 +332,17 @@ names(df) <- c("Year","$n_1$","$n_2$","$n_3$","MMB","CV MMB")
 write.csv(df, paste0(here::here(), '/SMBKC/smbkc_19/doc/safe_tables/numbers_current_yrs.csv'), 
           row.names = FALSE)
 
+## table 4 -------------------
+df <- NULL
+for (ii in mod_scen)
+{
+  x      <- M[[ii]]
+  mmb    <- x$ssb[length(x$ssb)]; names(mmb) <- paste0("$\\text{MMB}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")
+  fofl   <- x$sd_fofl[1]; names(fofl)          <- "$F_\\text{OFL}$"
+  OFL    <- x$spr_cofl; names(OFL)           <- paste0("$\\text{OFL}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")
+  Bmsy   <- x$spr_bmsy; names(Bmsy)          <- "$B_\\text{MSY}$"
+  B_Bmsy <- x$spr_depl; names(B_Bmsy)          <- "$MMB/B_\\text{MSY}$"
+  ABC    <- OFL * 0.8; names(ABC)            <- paste0("$\\text{ABC}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")
+  v      <- c(mmb, Bmsy, fofl, OFL, ABC)
+  df     <- cbind(df, v)
+}
