@@ -981,7 +981,8 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 
 ```{r likelihood-components, results = "asis"}
 df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_19/doc/safe_tables/neg_log_like.csv"))
-
+#names(df) <- c("Component",mod_names[mod_scen])
+names(df) <- c("Component", "19.0 (ref)", "19.1 (fit survey)", "19.2 (add CV pot)", "19.0a (alt regime)")
 tab <- xtable(df, caption = "Comparisons of negative log-likelihood values for the selected model scenarios. It is important to note that comparisons among models may be limited since the assumed variances are modified (e.g., {\\bf Fit surveys} model).", label = "tab:likelihood-components")
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
 ```
