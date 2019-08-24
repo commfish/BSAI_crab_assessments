@@ -486,7 +486,7 @@ scenarios as the SDNR. The SDNR and MAR values for the trawl survey and pot surv
 ranging from 0.54 to 0.73 for the reference case.
 The SDNRs for the directed pot fishery and other size compositions were  similar to previous estimates.
 
-### d. Parameter estimates {-}
+### c. Parameter estimates {-}
 Model parameter estimates for each of the Gmacs scenarios are summarized in Tables \@ref(tab:est-pars-ref),
 \@ref(tab:est-pars-3), and \@ref(tab:est-pars-all). These parameter
 estimates are compared in Table \@ref(tab:est-pars-all). Negative log-likelihood values and management measures for each
@@ -504,6 +504,34 @@ Selectivity estimates show some variability between models (Figure \@ref(fig:sel
 variable over time for all models and in recent years is well below average (Figure \@ref(fig:recruitment)).  Estimated
 mature male biomass on 15 February also fluctuates considerably (Figure \@ref(fig:mmb)). Estimated natural mortality each
 year ($M_t$) is presented in Figure \@ref(fig:M-t).
+
+### d. Evaluation of the fit to the data.{-}
+The model fits to total male ($\ge$ 90 mm CL) trawl survey biomass tend to miss the recent peak around 2010 and is
+slightly above the 2018 value for the key sensitivities (Figures \@ref(fig:trawl-survey-biomass)).  All of the models fit
+the pot survey CPUE poorly (Figure \@ref(fig:pot-survey-cpue)), with the "add CV pot" model having the worst fit due to the addition of variability (Figure \@ref(fig:pot-add-cv)). For the trawl survey the standardized residuals have similar patterns with the exception of recent years for the "add CV pot" model (19.2), generally poor fit to the last 15 years of data (Figure \@ref(fig:bts-resid-nmfs)). The standardized residuals for the ADF&G pot survey have similar patterns but are much larger for the "add CV pot" model than the others, for obvious reasons (Figure \@ref(fig:bts-resid-adfg)).
+
+Fits to the size compositions for trawl survey, pot survey, and commercial observer data are reasonable but miss the largest
+size category in some years (Figures \@ref(fig:sc-pot), \@ref(fig:sc-pot-discarded), and \@ref(fig:sc-trawl-discarded)) 
+for all scenarios. Representative residual  plots of the composition data fits are generally poor (Figures \@ref(fig:sc-res-ref), \@ref(fig:sc-res-fit) and \@ref(fig:sc-res-addcv)).
+The model fits to different types of retained and discarded catch values performed as expected given the assumed levels
+of uncertainty on the input data (Figure  \@ref(fig:fit-to-catch)).
+
+Unsurprisingly, the **Fit surveys** model fits the 
+the NMFS survey biomass and ADF&G pot survey CPUE  data better but still has a similar residual pattern
+(Figures \@ref(fig:trawl-survey-biomass) and \@ref(fig:pot_survey_cpue)). 
+It is worth noting that that this scenario (included for exploratory purposes) resulted in worse SDNR and MAR values for the two abundance indices.
+
+### e. Retrospective and historical analyses {-}
+This is only the second year a formal assessment model developed for this stock. As such, retrospective patterns and 
+historical analyses relative to fisheries impacts are limited.
+
+### f. Uncertainty and sensitivity analyses.{-}
+Estimated standard deviations of parameters and selected management measures for the models are summarized in
+Tables \@ref(tab:est-pars-ref), \@ref(tab:est-pars-3), and \@ref(tab:est-pars-4) 
+(compiled in Table \@ref(tab:est-pars-all)). Probabilities for mature male biomass and OFL in 2019 are
+presented in Section F.
+
+
 
 # G. Rebuilding Analysis {-}
 
@@ -1009,15 +1037,15 @@ plot_size_comps(M[mod_scen], 2)
 plot_size_comps(M[mod_scen], 3)
 ```
 
-```{r sc-pot-res-selex, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADF&G pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **reference** model (19.0)."}
+```{r sc-res-ref, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADF&G pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **reference** model (19.0)."}
 plot_size_comps_res(M[ref_mod])
 ```
 
-```{r sc-trawl-discarded-res, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADF&G pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **fit surveys** model (19.1)."}
+```{r sc-res-fit, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADF&G pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **fit surveys** model (19.1)."}
 plot_size_comps_res(M[3])
 ```
 
-```{r sc-trawl-discarded-cv, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADF&G pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **add CV pot** model (19.2)."}
+```{r sc-res-addcv, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADF&G pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **add CV pot** model (19.2)."}
 plot_size_comps_res(M[4])
 ```
 
