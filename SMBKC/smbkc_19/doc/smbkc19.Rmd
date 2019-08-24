@@ -23,7 +23,7 @@ library(xtable)
 options(xtable.comment = FALSE)
 
 # the model specs
-mod_names <- c("model 18.0", "model 19.0 (ref)", "model 19.1 (fit survey)", "model 19.2 (add CV pot)", "model 19.0a (current regime)") 
+mod_names <- c("model 18.0", "model 19.0 (ref)", "model 19.1 (fit survey)", "model 19.2 (add CV pot)", "model 19.0a (alt regime)") 
 .MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_18a/model_1/"), paste0(here::here(), "/SMBKC/smbkc_19/model_1/initial_run/"),
               paste0(here::here(), "/SMBKC/smbkc_19/model_5/"), paste0(here::here(), "/SMBKC/smbkc_19/model_1b/"), 
               paste0(here::here(), "/SMBKC/smbkc_19/model_1a/")) #need to update these model options
@@ -59,7 +59,7 @@ rinline <- function(code){
 alt_mod <- 5 # alt reference time frame
 ref_mod <- 2 # base
 rec_mod <- 2 # base
-mod_scen<- 2:4 #scenarios you want graphed together
+mod_scen<- 2:5 #scenarios you want graphed together
 ```
 
 ```{r exesum, echo = FALSE}
@@ -564,15 +564,34 @@ The currently recommended Tier 4 convention is to use the full assessment period
 `r M[[rec_mod]]$spr_nyr`, to define a $B_\mathit{MSY}$ proxy in terms of average estimated MMB and to set $\gamma$ = 1.0 with
 assumed stock natural mortality $M$ = 0.18 $\text{yr}^{-1}$ in setting the $F_\mathit{MSY}$ proxy value $\gamma M$. The
 parameters $\alpha$ and $\beta$ are assigned their default values $\alpha$ = 0.10 and $\beta$ = 0.25. The
-$F_\mathit{OFL}$, OFL, ABC, and MMB in 2018 for all scenarios are summarized in Table \ref{tab:management_quants}. The ABC
+$F_\mathit{OFL}$, OFL, ABC, and MMB in 2018 for all scenarios are summarized in Table \@ref(tab:management-quants). The ABC
 is 80% of the OFL.
 
+```{r management-quants, results = "asis"}
+df <- NULL
+for (ii in 2:5)
+ {
+  x      <- M[[ii]]
+  mmb    <- x$ssb[length(x$ssb)]; names(mmb) <- paste0("$\\text{MMB}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")
+  fofl   <- x$sd_fofl[1]; names(fofl)          <- "$F_\\text{OFL}$"
+  OFL    <- x$spr_cofl; names(OFL)           <- paste0("$\\text{OFL}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")
+  Bmsy   <- x$spr_bmsy; names(Bmsy)          <- "$B_\\text{MSY}$"
+  B_Bmsy <- x$spr_depl; names(B_Bmsy)          <- "$MMB/B_\\text{MSY}$"
+  ABC    <- OFL * 0.8; names(ABC)            <- paste0("$\\text{ABC}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")
+  v      <- c(mmb, Bmsy, B_Bmsy, fofl, OFL, ABC)
+  df     <- cbind(df, v)
+ }
+df <- data.frame(rownames(df), df, row.names = NULL)
+names(df) <- c("Component",mod_names[2:5])
+tab <- xtable(df, caption = "Comparisons of management measures for the model scenarios. Biomass and OFL are in tons.", label = "tab:management-quants", digits = 3)
+print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
+```
 
 
 
 # G. Rebuilding Analysis {-}
 
-This stock is currently overfished and a rebuilding plan is being constructed. 
+This stock was declared overfished in fall of 2018 and a rebuilding plan is being constructed concurrent to the 2019 stock assessment (Appendix C). Model scenarios presented here all suggest the stock is still overfished, with the exception of the **add CV pot** scenario.  
 
 
 # H. Data Gaps and Research Priorities {-}
@@ -588,7 +607,14 @@ The following topics have been listed as areas where more research on SMBKC is n
   4. Natural mortality.
 
 # I. Projections and outlook {-}
-
+The outlook for recruitment is pessimistic and the abundance relative to the proxy $B_\mathit{MSY}$ is low. 
+The NMFS survey results in 2018 noted ocean conditions warmer than 
+normal with an absence of a "cold pool" in the region. This could have detrimental effects on the SMBKC stocks and
+should be carefully monitored. Relative to the impact of historical fishing, we again conducted a
+ "dynamic-$B_0$" analysis. This procedure simply projects
+the population based on estimated recruitment but removes the effect of fishing. For the reference case,
+this suggests that the impact of fishing has reduced to stock to about (fill in) % of what it would have been in the absence of fishing (Figure \ref{fig:dynB0}). 
+The other non-fishing contributors to the observed depleted stock trend (ignoring stock-recruit relationship) may reflect variable  survival rates due to environmental conditions and also range shifts. 
  
 
 # J. Acknowledgements {-}
@@ -598,6 +624,7 @@ and Andre Punt for his input into refinements to the Gmacs model code, specifica
 
 
 \pagebreak 
+\newpage\clearpage
 # Tables {-}
 
 \begin{table}[ht]
