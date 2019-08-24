@@ -531,6 +531,43 @@ Tables \@ref(tab:est-pars-ref), \@ref(tab:est-pars-3), and \@ref(tab:est-pars-4)
 (compiled in Table \@ref(tab:est-pars-all)). Probabilities for mature male biomass and OFL in 2019 are
 presented in Section F.
 
+### g. Comparison of alternative model scenarios.{-}
+The estimates of mature male biomass (Figure \@ref(fig:mmb)), for the **Fit survey** sensitivity 
+differs from the other models due to a low value for pot survey catchability being estimated (which tends to scale the population estimate). Difference in the mature male biomass since 2010 in the **add CV pot** model are due to the model following the trajectory of the trawl survey and ignoring the declines in the pot survey. 
+The **Fit Survey** scenario upweights both the trawl and pot surveys abundance indices and represents a model run
+that places greater emphasis on the abundance indices.
+The **add CV pot** scenario places more emphasis on the trawl survey, essentially ignoring the pot survey results in more recent years (since 2010). 
+
+In summary, the use of the reference model for management purposes is preferred since it provides the best fit to all 
+of the data and is consistent with previous model specifications.  Research on alternative model specifications (e.g., natural mortality variability) was limited this year since the authors were focused on the time frame to estimate reference points (Appendix C) and rebuilding projections. 
+Consequently, the reference model appears reasonable and appropriate for ACL and OFL  determinations for this stock in
+2018. Additionally, the **Fit surveys** and the **add CV pot** models provide conflicting conditions of this stock depending on which survey results are more believable. These conflicting results, in addition to the stock being in a overfished state, should highlight the caution needed in managing this resource.
+
+# F. Calculation of the OFL and ABC{-}
+The overfishing level (OFL) is the fishery-related mortality biomass associated with fishing mortality $F_\mathit{OFL}$. The SMBKC stock is currently managed as Tier 4, and only a Tier 4 analysis is presented here. Thus given stock estimates or suitable proxy values of $B_\mathit{MSY}$ and $F_\mathit{MSY}$, along with two additional parameters $\alpha$ and $\beta$, $F_\mathit{OFL}$ is determined by the control rule
+\begin{align}
+    F_\mathit{OFL} &= 
+    \begin{cases}
+        F_\mathit{MSY}, &\text{ when } B/B_\mathit{MSY} > 1\\
+        F_\mathit{MSY} \frac{\left( B/B_\mathit{MSY} - \alpha \right)}{(1 - \alpha)}, &\text{ when } \beta < B/B_\mathit{MSY} \le 1
+    \end{cases}\\
+    F_\mathit{OFL} &< F_\mathit{MSY} \text{ with directed fishery } F = 0 \text{ when } B/B_\mathit{MSY} \le \beta \notag
+\end{align}
+where $B$ is quantified as mature-male biomass (MMB) at mating with time of mating assigned a nominal date of 15
+February. Note that as $B$ itself is a function of the fishing mortality $F_\mathit{OFL}$ (therefore numerical
+approximation of $F_\mathit{OFL}$ is required). As implemented for this assessment, all calculations proceed according
+to the model equations given in Appendix A. $F_\mathit{OFL}$ is taken to be full-selection fishing mortality in the
+directed pot fishery and groundfish trawl and fixed-gear fishing mortalities set at their model geometric mean values
+over years for which there are data-based estimates of bycatch-mortality biomass.
+
+The currently recommended Tier 4 convention is to use the full assessment period, currently `r M[[rec_mod]]$spr_syr`-
+`r M[[rec_mod]]$spr_nyr`, to define a $B_\mathit{MSY}$ proxy in terms of average estimated MMB and to set $\gamma$ = 1.0 with
+assumed stock natural mortality $M$ = 0.18 $\text{yr}^{-1}$ in setting the $F_\mathit{MSY}$ proxy value $\gamma M$. The
+parameters $\alpha$ and $\beta$ are assigned their default values $\alpha$ = 0.10 and $\beta$ = 0.25. The
+$F_\mathit{OFL}$, OFL, ABC, and MMB in 2018 for all scenarios are summarized in Table \ref{tab:management_quants}. The ABC
+is 80% of the OFL.
+
+
 
 
 # G. Rebuilding Analysis {-}
