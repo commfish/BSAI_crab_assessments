@@ -14,7 +14,7 @@ require(gmr)
 cur_yr <- 2019 # update annually 
 
 mod_names <- c("model_1", "model_1a")
-.MODELDIR = c("./SMBKC/smbkc_19/model_1/", "./SMBKC/smbkc_19/model_1a/") # add /initial_run/ to get the initial run results
+.MODELDIR = c("./SMBKC/smbkc_19/model_1/initial_run/", "./SMBKC/smbkc_19/model_1a/") # add /initial_run/ to get the initial run results
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
@@ -42,15 +42,15 @@ plot_catch(M)
 ggsave(paste0(.FIGS, "catch.png"), width = ww*1.2, height = hh*1.2)
 dev.off()
 
-plot_cpue(M, ShowEstErr = TRUE)
+plot_cpue(M, ShowEstErr = FALSE)
 ggsave(paste0(.FIGS, "cpue.png"), width = ww*2.5, height = hh)
 dev.off()
 
-plot_cpue(M, ShowEstErr = TRUE, "NMFS Trawl", ylab = "Survey biomass (t)")
+plot_cpue(M, ShowEstErr = FALSE, "NMFS Trawl", ylab = "Survey biomass (t)")
 ggsave(paste0(.FIGS, "cpue_trawl.png"), width = ww, height = hh)
 dev.off()
 
-plot_cpue(M, ShowEstErr = TRUE, "ADFG Pot", ylab = "Survey biomass (t)")
+plot_cpue(M, ShowEstErr = FALSE, "ADFG Pot", ylab = "Survey biomass (t)")
 ggsave(paste0(.FIGS, "cpue_pot.png"), width = ww, height = hh)
 dev.off()
 
@@ -161,11 +161,13 @@ ggsave(paste0(.FIGS, "ssb_wprojected_yr.png"), width = ww, height = hh)
 # need ssb from above
 ssb %>% 
   filter(year <= cur_yr-1) %>% 
+  group_by(Model) %>% 
   summarise(Bmsy = mean(ssb)) %>% 
   mutate(years = "1978-2018", label = "1978-2018 B_MSY" )-> Bmsy
 ssb %>% 
   filter(year <= cur_yr-1) %>% 
   filter(year >= 1996) %>% 
+  group_by(Model) %>% 
   summarise(Bmsy = mean (ssb)) %>% 
   mutate(years = "1996-2018", label = "1996-2018 B_MSY")->Bmsy2
 
@@ -174,7 +176,7 @@ Bmsy %>%
   mutate(Bmsy50 = 0.5*Bmsy) -> Bmsy_options
 
 Bmsy_options %>% 
-  mutate(reduction = (Bmsy-Bmsy[1])/ Bmsy[1])
+  mutate(reduction = (Bmsy[1]-Bmsy[3])/ Bmsy[1])
 
 
 Bmsy = M[[1]]$spr_bmsy
