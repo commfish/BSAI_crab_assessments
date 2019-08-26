@@ -166,16 +166,3 @@ un_cur_yr <- function(model_yr, proj, version, model, label) {
                                   version, '/uncertainty_ssb_', cur_yr, '.csv'))
 }
 
-
-
-## just year 1 (next year or projection year) and F =0
-TheD %>% 
-  filter(V3 == 1) %>% 
-  select(V1, V2, V3, Bmsy = V9, yr2019 = V10) %>% 
-  summarise(lci = quantile(yr2019, 0.05),
-            uci = quantile(yr2019, 0.95), 
-            median_ssb = median(yr2019)) %>% 
-  mutate(Model = "19.0") -> uncertain_current
-write_csv(uncertain_current, paste0(here::here(), 
-                                    '/SMBKC/smbkc_19/projections/', model, '/', 
-                                    version, '/uncertainty_ssb_', model, version, '_', cur_yr, '.csv'))
