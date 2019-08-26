@@ -76,9 +76,15 @@ write_rec_prob <- function(n_prob_yr, model, version) {
 }
 
 # 1 year above Bmsy proxy -- function to output .csv and .png ------------------------
+#model_yr <- "smbkc_19"
+#proj <- "proj_1" # projection set up - involve recruitment years
+#version <- "d" # projection version - see readme
+#label <- "19.0 (ref)" # model label - used for SAFE
+#model <- "model_1" # model name in files
+write_rec_prob1(1, "smbkc_19", "proj_1", "d", "19.0 (ref)", "model_1")
 
-write_rec_prob1 <- function(n_prob_yr, model, version) {
-  TheD <- read.table(paste0(here::here(), "/SMBKC/smbkc_18a/projections/", model, "/", version, "/mcoutPROJ.rep"))[,-c(4,5,6,7,8)]
+write_rec_prob1 <- function(n_prob_yr, model_yr, proj, version, label, model ) {
+  TheD <- read.table(paste0(here::here(), "/SMBKC/", model_yr, '/', model, "/projections/", proj, "/", version, "/mcoutPROJ.rep"))[,-c(4,5,6,7,8)]
   
   Nyear <- length(TheD[1,])-4
   Nline <- length(TheD[,1])
@@ -100,7 +106,8 @@ write_rec_prob1 <- function(n_prob_yr, model, version) {
     summarise(recovery = sum(value, na.rm = TRUE) / n() * 100)  %>% 
     mutate(FishMort = ifelse(V3 == 1, "F = 0", "F = 0.18")) -> output
   #write_csv("test.csv")
-  write_csv(output, paste0(here::here(), '/SMBKC/smbkc_18a/projections/', model, '/', version, '/rec_1yr_prob_out_', model, version, '.csv'))
+  write_csv(output, paste0(here::here(), '/SMBKC/', model_yr, '/', model, '/projections/', proj, '/', version,
+                           '/rec_1yr_prob_out_', proj, version, '.csv'))
   
   year1 <- output[1:2, ]
   year1 %>% 
@@ -121,7 +128,7 @@ write_rec_prob1 <- function(n_prob_yr, model, version) {
     xlab("Year") +
     ylim(0,100) +
     theme(plot.title = element_text(hjust = 0.5)) -> plotA
-  ggsave(paste0(here::here(), '/SMBKC/smbkc_18a/projections/figures/', model, '_', version, '_rec_1yr_prob.png'), plotA, dpi = 800,
+  ggsave(paste0(here::here(), '/SMBKC/', model_yr, '/', model, '/projections/', proj, '/', version, '/_rec_1yr_prob.png'), plotA, dpi = 800,
          width = 7.5, height = 3.75)
   
 }
