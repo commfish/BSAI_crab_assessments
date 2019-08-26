@@ -89,8 +89,43 @@ plot_recruitment(M[1:2])
 ## ssb -----------
 #"Sensitivity of new data in 2019 on estimated mature male biomass (MMB); 1978-2019. \\label{fig:ssb1}"}
 plot_ssb(M[1:2], ylab = "Mature male biomass (tons) on 15 February")
+# SSB lst yr / current yr base model-----------
+ssb <- .get_ssb_df(M[1:2]) # ssb now does NOT include projection year so only up to 2018 crab year - 2019 projection (example)
+head(ssb)
+tail(ssb)
 
-## this is NOT correct **FIX** since it doesn't include projected 2019 biomass
+# ssb current year uncertainty
+# ssb vector only includes model years - here crab year 1978 to 2019 does NOT include projection, need to add
+#   projection year for graphical purposes
+ssb_last <- data.frame("Model" = names(M[1:2]),
+                       "year" = c(cur_yr, cur_yr), 
+                       "ssb" = c(M[[1]]$spr_bmsy * M[[1]]$spr_depl,
+                                 M[[2]]$spr_bmsy * M[[2]]$spr_depl),
+                       "lb" = c(946.79, 924.89), # need to update these from .csv output
+                       "ub" = c(1303.49, 1348.49)) 
+# should be current crab year; update with lb and ub from projection file
+# update with 95% credible interval
+ssb %>% 
+  bind_rows(ssb_last) -> ssb
+
+
+## ssb plot with current year 
+ssb %>% 
+  ggplot(aes(year, ssb, col = Model)) +
+  geom_line() +
+  geom_ribbon(aes(x=year, ymax = ub, ymin = lb, fill = Model), alpha = 0.2) +
+  expand_limits(y=0) +
+  #ylab = "SSB (tonnes)" +
+  scale_y_continuous(expand = c(0,0)) +
+  #geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
+  #           lty = c("solid", "dashed"))+
+  #geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
+  #          hjust = -0.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
+  ggtitle("Base model - model 1 (Model 3 2018)") +
+  ylab("Mature male biomass (t) on 15th February") + xlab("Year") +
+  .THEME
+ggsave(paste0(.FIGS, "lastyr_reference_ssb_wprojected_yr.png"), width = ww, height = hh)
+
 
 # no need for 2018 figures 10 and 11 because no VAST scenario
 
@@ -115,6 +150,44 @@ plot_recruitment(M[mod_scen])
 #"Comparisons of estimated mature male biomass (MMB) time series on 15 February during 1978-2018 for each of the model scenarios.\\label{fig:mmb}"}
 plot_ssb(M[mod_scen], ylab = "Mature male biomass (tons) on 15 February")
 ## **FIX** to include 2019 projected value and associate error
+
+# SSB model scenarios-----------
+ssb <- .get_ssb_df(M[mod_scen]) # ssb now does NOT include projection year so only up to 2018 crab year - 2019 projection (example)
+head(ssb)
+tail(ssb)
+
+# ssb current year uncertainty
+# ssb vector only includes model years - here crab year 1978 to 2019 does NOT include projection, need to add
+#   projection year for graphical purposes
+ssb_last <- data.frame("Model" = names(M[1:2]),
+                       "year" = c(cur_yr, cur_yr), 
+                       "ssb" = c(M[[1]]$spr_bmsy * M[[1]]$spr_depl,
+                                 M[[2]]$spr_bmsy * M[[2]]$spr_depl),
+                       "lb" = c(946.79, 924.89), # need to update these from .csv output
+                       "ub" = c(1303.49, 1348.49)) 
+# should be current crab year; update with lb and ub from projection file
+# update with 95% credible interval
+ssb %>% 
+  bind_rows(ssb_last) -> ssb
+
+
+## ssb plot with current year 
+ssb %>% 
+  ggplot(aes(year, ssb, col = Model)) +
+  geom_line() +
+  geom_ribbon(aes(x=year, ymax = ub, ymin = lb, fill = Model), alpha = 0.2) +
+  expand_limits(y=0) +
+  #ylab = "SSB (tonnes)" +
+  scale_y_continuous(expand = c(0,0)) +
+  #geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
+  #           lty = c("solid", "dashed"))+
+  #geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
+  #          hjust = -0.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
+  ggtitle("Base model - model 1 (Model 3 2018)") +
+  ylab("Mature male biomass (t) on 15th February") + xlab("Year") +
+  .THEME
+ggsave(paste0(.FIGS, "lastyr_reference_ssb_wprojected_yr.png"), width = ww, height = hh)
+
 
 #  ```{r natural_mortality, fig.cap = "Time-varying natural mortality ($M_t$). Estimated pulse period occurs in 1998/99 (i.e. $M_{1998}$). \\label{fig:M_t}"}
 plot_natural_mortality(M, knots = NULL, slab = "Model")
