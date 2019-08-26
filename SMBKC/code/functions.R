@@ -154,8 +154,10 @@ un_cur_yr <- function(model_yr, proj, version, model, label) {
   TheD %>% 
     filter(V3 == 1) %>% 
     select(V1, V2, V3, Bmsy = V9, curyr = V10) %>% 
-    summarise(lci = quantile(curyr, 0.05),
-              uci = quantile(curyr, 0.95), 
+    summarise(lci = quantile(curyr, 0.025),
+              uci = quantile(curyr, 0.975), 
+              l05 = quantile(curyr, 0.05), 
+              u95 = quantile(curyr, 0.95),
               median_ssb = median(curyr)) %>% 
     mutate(Model = label) -> uncertain_current
   #write_csv(uncertain_current, paste0(here::here(), 
