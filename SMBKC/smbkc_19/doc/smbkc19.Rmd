@@ -431,10 +431,10 @@ This assessment model again uses the modeling framework Gmacs and is detailed in
 
 ## Model Selection and Evaluation {-}
 
-Four models are presented with the  reference model being the same configuration as approved last year (Ianelli et al. 2018), 
+Four models are presented with the reference model being the same configuration as approved last year (Ianelli et al. 2018), 
 two sensitivities are considered, one which weights the survey data more heavily and one that adds an additional CV on the
 ADF&G pot survey data. In addition to these sensitivities, we evaluated the impacts of adding new data 
-to the reference model. In summary, the following lists the models presented and the naming convention used:
+to the reference model and . In summary, the following lists the models presented and the naming convention used:
 
 1. **18.0 - 2018 Model**: the 2018 recommended model without any new data
 
@@ -443,13 +443,11 @@ to the reference model. In summary, the following lists the models presented and
 3. **19.0a - 2019 Model - alt reference pts**: model 19.0 with alternative time frames for reference points
 
 4. **19.1 - Fit survey**: an exploratory scenario that's the same as the reference model except the NMFS trawl survey is up-weighted by
-   $\lambda^\text{NMFS}=$  and the ADF&G pot survey is up-weighted by $\lambda^\text{ADFG}=$ . 
+   $\lambda^\text{NMFS}= 1.5$  and the ADF&G pot survey is up-weighted by $\lambda^\text{ADFG}= 2$ . 
 
-5. **19.2 - additional CV on ADF&G pot**: includes an estimated additional CV on the ADF&G pot survey
+5. **19.2 - add CV pot**: includes an estimated additional CV on the ADF&G pot survey
 
-Note that SSC convention would label these (item 2 above) as model 16.0 (the
-model first developed in that year). Since only a few models are presented here, for simplicity
-we labeled model 16.0 as "reference" and for the others, we used the  simple naming convention
+Note that SSC convention would label these (item 2 above) as model 16.0 (the model first developed in that year). Since only a few models are presented here, for simplicity we labeled model 16.0 as "reference" and for the others, we used the simple naming convention
 presented above.
 
 ## Results {-}
