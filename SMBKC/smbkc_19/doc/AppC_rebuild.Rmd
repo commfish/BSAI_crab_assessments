@@ -1,0 +1,63 @@
+---
+output:
+  bookdown::pdf_document2:
+    fig_caption: true
+    includes: null
+    toc: no
+---
+# Appendix C. Rebuilding analysis for St. Matthew blue king crab {-}
+
+# Introduction{-}
+In 2018 the MMB for SMBKC fell below 50% of the $B_{MSY}$ proxy or the MSST, using average mature male biomass from 1978-2017. The stock was determined to be overfished (but overfishing is not occurring since the fishery has been closes the last two years) and a rebuilding plan is to be implemented. This document summarizes the current stock status, based on the 2018 assessment model, and projections done on rebuilding probabilities for the stock using the projections module developed for GMACS (A.Punt pers Comm). 
+
+
+
+# Regime shifts{-}
+
+
+## Recruitment breakpoint analysis {-}
+Summary of results of this analysis. I don't think I need to provide the entire analysis here. Sumamrise and then ask Jie and reviewers.
+
+## STARS{-}
+
+The STARS () method was suggested as a alternative analysis that could be used to determine of the St.Matthew blue king crab stock has undergone a regime shift. The advantage of this method is that it can be performed on any time series and does not rely on a stock recuitment relationship. This analysis was performed on the model recruitment estimates from the accepted 2018 model output. 
+
+# Rebuilding projections{-}
+The rebuilding projections were performed using the projection module coded into GMACS in early 2019 (A. Punt per Comm). 
+A preliminary analysis of the rebuilding projections performed at the January crab plan team meeting by A.Punt concluded that bycatch mortality in this fishery was minor and that the rebuilding timeline was entirely dependent on assumptions of recruitment for the stock (Figure 6). 
+
+Recruitment possibilities for the projection model include: Ricker, or Beverton-Holt stock recruit relationship and "random" recruitment. Stock-recruitment models (Ricker, Beverton-Holt) typically fit poorly for crab stocks, and this holds true for SMBKC (Figure 7). Projections using these stock recruitment relationships are still provided here for review since they scale recruitment to the current status of the stock. The "random"" recruitment option resamples historical recruitment estimates randomly, from a designated period for each projection iteration, such as the entire time series 1978 to 2017 as one example. This option assumes that recruitment is unrelated to stock size, but also relies on choosing the random draws from a biologically and environmentally representative time frame of past recruitment. 
+
+Projections were performed to look at a range of combinations of recruitment, bycatch mortality, and implementation of the state harvest policy to determine the probability of recovery for each scenario. The SSC recommendations included a weighted combination of the projections based on their plausibility which is based on the life history and biology of the species. One such weighted combination is explored here but the biological plausibility of each projection assumption requires further feedback and discussion.
+
+\begin{table}[ht]
+\centering
+\caption{Projections performed with associated recruitment assumptions.} 
+\label{tab:projections}
+\begin{tabular}{lcccc}
+  \hline
+  Projection & recruitment & $B_\mathit{MSY}$ proxy & recruitment years \\ 
+  \hline
+  1 & random recruitment & 1978-2017 & 1978-2017 \\ 
+  5 & random recruitment & 1996-2017 & 1996-2017 \\ 
+  \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[ht]
+\centering
+\caption{Versions for each of the projections.} 
+\label{tab:versions}
+\begin{tabular}{lcccccccc}
+  \hline
+  Version & Bycatch mortality & SOA harvest policy \\ 
+  \hline
+  a &  0 & no \\ 
+  b &  present (2013-2017) & no \\  
+  c &  0 & yes \\ 
+  d &  present (2013-2017) & yes \\
+  aa & present (max) & yes \\
+  \hline
+\end{tabular}
+\end{table}
+
