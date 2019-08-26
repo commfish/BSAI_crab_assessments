@@ -225,7 +225,7 @@ There are no new changes in management of the fishery.
 
 Data used in this assessment have been updated to include the most recently
 available fishery and survey numbers. This assessment makes use of one new
-survey data point - the 2019 NMFS trawl-survey estimate of abudance but no ADF&G pot survey was conducted in 2019.
+survey data point - the 2019 NMFS trawl-survey estimate of abudance. The ADF&G pot survey was not conducted in 2019, since it is back to a three year cycle.
 The NMFS trawl-surveys has associated size
 compositon data. The assessment also uses updated 2010-2018 groundfish and
 fixed gear bycatch estimates based on NMFS Alaska Regional Office (AKRO) data. 
@@ -250,10 +250,8 @@ Details of this implementation and other model details are provided in Appendix 
 
 Both surveys indicate a decline over the past few years. The "reference" model is that which was selected for use in 2018.
 There is only one new data set to be included this year so this becomes the updated reference model. 
-One alternative models is presented for sensitivity, this configuration (named "Fit survey") simply adds emphasis on 
-the design-based survey data (by assuming a lower input variance). 
-Additionally, reference points calculated using a alternative time frame are presented here
-(Table \@ref(tab:ofl-basis)) for consideration as a result of possible regimes present in the data.
+Three alternative models are presented for sensitivity, two are presented to assess sensitivity to the model, while the other is provided for alternative reference point calculations (Table \@ref(tab:ofl-basis)) using a recent time frame. The "Fit survey" configuration simply adds emphasis on the design-based survey data (by assuming a lower input variance). The "add CV pot" configuration estimates an additional CV on the pot survey data, which in turn allows the model to fit the trawl-survey estimates better. 
+
 
 # B. Responses to SSC and CPT  {-}
 
