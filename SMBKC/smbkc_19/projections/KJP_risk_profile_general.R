@@ -6,8 +6,8 @@
 #version <- "b"
 
 # load -------
-source("./projections/helper.R")
-source("./projections/functions.R") # load function for summarising output from projection
+source("./SMBKC/smbkc_19/projections/helper.R")
+source("./SMBKC/smbkc_19/projections/functions.R") # load function for summarising output from projection
 
 # creates .csv and .png files for each
 
@@ -111,6 +111,24 @@ ggplot(aes(year, weighted_all, group = V3)) +
 ggsave('./projections/figures/weighted_2d_4d_combo.png', dpi = 800,
        width = 7.5, height = 3.75)
 
+## uncertainty in just 2019 projection -------
+TheD <- read.table(paste0("./SMBKC/smbkc_19/projections/", model, "/", version, "/mcoutPROJ.rep"))[,-c(4,5,6,7,8)]
+Nyear <- length(TheD[1,])-4 # each year is its own column
+Nline <- length(TheD[,1]) #1000 for each scenario direct F=0, F=0.18
+print(Nyear)
+print(Nline)
+n_prob_yr <- 1
+
+## just year 1 (next year or projection year) and F =0
+TheD %>% 
+  filter(V3 == 1) %>% 
+  select(V1, V2, V3, Bmsy = V9, yr2019 = V10) %>% 
+  summarise(lci = quantile(yr2019, 0.05),
+              uci = quantile(yr2019, 0.95), 
+            median_ssb = median(yr2019)) -> uncertain_current
+write_csv(uncertain_current, paste0(here::here(), 
+            '/SMBKC/smbkc_19/projections/', model, '/', 
+            version, '/uncertainty_ssb_', model, version, '_', cur_yr, '.csv'))
 
 
 # old code from Andre -------
