@@ -69,6 +69,8 @@ Projections were performed to look at a range of combinations of recruitment, by
 ## Bycatch mortality {-}
 Average values for recent (2013 - 2017) bycatch is insensitive to rebuilding time under any of the projections. Projections 1a and 1b, which use mean recruitment for the entire time series, clearly showed the lack of influence bycatch mortality had on recovery probability (Figure 6). Therefore, projections under version "a" were omitted from this presentation. 
 
+Update on increases in bycatch mortality - comparison in figures or tables?
+
 ## State harvest policy {-}
 The implementation of the state harvest policy in the projections (version "d") affected rebuilding times in some projections. 
 In most cases the $T_{min}$ estimates increased. The implementation of the state harvest policy is less pessimistic than the maximum F = .0.18, hence we used version "d" for projection evaluations. 
