@@ -117,7 +117,7 @@ The retained catch in 2015/16 was even lower at 48 t (0.105 million pounds) and 
 3. **Stock biomass**: The 1978-2018 NMFS trawl survey mean biomass is 5,605 t with the 2019 value being the
 15th lowest (3,170 t; the tenth lowest since 2000). 
 This 2019 biomass of $\ge$ 90 mm carapace length (CL) male crab is 
-57% of the long term mean  at 6.99 million pounds (with a CV of 34%), and is a 83% increase from the 2018 mean biomass.
+57% of the long term mean  at 6.99 million pounds (with a CV of 34%), and is a 83% increase from the 2018 biomass.
 The most recent 3-year average of the NMFS survey is 40% of the mean value, indicating a decline in biomass compared to
 historical survey estimates, notably in 2010 and 2011 that were over four times the current average.
 However, the 2019 value is substantially larger than the two previous years (3,170 t compared to 1,731 t in 2018 and 1,794 t in 2017).
@@ -125,22 +125,19 @@ The ADFG pot survey was did not take place in 2019, but in 2018 the relative bio
 in the time series (12% of the mean from the 11 surveys conducted since 1995).
 The assessment model estimates tempers this increase and suggests that the stock (in survey biomass units) is presently at about
 `r bio_lt_percent `% 
-of the long term model-predicted survey biomass average. 
-The trend from these values suggests a substantial increase, which does not fit the observed survey data points well.
+of the long term model-predicted survey biomass average, similar to the last two years. 
+The trend from these values suggests a steady state in the last few years, which does not fit the 2019 observed survey data point well.
 
 4. **Recruitment**: Recruitment is based on estimated number of male crab within the 90-104 mm CL size class
 in each year. The 2019 trawl-survey area-swept estimate of 0.403 million male SMBKC in this size class is the twelfth lowest in 
-the 42 years since 1978 and follows two of the lowest previously observed values in 2017 and 2018. The recent six-year (2014 - 2019) average recruitment 
-is only 47% of this mean. 
+the 42 years since 1978 and follows two of the lowest previously observed values in 2017 and 2018. The recent six-year (2014 - 2019) average recruitment is only 47% of this mean. 
 In the pot-survey, the abundance of this size group in 2017 was also the second-lowest in the time series (22% of the mean for the 
 available pot-survey data) whereas in 2018 the value was the lowest observed at only 10% of the mean value.
 
 5. **Management performance**: In this assessment estimated total male catch is the sum of fishery-reported retained
-catch, estimated male discard mortality in the directed fishery, and estimated male bycatch mortality in the groundfish
-fisheries.
-Based on the reference model for SMBKC, the estimate for mature male biomass is below the minimum stock-size 
-threshold (MSST) in 2017/18 and is hence is in an "overfished" condition, despite fishery closures in the last two years 
-(and hence overfishing has not occurred) (Tables ). 
+catch, estimated male discard mortality in the directed fishery, and estimated male bycatch mortality in the groundfish fisheries.
+Based on the reference model for SMBKC, the estimate for mature male biomass was below the minimum stock-size threshold (MSST) in 2017/18 and is hence is in an "overfished" condition, despite fishery closures in the last three years 
+(and hence overfishing has not occurred) (Tables \@ref(tab:status), \@ref(tab:ofl-basis) and \@ref(tab:management-quants)). 
 Computations which indicate the relative impact of fishing 
 (i.e., the "dynamic $B_0$") suggests that the current spawning stock biomass has been reduced to 60%
 <!--- `r #.get_dynB0_df(Mbase) %>% transmute(round(100*ssb,0)) %>% slice(n())`%  -->
