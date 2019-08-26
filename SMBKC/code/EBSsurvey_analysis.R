@@ -90,7 +90,9 @@ biomass_mt %>%
 # last years percent change 
 biomass_mt %>% 
   filter(SURVEY_YEAR >= cur_yr-1) %>% 
-  mutate(pct.change = (BIOMASS_MT[2]-BIOMASS_MT[1])/BIOMASS_MT[1])
+  mutate(pct.change = (BIOMASS_MT[2]-BIOMASS_MT[1])/BIOMASS_MT[1],
+         pct.change2 = (BIOMASS_LBS[2]-BIOMASS_LBS[1])/BIOMASS_LBS[1],
+         pct.change3 = (ABUNDANCE[2]-ABUNDANCE[1])/ABUNDANCE[1])
 
 # Trawl survey "recruitment" estimates  - line 91----------
 head(smbkc_area_swept) # line 37
