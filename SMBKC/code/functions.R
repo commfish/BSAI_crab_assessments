@@ -81,7 +81,7 @@ write_rec_prob <- function(n_prob_yr, model, version) {
 #version <- "d" # projection version - see readme
 #label <- "19.0 (ref)" # model label - used for SAFE
 #model <- "model_1" # model name in files
-write_rec_prob1(1, "smbkc_19", "proj_1", "d", "19.0 (ref)", "model_1")
+#write_rec_prob1(1, "smbkc_19", "proj_1", "d", "19.0 (ref)", "model_1")
 
 write_rec_prob1 <- function(n_prob_yr, model_yr, proj, version, label, model ) {
   TheD <- read.table(paste0(here::here(), "/SMBKC/", model_yr, '/', model, "/projections/", proj, "/", version, "/mcoutPROJ.rep"))[,-c(4,5,6,7,8)]
@@ -137,7 +137,7 @@ write_rec_prob1 <- function(n_prob_yr, model_yr, proj, version, label, model ) {
 
 
 ## uncertainty in just 2019 projection -------
-un_cur_yr("smbkc_19", "proj_1", "d", "model_1", "19.0 (ref)")
+# un_cur_yr("smbkc_19", "proj_1", "d", "model_1", "19.0 (ref)")
 #model_yr <- "smbkc_19"
 #proj <- "proj_1" # projection set up - involve recruitment years
 #version <- "d" # projection version - see readme
