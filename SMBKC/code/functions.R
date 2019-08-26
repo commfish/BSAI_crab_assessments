@@ -123,7 +123,7 @@ write_rec_prob1 <- function(n_prob_yr, model_yr, proj, version, label, model ) {
     scale_shape_manual(name = "", values = c(16, 22)) +
     geom_hline(yintercept = 50, color = "red", lty = "dashed", lwd = 1.5) +
     geom_vline(xintercept = 10, color = "blue", lty = 2, lwd = 1.5) +
-    ggtitle(paste0(model, version)) +
+    ggtitle(paste0(model, '_', proj, '_', version)) +
     ylab("Probability of recovery") +
     xlab("Year") +
     ylim(0,100) +
