@@ -274,6 +274,11 @@ Comment: *Regarding general code development, the SSC and CPT outstanding reques
       We continued to include an alternative time series estimated from the NMFS trawl survey using the VAST spatiotemporal Delta GLMM model 
       and continued with the iterative re-weighting for composition data.
 
+Comment: *Regarding rebuilding projection specifications and options, the SSC and CPT requests are:*
+
+
+
+
 # C. Introduction {-}
 
 ## Scientific Name {-}
