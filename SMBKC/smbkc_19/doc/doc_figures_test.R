@@ -116,10 +116,11 @@ ssb %>%
 ssb %>% 
   ggplot(aes(year, ssb, col = Model)) +
   geom_line() +
-  geom_ribbon(aes(x=year, ymax = ub, ymin = lb, fill = Model), alpha = 0.2) +
+  geom_ribbon(aes(x=year, ymax = ub, ymin = lb, fill = Model, col = NULL), alpha = 0.2) +
   expand_limits(y=0) +
+  ylim(0, max(ssb$ub)+ 100)+
   #ylab = "SSB (tonnes)" +
-  scale_y_continuous(expand = c(0,0)) +
+  #scale_y_continuous(expand = c(0,0)) +
   #geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
   #           lty = c("solid", "dashed"))+
   #geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
@@ -190,6 +191,7 @@ ssb %>%
   geom_ribbon(aes(x=year, ymax = ub, ymin = lb, fill = Model, col = NULL), alpha = 0.1) +
   #ylab = "SSB (tonnes)" +
   scale_y_continuous(expand = c(0,0)) +
+  ylim(0, max(ssb$ub)+ 100)+
   #geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
   #           lty = c("solid", "dashed"))+
   #geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
