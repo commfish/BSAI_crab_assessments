@@ -1,16 +1,16 @@
 # Appendix B. Data files for the reference model (16.0) 
-## The reference model (16.0) data file
+## The reference model (16.0) data file for 2019
 
 \fontsize{7}{9}
 ```{r eval = TRUE, include=TRUE,echo=FALSE, comment=NA }
 opts_chunk$set(fig.width = 12, fig.height = 8, echo = FALSE, warning = FALSE, message = FALSE)
-ts <- readLines("../data/sm18.dat")
+ts <- readLines("../data/sm19.dat")
 for (i in 1:length(ts)) cat(ts[i], "\n")
 ```
-## The reference model (16.0) control file
+## The reference model (16.0) control file for 2019
 ```{r eval = TRUE, include=TRUE,echo=FALSE, comment=NA}
 opts_chunk$set(fig.width = 12, fig.height = 8, echo = FALSE, warning = FALSE, message = FALSE)
-ts <- readLines("../model_3/sm18.ctl")
+ts <- readLines("../model_1/sm19.ctl")
 for (i in 1:length(ts)) cat(ts[i], "\n")
 ```
 <!-- 
