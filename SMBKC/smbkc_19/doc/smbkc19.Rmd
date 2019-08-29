@@ -1246,7 +1246,7 @@ The basic population dynamics underlying Gmacs can thus be described as
     \boldsymbol{n}_{t,y+1} &= \boldsymbol{G} \boldsymbol{S}_{t,y} \boldsymbol{n}_{t,y} + \boldsymbol{r}_{t,y} &\text{ if } t=5.
 \end{align}
 
-## 3. Model Data
+## 3. Model Data {-}
 
 Data inputs used in model estimation are listed in Table \@ref(tab:model-data).
 \begin{table}[ht]
@@ -1283,3 +1283,126 @@ Data inputs used in model estimation are listed in Table \@ref(tab:model-data).
   \hline
 \end{tabular}
 \end{table}
+
+
+## 4. Model Parameters {-}
+
+Table \@ref(tab:fixed-pars) lists fixed (externally determined) parameters used in model computations. In all scenarios, the stage-transition matrix is
+\begin{equation}
+  \label{eq:size-transition}
+  \boldsymbol{G} =
+  \left[ \begin{array}{ccc}
+    0.2 & 0.7 & 0.1 \\
+    0 & 0.4 & 0.6 \\
+    0 & 0 & 1 \end{array} \right]
+\end{equation}
+which is the combination of the growth matrix and molting probabilities.
+\begin{table}[ht]
+\centering
+\caption{Fixed model parameters for all scenarios.} 
+\label{tab:fixed-pars}
+\begin{tabular}{lccl}
+  \hline
+  Parameter & Symbol & Value & Source/rationale \\
+  \hline
+  Trawl-survey catchability & $q$ & 1.0 & Default \\
+  Natural mortality & $M$ & 0.18 $\text{yr}^{-1}$ & NPFMC (2007) \\
+  Size transition matrix & $\boldsymbol{G}$ & Equation \@ref(eq:size-transition) & Otto and Cummiskey (1990) \\
+  Stage-1 and stage-2 & $w_{1}$, $w_{2}$ & 0.7, 1.2 kg & Length-weight equation \\
+  mean weights & & &  (B. Foy, NMFS)  \\
+   & & & applied to stage midpoints \\
+  Stage-3 mean weight & $w_{3,y}$ & Depends on year & Fishery reported average retained weight \\
+   & & Table  & from fish tickets, or its average, and \\
+  & & & mean weights of legal males \\
+  Recruitment SD & $\sigma_R$ & 1.2 & High value \\
+  Natural mortality SD & $\sigma_M$ & 10.0 & High value (basically free parameter) \\
+  Directed fishery & & 0.2 & 2010 Crab SAFE \\
+  handling mortality & & & \\
+  Groundfish trawl & & 0.8 & 2010 Crab SAFE \\
+  handling mortality & & & \\
+  Groundfish fixed-gear & & 0.5 & 2010 Crab SAFE \\
+  handling mortality & & & \\
+  \hline
+\end{tabular}
+\end{table}
+
+Estimated parameters are listed in Table \@ref(tab:bounds-pars) and include an estimated natural mortality deviation parameter in 1998/99 ($\delta^M_{1998}$) assuming an anomalous mortality event in that year, as hypothesized by Zheng and Kruse (2002), with natural mortality otherwise fixed at 0.18 $\text{yr}^{-1}$.
+\begin{table}[ht]
+\centering
+\caption{The lower bound (LB), upper bound (UB), initial value, prior, and estimation phase for each estimated model parameter.} 
+\label{tab:bounds-pars}
+\begin{tabular}{lrrrlr}
+  \hline
+  Parameter & LB & Initial value & UB & Prior & Phase \\ 
+  \hline
+  Average recruitment $\log (\bar{R})$ & -7 & 10.0 & 20 & Uniform(-7,20) & 1 \\ 
+  Stage-1 initial numbers $\log (n^0_1)$ & 5 & 14.5 & 20 & Uniform(5,20) & 1 \\ 
+  Stage-2 initial numbers $\log (n^0_2)$ & 5 & 14.0 & 20 & Uniform(5,20) & 1 \\ 
+  Stage-3 initial numbers $\log (n^0_3)$ & 5 & 13.5 & 20 & Uniform(5,20) & 1 \\ 
+  ADF\&G pot survey catchability $q$ & 0 & 3.0 & 5 & Uniform(0,5) & 1 \\ 
+  Stage-1 directed fishery selectivity 1978-2008 & 0 & 0.4 & 1 & Uniform(0,1) & 3 \\ 
+  Stage-2 directed fishery selectivity 1978-2008 & 0 & 0.7 & 1 & Uniform(0,1) & 3 \\ 
+  Stage-1 directed fishery selectivity 2009-2017 & 0 & 0.4 & 1 & Uniform(0,1) & 3 \\ 
+  Stage-2 directed fishery selectivity 2009-2017 & 0 & 0.7 & 1 & Uniform(0,1) & 3 \\ 
+  Stage-1 NMFS trawl survey selectivity & 0 & 0.4 & 1 & Uniform(0,1) & 4 \\ 
+  Stage-2 NMFS trawl survey selectivity & 0 & 0.7 & 1 & Uniform(0,1) & 4 \\ 
+  Stage-1 ADF\&G pot survey selectivity & 0 & 0.4 & 1 & Uniform(0,1) & 4 \\ 
+  Stage-2 ADF\&G pot survey selectivity & 0 & 0.7 & 1 & Uniform(0,1) & 4 \\ 
+  Natural mortality deviation during 1998 $\delta^M_{1998}$ & -3 & 0.0 & 3 & Normal(0, $\sigma^2_M$) & 4 \\ 
+  Recruitment deviations $\delta^R_y$ & -7 & 0.0 & 7 & Normal(0, $\sigma_R^2$) & 3 \\ 
+  Average directed fishery fishing mortality $\bar{F}^\text{df}$                 & -  & 0.2 & - & - & 1 \\
+  Average trawl bycatch fishing mortality $\bar{F}^\text{tb}$                 & -  & 0.001 & - & - & 1 \\
+  Average fixed gear bycatch fishing mortality $\bar{F}^\text{fb}$                 & -  & 0.001 & - & - & 1 \\
+  \hline
+\end{tabular}
+\end{table}
+
+## 5. Model Objective Function and Weighting Scheme
+
+The objective function consists of the sum of several "negative log-likelihood" terms characterizing the hypothesized error structure of the principal data inputs (Table \@ref(tab:likelihood-components)). A lognormal distribution is assumed to characterize the catch data and is modelled as
+\begin{align}
+  \sigma_{t,y}^\text{catch} &= \sqrt{\log \left( 1 + \left( \mathit{CV}_{t,y}^\text{catch} \right)^2 \right)}\\
+  \delta_{t,y}^\text{catch} &= \mathcal{N} \left( 0, \left( \sigma_{t,y}^\text{catch} \right)^2 \right)
+\end{align}
+where $\delta_{t,y}^\text{catch}$ is the residual catch. The relative abudance data is also assumed to be lognormally distributed
+\begin{align}
+  \sigma_{t,y}^\text{I} &= \frac{1}{\lambda} \sqrt{\log \left( 1 + \left( \mathit{CV}_{t,y}^\text{I} \right)^2 \right)}\\
+  \delta_{t,y}^\text{I} &= \log \left( I^\text{obs} / I^\text{pred} \right) / \sigma_{t,y}^\text{I} + 0.5 \sigma_{t,y}^\text{I}
+\end{align}
+and the likelihood is
+\begin{equation}
+  \sum \log \left( \delta_{t,y}^\text{I} \right) + \sum 0.5 \left( \sigma_{t,y}^\text{I} \right)^2
+\end{equation}
+
+
+Gmacs calculates standard deviation of the normalised residual (SDNR) values
+and median of the absolute residual (MAR) values for all abundance indices and
+size compositions to help the user come up with resonable likelihood weights.
+For an abundance data set to be well fitted, the SDNR should not be much
+greater than 1 (a value much less than 1, which means that the data set is
+fitted better than was expected, is not a cause for concern). What is meant by
+"much greater than 1" depends on $m$ (the number of years in the data set).
+Francis (2011) suggests upper limits of 1.54, 1.37, and 1.26 for $m$ = 5, 10,
+and 20, respectively. Although an SDNR not much greater than 1 is a necessary
+condition for a good fit, it is not sufficient. It is important to plot the
+observed and expected abundances to ensure that the fit is good.
+
+Gmacs also calculates Francis weights for each of the size composition data
+sets supplied (Francis 2011). If the user wishes to use the Francis iterative
+re-weighting method, first the weights applied to the abundance indices should
+be adjusted by trial and error until the SDNR (and/or MAR) are adequte. Then
+the Francis weights supplied by Gmacs should be used as the new likelihood
+weights for each of the size composition data sets the next time the model is
+run. The user can then iteratively adjust the abudance index and size
+composition weights until adequate SDNR (and/or MAR) values are achieved,
+given the Francis weights.
+
+## 6. Estimation {-}
+
+The model was implemented using the software AD Model Builder (Fournier et al.
+2012), with parameter estimation by minimization of the model objective
+function using automatic differentiation. Parameter estimates and standard
+deviations provided in this document are AD Model Builder reported values
+assuming maximum likelihood theory asymptotics.
+
+
