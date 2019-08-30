@@ -6,8 +6,30 @@
 #version <- "b"
 
 # load -------
-source("./SMBKC/smbkc_19/projections/helper.R")
-source("./SMBKC/smbkc_19/projections/functions.R") # load function for summarising output from projection
+source("./SMBKC/code/helper.R")
+source("./SMBKC/code/functions.R") # load function for summarising output from projection
+
+# for all of these below
+#model_yr <- "smbkc_19"  # folder year for smbkc
+#proj <- "proj_1" # projection set up - involve recruitment years # projection type - see readme
+#version <- "d" # projection version - see readme
+#label <- "19.0 (ref)" # model label - used for SAFE
+#model <- "model_1" # model name in files, folder direction
+
+# current year ssb variability from mcmc ------------
+un_cur_yr("smbkc_18a", "proj_1", "d", "model_1", "18.0")
+un_cur_yr("smbkc_19", "proj_1", "d", "model_1", "19.0 (ref)")
+un_cur_yr("smbkc_19", "proj_5", "d", "model_1", "19.0a (alt regime)") 
+un_cur_yr("smbkc_19", "proj_1", "d", "model_5", "19.1 (fit survey)") # need to run projection
+un_cur_yr("smbkc_19", "proj_1", "d", "model_1b", "19.2 (add CV pot)") # need to run projection
+
+
+### rebuilding probability for 1 year above Bmsy -------------
+write_rec_prob1(1, "smbkc_19", "proj_1", "d", "19.0 (ref)", "model_1")
+write_rec_prob1(1, "smbkc_19", "proj_1", "aa", "19.0 (ref)", "model_1")
+write_rec_prob1(1, "smbkc_19", "proj_5", "d", "19.0 (ref)", "model_1")
+write_rec_prob1(1, "smbkc_19", "proj_5", "aa", "19.0 (ref)", "model_1")
+
 
 # creates .csv and .png files for each
 
@@ -110,25 +132,6 @@ ggplot(aes(year, weighted_all, group = V3)) +
   theme(plot.title = element_text(hjust = 0.5)) 
 ggsave('./projections/figures/weighted_2d_4d_combo.png', dpi = 800,
        width = 7.5, height = 3.75)
-
-## uncertainty in just 2019 projection -------
-TheD <- read.table(paste0("./SMBKC/smbkc_19/projections/", model, "/", version, "/mcoutPROJ.rep"))[,-c(4,5,6,7,8)]
-Nyear <- length(TheD[1,])-4 # each year is its own column
-Nline <- length(TheD[,1]) #1000 for each scenario direct F=0, F=0.18
-print(Nyear)
-print(Nline)
-n_prob_yr <- 1
-
-## just year 1 (next year or projection year) and F =0
-TheD %>% 
-  filter(V3 == 1) %>% 
-  select(V1, V2, V3, Bmsy = V9, yr2019 = V10) %>% 
-  summarise(lci = quantile(yr2019, 0.05),
-              uci = quantile(yr2019, 0.95), 
-            median_ssb = median(yr2019)) -> uncertain_current
-write_csv(uncertain_current, paste0(here::here(), 
-            '/SMBKC/smbkc_19/projections/', model, '/', 
-            version, '/uncertainty_ssb_', model, version, '_', cur_yr, '.csv'))
 
 
 # old code from Andre -------
