@@ -1312,7 +1312,7 @@ which is the combination of the growth matrix and molting probabilities.
   mean weights & & &  (B. Foy, NMFS)  \\
    & & & applied to stage midpoints \\
   Stage-3 mean weight & $w_{3,y}$ & Depends on year & Fishery reported average retained weight \\
-   & & Table  & from fish tickets, or its average, and \\
+   & &   & from fish tickets, or its average, and \\
   & & & mean weights of legal males \\
   Recruitment SD & $\sigma_R$ & 1.2 & High value \\
   Natural mortality SD & $\sigma_M$ & 10.0 & High value (basically free parameter) \\
