@@ -13,16 +13,15 @@ library(ggmap)
 
 # m.df <- data.frame(read.csv("pos.csv",header=T,as.is=T)) %>% filter(SIZE_GROUP=="MALE_GE90")
 #w/ zeros
-setwd("map")
+#setwd("map")
 hnames <- read.csv(paste0(here::here(), "/SMBKC/smbkc_19/doc/map/hdr.csv"),header=T)
 #m.df <- data.frame(read.csv("mge90_2017.csv",header=F,as.is=T)) 
-smbkc_haul_cpue <-data.frame(read.csv(paste0(here::here(), "/SMBKC/smbkc_19/doc/map/ebscrab-cpue-69323-stmatt-6.csv"),header=T))
+smbkc_haul_cpue <-data.frame(read.csv(paste0(here::here(), "/SMBKC/smbkc_19/doc/map/ebscrab-cpue-69323-stmatt-6.csv"),
+                                      header=T, as.is = TRUE))
 smbkc_haul_cpue %>% 
-  filter(SURVEY_YEAR >= 2011, SIZE_GROUP == "MALE_GE90") ->   
-  
-  
+  filter(SURVEY_YEAR >= 2011, SIZE_GROUP == "MALE_GE90") -> m.df  
 
-m.df <- data.frame(read.csv(paste0(here::here(), "/SMBKC/smbkc_19/doc/map/male_ge90.csv"),header=F,as.is=T)) 
+#m.df <- data.frame(read.csv(paste0(here::here(), "/SMBKC/smbkc_19/doc/map/male_ge90.csv"),header=F,as.is=T)) 
 names(m.df) <- names(hnames)
 str(m.df)
 dim(m.df)
@@ -39,7 +38,8 @@ max(p.df$yr)
 # The marmap package is a good resource to get 1 minute data
 # Use the getNOAA.bathy function with the coordinates & resolution.
 # Bathymetry units are in meters (I'm assuming)
-dat <- marmap::getNOAA.bathy(lon1 = -178, lon2 = -152, lat1 = 54.0, lat2 = 59.0, resolution = 1, keep = TRUE)
+dat <- marmap::getNOAA.bathy(lon1 = -178, lon2 = -152, lat1 = 54.0, lat2 = 59.0, 
+                             resolution = 1, keep = TRUE)
 
 # Have a quick look
 plot(dat,image=FALSE, bpal=NULL, land=FALSE,
@@ -67,17 +67,23 @@ spot
 s <- ContourLines2SLDF(cls)
 
 
-mytheme <- theme(panel.grid.major.x = element_blank(), panel.grid.minor.x = element_blank(), panel.grid.major.y = element_line(colour="grey80", linetype="dashed"))
-mytheme <- mytheme + theme(text=element_text(size=18)) + theme(axis.title.x=element_text(size=22) ,axis.title.y=element_text(size=22))
-mytheme <- mytheme + theme(panel.background = element_rect(fill="white"), panel.border = element_rect(colour="black",fill=NA,size=1.0))
+mytheme <- theme(panel.grid.major.x = element_blank(), panel.grid.minor.x = element_blank(), 
+                 panel.grid.major.y = element_line(colour="grey80", linetype="dashed"))
+mytheme <- mytheme + theme(text=element_text(size=18)) + theme(axis.title.x=element_text(size=22) ,
+                                                               axis.title.y=element_text(size=22))
+mytheme <- mytheme + theme(panel.background = element_rect(fill="white"), 
+                           panel.border = element_rect(colour="black",fill=NA,size=1.0))
 nByYear<- group_by(p.df,yr) %>% summarise(sum(CrabN))
 (nByYear)
 
 loc   <- c(-178.5, 57.5,-169.5,62)
 akmap <- get_map(location=loc, source="google", maptype="satellite")
-m.df <- filter(p.df,yr>=2010)
-ggmap(akmap) +  mytheme + geom_text(aes(x= long, y=lat, label=as.character(CrabN)),size=3,col="yellow",data=m.df ) + facet_wrap( ~yr ) + ylab("Latitude") + xlab("Longitude")
-ggsave("../../figure/CrabN_Station.png",dpi=300, width=8, height=8,units="in")
+m.df <- filter(p.df,yr >= 2011)
+ggmap(akmap) +  mytheme + geom_text(aes(x= long, y=lat, label=as.character(CrabN)),
+                                    size=3,col="yellow",data=m.df ) + facet_wrap( ~yr ) + 
+                            ylab("Latitude") + xlab("Longitude")
+ggsave(here::here("SMBKC/smbkc_19/doc/safe_figure/CrabN_Station.png"),dpi=300, 
+       width=8, height=8,units="in")
   
   
   #addPolygons(color = heat.colors(NLEV, NULL)[LEVS])
