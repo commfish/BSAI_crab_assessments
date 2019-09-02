@@ -89,7 +89,7 @@ the current state of the stock (reference point time frame) and the coorespondin
   Version & Bycatch mortality & SOA harvest policy \\ 
   \hline
   d &  present (2013-2017) & yes \\
-  aa & present (max) & yes \\
+  aa & max value (2007) & yes \\
   \hline
 \end{tabular}
 \end{table}
@@ -100,13 +100,6 @@ the current state of the stock (reference point time frame) and the coorespondin
 Rebuilding time under any of the projection combinations is insensitive to the average values for recent (2014 - 2018) bycatch. As a sensitivity analysis the projections presented here were also performed using the maximum observed bycatch value, corresponding to year 2007 in the model.
 
 Update on increases in bycatch mortality - comparison in figures or tables?
-
-## State harvest policy {-}
-The implementation of the state harvest policy in the projections (version "d") affected rebuilding times in some projections. 
-In most cases the $T_{min}$ estimates increased. The implementation of the state harvest policy is less pessimistic than the maximum F = .0.18, hence we used version "d" for projection evaluations. 
-
-## Stock recruit relationship {-}
-Projections (projections 2 and 3) that used a stock recruit relationship assumed that the future recruitment was related to the current and future mature male biomass even though the fit to the stock recruit relationship was weak (Figure 7). These projections produced an intermediate estimate of $T_{min}$ compared to projections 1 and 4, under a Ricker S-R relationship the $T_{min}$= 16.5 years (F = 0) and under a Beverton-Holt S-R relationship the $T_{min}$= 14.5 years (F = 0) (Figure 8). When the state harvest policy is implemented these increase to 28.5 years and 23.5 years, respectively. 
 
 ## Mean recruitment {-}
 Projections using "random" recruitment (projection 1) resampled from the entire time series (1978-2017) implied environmental conditions as being equal to this period. Under this hypothesis the probability of recovery produces a $T_{min}$ = 7.5 years under no directed fishery mortality (F = 0), and a $T_{min}$ = 11.5 years when the state harvest policy is implemented (Figure 9). The recruitment breakpoint analysis performed on this stock (Appendix A) suggested that recruitment conditions equal to the full period are unlikely and overly optimistic. 
@@ -119,14 +112,14 @@ The recruitment breakpoint analysis suggested that a shift occurred in 1996. Bot
 
 
 # Discussion {-}
-The projections considered here produced a range of $T_{min}$ values (Table \ref{tab:t_min}), however, the question remains which option is the most biologically and environmentally plausible. The recruitment breakpoint analysis (Appendix A) suggested that recent recruitment (1996-2017) differed from the early part of the time series. Recruitment success for SMBKC, as with many crab species, is driven by environmental conditions. In the Bering Sea recent environmental conditions appear to be unfavorable for recruitment success for this stock, which may be due to the longer larval duration of blue king crab (reference). 
-
-The most biologically and environmental plausible projection would be projection 4, which suggests that it would be unlikely for the stock to rebuild to the current $B_{MSY}$ proxy under current recruitment conditions. However, adjusting the $B_{MSY}$ time frame (projection 5) would allow the stock to rebuild to a a more representative $B_{MSY}$ that is based on current recruitment conditions. 
-
-Combinations of the projections, weighted based on their plausibility, are possible but more justification and thought is needed to determine why these combinations would be a better representation of the current biology and environment of the stock. Also, reasoning for the weighting of projections in a combination would need to be established. 
 
 
-## Tables {-}
+
+# Tables {-}
+
+
+# Figures {-}
+
 
 
 \begin{table}[ht]
