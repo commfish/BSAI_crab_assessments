@@ -1095,14 +1095,19 @@ plot_cpue_res(A, "ADF&G Pot")
 ```
 
 ```{r sc-pot, fig.cap = "Observed and model estimated size-frequencies of SMBKC by year retained in the directed pot fishery for the model scenarios."}
-plot_size_comps(M[mod_scen], 1)
+
+#plot_size_comps(M[mod_scen], 1)
+knitr::include_graphics("safe_figure/lf_1.png")
 ```
 
 ```{r sc-pot-discarded, fig.cap = "Observed and model estimated size-frequencies of discarded male SMBKC by year in the NMFS trawl survey for the model scenarios."}
-plot_size_comps(M[mod_scen], 2)
+
+#plot_size_comps(M[mod_scen], 2)
+knitr::include_graphics("safe_figure/lf_2.png", dpi = 550)
 ```
 
 ```{r sc-trawl-discarded, fig.cap = "Observed and model estimated size-frequencies of discarded SMBKC by year in the ADF&G pot survey for the model scenarios."}
+
 plot_size_comps(M[mod_scen], 3)
 ```
 
@@ -1123,7 +1128,7 @@ plot_catch(M[rec_mod]) # Note this should be rec_mod or all models
 ```
 
 ```{r Dynamic_Bzero, eval = FALSE, fig.cap = "Comparisons of mature male biomass relative to the dynamic $B_0$ value, (15 February, 1978-2018) for  each of the model scenarios."}
-#plot_dynB0(M[mod_scen])
+plot_dynB0(M[mod_scen])
 ```
 
 
