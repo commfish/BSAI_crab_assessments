@@ -1050,7 +1050,8 @@ plot_recruitment(A[1:2])
 ```
 
 ```{r ssb1, fig.cap = "Sensitivity of new data in 2019 on estimated mature male biomass (MMB); 1978-2019."}
-plot_ssb(M[1:2], ylab = "Mature male biomass (tons) on 15 February")
+#plot_ssb(M[1:2], ylab = "Mature male biomass (tons) on 15 February")# needs to be fixed **FIX**  to refect curernt year projection and error associated.
+knitr::include_graphics("safe_figure/lastyr_reference_ssb_wprojected_yr.png", dpi = 150)
 # needs to be fixed **FIX**  to refect curernt year projection and error associated.
 ```
 
@@ -1063,7 +1064,8 @@ plot_recruitment(M[mod_scen])
 ```
 
 ```{r mmb, fig.cap = "Comparisons of estimated mature male biomass (MMB) time series on 15 February during 1978-2019 for each of the model scenarios."}
-plot_ssb(M[mod_scen], ylab = "Mature male biomass (tons) on 15 February")
+#plot_ssb(M[mod_scen], ylab = "Mature male biomass (tons) on 15 February")
+knitr::include_graphics("safe_figure/mod_scen_ssb_wprojected_yr.png", dpi = 100)
 ```
 
 ```{r M-t, fig.cap = "Time-varying natural mortality ($M_t$). Estimated pulse period occurs in 1998/99 (i.e. $M_{1998}$)."}
