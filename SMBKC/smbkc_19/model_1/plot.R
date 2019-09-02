@@ -5,7 +5,7 @@
 
 # load ------------
 #require(devtools)
-#devtools::install_github("seacode/gmacs", subdir = "/gmr", ref = "develop") - only needs to be performed once.
+#devtools::install_github("seacode/gmacs", subdir = "/gmr", ref = "develop") #- only needs to be performed once.
 require(gmr)
 #setwd("./smbkc_19/model_1")
 
@@ -290,5 +290,9 @@ M[[base_model_1]]$spr_cofl
 ## Dynamic B0 ----
 #.get_dynB0_df(M)  # not currently in output, can I add this?
 
+plot_dynB0(M) # currently working! see updates to .tpl file 
+# From Jim I: Also, I think a commented out line needs to be reinstated.  
+#             So comment out lines 1786 and 1787 and UNcomment lines 1800 and 1801, 
+#             then call it directly: plot_dynB0(model_object) .
 ## plot selectivity -----------
 
