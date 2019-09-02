@@ -1783,8 +1783,8 @@ PARAMETER_SECTION
   matrix fut_recruits(1,nsex,1,nproj);                     ///> Projected recruitment
 
   // Extra sd variables
-  vector sd_fbar(syr,nyr-1);
-  vector sd_log_dyn_Bzero(syr+1,nyr);
+  // vector sd_fbar(syr,nyr-1);
+  // vector sd_log_dyn_Bzero(syr+1,nyr);
   sdreport_number sd_rbar;
   sdreport_number sd_ssbF0;
   sdreport_number sd_Bmsy;
@@ -1797,8 +1797,8 @@ PARAMETER_SECTION
   // sdreport_vector ParsOut(1,NVarPar);
   vector ParsOut(1,NVarPar);
 
-  // sdreport_vector sd_fbar(syr,nyr-1);
-  // sdreport_vector sd_log_dyn_Bzero(syr+1,nyr);
+  sdreport_vector sd_fbar(syr,nyr-1);
+  sdreport_vector sd_log_dyn_Bzero(syr+1,nyr);
 
   friend_class population_model;
 
@@ -5842,6 +5842,20 @@ FUNCTION CreateOutput
     OutFile1 << i << " " << h << " " << j << " " << mfexp(log_slx_discard(j,h,i)) << endl;
   OutFile1 << endl; 
 
+  OutFile2 << "slx_capture" << endl;
+  //OutFile2 << "#Year Sex Fleet Selectivity" << endl;
+  for ( int i = syr; i <= nyr; i++ ) for ( int h = 1; h <= nsex; h++ ) for ( int j = 1; j <= nfleet; j++ )
+    OutFile2 << i << " " << h << " " << j << " " << mfexp(log_slx_capture(j,h,i)) << endl;
+  OutFile2 << "slx_retaind" << endl;
+  //OutFile2 << "#Year Sex Fleet Retention" << endl;
+  for ( int i = syr; i <= nyr; i++ ) for ( int h = 1; h <= nsex; h++ ) for ( int j = 1; j <= nfleet; j++ )
+    OutFile2 << i << " " << h << " " << j << " " << mfexp(log_slx_retaind(j,h,i)) << endl;
+  OutFile2 << "slx_discard" << endl;
+  //OutFile2 << "#Year Sex Fleet Discard" << endl;
+  for ( int i = syr; i <= nyr; i++ ) for ( int h = 1; h <= nsex; h++ ) for ( int j = 1; j <= nfleet; j++ )
+    OutFile2 << i << " " << h << " " << j << " " << mfexp(log_slx_discard(j,h,i)) << endl;
+    
+
   REPORT(slx_control_in);
   REPORT(slx_control);
   OutFile1 << endl;
@@ -5894,6 +5908,12 @@ FUNCTION CreateOutput
     for (int j=1;j<=nseason;j++)
      OutFile1 << h << " " << i << " " << j << " " << Z2(h,i,j) << endl;
   OutFile1 << endl;   
+  
+  REPORT(ft)
+  REPORT(F)
+  REPORT(F2)
+  REPORT(Z)
+  REPORT(Z2)
   
   OutFile1 << "#--------------------------------------------------------------------------------------------" << endl; 
   OutFile1 << "Recruitment" << endl; 
@@ -5981,6 +6001,7 @@ FUNCTION CreateOutput
   REPORT(dPreMoltSize);
   REPORT(iMoltIncSex);
   REPORT(dMoltInc);
+
   
   // Molting probability
   REPORT(molt_probability);                                                           ///> vector of molt probabilities
