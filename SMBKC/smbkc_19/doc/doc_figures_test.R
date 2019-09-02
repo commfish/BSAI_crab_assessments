@@ -52,7 +52,7 @@ rinline <- function(code){
 alt_mod <- 5 # alt reference time frame
 ref_mod <- 2 # base
 rec_mod <- 2 # base
-mod_scen<- 2:5 #scenarios you want graphed together
+mod_scen<- 2:4 #scenarios you want graphed together
 
 ww <- 6
 hh <- 5
