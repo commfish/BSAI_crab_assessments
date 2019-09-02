@@ -14,7 +14,7 @@ require(gmr)
 cur_yr <- 2019 # update annually 
 
 mod_names <- c("model_1", "model_1a")
-.MODELDIR = c("./SMBKC/smbkc_19/model_1/initial_run/", "./SMBKC/smbkc_19/model_1a/") # add /initial_run/ to get the initial run results
+.MODELDIR = c("./SMBKC/smbkc_19/model_1/", "./SMBKC/smbkc_19/model_1a/") # add /initial_run/ to get the initial run results
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
@@ -189,19 +189,19 @@ as.character(M[[1]]$spr_nyr)
 
 
 ofl_df <- data.frame(Bmsy, MMB, B_Bmsy, Fofl, years)
-write_csv(ofl_df, paste0('./SMBKC/smbkc_19/model_1a/compare/ofl_table_', mod_names, '.csv'))
+write_csv(ofl_df, paste0('./SMBKC/smbkc_19/model_1a/compare/ofl_table_', mod_names[2], '.csv'))
 
 ssb %>% 
-  ggplot(aes(year, ssb)) +
+  ggplot(aes(year, ssb, group = Model)) +
   geom_line() +
   geom_ribbon(aes(x=year, ymax = ub, ymin = lb), alpha = 0.2) +
   expand_limits(y=0) +
   scale_y_continuous(expand = c(0,0)) +
-  geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
-             lty = c("solid", "dashed"))+
+  geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue","blue", "red", "red"), 
+             lty = c("solid", "solid", "dashed", "dashed"))+
   geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
             hjust = -1.25, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
-  ggtitle("Base model - model 1 (Model 3 2018)") +
+  ggtitle("compare base model with model 1a alt reference pt time frame") +
   ylab("Mature male biomass (t) on 15th February") + xlab("Year") +
   .THEME
 ggsave(paste0(.FIGS, "ssb_Bmsy_wprojected_yr.png"), width = ww, height = hh)
