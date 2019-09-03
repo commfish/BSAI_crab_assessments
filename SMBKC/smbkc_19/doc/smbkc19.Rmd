@@ -962,7 +962,8 @@ Parameter <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
                #"$F_\\text{OFL}$","OFL")
 df1 <- data.frame(Parameter, Estimate, SD)
 df2 <- data.frame(Parameter = c("$F_\\text{OFL}$","OFL"), 
-                  Estimate = c(M[[ref_mod]]$sd_fofl[1], M[[ref_mod]]$spr_cofl))
+                  Estimate = c(M[[ref_mod]]$sd_fofl[1], M[[ref_mod]]$spr_cofl), 
+                  SD = c(0.005473, 9.2544)) # directly from gmacs.std file **FIX**
 df1 %>% 
   bind_rows(df2) -> df
 tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the reference (19.0) model.", label = "tab:est-pars-ref", digits = 3)
@@ -995,7 +996,8 @@ Parameter <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
                #"$F_\\text{OFL}$","OFL")
 df1 <- data.frame(Parameter, Estimate, SD)
 df2 <- data.frame(Parameter = c("$F_\\text{OFL}$","OFL"), 
-                  Estimate = c(M[[3]]$sd_fofl[1], M[[3]]$spr_cofl))
+                  Estimate = c(M[[3]]$sd_fofl[1], M[[3]]$spr_cofl),
+                  SD = c(0.0000, 0.17539)) # directly from gmacs.std file **FIX**)
 df1 %>% 
   bind_rows(df2) -> df
 tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the 'fit surveys' (19.1) model.", label = "tab:est-pars-3", digits = 3)
@@ -1030,7 +1032,8 @@ Parameter <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
                #"$F_\\text{OFL}$","OFL")
 df1 <- data.frame(Parameter, Estimate, SD)
 df2 <- data.frame(Parameter = c("$F_\\text{OFL}$","OFL"), 
-                  Estimate = c(M[[4]]$sd_fofl[1], M[[4]]$spr_cofl))
+                  Estimate = c(M[[4]]$sd_fofl[1], M[[4]]$spr_cofl),
+                  SD = c(0.017538, 99.801)) # directly from gmacs.std file **FIX**)
 df1 %>% 
   bind_rows(df2) -> df
 tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the 'add CV pot' (19.2) model.", label = "tab:est-pars-4", digits = 3)
@@ -1492,6 +1495,10 @@ The model was implemented using the software AD Model Builder (Fournier et al.
 function using automatic differentiation. Parameter estimates and standard
 deviations provided in this document are AD Model Builder reported values
 assuming maximum likelihood theory asymptotics.
+
+
+\clearpage
+\pagebreak
 
 
 ```{r child = 'AppB.Rmd'}
