@@ -11,6 +11,7 @@ output:
     includes: null
     toc: no
 ---
+\pagenumbering{arabic}
 
 ```{r global_options, include=FALSE, echo = FALSE, message = FALSE, warning=FALSE}
 library(knitr)
@@ -96,8 +97,6 @@ round(M[[alt_mod]]$spr_depl, 2) -> alt_ratio_bmsy
 round(M[[alt_mod]]$sd_fofl[1], 3) -> alt_fofl
 
 ```
-
-\pagenumbering{gobble}
 
 # Executive Summary {-}
 1. **Stock**: Blue king crab, *Paralithodes platypus*, Saint Matthew Island (SMBKC), Alaska.
