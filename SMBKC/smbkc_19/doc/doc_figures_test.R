@@ -15,8 +15,10 @@ require(gmr)
 cur_yr <- 2019 # update annually 
 
 mod_names <- c("model 18.0", "model 19.0 (ref)", "model 19.1 (fit survey)", "model 19.2 (add CV pot)", "model 19.0a (alt regime)") 
-.MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_18a/model_1/"), paste0(here::here(), "/SMBKC/smbkc_19/model_1/"),
-              paste0(here::here(), "/SMBKC/smbkc_19/model_5/"), paste0(here::here(), "/SMBKC/smbkc_19/model_1b/"), 
+.MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_18a/model_1/"), 
+              paste0(here::here(), "/SMBKC/smbkc_19/model_1/"),
+              paste0(here::here(), "/SMBKC/smbkc_19/model_5/"), 
+              paste0(here::here(), "/SMBKC/smbkc_19/model_1b/"), 
               paste0(here::here(), "/SMBKC/smbkc_19/model_1a/")) #need to update these model options
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
@@ -89,7 +91,7 @@ plot_recruitment(M[1:2])
 ## ssb -----------
 #"Sensitivity of new data in 2019 on estimated mature male biomass (MMB); 1978-2019. \\label{fig:ssb1}"}
 plot_ssb(M[1:2], ylab = "Mature male biomass (tons) on 15 February")
-# SSB lst yr / current yr base model-----------
+# !!SSB lst yr / current yr base model-----------
 ssb <- .get_ssb_df(M[1:2]) # ssb now does NOT include projection year so only up to 2018 crab year - 2019 projection (example)
 head(ssb)
 tail(ssb)
@@ -97,6 +99,8 @@ tail(ssb)
 # ssb current year uncertainty
 un_ssb <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
 un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_18a/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
+
+(un_ssb$uci - un_ssb$median_ssb)/un_ssb$median_ssb
 
 # ssb vector only includes model years - here crab year 1978 to 2019 does NOT include projection, need to add
 #   projection year for graphical purposes
@@ -128,7 +132,7 @@ ssb %>%
   #ggtitle("Base model - model 1 (Model 3 2018)") +
   ylab("Mature male biomass (tons) on 15 February") + xlab("Year") +
   .THEME
-ggsave(paste0(.FIGS, "lastyr_reference_ssb_wprojected_yr.png"), width = ww, height = hh)
+ggsave(paste0(.FIGS, "lastyr_reference_ssb_wprojected_yr.png"), width = ww*1.25, height = hh)
 
 
 # no need for 2018 figures 10 and 11 because no VAST scenario
@@ -198,7 +202,7 @@ ssb %>%
   #ggtitle("Base model - model 1 (Model 3 2018)") +
   ylab("Mature male biomass (tons) on 15 February") + xlab("Year") +
   .THEME
-ggsave(paste0(.FIGS, "mod_scen_ssb_wprojected_yr.png"), width = ww, height = hh)
+ggsave(paste0(.FIGS, "mod_scen_ssb_wprojected_yr.png"), width = ww*1.25, height = hh)
 
 
 
@@ -228,15 +232,18 @@ plot_cpue_res(A, "NMFS Trawl")
 A <- M[mod_scen];
 plot_cpue_res(A, "ADF&G Pot")
 
+## !!size comps ---------------
 #{r sc_pot, fig.cap = "Observed and model estimated size-frequencies of SMBKC by year retained in the directed pot fishery for the model scenarios. \\label{fig:sc_pot}"}
-plot_size_comps(M[mod_scen], 1)
-
+plot_size_comps(M[mod_scen], 1, legend_loc=c(.87,.1))
+ggsave(paste0(.FIGS, "lf_1.png"), width = 8.5, height = 5, unit = "in")
 
 #{r sc_pot_discarded, fig.cap = "Observed and model estimated size-frequencies of discarded male SMBKC by year in the NMFS trawl survey for the model scenarios. \\label{fig:sc_pot_discarded}"}
-plot_size_comps(M[mod_scen], 2)
+plot_size_comps(M[mod_scen], 2, legend_loc = "bottom")
+ggsave(paste0(.FIGS, "lf_2.png"), width = 12, height = 7.5, unit = "in")
 
 #{r sc_trawl_discarded, fig.cap = "Observed and model estimated size-frequencies of discarded SMBKC by year in the ADF&G pot survey for the model scenarios.\\label{fig:sc_trawl_discarded}"}
-plot_size_comps(M[mod_scen], 3)
+plot_size_comps(M[mod_scen], 3, legend_loc=c(.87,.2))
+ggsave(paste0(.FIGS, "lf_3.png"), width = 8.5, height = 5, unit = "in")
 
 #{r sc_pot_res_selex, fig.cap = "Bubble plots of residuals by stage and year for the directed pot fishery size composition data for SMBKC in the reference model.\\label{fig:sc_res_ref}"}
 plot_size_comps_res(M[ref_mod])
@@ -249,7 +256,7 @@ plot_catch(M[rec_mod]) # Note this should be rec_mod or all models
 
 # dynamic Bzero ----------------------
 #{r Dynamic_Bzero, fig.cap = "Comparisons of mature male biomass relative to the dynamic $B_0$ value, (15 February, 1978-2018) for  each of the model scenarios.\\label{fig:dynB0}"}
-#plot_dynB0(M[mod_scen])
+plot_dynB0(M[mod_scen])
 # **FIX ** not currently being output in .rep file - made Jim aware of this I need to talk to him again about this.
 
 
