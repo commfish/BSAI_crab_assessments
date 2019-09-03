@@ -100,8 +100,6 @@ tail(ssb)
 un_ssb <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
 un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_18a/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
 
-(un_ssb$uci - un_ssb$median_ssb)/un_ssb$median_ssb
-
 # ssb vector only includes model years - here crab year 1978 to 2019 does NOT include projection, need to add
 #   projection year for graphical purposes
 ssb_last <- data.frame("Model" = names(M[1:2]),
@@ -233,6 +231,8 @@ A <- M[mod_scen];
 plot_cpue_res(A, "ADF&G Pot")
 
 ## !!size comps ---------------
+## !!!!!!!!!!!!! load my functions file here
+source("./SMBKC/code/functions.R") 
 #{r sc_pot, fig.cap = "Observed and model estimated size-frequencies of SMBKC by year retained in the directed pot fishery for the model scenarios. \\label{fig:sc_pot}"}
 plot_size_comps(M[mod_scen], 1, legend_loc=c(.87,.1))
 ggsave(paste0(.FIGS, "lf_1.png"), width = 8.5, height = 5, unit = "in")
@@ -254,9 +254,10 @@ plot_size_comps_res(M[3])
 #{r fit_to_catch, fig.cap = "Comparison of observed and model predicted retained catch and bycatches in each of the Gmacs models. Note that difference in units between each of the panels, some panels are expressed in numbers of crab, some as biomass (tons).\\label{fig:fit_to_catch}", fig.height = 12}
 plot_catch(M[rec_mod]) # Note this should be rec_mod or all models
 
-# dynamic Bzero ----------------------
+# !!dynamic Bzero ----------------------
 #{r Dynamic_Bzero, fig.cap = "Comparisons of mature male biomass relative to the dynamic $B_0$ value, (15 February, 1978-2018) for  each of the model scenarios.\\label{fig:dynB0}"}
 plot_dynB0(M[mod_scen])
+ggsave(paste0(.FIGS, "dyn_Bzero.png"), width = 8.5, height = 5, unit = "in")
 # **FIX ** not currently being output in .rep file - made Jim aware of this I need to talk to him again about this.
 
 
@@ -394,14 +395,19 @@ write.csv(df, paste0(here::here(), '/SMBKC/smbkc_19/doc/safe_tables/neg_log_like
 
 ### !!population abundance 2018 model -----------------------
 #```{r pop-abundance-2018, results = "asis"}
+
 A         <- M[[1]]
 i         <- grep("sd_log_ssb", A$fit$names) #does not have proj value in here
 SD        <- A$fit$std[i]
 tl        <- length(A$mod_yrs)
 
+# ssb current year uncertainty
+un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_18a/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
+
+
 years = c(as.integer(A$mod_yrs[1:tl]), A$mod_yrs[tl]+1)
 ssb = c(A$ssb, A$spr_bmsy*A$spr_depl)
-ssb_cv = c((exp(SD[1:tl])-1), 999)
+ssb_cv = c((exp(SD[1:tl])-1), (exp(un_ssb2$CV_ssb)-1))
 
 df        <- data.frame(years, A$N_males[ ,1], A$N_males[ ,2], 
                         A$N_males[ ,3], ssb, ssb_cv)
@@ -416,9 +422,13 @@ i         <- grep("sd_log_ssb", A$fit$names) #does not have proj value in here
 SD        <- A$fit$std[i]
 tl        <- length(A$mod_yrs)
 
+# ssb current year uncertainty
+un_ssb <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
+
+
 years = c(as.integer(A$mod_yrs[1:tl]), A$mod_yrs[tl]+1)
 ssb = c(A$ssb, A$spr_bmsy*A$spr_depl)
-ssb_cv = c((exp(SD[1:tl])-1), 999)
+ssb_cv = c((exp(SD[1:tl])-1), (exp(un_ssb$CV_ssb)-1))
 
 df        <- data.frame(years, A$N_males[ ,1], A$N_males[ ,2], 
                         A$N_males[ ,3], ssb, ssb_cv)
