@@ -154,11 +154,14 @@ un_cur_yr <- function(model_yr, proj, version, model, label) {
   TheD %>% 
     filter(V3 == 1) %>% 
     select(V1, V2, V3, Bmsy = V9, curyr = V10) %>% 
+    mutate(diff_sq = ((curyr - mean(curyr))^2)) %>% 
     summarise(lci = quantile(curyr, 0.025),
               uci = quantile(curyr, 0.975), 
               l05 = quantile(curyr, 0.05), 
               u95 = quantile(curyr, 0.95),
-              median_ssb = median(curyr)) %>% 
+              median_ssb = median(curyr), 
+              se_ssb = sqrt((1/((Nline/2)-1))*sum(diff_sq)), 
+              CV_ssb = se_ssb/median_ssb) %>% 
     mutate(Model = label) -> uncertain_current
   #write_csv(uncertain_current, paste0(here::here(), 
    #                                   '/SMBKC/', model_yr,'/', model,'/projections/', proj, '/', 
