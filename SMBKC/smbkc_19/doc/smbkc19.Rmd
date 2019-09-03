@@ -80,12 +80,20 @@ round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_1920
 round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_1920
 round(M[[rec_mod]]$spr_cofl/1000*0.8, 2) -> abc_1920
 
+round(M[[alt_mod]]$spr_bmsy*M[[alt_mod]]$spr_depl/1000, 2) -> alt_mmb_1920
+round(M[[alt_mod]]$spr_cofl/1000, 2) -> alt_ofl_1920
+round(M[[alt_mod]]$spr_cofl/1000*0.8, 2) -> alt_abc_1920
+
 # table 2 ----------
 round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_1819_lb
 round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]* 2204.62/1e6, 2) -> mmb_1819_lb
 round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_1920_lb
 round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 2) -> ofl_1920_lb
 round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.8, 2) -> abc_1920_lb
+
+round(M[[alt_mod]]$spr_bmsy*M[[alt_mod]]$spr_depl* 2204.62/1e6, 2)-> alt_mmb_1920_lb
+round(M[[alt_mod]]$spr_cofl* 2204.62/1e6, 2) -> alt_ofl_1920_lb
+round(M[[alt_mod]]$spr_cofl* 2204.62/1e6*0.8, 2) -> alt_abc_1920_lb
 
 # ofl and abc basis -------- table 3
 # ofl and abc basis -------- table 3
@@ -159,7 +167,8 @@ Computations which indicate the relative impact of fishing
   2016/17 & 1.97 & 2.23 & 0.00 & 0.00 & 0.001 & 0.14 & 0.11 \\
   2017/18 & 1.85 & 1.29 & 0.00 & 0.00 & 0.003 & 0.12 & 0.10 \\
   2018/19 & `r msst_1819 ` & `r mmb_1819` & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
-  2019/20 &                & `r mmb_1920` &  &  &  & `r ofl_1920` & `r abc_1920` \\
+  2019/20 &              & `r mmb_1920` &  &  &  & `r ofl_1920` & `r abc_1920` \\
+  2019/20alt &      & `r alt_mmb_1920` &  &  &  & `r alt_ofl_1920` & `r alt_abc_1920` \\
  \\
   \hline
 \end{tabular}
@@ -181,6 +190,7 @@ Computations which indicate the relative impact of fishing
   2017/18 & 4.1$^E$ & 2.85$^E$ & 0.000 & 0.000 & 0.007  & 0.27 & 0.22 \\ 
   2018/19 & `r msst_1819_lb ` & `r mmb_1819_lb` & 0.00 & 0.00 & 0.002 & 0.08 & 0.07 \\
   2019/20 &                & `r mmb_1920_lb` &  &  &  & `r ofl_1920_lb` & `r abc_1920_lb` \\
+  2019/20alt &       & `r alt_mmb_1920_lb` &  &  &  & `r alt_ofl_1920_lb` & `r alt_abc_1920_lb` \\
  \\
   \hline
 \end{tabular}
@@ -1132,12 +1142,13 @@ plot_catch(M[rec_mod]) # Note this should be rec_mod or all models
 ```
 
 
-```{r Dynamic_Bzero, eval = FALSE, fig.cap = "Comparisons of mature male biomass relative to the dynamic B_0 value, (15 February, 1978-2018) for  each of the model scenarios."}
-plot_dynB0(M[mod_scen])
+```{r dynamic-bzero, fig.cap = "Comparison of mature male biomass relative to the dynamic B zero value, (15 February, 1978-2018) for each of the model scenarios.", fig.height =12}
+knitr::include_graphics("safe_figure/dyn_Bzero.png", dpi = 375)
 ```
 
-
-
+                
+                
+\pagebreak 
 \newpage\clearpage
 
 # Appendix A: SMBKC Model Description {-}
