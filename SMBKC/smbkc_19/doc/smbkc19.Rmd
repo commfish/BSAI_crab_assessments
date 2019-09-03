@@ -124,7 +124,7 @@ The directed fishery resumed again in 2014/15 with a TAC of 300 t (0.655 million
 relatively poor with a retained catch of 140 t (0.309 million pounds). 
 The retained catch in 2015/16 was even lower at 48 t (0.105 million pounds) and the fishery has remained closed since 2016/17.
 
-3. **Stock biomass**: The 1978-2018 NMFS trawl survey mean biomass is 5,605 t with the 2019 value being the
+3. **Stock biomass**: The 1978-2019 NMFS trawl survey mean biomass is 5,605 t with the 2019 value being the
 15th lowest (3,170 t; the tenth lowest since 2000). 
 This 2019 biomass of $\ge$ 90 mm carapace length (CL) male crab is 
 57% of the long term mean  at 6.99 million pounds (with a CV of 34%), and is a 83% increase from the 2018 biomass.
@@ -149,9 +149,7 @@ catch, estimated male discard mortality in the directed fishery, and estimated m
 Based on the reference model for SMBKC, the estimate for mature male biomass was below the minimum stock-size threshold (MSST) in 2017/18 and is hence is in an "overfished" condition, despite fishery closures in the last three years 
 (and hence overfishing has not occurred) (Tables \@ref(tab:status), \@ref(tab:ofl-basis) and \@ref(tab:management-quants)). 
 Computations which indicate the relative impact of fishing 
-(i.e., the "dynamic $B_0$") suggests that the current spawning stock biomass has been reduced to 60%
-<!--- `r #.get_dynB0_df(Mbase) %>% transmute(round(100*ssb,0)) %>% slice(n())`%  -->
- of what it would have been in the absence of fishing, assuming the same level of recruitment as estimated. 
+(i.e., the "dynamic $B_0$") suggests that the current spawning stock biomass has been reduced to `r .get_dynB0_df(Mbase) %>% transmute(round(100*ssb,0)) %>% slice(n())`% of what it would have been in the absence of fishing, assuming the same level of recruitment as estimated. 
  
  \begin{table}[ht]
  \centering
@@ -262,7 +260,7 @@ Details of this implementation and other model details are provided in Appendix 
 
 Both surveys indicate a decline over the past few years. The "reference" model is that which was selected for use in 2018.
 There is only one new data set to be included this year so this becomes the updated reference model. 
-Three alternative models are presented for sensitivity, two are presented to assess sensitivity to the model, while the other is provided for alternative reference point calculations (Table \@ref(tab:ofl-basis)) using a recent time frame. The "Fit survey" configuration simply adds emphasis on the design-based survey data (by assuming a lower input variance). The "add CV pot" configuration estimates an additional CV on the pot survey data, which in turn allows the model to fit the trawl-survey estimates better. 
+Two alternative models are presented to assess sensitivity to the model, while another is provided for alternative reference point calculations (Table \@ref(tab:ofl-basis)) using a recent regime time frame. The **Fit survey** configuration simply adds emphasis on the design-based survey data (by assuming a lower input variance). The **add CV pot** configuration estimates an additional CV on the pot survey data, which in turn allows the model to fit the trawl-survey estimates better. 
 
 
 # B. Responses to SSC and CPT  {-}
@@ -278,21 +276,21 @@ Comment: *Regarding general code development, the SSC and CPT outstanding reques
      
   2. *Continued exploration of data weighting (Francis and other approaches) and evaluation of models with and without the 1998 natural mortality spike. The authors are encouraged to bring other models forward for CPT and SSC consideration*
 
-      We continued with the iterative re-weighting for composition data.
+   We continued with the iterative re-weighting for composition data.
 
 Comment: *Breakpoint analysis for reference point time frames that does not rely on stock-recruit relationship*
-  
-  We applied the STARS method to the recruitment time series, Appendix C. 
+
+   We applied the STARS method to the recruitment time series, Appendix C. 
 
 Comment: *Regarding rebuilding projection specifications and options, the SSC and CPT requests are:*
 
   1. *bring forth reference points for status determination for both regim time frames*
   
-  See reference point table (Table \@ref(tab:ofl-basis)). Completed
+   See reference point table (Table \@ref(tab:ofl-basis)). Completed
 
   2. *bring forth projections 1 and 5 from the May CPT, both with mean recruitment 1) current time frame (1978-2018) and 2) breakpt time period (1996-2018)*
   
-  Completed. Refer to Appendix C.
+   Completed. Refer to Appendix C.
 
 
 
@@ -387,8 +385,8 @@ also occurred in the eastern Bering Sea groundfish fisheries (Table \@ref(tab:sm
 Data used in this assessment were updated to include the most recently available fishery and survey numbers. This
 assessment makes use of one new survey data point, which is the 2019 NMFS trawl-survey estimate of abudance, and
 its associated size compositon data. 
-The assessment also uses updated 1993-2016 groundfish and fixed gear bycatch estimates based on AKRO data.
-The fishery was closed in 2016/17 so no directed fishery catch data were available. 
+The assessment also uses updated 1993-2018 groundfish and fixed gear bycatch estimates based on AKRO data.
+The fishery was closed in 2018/19 so no directed fishery catch data were available. 
 The data used in each of the new models is shown in Figure \@ref(fig:data-extent).
 
 ## Major Data Sources {-}
@@ -456,13 +454,13 @@ This assessment model again uses the modeling framework Gmacs and is detailed in
 Four models are presented with the reference model being the same configuration as approved last year (Ianelli et al. 2018), 
 two sensitivities are considered, one which weights the survey data more heavily and one that adds an additional CV on the
 ADF&G pot survey data. In addition to these sensitivities, we evaluated the impacts of adding new data 
-to the reference model and . In summary, the following lists the models presented and the naming convention used:
+to the reference model. In summary, the following lists the models presented and the naming convention used:
 
 1. **18.0 - 2018 Model**: the 2018 recommended model without any new data
 
 2. **19.0 - 2019 Reference Model**: new data for 2019: NMFS trawl-survey and bycatch updates for groundfish
 
-3. **19.0a - 2019 Model - alt reference pts**: model 19.0 with alternative time frames for reference points
+3. **19.0a - 2019 Model - alt reference pts**: model 19.0 with alternative time frames for reference points and projections
 
 4. **19.1 - Fit survey**: an exploratory scenario that's the same as the reference model except the NMFS trawl survey is up-weighted by
    $\lambda^\text{NMFS}= 1.5$  and the ADF&G pot survey is up-weighted by $\lambda^\text{ADFG}= 2$ . 
@@ -483,10 +481,9 @@ to the 2018 assessment. However, neither last years or this years reference mode
 the ADF&G pot survey, or fit post 2005 trawl survey data points well. 
 
 ### b. Effective sample sizes and weighting factors {-}
-Need to update this section with model results!
 Observed and estimated effective sample sizes are compared in Table \@ref(tab:effn). 
 Data weighting factors, standard deviation of normalized residuals (SDNRs), and median absolute residual (MAR) are 
-presented in Table \ref{tab:data_weighting}. The SDNR for the trawl survey
+presented in Table \@ref(tab:data-weighting). The SDNR for the trawl survey
 is acceptable at 1.66 in the reference model. Francis (2011) weighting was applied in 2017
 but given the relatively few size
 bins in this assessment, this application was suspended this year.  
@@ -497,15 +494,15 @@ components. Rather than re-weighting, we chose to retain the values
 as specified, noting that down-weighting these data would effectively 
 exclude the signal from this series. 
 The MAR values for the trawl and pot surveys shows the same pattern among each of the
-scenarios as the SDNR. The SDNR and MAR values for the trawl survey and pot survey size compositions were relatively good,
-ranging from 0.54 to 0.73 for the reference case.
+scenarios as the SDNR. The MAR values for the trawl survey and pot survey size compositions were relatively good,
+ranging from 0.60 to 0.65 for the reference case.
 The SDNRs for the directed pot fishery and other size compositions were  similar to previous estimates.
 
 ### c. Parameter estimates {-}
 Model parameter estimates for each of the Gmacs scenarios are summarized in Tables \@ref(tab:est-pars-ref),
 \@ref(tab:est-pars-3), and \@ref(tab:est-pars-4). These parameter
 estimates are compared in Table \@ref(tab:est-pars-all). Negative log-likelihood values and management measures for each
-of the model configurations are compared in Tables \@ref(tab:management_quants) through \@ref(tab:likelihood-components).
+of the model configurations are compared in Tables \@ref(tab:management-quants) through \@ref(tab:likelihood-components).
 
 There are some differences in parameter estimates among models as 
 reflected in the log-likelihood components and the management quantities. 
@@ -521,7 +518,7 @@ mature male biomass on 15 February also fluctuates considerably (Figure \@ref(fi
 year ($M_t$) is presented in Figure \@ref(fig:M-t).
 
 ### d. Evaluation of the fit to the data.{-}
-The model fits to total male ($\ge$ 90 mm CL) trawl survey biomass tend to miss the recent peak around 2010, and fits recent survey data points on the lower end of their error bars; most likely being pulled down by the recent decline in the ADF&G pot survey data points (Figures \@ref(fig:trawl-survey-biomass)). Since the **add CV pot** model captures the upward error bars for these data points when it is allowed to fit the ADF&G pot survey data very poorly.
+The model fits to total male ($\ge$ 90 mm CL) trawl survey biomass tend to miss the recent peak around 2010, and fits recent survey data points on the lower end of their error bars (Figures \@ref(fig:trawl-survey-biomass)). These fits are most likely being pulled down by the recent decline in the ADF&G pot survey data points, since the **add CV pot** model captures the upward error bars for these data points when it is allowed to fit the ADF&G pot survey data very poorly.
 All of the models fit the pot survey CPUE poorly (Figure \@ref(fig:pot-survey-cpue)), with the **add CV pot** model having the worst fit due to the addition of variability (Figure \@ref(fig:pot-add-cv)). For the trawl survey the standardized residuals have similar patterns with the exception of recent years for the **add CV pot** model (19.2), generally poor fit to the last 15 years of data (Figure \@ref(fig:bts-resid-nmfs)). The standardized residuals for the ADF&G pot survey have similar patterns but are much larger for the "add CV pot" model than the others, for obvious reasons (Figure \@ref(fig:bts-resid-adfg)).
 
 Fits to the size compositions for trawl survey, pot survey, and commercial observer data are reasonable but miss the largest
@@ -627,7 +624,7 @@ normal with an absence of a "cold pool" in the region. This could have detriment
 should be carefully monitored. Relative to the impact of historical fishing, we again conducted a
  "dynamic-$B_0$" analysis. This procedure simply projects
 the population based on estimated recruitment but removes the effect of fishing. For the reference case,
-this suggests that the impact of fishing has reduced to stock to about (fill in) % of what it would have been in the absence of fishing (Figure \ref{fig:dynB0}). 
+this suggests that the impact of fishing has reduced to stock to about (fill in) % of what it would have been in the absence of fishing (Figure \@ref(fig:dynamic-bzero)). 
 The other non-fishing contributors to the observed depleted stock trend (ignoring stock-recruit relationship) may reflect variable  survival rates due to environmental conditions and also range shifts. 
  
 
@@ -636,6 +633,20 @@ The other non-fishing contributors to the observed depleted stock trend (ignorin
 We thank the Crab Plan Team and ADF&G staff for reviewing an earlier draft of this report 
 and Andre Punt for his input into refinements to the Gmacs model code, specifically the projections module.
 
+# K. References {-}
+Alaska Department of Fish and Game (ADF&G). 2013. Crab observer training and deployment manual. Alaska Department of Fish and Game Shellfish Observer Program, Dutch Harbor. Unpublished.
+
+Collie, J.S., A.K. Delong, and G.H. Kruse. 2005. Three-stage catch-survey analysis applied to blue king crabs. Pages 683-714 [In] Fisheries assessment and management in data-limited situations. University of Alaska Fairbanks, Alaska Sea Grant Report 05-02, Fairbanks.
+
+Daly, B., R. Foy, and C. Armistead. 2014. The 2013 eastern Bering Sea continental shelf bottom trawl survey: results for commercial crab species. NOAA Technical Memorandum 295, NMFS-AFSC.
+
+Donaldson, W.E., and S.C. Byersdorfer. 2005. Biological field techniques for lithodid crabs. University of Alaska Fairbanks, Alaska Sea Grant Report 05-03, Fairbanks.
+
+Fitch, H., M. Deiman, J. Shaishnikoff, and K. Herring. 2012. Annual management report for the commercial and subsistence shellfish fisheries of the Bering Sea, 2010/11. Pages 75-1776 [In] Fitch, H., M. Schwenzfeier, B. Baechler, T. Hartill, M. Salmon, and M. Deiman, E.
+
+Evans, E. Henry, L. Wald, J. Shaishnikoff, K. Herring, and J. Wilson. 2012. Annual management report for the commercial and subsistence shellfish fisheries of the Aleutian Islands, Bering Sea and the Westward Region’s Shellfish Observer Program, 2010/11. Alaska Department of Fish and Game, Fishery Management Report No. 12-22, Anchorage.
+
+Fournier, D.A., H.J. Skaug, J. Ancheta, J. Ianelli, A. Magnusson, M.N. Maunder, A. Nielsen, and J. Sibert. 2012. AD Model Builder: using automatic differentiation for statistical inference of highly parameterized complex nonlinear models. Optim. Methods Softw. 27:233-249.
 
 \pagebreak 
 \newpage\clearpage
@@ -989,9 +1000,16 @@ tab <- xtable(df, caption = "Comparisons of parameter estimates for the model sc
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, NA.string = "-")
 ```
 
-```{r data_weighting, results = "asis"}
+```{r data-weighting, results = "asis"}
 ## issues with output no in .rep file. Need to look into this. E-mail Jim
+# updated to work for draft - need to figure out how to get Francis weightings and 
+#   lamdas
+df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_19/doc/safe_tables/data_weighting.csv"))
+names(df) <- c("Component",mod_names[mod_scen])
+tab       <- xtable(df, caption = "Comparisons of data weights, SDNR and MAR (standard deviation of normalized residuals and median absolute residual) values for the model scenarios.", label = "tab:data-weighting")
+print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,5,10,nrow(tab)))
 ```
+
 
 ```{r likelihood-components, results = "asis"}
 df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_19/doc/safe_tables/neg_log_like.csv"))
