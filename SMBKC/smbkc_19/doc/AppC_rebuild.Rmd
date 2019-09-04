@@ -13,18 +13,18 @@ opts_chunk$set(fig.width = 12, fig.height = 7, echo = FALSE, warning = FALSE, me
 ```
 
 # Introduction{-}
-In 2018 the MMB for SMBKC fell below 50% of the $B_{MSY}$ proxy or the MSST, using average mature male biomass from 1978-2017. The stock was determined to be overfished (but overfishing is not occurring since the fishery has been closes the last three years) and a rebuilding plan is to be implemented within 2 years. This document summarizes the projections performed on the 2019 assessment model and their associated rebuilding probabilities for the stock using the projections module developed for GMACS (A.Punt pers Comm). 
-All projections presented here are performed on the base or reference model with 2019 data, results include projections that look at a alternative regime for the time frame for reference points calculation.
+In 2018 the MMB for SMBKC fell below 50% of the $B_{MSY}$ proxy or the MSST, using average mature male biomass from 1978-2017. The stock was determined to be overfished (but overfishing is not occurring since the fishery has been closes the last two years) and a rebuilding plan is to be implemented within 2 years. This document summarizes the projections performed on the 2019 assessment model and their associated rebuilding probabilities for the stock using the projections module developed for GMACS (A.Punt pers Comm). 
+All projections presented here are performed on the base or reference model with 2019 data, results include projections that look at a alternative regime time frame for reference point calculations.
 
 
 # Regime shifts{-}
-Current model output (using the reference model) of both biomass and recruitment suggest a shift from higher levels in the first have of the time series to lower levels in the recent regime. These trends warrented an examination of the modeled data to determine if a regime shift has occured. 
+Model output in 2018 (using the reference model) of both biomass and recruitment suggest a shift from higher levels in the first have of the time series to lower levels in the recent regime. These trends warrented an examination of the modeled data to determine if a regime shift has occured. 
 
 
 ## Recruitment breakpoint analysis {-}
-Upon examination it was clear that recruitment for SMBKC has been consistently lower in recent years. Thus, the crab Plan Team requested that the authors conduct a recruitment breakpoint analysis similar to that conducted for Bristol Bay red king crab in 2017 (Zheng et al. 2017) and eastern Bering Sea Tanner crab in 2013 (Stockhausen 2013). The goal of this analysis was to objectively identify a change in stock productivity based on the recruitment time series. This could then be used to develop alternative rebuilding scenarios and also provide alternative BMSY proxies. Results from assessment model 3 from 2018, which is the base or reference model (Ianelli and Zheng 2018), were used for this analysis. Details of this analysis are presented in Appendix D.
+Upon examination it was clear that recruitment for SMBKC has been consistently lower in recent years. Thus, the crab Plan Team requested that the authors conduct a recruitment breakpoint analysis similar to that conducted for Bristol Bay red king crab in 2017 (Zheng et al. 2017) and eastern Bering Sea Tanner crab in 2013 (Stockhausen 2013). The goal of this analysis was to objectively identify a change in stock productivity based on the recruitment time series. This could then be used to develop alternative rebuilding scenarios and also provide alternative BMSY proxies. Results from assessment model 3 from 2018, which is the base or reference model (Ianelli and Zheng 2018), were used for this analysis. These results were presented at the May 2019 crab Plan Team meeting, the details of this analysis can be found in Appendix D.
 
-Both Ricker and Beverton-Holt (B-H) models resulted in the same breakpoint brood year of 1989, which corresponded to recruitment year of 1996. The model without a breakpoint (i.e., a single period) was about 26 times less probable than the 1989 breakpoint model for the Ricker stock-recruitment relationship and 4 times less probable than the Beverton-Holt, which suggested a possible change in stock productivity from the early high period to the recent low period. More details of these results can be found in Appendix D.
+Both Ricker and Beverton-Holt (B-H) models resulted in the same breakpoint brood year of 1989, which corresponded to recruitment year of 1996. The model without a breakpoint (i.e., a single period) was about 26 times less probable than the 1989 breakpoint model for the Ricker stock-recruitment relationship and 4 times less probable than the Beverton-Holt, which suggested a possible change in stock productivity from the early high period to the recent low period. 
 
 
 ## STARS method {-}
@@ -52,28 +52,31 @@ This parameterization resulted in two potential time blocks: 1978-1995 and 1996â
 
 # Rebuilding projections{-}
 The rebuilding projections were performed using the projection module coded into GMACS in early 2019 (A. Punt per Comm). 
-A preliminary analysis of the rebuilding projections performed at the January crab plan team meeting by A.Punt concluded that bycatch mortality in this fishery was minor and that the rebuilding timeline was entirely dependent on assumptions of recruitment for the stock. 
+A preliminary analysis of the rebuilding projections performed at the January crab plan team meeting by A.Punt concluded that bycatch mortality in this fishery was minor and that the rebuilding timeline was mostly dependent on assumptions of recruitment for the stock. 
 
 Initial rebuilding projections presented at the May CPT meeting (June SSC meeting) included recruitment options of: Ricker, or Beverton-Holt stock recruit relationship and "random" recruitment. Stock-recruitment models (Ricker, Beverton-Holt) typically fit poorly for crab stocks, and this holds true for SMBKC. Projections using these stock recruitment relationships were still provided for initial review since they scale recruitment to the current status of the stock. The "random"" recruitment option resamples historical recruitment estimates randomly, from a designated period for each projection iteration, such as the entire time series 1978 to 2018 as one example. This option assumes that recruitment is unrelated to stock size, but also relies on choosing the random draws from a biologically and environmentally representative time frame of past recruitment. 
 
 Projections were performed to look at a range of combinations of recruitment, bycatch mortality, and implementation of the state harvest policy to determine the probability of recovery for each scenario. 
-Rebuilding time under any of the projection combinations is insensitive to the average values for recent (2013 - 2017 or 2014 - 2018) bycatch. As a sensitivity analysis the projections presented here were also performed using the maximum observed bycatch value, corresponding to year 2007, and are presented in this document.
+Rebuilding time under any of the projection combinations is insensitive to the average values for recent (2013 - 2017 or 2014 - 2018) bycatch. As a sensitivity analysis the projections presented here were also performed using the maximum observed bycatch value, corresponding to year 2007.
 The implementation of the state harvest policy in the projections (version "d") affected rebuilding times in some projections, but with a much smaller affect of increasing $T_{min}$ than projections at F = M (0.18), therefore the projections presented here use the state of Alaska harvest policy as the upper bound for fising mortality. 
 
 The projections considered in May produced a range of $T_{min}$ values, however, the decision tackled at this meeting was which option is the most biologically and environmentally plausible. The recruitment breakpoint analysis and the STARS method suggested that recent recruitment (1996-2017) differed from the early part of the time series. 
-Recruitment success for SMBKC, as with many crab species, is strongly driven by environmental conditions. 
-In the Bering Sea recent environmental conditions may be unfavorable for recruitment success for this stock, which may be due to the longer larval duration of blue king crab.
 
 Both the CPT and SSC recommendations from the May meeting were to proceed with "random" recruitment projections that drew from two recruitment time periods:  
 
 1) the entire time series, 1978 to 2018
 
-2) the current regime, 1996-2018.
+2) the current regime, 1996 to 2018
 
-These projections use the state harvest policy as the upper fishing mortality and included average recent bycatch mortality (2014 - 2018). Additionally, sensitivity on $T_{min}$ values to higher bycatch mortality are included to help inform the rebuilding time frame. 
+These projections use the state harvest policy as the upper fishing mortality and included average recent bycatch mortality (2014 - 2018). Additionally, sensitivity on $T_{min}$ values to higher bycatch mortality are included to help inform the rebuilding time frame (using maximum observed bycatch in 2007, which is 10 times here than recent bycatch levels). 
 
 The important decision points that are needed to move forward with the rebuilding plan are to adapt a consensus on:
-the current state of the stock (reference point time frame) and the cooresponding expectations on future recruitment, and the expectations for future bycatch mortality. 
+
+  - the current state of the stock (reference point time frame), 
+  
+  - the cooresponding expectations on future recruitment, and 
+  
+  - the expectations for future bycatch mortality. 
 
 
 \begin{table}[ht]
@@ -110,14 +113,18 @@ the current state of the stock (reference point time frame) and the coorespondin
 Rebuilding time under any of the projection combinations is insensitive to the average values for recent (2014 - 2018) bycatch. A sensitivity analysis to larger bycatch levels was performed using the maximum observed bycatch value, corresponding to year 2007 in the model input (Figures \@ref(fig:proj1by) and \@ref(fig:proj5by)).  
 
 ## Random recruitment entire time series (1978 - 2018) {-}
-Projections using "random" recruitment (projection 1) resampled from the entire time series (1978-2018) implied environmental conditions as being equal to this period. Under this hypothesis the probability of recovery produces, under average recent bycatch levels, a $T_{min}$ = 6.05 years under no directed fishery mortality (F = 0), and a $T_{min}$ = 9.0 years when the state harvest policy is implemented (Figure \@ref(fig:proj1by)). The recruitment breakpoint analysis performed on this stock (Appendix D) suggested that recruitment conditions equal to the full period are unlikely and overly optimistic. 
+Projections using "random" recruitment (projection 1) resampled from the entire time series (1978-2018) implied environmental conditions as being equal to this period. Under this hypothesis the probability of recovery produces, under average recent bycatch levels, a $T_{min}$ = 6.05 years under no directed fishery mortality (F = 0), and a $T_{min}$ = 9.0 years when the state harvest policy is implemented (Figure \@ref(fig:proj1avg)). The recruitment breakpoint analysis performed on this stock (Appendix D) suggested that recruitment conditions equal to the full period are unlikely and overly optimistic. 
 
 ## Random recruitment from current regime (1996 - 2018) {-}
-The recruitment breakpoint analysis suggested that a shift occurred in 1996. Both the "random" recruitment time period and the time period to calculate the $B_{MSY}$ proxy should reflect this (Table \@ref(tab:B-msy proxy)). Projection 5 matches these two time frames, and under average recent bycatch levels, has a $T_{min}$ = 9.0 years for the probability of recovery to this new/current $B_{MSY}$ proxy under no directed fishery mortality (F = 0), and a $T_{min}$ a little over 9.0 years under the state harvest policy implementation (Figure \@ref(fig:proj5by)). The consistencies in these $T_{min}$ is due to the state harvest policy thresholds being based on past periods rather than having adopted to changes in $B_{MSY}$ proxy years.
+The recruitment breakpoint analysis suggested that a shift occurred in 1996. Both the "random" recruitment time period and the time period to calculate the $B_{MSY}$ proxy should reflect this (Table \@ref(tab:B-msy-proxy)). Projection 5 matches these two time frames, and under average recent bycatch levels, has a $T_{min}$ = 9.0 years for the probability of recovery to this new/current $B_{MSY}$ proxy under no directed fishery mortality (F = 0), and a $T_{min}$ a little over 9.0 years under the state harvest policy implementation (Figure \@ref(fig:proj5avg)). The consistencies in these $T_{min}$ values is due to the state harvest policy thresholds being based on past periods rather than having adopted to changes in $B_{MSY}$ proxy years.
 
 
 # Discussion {-}
+The projections considered here produced $T_{min}$ values that fell between 6 and a little over 11 years (Tables \@ref(tab:t-min-avg) and \@ref(tab:t-min-max)), however, the question remains which option is the most biologically and environmentally plausible. The recruitment breakpoint analysis (Appendix D) suggested that recent recruitment (1996-2018) differed from the early part of the time series. Recruitment success for SMBKC, as with many crab species, is driven by environmental conditions. In the Bering Sea recent environmental conditions appear to be unfavorable for recruitment success for this stock, which may be due to the longer larval duration of blue king crab. 
 
+Projections that include average recent bycatch levels have a $T_{min}$ value less than 10 years under no directed fishing (F = 0). These values increased with maximum bycatch levels, however these projections assume that these high bycatch levels would persist annually throughout the 50 year projection. Even with increased bycatch to higher levels in some years the rebuilding time frame would not be expected to increase dramtically (Table \@ref(tab:t-min-max)). 
+
+Assuming that recent trends in recruitment and biomass represent a current environmental "regime", the most biologically and environmental plausible projection would be projection 5, which suggests the stock would rebuild in less than 10 years to a more representative $B_{MSY}$ that is based on current recruitment conditions. However, if adjusting the reference point time frame is not considered valid the projections suggest a rebuilding time frame < 10 years to the current $B_{MSY}$ proxy levels, with large assumptions on upcoming recruitment variability. 
 
 
 # Tables {-}
@@ -126,13 +133,13 @@ The recruitment breakpoint analysis suggested that a shift occurred in 1996. Bot
 \begin{table}[ht]
 \centering
 \caption{$B_{MSY}$ proxy options for 2018 model 3, all Tier 4b.} 
-\label{tab:B-msy proxy}
+\label{tab:B-msy-proxy}
 \begin{tabular}{lcccccccc}
   \hline
   Year & Basis for $B_\mathit{MSY}$ & $B_\mathit{MSY}$ proxy & MSST & Biomass($MMB_{mating}$) & B/$B_{MSY}$ & $F_{OFL}$ & M \\ 
   \hline
-  2018/19 & 1978-2018 & 3.48 & 1.74 & 1.09 & 0.31 & 0.041 & 0.18 \\ 
-  2018/19 & 1996-2018 & 2.03 & 1.015 & 1.08 & 0.53 & 0.087 & 0.18 \\ 
+  2019/20 & 1978-2018 & 3.48 & 1.74 & 1.08 & 0.31 & 0.042 & 0.18 \\ 
+  2019/20 & 1996-2018 & 2.05 & 1.025 & 1.04 & 0.51 & 0.082 & 0.18 \\ 
   \hline
 \end{tabular}
 \end{table}
@@ -175,7 +182,6 @@ The recruitment breakpoint analysis suggested that a shift occurred in 1996. Bot
 
 # Figures {-}
 \pagebreak
-
 
 ```{r proj1by, fig.cap = "Comparisons of probability of recovery with random recruitment from 1978 to 2018 under different bycatch levels, show as with a min F = 0 and a max F equivalent to the state harvest rate (SHR)."}
 knitr::include_graphics("safe_figure/proj1ALL_rec_1yr_prob.png", dpi = 125)
