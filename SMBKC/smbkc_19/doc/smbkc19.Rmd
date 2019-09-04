@@ -225,6 +225,8 @@ Computations which indicate the relative impact of fishing
 \end{tabular}
 \end{table}
 
+\pagebreak
+
 # A. Summary of Major Changes {-}
 
 ## Changes in Management of the Fishery {-}
