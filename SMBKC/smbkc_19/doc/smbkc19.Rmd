@@ -277,23 +277,22 @@ Comment: *Regarding general code development, the SSC and CPT outstanding reques
      Progress was limited in implementing this feature.
      
   2. *Continued exploration of data weighting (Francis and other approaches) and evaluation of models with and without the 1998 natural mortality spike. The authors are encouraged to bring other models forward for CPT and SSC consideration*
-
-   We continued with the iterative re-weighting for composition data.
+  
+     We continued with the iterative re-weighting for composition data.
 
 Comment: *Breakpoint analysis for reference point time frames that does not rely on stock-recruit relationship*
-
-   We applied the STARS method to the recruitment time series, Appendix C. 
-
+  
+  We applied the STARS method to the recruitment time series, Appendix C. 
+  
 Comment: *Regarding rebuilding projection specifications and options, the SSC and CPT requests are:*
 
   1. *bring forth reference points for status determination for both regim time frames*
   
-   See reference point table (Table \@ref(tab:ofl-basis)). Completed
+     See reference point table (Table \@ref(tab:ofl-basis)). Completed
 
   2. *bring forth projections 1 and 5 from the May CPT, both with mean recruitment 1) current time frame (1978-2018) and 2) breakpt time period (1996-2018)*
   
-   Completed. Refer to Appendix C.
-
+     Completed. Refer to Appendix C.
 
 
 # C. Introduction {-}
