@@ -1,0 +1,16 @@
+"Component","model 19.0 (ref)","model 19.1 (fit survey)","model 19.2 (add CV pot)"
+"Pot Retained Catch",-68.4572,-66.1171,-69.5598
+"Pot Discarded Catch",5.1514,30.7137,3.204
+"Trawl bycatch Discarded Catch",-7.71,5.2948,-7.71
+"Fixed bycatch Discarded Catch",-7.671,-7.6842,-7.7027
+"NMFS Trawl Survey",10.5642,66.2248,-7.8666
+"ADF\&G Pot Survey CPUE",85.6229,219.4942,6.2953
+"Directed Pot LF",-103.929,-93.2514,-105.4584
+"NMFS Trawl LF",-252.9631,-189.4075,-276.8008
+"ADF\&G Pot LF",-91.0865,-39.0351,-97.3715
+"Recruitment deviations",58.0953,69.6475,52.2477
+"F penalty",9.6631,9.6624,9.663
+"M penalty",6.4556,6.4583,6.4604
+"Prior",13.7146,13.7146,16.1966
+"Total",-342.5497,25.715,-478.4028
+"Total estimated parameters",144,144,145

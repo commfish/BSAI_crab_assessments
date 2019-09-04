@@ -1,0 +1,16 @@
+"Component","model 19.0 (ref)","model 19.1 (fit survey)","model 19.2 (add CV pot)"
+"NMFS trawl survey weight",1,1.5,1
+"ADF\&G pot survey weight",1,2,1
+"Directed pot LF weight",1,1,1
+"NMFS trawl survey LF weight",1,1,1
+"ADF\&G pot survey LF weight",1,1,1
+"SDNR NMFS trawl survey",1.6624,2.2392,1.4197
+"SDNR ADF\&G pot survey",4.3568,6.6415,8.3187
+"SDNR directed pot LF",0.6997,1.0294,0.6366
+"SDNR NMFS trawl survey LF",1.3009,1.8045,1.0337
+"SDNR ADF\&G pot survey LF",0.9522,2.8336,0.6718
+"MAR NMFS trawl survey",1.3464,1.5178,1.1831
+"MAR ADF\&G pot survey",2.7601,3.4223,4.0747
+"MAR directed pot LF",0.5231,0.645,0.3646
+"MAR NMFS trawl survey LF",0.6029,0.8438,0.5109
+"MAR ADF\&G pot survey LF",0.6463,1.9915,0.5638
