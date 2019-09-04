@@ -340,22 +340,24 @@ write.csv(df, paste0(here::here(), '/SMBKC/smbkc_19/doc/safe_tables/all_parms.cs
 
 ## data weighting ---------------------
 #```{r data_weighting, results = "asis"}
+# updated to work for draft - need to figure out how to get Francis weightings and 
+#   lamdas
 df <- NULL
 for (ii in mod_scen)
 {
   x       <- M[[ii]]
   SDNR    <- c(x$sdnr_MAR_cpue[,1], x$sdnr_MAR_lf[,1]); names(SDNR) <- c("SDNR NMFS trawl survey","SDNR ADF\\&G pot survey","SDNR directed pot LF","SDNR NMFS trawl survey LF","SDNR ADF\\&G pot survey LF")
   MAR     <- c(x$sdnr_MAR_cpue[,2], x$sdnr_MAR_lf[,2]); names(MAR) <- c("MAR NMFS trawl survey","MAR ADF\\&G pot survey","MAR directed pot LF","MAR NMFS trawl survey LF","MAR ADF\\&G pot survey LF")
-  Francis <- x$Francis_weights; names(Francis) <- c("Fancis weight for directed pot LF","Francis weight for NMFS trawl survey LF","Francis weight for ADF\\&G pot survey LF")
-  wt_cpue <- x$cpue_lambda; names(wt_cpue) <- c("NMFS trawl survey weight","ADF\\&G pot survey weight")
-  wt_lf   <- x$lf_lambda; names(wt_lf) <- c("Directed pot LF weight","NMFS trawl survey LF weight","ADF\\&G pot survey LF weight")
-  v       <- c(wt_cpue, wt_lf, Francis, SDNR, MAR)
+  #Francis <- x$Francis_weights; names(Francis) <- c("Fancis weight for directed pot LF","Francis weight for NMFS trawl survey LF","Francis weight for ADF\\&G pot survey LF")
+  wt_cpue <- c(ifelse(ii == 3, 1.5,1), ifelse(ii == 3, 2 ,1)); names(wt_cpue) <- c("NMFS trawl survey weight","ADF\\&G pot survey weight")
+  wt_lf   <- c(1,1,1); names(wt_lf) <- c("Directed pot LF weight","NMFS trawl survey LF weight","ADF\\&G pot survey LF weight")
+  v       <- c(wt_cpue, wt_lf, SDNR, MAR)
   df      <- cbind(df, v)
 }
 df        <- data.frame(rownames(df), df, row.names = NULL)
 names(df) <- c("Component",mod_names[mod_scen])
-tab       <- xtable(df, caption = "Comparisons of data weights, Francis LF weights (i.e. the new weights that should be applied to the LFs), SDNR and MAR (standard deviation of normalized residuals and median absolute residual) values for the model scenarios.", label = "tab:data_weighting")
-print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,5,8,13,nrow(tab)))
+write.csv(df, paste0(here::here(), '/SMBKC/smbkc_19/doc/safe_tables/data_weighting.csv'), 
+          row.names = FALSE)
 
 
 # !!Likelihood components -----------------
