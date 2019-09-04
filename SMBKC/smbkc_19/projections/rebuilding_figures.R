@@ -33,10 +33,13 @@ proj1aa %>%
 proj1d %>% 
   bind_rows(proj1aa) -> proj1
 
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
 proj1 %>% 
 ggplot(aes(year, recovery, shape = FishMort, colour = projection)) + 
   geom_point(size = 2)+
   scale_shape_manual(name = "", values = c(16, 22)) +
+  scale_color_manual(name = "", values = cbPalette[2:3])+
   geom_line() +
   geom_hline(yintercept = 50, color = "red", lty = "dashed", lwd = 1.5) +
   geom_vline(xintercept = 10, color = "blue", lty = 2, lwd = 1.5) +
@@ -68,6 +71,7 @@ proj5 %>%
   ggplot(aes(year, recovery, shape = FishMort, colour = projection)) + 
   geom_point(size = 2)+
   scale_shape_manual(name = "", values = c(16, 22)) +
+  scale_color_manual(name = "", values = cbPalette[2:3])+
   geom_line() +
   geom_hline(yintercept = 50, color = "red", lty = "dashed", lwd = 1.5) +
   geom_vline(xintercept = 10, color = "blue", lty = 2, lwd = 1.5) +
@@ -79,9 +83,50 @@ proj5 %>%
 ggsave(paste0(here::here(), '/SMBKC/smbkc_19/doc/safe_figure/proj5ALL_rec_1yr_prob.png'), plotA, dpi = 800,
        width = 7.5, height = 3.75)
 
+# Figures with only avg bycatch ---------
+proj1d %>% 
+  mutate(projection = "avg recent bycatch") %>% 
+  select(-FishMort) %>% 
+  mutate(FishMort = ifelse(V3 == 1, "F = 0", "F = SHR")) -> proj1d
 
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
+proj1d %>% 
+  ggplot(aes(year, recovery, shape = FishMort, colour = projection)) + 
+  geom_point(size = 2)+
+  scale_shape_manual(name = "", values = c(16, 22)) +
+  scale_color_manual(name = "", values = cbPalette[2])+
+  geom_line() +
+  geom_hline(yintercept = 50, color = "red", lty = "dashed", lwd = 1.5) +
+  geom_vline(xintercept = 10, color = "blue", lty = 2, lwd = 1.5) +
+  ggtitle("Recruitment drawn from 1978 - 2018, average recent bycatch levels") +
+  ylab("Probability of recovery") +
+  xlab("Year") +
+  ylim(0,100) +
+  theme(plot.title = element_text(hjust = 0.5)) -> plotA
+ggsave(paste0(here::here(), '/SMBKC/smbkc_19/doc/safe_figure/proj1d_rec_1yr_prob.png'), plotA, dpi = 800,
+       width = 7.5, height = 3.75)
   
-  
-  
+# projection 5 avg bycatch-----
+proj5d %>% 
+  mutate(projection = "avg recent bycatch") %>% 
+  select(-FishMort) %>% 
+  mutate(FishMort = ifelse(V3 == 1, "F = 0", "F = SHR")) -> proj5d
+
+proj5d %>% 
+  ggplot(aes(year, recovery, shape = FishMort, colour = projection)) + 
+  geom_point(size = 2)+
+  scale_shape_manual(name = "", values = c(16, 22)) +
+  scale_color_manual(name = "", values = cbPalette[2])+
+  geom_line() +
+  geom_hline(yintercept = 50, color = "red", lty = "dashed", lwd = 1.5) +
+  geom_vline(xintercept = 10, color = "blue", lty = 2, lwd = 1.5) +
+  ggtitle("Recruitment drawn from 1996 - 2018, average recent bycatch levels") +
+  ylab("Probability of recovery") +
+  xlab("Year") +
+  ylim(0,100) +
+  theme(plot.title = element_text(hjust = 0.5)) -> plotA
+ggsave(paste0(here::here(), '/SMBKC/smbkc_19/doc/safe_figure/proj5d_rec_1yr_prob.png'), plotA, dpi = 800,
+       width = 7.5, height = 3.75)
   
   
