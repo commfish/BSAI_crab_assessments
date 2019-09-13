@@ -235,7 +235,7 @@ There are no new changes in management of the fishery.
 Data used in this assessment have been updated to include the most recently
 available fishery and survey numbers. This assessment makes use of one new
 survey data point - the 2019 NMFS trawl-survey estimate of abudance. The ADF&G pot survey was not conducted in 2019, since it is back to a three year cycle.
-The NMFS trawl-surveys has associated size
+The NMFS trawl-surveys have associated size
 compositon data. The assessment also uses updated 2010-2018 groundfish and
 fixed gear bycatch estimates based on NMFS Alaska Regional Office (AKRO) data. 
 The directed fishery has been closed since 2016/17 so fishery data in recent years are unavailable.
@@ -245,7 +245,7 @@ The directed fishery has been closed since 2016/17 so fishery data in recent yea
 This assessment uses the General model for Alasks crab stocks (Gmacs) framework. The
 model is configured to track three stages of length categories and was 
 first presented in May 2011 by Bill Gaeuman and accepted by the CPT in May 2012. 
-A difference from the original approach, and that used here, is that natural and fishing mortality are
+A difference from the original approach, and that used here, is that natural and fishing mortalities are
 continuous within `r M[[ref_mod]]$nseason` discrete seasons (using the appropriate
 catch equation rather than assuming an applied pulse removal). Season length in Gmacs
 is controlled by changing the proportion of natural mortality that is applied
@@ -271,7 +271,7 @@ Comment: *Regarding general code development, the SSC and CPT outstanding reques
 
   1. *add the ability to conduct retrospective analyses*
 
-     Progress was limited in implementing this feature.
+     Progress was limited in implementing this feature. We will conduct a retrospective analysis within the next year.
      
   2. *Continued exploration of data weighting (Francis and other approaches) and evaluation of models with and without the 1998 natural mortality spike. The authors are encouraged to bring other models forward for CPT and SSC consideration*
   
@@ -573,7 +573,7 @@ The currently recommended Tier 4 convention is to use the full assessment period
 `r M[[rec_mod]]$spr_nyr`, to define a $B_\mathit{MSY}$ proxy in terms of average estimated MMB and to set $\gamma$ = 1.0 with
 assumed stock natural mortality $M$ = 0.18 $\text{yr}^{-1}$ in setting the $F_\mathit{MSY}$ proxy value $\gamma M$. The
 parameters $\alpha$ and $\beta$ are assigned their default values $\alpha$ = 0.10 and $\beta$ = 0.25. The
-$F_\mathit{OFL}$, OFL, ABC, and MMB in 2018 for all scenarios are summarized in Table \@ref(tab:management-quants). The ABC
+$F_\mathit{OFL}$, OFL, ABC, and MMB in 2019 for all scenarios are summarized in Table \@ref(tab:management-quants). The ABC
 is 80% of the OFL.
 
 ```{r management-quants, results = "asis"}
@@ -600,7 +600,7 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 
 # G. Rebuilding Analysis {-}
 
-This stock was declared overfished in fall of 2018 and a rebuilding plan is being constructed concurrent to the 2019 stock assessment (Appendix C). Model scenarios presented here all suggest the stock is still overfished, with the exception of the **add CV pot** scenario.  
+This stock was declared overfished in fall of 2018 and a rebuilding plan is being constructed concurrent to the 2019 stock assessment (Appendix C). Model scenarios presented here all suggest the stock is still overfished.
 
 
 # H. Data Gaps and Research Priorities {-}
@@ -622,7 +622,7 @@ normal with an absence of a "cold pool" in the region. This could have detriment
 should be carefully monitored. Relative to the impact of historical fishing, we again conducted a
  "dynamic-$B_0$" analysis. This procedure simply projects
 the population based on estimated recruitment but removes the effect of fishing. For the reference case,
-this suggests that the impact of fishing has reduced to stock to about (fill in) % of what it would have been in the absence of fishing (Figure \@ref(fig:dynamic-bzero)). 
+this suggests that the impact of fishing has reduced to stock to about `r .get_dynB0_df(Mbase) %>% transmute(round(100*ssb,0)) %>% slice(n())`% of what it would have been in the absence of fishing (Figure \@ref(fig:dynamic-bzero)). 
 The other non-fishing contributors to the observed depleted stock trend (ignoring stock-recruit relationship) may reflect variable  survival rates due to environmental conditions and also range shifts. 
  
 
