@@ -241,7 +241,7 @@ dev.off()
 plot_ssb(M[mod_scen], ylab = "Mature male biomass (tons) on 15 February")
 ## **FIX** to include 2019 projected value and associate error
 
-# SSB model scenarios-----------
+# !!SSB model scenarios-----------
 # SSB lst yr / current yr base model-----------
 ssb <- .get_ssb_df(M[mod_scen]) # ssb now does NOT include projection year so only up to 2018 crab year - 2019 projection (example)
 head(ssb)
@@ -285,6 +285,7 @@ ssb %>%
   ylab("Mature male biomass (tons) on 15 February") + xlab("Year") +
   .THEME
 ggsave(paste0(.FIGS, "mod_scen_ssb_wprojected_yr.png"), width = ww*1.25, height = hh)
+ggsave(paste0(.FIGS, "PRESENTATION_mod_scen_ssb_wprojected_yr.png"), width = ww*1.5, height = hh)
 
 
 
