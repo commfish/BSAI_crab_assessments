@@ -4,16 +4,16 @@ prep for sept 2019 meeting
 
 ## Alternatives
 
-Model         | Description
-------------- | -------------
-model_0       | - Basecase (last year's selected model 3) - with no new data     
-model_1       | - new 2019 NOAA trawl survey data, new bycatch data
-model_1a      | - 2019 base model with different .prj file for reference pt time frame
-model_1b      | - add CV for ADF&G pot survey
-model_4       | - Apply VAST series - NOT done this year
-model_5       | - Fit surveys (lambda up on those)
-                    - original folder has lamda like .ctl file I inherited (trawl 1.5, pot 2)
-                    - main folder has lamda like the 2018 SAFE , 2 for both surveys
+Model             | Model in Doc  | Description
+---------- ---    | ------------- | -------------
+smbkc_18a/model_1 |   18.0        | - Basecase (last year's selected model 3) - with no new data     
+model_1           |  19.0         | - new 2019 NOAA trawl survey data, new bycatch data
+model_1a          |   19.0a       | - 2019 base model with different .prj file for reference pt time frame
+model_1b          |   19.2        | - add CV for ADF&G pot survey
+model_4           |               | - Apply VAST series - NOT done this year
+model_5           |   19.1        | - Fit surveys (lambda up on those)
+                                    - original folder has lamda like .ctl file I inherited (trawl 1.5, pot 2)
+                                    - main folder has lamda like the 2018 SAFE , 2 for both surveys
 
 Notice the use of a single .dat file for all of the different model runs. 
 The .dat file sits in assessment root, 
