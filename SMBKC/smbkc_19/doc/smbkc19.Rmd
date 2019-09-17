@@ -35,7 +35,7 @@ mod_names <- c("model 18.0", "model 19.0 (ref)", "model 19.1 (fit survey)", "mod
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
 .FLEET    = c("Pot","Trawl bycatch","Fixed bycatch","NMFS Trawl","ADF&G Pot")
-.TYPE     = c("Retained & Discarded","Retained","Discarded")
+.TYPE     = c("Retained","Discarded", "Retained & Discarded")
 .SHELL    = c("Aggregate")
 .MATURITY = c("Aggregate")
 .SEAS     = c("1","2","3","4","5")
