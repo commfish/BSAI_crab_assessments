@@ -292,13 +292,20 @@ rec %>%
   mutate(recruit = exp(log_rec)) %>% 
   select(year, sex, recruit, lb, ub) %>% 
   mutate(recruit_tons = recruit*0.000748427) %>% 
-  write.csv(paste0(.FIGS, "recruitment_output.csv")) # this is in number of individuals
+  write.csv(paste0(.FIGS, "recruitment_output.csv")) 
+
+#this is in number of individuals
 # weight for first size bin is 0.000748427 (from line 31 of .ctl file)
 # 0.0007, 0.0012, 0.0019  I think these weights are already in tons???? check with Jie
 # 524010.0422*0.0019 + 158547.8651*0.0012 seems about corret for ssb for 2018 
 
 
 ### need option with new average recruitment    
+
+# abundance -----
+num <- .get_numbers_df(M)
+
+lw1 <- .get_length_weight_df(M) #not working
 
 
 
