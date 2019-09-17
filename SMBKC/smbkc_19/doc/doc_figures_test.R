@@ -136,13 +136,45 @@ ssb %>%
   ylab("Mature male biomass (tons) on 15 February") + xlab("Year") +
   .THEME
 ggsave(paste0(.FIGS, "lastyr_reference_ssb_wprojected_yr.png"), width = ww*1.25, height = hh)
+ggsave(paste0(.FIGS, "PRESENTATION_lastyr_reference_ssb_wprojected_yr.png"), width = ww*1.5, height = hh)
 
 
 # no need for 2018 figures 10 and 11 because no VAST scenario
 
+# ref_recruit ribbons -------------
+rec <- .get_recruitment_df(M[1:2])
+head(rec)
+
+rec$rbar[1]
+
+# recruitment plot
+rec %>% 
+  ggplot(aes(year, y = exp(log_rec)/1000000, group = Model, fill = Model)) +
+  geom_line(aes(color = Model)) +
+  geom_ribbon(aes(x=year, ymax = ub/1000000, ymin = lb/1000000), alpha = 0.15) +
+  expand_limits(y=0) +
+  ggtitle("Recruitment reference model") +
+  ylab("Recruitment (millions of individuals)") + xlab("Year") +
+  scale_colour_manual(name = "", values = c("red", "darkcyan"))+
+  scale_fill_manual(name = "", values = c("red", "darkcyan")) +
+  geom_hline(aes(yintercept = rbar[1]/1000000), color = "red") +
+  geom_hline(aes(yintercept = rbar[80]/1000000), color = "darkcyan") +
+  #geom_text(aes(x = 2000, y = rbar[1]/1000000, label = "R_bar"), 
+  #          hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 3.0) +
+  .THEME +
+  #geom_hline(data = avgR_options, aes(yintercept = meanR), color = c("blue", "red"), 
+  #           lty = c("solid", "dashed"))+
+  #geom_text(data = avgR_options, aes(x= 1980, y = meanR, label = years), 
+  #          hjust = -2.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) 
+  ggsave(paste0(.FIGS, "recruitment_ref_ribbons.png"), width = 1.5*ww, height = hh)
+dev.off()
+
+
+
 ## selectivity ----------
 #"Comparisons of the estimated stage-1 and stage-2 selectivities for the different model scenarios (the stage-3 selectivities are all fixed at 1). Estimated selectivities are shown for the directed pot fishery, the trawl bycatch fishery, the fixed bycatch fishery, the NMFS trawl survey, and the ADF&G pot survey. Two selectivity periods are estimated in the directed pot fishery, from 1978-2008 and 2009-2017.\\label{fig:selectivity}", fig.height = 15}
 plot_selectivity(M[mod_scen]) 
+ggsave(paste0(.FIGS, "selectivity_mod_scen.png"), width = ww*1.5, height = hh)
 ## ** FIX ** not currently being output in .rep file.  Need to read this from Gmacsall.out 
 
 ## recruitment mod scen ----------------
@@ -186,7 +218,7 @@ rec %>%
   geom_line(aes(color = Model)) +
   geom_ribbon(aes(x=year, ymax = ub/1000000, ymin = lb/1000000), alpha = 0.15) +
   expand_limits(y=0) +
-  ggtitle("base model 2019") +
+  ggtitle("Recruitment model scenarios") +
   ylab("Recruitment (millions of individuals)") + xlab("Year") +
   scale_colour_manual(name = "", values = c("red", "dark green", "blue"))+
   scale_fill_manual(name = "", values = c("red", "dark green", "blue")) +
