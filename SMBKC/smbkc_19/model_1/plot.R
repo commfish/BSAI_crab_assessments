@@ -132,8 +132,13 @@ ssb <- .get_ssb_df(M) # ssb now does NOT include projection year so only up to 2
 head(ssb)
 # ssb vector only includes model years - here crab year 1978 to 2019 does NOT include projection, need to add
 #   projection year for graphical purposes
+# ssb current year uncertainty
+un_ssb <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
 ssb_last <- data.frame("year" = cur_yr, "ssb" = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
-                       "lb" = M[[1]]$spr_bmsy * M[[1]]$spr_depl, "ub" = M[[1]]$spr_bmsy * M[[1]]$spr_depl ) 
+                       "lb" = un_ssb$lci, 
+                       "ub" = un_ssb$uci) 
+
+
 # should be current crab year; update with lb and ub from projection file
 # update with 95% credible interval
 ssb %>% 
@@ -149,10 +154,10 @@ ssb %>%
     #           lty = c("solid", "dashed"))+
     #geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
     #          hjust = -0.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
-    ggtitle("Base model - model 1 (Model 3 2018)") +
+    ggtitle("Reference model (19.0)") +
     ylab("Mature male biomass (t) on 15th February") + xlab("Year") +
     .THEME
-ggsave(paste0(.FIGS, "ssb_wprojected_yr.png"), width = ww, height = hh)
+ggsave(paste0(.FIGS, "ssb19_wprojected_yr.png"), width = ww, height = hh)
 dev.off()
 
 # Bmsy proxy table --------
@@ -183,7 +188,6 @@ years = as.character(M[[1]]$spr_syr)
 as.character(M[[1]]$spr_nyr)
 
 
-
 ofl_df <- data.frame(Bmsy, MMB, B_Bmsy, Fofl, years)
 write_csv(ofl_df, paste0('./SMBKC/smbkc_19/model_1/ofl_table_', mod_names, '.csv'))
 
@@ -193,14 +197,18 @@ ssb %>%
   geom_ribbon(aes(x=year, ymax = ub, ymin = lb), alpha = 0.2) +
   expand_limits(y=0) +
   scale_y_continuous(expand = c(0,0)) +
+  scale_y_continuous(limits = c(0,max(ssb$ub, na.rm = TRUE)),
+                     breaks= seq(min(0), max(max(ssb$ub, 
+                                                 na.rm = TRUE)), by = 2000)) +
   geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
              lty = c("solid", "dashed"))+
   geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
             hjust = -1.25, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
-  ggtitle("Base model - model 1 (Model 3 2018)") +
+  ggtitle("Reference model (19.0)") +
   ylab("Mature male biomass (t) on 15th February") + xlab("Year") +
-  .THEME
-ggsave(paste0(.FIGS, "ssb_Bmsy_wprojected_yr.png"), width = ww, height = hh)
+  .THEME + 
+  FNGr::theme_sleek()
+ggsave(paste0(.FIGS, "ssb19_Bmsy_wprojected_yr.png"), width = ww, height = hh)
 dev.off()
 
 ### cpue ---------------
@@ -278,6 +286,16 @@ rec %>%
 ggsave(paste0(.FIGS, "recruitment_line_with years.png"), width = ww, height = hh)
 dev.off()
          
+## recruitment est for ESP ------
+# recruitment output for ecosystem indicators
+rec %>% 
+  mutate(recruit = exp(log_rec)) %>% 
+  select(year, sex, recruit, lb, ub) %>% 
+  mutate(recruit_tons = recruit*0.000748427) %>% 
+  write.csv(paste0(.FIGS, "recruitment_output.csv")) # this is in number of individuals
+# weight for first size bin is 0.000748427 (from line 31 of .ctl file)
+# 0.0007, 0.0012, 0.0019  I think these weights are already in tons???? check with Jie
+# 524010.0422*0.0019 + 158547.8651*0.0012 seems about corret for ssb for 2018 
 
 
 ### need option with new average recruitment    
