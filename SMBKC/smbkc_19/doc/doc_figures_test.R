@@ -20,11 +20,11 @@ mod_names <- c("model 18.0", "model 19.0 (ref)", "model 19.1 (fit survey)", "mod
               paste0(here::here(), "/SMBKC/smbkc_19/model_5/"), 
               paste0(here::here(), "/SMBKC/smbkc_19/model_1b/"), 
               paste0(here::here(), "/SMBKC/smbkc_19/model_1a/")) #need to update these model options
-.THEME    = theme_bw(base_size = 12, base_family = "")
+.THEME    = theme_bw(base_size = 12, base_family = "") 
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
 .FLEET    = c("Pot","Trawl bycatch","Fixed bycatch","NMFS Trawl","ADF&G Pot")
-.TYPE     = c("Retained & Discarded","Retained","Discarded")
+.TYPE     = c("Retained","Discarded", "Retained & Discarded")
 .SHELL    = c("Aggregate")
 .MATURITY = c("Aggregate")
 .SEAS     = c("1","2","3","4","5")
@@ -69,7 +69,7 @@ hh <- 5
 
 ## data extent -----------
 plot_datarange(M[rec_mod])
-#ggsave(paste0(.FIGS, "data_extent.png"), width = ww, height = hh)
+ggsave(p1, paste0(.FIGS, "data_extent.png"), width = ww, height = hh)
 
 ## fig 6/7 2018 safe - 2018 compared to reference model --------
 plot_cpue(M[1:2], "NMFS Trawl", ylab = "Survey biomass (t)") 
@@ -77,6 +77,9 @@ ggsave(paste0(.FIGS, "trawl_cpue_ref.png"), width = ww*1.25, height = hh*.9)
 
 plot_cpue(M[1:2], "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
 ggsave(paste0(.FIGS, "pot_cpue_ref.png"), width = ww*1.5, height = hh)
+
+plot_cpue(M[1:2])
+ggsave(paste0(.FIGS, "cpue_ref_both.png"), width = ww*2.5, height = hh)
 
 ### Sensitivity of new data in 2018 on estimated recruitment ; 1978-2018
 A <- M
@@ -87,6 +90,8 @@ for (i in c(1,2)) {
 }
 plot_recruitment(A[1:2])
 plot_recruitment(M[1:2])
+ggsave(paste0(.FIGS, "recruit_ref.png"), width = ww*1.5, height = hh)
+
 
 ## ssb -----------
 #"Sensitivity of new data in 2019 on estimated mature male biomass (MMB); 1978-2019. \\label{fig:ssb1}"}
@@ -150,6 +155,53 @@ plot_selectivity(M[mod_scen])
 #}
 #plot_recruitment(A[mod_scen])
 plot_recruitment(M[mod_scen])
+ggsave(paste0(.FIGS, "recruit_mod_scen.png"), width = ww*1.5, height = hh)
+
+# recruit ribbons -------------
+rec <- .get_recruitment_df(M[mod_scen])
+head(rec)
+
+#rbar is estimated in model
+# need to pull rbar from model output with different recruitment years
+rec %>% 
+  group_by(Model) %>% 
+  summarise(meanR = mean(exp(log_rec)/1000000)) %>% 
+  mutate(years = "1978-2018")-> avgR
+
+rec %>% 
+  filter(year >= 1996) %>% 
+  group_by(Model) %>% 
+  summarise(meanR = mean (exp(log_rec)/1000000)) %>% 
+  mutate(years = "1996-2018")-> avgR2
+
+avgR %>% 
+  bind_rows(avgR2) -> avgR_options
+#mutate(Bmsy50 = 0.5*Bmsy) -> Bmsy_options
+avgR_options # see above is calculated average recruitment for each time series
+rec$rbar[1]
+
+# recruitment plot
+rec %>% 
+  ggplot(aes(year, y = exp(log_rec)/1000000, group = Model, fill = Model)) +
+  geom_line(aes(color = Model)) +
+  geom_ribbon(aes(x=year, ymax = ub/1000000, ymin = lb/1000000), alpha = 0.15) +
+  expand_limits(y=0) +
+  ggtitle("base model 2019") +
+  ylab("Recruitment (millions of individuals)") + xlab("Year") +
+  scale_colour_manual(name = "", values = c("red", "dark green", "blue"))+
+  scale_fill_manual(name = "", values = c("red", "dark green", "blue")) +
+  #geom_hline(aes(yintercept = rbar[1]/1000000), color = "gray25") +
+  #geom_text(aes(x = 2000, y = rbar[1]/1000000, label = "R_bar"), 
+  #          hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 3.0) +
+  .THEME +
+  #geom_hline(data = avgR_options, aes(yintercept = meanR), color = c("blue", "red"), 
+  #           lty = c("solid", "dashed"))+
+  #geom_text(data = avgR_options, aes(x= 1980, y = meanR, label = years), 
+  #          hjust = -2.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) 
+ggsave(paste0(.FIGS, "recruitment_mod_scen_ribbons.png"), width = 1.5*ww, height = hh)
+dev.off()
+
+
 
 # ssb mod scen ---------------
   
@@ -209,6 +261,7 @@ plot_natural_mortality(M, knots = NULL, slab = "Model")
 
 #{r trawl_survey_biomass, fig.cap = "Comparisons of area-swept estimates of total (90+ mm CL) male survey biomass (tons) and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations.\\label{fig:trawl_survey_biomass}"} 
 plot_cpue(M[c(mod_scen)],  "NMFS Trawl", ylab = "NMFS survey biomass (t)")
+ggsave(paste0(.FIGS, "trawl_biomass_mod_scen.png"), width = ww*1.5, height = hh)
 #p.df <- .get_cpue_df(M[mod_scen])
 #filter(p.df,fleet=="NMFS Trawl") %>% 
 #  ggplot(aes(x=(year),y=cpue,col=Model)) + geom_point(position=position_dodge(0.9) ) + .THEME + xlab("Year") +
@@ -217,9 +270,48 @@ plot_cpue(M[c(mod_scen)],  "NMFS Trawl", ylab = "NMFS survey biomass (t)")
 
 #{r pot_survey_cpue, fig.cap = "Comparisons of total (90+ mm CL) male pot survey CPUEs and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations.\\label{fig:pot_survey_cpue}"}
 plot_cpue(M[c(mod_scen)],  "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
-
+ggsave(paste0(.FIGS, "pot_cpue_mod_scen.png"), width = ww*1.5, height = hh)
 # add cv on pot survey -----------
 plot_cpue(M[4],  ShowEstErr = TRUE,"ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
+ggsave(paste0(.FIGS, "pot_cpue_addcv.png"), width = ww*1.5, height = hh)
+
+plot_cpue(M[c(mod_scen)])
+ggsave(paste0(.FIGS, "cpue_mod_scen_both.png"), width = ww*2.5, height = 1.25*hh)
+
+##catch --------
+plot_catch(M[2])
+ggsave(paste0(.FIGS, "catch.png"), width = ww*1.2, height = hh*1.2)
+dev.off()
+
+  A <- M[[2]]
+  df <- data.frame(Model = names(M)[2], A$dCatchData_out)
+  colnames(df) <- c("model", "year", "seas", 
+                    "fleet", "sex", "obs", "cv", 
+                    "type", "units", "mult", "effort", 
+                    "discard.mortality")
+  df$observed <- na.omit(as.vector(t(A$obs_catch_out)))
+  df$predicted <- na.omit(as.vector(t(A$pre_catch_out)))
+  df$residuals <- as.vector(t(A$res_catch_out))
+  df$sex <- .SEX[df$sex + 1]
+  df$fleet <- .FLEET[df$fleet]
+  df$type <- .TYPE[df$type]
+  df$sd <- sqrt(log(1 + df$cv^2))
+  df$lb <- exp(log(df$obs) - 1.96 * df$sd)
+  df$ub <- exp(log(df$obs) + 1.96 * df$sd)
+  mdf <- rbind(mdf, df)
+  if (!all(df$observed == df$obs)) {
+    stop("Error: observed catch data is buggered.")
+  }
+}
+mdf$year <- as.integer(mdf$year)
+mdf$sex <- factor(mdf$sex, levels = .SEX)
+mdf$type <- as.factor(mdf$type)
+mdf$fleet <- factor(mdf$fleet, levels = .FLEET)
+return(mdf)
+
+
+
+
 
 #{r bts_resid_nmfs, fig.cap = "Standardized residuals for area-swept estimates of total male survey biomass for the model scenarios. \\label{fig:bts_resid_nmfs}"}
 A <- M[mod_scen];
