@@ -30,8 +30,11 @@ write_rec_prob1(1, "smbkc_19", "proj_1", "aa", "19.0 (ref)", "model_1")
 write_rec_prob1(1, "smbkc_19", "proj_5", "d", "19.0 (ref)", "model_1")
 write_rec_prob1(1, "smbkc_19", "proj_5", "aa", "19.0 (ref)", "model_1")
 
+# add in projections from CPT sept meeting
+write_rec_prob1(1, "smbkc_19", "proj_4", "d", "19.0 (ref)", "model_1") # mix match of ref pt and recruitment time frame
+write_rec_prob1(1, "smbkc_19", "proj_2", "d", "19.0 (ref)", "model_1") # ricker recruitment
 
-# creates .csv and .png files for each
+# creates .csv and .png files for each - old function
 
 write_rec_prob(2, "proj1", "a")
 write_rec_prob(2, "proj1", "b")
