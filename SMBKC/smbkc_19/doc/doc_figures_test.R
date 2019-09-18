@@ -385,6 +385,12 @@ plot_dynB0(M[mod_scen])
 ggsave(paste0(.FIGS, "dyn_Bzero.png"), width = 8.5, height = 5, unit = "in")
 # **FIX ** not currently being output in .rep file - made Jim aware of this I need to talk to him again about this.
 
+# survey fit residuals -----------
+A <- M[mod_scen];
+plot_cpue_res(A, "NMFS Trawl")
+plot_cpue_res(A)
+ggsave(paste0(.FIGS, "survey_residuals.png"), width = 1.5*ww, height = hh)
+
 
 ## create table for model parameter estimates-----------
 
@@ -577,3 +583,8 @@ for (ii in mod_scen)
   v      <- c(mmb, Bmsy, fofl, OFL, ABC)
   df     <- cbind(df, v)
 }
+
+
+
+
+
