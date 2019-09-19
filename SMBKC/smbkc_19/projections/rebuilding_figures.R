@@ -6,7 +6,6 @@
 # here look at those from smbkc_19/model_1/projections
 
 # load -----------
-# load -------
 source("./SMBKC/code/helper.R")
 source("./SMBKC/code/functions.R") # load function for summarising output from projection
 
@@ -18,7 +17,8 @@ proj5d <- read.csv(here::here("SMBKC/smbkc_19/model_1/projections/proj_5/d/rec_1
 proj5aa <- read.csv(here::here("SMBKC/smbkc_19/model_1/projections/proj_5/aa/rec_1yr_prob_out_proj_5aa.csv"))
 
 proj4d <- read.csv(here::here("SMBKC/smbkc_19/model_1/projections/proj_4/d/rec_1yr_prob_out_proj_4d.csv"))
-
+proj2d <- read.csv(here::here("SMBKC/smbkc_19/model_1/projections/proj_2/d/rec_1yr_prob_out_proj_2d.csv"))
+proj2aa <- read.csv(here::here("SMBKC/smbkc_19/model_1/projections/proj_2/aa/rec_1yr_prob_out_proj_2aa.csv"))
 
 ## projection 1 --------
 # the label for F =0.18 needs to be SHR or state harvest rate 
@@ -176,10 +176,38 @@ proj2d %>%
   geom_line() +
   geom_hline(yintercept = 50, color = "red", lty = "dashed", lwd = 1.5) +
   geom_vline(xintercept = 10, color = "blue", lty = 2, lwd = 1.5) +
-  ggtitle("Recruitment drawn from 1996 - 2018 (Bmsy proxy 1978 - 2018)") +
+  ggtitle("Ricker stock-recruit relationship (Bmsy proxy 1978 - 2018)") +
   ylab("Probability of recovery") +
   xlab("Year") +
   ylim(0,100) +
   theme(plot.title = element_text(hjust = 0.5)) -> plotA
 ggsave(paste0(here::here(), '/SMBKC/smbkc_19/doc/safe_figure/proj2d_rec_1yr_prob.png'), plotA, dpi = 800,
        width = 7.5, height = 3.75)
+
+## proj 2 max bycatch
+proj2aa %>% 
+  mutate(projection = "max bycatch") %>% 
+  select(-FishMort) %>% 
+  mutate(FishMort = ifelse(V3 == 1, "F = 0", "F = SHR")) -> proj2aa
+
+proj2d %>% 
+  bind_rows(proj2aa) -> proj2
+
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
+proj2 %>% 
+  ggplot(aes(year, recovery, shape = FishMort, colour = projection)) + 
+  geom_point(size = 2)+
+  scale_shape_manual(name = "", values = c(16, 22)) +
+  scale_color_manual(name = "", values = cbPalette[2:3])+
+  geom_line() +
+  geom_hline(yintercept = 50, color = "red", lty = "dashed", lwd = 1.5) +
+  geom_vline(xintercept = 10, color = "blue", lty = 2, lwd = 1.5) +
+  ggtitle("Recruitment drawn from 1978 - 2018") +
+  ylab("Probability of recovery") +
+  xlab("Year") +
+  ylim(0,100) +
+  theme(plot.title = element_text(hjust = 0.5)) -> plotA
+ggsave(paste0(here::here(), '/SMBKC/smbkc_19/doc/safe_figure/proj2ALL_rec_1yr_prob.png'), plotA, dpi = 800,
+       width = 7.5, height = 3.75)
+
