@@ -93,7 +93,7 @@ plot_recruitment(M[1:2])
 ggsave(paste0(.FIGS, "recruit_ref.png"), width = ww*1.5, height = hh)
 
 
-## fishing mortality ------
+## !!fishing mortality ------
 #plot_F(M[2]) 
 plot_F2(M[2])
 ggsave(paste0(.FIGS, "fishing_mortality.png"), width = ww*1.5, height = hh)
@@ -405,7 +405,9 @@ plot_catch(M[rec_mod]) # Note this should be rec_mod or all models
 #{r Dynamic_Bzero, fig.cap = "Comparisons of mature male biomass relative to the dynamic $B_0$ value, (15 February, 1978-2018) for  each of the model scenarios.\\label{fig:dynB0}"}
 plot_dynB0(M[mod_scen])
 ggsave(paste0(.FIGS, "dyn_Bzero.png"), width = 8.5, height = 5, unit = "in")
-# **FIX ** not currently being output in .rep file - made Jim aware of this I need to talk to him again about this.
+# not currently being output in .rep file - made Jim aware of this I need to talk to him again about this.
+#.get_dynB0_df(M)
+
 
 # survey fit residuals -----------
 A <- M[mod_scen];
