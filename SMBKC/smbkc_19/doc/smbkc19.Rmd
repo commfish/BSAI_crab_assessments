@@ -1205,6 +1205,10 @@ plot_size_comps_res(M[4])
 plot_catch(M[rec_mod]) # Note this should be rec_mod or all models
 ```
 
+```{r fishing-mort, fig.cap = "Fishing mortality estimates from the reference model (19.0) for directed and bycatch fleets", fig.height =12}
+knitr::include_graphics("safe_figure/fishing_mortality.png", dpi = 375)
+```
+
 
 ```{r dynamic-bzero, fig.cap = "Comparison of mature male biomass relative to the dynamic B zero value, (15 February, 1978-2018) for each of the model scenarios.", fig.height =12}
 knitr::include_graphics("safe_figure/dyn_Bzero.png", dpi = 375)
