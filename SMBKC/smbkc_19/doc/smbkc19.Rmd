@@ -11,7 +11,8 @@ output:
     includes: null
     toc: no
 ---
-\pagenumbering{arabic}
+
+\pagenumbering{gobble}
 
 ```{r global_options, include=FALSE, echo = FALSE, message = FALSE, warning=FALSE}
 library(knitr)
@@ -89,10 +90,10 @@ round(M[[alt_mod]]$spr_cofl/1000*0.8, 2) -> alt_abc_1920
 round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_1819_lb
 round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]* 2204.62/1e6, 2) -> mmb_1819_lb
 round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_1920_lb
-round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 2) -> ofl_1920_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 3) -> ofl_1920_lb
 round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.8, 2) -> abc_1920_lb
 
-round(M[[alt_mod]]$spr_bmsy*M[[alt_mod]]$spr_depl* 2204.62/1e6, 2)-> alt_mmb_1920_lb
+round(M[[alt_mod]]$spr_bmsy*M[[alt_mod]]$spr_depl* 2204.62/1e6, 3)-> alt_mmb_1920_lb
 round(M[[alt_mod]]$spr_cofl* 2204.62/1e6, 2) -> alt_ofl_1920_lb
 round(M[[alt_mod]]$spr_cofl* 2204.62/1e6*0.8, 2) -> alt_abc_1920_lb
 
@@ -127,11 +128,11 @@ The retained catch in 2015/16 was even lower at 48 t (0.105 million pounds) and 
 3. **Stock biomass**: The 1978-2019 NMFS trawl survey mean biomass is 5,605 t with the 2019 value being the
 15th lowest (3,170 t; the tenth lowest since 2000). 
 This 2019 biomass of $\ge$ 90 mm carapace length (CL) male crab is 
-57% of the long term mean  at 6.99 million pounds (with a CV of 34%), and is a 83% increase from the 2018 biomass.
+57% of the long term mean  at 6.99 million pounds (with a CV of 34%), and an 83% increase from the 2018 biomass.
 The most recent 3-year average of the NMFS survey is 40% of the mean value, indicating a decline in biomass compared to
 historical survey estimates, notably in 2010 and 2011 that were over four times the current average.
 However, the 2019 value is substantially larger than the two previous years (3,170 t compared to 1,731 t in 2018 and 1,794 t in 2017).
-The ADFG pot survey was did not take place in 2019, but in 2018 the relative biomass in this index was the lowest
+The ADFG pot survey did not occur in 2019, but in 2018 the relative biomass in this index was the lowest
 in the time series (12% of the mean from the 11 surveys conducted since 1995).
 The assessment model estimates tempers this increase and suggests that the stock (in survey biomass units) is presently at about
 `r bio_lt_percent `% 
@@ -140,20 +141,20 @@ The trend from these values suggests a steady state in the last few years, which
 
 4. **Recruitment**: Recruitment is based on estimated number of male crab within the 90-104 mm CL size class
 in each year. The 2019 trawl-survey area-swept estimate of 0.403 million male SMBKC in this size class is the twelfth lowest in 
-the 42 years since 1978 and follows two of the lowest previously observed values in 2017 and 2018. The recent six-year (2014 - 2019) average recruitment is only 47% of this mean. 
+the 42 years since 1978 and follows two of the lowest previously observed values in 2017 and 2018. The recent six-year (2014 - 2019) average recruitment is only 47% of the long-term mean. 
 In the pot-survey, the abundance of this size group in 2017 was also the second-lowest in the time series (22% of the mean for the 
 available pot-survey data) whereas in 2018 the value was the lowest observed at only 10% of the mean value.
 
-5. **Management performance**: In this assessment estimated total male catch is the sum of fishery-reported retained
+5. **Management performance**: In this assessment, estimated total male catch is the sum of fishery-reported retained
 catch, estimated male discard mortality in the directed fishery, and estimated male bycatch mortality in the groundfish fisheries.
-Based on the reference model for SMBKC, the estimate for mature male biomass was below the minimum stock-size threshold (MSST) in 2017/18 and is hence is in an "overfished" condition, despite fishery closures in the last three years 
-(and hence overfishing has not occurred) (Tables \@ref(tab:status), \@ref(tab:ofl-basis) and \@ref(tab:management-quants)). 
+Based on the reference model for SMBKC, the estimate for mature male biomass was below the minimum stock-size threshold (MSST) in 2018/19 and is in an "overfished" condition, despite fishery closures in the last three years 
+(and hence overfishing has not occurred) (Tables \@ref(tab:status), \@ref(tab:ofl-basis), and \@ref(tab:management-quants)). 
 Computations which indicate the relative impact of fishing 
-(i.e., the "dynamic $B_0$") suggests that the current spawning stock biomass has been reduced to `r .get_dynB0_df(Mbase) %>% transmute(round(100*ssb,0)) %>% slice(n())`% of what it would have been in the absence of fishing, assuming the same level of recruitment as estimated. 
+(i.e., the "dynamic $B_0$") suggests, that the current spawning stock biomass has been reduced to `r .get_dynB0_df(Mbase) %>% transmute(round(100*ssb,0)) %>% slice(n())`% of what it would have been in the absence of fishing, assuming the same level of recruitment as estimated. 
  
  \begin{table}[ht]
  \centering
- \caption{Status and catch specifications (1000 t) for the reference model. Alternative reference point time frame include for comparison for projection year (alt).}
+ \caption{Status and catch specifications (1000 t) for the reference model. Alternative reference point time frame included for comparison for projection year (alt).}
  \label{tab:status}
  \begin{tabular}{lccccccc}
   \hline
@@ -174,7 +175,7 @@ Computations which indicate the relative impact of fishing
 
 \begin{table}[ht]
 \centering
-\caption{Status and catch specifications (million pounds) for the reference model.Alternative reference point time frame include for comparison for projection year (alt).}
+\caption{Status and catch specifications (million pounds) for the reference model.Alternative reference point time frame included for comparison for projection year (alt).}
 \label{tab:status-pounds}
 \begin{tabular}{lccccccc}
   \hline
@@ -233,25 +234,26 @@ There are no new changes in management of the fishery.
 ## Changes to the Input Data {-}
 
 Data used in this assessment have been updated to include the most recently
-available fishery and survey numbers. This assessment makes use of one new
-survey data point - the 2019 NMFS trawl-survey estimate of abudance. The ADF&G pot survey was not conducted in 2019, since it is back to a three year cycle.
+available fishery and survey numbers. This assessment includes of one new
+survey data point - the 2019 NMFS trawl-survey estimate of abudance. 
+The triennial ADF&G pot survey was not conducted in 2019. 
 The NMFS trawl-surveys have associated size
 compositon data. The assessment also uses updated 2010-2018 groundfish and
 fixed gear bycatch estimates based on NMFS Alaska Regional Office (AKRO) data. 
-The directed fishery has been closed since 2016/17 so fishery data in recent years are unavailable.
+The directed fishery has been closed since 2016/17, so no recent fishery data are available.
 
 ## Changes in Assessment Methodology {-}
 
 This assessment uses the General model for Alasks crab stocks (Gmacs) framework. The
 model is configured to track three stages of length categories and was 
-first presented in May 2011 by Bill Gaeuman and accepted by the CPT in May 2012. 
-A difference from the original approach, and that used here, is that natural and fishing mortalities are
+first presented in May 2011 by W.Gaeuman, ADF&G, per.com. and accepted by the CPT in May 2012. 
+A difference from the original approach and that used here is that natural and fishing mortalities are
 continuous within `r M[[ref_mod]]$nseason` discrete seasons (using the appropriate
 catch equation rather than assuming an applied pulse removal). Season length in Gmacs
 is controlled by changing the proportion of natural mortality that is applied
 each season. 
 Diagnostic output includes estimates of the "dynamic $B_0$" which simply
-computes the ratio of the spawning biomass as estimated relative to the spawning biomass that would have occurred 
+computes the ratio of the estimated spawning biomass relative to the spawning biomass that would have occurred 
 had there been no historical fishing mortality. 
 Details of this implementation and other model details are provided in Appendix A.
 
@@ -259,7 +261,7 @@ Details of this implementation and other model details are provided in Appendix 
 
 Both surveys indicate a decline over the past few years. The "reference" model is that which was selected for use in 2018.
 There is only one new data set to be included this year so this becomes the updated reference model. 
-Two alternative models are presented to assess sensitivity to the model, while another is provided for alternative reference point calculations (Table \@ref(tab:ofl-basis)) using a recent regime time frame. The **Fit survey** configuration simply adds emphasis on the design-based survey data (by assuming a lower input variance). The **add CV pot** configuration estimates an additional CV on the pot survey data, which in turn allows the model to fit the trawl-survey estimates better. 
+Two alternative models are presented to assess sensitivity to the model, while another is provided for alternative reference point calculations (Table \@ref(tab:ofl-basis)) using a recent regime time frame. The **fit survey** configuration simply adds emphasis on the design-based survey data (by assuming a lower input variance). The **add CV pot** configuration estimates an additional CV on the pot survey data, which in turn allows the model to fit the trawl-survey estimates better. 
 
 
 # B. Responses to SSC and CPT  {-}
@@ -312,7 +314,7 @@ includes the waters north of Cape Newenham (58&deg;39' N. lat.) and south of Cap
 The Alaska Department of Fish and Game (ADF&G) Gene Conservation Laboratory, has detected regional population
 differences between blue king crab collected from St. Matthew Island and the Pribilof Islands^[NOAA grant Bering Sea
 Crab Research II, NA16FN2621, 1997.]. 
-NMFS tag-return data from studies on blue king crab in the Pribilof Islands and
+The NMFS tag-return data from studies on blue king crab in the Pribilof Islands and
 St. Matthew Island support the idea that legal-sized males do not migrate between the two areas (Otto and Cummiskey
 1990). St. Matthew Island blue king crab tend to be smaller than their Pribilof conspecifics, and the two stocks are
 managed separately.
@@ -358,7 +360,7 @@ vessels landed a catch of 209 t (0.461 million pounds) with a reported effort of
 similar CPUE, but large declines in the NMFS trawl-survey estimate of stock abundance raised concerns about the health
 of the stock. This prompted ADF&G to close the fishery again for the 2013/14 season. 
 The fishery was reopened for the 2014/15 season with a low TAC of 297 t (0.655 million pounds) and in 2015/16 the TAC
-was further reduced to 186 t (0.411 million pounds) then completely closed during the 2016/17 season.
+was further reduced to 186 t (0.411 million pounds) then completely closed the 2016/17 season.
 
 Although historical observer data are limited due to low sampling effort, bycatch of female and sublegal male crab from
 the directed blue king crab fishery off St. Matthew Island was relatively high historically, with estimated total
@@ -381,7 +383,7 @@ also occurred in the eastern Bering Sea groundfish fisheries (Table \@ref(tab:sm
 ## Summary of New Information {-}
 
 Data used in this assessment were updated to include the most recently available fishery and survey numbers. This
-assessment makes use of one new survey data point, which is the 2019 NMFS trawl-survey estimate of abudance, and
+assessment uses one new survey data point, which is the 2019 NMFS trawl-survey estimate of abudance, and
 its associated size compositon data. 
 The assessment also uses updated 1993-2018 groundfish and fixed gear bycatch estimates based on AKRO data.
 The fishery was closed in 2018/19 so no directed fishery catch data were available. 
@@ -460,7 +462,7 @@ to the reference model. In summary, the following lists the models presented and
 
 3. **19.0a - 2019 Model - alt reference pts**: model 19.0 with alternative time frames for reference points and projections
 
-4. **19.1 - Fit survey**: an exploratory scenario that's the same as the reference model except the NMFS trawl survey is up-weighted by
+4. **19.1 - fit survey**: an exploratory scenario that's the same as the reference model except the NMFS trawl survey is up-weighted by
    $\lambda^\text{NMFS}= 1.5$  and the ADF&G pot survey is up-weighted by $\lambda^\text{ADFG}= 2$ . 
 
 5. **19.2 - add CV pot**: includes an estimated additional CV on the ADF&G pot survey
@@ -515,6 +517,8 @@ variable over time for all models and in recent years is well below average (Fig
 mature male biomass on 15 February also fluctuates considerably (Figure \@ref(fig:mmb)). Estimated natural mortality each
 year ($M_t$) is presented in Figure \@ref(fig:M-t).
 
+Estimates of fishing morality, from the reference model, are shown to assist with the rebuilding and reference point time frame discussions (Figure \@ref(fig:fishing-mort)). Fishing mortality can not be ruled out as being an influential factor in the current stock status.
+
 ### d. Evaluation of the fit to the data.{-}
 The model fits to total male ($\ge$ 90 mm CL) trawl survey biomass tend to miss the recent peak around 2010, and fits recent survey data points on the lower end of their error bars (Figures \@ref(fig:trawl-survey-biomass)). These fits are most likely being pulled down by the recent decline in the ADF&G pot survey data points, since the **add CV pot** model captures the upward error bars for these data points when it is allowed to fit the ADF&G pot survey data very poorly.
 All of the models fit the pot survey CPUE poorly (Figure \@ref(fig:pot-survey-cpue)), with the **add CV pot** model having the worst fit due to the addition of variability (Figure \@ref(fig:pot-add-cv)). For the trawl survey the standardized residuals have similar patterns with the exception of recent years for the **add CV pot** model (19.2), generally poor fit to the last 15 years of data (Figure \@ref(fig:bts-resid-nmfs)). The standardized residuals for the ADF&G pot survey have similar patterns but are much larger for the "add CV pot" model than the others, for obvious reasons (Figure \@ref(fig:bts-resid-adfg)).
@@ -525,7 +529,7 @@ for all scenarios. Representative residual  plots of the composition data fits a
 The model fits to different types of retained and discarded catch values performed as expected given the assumed levels
 of uncertainty on the input data (Figure  \@ref(fig:fit-to-catch)).
 
-Unsurprisingly, the **Fit surveys** model fits the 
+Unsurprisingly, the **fit surveys** model fits the 
 the NMFS survey biomass and ADF&G pot survey CPUE  data better but still has a similar residual pattern
 (Figures \@ref(fig:trawl-survey-biomass) and \@ref(fig:pot-survey-cpue)). 
 It is worth noting that that this scenario (included for exploratory purposes) resulted in worse SDNR and MAR values for the two abundance indices.
@@ -541,19 +545,19 @@ Tables \@ref(tab:est-pars-ref), \@ref(tab:est-pars-3), and \@ref(tab:est-pars-4)
 presented in Section F.
 
 ### g. Comparison of alternative model scenarios.{-}
-The estimates of mature male biomass (Figure \@ref(fig:mmb)), for the **Fit survey** sensitivity 
+The estimates of mature male biomass (Figure \@ref(fig:mmb)), for the **fit survey** sensitivity 
 differs from the other models due to a low value for pot survey catchability being estimated (which tends to scale the population estimate). Difference in the mature male biomass since 2010 in the **add CV pot** model are due to the model following the trajectory of the trawl survey and downweighting the declines in the pot survey. 
-The **Fit Survey** scenario upweights both the trawl and pot surveys abundance indices and represents a model run
+The **fit Survey** scenario upweights both the trawl and pot surveys abundance indices and represents a model run
 that places greater emphasis on the abundance indices.
 The **add CV pot** scenario places more emphasis on the trawl survey, essentially ignoring the pot survey results in more recent years (since 2010). 
 
 In summary, the use of the reference model for management purposes is preferred since it provides the best fit to all 
 of the data and is consistent with previous model specifications.  Research on alternative model specifications (e.g., natural mortality variability) was limited this year since the authors were focused on the time frame to estimate reference points and rebuilding projections (Appendix C). 
 Consequently, the reference model appears reasonable and appropriate for ABC and OFL  determinations for this stock in
-2019. Additionally, the **Fit surveys** and the **add CV pot** models provide conflicting conditions of this stock depending on which survey results are more believable. These conflicting results, in addition to the stock being in a overfished state, should highlight the caution needed in managing this resource.
+2019. Additionally, the **fit surveys** and the **add CV pot** models provide conflicting conditions of this stock depending on which survey results are more believable. These conflicting results, in addition to the stock being in a overfished state, should highlight the caution needed providing management advice.
 
 # F. Calculation of the OFL and ABC{-}
-The overfishing level (OFL) is the fishery-related mortality biomass associated with fishing mortality $F_\mathit{OFL}$. The SMBKC stock is currently managed as Tier 4, and only a Tier 4 analysis is presented here. Thus given stock estimates or suitable proxy values of $B_\mathit{MSY}$ and $F_\mathit{MSY}$, along with two additional parameters $\alpha$ and $\beta$, $F_\mathit{OFL}$ is determined by the control rule
+The overfishing level (OFL) is the fishery-related mortality biomass associated with fishing mortality $F_\mathit{OFL}$. The SMBKC stock is currently managed as Tier 4, and only a Tier 4 analysis is presented here. Thus, given stock estimates or suitable proxy values of $B_\mathit{MSY}$ and $F_\mathit{MSY}$, along with two additional parameters $\alpha$ and $\beta$, $F_\mathit{OFL}$ is determined by the control rule
 \begin{align}
     F_\mathit{OFL} &= 
     \begin{cases}
@@ -622,7 +626,7 @@ normal with an absence of a "cold pool" in the region. This could have detriment
 should be carefully monitored. Relative to the impact of historical fishing, we again conducted a
  "dynamic-$B_0$" analysis. This procedure simply projects
 the population based on estimated recruitment but removes the effect of fishing. For the reference case,
-this suggests that the impact of fishing has reduced to stock to about `r .get_dynB0_df(Mbase) %>% transmute(round(100*ssb,0)) %>% slice(n())`% of what it would have been in the absence of fishing (Figure \@ref(fig:dynamic-bzero)). 
+this suggests that the impact of fishing has reduced the stock to about `r .get_dynB0_df(Mbase) %>% transmute(round(100*ssb,0)) %>% slice(n())`% of what it would have been in the absence of fishing (Figure \@ref(fig:dynamic-bzero)). 
 The other non-fishing contributors to the observed depleted stock trend (ignoring stock-recruit relationship) may reflect variable  survival rates due to environmental conditions and also range shifts. 
  
 
@@ -653,6 +657,8 @@ Gaeuman, W.B. 2013. Summary of the 2012/13 mandatory crab observer program datab
 Gish, R.K., V.A. Vanek, and D. Pengilly. 2012. Results of the 2010 triennial St. Matthew Island blue king crab pot survey and 2010/11 tagging study. Alaska Department of Fish and Game, Fishery Management Report No. 12-24, Anchorage.
 
 Ianelli, J., D. Webber, and J. Zheng, 2017. Stock assessment of Saint Matthews Island blue king crab. North Pacific Fishery Management Council. Anchorage AK.
+
+Ianelli, J., and J. Zheng, 2018. Stock assessment of Saint Matthews Island blue king crab. North Pacific Fishery Management Council. Anchorage AK.
 
 Jensen, G.C., and D.A. Armstrong. 1989. Biennial reproductive cycle of blue king crab, *Paralithodes platypus*, at the Pribilof Islands, Alaska and comparison to a congener, *P. camtschatica*. Can. J. Fish. Aquat. Sci. 46: 932-940.
 
