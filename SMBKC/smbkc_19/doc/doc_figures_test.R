@@ -163,7 +163,7 @@ ggsave(paste0(.FIGS, "PRESENTATION_lastyr_reference_ssb_wprojected_yr.png"), wid
 
 # no need for 2018 figures 10 and 11 because no VAST scenario
 
-# ref_recruit ribbons -------------
+# !!ref_recruit ribbons -------------
 rec <- .get_recruitment_df(M[1:2])
 head(rec)
 
@@ -189,6 +189,34 @@ rec %>%
   #geom_text(data = avgR_options, aes(x= 1980, y = meanR, label = years), 
   #          hjust = -2.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) 
   ggsave(paste0(.FIGS, "recruitment_ref_ribbons.png"), width = 1.5*ww, height = hh)
+dev.off()
+
+# !!2019 ref recruit ribbon --------------
+rec <- .get_recruitment_df(M[2])
+head(rec)
+
+rec$rbar[1]
+
+# recruitment plot
+rec %>% 
+  ggplot(aes(year, y = exp(log_rec)/1000000, group = Model, fill = Model)) +
+  geom_line(aes(color = Model)) +
+  geom_ribbon(aes(x=year, ymax = ub/1000000, ymin = lb/1000000), alpha = 0.15) +
+  expand_limits(y=0) +
+  ggtitle("Recruitment reference model") +
+  ylab("Recruitment (millions of individuals)") + xlab("Year") +
+  #scale_colour_manual(name = "", values = c("red", "darkcyan"))+
+  #scale_fill_manual(name = "", values = c("red", "darkcyan")) +
+  geom_hline(aes(yintercept = rbar[1]/1000000), color = "black") +
+  #geom_hline(aes(yintercept = rbar[80]/1000000), color = "darkcyan") +
+  #geom_text(aes(x = 2000, y = rbar[1]/1000000, label = "R_bar"), 
+  #          hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 3.0) +
+  .THEME +
+  #geom_hline(data = avgR_options, aes(yintercept = meanR), color = c("blue", "red"), 
+  #           lty = c("solid", "dashed"))+
+  #geom_text(data = avgR_options, aes(x= 1980, y = meanR, label = years), 
+  #          hjust = -2.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) 
+  ggsave(paste0(.FIGS, "recruitment_ref19_ribbons.png"), width = 1.5*ww, height = hh)
 dev.off()
 
 
