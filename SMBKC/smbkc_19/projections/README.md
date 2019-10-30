@@ -14,6 +14,7 @@ Projection Model    | BMSY proxy years  | recruitment years | Description
 projection 1      	| 1978-2018			    |   1978-2018		    | Using entire time frame for both BMSY proxy and recruitment draws		    
 projection 5   			| 1996-2018			    | 	1996-2018		    | Using current "regime" from breakpoint analysis for both 
 
+projection 2        | 1978 - 2019       |   1978-2019       | Uses Ricker stock-recruit for recruitment 
 (similar to projection version d in May document)
 	- both have average bycatch from the last 5 years (2014-2018)
 	- Use state harvest policy 
@@ -23,6 +24,8 @@ projection 5   			| 1996-2018			    | 	1996-2018		    | Using current "regime" f
 option  |	Description
 --------|	--------------
 aa    	| 	Groundfish bycatch max that it's every been - see Table 6 2018 SAFE document - 2007
-bb	  	|	  other levels of bycatch???
+d 	  	|	  (from May 2019) average bycatch last 5 years 2014-2018
+b       |   average bycatch last 5 years AND F = M INSTEAD of State harvest policy (only run for proj 2)
+
 
 -conclusions: increased bycatch to 2007 levels reduces the time to rebuilding over 10 years for both proj 1 and 5, the magnitude is greater for 5.
