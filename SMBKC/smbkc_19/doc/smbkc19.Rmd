@@ -215,9 +215,9 @@ Computations which indicate the relative impact of fishing
   2017/18 & 4b & 3.86 & 2.05 & 0.53 & 0.08 & 1 & 1978-2017 & 0.18 \\
   2018/19 & 4b & 3.7  & `r mmb_1819` & 0.35 & 0.043 & 1 & 1978-2017 & 0.18 \\
   \\
-  2019/20 & 4b & `r bmsy_cur` & `r mmb_1920` & `r ratio_bmsy` & 
+  2019/20 & 4c & `r bmsy_cur` & `r mmb_1920` & `r ratio_bmsy` & 
   `r fofl ` & 1 & 1978-2018 & 0.18 \\ 
-  2019/20 & 4b & `r alt_bmsy_cur` & `r alt_mmb_1920` & `r alt_ratio_bmsy` & 
+  2019/20 & 4c & `r alt_bmsy_cur` & `r alt_mmb_1920` & `r alt_ratio_bmsy` & 
   `r alt_fofl ` & 1 & 1996-2018 & 0.18 \\
   \hline
 \end{tabular}
