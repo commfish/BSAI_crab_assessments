@@ -34,4 +34,4 @@ b       |   average bycatch last 5 years AND F = M INSTEAD of State harvest poli
 !! IMPORTANT !!
 See readme.md under smbkc_19  for instructions on running projections. 
 
-copy files from model_1 (current accepted model) into projections2 folder. Place in the correct .prj file and then run gmacs.exe here. Move these files into the correct projection folder (see other readme.md)
+copy files from model_1 (current accepted model) into temp folder. Place in the correct .prj file and then run gmacs.exe here. Move these files into the correct projection folder (see other readme.md)
