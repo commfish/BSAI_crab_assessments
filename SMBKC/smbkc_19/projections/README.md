@@ -29,3 +29,9 @@ b       |   average bycatch last 5 years AND F = M INSTEAD of State harvest poli
 
 
 -conclusions: increased bycatch to 2007 levels reduces the time to rebuilding over 10 years for both proj 1 and 5, the magnitude is greater for 5.
+
+
+!! IMPORTANT !!
+See readme.md under smbkc_19  for instructions on running projections. 
+
+copy files from model_1 (current accepted model) into projections2 folder. Place in the correct .prj file and then run gmacs.exe here. Move these files into the correct projection folder (see other readme.md)
