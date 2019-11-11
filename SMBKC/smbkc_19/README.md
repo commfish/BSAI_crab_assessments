@@ -57,3 +57,6 @@ Need to run mcmc above to get .psv file for projections
 'gmacs -mceval'
 
 3) save output files created from projection into folder - 'smbkc_18a/projections/proj#/letter'
+
+4) See code in KJP_risk_profile_general.R to summarise output from projection run
+5) Then see 'rebuilding_figures.R' for plotting
