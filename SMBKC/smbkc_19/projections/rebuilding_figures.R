@@ -297,6 +297,7 @@ proj2aa %>%
 proj2abc %>% 
   mutate(projection = "alternative 1") %>% 
   filter(V3 == 2) %>% 
+  mutate(FishMort = "F = ABC") %>% 
   select(year, V3, recovery, projection, FishMort) -> proj2abc
 #elect(-FishMort) %>% 
 #mutate(FishMort = ifelse(V3 == 1, "F = 0", "F = SHR")) -> proj2b
