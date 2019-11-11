@@ -35,6 +35,9 @@ write_rec_prob1(1, "smbkc_19", "proj_4", "d", "19.0 (ref)", "model_1") # mix mat
 write_rec_prob1(1, "smbkc_19", "proj_2", "d", "19.0 (ref)", "model_1") # ricker recruitment
 write_rec_prob1(1, "smbkc_19", "proj_2", "aa", "19.0 (ref)", "model_1") # ricker recruitment
 write_rec_prob1(1, "smbkc_19", "proj_2", "b", "19.0 (ref)", "model_1") # ricker recruitment, F=M
+write_rec_prob1(1, "smbkc_19", "proj_2", "abc", "19.0 (ref)", "model_1") # ricker recruitment, F=M*0.75 or ABC
+
+
 # creates .csv and .png files for each - old function
 
 write_rec_prob(2, "proj1", "a")
