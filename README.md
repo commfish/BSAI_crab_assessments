@@ -20,3 +20,6 @@ Instructions:
 - type 'make.bat'
 
 This should create libraries and gmacs.exe needed to run models.
+
+13-11-2019
+updates to .ctl file to run with newest versino of .tpl with Andre and Jie changes.  See folder smbkc_19a for updated .ctl and associated gmacs.exe
