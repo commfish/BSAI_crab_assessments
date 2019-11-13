@@ -1809,9 +1809,9 @@ PARAMETER_SECTION
   sdreport_number sd_ofl;
   sdreport_matrix sd_log_recruits(1,nsex,syr,nyr);
   sdreport_vector sd_log_ssb(syr,nyr);
+  sdreport_number sd_last_ssb;                          //added by Jie
   sdreport_vector ParsOut(1,NVarPar);
-  //added nine lines by Jie
-  sdreport_number sd_last_ssb;
+  //added eight lines by Jie
   //sdreport_vector sdrLnRecMMB(syr,nyr-6);             //these are for spawning per recruits. Six years of recruitment time lag.
   //sdreport_vector sdrLnRec(syr,nyr-6);
   //sdreport_vector sdrRec(syr,nyr-6);
@@ -3932,7 +3932,7 @@ FUNCTION calc_objective_function
     else
      {
       dvector stdtmp = cpue_sd(k) * 1.0 / cpue_lambda(k);                                     ///> Use Sigma scalar instead
-   //   dvar_vector restmp = elem_div(log(elem_div(obs_cpue(k), pre_cpue(k))), stdtmp) + 0.5 * stdtmp;
+   //   dvar_vector restmp = elem_div(log(elem_div(obs_cpue(k), pre_cpue(k))), stdtmp) + 0.5 * stdtmp;   //deleted "0.5*stdtmp" by Jie
       dvar_vector restmp = elem_div(log(elem_div(obs_cpue(k), pre_cpue(k))), stdtmp);
       nloglike(2,k) += sum(log(stdtmp)) + sum(0.5 * square(restmp));
      }
@@ -5789,6 +5789,17 @@ FUNCTION CreateOutput
   REPORT(priorDensity);
   OutFile1 << endl;
 
+  // Likelihood summary. Added by Jie, total 10 lines.
+  OutFile2 << "Catches" << endl << elem_prod(nloglike(1),catch_emphasis) << endl;
+  OutFile2 << "Index" << endl << elem_prod(nloglike(2),cpue_emphasis) << endl;
+  OutFile2 << "Size-compositions" << endl << elem_prod(nloglike(3),lf_emphasis) << endl;
+  OutFile2 << "Recruitment_penalities" << endl << nloglike(4) << endl;
+  OutFile2 << "Tagging_data" << endl << nloglike(5) << endl;
+  OutFile2 << "Initial_size-structure" << endl << TempSS << endl;
+  OutFile2 << "Other_penalties" << endl << elem_prod(nlogPenalty,Penalty_emphasis) << endl;
+  OutFile2 << "Total" << endl << objfun << endl;
+  OutFile2 << endl;
+
   // catches
   OutFile1 << "#--------------------------------------------------------------------------------------------" << endl;
   OutFile1 << "Catch_data_summary" << endl;
@@ -5927,22 +5938,25 @@ FUNCTION CreateOutput
   REPORT(log_fbar);
   OutFile1 << endl;
 
-  dvar_matrix ft_pot(1,nsex,syr,nyr);     //added by Jie: output fishing mortalities, selectivities and retained proportions to report file, next 24 lines
-  dvar_matrix ft_trawl(1,nsex,syr,nyr);   
-  dvar_matrix ft_tanner(1,nsex,syr,nyr);  
-  dvar_matrix ft_fixed(1,nsex,syr,nyr);   
-  for (int h=1;h<=nsex;h++)               
-   for (int i=syr;i<=nyr;i++)             
-    {
-      ft_pot(h,i) = ft(1,h,i,3);
-      ft_trawl(h,i) = ft(2,h,i,5);
-      ft_tanner(h,i) = ft(3,h,i,5);
-      ft_fixed(h,i) = ft(4,h,i,5);               
-    }
-  REPORT(ft_pot);                         
-  REPORT(ft_trawl);                       
-  REPORT(ft_tanner);                      
-  REPORT(ft_fixed);       
+  if (datafile == "BBRKC.dat") //added by Jie: output fishing mortalities, selectivities & retained proportions to report file, total 27 lines
+  { 
+    dvar_matrix ft_pot(1,nsex,syr,nyr);     
+    dvar_matrix ft_trawl(1,nsex,syr,nyr);   
+    dvar_matrix ft_tanner(1,nsex,syr,nyr);  
+    dvar_matrix ft_fixed(1,nsex,syr,nyr);   
+    for (int h=1;h<=nsex;h++)               
+     for (int i=syr;i<=nyr;i++)             
+      {
+        ft_pot(h,i) = ft(1,h,i,3);
+        ft_trawl(h,i) = ft(2,h,i,5);
+        ft_tanner(h,i) = ft(3,h,i,5);
+        ft_fixed(h,i) = ft(4,h,i,5);               
+      }
+    REPORT(ft_pot);                         
+    REPORT(ft_trawl);                       
+    REPORT(ft_tanner);                      
+    REPORT(ft_fixed); 
+  }      
   OutFile2 << "selectivity" << endl; 
   for ( int h = 1; h <= nsex; h++ ) for ( int j = 1; j <= nfleet; j++ )
     OutFile2 << syr << " " << h << " " << j << " " << mfexp(log_slx_capture(j,h,syr)) << endl; 
