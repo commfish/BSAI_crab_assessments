@@ -213,7 +213,7 @@
    0.0001           0.0     4.0     50.0        1    -1 # Fixed
    0.00             0.0     2.00     20.00       -1    -1 # NMFS
    0.00             0.0     2.00     20.00       -1    -1 # ADF&G
-   10                                                     # Upper bound value for male directed fishing mortality deviations
+   10                                                    # Upper bound value for male directed fishing mortality deviations UPDATED
 ## ==================================================================================== ##
 
 ## ==================================================================================== ##
