@@ -1,11 +1,13 @@
 # St. Matthews Blue King Crab 
 
-Current assessment authors are:
+## Current assessment authors are:
   Katie Palof 
+  
   Jie Zheng
+  
   Jim Ianellii (past assessment author)
 
-Folders here:
+## Folders here:
   code        | contains code for processing input data and general helper.R file.show
   
   smbkc_18a   | code inherited from Jim and Andre early Spring 2019. Has models presented at May CPT meeting 2019
