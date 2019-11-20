@@ -1533,6 +1533,10 @@ DATA_SECTION
   !! if(prj_futRec_nyr < prj_futRec_syr)  { cout << "Last year for generating recruitment must be later than the first year" << endl; exit(1); }
   init_number SigmaR_prj                                   ///> Sigma(R)
   !! WRITEPRJ(SigmaR_prj);
+  init_number Prow_prj                                     ///> Prow(R)
+  !! WRITEPRJ(Prow_prj);
+  init_number Initial_eps                                  ///> First rec_dev(R)
+  !! WRITEPRJ(Initial_eps);
 
   init_int Apply_HCR_prj;                                  ///> State HCR stuff
   !! WRITEPRJ(Apply_HCR_prj);
@@ -5364,7 +5368,7 @@ FUNCTION void calc_spr_reference_points2(const int DoProfile)
 
 FUNCTION write_eval
   int index;                                                         ///> Counters
-  dvariable MeanF,NF,Fmult,Bmsy_out;                                 ///> Temp variables
+  dvariable MeanF,NF,Fmult,Bmsy_out,eps1;                            ///> Temp variables
   dvar_vector Bproj(syr,nyr+nproj);                                  ///> Biomass outout
   dvar_vector Fave(1,nfleet);                                        ///> Average F
 
@@ -5409,6 +5413,7 @@ FUNCTION write_eval
   for (int isim=1;isim<=prj_replicates;isim++)
    {
     // generate future recruitment
+    if (Initial_eps < -998) eps1 = randn(rng); else eps1 = Initial_eps;
     for (int iproj=1;iproj<=nproj;iproj++)
      {
       if (Stock_rec_prj==UNIFORMSR)
@@ -5419,7 +5424,8 @@ FUNCTION write_eval
        }
       if (Stock_rec_prj==RICKER || Stock_rec_prj==BEVHOLT)
        {
-        fut_recruits(1,iproj) = mfexp(randn(rng)*SigmaR_prj-SigmaR_prj*SigmaR_prj/2.0);
+        fut_recruits(1,iproj) = mfexp(eps1*SigmaR_prj-SigmaR_prj*SigmaR_prj/2.0);
+        if (iproj != nproj) eps1 = Prow_prj*eps1 + sqrt(1.0-square(Prow_prj))*randn(rng);
         if (nsex==2) fut_recruits(2,iproj) = fut_recruits(1,iproj);
        }
      }
