@@ -36,6 +36,9 @@ write_rec_prob1(1, "smbkc_19", "proj_2", "d", "19.0 (ref)", "model_1") # ricker 
 write_rec_prob1(1, "smbkc_19", "proj_2", "aa", "19.0 (ref)", "model_1") # ricker recruitment
 write_rec_prob1(1, "smbkc_19", "proj_2", "b", "19.0 (ref)", "model_1") # ricker recruitment, F=M
 write_rec_prob1(1, "smbkc_19", "proj_2", "abc", "19.0 (ref)", "model_1") # ricker recruitment, F=M*0.75 or ABC
+write_rec_prob1(1, "smbkc_19", "projSHP", "d", "19.0 (ref)", "model_1") # ricker recruitment, 
+# updates to SHpolicy to reflect implementing when MMA is 75% of long term average
+# ricker s-r F =0 and SHR
 
 
 # creates .csv and .png files for each - old function
