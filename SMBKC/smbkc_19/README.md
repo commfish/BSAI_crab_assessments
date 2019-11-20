@@ -60,3 +60,10 @@ Need to run mcmc above to get .psv file for projections
 
 4) See code in KJP_risk_profile_general.R to summarise output from projection run
 5) Then see 'rebuilding_figures.R' for plotting
+
+
+# rebuilding specific runs
+look in smbkc_19/projections/rebuilding_brainstorm/
+
+copy of model_1 from smbkc_19 lives here
+
