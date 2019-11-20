@@ -17,5 +17,8 @@
   smbkc_19a   | updates to .tpl and .ctl file from Jie and Andre's edits.
               | 11-13-19 updates are from Jie - see 'src_11132019' and sm19_11132019.ctl
               | 11-18-19 updates from Andre and new .ctl file are ones currently in this folder. Includes updates to .tpl from 'src folder
+              | 11-19-19 udpates from Andre to .tpl - see new src folder in GMACS folder
+              |  also includes updates to .prj file.
+              |    - created new gmacs.exe, need to run model and run mcmc to do projections.
   
 
