@@ -4547,10 +4547,10 @@ FUNCTION dvar_vector project_biomass(const int YrRef, const int iproj)
      
     // Compute the TAC
     //cout << "STATE " <<  MMAState(nyr+i)*MeanWState << " " << MLAState(nyr+i)*MeanWState << " " << MMAState(nyr+i)/MMARef << endl;
-    if (MMAState(nyr+i) < 0.5*MMARef)
+    if (MMAState(nyr+i) < 0.75*MMARef)  // change to 75%
      StateTAC = 0;
     else
-     if (MMAState(nyr+i) >= 0.5*MMARef & MMAState(nyr+i) < MMARef)
+     if (MMAState(nyr+i) >= 0.75*MMARef & MMAState(nyr+i) < MMARef)
       {
        StateTAC = 0.1*(MMAState(nyr+i)/MMARef)*MMAState(nyr+i)*MeanWStateMature;
       }
