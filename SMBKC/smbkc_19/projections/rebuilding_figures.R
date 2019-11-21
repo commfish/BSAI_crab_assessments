@@ -26,6 +26,8 @@ proj2abc <- read.csv(here::here("SMBKC/smbkc_19/model_1/projections/proj_2/abc/r
 
 projSHP <- read.csv(here::here("SMBKC/smbkc_19/model_1/projections/projSHP/d/rec_1yr_prob_out_projSHPd.csv"))
 
+proj2b_changes <- read.csv(here::here("SMBKC/smbkc_19a/model_1/projections/proj2/b/rec_1yr_prob_out_proj2b.csv"))
+
 
 ## projection 1 --------
 # the label for F =0.18 needs to be SHR or state harvest rate 
@@ -377,3 +379,35 @@ proj2 %>%
 ggsave(paste0(here::here(), '/SMBKC/smbkc_19/doc/rebuilding_2019/proj2_rec_1yr_prob_SHPchanges.png'), plotA, dpi = 800,
        width = 7.5, height = 3.75)
 
+# compare Andre changes -----------
+# this projection should be the same as proj 2d just with new parameters in ricker relationship set to 0
+proj2b %>% 
+  mutate(projection = "avg recent bycatch") %>% 
+  select(-FishMort) %>% 
+  mutate(FishMort = ifelse(V3 == 1, "F = 0", "F = 0.18"))  -> proj2b
+
+proj2b_changes %>% 
+  mutate(projection = "d with Andre changes") %>% 
+  select(-FishMort) %>% 
+  mutate(FishMort = ifelse(V3 == 1, "F = 0", "F = 0.18")) -> proj2b_changes
+
+proj2b %>% 
+  bind_rows(proj2b_changes) -> proj2
+
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
+proj2 %>% 
+  ggplot(aes(year, recovery, shape = FishMort, colour = projection)) + 
+  geom_point(size = 2)+
+  scale_shape_manual(name = "", values = c(16, 22)) +
+  scale_color_manual(name = "", values = cbPalette[2:3])+
+  geom_line() +
+  geom_hline(yintercept = 50, color = "red", lty = "dashed", lwd = 1.5) +
+  geom_vline(xintercept = 10, color = "blue", lty = 2, lwd = 1.5) +
+  ggtitle(expression(paste("Ricker stock-recruit relationship (", B[MSY]," proxy 1978 - 2018)"))) +
+  ylab("Probability of recovery") +
+  xlab("Year") +
+  ylim(0,100) +
+  theme(plot.title = element_text(hjust = 0.5)) -> plotA
+ggsave(paste0(here::here(), '/SMBKC/smbkc_19a/model_1/projections/proj2dchanges_rec_1yr_prob.png'), plotA, dpi = 800,
+       width = 7.5, height = 3.75)

@@ -40,6 +40,9 @@ write_rec_prob1(1, "smbkc_19", "projSHP", "d", "19.0 (ref)", "model_1") # ricker
 # updates to SHpolicy to reflect implementing when MMA is 75% of long term average
 # ricker s-r F =0 and SHR
 
+# updated with chages from Andre to .tpl and projection runs - prow and eps - should be the same as 2b
+write_rec_prob1(1, "smbkc_19a", "proj2", "b", "19.0 (ref)", "model_1") # ricker recruitment, 
+
 
 # creates .csv and .png files for each - old function
 
