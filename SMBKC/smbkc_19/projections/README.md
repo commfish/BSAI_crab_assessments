@@ -27,6 +27,7 @@ aa    	| 	Groundfish bycatch max that it's every been - see Table 6 2018 SAFE do
 d 	  	|	  (from May 2019) average bycatch last 5 years 2014-2018
 b       |   average bycatch last 5 years AND F = M INSTEAD of State harvest policy (only run for proj 2)
 abc     |   similar to b, instead of F=M, it's F=M*0.75 - roughly assuming a 25% buffer on OFL so ABC
+SHP     |   changes the state harvest strategy to have a threshold of 75% of MMA before opening
 
 -conclusions: increased bycatch to 2007 levels reduces the time to rebuilding over 10 years for both proj 1 and 5, the magnitude is greater for 5.
 
