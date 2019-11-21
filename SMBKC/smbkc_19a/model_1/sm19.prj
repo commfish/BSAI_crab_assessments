@@ -10,7 +10,7 @@
 0.10                       # Alpha (cut-off)
 0.25                       # Beta (limit)
 1.00                       # Gamma
-0.80                       # ABC-OFL buffer
+0.75                       # ABC-OFL buffer
 0                          # Produce a yield curve (1=yes; 2=no)
 
 # Projection material
@@ -21,7 +21,7 @@
 2                          # Mcmc replicates per draw
 -3423.8                    # Fixed BMSY (negative number for replicate-specific)
 
-1 # 2                         # Stock-recruitment option (1=Mean Rec;2=Ricker;3=Beverton-Holt)
+2 # 2                         # Stock-recruitment option (1=Mean Rec;2=Ricker;3=Beverton-Holt)
 7                          # Time to recruitment
 1978 2018                  # First and last years for generating future recruitment (only used if Stock_recruitment option = 1)
 0.6                        # SigmaR (only used if Stock_recruitment option = 2) [0.6]
