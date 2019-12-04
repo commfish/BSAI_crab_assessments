@@ -123,6 +123,16 @@ ssb <- .get_ssb_df(M[1:2]) # ssb now does NOT include projection year so only up
 head(ssb)
 tail(ssb)
 
+# Bmsy proxy and SHS level ------
+SHS <- c(1978:2012)
+ssb %>% 
+  filter(Model == "model 19.0 (ref)") %>% 
+  mutate(b_msy = mean(ssb)) %>% 
+  mutate(SHS_proxy = mean(ssb[year %in% SHS])) %>% 
+  group_by(Model) %>% 
+  mutate(b_msy/SHS_proxy)
+
+
 # ssb current year uncertainty
 un_ssb <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
 un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_18a/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
