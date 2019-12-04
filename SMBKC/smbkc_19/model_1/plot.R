@@ -275,15 +275,16 @@ rec %>%
   expand_limits(y=0) +
   ggtitle("base model 2019") +
   ylab("Recruitment (millions of individuals)") + xlab("Year") +
-  geom_hline(aes(yintercept = rbar[1]/1000000), color = "gray25") +
-  geom_text(aes(x = 2000, y = rbar[1]/1000000, label = "R_bar"), 
-            hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 3.0) +
+  #geom_hline(aes(yintercept = rbar[1]/1000000), color = "gray25") +
+  #geom_text(aes(x = 2000, y = rbar[1]/1000000, label = "R_bar"), 
+  #          hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 3.0) +
   .THEME +
   geom_hline(data = avgR_options, aes(yintercept = meanR), color = c("blue", "red"), 
              lty = c("solid", "dashed"))+
   geom_text(data = avgR_options, aes(x= 1980, y = meanR, label = years), 
             hjust = -2.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) 
 ggsave(paste0(.FIGS, "recruitment_line_with years.png"), width = ww, height = hh)
+ggsave(paste0(.FIGS, "recruitment_line_with years_REBUILD.png"), width = ww, height = hh)
 dev.off()
          
 ## recruitment est for ESP ------
