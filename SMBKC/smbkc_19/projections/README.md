@@ -14,7 +14,8 @@ Projection Model    | BMSY proxy years  | recruitment years | Description
 projection 1      	| 1978-2018			    |   1978-2018		    | Using entire time frame for both BMSY proxy and recruitment draws		    
 projection 5   			| 1996-2018			    | 	1996-2018		    | Using current "regime" from breakpoint analysis for both 
 
-projection 2        | 1978 - 2019       |   1978-2019       | Uses Ricker stock-recruit for recruitment 
+projection 2        | 1978 - 2018       |   1978-2018       | Uses Ricker stock-recruit for recruitment 
+projection 4        | 1978 - 2018       |   1996-2018       | random draws from previous recruitment (current "regime") by BMSY                                                             |  entire time series                                    
 (similar to projection version d in May document)
 	- both have average bycatch from the last 5 years (2014-2018)
 	- Use state harvest policy 
