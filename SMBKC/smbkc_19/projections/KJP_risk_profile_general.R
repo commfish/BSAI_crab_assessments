@@ -1,5 +1,5 @@
 ## K Palof
-## 4-09-19
+## 4-09-19 / 2-4-2020 updated to include variability
 
 # change the model and version with each projection output - should make this a function....
 #model <- "proj1"
@@ -148,12 +148,20 @@ ggsave('./projections/figures/weighted_2d_4d_combo.png', dpi = 800,
 
 
 # old code from Andre -------
-TheD <- read.table(paste0("./projections/", model, "/", version, "/mcoutPROJ.rep"))[,-c(4,5,6,7,8)]
+#TheD <- read.table(paste0("./projections/", model, "/", version, "/mcoutPROJ.rep"))[,-c(4,5,6,7,8)]
+TheD <- read.table(paste0(here::here(), "./SMBKC/smbkc_19/model_1/projections/proj_4/d/mcoutPROJ.rep"))[,-c(4,5,6,7,8)]
 Nyear <- length(TheD[1,])-4
 Nline <- length(TheD[,1])
 print(Nyear)
 print(Nline)
-n_prob_yr <- 2
+n_prob_yr <- 1#2 
+
+# raw with variablity attempts --------------
+raw <- TheD
+# for Fishing Mortality F = 0, that's what v3 = 1 stands for
+raw %>% 
+  filter(V3 == 1) -> raw_0
+
 
 # prob of recovery 
 for (Iline in 1:Nline)
