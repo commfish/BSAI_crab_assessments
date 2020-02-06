@@ -159,8 +159,30 @@ n_prob_yr <- 1#2
 # raw with variablity attempts --------------
 raw <- TheD
 # for Fishing Mortality F = 0, that's what v3 = 1 stands for
+
+quant <- matrix(0,ncol=Nyear,nrow=5)
+
+
 raw %>% 
-  filter(V3 == 1) -> raw_0
+  filter(V3 == 1) %>% 
+  mutate(id = 1:n()) %>% 
+  gather(year, mmb, -V1, -V2, -V3, -V9, -id) %>% 
+  mutate(year = as.numeric(as.factor(year))) -> raw_0
+
+raw_0 %>% 
+  group_by(year) %>% 
+  summarise(q0.05 = quantile(mmb, prob = 0.05), 
+            q0.25 = quantile(mmb, prob = 0.25),
+            q0.50 = quantile(mmb, prob = 0.50),
+            q0.75 = quantile(mmb, prob = 0.75),
+            q0.95 = quantile(mmb, prob = 0.95), 
+            Bmsy = mean(V9)) %>% 
+  ggplot(aes(year, q0.50)) +
+    geom_point()
+
+raw_0 %>%  
+  ggplot(aes(year, mmb)) +
+    geom_point()
 
 
 # prob of recovery 
