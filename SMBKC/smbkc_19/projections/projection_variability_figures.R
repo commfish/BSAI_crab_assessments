@@ -1,0 +1,49 @@
+# projection figures for SMBKC rebuilding --------------------
+# 2-11-2020, katie.palof@alaska.gov
+# for rebuilding action plan document
+
+
+# 95 % of the distribution in gray. Average MMB in year projection in solid line
+# # old code from Andre -------
+TheD <- read.table(paste0("./projections/", model, "/", version, "/mcoutPROJ.rep"))[,-c(4,5,6,7,8)]
+TheD <- read.table(paste0(here::here(), "./SMBKC/smbkc_19/model_1/projections/proj_1/d/mcoutPROJ.rep"))[,-c(4,5,6,7,8)]
+Nyear <- length(TheD[1,])-4
+Nline <- length(TheD[,1])
+print(Nyear)
+print(Nline)
+n_prob_yr <- 1#2 
+
+# raw with variablity attempts --------------
+raw <- TheD
+# for Fishing Mortality F = 0, that's what v3 = 1 stands for
+
+quant <- matrix(0,ncol=Nyear,nrow=5)
+
+
+raw %>% 
+  filter(V3 == 1) %>% 
+  mutate(id = 1:n()) %>% 
+  gather(year, mmb, -V1, -V2, -V3, -V9, -id) %>% 
+  mutate(year = as.numeric(as.factor(year))) -> raw_0
+
+raw_0 %>% 
+  summarise(Bmsy = mean(V9)) -> Bmsy
+
+
+raw_0 %>% 
+  group_by(year) %>% 
+  summarise(q0.05 = quantile(mmb, prob = 0.05), 
+            q0.25 = quantile(mmb, prob = 0.25),
+            q0.50 = quantile(mmb, prob = 0.50),
+            q0.75 = quantile(mmb, prob = 0.75),
+            q0.95 = quantile(mmb, prob = 0.95), 
+            Bmsy = mean(V9)) %>% 
+  ggplot(aes(year, q0.50)) +
+  geom_line(lwd = 1) +
+  geom_ribbon(aes(ymin = q0.05, ymax = q0.95, x = year), alpha = 0.17)+
+  #geom_line(aes(year, q0.95), lwd = 0.5, color = "blue") +
+  #geom_line(aes(year, q0.05), lwd = 0.5, color = "blue") +
+  geom_hline(yintercept = Bmsy[1,], lwd = 0.75, color = "darkgoldenrod4", linetype = "dashed") +
+  ylab ("MMB (units)") +
+  xlab ("Projection year")
+# label this figure with projection type 
