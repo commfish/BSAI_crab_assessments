@@ -149,7 +149,7 @@ ggsave('./projections/figures/weighted_2d_4d_combo.png', dpi = 800,
 
 # old code from Andre -------
 #TheD <- read.table(paste0("./projections/", model, "/", version, "/mcoutPROJ.rep"))[,-c(4,5,6,7,8)]
-TheD <- read.table(paste0(here::here(), "./SMBKC/smbkc_19/model_1/projections/proj_4/d/mcoutPROJ.rep"))[,-c(4,5,6,7,8)]
+TheD <- read.table(paste0(here::here(), "./SMBKC/smbkc_19/model_1/projections/proj_1/d/mcoutPROJ.rep"))[,-c(4,5,6,7,8)]
 Nyear <- length(TheD[1,])-4
 Nline <- length(TheD[,1])
 print(Nyear)
@@ -170,6 +170,10 @@ raw %>%
   mutate(year = as.numeric(as.factor(year))) -> raw_0
 
 raw_0 %>% 
+  summarise(Bmsy = mean(V9)) -> Bmsy
+  
+
+raw_0 %>% 
   group_by(year) %>% 
   summarise(q0.05 = quantile(mmb, prob = 0.05), 
             q0.25 = quantile(mmb, prob = 0.25),
@@ -178,11 +182,14 @@ raw_0 %>%
             q0.95 = quantile(mmb, prob = 0.95), 
             Bmsy = mean(V9)) %>% 
   ggplot(aes(year, q0.50)) +
-    geom_point()
+    geom_line(lwd = 1) +
+    geom_ribbon(aes(ymin = q0.05, ymax = q0.95, x = year), alpha = 0.17)+
+    #geom_line(aes(year, q0.95), lwd = 0.5, color = "blue") +
+    #geom_line(aes(year, q0.05), lwd = 0.5, color = "blue") +
+    geom_hline(yintercept = Bmsy[1,], lwd = 0.75, color = "darkgoldenrod4", linetype = "dashed") +
+    ylab ("MMB (units)") +
+    xlab ("Projection year")
 
-raw_0 %>%  
-  ggplot(aes(year, mmb)) +
-    geom_point()
 
 
 # prob of recovery 
