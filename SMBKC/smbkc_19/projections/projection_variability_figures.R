@@ -46,11 +46,11 @@ raw_all %>%
   geom_ribbon(aes(ymin = q0.05, ymax = q0.95, x = year, fill = FishMort), alpha = 0.17) +
   scale_fill_manual(name = "", values = c(cbPalette[4], cbPalette[1]))+
   geom_hline(yintercept = Bmsy[1,], lwd = 0.75, color = "darkgoldenrod4", linetype = "dashed") +
-  geom_text(aes(0, 3300, label = "BMSY proxy",
+  geom_text(aes(0, 3300, label = "Bmsy proxy",
                 vjust = -1, hjust = 0.05)) +
   ylab ("MMB (tons)") +
   xlab ("Projection Year") +
-  ggtitle("Ricker S-R recruitment, average bycatch levels") #-> plotA
+  ggtitle("Ricker S-R recruitment, average bycatch levels") -> plotA
 
 ggsave(paste0(here::here(), '/SMBKC/smbkc_19/doc/rebuilding_2019/proj2d_variability.png'), plotA, dpi = 800,
        width = 7.5, height = 3.75)
