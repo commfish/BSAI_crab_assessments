@@ -189,7 +189,7 @@ raw_0 %>%
     geom_hline(yintercept = Bmsy[1,], lwd = 0.75, color = "darkgoldenrod4", linetype = "dashed") +
     ylab ("MMB (units)") +
     xlab ("Projection year")
-
+# label this figure with projection type 
 
 
 # prob of recovery 
