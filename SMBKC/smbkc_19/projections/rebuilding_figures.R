@@ -18,7 +18,8 @@ proj5aa <- read.csv(here::here("SMBKC/smbkc_19/model_1/projections/proj_5/aa/rec
 
 proj4d <- read.csv(here::here("SMBKC/smbkc_19/model_1/projections/proj_4/d/rec_1yr_prob_out_proj_4d.csv"))
 
-
+proj2a <- read.csv(here::here("SMBKC/smbkc_19/model_1/projections/proj_2/d/rec_1yr_prob_out_proj_2d.csv"))
+# didn't run a since it was the same as d previous, so bring in d here to stand in for a
 proj2d <- read.csv(here::here("SMBKC/smbkc_19/model_1/projections/proj_2/d/rec_1yr_prob_out_proj_2d.csv"))
 proj2aa <- read.csv(here::here("SMBKC/smbkc_19/model_1/projections/proj_2/aa/rec_1yr_prob_out_proj_2aa.csv"))
 proj2b <- read.csv(here::here("SMBKC/smbkc_19/model_1/projections/proj_2/b/rec_1yr_prob_out_proj_2b.csv"))
@@ -381,6 +382,42 @@ proj2d %>%
   ylim(0,100) +
   theme(plot.title = element_text(hjust = 0.5)) -> plot2d
 ggsave(paste0(here::here(), '/SMBKC/smbkc_19/doc/rebuilding_2019/proj2_d_rec_1yr_prob.png'), plot2d, dpi = 800,
+       width = 7.5, height = 3.75)
+
+## bycatch: none, avg & max only =====
+proj2d %>% 
+  mutate(projection = "avg recent bycatch") %>% 
+  select(-FishMort) %>% 
+  mutate(FishMort = ifelse(V3 == 1, "F = 0", "F = SHS")) -> proj2a
+
+proj2d %>% 
+  mutate(projection = "avg recent bycatch") %>% 
+  select(-FishMort) %>% 
+  mutate(FishMort = ifelse(V3 == 1, "F = 0", "F = SHS")) -> proj2d
+
+
+proj2aa %>% 
+  mutate(projection = "max bycatch") %>% 
+  select(-FishMort) %>% 
+  mutate(FishMort = ifelse(V3 == 1, "F = 0", "F = SHS")) -> proj2aa
+
+proj2d %>% 
+  bind_rows(proj2aa) -> proj2
+
+proj2 %>% 
+  ggplot(aes(year, recovery, shape = FishMort, colour = projection)) + 
+  geom_point(size = 2)+
+  scale_shape_manual(name = "", values = c(16, 22)) +
+  scale_color_manual(name = "", values = cbPalette[2:3])+
+  geom_line() +
+  geom_hline(yintercept = 50, color = "red", lty = "dashed", lwd = 1.5) +
+  geom_vline(xintercept = 10, color = "blue", lty = 2, lwd = 1.5) +
+  ggtitle("Ricker stock-recruit relationship") +
+  ylab("Probability of recovery") +
+  xlab("Year") +
+  ylim(0,100) +
+  theme(plot.title = element_text(hjust = 0.5)) #-> plotB
+ggsave(paste0(here::here(), '/SMBKC/smbkc_19/doc/rebuilding_2019/proj2_BYCATCH_d_aa_rec_1yr_prob.png'), plotB, dpi = 800,
        width = 7.5, height = 3.75)
 
 ### proj 2 - changes to SHP level ----------------
