@@ -385,15 +385,15 @@ ggsave(paste0(here::here(), '/SMBKC/smbkc_19/doc/rebuilding_2019/proj2_d_rec_1yr
        width = 7.5, height = 3.75)
 
 ## bycatch: none, avg & max only =====
-proj2d %>% 
-  mutate(projection = "avg recent bycatch") %>% 
+proj2a %>% 
+  mutate(projection = "avg recent bycatch or no bycatch") %>% 
   select(-FishMort) %>% 
   mutate(FishMort = ifelse(V3 == 1, "F = 0", "F = SHS")) -> proj2a
 
-proj2d %>% 
-  mutate(projection = "avg recent bycatch") %>% 
-  select(-FishMort) %>% 
-  mutate(FishMort = ifelse(V3 == 1, "F = 0", "F = SHS")) -> proj2d
+#proj2d %>% 
+#  mutate(projection = "avg recent bycatch") %>% 
+#  select(-FishMort) %>% 
+#  mutate(FishMort = ifelse(V3 == 1, "F = 0", "F = SHS")) -> proj2d
 
 
 proj2aa %>% 
@@ -401,14 +401,16 @@ proj2aa %>%
   select(-FishMort) %>% 
   mutate(FishMort = ifelse(V3 == 1, "F = 0", "F = SHS")) -> proj2aa
 
-proj2d %>% 
+proj2a %>% 
   bind_rows(proj2aa) -> proj2
+
+#  bind_rows(proj2a) -> proj2
 
 proj2 %>% 
   ggplot(aes(year, recovery, shape = FishMort, colour = projection)) + 
   geom_point(size = 2)+
   scale_shape_manual(name = "", values = c(16, 22)) +
-  scale_color_manual(name = "", values = cbPalette[2:3])+
+  scale_color_manual(name = "", values = c(cbPalette[2:3])) +
   geom_line() +
   geom_hline(yintercept = 50, color = "red", lty = "dashed", lwd = 1.5) +
   geom_vline(xintercept = 10, color = "blue", lty = 2, lwd = 1.5) +
@@ -416,8 +418,8 @@ proj2 %>%
   ylab("Probability of recovery") +
   xlab("Year") +
   ylim(0,100) +
-  theme(plot.title = element_text(hjust = 0.5)) #-> plotB
-ggsave(paste0(here::here(), '/SMBKC/smbkc_19/doc/rebuilding_2019/proj2_BYCATCH_d_aa_rec_1yr_prob.png'), plotB, dpi = 800,
+  theme(plot.title = element_text(hjust = 0.5)) -> plotB
+ggsave(paste0(here::here(), '/SMBKC/smbkc_19/doc/rebuilding_2019/proj2_BYCATCH_a_aa_rec_1yr_prob.png'), plotB, dpi = 800,
        width = 7.5, height = 3.75)
 
 ### proj 2 - changes to SHP level ----------------
