@@ -337,7 +337,7 @@ proj2aa %>%
   mutate(FishMort = ifelse(V3 == 1, "F = 0", "F = SHS")) -> proj2aa
 
 proj2abc %>% 
-  mutate(projection = "alternative 1") %>% 
+  mutate(projection = "avg recent bycatch w/ABC") %>% 
   filter(V3 == 2) %>% 
   mutate(FishMort = "F = ABC") %>% 
   select(year, V3, recovery, projection, FishMort) -> proj2abc
@@ -354,7 +354,7 @@ proj2 %>%
   ggplot(aes(year, recovery, shape = FishMort, colour = projection)) + 
   geom_point(size = 2)+
   scale_shape_manual(name = "", values = c(16, 17, 22)) +
-  scale_color_manual(name = "", values = cbPalette[1:3])+
+  scale_color_manual(name = "", values = c(cbPalette[2], cbPalette[1], cbPalette[3]))+
   geom_line() +
   geom_hline(yintercept = 50, color = "red", lty = "dashed", lwd = 1.5) +
   geom_vline(xintercept = 10, color = "blue", lty = 2, lwd = 1.5) +
