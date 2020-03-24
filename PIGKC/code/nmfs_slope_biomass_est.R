@@ -84,14 +84,14 @@ spec_0416 %>%
   filter(sampling_factor != 0,
          sex != 3) %>%
   # create group field to denote demographic
-  mutate(group = case_when(sex == 1 & length < 107 ~ "imm_male",
-                           sex == 1 & length >= 107 & length < 124 ~ "mat_male",
-                           sex == 1 & length >= 124 ~ "legal_male",
+  mutate(group = case_when(sex == 1 & length < 107 ~ "male_immature",
+                           sex == 1 & length >= 107 & length < 124 ~ "male_mature_nonlegal",
+                           sex == 1 & length >= 124 ~ "male_mature_legal",
                            sex == 2 ~ "female"),
          calc_wt_kg = case_when(group == "female" ~ 0.001424 * length^2.781 / 1000,
-                             group == "imm_male" ~ 0.0002988 * length^3.135 / 1000,
-                             group == "mat_male" ~ 0.0002988 * length^3.135 / 1000,
-                             group == "legal_male" ~ 0.0002988 * length^3.135 / 1000)) %>%
+                             group == "male_immature" ~ 0.0002988 * length^3.135 / 1000,
+                             group == "male_mature_nonlegal" ~ 0.0002988 * length^3.135 / 1000,
+                             group == "male_mature_legal" ~ 0.0002988 * length^3.135 / 1000)) %>%
   # compute catch by haul
   group_by(survey_year, haul, group) %>%
   summarise(num_crab = ceiling(sum(sampling_factor)),
@@ -99,8 +99,16 @@ spec_0416 %>%
   # pivot wide so its easier to join to information
   unite(num_crab, wt_crab_kg, col = "catch", sep = "_") %>%
   pivot_wider(names_from = "group", values_from = catch) %>%
-  replace_na(list(imm_male = "0_0", mat_male = "0_0", 
-                  legal_male = "0_0", female = "0_0")) -> spec_summary
+  replace_na(list(male_immature = "0_0", male_mature_nonlegal = "0_0", 
+                  male_mature_legal = "0_0", female = "0_0")) %>%
+  # combine nonlegal and legal mature males to get total mature males, drop nonlegal
+  separate(male_mature_legal, sep = "_", into = c("mat_legal_count", "mat_legal_wt")) %>%
+  separate(male_mature_nonlegal, sep = "_", into = c("mat_nonlegal_count", "mat_nonlegal_wt")) %>%
+  mutate(male_mature_count = as.numeric(mat_legal_count) + as.numeric(mat_nonlegal_count),
+         male_mature_wt = as.numeric(mat_legal_wt) + as.numeric(mat_nonlegal_wt)) %>%
+  unite(male_mature_count, male_mature_wt, col = "male_mature", sep = "_") %>%
+  unite(mat_legal_count, mat_legal_wt, col = "male_legal", sep = "_") %>%
+  dplyr::select(-mat_nonlegal_count, -mat_nonlegal_wt) -> spec_summary
 
 ## combine the haul, strata, and specimen data 2004 - 2016
 haul %>%
@@ -110,10 +118,10 @@ haul %>%
   dplyr::select(survey_year, haul, area_swept, stratum, stratum_area, subarea) %>%
   # join to specimen dat by haul
   full_join(spec_summary, by = c("survey_year", "haul")) %>%
-  replace_na(list(imm_male = "0_0", mat_male = "0_0", 
-                  legal_male = "0_0", female = "0_0")) %>%
+  replace_na(list(male_immature = "0_0", male_mature = "0_0", 
+                  male_legal = "0_0", female = "0_0")) %>%
   # return to long format and separate number of crab and weight
-  pivot_longer(c(imm_male, mat_male, legal_male, female), names_to = "group") %>%
+  pivot_longer(c(male_immature, male_legal, male_mature, female), names_to = "group") %>%
   separate(value, sep = "_", into = c("num_crab", "wt_crab_kg")) %>%
   mutate_at(c("num_crab", "wt_crab_kg"), as.numeric) -> catch_by_haul
 
@@ -152,7 +160,7 @@ catch_by_haul %>%
 
 ## export mature male estimates
 est %>%
-  filter(group == "mat_male") %>%
+  filter(group == "male_mature") %>%
   dplyr::select(-group) %>%
   write_csv("./PIGKC/output/nmfs_slope_mature_male_timeseries.csv")
   
@@ -160,21 +168,21 @@ est %>%
 ### extract data
 #### model years
 est %>%
-  filter(group == "mat_male") %>%
+  filter(group == "male_mature") %>%
   pull(survey_year) -> yrs
 #### starting year
 start <- min(yrs)
 #### ending year
 end <- 2020 
 #### number of estimates
-n <- nrow(filter(est, group == "mat_male"))
+n <- nrow(filter(est, group == "male_mature"))
 #### biomass estimates (in metric tons)
 est %>%
-  filter(group == "mat_male") %>%
+  filter(group == "male_mature") %>%
   pull(biomass) / 1000 -> biomass
 #### cv of biomass estimates
 est %>%
-  filter(group == "mat_male") %>%
+  filter(group == "male_mature") %>%
   pull(cv_biomass) -> cv
 
 ### compile input file
