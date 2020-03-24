@@ -74,6 +74,7 @@ spec_0416 %>%
 #   geom_point(aes(x = lon, y = lat, color = factor(stratum)))+
 #   facet_wrap(~survey_year)
 
+
 # abundance and biomass estimates by sex/size group ----
 
 ## summarize 2004 - 2016 specimen data by year, haul, group
@@ -164,7 +165,7 @@ est %>%
 #### starting year
 start <- min(yrs)
 #### ending year
-end <- max(yrs)  
+end <- 2020 
 #### number of estimates
 n <- nrow(filter(est, group == "mat_male"))
 #### biomass estimates (in metric tons)
