@@ -9,6 +9,7 @@ This directory includes materials related to the Pribilof Islands Golden King Cr
 ## Layout: 
 * **code** - R scripts used to 1) compile survey specimen data, 2) estimates survey biomass and CV, and 3) run and summary random effect model outputs.
 * **data** - Haul, strata, and specimen data from the NMFS EBS slope survey
+* **model** - Contains re-model executable file, raw inputs and outputs. Delineated by assessment year.
 * **output** - Tables generated from input data or model results. Delineated by assessment year.
 * **figures** - Figures generated from input data or model resilts. Delineated by assessment year.  
 
