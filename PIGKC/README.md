@@ -2,6 +2,10 @@
 
 This directory includes materials related to the Pribilof Islands Golden King Crab assessment.
 
+## Authors (2020):
+* Ben Daly, ben.daly@alaska.gov
+* Tyler Jackson, tyler.jackson@alaska.gov
+
 ## Layout: 
 * **code** - R scripts used to 1) compile survey specimen data, 2) estimates survey biomass and CV, and 3) run and summary random effect model outputs.
 * **data** - Haul, strata, and specimen data from the NMFS EBS slope survey
