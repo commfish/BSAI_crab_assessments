@@ -3,7 +3,7 @@
 ## 'design based' abundance and biomass estimates of GKC from NMFS slope survey
 ## author: Tyler Jackson
 ## tyler.jackson@alaska.gov
-## last updated: 2020/3/4
+## last updated: 2020/3/23
 
 # load ----
 
@@ -11,6 +11,9 @@ library(tidyverse)
 
 ## source R scripts
 source("./PIGKC/code/clean_nmfs_specimen_data.R")
+
+## global option
+YEAR <- 2020
 
 # data ----
 
@@ -64,12 +67,12 @@ spec_0416 %>%
 # eda ----
 
 # quick map of stratum
-survey %>%
-  mutate(lon = (start_lon + end_lon) / 2,
-         lat = (start_lat + end_lat) /2) %>%
-  ggplot()+
-  geom_point(aes(x = lon, y = lat, color = factor(stratum)))+
-  facet_wrap(~survey_year)
+# survey %>%
+#   mutate(lon = (start_lon + end_lon) / 2,
+#          lat = (start_lat + end_lat) /2) %>%
+#   ggplot()+
+#   geom_point(aes(x = lon, y = lat, color = factor(stratum)))+
+#   facet_wrap(~survey_year)
 
 # abundance and biomass estimates by sex/size group ----
 
@@ -152,13 +155,47 @@ est %>%
   dplyr::select(-group) %>%
   write_csv("./PIGKC/output/nmfs_slope_mature_male_timeseries.csv")
   
-  
+## export random effects model input data file
+### extract data
+#### model years
+est %>%
+  filter(group == "mat_male") %>%
+  pull(survey_year) -> yrs
+#### starting year
+start <- min(yrs)
+#### ending year
+end <- max(yrs)  
+#### number of estimates
+n <- nrow(filter(est, group == "mat_male"))
+#### biomass estimates (in metric tons)
+est %>%
+  filter(group == "mat_male") %>%
+  pull(biomass) / 1000 -> biomass
+#### cv of biomass estimates
+est %>%
+  filter(group == "mat_male") %>%
+  pull(cv_biomass) -> cv
 
-  
-  
-  
-  
-  
+### compile input file
+rbind(c(start, "#Start year of model", rep("", n - 2)),
+      c(end, "#End year of model", rep("", n - 2)),
+      c(n, "#number of survey estimates", rep("", n - 2)),
+      c("#Years of survey", rep("", n - 1)),
+      c(yrs),
+      c("#Biomass estimates", rep("", n - 1)),
+      c(round(biomass, 2)),
+      c("#Coefficients of variation for biomass estimates", rep("", n - 1)),
+      c(round(cv, 2))) %>%
+  write.table(., paste0("./PIGKC/model/", YEAR,"/re.dat"), 
+              quote = F, row.names = F, col.names = F)
+
+
+
+
+
+
+
+
   
 
 

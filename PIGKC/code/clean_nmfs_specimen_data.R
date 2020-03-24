@@ -3,7 +3,7 @@
 ## Clean NMFS Slope Survey GKC Specimen/Catch data for biomass estimate
 ## author: Tyler Jackson
 ## tyler.jackson@alaska.gov
-## last updated: 2020/3/4
+## last updated: 2020/3/23
 
 ## object naming convention: abbrev_yyYY; yy - first year, YY - last year
 
