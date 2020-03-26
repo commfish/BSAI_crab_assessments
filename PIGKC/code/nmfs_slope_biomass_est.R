@@ -146,9 +146,16 @@ catch_by_haul %>%
   # compute a weighted sum of abundance and biomass within subareas
   summarise(abundance = sum(abundance * w_subarea),
             var_abundance = sum(var_abundance * w_subarea^2),
+            cv_abund = sqrt(var_abundance) / abundance,
             biomass = sum(biomass * w_subarea),
-            var_biomass = sum(var_biomass * w_subarea^2)) %>%
-  # sum estimators across subareas to get total for survey
+            var_biomass = sum(var_biomass * w_subarea^2),
+            cv_biomass = sqrt(var_biomass) / biomass) -> subarea_est
+## save output
+write_csv(subarea_est, "./PIGKC/output/survey_estimates_by_subarea.csv")
+
+## sum estimators across subareas 2 - 4 to get totals for re-model
+subarea_est %>%
+  #filter(subarea %in% 2:4) %>%
   group_by(survey_year, group) %>%
   summarise(abundance = sum(abundance),
             se_abundance = sqrt(sum(var_abundance)),
@@ -156,18 +163,18 @@ catch_by_haul %>%
             se_biomass = sqrt(sum(var_biomass))) %>%
   # convert variances into a CV
   mutate(cv_abund = se_abundance / abundance,
-         cv_biomass = se_biomass / biomass) -> est
+         cv_biomass = se_biomass / biomass) -> pi_est
 
-## export mature male estimates
-est %>%
+## export mature male estimates for subareas 2 - 4
+pi_est %>%
   filter(group == "male_mature") %>%
   dplyr::select(-group) %>%
-  write_csv("./PIGKC/output/nmfs_slope_mature_male_timeseries.csv")
+  write_csv("./PIGKC/output/nmfs_slope_subareas_2_3_4_mature_male_timeseries.csv")
   
 ## export random effects model input data file
 ### extract data
 #### model years
-est %>%
+pi_est %>%
   filter(group == "male_mature") %>%
   pull(survey_year) -> yrs
 #### starting year
@@ -177,11 +184,11 @@ end <- 2020
 #### number of estimates
 n <- nrow(filter(est, group == "male_mature"))
 #### biomass estimates (in metric tons)
-est %>%
+pi_est %>%
   filter(group == "male_mature") %>%
   pull(biomass) / 1000 -> biomass
 #### cv of biomass estimates
-est %>%
+pi_est %>%
   filter(group == "male_mature") %>%
   pull(cv_biomass) -> cv
 
@@ -191,11 +198,11 @@ rbind(c(start, "#Start year of model", rep("", n - 2)),
       c(n, "#number of survey estimates", rep("", n - 2)),
       c("#Years of survey", rep("", n - 1)),
       c(yrs),
-      c("#Biomass estimates", rep("", n - 1)),
+      c("#Biomass estimates mature males, all subareas", rep("", n - 1)),
       c(round(biomass, 2)),
       c("#Coefficients of variation for biomass estimates", rep("", n - 1)),
       c(round(cv, 2))) %>%
-  write.table(., paste0("./PIGKC/model/", YEAR,"/re.dat"), 
+  write.table(., paste0("./PIGKC/model/", YEAR,"/mature_males_all_subareas/re.dat"), 
               quote = F, row.names = F, col.names = F)
 
 

@@ -3,7 +3,7 @@
 5 #number of survey estimates   
 #Years of survey    
 2004 2008 2010 2012 2016
-#Biomass estimates    
-415.21 179.23 200.73 221.28 212.81
+#Biomass estimates mature males, subareas 2-4    
+154.6 152 133.32 96.52 167.71
 #Coefficients of variation for biomass estimates    
-0.22 0.23 0.17 0.27 0.26
+0.48 0.27 0.24 0.34 0.32
