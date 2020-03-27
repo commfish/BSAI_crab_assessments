@@ -14,7 +14,7 @@ library(FNGr); theme_set(theme_sleek())
 ## global options
 YEAR <- 2020
 ## version of input data to be run
-subdir <- "mature_males_subarea_6"
+subdir <- "mature_males_subarea_2"
 
 # run model ----
 
@@ -61,6 +61,20 @@ model_est %>%
          survey_l95 = survey_est / exp(2 * sqrt(log(1 + ((survey_est * survey_sd) / survey_est)^2)))) %>%
   dplyr::select(1:3, 11:12, 4:10) -> model_est
 
+
+## read parameter estimate (process error variance)
+### load file
+par <- read.table(paste0("./PIGKC/model/", YEAR, "/", subdir, "/re.par"), fill = T, sep = "\t",
+           comment.char = "", stringsAsFactors = F)
+### print diagnostic stats
+t(stringr::str_split(par[1,1], pattern = "  ", simplify = T))[2:3,]
+### print process error standard deviation (i.e. parameter estimate)
+exp(as.numeric(par[3,]))
+### store process errors
+proc_err <- na.omit(as.numeric(stringr::str_split(par[5,], pattern = " ", simplify = T)))
+
+
+
 # summarize results ----
 
 ## biomass plot (MMB, Subareas 2-4)
@@ -106,9 +120,9 @@ model_est %>%
   geom_point(aes(x = yrs, y = survey_est), shape = 22, fill = "white")+
   scale_x_continuous(breaks = tickr(model_est, yrs, 2)$breaks, 
                      labels = tickr(model_est, yrs, 2)$labels)+
-  labs(x = NULL, y = "MMB (t)", title = "Subarea 6")+
+  labs(x = NULL, y = "MMB (t)", title = "Subarea 2")+
   theme(plot.title = element_text(hjust = 0.5)) -> x
-ggsave(paste0("./PIGKC/figures/", YEAR, "/mmb_subarea_6_fit.png"), plot = x, 
+ggsave(paste0("./PIGKC/figures/", YEAR, "/mmb_subarea_2_fit.png"), plot = x, 
        height = 3, width = 6, units = "in")
 
 
