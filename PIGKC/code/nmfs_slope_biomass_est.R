@@ -1,6 +1,7 @@
 # notes ----
 
-## 'design based' abundance and biomass estimates of GKC from NMFS slope survey
+## Analysis of GKC NMFS slope survey catch
+## 'design based' abundance and biomass estimates for random effects model input
 ## author: Tyler Jackson
 ## tyler.jackson@alaska.gov
 ## last updated: 2020/3/23
@@ -8,12 +9,19 @@
 # load ----
 
 library(tidyverse)
+library(magrittr)
+library(FNGr); theme_set(theme_sleek())
 
 ## source R scripts
 source("./PIGKC/code/clean_nmfs_specimen_data.R")
+source("./PIGKC/code/adfg_map_functions.R")
 
-## global option
+## global options
+### assessment year
 YEAR <- 2020
+### custom color/fill pallete
+cb_palette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", 
+                "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 
 # data ----
 
@@ -28,6 +36,28 @@ str(spec_0416)
 
 ## 2002 catch data
 #catch_02 <- read_csv("./PIGKC/data/nmfs_slope_gkc_catch_2002.csv")
+
+## map data
+### land
+ak <- maps::map("world", region=c('russia', 'usa:alaska', 'canada'), fill=T, plot=F) %>%
+  broom::tidy()
+### survey area
+survey_area <- f_shp_prep("./PIGKC/data/maps/bssa1to6", "bssa1to6")
+survey_area[[1]] %>%
+  # add subarea factor and save data object
+  mutate(subarea = case_when(B5_ %in% 76:105 ~ 1,
+                             B5_ %in% 62:75 ~ 2,
+                             B5_ %in% 44:61 ~ 3,
+                             B5_ %in% 30:43 ~ 4,
+                             B5_ %in% 16:29 ~ 5,
+                             B5_ %in% 3:15 ~ 6),
+         subarea = factor(subarea)) -> survey_poly
+### Pribilof Island district boundary
+f_shp_prep("./PIGKC/data/maps/pribilof_district", "Pribilof_District_Boundary") %>%
+  # transform projection to match survey area
+  f_transform_crs(to = survey_area[[2]]) %>%
+  # save data object
+  magrittr::extract2(1) -> pi_district
 
 # data mgmt ----
 
@@ -64,18 +94,7 @@ spec_0416 %>%
   filter(!(survey_year == 2016 & haul == 5)) -> spec_0416
 
 
-# eda ----
-
-# quick map of stratum
-# survey %>%
-#   mutate(lon = (start_lon + end_lon) / 2,
-#          lat = (start_lat + end_lat) /2) %>%
-#   ggplot()+
-#   geom_point(aes(x = lon, y = lat, color = factor(stratum)))+
-#   facet_wrap(~survey_year)
-
-
-# abundance and biomass estimates by sex/size group ----
+# catch by haul by sex/size group ----
 
 ## summarize 2004 - 2016 specimen data by year, haul, group
 spec_0416 %>%
@@ -114,8 +133,11 @@ spec_0416 %>%
 haul %>%
   # remove 2002 survey hauls
   filter(survey_year != 2002) %>%
+  # compute haul mid lat and lon
+  mutate(lon = (start_lon + end_lon) / 2,
+         lat = (start_lat + end_lat) / 2) %>%
   # select fields of interest
-  dplyr::select(survey_year, haul, area_swept, stratum, stratum_area, subarea) %>%
+  dplyr::select(survey_year, haul, lon, lat, area_swept, stratum, stratum_area, subarea) %>%
   # join to specimen dat by haul
   full_join(spec_summary, by = c("survey_year", "haul")) %>%
   replace_na(list(male_immature = "0_0", male_mature = "0_0", 
@@ -125,6 +147,33 @@ haul %>%
   separate(value, sep = "_", into = c("num_crab", "wt_crab_kg")) %>%
   mutate_at(c("num_crab", "wt_crab_kg"), as.numeric) -> catch_by_haul
 
+
+
+## map of cpue by year, haul
+catch_by_haul %>%
+  filter(group == "male_mature") %>%
+  mutate(wt_crab_kg = ifelse(wt_crab_kg == 0, NA, wt_crab_kg)) %>%
+  ggplot()+
+  geom_polygon(data = ak, 
+               aes(x = long, y = lat, group = group),
+               fill = "grey90", color = "grey90")+
+  geom_polygon(data = survey_poly, 
+               aes(x = long, y = lat, group = group, fill = factor(subarea)), 
+               alpha = 0.5, show.legend = F)+
+  scale_fill_manual(values = cb_palette[2:7])+
+  geom_polygon(data = pi_district, 
+               aes(x = long, y = lat, group = group), color = "black", fill = NA)+
+  geom_point(aes(x = lon, y = lat, size = wt_crab_kg / area_swept), 
+             alpha = 0.5)+
+  labs(x = "Longitude", y = "Latitude", size = "CPUE (kg / sq km)")+
+  facet_wrap(~survey_year)+
+  coord_quickmap(xlim = c(-180.5, -166), ylim = c(53, 62))+
+  theme(panel.background = element_rect(fill = "grey70"),
+        legend.position = "bottom") -> x
+ggsave("./PIGKC/figures/survey_cpue_wt_map.png", plot = x, height = 6, width = 8, units = "in")
+
+
+# abundance and biomass estimates by sex/size group ----
 ## extrapolate catch by haul to abundance and biomass by stratum  
 catch_by_haul %>%
   # get density in number and weight by stratum
@@ -153,9 +202,31 @@ catch_by_haul %>%
 ## save output
 write_csv(subarea_est, "./PIGKC/output/survey_estimates_by_subarea.csv")
 
-## sum estimators across subareas 2 - 4 to get totals for re-model
+## plots 
+### biomass by year and subarea
 subarea_est %>%
-  #filter(subarea %in% 2:4) %>%
+  ungroup() %>%
+  mutate(subarea = factor(subarea),
+         group = case_when(group == "female" ~ "Female",
+                           group == "male_immature" ~ "Immature Males", 
+                           group == "male_mature" ~ "Mature Males",
+                           group == "male_legal" ~ "Legal Males"),
+         group = factor(group, levels = c("Female", "Immature Males", 
+                                          "Mature Males", "Legal Males"))) %>%
+  ggplot()+
+  geom_point(aes(x = survey_year, y = biomass / 1000, color = subarea))+
+  geom_line(aes(x = survey_year, y = biomass / 1000, color = subarea, group = subarea))+
+  scale_color_manual(values = cb_palette[2:7])+
+  labs(x = NULL, y = "Biomass (t)", color = "Subarea")+
+  facet_wrap(~group, ncol = 1, scales = "free_y")+
+  theme(legend.position = "bottom") -> x
+ggsave("./PIGKC/figures/survey_biomass_subarea.png", plot = x, height = 6, width = 4, units = "in")
+
+# extract re-model inputs ----
+
+## sum estimators across subareas to get totals for re-model
+subarea_est %>%
+  filter(subarea %in% 6) %>%
   group_by(survey_year, group) %>%
   summarise(abundance = sum(abundance),
             se_abundance = sqrt(sum(var_abundance)),
@@ -165,11 +236,11 @@ subarea_est %>%
   mutate(cv_abund = se_abundance / abundance,
          cv_biomass = se_biomass / biomass) -> pi_est
 
-## export mature male estimates for subareas 2 - 4
+## export mature male estimates for subareas 
 pi_est %>%
   filter(group == "male_mature") %>%
   dplyr::select(-group) %>%
-  write_csv("./PIGKC/output/nmfs_slope_subareas_2_3_4_mature_male_timeseries.csv")
+  write_csv("./PIGKC/output/nmfs_slope_subarea_6_mature_male_timeseries.csv")
   
 ## export random effects model input data file
 ### extract data
@@ -182,7 +253,7 @@ start <- min(yrs)
 #### ending year
 end <- 2020 
 #### number of estimates
-n <- nrow(filter(est, group == "male_mature"))
+n <- nrow(filter(pi_est, group == "male_mature"))
 #### biomass estimates (in metric tons)
 pi_est %>%
   filter(group == "male_mature") %>%
@@ -198,11 +269,11 @@ rbind(c(start, "#Start year of model", rep("", n - 2)),
       c(n, "#number of survey estimates", rep("", n - 2)),
       c("#Years of survey", rep("", n - 1)),
       c(yrs),
-      c("#Biomass estimates mature males, all subareas", rep("", n - 1)),
+      c("#Biomass estimates mature males, subarea 6", rep("", n - 1)),
       c(round(biomass, 2)),
       c("#Coefficients of variation for biomass estimates", rep("", n - 1)),
       c(round(cv, 2))) %>%
-  write.table(., paste0("./PIGKC/model/", YEAR,"/mature_males_all_subareas/re.dat"), 
+  write.table(., paste0("./PIGKC/model/", YEAR,"/mature_males_subarea_6/re.dat"), 
               quote = F, row.names = F, col.names = F)
 
 
@@ -222,3 +293,4 @@ rbind(c(start, "#Start year of model", rep("", n - 2)),
   
   
   
+

@@ -14,7 +14,7 @@ library(FNGr); theme_set(theme_sleek())
 ## global options
 YEAR <- 2020
 ## version of input data to be run
-subdir <- "mature_males_all_subareas"
+subdir <- "mature_males_subarea_6"
 
 # run model ----
 
@@ -95,7 +95,21 @@ model_est %>%
 ggsave(paste0("./PIGKC/figures/", YEAR, "/mmb_all_subareas_fit.png"), plot = x, 
        height = 3, width = 6, units = "in")
 
-
+## biomass plot (MMB, subarea #)
+model_est %>%
+  ggplot()+
+  geom_ribbon(aes(x = yrs, ymin = l95, ymax = u95), fill = "grey80")+
+  geom_line(aes(x = yrs, y = u95), linetype = 2)+
+  geom_line(aes(x = yrs, y = l95), linetype = 2)+
+  geom_line(aes(x = yrs, y = fit), size = 1)+
+  geom_errorbar(aes(x = yrs, ymax = survey_u95, ymin = survey_l95), width = 0.3)+
+  geom_point(aes(x = yrs, y = survey_est), shape = 22, fill = "white")+
+  scale_x_continuous(breaks = tickr(model_est, yrs, 2)$breaks, 
+                     labels = tickr(model_est, yrs, 2)$labels)+
+  labs(x = NULL, y = "MMB (t)", title = "Subarea 6")+
+  theme(plot.title = element_text(hjust = 0.5)) -> x
+ggsave(paste0("./PIGKC/figures/", YEAR, "/mmb_subarea_6_fit.png"), plot = x, 
+       height = 3, width = 6, units = "in")
 
 
 
