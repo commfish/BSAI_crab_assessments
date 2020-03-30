@@ -90,8 +90,36 @@ haul %>%
 
 ## remove 2016, haul 5 in specimen data. Not include in haul data.
 ## 2016 tech memo reports 175 successful tows. There are 175 hauls in 2016 data excluding haul 5
+## remove crabs with anomalous sizes (999 - missing??, 485 mm)
 spec_0416 %>%
-  filter(!(survey_year == 2016 & haul == 5)) -> spec_0416
+  filter(!(survey_year == 2016 & haul == 5),
+         length <= 200) -> spec_0416
+
+
+# size comps ----
+
+## custom function to plot size comp by survey year
+f_size_comp <- function(data, yr) {
+  data %>%
+    # remove any sampling_factor = 0 rows (no catch)
+    # remove any unknown or hermaphrodite sex crabs
+    filter(sampling_factor != 0,
+           survey_year == yr,
+           sex != 3) %>%
+    left_join(haul %>%
+                dplyr::select(survey_year, haul, subarea)) %>%
+    ggplot()+
+    geom_histogram(aes(x = length, weight = sampling_factor), 
+                   binwidth = 5, color = "grey20", fill = cb_palette[2])+
+    facet_grid(rows = vars(subarea), cols = vars(survey_year), scales = "free_y")+
+    labs(x = "Carapace length (mm)", y = "Number of crab") -> x
+  ggsave(paste0("./PIGKC/figures/size_comps_", yr, ".png"), 
+         plot = x, height = 6, width = 4, units = "in")
+  x
+}
+## size comps by year and subarea
+c(2004, 2008, 2010, 2012, 2016) %>%
+  purrr::map(~f_size_comp(data = spec_0416, yr = .))
 
 
 # catch by haul by sex/size group ----
@@ -226,7 +254,7 @@ ggsave("./PIGKC/figures/survey_biomass_subarea.png", plot = x, height = 6, width
 
 ## sum estimators across subareas to get totals for re-model
 subarea_est %>%
-  filter(subarea %in% 6) %>%
+  filter(subarea %in% c(2:4)) %>%
   group_by(survey_year, group) %>%
   summarise(abundance = sum(abundance),
             se_abundance = sqrt(sum(var_abundance)),
@@ -240,7 +268,7 @@ subarea_est %>%
 pi_est %>%
   filter(group == "male_mature") %>%
   dplyr::select(-group) %>%
-  write_csv("./PIGKC/output/nmfs_slope_subarea_6_mature_male_timeseries.csv")
+  write_csv("./PIGKC/output/nmfs_slope_subarea_2_4_mature_male_timeseries.csv")
   
 ## export random effects model input data file
 ### extract data
@@ -269,11 +297,11 @@ rbind(c(start, "#Start year of model", rep("", n - 2)),
       c(n, "#number of survey estimates", rep("", n - 2)),
       c("#Years of survey", rep("", n - 1)),
       c(yrs),
-      c("#Biomass estimates mature males, subarea 6", rep("", n - 1)),
+      c("#Biomass estimates mature males, subareas 2-4", rep("", n - 1)),
       c(round(biomass, 2)),
       c("#Coefficients of variation for biomass estimates", rep("", n - 1)),
       c(round(cv, 2))) %>%
-  write.table(., paste0("./PIGKC/model/", YEAR,"/mature_males_subarea_6/re.dat"), 
+  write.table(., paste0("./PIGKC/model/", YEAR,"/mature_males_subareas_2_4/re.dat"), 
               quote = F, row.names = F, col.names = F)
 
 

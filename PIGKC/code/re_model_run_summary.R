@@ -14,7 +14,7 @@ library(FNGr); theme_set(theme_sleek())
 ## global options
 YEAR <- 2020
 ## version of input data to be run
-subdir <- "mature_males_subarea_2"
+subdir <- "mature_males_all_subareas"
 
 # run model ----
 
@@ -120,9 +120,9 @@ model_est %>%
   geom_point(aes(x = yrs, y = survey_est), shape = 22, fill = "white")+
   scale_x_continuous(breaks = tickr(model_est, yrs, 2)$breaks, 
                      labels = tickr(model_est, yrs, 2)$labels)+
-  labs(x = NULL, y = "MMB (t)", title = "Subarea 2")+
+  labs(x = NULL, y = "MMB (t)", title = "Subarea 6")+
   theme(plot.title = element_text(hjust = 0.5)) -> x
-ggsave(paste0("./PIGKC/figures/", YEAR, "/mmb_subarea_2_fit.png"), plot = x, 
+ggsave(paste0("./PIGKC/figures/", YEAR, "/mmb_subarea_6_fit.png"), plot = x, 
        height = 3, width = 6, units = "in")
 
 
