@@ -18,7 +18,7 @@ Nline <- length(proj2d[,1])
 print(Nyear)
 print(Nline)
 
-# raw with variablity attempts --------------
+# !!raw with variablity attempts !! used in EA --------------
 raw <- proj2d
 
 raw %>% 
@@ -54,6 +54,40 @@ raw_all %>%
 
 ggsave(paste0(here::here(), '/SMBKC/smbkc_19/doc/rebuilding_2019/proj2d_variability.png'), plotA, dpi = 800,
        width = 7.5, height = 3.75)
+
+### EA figure with shading for difference ----------
+# must run code above in !!raw with variability attempts first 
+raw_all %>% 
+  group_by(year, FishMort) %>% 
+  summarise(q0.05 = quantile(mmb, prob = 0.05), 
+            q0.25 = quantile(mmb, prob = 0.25),
+            q0.50 = quantile(mmb, prob = 0.50),
+            q0.75 = quantile(mmb, prob = 0.75),
+            q0.95 = quantile(mmb, prob = 0.95), 
+            Bmsy = mean(V9)) %>% 
+  mutate(alt = ifelse(FishMort == "F = 0", "none", "SHS")) %>% 
+      as.data.frame() -> data2 
+data2 %>% 
+  subset(6 <= year & year <=26) %>% 
+  select(year, alt , q0.50) %>% 
+  spread(alt, q0.50) -> data3
+
+ggplot(data2, aes(year, q0.50, colour = FishMort)) +
+  geom_line(lwd = 1) +
+  scale_color_manual(name = "", values = c(cbPalette[4], cbPalette[1]))+
+  geom_ribbon(aes(ymin = q0.05, ymax = q0.95, x = year, fill = FishMort), alpha = 0.17) +
+  scale_fill_manual(name = "", values = c(cbPalette[4], cbPalette[1]))+
+  geom_hline(yintercept = Bmsy[1,], lwd = 0.75, color = "darkgoldenrod4", linetype = "dashed") +
+  geom_text(aes(0, 3300, label = "Bmsy proxy",
+                vjust = -1, hjust = 0.05)) +
+  ylab ("MMB (tons)") +
+  xlab ("Projection Year") +
+  ggtitle("Ricker S-R recruitment, average bycatch levels") +
+  geom_ribbon(data = subset(data2, 6 <= year & year <=26), 
+              aes(ymin = filter(data2, q0.50(alt == "SHS"), 
+                  ymax = q0.50(alt == "none")), fill = "blue", alpha = "0.5")
+
+
 
 # for Fishing Mortality F = 0, that's what v3 = 1 stands for -----------
 raw %>% 

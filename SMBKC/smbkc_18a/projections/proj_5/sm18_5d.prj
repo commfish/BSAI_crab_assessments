@@ -16,7 +16,7 @@
 2067 # 2067                       # Last year of projection 
 2                          # Number of strategies (0 for no projections)
 0 0.18                     # Range of F values
-0                          # 0 for no mortality for non-directed fleets (see input #1 above); 1=Yes
+1                          # 0 for no mortality for non-directed fleets (see input #1 above); 1=Yes
 2                          # Mcmc replicates per draw
 -3423.8                    # Fixed BMSY (negative number for replicate-specific)
 

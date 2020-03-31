@@ -7,9 +7,9 @@
 # spr_nyr
 2017
 # spr_aveF_syr
-2013
+2007
 # spr_aveF_nyr
-2017
+2007
 # spr_target
 0.35
 # OFLTier
@@ -25,7 +25,7 @@
 # Compute_yield_prj
 0
 # pyr
-2207
+2067
 # prj_Nstrat
 2
 # prj_lowF
@@ -39,7 +39,7 @@
 # Fixed_prj_Bmsy
 -3423.8
 # Stock_rec_prj
-2
+1
 # Age_at_rec_prj
 7
 # prj_futRec_syr
@@ -47,14 +47,14 @@
 # prj_futRec_nyr
 2017
 # SigmaR_prj
-1e-05
+1e-005
 # Apply_HCR_prj
-0
+1
 # MeanWStateMature
 0.00172963
 # MeanWStateLegal
 0.00193093
 # max_prj
-3
+10000
 # eof_prj
 9999

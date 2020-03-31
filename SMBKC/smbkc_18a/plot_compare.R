@@ -32,7 +32,7 @@ plot_catch(M)
 ggsave(paste0(.FIGS, "catch.png"), width = ww*1.2, height = hh*1.2)
 dev.off()
 
-plot_cpue(M, ShowEstErr = TRUE)
+plot_cpue(M, ShowEstErr = FALSE)
 ggsave(paste0(.FIGS, "cpue.png"), width = ww*2.5, height = hh)
 dev.off()
 

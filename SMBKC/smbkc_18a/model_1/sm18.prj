@@ -1,7 +1,7 @@
 1                          # Do not compute MSY (1=Yes)
 0 1 1 1 1                  # Set to 0 if F35% applied to this fleet; 1 if F is to be fixed
 1978 2017                  # First and last year for average recruitment/MMB for Bspr calculation (Tier 3 or Tier 4)
-2013 2017                  # First and last year for average F for discards (computing reference points and projections)
+2007 2007                  # First and last year for average F for discards (computing reference points and projections)
 
 # OFL specifications
 0.35                       # Target SPR ratio for Bmsy proxy.
@@ -27,12 +27,12 @@
 0.00001 # 0.6                        # SigmaR (only used if Stock_recruitment option = 2) [0.6]
 
 # State strategy
-0 # 1                          # Apply strategies [OFL, ABC] (1=yes;0=no)
+1 # 1                          # Apply strategies [OFL, ABC] (1=yes;0=no)
 0.001729630                # Mean weight to use (mature)
 0.001930932                # Mean weight to use (legal)
 
 # Stop after XX mcdraws
-1 # 10000
+10000 # 10000
 
 ## eof
 9999

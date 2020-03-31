@@ -6,6 +6,7 @@
 # load ------------
 #require(devtools)
 #devtools::install_github("seacode/gmacs", subdir = "/gmr", ref = "develop") #- only needs to be performed once.
+
 require(gmr)
 #setwd("./smbkc_19/model_1")
 
@@ -31,7 +32,6 @@ names(M) <- mod_names
 
 ww <- 6
 hh <- 5
-
 
 # Jim's plots -------------------------------
 plot_recruitment_size(M)

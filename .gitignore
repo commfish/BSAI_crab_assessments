@@ -3,11 +3,27 @@
 .RData
 .Ruserdata
 *.Rproj
+*.html
 /SMBKC/data
-*.png
+/SMBKC/smbkc_19/data
 /SMBKC/smbkc_18a/model_4/figure
+/SMBKC/smbkc_18a
+/SMBKC/smbkc_19/model_1a/figure
+/SMBKC/smbkc_19/model_1a/compare
 *.docx
 *.pdf
+/SMBKC/smbkc_19/model_1c
+/SMBKC/smbkc_19/model_1d
+/SMBKC/smbkc_19/model_1e
+/SMBKC/smbkc_19/model_1f
+/SMBKC/smbkc_19/model_1g
+/SMBKC/smbkc_19/model_1h
+/SMBKC/smbkc_19/model_1i
+/SMBKC/smbkc_19/model_1j
+/SMBKC/smbkc_19/model_1k
+/SMBKC/smbkc_19/model_6
+/SMBKC/smbkc_19/temp
+/SMBKC/smbkc_19/doc/deprecated
 
 ## borrowed from GMACS gitignore
 *~
@@ -22,7 +38,7 @@ docs/api/html/
 *.aux
 *.fdb_latexmk
 *.fls
-*.out
+#*.out
 *.nav
 *.toc
 *.snm
