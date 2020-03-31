@@ -1,8 +1,11 @@
 # BSAI_crab_assessments
-Bering Sea Aleutian Island crab assessments performed by ADF&amp;G staff:  currently only SMBKC and PIGKC
+Bering Sea Aleutian Island crab assessments performed by ADF&amp;G staff. 
+As of March 2020 the following stock assessments are here:
+SMBKC 
+PIGKC
+
 
 Goal would be for all BSAI_crab_asessments that use GMACS to live here on github 
-** currently only SMBKC ** 18-07-2019
 
 
 # GMACS - read first!
