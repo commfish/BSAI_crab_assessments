@@ -1,5 +1,5 @@
-udpated: 1-17-2020
-# St. Matthews Blue King Crab 2019 - model options for 2020
+udpated: 1-17-2020 / 3-30-2020
+# St. Matthews Blue King Crab 2019 - model options for May 2020
 2019 model version (accepted 19.0)
 prep for model options for May 2020 meeting
 
@@ -10,8 +10,9 @@ Models housed in smbkc_19a
 Model             | Model in Doc  | Description
 ---------- ---    | ------------- | -------------
 model_1           |   19.0        | - Basecase (last year's selected model 1) - with no new data     
-model_1b          |   19.2        | - add CV for ADF&G pot survey
-model_1c          |   19.2a       | - add CV for both surveys
+model_1a          |   19.0a       | - add CV for ADF&G pot survey
+model_1b          |   19.0b       | - add CV for both surveys
+model_
 
 model_4           |               | - Apply VAST series - NOT done this year
 
@@ -63,8 +64,5 @@ Need to run mcmc above to get .psv file for projections
 5) Then see 'rebuilding_figures.R' for plotting
 
 
-# rebuilding specific runs
-look in smbkc_19/projections/rebuilding_brainstorm/
-
-copy of model_1 from smbkc_19 lives here
-
+# retrospective pattern analysis 
+Use model_1 for this. Manually adjust data and .ctl file for this 
