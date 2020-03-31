@@ -22,9 +22,6 @@
  14.0       5.00     20.00         1       0    5.00  20.00          # logN0 vector of initial numbers at length
  13.5       5.00     20.00         1       0    5.00  20.00          # logN0 vector of initial numbers at length
 
-#  Use custom natural mortality  (0=no,  1=yes,  by  sex  and  year)    
-0
-
 # weight-at-length input method (1 = allometry i.e. w_l = a*l^b, 2 = vector by sex, 3 = matrix by sex)
 3
 # Male weight-at-length
@@ -82,8 +79,6 @@
 0
 # molt probability function (0=pre-specified; 1=flat;2=declining logistic)
 2
-# maximum size-class (males then females)
-3
 # Maximum size-class for recruitment(males then females)
 1
 ## number of size-increment periods
@@ -132,11 +127,13 @@
    0         0        0         0        0         # sex specific selectivity
    0         3        3         0        0         # male selectivity type
    0         0        0         0        0         # within another gear
+   0         0        0         0        0         # extra parameters
 ## Gear-1    Gear-2   Gear-3    Gear-4   Gear-5
    1         1        1         1        1         # Retention periods
    0         0        0         0        0         # sex specific retention
    3         6        6         6        6         # male retention type
    1         0        0         0        0         # male retention flag (0 -> no, 1 -> yes)
+   0         0        0         0        0         # extra parameters
 ## gear  par   sel                                             phz    start  end        ##
 ## index index par sex  ival  lb    ub     prior p1     p2     mirror period period     ##
 # Gear-1
@@ -154,7 +151,7 @@
    3    10     2   0    60      10.0  200    0      10    200   -3     1978   2018
 # Gear-4
    4     11    1   0    0.7     0.001 1.0    0       0      1   4     1978   2019
-   4     12    2   0    0.7     0.001 1.0    0       0      1   4     1978   2019
+   4     12    2   0    0.8     0.001 1.0    0       0      1   4     1978   2019
    4     13    3   0    0.9     0.001 1.0    0       0      1   -5     1978   2019
 # Gear-5
    5     14    1   0    0.4     0.001 1.0    0       0      1   4     1978   2019
@@ -278,12 +275,14 @@
 1978       # First rec_dev
 2018       # last rec_dev
    3       # Estimated rec_dev phase
+  -3       # Estimated sex_ratio
+ 0.5       # initial sex-ratio  
   -3       # Estimated rec_ini phase
    0       # VERBOSE FLAG (0 = off, 1 = on, 2 = objective func)
    2       # Initial conditions (0 = Unfished, 1 = Steady-state fished, 2 = Free parameters)
    1       # Lambda (proportion of mature male biomass for SPR reference points)
    0       # Stock-Recruit-Relationship (0 = None, 1 = Beverton-Holt)
-  10 # 10       # Maximum phase (stop the estimation after this phase).
+  10       # Maximum phase (stop the estimation after this phase).
   -1       # Maximum number of function calls
 ## ==================================================================================== ##
 ## EMPHASIS FACTORS (CATCH)
