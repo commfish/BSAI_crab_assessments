@@ -1,0 +1,9 @@
+2004 #Start year of model   
+2020 #End year of model   
+5 #number of survey estimates   
+#Years of survey    
+2004 2008 2010 2012 2016
+#Biomass estimates mature males, subareas 2-4    
+95.29 152 133.32 96.52 167.71
+#Coefficients of variation for biomass estimates    
+0.42 0.27 0.24 0.34 0.32
