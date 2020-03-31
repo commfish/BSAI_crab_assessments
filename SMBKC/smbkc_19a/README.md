@@ -23,10 +23,14 @@ each model has its own directory (i.e. model_1, ..., model_4), and in each model
 
 ## dat, ctl, prj files - FILE UPDATES ANNUALLY
 .dat file lives in data folder in assessment root.  
+
 Update annually - 
 .ctl file updated for model_1 in that folder with new year ranges, etc. each model needs the .ctl file updated.
 
 update gmacs.dat with correct file names for .dat, .ctl, .prj
+
+## data 
+SMBKC_GE90_BIOMASS.csv - file from J. Richar using VAST to produce estimates from trawl survey
 
 # Run the model
 1) Using ADMB shell navigate to the folder for model_1
