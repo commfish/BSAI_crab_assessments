@@ -9,8 +9,8 @@
 # Model: model_1
 
 # load ------------
-require(devtools)
-devtools::install_github("seacode/gmacs", subdir = "/gmr", ref = "develop") #, INSTALL_opts="--no-staged-install") #- only needs to be performed once, but needs to be 
+#require(devtools)
+#devtools::install_github("seacode/gmacs", subdir = "/gmr", ref = "develop") #, INSTALL_opts="--no-staged-install") #- only needs to be performed once, but needs to be 
 # done again when updates are made to the package
 # if gmr is updated and above doesn't work try:
 # go to Build above - direct it to the gmr folder - press OK. Over on right in the Build tab (upper right hand side) - 
@@ -55,8 +55,6 @@ plot_cpue(M, ShowEstErr = TRUE)
 ggsave(paste0(.FIGS, "cpue.png"), width = ww*2.5, height = hh)
 dev.off()
 
-mdf <- .get_cpue_df(M)
-
 plot_cpue(M, ShowEstErr = TRUE, "NMFS Trawl", ylab = "Survey biomass (t)")
 ggsave(paste0(.FIGS, "cpue_trawl.png"), width = ww, height = hh)
 dev.off()
@@ -65,6 +63,7 @@ plot_cpue(M, ShowEstErr = TRUE, "ADFG Pot", ylab = "Survey biomass (t)")
 ggsave(paste0(.FIGS, "cpue_pot.png"), width = ww, height = hh)
 dev.off()
 
+# look at code not working error in if (A$nmature == 2) { : argument is of length zero
 plot_natural_mortality(M, plt_knots = FALSE)
 ggsave(paste0(.FIGS, "M_t.png"), width = ww, height = hh)
 dev.off()
@@ -77,6 +76,8 @@ plot_recruitment(M)
 ggsave(paste0(.FIGS, "recruitment.png"), width = ww, height = hh)
 dev.off()
 
+#Error in data.frame(Model = names(M)[i], type = "Capture", M[[i]]$slx_capture) : 
+# arguments imply differing number of rows: 1, 0
 plot_selectivity(M) # **FIX** not working
 ggsave(paste0(.FIGS, "selectivity.png"), width = ww*1.5, height = hh*1.5)
 dev.off()
@@ -109,6 +110,9 @@ dev.off()
 # ggsave(paste0(.FIGS, "numbers.png"), width = ww*1.2, height = hh)
 # dev.off()
 # 
+
+# Error in names(x) <- value : 
+# 'names' attribute [12] must be the same length as the vector [9] 
 plot_size_comps(M, 1)
 ggsave(paste0(.FIGS, "lf_1.png"), width = ww*2, height = hh*1.5)
 dev.off()
@@ -135,7 +139,12 @@ dev.off()
 # # # dev.off()
 
 plot_cpue_res(M, "NMFS Trawl")
+ggsave(paste0(.FIGS, "cpue_trawl_residuals.png"), width = ww*2.5, height = hh)
+dev.off()
 
+plot_cpue_res(M, "ADFG Pot")
+ggsave(paste0(.FIGS, "cpue_pot_residuals.png"), width = ww*2.5, height = hh)
+dev.off()
 
 # SMBKC plots new  -------------
 # SSB -----------
