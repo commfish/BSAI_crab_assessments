@@ -1,20 +1,25 @@
-# K.Palof  11-20-19
+# K.Palof  11-20-19/ 04-01-20
 
 # Code for plotting output of GMACS models for SMBKC
 # Taken from Jim Ianellii https://github.com/seacode/gmacs/tree/develop/examples/smbkc_18a/model_1 but updated 
 
+# Model or Model(s) plotted here: 
+# Stock: SMBKC
+# Year and timing: 2019a - models for May 2020
+# Model: model_1
+
 # load ------------
-#require(devtools)
-#devtools::install_github("seacode/gmacs", subdir = "/gmr", ref = "develop") #- only needs to be performed once.
+require(devtools)
+devtools::install_github("seacode/gmacs", subdir = "/gmr", ref = "develop", INSTALL_opts="--no-staged-install") #- only needs to be performed once, but needs to be 
+# done again when updates are made to the package
 require(gmr)
 #setwd("./smbkc_19/model_1")
 
 # Model 1 plots -------------------------
-# ploting for model 1 under smbkc19 folder - using gmr and Jim's code 
 cur_yr <- 2019 # update annually 
 
 mod_names <- c("model_1")
-.MODELDIR = c("./SMBKC/smbkc_19a/model_1/") # 
+.MODELDIR = c("./SMBKC/smbkc_19a/model_1/") # directory where the model results are
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
