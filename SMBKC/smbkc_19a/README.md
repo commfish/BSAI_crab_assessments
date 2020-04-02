@@ -14,7 +14,8 @@ model_1a          |   19.0a       | - add CV for ADF&G pot survey
 model_1b          |   19.0b       | - add CV for both surveys
 model_
 
-model_4           |               | - Apply VAST series - NOT done this year
+model_4           |               | - Apply VAST series - Jon Richar provided VAST estimates using just the trawl survey 
+                  |               |    - April 2020
 
 
 Notice the use of a single .dat file for all of the different model runs. 
