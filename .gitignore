@@ -24,7 +24,11 @@
 /SMBKC/smbkc_19/model_6
 /SMBKC/smbkc_19/temp
 /SMBKC/smbkc_19/doc/deprecated
+/SMBKC/smbkc_19a/depricated_models
 
+
+/PIGKC/data_katie
+/PIGKC/gmacs
 ## borrowed from GMACS gitignore
 *~
 *.swp
@@ -70,6 +74,7 @@ GMACS/src/gmacs.obj
 GMACS/src/moltIncrement.cpp
 *.cpp
 *.obj
+*.exe
 
 # ADMB standard output files
 *.b0*
@@ -96,3 +101,5 @@ gradient.*
 *_in.dat
 variance
 sims
+
+
