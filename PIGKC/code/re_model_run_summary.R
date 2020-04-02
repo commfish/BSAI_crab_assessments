@@ -14,7 +14,7 @@ library(FNGr); theme_set(theme_sleek())
 ## global options
 YEAR <- 2020
 ## version of input data to be run
-subdir <- "mature_males_all_subareas"
+subdir <- "mature_males_subarea_6_b"
 
 # run model ----
 
@@ -90,7 +90,7 @@ model_est %>%
                      labels = tickr(model_est, yrs, 2)$labels)+
   labs(x = NULL, y = "MMB (t)", title = "Subareas 2 - 4")+
   theme(plot.title = element_text(hjust = 0.5)) -> x
-ggsave(paste0("./PIGKC/figures/", YEAR, "/mmb_subareas_2_4_fit.png"), plot = x, 
+ggsave(paste0("./PIGKC/figures/", YEAR, "/mmb_subareas_2_4_b_fit.png"), plot = x, 
        height = 3, width = 6, units = "in")
 
 ## biomass plot (MMB, all subareas)
@@ -106,7 +106,7 @@ model_est %>%
                      labels = tickr(model_est, yrs, 2)$labels)+
   labs(x = NULL, y = "MMB (t)", title = "All Subareas")+
   theme(plot.title = element_text(hjust = 0.5)) -> x
-ggsave(paste0("./PIGKC/figures/", YEAR, "/mmb_all_subareas_fit.png"), plot = x, 
+ggsave(paste0("./PIGKC/figures/", YEAR, "/mmb_all_subareas_b_fit.png"), plot = x, 
        height = 3, width = 6, units = "in")
 
 ## biomass plot (MMB, subarea #)
@@ -122,7 +122,7 @@ model_est %>%
                      labels = tickr(model_est, yrs, 2)$labels)+
   labs(x = NULL, y = "MMB (t)", title = "Subarea 6")+
   theme(plot.title = element_text(hjust = 0.5)) -> x
-ggsave(paste0("./PIGKC/figures/", YEAR, "/mmb_subarea_6_fit.png"), plot = x, 
+ggsave(paste0("./PIGKC/figures/", YEAR, "/mmb_subarea_6_b_fit.png"), plot = x, 
        height = 3, width = 6, units = "in")
 
 
