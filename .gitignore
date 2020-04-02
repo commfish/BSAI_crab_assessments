@@ -92,8 +92,6 @@ gradient.*
 *.p0*
 *.psv
 *.hst
-*.par
-*.rep
 *.r0*
 *.std
 *.tmp
