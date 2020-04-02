@@ -100,4 +100,14 @@ gradient.*
 variance
 sims
 
-
+# katie specific
+SMBKC/*.rep
+SMBKC/smbkc_19/model_1/*.rep
+SMBKC/smbkc_19/model_1/initial_run
+SMBKC/smbkc_19/model_1/initial_run_old_dat_file
+SMBKC/smbkc_19/model_1/proj_2018
+SMBKC/smbkc_19/model_1/proj_2019
+SMBKC/smbkc_19/model_1/projections/proj_1/aa/*.rep
+SMBKC/smbkc_19/model_1/projections/proj_1/d/*.rep
+SMBKC/smbkc_19/model_1/projections/proj_2/aa/*.rep
+SMBKC/smbkc_19/model_1/projections/proj_2/abc/*.rep
