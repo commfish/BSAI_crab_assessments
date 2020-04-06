@@ -1,0 +1,9 @@
+2008 #Start year of model  
+2022 #End year of model  
+4 #number of survey estimates  
+#Years of survey   
+2008 2010 2012 2016
+#Unweighted biomass estimates mature males, survey area inside PI District   
+562.99 665.14 373.76 755.59
+#Coefficients of variation for biomass estimates   
+0.32 0.26 0.34 0.32
