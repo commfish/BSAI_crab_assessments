@@ -13,7 +13,10 @@ data_trawl <- read.csv(here::here("SMBKC/smbkc_19/data/survey_biomass_mt.csv"))
 
 ### data clean up --------
 data_vast_19 %>% 
-  filter(Year >= 1978) -> data_vast_19
+  filter(Year >= 1978) %>% 
+  mutate(CV_mt = SD_mt/Estimate_metric_tons) -> data_vast_19
+data_vast_19 %>% select(Year, Estimate_metric_tons, CV_mt) # for entry into the .dat file
+
 data_trawl %>% 
   filter(SURVEY_YEAR >= 1978) -> data_trawl
 
