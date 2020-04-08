@@ -1,0 +1,9 @@
+2002 #Start year of model    
+2022 #End year of model    
+6 #number of survey estimates    
+#Years of survey     
+2002 2004 2008 2010 2012 2016
+#Unweighted biomass estimates mature males, survey area within P district, 2002 and 2004 based on mean mmb:total ratio     
+318.9 485.52 562.99 665.14 373.76 755.59
+#Coefficients of variation for biomass estimates     
+0.27 0.38 0.32 0.26 0.34 0.32
