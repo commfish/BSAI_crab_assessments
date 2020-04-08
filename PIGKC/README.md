@@ -16,3 +16,16 @@ This directory includes materials related to the Pribilof Islands Golden King Cr
 ## Tier 4 assessment basic workflow:
 1. Run nmfs_slope_biomass_est.R script to obtain survey biomass estimates.
 2. Run re_model_run_summary.R to run random effects model (by J. Ianelli) and evaluate model output (in R).
+3. Run compute_ofl.R to compute reference points
+
+## 2020 model scenarios
+Model scenarios for the 2020 tier 4 assessment involve different methods of computing biomass inputs to the random effects models. They include:
+* **2020a** - mature male biomass (MMB) and variance in MMB 2008 - 2016 computed among strata within subareas 2 - 4, summed within subareas, and then across subareas
+* **2020b** - MMB and variance in MMB 2008 - 2016 computed among strata within the survey area bounded by the Pribilof Islands district
+* **2020c** - MMB density and variance in MMB 2008 - 2016 density computed among strata within subareas 2 - 4, averaged within subareas 2 - 4 weighted by stratum area, and summed across subareas
+* **2020d** - MMB density and variance in MMB 2008 - 2016 density computed among strata within the survey area bounded by the Pribilof Islands district, averaged across the survey area weighted by stratum area, and extrapolated to the survey area
+* **2020e** - MMB and variance in MMB in 2008 - 2016 computed among strata within subareas 2 - 4, summed within subareas, and then across subareas. MMB in 2002 and 2004 was computed using the mean ratio in MMB:total biomass from 2008 - 2016
+* **2020f** - MMB and variance in MMB 2008 - 2016 computed among strata within the survey area bounded by the Pribilof Islands district. MMB in 2002 and 2004 was computed using the mean ratio in MMB:total biomass from 2008 - 2016
+* **2020c** - MMB density and variance in MMB 2008 - 2016 density computed among strata within subareas 2 - 4, averaged within subareas 2 - 4 weighted by stratum area, and summed across subareas. MMB in 2002 and 2004 was computed using the mean ratio in MMB:total biomass from 2008 - 2016.
+* **2020h** - MMB density and variance in MMB 2008 - 2016 density computed among strata within the survey area bounded by the Pribilof Islands district, averaged across the survey area weighted by stratum area, and extrapolated to the survey area. MMB in 2002 and 2004 was computed using the mean ratio in MMB:total biomass from 2008 - 2016.
+
