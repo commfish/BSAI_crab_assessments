@@ -575,7 +575,9 @@ tmp %>%
   ggplot()+
   geom_point(aes(x = wt_kg, y = calc_wt_kg))+
   geom_line(aes(x = wt_kg, y = wt_kg), linetype = 2)+
-  facet_wrap(~survey_year)
+  facet_wrap(~survey_year)+
+  labs(x = "Measured weight (kg)", y = "Calculated weight (kg)") -> x
+ggsave("./PIGKC/figures/measured_vs_calc_wt_catch.png", plot = x, height = 4, width = 4, units = "in")
 
 # look at sum total and cv
 tmp %>%
