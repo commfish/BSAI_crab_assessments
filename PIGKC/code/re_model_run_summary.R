@@ -14,7 +14,7 @@ library(FNGr); theme_set(theme_sleek())
 ## global options
 YEAR <- 2020
 ## version of input data to be run
-subdir <- "2020a"
+subdir <- "2020g"
 
 # run model ----
 
@@ -35,7 +35,7 @@ setwd("../../../..")
 ## read model output
 ### load file
 output <- read.table(paste0("./PIGKC/model/", YEAR, "/", subdir, "/rwout.rep"), fill = T, sep = "\t")
-### survey ests
+### survey ests (sd is cv)
 tibble(yrs = na.omit(as.numeric(str_split(output[2,], pattern = " ", simplify = T))),
        survey_est = na.omit(as.numeric(str_split(output[4,], pattern = " ", simplify = T))),
        survey_sd = na.omit(as.numeric(str_split(output[6,], pattern = " ", simplify = T)))) -> tmp1
@@ -55,10 +55,10 @@ full_join(tmp1, tmp2, by = "yrs") %>%
 rm(tmp1)
 rm(tmp2)
 
-### add columns for survey CIs
+### add columns for survey normal 95% CIs
 model_est %>%
-  mutate(survey_u95 = survey_est * exp(2 * sqrt(log(1 + ((survey_est * survey_sd) / survey_est)^2))),
-         survey_l95 = survey_est / exp(2 * sqrt(log(1 + ((survey_est * survey_sd) / survey_est)^2)))) %>%
+  mutate(survey_u95 = survey_est + 1.96 * survey_sd * survey_est,
+         survey_l95 = survey_est - 1.96 * survey_sd * survey_est) %>%
   dplyr::select(1:3, 11:12, 4:10) -> model_est
 
 
@@ -72,7 +72,6 @@ t(stringr::str_split(par[1,1], pattern = "  ", simplify = T))[2:3,]
 exp(as.numeric(par[3,]))
 ### store process errors
 proc_err <- na.omit(as.numeric(stringr::str_split(par[5,], pattern = " ", simplify = T)))
-
 
 
 # summarize results ----
@@ -91,9 +90,7 @@ model_est %>%
   scale_y_continuous(breaks = seq(0, 10000, 250))+
   labs(x = NULL, y = "MMB (t)", title = "Subareas 2 - 4")+
   theme(plot.title = element_text(hjust = 0.5)) -> x
-ggsave(paste0("./PIGKC/figures/", YEAR, "/2020a.png"), plot = x, 
+ggsave(paste0("./PIGKC/figures/", YEAR, "/2020g.png"), plot = x, 
        height = 3, width = 6, units = "in")
-
-
 
 
