@@ -3,6 +3,9 @@
 # katie palof, katie.palof@alaska.gov
 # VAST estimates produced by Jon Richar at NOAA Kodiak for SMBKC trawl survey only
 
+#load -------
+library(tidyverse)
+
 # VAST data --------
 data_vast_19 <- read.csv(here::here("SMBKC/smbkc_19a/data/SMBKC_GE90_BIOMASS.csv"))
 
