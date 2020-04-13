@@ -34,7 +34,7 @@ strata <- read_csv("./PIGKC/data/strata_area_prib_district.csv")
 ## specimen data (from clean_nmfs_specimen_data.R)
 str(spec_0416)
 
-## 2002 - 2016 catch data
+## 2002 - 2016 catch data from tech memos
 read_csv("./PIGKC/data/nmfs_slope_gkc_catch_2002_2016.csv") %>%
   replace_na(list(wt_kg = 0)) -> catch
 
@@ -42,7 +42,7 @@ read_csv("./PIGKC/data/nmfs_slope_gkc_catch_2002_2016.csv") %>%
 ### land
 ak <- maps::map("world", region=c('russia', 'usa:alaska', 'canada'), fill=T, plot=F) %>%
   broom::tidy()
-### survey area
+### survey area polygon by subarea
 survey_area <- f_shp_prep("./PIGKC/data/maps/bssa1to6", "bssa1to6")
 survey_area[[1]] %>%
   # add subarea factor and save data object
@@ -52,7 +52,20 @@ survey_area[[1]] %>%
                              B5_ %in% 30:43 ~ 4,
                              B5_ %in% 16:29 ~ 5,
                              B5_ %in% 3:15 ~ 6),
-         subarea = factor(subarea)) -> survey_poly
+         subarea = factor(subarea),
+         stratum = ) -> survey_poly
+
+### survey area polygon by stratum
+# load subarea polygons individually and join to stratum
+bind_rows(f_shp_prep("./PIGKC/data/maps/bssa1", "bssa1")[[1]],
+          f_shp_prep("./PIGKC/data/maps/bssa2", "bssa2")[[1]],
+          f_shp_prep("./PIGKC/data/maps/bssa3", "bssa3")[[1]],
+          f_shp_prep("./PIGKC/data/maps/bssa4", "bssa4")[[1]],
+          f_shp_prep("./PIGKC/data/maps/bssa5", "bssa5")[[1]],
+          f_shp_prep("./PIGKC/data/maps/bssa6", "bssa6")[[1]]) %>%
+  left_join(tibble(group = factor(0.1:9.1),
+                   stratum = sort(rep(1:5, 2)))) -> stratum_poly
+
 ### Pribilof Island district boundary
 f_shp_prep("./PIGKC/data/maps/pribilof_district", "Pribilof_District_Boundary") %>%
   # transform projection to match survey area
@@ -103,25 +116,116 @@ spec_0416 %>%
 f_size_comp <- function(data, yr) {
   data %>%
     # remove any sampling_factor = 0 rows (no catch)
-    # remove any unknown or hermaphrodite sex crabs
+    # remove any unknown or hermaphrodite sex crabs, or for males ony also remove females
     filter(sampling_factor != 0,
            survey_year == yr,
-           sex != 3) %>%
+           sex == 1) %>%
     left_join(haul %>%
                 dplyr::select(survey_year, haul, subarea)) %>%
     ggplot()+
     geom_histogram(aes(x = length, weight = sampling_factor), 
-                   binwidth = 5, color = "grey20", fill = cb_palette[2])+
+                   binwidth = 5, color = "grey20", fill = cb_palette[3])+
     facet_grid(rows = vars(subarea), cols = vars(survey_year), scales = "free_y")+
     labs(x = "Carapace length (mm)", y = "Number of crab") -> x
-  ggsave(paste0("./PIGKC/figures/size_comps_", yr, ".png"), 
+  ggsave(paste0("./PIGKC/figures/size_comps_male_only", yr, ".png"), 
          plot = x, height = 6, width = 4, units = "in")
   x
 }
 ## size comps by year and subarea
-c(2004, 2008, 2010, 2012, 2016) %>%
+c(2008, 2010, 2012, 2016) %>%
   purrr::map(~f_size_comp(data = spec_0416, yr = .))
 
+## size comps within PI district by stratum, males only
+spec_0416 %>%
+    # remove any sampling_factor = 0 rows (no catch)
+    # remove any unknown or hermaphrodite sex crabs, or for males ony also remove females
+    filter(sampling_factor != 0,
+           survey_year %in% 2008:2016,
+           sex == 1) %>%
+    left_join(haul %>%
+                mutate(lon = (start_lon + end_lon) / 2,
+                       lat = (start_lat + end_lat) / 2) %>%
+                dplyr::select(survey_year, stratum, haul, lon, lat) %>%
+                mutate(stratum = substring(stratum, 2, 2),
+                       stratum_depth = case_when(stratum == 1 ~ "200 - 400 m",
+                                                 stratum == 2 ~ "400 - 600 m",
+                                                 stratum == 3 ~ "600 - 800 m",
+                                                 stratum == 4 ~ "800 - 1,000 m",
+                                                 stratum == 5 ~ "1,000 - 1,200 m"),
+                       stratum_depth = factor(stratum_depth,
+                                              levels = c("200 - 400 m", "400 - 600 m", "600 - 800 m",
+                                                         "800 - 1,000 m", "1,000 - 1,200 m"))) %>%
+                rename(x = lon, y = lat)) %>%
+    mutate(in_pi = splancs::inout(pts = .,
+                                  poly = pi_district %>%
+                                    dplyr::select(long, lat) %>%
+                                    rename(x = long, y = lat))) %>%
+    filter(in_pi == T) %>%
+    ggplot()+
+    geom_histogram(aes(x = length, weight = sampling_factor), 
+                   binwidth = 5, color = "grey20", fill = cb_palette[3])+
+    facet_grid(rows = vars(stratum_depth), cols = vars(survey_year), drop = T)+
+    labs(x = "Carapace length (mm)", y = "Number of crab") -> x
+  ggsave("./PIGKC/figures/size_comps_male_only.png", 
+         plot = x, height = 6, width = 7, units = "in")
+
+
+# maps of survey catch ---- 
+  
+## map of survey catch by subarea
+haul %>%
+    # get trawl mid points
+    mutate(lon = (start_lon + end_lon) / 2,
+           lat = (start_lat + end_lat) / 2) %>%
+    # select relevant data
+    dplyr::select(survey_year, stratum, haul, lon, lat, area_swept) %>%
+    # join to catch data 
+    right_join(catch, by = c("survey_year", "haul")) %>%
+    # change zero catch to NA
+    mutate(wt_kg = ifelse(wt_kg == 0, NA, wt_kg)) %>%
+    ggplot()+
+    geom_polygon(data = survey_poly,  aes(x = long, y = lat, group = group, fill = factor(subarea)), 
+                 alpha = 0.5, show.legend = F)+
+    scale_fill_manual(values = cb_palette[2:7])+
+    geom_polygon(data = ak, aes(x = long, y = lat, group = group), fill = "grey90")+
+    geom_polygon(data = pi_district, aes(x = long, y = lat, group = group), fill = NA, color = "black")+
+    geom_point(aes(x = lon, y = lat, size = wt_kg / area_swept), alpha = 0.5)+
+    coord_quickmap(xlim = c(-180.5, -166), ylim = c(54, 61))+
+    labs(x = expression(paste(Longitude^o,~'W')), 
+         y = expression(paste(Latitude^o,~'N')),
+         size = "CPUE (kg / sq km)")+
+    theme(panel.background = element_rect(fill = "grey70"),
+          legend.position = "bottom")+
+    facet_wrap(~survey_year) -> x
+  ggsave("./PIGKC/figures/survey_cpue_wt_map_subarea.png", plot = x, height = 6, width = 8, units = "in")
+
+## map of survey catch by stratum
+  haul %>%
+    # get trawl mid points
+    mutate(lon = (start_lon + end_lon) / 2,
+           lat = (start_lat + end_lat) / 2) %>%
+    # select relevant data
+    dplyr::select(survey_year, stratum, haul, lon, lat, area_swept) %>%
+    # join to catch data 
+    right_join(catch, by = c("survey_year", "haul")) %>%
+    # change zero catch to NA
+    mutate(wt_kg = ifelse(wt_kg == 0, NA, wt_kg)) %>%
+    ggplot()+
+    geom_polygon(data = stratum_poly,  aes(x = long, y = lat, group = B5_, fill = factor(stratum)), 
+                 alpha = 0.5, show.legend = F)+
+    scale_fill_manual(values = cb_palette[2:6])+
+    geom_polygon(data = ak, aes(x = long, y = lat, group = group), fill = "grey90")+
+    geom_polygon(data = pi_district, aes(x = long, y = lat, group = group), fill = NA, color = "black")+
+    geom_point(aes(x = lon, y = lat, size = wt_kg / area_swept), alpha = 0.5)+
+    coord_quickmap(xlim = c(-180.5, -166), ylim = c(54, 61))+
+    labs(x = expression(paste(Longitude^o,~'W')), 
+         y = expression(paste(Latitude^o,~'N')),
+         size = "CPUE (kg / sq km)")+
+    theme(panel.background = element_rect(fill = "grey70"),
+          legend.position = "bottom")+
+    facet_wrap(~survey_year) -> x
+  ggsave("./PIGKC/figures/survey_cpue_wt_map_stratum.png", plot = x, height = 6, width = 8, units = "in")
+  
 
 # catch by haul by sex/size group (specimen data) ----
 
@@ -176,28 +280,7 @@ haul %>%
   separate(value, sep = "_", into = c("num_crab", "wt_crab_kg")) %>%
   mutate_at(c("num_crab", "wt_crab_kg"), as.numeric) -> catch_by_haul
 
-# ## map of cpue by year, haul
-# catch_by_haul %>%
-#   filter(group == "male_mature") %>%
-#   mutate(wt_crab_kg = ifelse(wt_crab_kg == 0, NA, wt_crab_kg)) %>%
-#   ggplot()+
-#   geom_polygon(data = ak, 
-#                aes(x = long, y = lat, group = group),
-#                fill = "grey90", color = "grey90")+
-#   geom_polygon(data = survey_poly, 
-#                aes(x = long, y = lat, group = group, fill = factor(subarea)), 
-#                alpha = 0.5, show.legend = F)+
-#   scale_fill_manual(values = cb_palette[2:7])+
-#   geom_polygon(data = pi_district, 
-#                aes(x = long, y = lat, group = group), color = "black", fill = NA)+
-#   geom_point(aes(x = lon, y = lat, size = wt_crab_kg / area_swept), 
-#              alpha = 0.5)+
-#   labs(x = "Longitude", y = "Latitude", size = "CPUE (kg / sq km)")+
-#   facet_wrap(~survey_year)+
-#   coord_quickmap(xlim = c(-180.5, -166), ylim = c(53, 62))+
-#   theme(panel.background = element_rect(fill = "grey70"),
-#         legend.position = "bottom") -> x
-# ggsave("./PIGKC/figures/survey_cpue_wt_map.png", plot = x, height = 6, width = 8, units = "in")
+
 
 
 # abundance and biomass estimates, scenario 2020a ----
