@@ -26,12 +26,12 @@ options(xtable.comment = FALSE)
 ## before running update model specs here and in doc_figures_test.R
 ## run code in that R file with !! to get table and figure input here
 # the model specs
-mod_names <- c("model 16.0", "model 16.0 (ref)", "model 19.1 (fit survey)", "model 19.2 (add CV pot)", "model 19.0a (alt regime)") 
+mod_names <- c("model 16.0", "model 16.0 (ref)", "model 19.1 (VAST))", "model 19.2 (add CV pot)", "model 19.3 (add CV both)") 
 .MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_19/model_1/"), 
               paste0(here::here(), "/SMBKC/smbkc_19a/model_1/"),
-              paste0(here::here(), "/SMBKC/smbkc_19a/model_5/"), 
-              paste0(here::here(), "/SMBKC/smbkc_19a/model_1b/"), 
-              paste0(here::here(), "/SMBKC/smbkc_19a/model_1a/")) #need to update these model options
+              paste0(here::here(), "/SMBKC/smbkc_19a/model_4/"), 
+              paste0(here::here(), "/SMBKC/smbkc_19a/model_1a/"), 
+              paste0(here::here(), "/SMBKC/smbkc_19a/model_1b/")) #need to update these model options
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
@@ -61,8 +61,8 @@ rinline <- function(code){
   sub("CODE", code, html)
 }
 
-alt_mod <- 5 # alt reference time frame
-ref_mod <- 2 # base
+#alt_mod <- 5 # alt reference time frame
+ref_mod <- 1 # base
 rec_mod <- 2 # base
 mod_scen<- 2:4 #scenarios you want graphed together
 ```
