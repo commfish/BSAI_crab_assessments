@@ -76,15 +76,29 @@ mod_scen<- 2:4 #scenarios you want graphed together
   .$x -> bio_lt_percent
 
 ## table 1 ------
-round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_1819
-round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_1819
-round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_1920
-round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_1920
-round(M[[rec_mod]]$spr_cofl/1000*0.8, 2) -> abc_1920
+round(M[[ref_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_1819
+round(M[[ref_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_1819
 
-round(M[[alt_mod]]$spr_bmsy*M[[alt_mod]]$spr_depl/1000, 2) -> alt_mmb_1920
-round(M[[alt_mod]]$spr_cofl/1000, 2) -> alt_ofl_1920
-round(M[[alt_mod]]$spr_cofl/1000*0.8, 2) -> alt_abc_1920
+# use in May 2020
+round(M[[ref_mod]]$spr_bmsy*M[[ref_mod]]$spr_depl/1000, 2) -> mmb_1920
+round(M[[ref_mod]]$spr_cofl/1000, 2) -> ofl_1920
+round(M[[ref_mod]]$spr_cofl/1000*0.8, 2) -> abc_1920
+
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_1920a
+round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_1920a
+round(M[[rec_mod]]$spr_cofl/1000*0.8, 2) -> abc_1920a
+
+# use with actual 2020 data
+#round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_1920
+#round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_1920
+#round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2021
+#round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2021
+#round(M[[rec_mod]]$spr_cofl/1000*0.8, 2) -> abc_2021
+
+
+#round(M[[alt_mod]]$spr_bmsy*M[[alt_mod]]$spr_depl/1000, 2) -> alt_mmb_1920
+#round(M[[alt_mod]]$spr_cofl/1000, 2) -> alt_ofl_1920
+#round(M[[alt_mod]]$spr_cofl/1000*0.8, 2) -> alt_abc_1920
 
 # table 2 ----------
 round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_1819_lb
@@ -167,7 +181,7 @@ Computations which indicate the relative impact of fishing
   2017/18 & 1.85 & 1.29 & 0.00 & 0.00 & 0.003 & 0.12 & 0.10 \\
   2018/19 & `r msst_1819 ` & `r mmb_1819` & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
   2019/20 &              & `r mmb_1920` &  &  &  & `r ofl_1920` & `r abc_1920` \\
-  2019/20alt &      & `r alt_mmb_1920` &  &  &  & `r alt_ofl_1920` & `r alt_abc_1920` \\
+  2020/21 &      & `r mmb_1920` &  &  &  & `r ofl_1920` & `r abc_1920` \\
  \\
   \hline
 \end{tabular}
