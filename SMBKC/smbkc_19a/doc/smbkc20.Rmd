@@ -26,7 +26,7 @@ options(xtable.comment = FALSE)
 ## before running update model specs here and in doc_figures_test.R
 ## run code in that R file with !! to get table and figure input here
 # the model specs
-mod_names <- c("model 16.0", "model 16.0 (ref)", "model 19.1 (VAST))", "model 19.2 (add CV pot)", "model 19.3 (add CV both)") 
+mod_names <- c("model 16.0", "model 16.0 (ref)", "model 20.1 (VAST))", "model 20.2 (add CV pot)", "model 20.3 (add CV both)") 
 .MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_19/model_1/"), 
               paste0(here::here(), "/SMBKC/smbkc_19a/model_1/"),
               paste0(here::here(), "/SMBKC/smbkc_19a/model_4/"), 
@@ -107,9 +107,6 @@ round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_1920_lb
 round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 3) -> ofl_1920_lb
 round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.8, 2) -> abc_1920_lb
 
-round(M[[alt_mod]]$spr_bmsy*M[[alt_mod]]$spr_depl* 2204.62/1e6, 3)-> alt_mmb_1920_lb
-round(M[[alt_mod]]$spr_cofl* 2204.62/1e6, 2) -> alt_ofl_1920_lb
-round(M[[alt_mod]]$spr_cofl* 2204.62/1e6*0.8, 2) -> alt_abc_1920_lb
 
 # ofl and abc basis -------- table 3
 # ofl and abc basis -------- table 3
@@ -181,7 +178,7 @@ Computations which indicate the relative impact of fishing
   2017/18 & 1.85 & 1.29 & 0.00 & 0.00 & 0.003 & 0.12 & 0.10 \\
   2018/19 & `r msst_1819 ` & `r mmb_1819` & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
   2019/20 &              & `r mmb_1920` &  &  &  & `r ofl_1920` & `r abc_1920` \\
-  2020/21 &      & `r mmb_1920` &  &  &  & `r ofl_1920` & `r abc_1920` \\
+  2020/21 &      & `r mmb_1920a` &  &  &  & `r ofl_1920a` & `r abc_1920a` \\
  \\
   \hline
 \end{tabular}
@@ -248,17 +245,17 @@ There are no new changes in management of the fishery.
 ## Changes to the Input Data {-}
 
 Data used in this assessment have been updated to include the most recently
-available fishery and survey numbers. This assessment includes of one new
-survey data point - the 2019 NMFS trawl-survey estimate of abudance. 
-The triennial ADF&G pot survey was not conducted in 2019. 
+available fishery and survey numbers. This assessment will includes of one new
+survey data point - the 2020 NMFS trawl-survey estimate of abudance. 
+The triennial ADF&G pot survey were last conducted in 2018, and are back on a triennial cycle, with the next survey in 2021.  
 The NMFS trawl-surveys have associated size
-compositon data. The assessment also uses updated 2010-2018 groundfish and
+compositon data. The assessment will also use updated 2010-2019 groundfish and
 fixed gear bycatch estimates based on NMFS Alaska Regional Office (AKRO) data. 
 The directed fishery has been closed since 2016/17, so no recent fishery data are available.
 
 ## Changes in Assessment Methodology {-}
 
-This assessment uses the General model for Alasks crab stocks (Gmacs) framework. The
+This assessment uses the General model for Alasks crab stocks (GMACS) framework. The
 model is configured to track three stages of length categories and was 
 first presented in May 2011 by W.Gaeuman, ADF&G, per.com. and accepted by the CPT in May 2012. 
 A difference from the original approach and that used here is that natural and fishing mortalities are
