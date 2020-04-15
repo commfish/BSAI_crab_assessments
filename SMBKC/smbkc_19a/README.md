@@ -10,11 +10,11 @@ Models housed in smbkc_19a
 Model             | Model in Doc  | Description
 ---------- ---    | ------------- | -------------
 model_1           |   16.0        | - Basecase (last year's selected model 1) - with no new data     
-model_1a          |   19.2        | - add CV for ADF&G pot survey
-model_1b          |   19.3        | - add CV for both surveys
+model_1a          |   20.2        | - add CV for ADF&G pot survey
+model_1b          |   20.3        | - add CV for both surveys
 model_
 
-model_4           |   19.1        | - Apply VAST series - Jon Richar provided VAST estimates using just the trawl survey 
+model_4           |   20.1        | - Apply VAST series - Jon Richar provided VAST estimates using just the trawl survey 
                   |               |    - April 2020
 
 
