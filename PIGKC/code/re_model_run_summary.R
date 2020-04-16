@@ -2,7 +2,7 @@
 ## Run PIGKC Random Effects Model
 ## author: Tyler Jackson (model executable file -> Jim Ianelli)
 ## tyler.jackson@alaska.gov
-## last updated: 3/23/2020
+## last updated: 4/14/2020
 
 # load ----
 library(tidyverse)
@@ -14,7 +14,7 @@ library(FNGr); theme_set(theme_sleek())
 ## global options
 YEAR <- 2020
 ## version of input data to be run
-subdir <- "2020g"
+subdir <- "2020f"
 
 # run model ----
 
@@ -88,9 +88,9 @@ model_est %>%
   scale_x_continuous(breaks = tickr(model_est, yrs, 2)$breaks, 
                      labels = tickr(model_est, yrs, 2)$labels)+
   scale_y_continuous(breaks = seq(0, 10000, 250))+
-  labs(x = NULL, y = "MMB (t)", title = "Subareas 2 - 4")+
+  labs(x = NULL, y = "MMB (t)", title = subdir)+
   theme(plot.title = element_text(hjust = 0.5)) -> x
-ggsave(paste0("./PIGKC/figures/", YEAR, "/2020g.png"), plot = x, 
-       height = 3, width = 6, units = "in")
+ggsave(paste0("./PIGKC/figures/", YEAR, "/", subdir, ".png"), plot = x, 
+       height = 2, width = 5, units = "in")
 
 

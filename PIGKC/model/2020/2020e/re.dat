@@ -3,7 +3,7 @@
 6 #number of survey estimates    
 #Years of survey     
 2002 2004 2008 2010 2012 2016
-#Unweighted biomass estimates mature males, subarea 2-4, 2002 and 2004 based on mean mmb:total ratio     
-315.25 496.97 637.86 564.56 429.09 728.25
+#biomass estimates mature males, survey area within PI district, sample within stratum only,  2002 and 2004 based on mean mmb:total ratio     
+313.76 476.18 551.26 651.71 367.75 741.08
 #Coefficients of variation for biomass estimates     
-0.22 0.35 0.29 0.22 0.34 0.28
+0.27 0.38 0.31 0.26 0.34 0.32
