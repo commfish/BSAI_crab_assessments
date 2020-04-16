@@ -17,7 +17,7 @@
 # click "install and restart"
 
 require(gmr)
-#setwd("./smbkc_19/model_1")
+#setwd("./smbkc_19a/model_1")
 
 # Model 1 plots -------------------------
 cur_yr <- 2019 # update annually 
