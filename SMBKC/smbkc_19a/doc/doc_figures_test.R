@@ -1,6 +1,6 @@
-# katie.palof@alaska.gov    8-21-19
+# katie.palof@alaska.gov    8-21-19/ 4-9-2020
 
-# Figures for SAFE document for 2019 smbkc 
+# Figures for SAFE document for SMBKC
 # goal would be for these to be created in the .Rmd document instead of here
 #   but this file will be used to text out figures.
 
@@ -14,13 +14,13 @@ require(gmr)
 # still reference 2018 models since I'm currently runing 2019 **FIX**
 cur_yr <- 2019 # update annually 
 
-mod_names <- c("model 18.0", "model 19.0 (ref)", "model 19.1 (fit survey)", "model 19.2 (add CV pot)", "model 19.0a (alt regime)") 
-.MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_18a/model_1/"), 
-              paste0(here::here(), "/SMBKC/smbkc_19/model_1/"),
-              paste0(here::here(), "/SMBKC/smbkc_19/model_5/"), 
-              paste0(here::here(), "/SMBKC/smbkc_19/model_1b/"), 
-              paste0(here::here(), "/SMBKC/smbkc_19/model_1a/")) #need to update these model options
-.THEME    = theme_bw(base_size = 12, base_family = "") 
+mod_names <- c("model 16.0", "model 16.0 (ref)", "model 19.1 (VAST))", "model 19.2 (add CV pot)", "model 19.3 (add CV both)") 
+.MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_19/model_1/"), 
+              paste0(here::here(), "/SMBKC/smbkc_19a/model_1/"),
+              paste0(here::here(), "/SMBKC/smbkc_19a/model_4/"), 
+              paste0(here::here(), "/SMBKC/smbkc_19a/model_1a/"), 
+              paste0(here::here(), "/SMBKC/smbkc_19a/model_1b/")) #need to update these model options
+.THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
 .FLEET    = c("Pot","Trawl bycatch","Fixed bycatch","NMFS Trawl","ADF&G Pot")
@@ -28,8 +28,6 @@ mod_names <- c("model 18.0", "model 19.0 (ref)", "model 19.1 (fit survey)", "mod
 .SHELL    = c("Aggregate")
 .MATURITY = c("Aggregate")
 .SEAS     = c("1","2","3","4","5")
-.FIGS     = c("./SMBKC/smbkc_19/doc/safe_figure/")
-
 # Read report file and create gmacs report object (a list):
 fn       <- paste0(.MODELDIR, "gmacs")
 M        <- lapply(fn, read_admb)
@@ -51,8 +49,8 @@ rinline <- function(code){
   sub("CODE", code, html)
 }
 
-alt_mod <- 5 # alt reference time frame
-ref_mod <- 2 # base
+#alt_mod <- 5 # alt reference time frame
+ref_mod <- 1 # base
 rec_mod <- 2 # base
 mod_scen<- 2:4 #scenarios you want graphed together
 
