@@ -10,7 +10,7 @@ library(tidyverse)
 ## global option
 YEAR <- 2020
 ## model scenarios
-subdir <- c("2020a", "2020b", "2020c", "2020d", "2020e", "2020f", "2020g", "2020h")
+subdir <- c("2020a", "2020b", "2020c", "2020d", "2020e", "2020f")
 
 # OFL table ----
 

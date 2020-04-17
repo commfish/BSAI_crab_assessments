@@ -3,7 +3,7 @@
 4 #number of survey estimates  
 #Years of survey   
 2008 2010 2012 2016
-#Weighted biomass estimates mature males, subareas 2 - 4   
+#Biomass estimates mature males, subareas 2 - 4, sample within stratum only   
 605.54 705.77 411.05 821.8
 #Coefficients of variation for biomass estimates   
 0.31 0.26 0.36 0.31

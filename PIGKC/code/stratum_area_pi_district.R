@@ -55,8 +55,18 @@ names(strata) <- c("record_count", "load_date", "survey", "stratum", "stratum_ar
                    "depth_code", "area_depth_code", "regulatory_area_name", "stratum_type")
 
 ## tibble to match polygon group with strata
+## stratum 1, 2, 4 have a different group order than 3 and 5
+## add_startum_a to use for 1, 2, 4
+## add_stratum_b to use for 3, 5
+
 tibble(group = factor(0.1:9.1),
-       stratum = sort(rep(1:5, 2))) -> add_stratum
+       stratum = sort(rep(1:5, 2))) -> add_stratum_a
+tibble(group = factor(0.1:9.1),
+       stratum = sort(rep(1:5, 2), decreasing = T)) -> add_stratum_b
+
+ggplot() +
+  geom_polygon(data = subarea_4 %>%
+               left_join(add_stratum_a, by = "group"), aes(long, lat, group = factor(stratum), fill = factor(stratum)))
 
 
 # compute whole stratum area ----
@@ -67,7 +77,7 @@ subarea_5 %>%
   mutate(area = purrr::map_dbl(data, f_get_area),
          subarea = 5) %>%
   dplyr::select(-data) %>%
-  left_join(add_stratum, by = "group") %>%
+  left_join(add_stratum_b, by = "group") %>%
   mutate(stratum = stratum + subarea * 10) -> whole_5
 
 # subarea 4
@@ -77,7 +87,7 @@ subarea_4 %>%
   mutate(area = purrr::map_dbl(data, f_get_area),
          subarea = 4) %>%
   dplyr::select(-data) %>%
-  left_join(add_stratum, by = "group") %>%
+  left_join(add_stratum_a, by = "group") %>%
   mutate(stratum = stratum + subarea * 10) -> whole_4
 
 # subarea 1
@@ -87,7 +97,7 @@ subarea_1 %>%
   mutate(area = purrr::map_dbl(data, f_get_area),
          subarea = 1) %>%
   dplyr::select(-data) %>%
-  left_join(add_stratum, by = "group") %>%
+  left_join(add_stratum_a, by = "group") %>%
   mutate(stratum = stratum + subarea * 10) -> whole_1
 
 
@@ -148,5 +158,8 @@ bind_rows(whole_5, whole_4, whole_1) %>%
                              ifelse(stratum %in% 61:65, 0, prop_in_prib_dist)),
          stratum_area_pi = prop_in_prib_dist * stratum_area) %>%
   write_csv("./PIGKC/data/strata_area_prib_district.csv")
+
+  
+
   
 
