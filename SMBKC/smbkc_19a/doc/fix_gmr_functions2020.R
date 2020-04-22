@@ -57,17 +57,9 @@ hh <- 5
 ## data extent -----------
 plot_datarange(M[ref_mod])
 plot_datarange(M[rec_mod]) # not working...output change?
-test(M[rec_mod])
+plot_datarangeSM(M[rec_mod])
+
 
 K <- M[rec_mod]
 L <- M[ref_mod]
-
-n <- length(K)
-mdf <- NULL
-A <- K[[1]]
-repfile <- A$run_name
-narepfile <- strsplit(scan(repfile,what="character",flush=TRUE,blank.lines.skip=FALSE,quiet=TRUE)[1:6],':')
-
-narepfile2<- strsplit(scan(repfile2,what="character",flush=TRUE,blank.lines.skip=FALSE,quiet=TRUE)[1:4],':')
-
 
