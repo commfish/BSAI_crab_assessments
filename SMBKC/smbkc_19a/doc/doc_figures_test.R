@@ -224,8 +224,9 @@ dev.off()
 ## selectivity ----------
 #"Comparisons of the estimated stage-1 and stage-2 selectivities for the different model scenarios (the stage-3 selectivities are all fixed at 1). Estimated selectivities are shown for the directed pot fishery, the trawl bycatch fishery, the fixed bycatch fishery, the NMFS trawl survey, and the ADF&G pot survey. Two selectivity periods are estimated in the directed pot fishery, from 1978-2008 and 2009-2017.\\label{fig:selectivity}", fig.height = 15}
 plot_selectivity(M[mod_scen]) 
+plot_selectivity(M[2])
 ggsave(paste0(.FIGS, "selectivity_mod_scen.png"), width = ww*1.5, height = hh)
-## ** FIX ** not currently being output in .rep file.  Need to read this from Gmacsall.out 
+## ** FIX ** display is not good.
 
 ## recruitment mod scen ----------------
 # "Estimated recruitment 1979-2018 comparing model alternatives. The solid horizontal lines in the background represent the estimate of the average recruitment parameter ($\\bar{R}$) in each model scenario.\\label{fig:recruitment}"}
