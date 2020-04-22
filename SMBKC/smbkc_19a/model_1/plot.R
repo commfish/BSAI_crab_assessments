@@ -76,9 +76,7 @@ plot_recruitment(M)
 ggsave(paste0(.FIGS, "recruitment.png"), width = ww, height = hh)
 dev.off()
 
-#Error in data.frame(Model = names(M)[i], type = "Capture", M[[i]]$slx_capture) : 
-# arguments imply differing number of rows: 1, 0
-plot_selectivity(M) # **FIX** not working
+plot_selectivity(M) # **FIX** not displaying well.  working.
 ggsave(paste0(.FIGS, "selectivity.png"), width = ww*1.5, height = hh*1.5)
 dev.off()
 
