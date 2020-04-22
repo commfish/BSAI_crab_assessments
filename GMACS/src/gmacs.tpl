@@ -6861,6 +6861,8 @@ FUNCTION CreateOutput
 
   REPORT(xi);
   REPORT(log_fbar);
+  REPORT(ft);
+  REPORT(F);
   OutFile1 << endl;
 
   OutFile1 << "#Fully-selected_fishing mortality by fleet" << endl;
