@@ -6848,6 +6848,19 @@ FUNCTION CreateOutput
     OutFile1 << i << " " << h << " " << j << " " << mfexp(log_slx_discard(j,h,i)) << endl;
   OutFile1 << endl;
 
+  OutFile2 << "slx_capture" << endl;
+  //OutFile2 << "#Year Sex Fleet Selectivity" << endl;
+  for ( int i = syr; i <= nyr; i++ ) for ( int h = 1; h <= nsex; h++ ) for ( int j = 1; j <= nfleet; j++ )
+    OutFile2 << i << " " << h << " " << j << " " << mfexp(log_slx_capture(j,h,i)) << endl;
+  OutFile2 << "slx_retaind" << endl;
+  //OutFile2 << "#Year Sex Fleet Retention" << endl;
+  for ( int i = syr; i <= nyr; i++ ) for ( int h = 1; h <= nsex; h++ ) for ( int j = 1; j <= nfleet; j++ )
+    OutFile2 << i << " " << h << " " << j << " " << mfexp(log_slx_retaind(j,h,i)) << endl;
+  OutFile2 << "slx_discard" << endl;
+  //OutFile2 << "#Year Sex Fleet Discard" << endl;
+  for ( int i = syr; i <= nyr; i++ ) for ( int h = 1; h <= nsex; h++ ) for ( int j = 1; j <= nfleet; j++ )
+    OutFile2 << i << " " << h << " " << j << " " << mfexp(log_slx_discard(j,h,i)) << endl;
+    
   REPORT(slx_control_in);
   REPORT(slx_control);
   OutFile1 << endl;
