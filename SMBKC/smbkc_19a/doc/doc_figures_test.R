@@ -28,11 +28,12 @@ mod_names <- c("model 16.0", "model 16.0 (ref)", "model 19.1 (VAST))", "model 19
 .SHELL    = c("Aggregate")
 .MATURITY = c("Aggregate")
 .SEAS     = c("1","2","3","4","5")
+.FIGS     = c("./SMBKC/smbkc_19a/doc/safe_figure/")
+
 # Read report file and create gmacs report object (a list):
 fn       <- paste0(.MODELDIR, "gmacs")
 M        <- lapply(fn, read_admb)
 names(M) <- mod_names
-jj <- 1 # The position in the list that Jies model outputs sit
 
 nmult_1 <- 1e+06
 nmult_2 <- 0.0004535923 * 1e+6
@@ -66,7 +67,8 @@ hh <- 5
   .$x -> bio_lt_percent
 
 ## data extent -----------
-plot_datarange(M[rec_mod])
+plot_datarange(M[ref_mod])
+plot_datarangeSM(M[rec_mod]) # see gmr_functions2020.R
 ggsave(p1, paste0(.FIGS, "data_extent.png"), width = ww, height = hh)
 
 ## fig 6/7 2018 safe - 2018 compared to reference model --------
