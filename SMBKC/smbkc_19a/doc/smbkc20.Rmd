@@ -245,7 +245,7 @@ There are no new changes in management of the fishery.
 ## Changes to the Input Data {-}
 
 Data used in this assessment have been updated to include the most recently
-available fishery and survey numbers. This assessment will includes of one new
+available fishery and survey numbers. This assessment plans to includes of one new
 survey data point - the 2020 NMFS trawl-survey estimate of abudance. 
 The triennial ADF&G pot survey were last conducted in 2018, and are back on a triennial cycle, with the next survey in 2021.  
 The NMFS trawl-surveys have associated size
@@ -270,9 +270,9 @@ Details of this implementation and other model details are provided in Appendix 
 
 ## Changes in Assessment Results {-}
 
-Both surveys indicate a decline over the past few years. The "reference" model is that which was selected for use in 2018.
+Both surveys indicate a decline over the past few years. The "reference" model is that which was selected for use in 2018 and 2019.
 There is only one new data set to be included this year so this becomes the updated reference model. 
-Two alternative models are presented to assess sensitivity to the model, while another is provided for alternative reference point calculations (Table \@ref(tab:ofl-basis)) using a recent regime time frame. The **fit survey** configuration simply adds emphasis on the design-based survey data (by assuming a lower input variance). The **add CV pot** configuration estimates an additional CV on the pot survey data, which in turn allows the model to fit the trawl-survey estimates better. 
+Two alternative models are presented to assess sensitivity to the model, while another is provided for alternative reference point calculations (Table \@ref(tab:ofl-basis)) using a recent regime time frame. The **fit survey** configuration simply adds emphasis on the design-based survey data (by assuming a lower input variance). The **add CV pot** configuration estimates an additional CV on the pot survey data, which in turn allows the model to fit the trawl-survey estimates better. **update here**
 
 
 # B. Responses to SSC and CPT  {-}
@@ -284,27 +284,28 @@ Comment: *Regarding general code development, the SSC and CPT outstanding reques
 
   1. *add the ability to conduct retrospective analyses*
 
-     Progress was limited in implementing this feature. We will conduct a retrospective analysis within the next year.
+     Underway but progress was limited in implementing this feature. We plan to  conduct a retrospective analysis for the final assessment in September 2020.
      
   2. *Continued exploration of data weighting (Francis and other approaches) and evaluation of models with and without the 1998 natural mortality spike. The authors are encouraged to bring other models forward for CPT and SSC consideration*
   
      We continued with the iterative re-weighting for composition data.
 
-Comment: *Breakpoint analysis for reference point time frames that does not rely on stock-recruit relationship*
-  
-  We applied the STARS method to the recruitment time series, Appendix C. 
-  
-Comment: *Regarding rebuilding projection specifications and options, the SSC and CPT requests are:*
 
-  1. *bring forth reference points for status determination for both regim time frames*
+Comment: *Regarding potential model scenarios for 2020, the SSC and CPT requests are:*
+  1. *Extra CV for both surveys*
+  2. *Random walk or exploration of catchability*
   
-     See reference point table (Table \@ref(tab:ofl-basis)). Completed
+  Underway but progress was limited due to unexpected world events.
 
-  2. *bring forth projections 1 and 5 from the May CPT, both with mean recruitment 1) current time frame (1978-2018) and 2) breakpt time period (1996-2018)*
+Comment: *Explore potential explanations for the discrepancy in the time trends of the two types of survey data, including movement hypotheses using spatial models (not necessarily VAST)*
   
-     Completed. Refer to Appendix C.
+  Limited progress due to data availability (ADF&G), hope to have progress update Sept. 2020
 
+Comment: *Please use the correct model number (e.g., if 19.0 is the same model as was first adopted in 16.0 then it is still 16.0.)*
 
+  Completed. Base model is 16.0.
+
+  
 # C. Introduction {-}
 
 ## Scientific Name {-}
