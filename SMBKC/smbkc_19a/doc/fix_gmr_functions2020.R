@@ -62,4 +62,3 @@ plot_datarangeSM(M[rec_mod])
 
 K <- M[rec_mod]
 L <- M[ref_mod]
-
