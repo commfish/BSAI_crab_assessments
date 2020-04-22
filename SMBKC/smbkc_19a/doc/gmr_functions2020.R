@@ -152,3 +152,55 @@ plot_F2 <- function (M, scales = "free_y", xlab = "Year", ylab = "F",
   print(p + .THEME + theme(legend.position = c(0.2, 0.9)))
 }
 
+.get_F_df2 <- function(M)
+{
+  n <- length(M)
+  fdf <- NULL
+  fbar <- NULL
+  for ( i in 1:n )
+  {
+    A <- M[[i]]
+    nyear <- length(A$mod_yrs)
+    nseas <- nseason <- A$nseason
+    nclass <- length(A$mid_points)
+    nfleet <- A$nfleet
+    df <- data.frame(A$ft, Model = names(M)[i])
+    colnames(df) <- c(1:nseason, "model")
+    df$year <- rep(A$mod_yrs, by = nfleet)
+    df$fleet <- rep(.FLEET, each = nyear*A$nsex)
+    df$sex <- rep("Sex",nrow(df))
+    if(A$nsex==2)
+      df$sex <- rep(rep(c("Male","Female"),each = nyear),nfleet)
+    del <- NULL
+    for ( j in 1:nseason )
+    {
+      if (all(df[,j] == 0))
+      {
+        del <- c(del, j)
+        nseas <- nseas - 1
+      }
+    }
+    df <- df[,-del]
+    df <- tidyr::gather(df, "season", "F", 1:nseas)
+    for ( j in unique(df$model) )
+    {
+      for ( k in unique(df$season) )
+      {
+        for ( l in unique(df$fleet) )
+        {
+          if (all(df[df$model %in% j & df$season %in% k & df$fleet %in% l,]$F == 0)) df <- df[-which(df$model %in% j & df$season %in% k & df$fleet %in% l),]
+        }
+      }
+    }
+    fdf <- rbind(fdf, df)
+    
+    df <- data.frame(Model = names(M)[i], fbar = exp(A$log_fbar))
+    df$fleet <- .FLEET
+    df <- df[which(df$fleet %in% unique(fdf$fleet)),]
+    fbar <- rbind(fbar, df)
+  }
+  fdf$year <- as.integer(fdf$year)
+  fdf$fleet <- factor(fdf$fleet, levels = .FLEET)
+  fbar$fleet <- factor(fbar$fleet, levels = .FLEET)
+  return(list(F = fdf, fbar = fbar))
+}
