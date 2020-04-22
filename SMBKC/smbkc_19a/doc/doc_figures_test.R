@@ -69,16 +69,20 @@ hh <- 5
 ## data extent -----------
 plot_datarange(M[ref_mod])
 plot_datarangeSM(M[rec_mod]) # see gmr_functions2020.R
-ggsave(p1, paste0(.FIGS, "data_extent.png"), width = ww, height = hh)
+#p1 <- plot_datarangeSM(M[rec_mod]) 
+#ggsave(p1, paste0(.FIGS, "data_extent.png"), width = ww, height = hh)
+# had to save manually because I can't get this call to work...**FIX
 
 ## fig 6/7 2018 safe - 2018 compared to reference model --------
-plot_cpue(M[1:2], "NMFS Trawl", ylab = "Survey biomass (t)") 
+plot_cpue(M[2], "NMFS Trawl", ylab = "Survey biomass (t)")
+#plot_cpue(M[1:2], "NMFS Trawl", ylab = "Survey biomass (t)") 
 ggsave(paste0(.FIGS, "trawl_cpue_ref.png"), width = ww*1.25, height = hh*.9)
 
-plot_cpue(M[1:2], "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
+plot_cpue(M[2], "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
+#plot_cpue(M[1:2], "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
 ggsave(paste0(.FIGS, "pot_cpue_ref.png"), width = ww*1.5, height = hh)
 
-plot_cpue(M[1:2])
+plot_cpue(M[2])
 ggsave(paste0(.FIGS, "cpue_ref_both.png"), width = ww*2.5, height = hh)
 
 ### Sensitivity of new data in 2018 on estimated recruitment ; 1978-2018
