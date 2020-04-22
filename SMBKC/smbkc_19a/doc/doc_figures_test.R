@@ -99,7 +99,7 @@ ggsave(paste0(.FIGS, "recruit_ref.png"), width = ww*1.5, height = hh)
 
 ## !!fishing mortality ------
 #plot_F(M[2]) 
-plot_F2(M[2])
+plot_F2(M[2]) # need to add fishing mortality to the .rep file **FIX
 ggsave(paste0(.FIGS, "fishing_mortality.png"), width = ww*1.5, height = hh)
 
 ## ssb -----------
@@ -113,7 +113,7 @@ tail(ssb)
 # Bmsy proxy and SHS level ------
 SHS <- c(1978:2012)
 ssb %>% 
-  filter(Model == "model 19.0 (ref)") %>% 
+  filter(Model == "model 16.0 (ref)") %>% 
   mutate(b_msy = mean(ssb)) %>% 
   mutate(SHS_proxy = mean(ssb[year %in% SHS])) %>% 
   group_by(Model) %>% 
