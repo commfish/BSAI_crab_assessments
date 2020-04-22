@@ -87,37 +87,20 @@ ggsave(paste0(.FIGS, "cpue_ref_both.png"), width = ww*2.5, height = hh)
 
 ### Sensitivity of new data in 2018 on estimated recruitment ; 1978-2018
 A <- M
-for (i in c(1,2)) {
+for (i in c(2)) {
   ii <- which(A[[i]]$fit$names %in% "sd_log_recruits"); ii <- ii[length(ii)]
   A[[i]]$fit$est[ii] <- NA
   A[[i]]$fit$std[ii] <- NA
 }
-plot_recruitment(A[1:2])
-plot_recruitment(M[1:2])
+plot_recruitment(A[2]) # does not include recent recruitment - for comparison
+plot_recruitment(M[2])
+#plot_recruitment(M[1:2])
 ggsave(paste0(.FIGS, "recruit_ref.png"), width = ww*1.5, height = hh)
-
 
 ## !!fishing mortality ------
 #plot_F(M[2]) 
 plot_F2(M[2])
 ggsave(paste0(.FIGS, "fishing_mortality.png"), width = ww*1.5, height = hh)
-
-plot_F2 <- function (M, scales = "free_y", xlab = "Year", ylab = "F", 
-          mlab = "Model") 
-{
-  xlab <- paste0("\n", xlab)
-  ylab <- paste0(ylab, "\n")
-  m <- .get_F_df(M)
-  mdf <- m$F
-  mdf$season <- paste0("Season: ", mdf$season)
-  fbar <- m$fbar
-  p <- ggplot(data = mdf) + geom_hline(data = fbar, aes(yintercept = fbar, 
-                                                        color = Model), linetype = "dashed", alpha = 0.5) + 
-    geom_line(aes(year, F, col = model, group = 1)) + facet_grid(fleet ~ 
-                                                                   season, scales = scales) + labs(x = xlab, y = ylab)
-  print(p + .THEME + theme(legend.position = c(0.2, 0.9)))
-}
-
 
 ## ssb -----------
 #"Sensitivity of new data in 2019 on estimated mature male biomass (MMB); 1978-2019. \\label{fig:ssb1}"}
