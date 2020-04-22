@@ -53,7 +53,7 @@ rinline <- function(code){
 #alt_mod <- 5 # alt reference time frame
 ref_mod <- 1 # base
 rec_mod <- 2 # base
-mod_scen<- 2:4 #scenarios you want graphed together
+mod_scen<- 2:5 #scenarios you want graphed together
 
 ww <- 6
 hh <- 5
@@ -85,7 +85,9 @@ ggsave(paste0(.FIGS, "pot_cpue_ref.png"), width = ww*1.5, height = hh)
 plot_cpue(M[2])
 ggsave(paste0(.FIGS, "cpue_ref_both.png"), width = ww*2.5, height = hh)
 
+
 ### Sensitivity of new data in 2018 on estimated recruitment ; 1978-2018
+## recruitment - reference to base ----------------------------
 A <- M
 for (i in c(2)) {
   ii <- which(A[[i]]$fit$names %in% "sd_log_recruits"); ii <- ii[length(ii)]
@@ -98,8 +100,8 @@ plot_recruitment(M[2])
 ggsave(paste0(.FIGS, "recruit_ref.png"), width = ww*1.5, height = hh)
 
 ## !!fishing mortality ------
-#plot_F(M[2]) 
-plot_F2(M[2]) # need to add fishing mortality to the .rep file **FIX
+plot_F(M[2]) 
+plot_F2(M[2]) # 
 ggsave(paste0(.FIGS, "fishing_mortality.png"), width = ww*1.5, height = hh)
 
 ## ssb -----------
@@ -120,7 +122,8 @@ ssb %>%
   mutate(b_msy/SHS_proxy)
 
 
-# ssb current year uncertainty
+# ssb current year uncertainty --------
+# need to run mcmc and projections here 
 un_ssb <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
 un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_18a/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
 
