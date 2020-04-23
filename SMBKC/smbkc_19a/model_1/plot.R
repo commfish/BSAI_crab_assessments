@@ -17,7 +17,6 @@
 # click "install and restart"
 
 require(gmr)
-#setwd("./smbkc_19a/model_1")
 
 # Model 1 plots -------------------------
 cur_yr <- 2019 # update annually 
@@ -41,8 +40,7 @@ names(M) <- mod_names
 ww <- 6
 hh <- 5
 
-
-# Jim's plots -------------------------------
+# Plots from Jim Ianelli's -------------------------------
 plot_recruitment_size(M)
 ggsave(paste0(.FIGS, "rec_size.png"), width = ww*2.5, height = hh*1.5)
 dev.off()
@@ -63,12 +61,13 @@ plot_cpue(M, ShowEstErr = TRUE, "ADFG Pot", ylab = "Survey biomass (t)")
 ggsave(paste0(.FIGS, "cpue_pot.png"), width = ww, height = hh)
 dev.off()
 
+# **FIX**
 # look at code not working error in if (A$nmature == 2) { : argument is of length zero
 plot_natural_mortality(M, plt_knots = FALSE)
 ggsave(paste0(.FIGS, "M_t.png"), width = ww, height = hh)
 dev.off()
 
-plot_ssb(M)
+plot_ssb(M) #doesn't show projection year, which is current year
 ggsave(paste0(.FIGS, "ssb.png"), width = ww, height = hh)
 dev.off()
 
@@ -109,7 +108,7 @@ dev.off()
 # dev.off()
 # 
 
-# Error in names(x) <- value : 
+# **FIX** Error in names(x) <- value : 
 # 'names' attribute [12] must be the same length as the vector [9] 
 plot_size_comps(M, 1)
 ggsave(paste0(.FIGS, "lf_1.png"), width = ww*2, height = hh*1.5)
@@ -153,9 +152,11 @@ head(ssb)
 # ssb current year uncertainty
 un_ssb <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
 ssb_last <- data.frame("year" = cur_yr, "ssb" = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
-                       "lb" = un_ssb$lci, 
-                       "ub" = un_ssb$uci) 
-
+                       "lb" = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
+                       "ub" = M[[1]]$spr_bmsy * M[[1]]$spr_depl) 
+#ssb_last <- data.frame("year" = cur_yr, "ssb" = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
+#                       "lb" = un_ssb$lci, 
+#                       "ub" = un_ssb$uci)
 
 # should be current crab year; update with lb and ub from projection file
 # update with 95% credible interval
@@ -172,7 +173,7 @@ ssb %>%
     #           lty = c("solid", "dashed"))+
     #geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
     #          hjust = -0.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
-    ggtitle("Reference model (19.0)") +
+    ggtitle("Reference model (16.0)") +
     ylab("Mature male biomass (t) on 15th February") + xlab("Year") +
     .THEME
 ggsave(paste0(.FIGS, "ssb19_wprojected_yr.png"), width = ww, height = hh)
