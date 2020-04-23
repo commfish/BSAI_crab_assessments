@@ -17,6 +17,8 @@
 # click "install and restart"
 
 require(gmr)
+source("./SMBKC/code/functions.R") 
+source("./SMBKC/smbkc_19a/doc/gmr_functions2020.R") 
 
 # Model 1 plots -------------------------
 cur_yr <- 2019 # update annually 
@@ -61,9 +63,8 @@ plot_cpue(M, ShowEstErr = TRUE, "ADFG Pot", ylab = "Survey biomass (t)")
 ggsave(paste0(.FIGS, "cpue_pot.png"), width = ww, height = hh)
 dev.off()
 
-# **FIX**
-# look at code not working error in if (A$nmature == 2) { : argument is of length zero
-plot_natural_mortality(M, plt_knots = FALSE)
+# smbkc edited function - see gmr_functions2020.R
+plot_natural_mortality2(M, plt_knots = FALSE)
 ggsave(paste0(.FIGS, "M_t.png"), width = ww, height = hh)
 dev.off()
 
