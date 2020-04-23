@@ -62,3 +62,52 @@ plot_datarangeSM(M[rec_mod])
 
 K <- M[rec_mod]
 L <- M[ref_mod]
+
+plot_selectivity(M[mod_scen]) 
+plot_selectivity(M[2]) 
+
+
+plot_selectivity
+function(M,
+         xlab = "Mid-point of size class (mm)",
+         ylab = "Selectivity",
+         tlab = "Type", ilab = "Period year",
+         nrow = NULL, ncol = NULL, legend_loc=c(1.05,.05))
+{
+  xlab <- paste0("\n", xlab)
+  ylab <- paste0(ylab, "\n")
+  
+  mdf <- .get_selectivity_df(M)
+  ncol <-length(unique(mdf$fleet))
+  nrow <-length(unique(mdf$Model))
+  nrow_sex <-length(unique(mdf$sex))
+  p <- ggplot(mdf) + expand_limits(y = c(0,1))
+  if (.OVERLAY)
+  {
+    p <- p + geom_line(aes(variable, value, col = factor(year), linetype = type))
+    if (length(M) == 1 && length(unique(mdf$sex)) == 1)
+    {
+      p <- p + facet_wrap(~fleet, nrow = nrow, ncol = ncol)
+    } else if (length(M) != 1 && length(unique(mdf$sex)) == 1) {
+      p <- p + facet_wrap(~Model + fleet, nrow = nrow, ncol = ncol)
+    } else if (length(M) == 1 && length(unique(mdf$sex)) != 1) {
+      p <- p + facet_wrap(~fleet + sex, ncol = nrow_sex, nrow = ncol)
+    } else {
+      p <- p + facet_wrap(~Model + fleet + sex, nrow = nrow_sex, ncol = ncol)
+    }
+  } else {
+    p <- p + geom_line(aes(variable, value, col = factor(year), linetype = sex), alpha = 0.5)
+    p <- p + facet_wrap(~Model + fleet + type, nrow = nrow, ncol = ncol)
+  }
+  p <- p + labs(y = ylab, x = xlab, col = ilab, linetype = tlab) +
+    scale_linetype_manual(values = c("solid", "dashed", "dotted")) + 
+    .THEME
+  p <- p + theme(strip.text.x = element_text(margin= margin(1,0,1,0)),
+                 panel.grid.major = element_blank(), 
+                 panel.grid.minor = element_blank(),
+                 panel.border = element_blank(),
+                 panel.background = element_blank(),
+                 strip.background = element_rect(color="white",fill="white"))
+  
+  print(p )
+}
