@@ -8,6 +8,8 @@
 #require(devtools)
 #devtools::install_github("seacode/gmacs", subdir = "/gmr", ref = "develop") - only needs to be performed once.
 require(gmr)
+source("./SMBKC/code/functions.R") 
+source("./SMBKC/smbkc_19a/doc/gmr_functions2020.R") 
 #setwd("./smbkc_19/model_1")
 
 # All model plots  -------------------------
