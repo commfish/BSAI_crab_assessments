@@ -355,6 +355,22 @@ ggsave(paste0(.FIGS, "trawl_biomass_mod_scen.png"), width = ww*1.5, height = hh)
 #{r pot_survey_cpue, fig.cap = "Comparisons of total (90+ mm CL) male pot survey CPUEs and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations.\\label{fig:pot_survey_cpue}"}
 plot_cpue(M[c(mod_scen)],  "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
 ggsave(paste0(.FIGS, "pot_cpue_mod_scen.png"), width = ww*1.5, height = hh)
+
+# additional CV on pot survey fix --------
+# **FIX** in .tpl - below from Jie but not working...
+dvo<-M[[4]]$dSurveyData[,8]
+dv0<-M[[4]]$cpue_cv_add[1:2]
+dvo2 <- dvo[43:53]
+#n3 = length(dvo)
+dtrawl<-c(rep(0,42))        # n3 is number of survey years
+adfg <-c(rep(0,11))
+for (i in 1:11)
+{
+  #correct the error in Gmacs
+  adfg[i]<-(dvo2[i]+exp(-.3614))   #for ADFG survey, then 1 is replaced by 2, and i and n3 need to 
+  #df[i]<-  (dvo[n3+i]+dv0[2]-dvo[2])  #be changed as well.
+}      
+
 # add cv on pot survey -----------
 plot_cpue(M[4],  ShowEstErr = TRUE,"ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
 ggsave(paste0(.FIGS, "pot_cpue_addcv.png"), width = ww*1.5, height = hh)
