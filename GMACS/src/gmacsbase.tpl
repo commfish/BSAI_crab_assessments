@@ -2364,8 +2364,8 @@ PARAMETER_SECTION
   matrix fut_recruits(1,nsex,1,nproj);                     ///> Projected recruitment
 
   // Extra sd variables
-  vector sd_fbar(syr,nyr-1);
-  vector sd_log_dyn_Bzero(syr+1,nyr);
+  //vector sd_fbar(syr,nyr-1);
+  //vector sd_log_dyn_Bzero(syr+1,nyr);
   sdreport_number sd_rbar;
   sdreport_number sd_ssbF0;
   sdreport_number sd_Bmsy;
@@ -2387,8 +2387,8 @@ PARAMETER_SECTION
   //sdreport_vector sdrRec(syr+1,nyr);
   //sdreport_vector sdrMMB(syr+1,nyr);
 
-  // sdreport_vector sd_fbar(syr,nyr-1);
-  // sdreport_vector sd_log_dyn_Bzero(syr+1,nyr);
+  sdreport_vector sd_fbar(syr,nyr-1);
+  sdreport_vector sd_log_dyn_Bzero(syr+1,nyr);
 
   //friend_class population_model;
 
