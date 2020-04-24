@@ -5,18 +5,23 @@
 #   but this file will be used to text out figures.
 
 # load ------------
+# done again when updates are made to the package or intially first time
 #require(devtools)
 #devtools::install_github("seacode/gmacs", subdir = "/gmr", ref = "develop") - only needs to be performed once.
+# alternate gmr instructions:::
+# if gmr is updated and above doesn't work try:
+# go to Build above - direct it to the gmr folder - press OK. Over on right in the Build tab (upper right hand side) - 
+# click "install and restart"
 require(gmr)
 source("./SMBKC/code/functions.R") 
 source("./SMBKC/smbkc_19a/doc/gmr_functions2020.R") 
-#setwd("./smbkc_19/model_1")
 
 # All model plots  -------------------------
-# still reference 2018 models since I'm currently runing 2019 **FIX**
+# first model is reference to previous year
 cur_yr <- 2019 # update annually 
 
-mod_names <- c("model 16.0", "model 16.0 (ref)", "model 19.1 (VAST))", "model 19.2 (add CV pot)", "model 19.3 (add CV both)") 
+# update model names and file locations
+mod_names <- c("model 16.0", "model 16.0 (ref)", "model 19.1 (VAST)", "model 19.2 (add CV pot)", "model 19.3 (add CV both)") 
 .MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_19/model_1/"), 
               paste0(here::here(), "/SMBKC/smbkc_19a/model_1/"),
               paste0(here::here(), "/SMBKC/smbkc_19a/model_4/"), 
@@ -53,8 +58,8 @@ rinline <- function(code){
 }
 
 #alt_mod <- 5 # alt reference time frame
-ref_mod <- 1 # base
-rec_mod <- 2 # base
+ref_mod <- 1 # base from last year
+rec_mod <- 2 # base from current yr
 mod_scen<- 2:5 #scenarios you want graphed together
 
 ww <- 6
