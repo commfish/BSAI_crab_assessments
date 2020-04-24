@@ -29,7 +29,7 @@ mod_names <- c("model_1")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
 .FLEET    = c("Pot","Trawl bycatch","Fixed bycatch","NMFS Trawl","ADFG Pot")
-.TYPE     = c("Retained & Discarded","Retained","Discarded")
+.TYPE     = c("Retained","Discarded", "Retained & Discarded")
 .SHELL    = c("Aggregate","Aggregate")
 .MATURITY = c("Aggregate")
 .SEAS     = c("Annual")
@@ -47,7 +47,7 @@ plot_recruitment_size(M)
 ggsave(paste0(.FIGS, "rec_size.png"), width = ww*2.5, height = hh*1.5)
 dev.off()
 
-plot_catch(M)
+plot_catch(M) # adjusted .TYPE to reflect what it should be check this in the future
 ggsave(paste0(.FIGS, "catch.png"), width = ww*1.2, height = hh*1.2)
 dev.off()
 
