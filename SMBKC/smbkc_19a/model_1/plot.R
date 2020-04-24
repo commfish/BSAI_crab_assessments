@@ -18,6 +18,7 @@
 
 require(gmr)
 source("./SMBKC/code/functions.R") 
+source("./SMBKC/code/helper.R") 
 source("./SMBKC/smbkc_19a/doc/gmr_functions2020.R") 
 
 # Model 1 plots -------------------------
@@ -109,8 +110,7 @@ dev.off()
 # dev.off()
 # 
 
-# **FIX** Error in names(x) <- value : 
-# 'names' attribute [12] must be the same length as the vector [9] 
+# updated .tpl to include output. Not sure why but this was taken out by Jie? ask him
 plot_size_comps(M, 1)
 ggsave(paste0(.FIGS, "lf_1.png"), width = ww*2, height = hh*1.5)
 dev.off()
@@ -209,7 +209,7 @@ as.character(M[[1]]$spr_nyr)
 
 
 ofl_df <- data.frame(Bmsy, MMB, B_Bmsy, Fofl, years)
-write_csv(ofl_df, paste0('./SMBKC/smbkc_19/model_1/ofl_table_', mod_names, '.csv'))
+write_csv(ofl_df, paste0(.MODELDIR, '/ofl_table_', mod_names, '.csv'))
 
 ssb %>% 
   ggplot(aes(year, ssb)) +
@@ -276,15 +276,8 @@ rec %>%
   summarise(meanR = mean(exp(log_rec)/1000000)) %>% 
   mutate(years = "1978-2018")-> avgR
 
-rec %>% 
-  filter(year >= 1996) %>% 
-  summarise(meanR = mean (exp(log_rec)/1000000)) %>% 
-  mutate(years = "1996-2018")-> avgR2
-
-avgR %>% 
-  bind_rows(avgR2) -> avgR_options
 #mutate(Bmsy50 = 0.5*Bmsy) -> Bmsy_options
-avgR_options # see above is calculated average recruitment for each time series
+avgR # see above is calculated average recruitment for each time series
 rec$rbar[1]
 
 # recruitment plot ----------
@@ -299,10 +292,10 @@ rec %>%
   geom_text(aes(x = 2000, y = rbar[1]/1000000, label = "R_bar"), 
             hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 3.0) +
   .THEME +
-  geom_hline(data = avgR_options, aes(yintercept = meanR), color = c("blue", "red"), 
-             lty = c("solid", "dashed"))+
-  geom_text(data = avgR_options, aes(x= 1980, y = meanR, label = years), 
-            hjust = -2.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) 
+  #geom_hline(data = avgR_options, aes(yintercept = meanR), color = c("blue", "red"), 
+  #           lty = c("solid", "dashed"))+
+  #geom_text(data = avgR_options, aes(x= 1980, y = meanR, label = years), 
+  #          hjust = -2.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) 
 ggsave(paste0(.FIGS, "recruitment_line_with years.png"), width = ww, height = hh)
 dev.off()
          
@@ -335,7 +328,10 @@ M[[base_model_1]]$spr_cofl
 ## Dynamic B0 ----
 #.get_dynB0_df(M)  # not currently in output, can I add this?
 
-plot_dynB0(M) # currently working! see updates to .tpl file 
+plot_dynB0(M) 
+ggsave(paste0(.FIGS, "dynamicB0.png"), width = ww*2.5, height = hh)
+dev.off()
+# currently working! see updates to .tpl file 
 # From Jim I: Also, I think a commented out line needs to be reinstated.  
 #             So comment out lines 1786 and 1787 and UNcomment lines 1800 and 1801, 
 #             then call it directly: plot_dynB0(model_object) .
