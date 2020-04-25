@@ -60,7 +60,7 @@ plot_cpue(M, ShowEstErr = TRUE, "NMFS Trawl", ylab = "Survey biomass (t)")
 ggsave(paste0(.FIGS, "cpue_trawl.png"), width = ww, height = hh)
 dev.off()
 
-plot_cpue(M, ShowEstErr = TRUE, "ADFG Pot", ylab = "Survey biomass (t)")
+plot_cpue(M, ShowEstErr = TRUE, "ADFG Pot", ylab = "Pot survey adjusted CPUE (crab/potlift)")
 ggsave(paste0(.FIGS, "cpue_pot.png"), width = ww, height = hh)
 dev.off()
 
@@ -150,7 +150,7 @@ ssb <- .get_ssb_df(M) # ssb now does NOT include projection year so only up to 2
 head(ssb)
 # ssb vector only includes model years - here crab year 1978 to 2019 does NOT include projection, need to add
 #   projection year for graphical purposes
-# ssb current year uncertainty
+# ssb current year uncertainty  **FIX ** 
 un_ssb <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
 ssb_last <- data.frame("year" = cur_yr, "ssb" = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
                        "lb" = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
