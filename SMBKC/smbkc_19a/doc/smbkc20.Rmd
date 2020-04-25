@@ -64,7 +64,7 @@ rinline <- function(code){
 #alt_mod <- 5 # alt reference time frame
 ref_mod <- 1 # base
 rec_mod <- 2 # base
-mod_scen<- 2:4 #scenarios you want graphed together
+mod_scen<- 2:5 #scenarios you want graphed together
 ```
 
 ```{r exesum, echo = FALSE}
@@ -114,10 +114,10 @@ round(M[[rec_mod]]$spr_bmsy/1000, 2) -> bmsy_cur
 round(M[[rec_mod]]$spr_depl, 2) -> ratio_bmsy
 round(M[[rec_mod]]$sd_fofl[1], 3) -> fofl
 
-round(M[[alt_mod]]$spr_bmsy*M[[alt_mod]]$spr_depl/1000, 2) -> alt_mmb_1920
-round(M[[alt_mod]]$spr_bmsy/1000, 2) -> alt_bmsy_cur
-round(M[[alt_mod]]$spr_depl, 2) -> alt_ratio_bmsy
-round(M[[alt_mod]]$sd_fofl[1], 3) -> alt_fofl
+#round(M[[alt_mod]]$spr_bmsy*M[[alt_mod]]$spr_depl/1000, 2) -> alt_mmb_1920
+#round(M[[alt_mod]]$spr_bmsy/1000, 2) -> alt_bmsy_cur
+#round(M[[alt_mod]]$spr_depl, 2) -> alt_ratio_bmsy
+#round(M[[alt_mod]]$sd_fofl[1], 3) -> alt_fofl
 
 ```
 
