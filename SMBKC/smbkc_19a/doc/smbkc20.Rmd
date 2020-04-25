@@ -26,7 +26,7 @@ options(xtable.comment = FALSE)
 ## before running update model specs here and in doc_figures_test.R
 ## run code in that R file with !! to get table and figure input here
 # the model specs
-mod_names <- c("model 16.0", "model 16.0 (ref)", "model 20.1 (VAST))", "model 20.2 (add CV pot)", "model 20.3 (add CV both)") 
+mod_names <- c("model 16.0", "model 16.0 (ref)", "model 19.1 (VAST))", "model 19.2 (add CV pot)", "model 19.3 (add CV both)") 
 .MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_19/model_1/"), 
               paste0(here::here(), "/SMBKC/smbkc_19a/model_1/"),
               paste0(here::here(), "/SMBKC/smbkc_19a/model_4/"), 
@@ -172,12 +172,11 @@ Computations which indicate the relative impact of fishing
   & & Biomass & & Retained & Total & & \\
   Year & MSST & ($\mathit{MMB}_\text{mating}$) & TAC & catch & male catch & OFL & ABC \\
   \hline
-  2014/15 & 1.86 & 2.48 & 0.30 & 0.14 & 0.15  & 0.43 & 0.34 \\ 
   2015/16 & 1.84 & 2.11 & 0.19 & 0.05 & 0.053 & 0.28 & 0.22 \\ 
   2016/17 & 1.97 & 2.23 & 0.00 & 0.00 & 0.001 & 0.14 & 0.11 \\
   2017/18 & 1.85 & 1.29 & 0.00 & 0.00 & 0.003 & 0.12 & 0.10 \\
-  2018/19 & `r msst_1819 ` & `r mmb_1819` & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
-  2019/20 &              & `r mmb_1920` &  &  &  & `r ofl_1920` & `r abc_1920` \\
+  2018/19 & 1.74 & 1.15 & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
+  2019/20 &      & `r mmb_1920` & 0.00 & 0.00 &  & `r ofl_1920` & `r abc_1920` \\
   2020/21 &      & `r mmb_1920a` &  &  &  & `r ofl_1920a` & `r abc_1920a` \\
  \\
   \hline
@@ -193,13 +192,12 @@ Computations which indicate the relative impact of fishing
   & & Biomass & & Retained & Total & & \\
   Year & MSST & ($\mathit{MMB}_\text{mating}$) & TAC & catch & male catch & OFL & ABC \\
   \hline
-  2014/15 & 4.1 & 5.47 & 0.655 & 0.309 & 0.332  & 0.94 & 0.75 \\ 
   2015/16 & 4.1 & 4.65 & 0.419 & 0.110 & 0.117  & 0.62 & 0.49 \\ 
   2016/17 & 4.3 & 4.91 & 0.000 & 0.000 & 0.002  & 0.31 & 0.25 \\ 
   2017/18 & 4.1 & 2.85 & 0.000 & 0.000 & 0.007  & 0.27 & 0.22 \\ 
-  2018/19 & `r msst_1819_lb ` & `r mmb_1819_lb` & 0.00 & 0.00 & 0.002 & 0.08 & 0.07 \\
+  2018/19 & 3.84 & 2.54 & 0.000 & 0.000 & 0.002 & 0.08 & 0.07 \\
   2019/20 &                & `r mmb_1920_lb` &  &  &  & `r ofl_1920_lb` & `r abc_1920_lb` \\
-  2019/20alt &       & `r alt_mmb_1920_lb` &  &  &  & `r alt_ofl_1920_lb` & `r alt_abc_1920_lb` \\
+  2020/21 &       & `r mmb_1920_lba` &  &  &  & `r ofl_1920_lba` & `r abc_1920_lba` \\
  \\
   \hline
 \end{tabular}
@@ -228,8 +226,8 @@ Computations which indicate the relative impact of fishing
   \\
   2019/20 & 4c & `r bmsy_cur` & `r mmb_1920` & `r ratio_bmsy` & 
   `r fofl ` & 1 & 1978-2018 & 0.18 \\ 
-  2019/20 & 4c & `r alt_bmsy_cur` & `r alt_mmb_1920` & `r alt_ratio_bmsy` & 
-  `r alt_fofl ` & 1 & 1996-2018 & 0.18 \\
+  2020/21 &    & `r bmsy_cura` & `r mmb_1920a` & `r ratio_bmsya` & 
+  `r fofla ` & 1 & 1978-2018 & 0.18 \\
   \hline
 \end{tabular}
 \end{table}
@@ -271,7 +269,7 @@ Details of this implementation and other model details are provided in Appendix 
 ## Changes in Assessment Results {-}
 
 Both surveys indicate a decline over the past few years. The "reference" model is that which was selected for use in 2018 and 2019.
-There is only one new data set to be included this year so this becomes the updated reference model. 
+There is only one new data set to be included this year so this becomes the updated reference model (model 16.0 ref). 
 Two alternative models are presented to assess sensitivity to the model, while another is provided for alternative reference point calculations (Table \@ref(tab:ofl-basis)) using a recent regime time frame. The **fit survey** configuration simply adds emphasis on the design-based survey data (by assuming a lower input variance). The **add CV pot** configuration estimates an additional CV on the pot survey data, which in turn allows the model to fit the trawl-survey estimates better. **update here**
 
 
@@ -304,7 +302,7 @@ Comment: *Explore potential explanations for the discrepancy in the time trends 
 Comment: *Please use the correct model number (e.g., if 19.0 is the same model as was first adopted in 16.0 then it is still 16.0.)*
 
   Completed. Base model is 16.0.
-
+**update here**
   
 # C. Introduction {-}
 
@@ -395,7 +393,7 @@ also occurred in the eastern Bering Sea groundfish fisheries (Table \@ref(tab:sm
 ## Summary of New Information {-}
 
 Data used in this assessment were updated to include the most recently available fishery and survey numbers. This
-assessment uses one new survey data point, which is the 2019 NMFS trawl-survey estimate of abudance, and
+assessment will use one new survey data point, which is the 2020 NMFS trawl-survey estimate of abudance, and
 its associated size compositon data. 
 The assessment also uses updated 1993-2018 groundfish and fixed gear bycatch estimates based on AKRO data.
 The fishery was closed in 2018/19 so no directed fishery catch data were available. 
@@ -463,29 +461,27 @@ This assessment model again uses the modeling framework Gmacs and is detailed in
 
 ## Model Selection and Evaluation {-}
 
-Four models are presented with the reference model being the same configuration as approved last year (Ianelli et al. 2018), 
+Four models are presented with the reference model being the same configuration as approved last year (Palof et al. 2019), **update**
 two sensitivities are considered, one which weights the survey data more heavily and one that adds an additional CV on the
 ADF&G pot survey data. In addition to these sensitivities, we evaluated the impacts of adding new data 
-to the reference model. In summary, the following lists the models presented and the naming convention used:
+to the reference model. In summary, the following lists the models presented and the naming convention used: **update**
 
-1. **18.0 - 2018 Model**: the 2018 recommended model without any new data
+1. **16.0 - 2019 Model**: the 2019 recommended model without any new data
 
-2. **19.0 - 2019 Reference Model**: new data for 2019: NMFS trawl-survey and bycatch updates for groundfish
+2. **16.0 - 2019 Reference Model**: updated with Jan 2020 updates to GMACS
 
-3. **19.0a - 2019 Model - alt reference pts**: model 19.0 with alternative time frames for reference points and projections
+3. **19.1 - VAST NMFS trawl data**: model 19.0 with VAST data output for the NMFS trawl survey time series 
 
-4. **19.1 - fit survey**: an exploratory scenario that's the same as the reference model except the NMFS trawl survey is up-weighted by
-   $\lambda^\text{NMFS}= 1.5$  and the ADF&G pot survey is up-weighted by $\lambda^\text{ADFG}= 2$ . 
+4. **19.2 - add CV pot**: includes an estimated additional CV on the ADF&G pot survey
 
-5. **19.2 - add CV pot**: includes an estimated additional CV on the ADF&G pot survey
+5. **19.3 - add CV pot & trawl**: includes an estimated additional CV on the ADF&G pot survey and the NOAA trawl survey 
 
-Note that SSC convention would label these (item 2 above) as model 16.0 (the model first developed in that year). Since only a few models are presented here, for simplicity we labeled model 16.0 as "reference" and for the others, we used the simple naming convention
-presented above.
+Note the naming convention. The base model is model 16.0 since that was the year of model development. 
 
 ## Results {-}
 
 ### a. Sensitivity to new data {-}
-Results for scenarios are provided with comparisons to the 2018 model and sensitivity to new 2019 data are shown in 
+**update** Results for scenarios are provided with comparisons to the 2019 model and sensitivity to new 2019 data are shown in 
 Figures \@ref(fig:surv1) and \@ref(fig:surv2) with recruitment and spawning biomass shown in 
 Figures \@ref(fig:rec1) and \@ref(fig:ssb1), respectively. 
 The fits to survey CPUEs and spawning biomass show that the addition of new data results in a slight increase compared
@@ -548,7 +544,7 @@ It is worth noting that that this scenario (included for exploratory purposes) r
 
 ### e. Retrospective and historical analyses {-}
 This is only the third year a formal assessment model developed for this stock. As such, retrospective patterns and 
-historical analyses relative to fisheries impacts are limited.
+historical analyses relative to fisheries impacts are limited. Completion of a retrospective analysis is anticipated to be presented in Sept. 2020.
 
 ### f. Uncertainty and sensitivity analyses.{-}
 Estimated standard deviations of parameters and selected management measures for the models are summarized in
@@ -687,6 +683,8 @@ North Pacific Fishery Management Council (NPFMC). 2007. Public Review Draft: Env
 Otto, R.S. 1990. An overview of eastern Bering Sea king and Tanner crab fisheries. Pages 9-26 [In] Proceedings of the international symposium on king and Tanner crabs. University of Alaska Fairbanks, Alaska Sea Grant Program Report 90-4, Fairbanks.
 
 Otto, R.S., and P.A. Cummiskey. 1990. Growth of adult male blue king crab (*Paralithodes platypus*). Pages 245-258 [In] Proceedings of the international symposium on king and Tanner crabs. University of Alaska Fairbanks, Alaska Sea Grant Report 90-4, Fairbanks.
+
+Palof, K.J. **update**
 
 Paul, J.M., A. J. Paul, R.S. Otto, and R.A. MacIntosh. 1991. Spermatophore presence in relation to carapace length for eastern Bering Sea blue king crab (*Paralithodes platypus*, Brandt, 1850) and red king crab (*P. camtschaticus*, Tilesius, 1815). J. Shellfish Res. 10: 157-163.
 
