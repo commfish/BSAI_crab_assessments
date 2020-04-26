@@ -615,7 +615,7 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 
 # G. Rebuilding Analysis {-}
 
-This stock was declared overfished in fall of 2018 and a rebuilding plan is being constructed concurrent to the 2019 stock assessment (Appendix C). Model scenarios presented here all suggest the stock is still overfished.
+This stock was declared overfished in fall of 2018 and a rebuilding plan was under initial review by the NPFMC in December 2019. The rebuilding plan is scheduled for final review fothe June 2020 NPFMC meeting. Model scenarios presented here all suggest the stock is still overfished.
 
 
 # H. Data Gaps and Research Priorities {-}
@@ -1114,7 +1114,7 @@ knitr::include_graphics("safe_figure/Fig2.png", dpi = 150)
 ```
 
 ```{r data-extent, fig.cap = "Data extent for the SMBKC assessment."}
-plot_datarange(M[rec_mod])
+knitr::include_graphics("safe_figure/data_extent_manual.png", dpi = 150)
 ```
 
 ```{r stations, fig.cap = "Trawl and pot-survey stations used in the SMBKC stock assessment."}
@@ -1125,22 +1125,16 @@ knitr::include_graphics("safe_figure/Fig3.png", dpi = 125)
 knitr::include_graphics("safe_figure/CrabN_Station.png", dpi = 400)
 ```
 
-```{r surv1, fig.cap = "Fits to NMFS area-swept trawl estimates of total ($/ge$ 90mm) male survey biomass with the addition of new data (the Reference Model is with new data, 2018 Model is last year's accepted model). Error bars are plus and minus 2 standard deviations."} 
-plot_cpue(M[1:2], "NMFS Trawl", ylab = "Survey biomass (t)") 
+```{r surv1, fig.cap = "Fits to NMFS area-swept trawl estimates of total ($/ge$ 90mm) male survey biomass for the reference model only (will show 16.0 ref with new data and 16.0 as last year's accepted model). Error bars are plus and minus 2 standard deviations."} 
+knitr::include_graphics("safe_figure/trawl_cpue_ref.png", dpi = 125)
 ```
 
-```{r surv2, fig.cap = "Comparisons of fits to CPUE from the ADF&G pot surveys with the addition of new data (note that there is no new pot data for 2019). Error bars are plus and minus 2 standard deviations."} 
-plot_cpue(M[1:2], "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
+```{r surv2, fig.cap = "Comparisons of fits to CPUE from the ADF&G pot surveys for the reference model 16.0 ref (note that there is no new pot data for 2019). Error bars are plus and minus 2 standard deviations."} 
+knitr::include_graphics("safe_figure/pot_cpue_ref.png", dpi = 125)
 ```
 
-```{r rec1, fig.cap = "Sensitivity of new data in 2019 on estimated recruitment ; 1978-2017."}
-A <- M[1:2]
-ii <- which(A[[2]]$fit$names %in% "sd_log_recruits"); ii <- ii[length(ii)]
-A[[2]]$fit$est[ii] <- NA
-A[[2]]$fit$std[ii] <- NA
-
-plot_recruitment(A[1:2])
-#plot_recruitment(M[1:2])
+```{r rec1, fig.cap = "Set up to show sensitivity of new data in 2020 on estimated recruitment ; 1978-2018."}
+knitr::include_graphics("safe_figure/recruit_ref.png", dpi = 125)
 ```
 
 ```{r ssb1, fig.cap = "Sensitivity of new data in 2019 on estimated mature male biomass (MMB); 1978-2019."}
@@ -1151,7 +1145,11 @@ knitr::include_graphics("safe_figure/lastyr_reference_ssb_wprojected_yr.png", dp
 ```
 
 ```{r selectivity, fig.cap = "Comparisons of the estimated stage-1 and stage-2 selectivities for the different model scenarios (the stage-3 selectivities are all fixed at 1). Estimated selectivities are shown for the directed pot fishery, the trawl bycatch fishery, the fixed bycatch fishery, the NMFS trawl survey, and the ADF&G pot survey. Two selectivity periods are estimated in the directed pot fishery, from 1978-2008 and 2009-2018."}
-plot_selectivity(M[mod_scen])
+knitr::include_graphics("safe_figure/selectivity_mod_scen.png", dpi = 150)
+```
+
+```{r selectivity2, fig.cap = "Comparisons of the estimated stage-1 and stage-2 selectivities for the q time block pot model scenario (the stage-3 selectivities are all fixed at 1). Estimated selectivities are shown for the directed pot fishery, the trawl bycatch fishery, the fixed bycatch fishery, the NMFS trawl survey, and the ADF&G pot survey. Two selectivity periods are estimated in the directed pot fishery, from 1978-2008 and 2009-2018."}
+knitr::include_graphics("safe_figure/selectivity_q_timeblock.png", dpi = 150)
 ```
 
 ```{r recruitment, fig.cap = "Estimated recruitment 1979-2018 comparing model alternatives. The solid horizontal lines in the background represent the estimate of the average recruitment parameter ($\\bar{R}$) in each model scenario."}
