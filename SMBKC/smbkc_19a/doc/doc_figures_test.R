@@ -258,14 +258,8 @@ rec %>%
   summarise(meanR = mean(exp(log_rec)/1000000)) %>% 
   mutate(years = "1978-2018")-> avgR
 
-rec %>% 
-  filter(year >= 1996) %>% 
-  group_by(Model) %>% 
-  summarise(meanR = mean (exp(log_rec)/1000000)) %>% 
-  mutate(years = "1996-2018")-> avgR2
 
-avgR %>% 
-  bind_rows(avgR2) -> avgR_options
+avgR  -> avgR_options
 #mutate(Bmsy50 = 0.5*Bmsy) -> Bmsy_options
 avgR_options # see above is calculated average recruitment for each time series
 rec$rbar[1]
@@ -278,8 +272,8 @@ rec %>%
   expand_limits(y=0) +
   ggtitle("Recruitment model scenarios") +
   ylab("Recruitment (millions of individuals)") + xlab("Year") +
-  scale_colour_manual(name = "", values = c("red", "dark green", "blue"))+
-  scale_fill_manual(name = "", values = c("red", "dark green", "blue")) +
+  #scale_colour_manual(name = "", values = c("red", "dark green", "blue"))+
+  #scale_fill_manual(name = "", values = c("red", "dark green", "blue")) +
   #geom_hline(aes(yintercept = rbar[1]/1000000), color = "gray25") +
   #geom_text(aes(x = 2000, y = rbar[1]/1000000, label = "R_bar"), 
   #          hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 3.0) +
