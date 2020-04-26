@@ -462,20 +462,25 @@ ggsave(paste0(.FIGS, "pot_cpue_addcv_models2and3.png"), width = ww*1.5, height =
 ##catch --------
 plot_catch(M[2])
 ggsave(paste0(.FIGS, "catch.png"), width = ww*1.2, height = hh*1.2)
-dev.off()
+#dev.off()
 
+#plot_catch(M[mod_scen]) # to confusing but run for comparison
+
+#!! trawl_res --------
 #{r bts_resid_nmfs, fig.cap = "Standardized residuals for area-swept estimates of total male survey biomass for the model scenarios. \\label{fig:bts_resid_nmfs}"}
-A <- M[mod_scen];
-plot_cpue_res(A, "NMFS Trawl")
+#A <- M[mod_scen];
+#plot_cpue_res(A, "NMFS Trawl")
+plot_cpue_res(M[mod_scen], "NMFS Trawl")
+ggsave(paste0(.FIGS, "trawl_biomass_mod_scen_residuals.png"), width = ww*1.5, height = 1.1*hh)
 
-
+#!! pot_res --------
 #{r bts_resid_adfg, fig.cap = "Standardized residuals for total male pot survey CPUEs for each of the Gmacs model scenarios.\\label{fig:bts_resid_adfg}"}
-A <- M[mod_scen];
-plot_cpue_res(A, "ADF&G Pot")
+plot_cpue_res(M[mod_scen], "ADF&G Pot")
+ggsave(paste0(.FIGS, "pot_cpue_mod_scen_residuals.png"), width = ww*1.5, height = 1.1*hh)
 
 ## !!size comps ---------------
 ## !!!!!!!!!!!!! load my functions file here
-source("./SMBKC/code/functions.R") 
+#source("./SMBKC/code/functions.R") # moved to top
 #{r sc_pot, fig.cap = "Observed and model estimated size-frequencies of SMBKC by year retained in the directed pot fishery for the model scenarios. \\label{fig:sc_pot}"}
 plot_size_comps(M[mod_scen], 1, legend_loc=c(.87,.1))
 ggsave(paste0(.FIGS, "lf_1.png"), width = 8.5, height = 5, unit = "in")
