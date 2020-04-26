@@ -1,5 +1,5 @@
 ---
-title: "Saint Matthew Island Blue King Crab Stock Assesssment 2020 draft"
+title: "Saint Matthew Island Blue King Crab Stock Assesssment May 2020 draft"
 author: |
   | Katie Palof$^1$, Jie Zheng$^1$, Jim Ianelli$^2$ 
   | $^1$Alaska Department of Fish and Game, katie.palof@alaska.gov and jie.zheng@alaska.gov
@@ -26,16 +26,17 @@ options(xtable.comment = FALSE)
 ## before running update model specs here and in doc_figures_test.R
 ## run code in that R file with !! to get table and figure input here
 # the model specs
-mod_names <- c("model 16.0", "model 16.0 (ref)", "model 19.1 (VAST))", "model 19.2 (add CV pot)", "model 19.3 (add CV both)") 
+mod_names <- c("model 16.0", "model 16.0 (ref)", "model 19.1 (VAST))", "model 19.2 (add CV pot)", "model 19.3 (add CV both)", "model 19.4 (q time block pot)") 
 .MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_19/model_1/"), 
               paste0(here::here(), "/SMBKC/smbkc_19a/model_1/"),
               paste0(here::here(), "/SMBKC/smbkc_19a/model_4/"), 
               paste0(here::here(), "/SMBKC/smbkc_19a/model_1a/"), 
-              paste0(here::here(), "/SMBKC/smbkc_19a/model_1b/")) #need to update these model options
+              paste0(here::here(), "/SMBKC/smbkc_19a/model_1b/"),
+              paste0(here::here(), "/SMBKC/smbkc_19a/model_3/")) #need to update these model options
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
-.FLEET    = c("Pot","Trawl bycatch","Fixed bycatch","NMFS Trawl","ADF&G Pot")
+.FLEET    = c("Pot","Trawl bycatch","Fixed bycatch","NMFS Trawl","ADF&G Pot", "ADF&G Pot2")
 .TYPE     = c("Retained","Discarded", "Retained & Discarded")
 .SHELL    = c("Aggregate")
 .MATURITY = c("Aggregate")
@@ -44,7 +45,6 @@ mod_names <- c("model 16.0", "model 16.0 (ref)", "model 19.1 (VAST))", "model 19
 fn       <- paste0(.MODELDIR, "gmacs")
 M        <- lapply(fn, read_admb)
 names(M) <- mod_names
-jj <- 1 # The position in the list that Jies model outputs sit
 
 nmult_1 <- 1e+06
 nmult_2 <- 0.0004535923 * 1e+6
@@ -64,7 +64,7 @@ rinline <- function(code){
 #alt_mod <- 5 # alt reference time frame
 ref_mod <- 1 # base
 rec_mod <- 2 # base
-mod_scen<- 2:5 #scenarios you want graphed together
+mod_scen<- 2:6 #scenarios you want graphed together
 ```
 
 ```{r exesum, echo = FALSE}

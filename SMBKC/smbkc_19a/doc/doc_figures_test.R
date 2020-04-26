@@ -13,7 +13,8 @@
 # go to Build above - direct it to the gmr folder - press OK. Over on right in the Build tab (upper right hand side) - 
 # click "install and restart"
 require(gmr)
-source("./SMBKC/code/functions.R") 
+source("./SMBKC/code/functions.R")
+source("./SMBKC/code/helper.R") 
 source("./SMBKC/smbkc_19a/doc/gmr_functions2020.R") 
 
 # All model plots  -------------------------
@@ -21,22 +22,21 @@ source("./SMBKC/smbkc_19a/doc/gmr_functions2020.R")
 cur_yr <- 2019 # update annually 
 
 # update model names and file locations
-mod_names <- c("model 16.0", "model 16.0 (ref)", "model 19.1 (VAST)", "model 19.2 (add CV pot)", "model 19.3 (add CV both)") 
+mod_names <- c("model 16.0", "model 16.0 (ref)", "model 19.1 (VAST))", "model 19.2 (add CV pot)", "model 19.3 (add CV both)", "model 19.4 (q time block pot)") 
 .MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_19/model_1/"), 
               paste0(here::here(), "/SMBKC/smbkc_19a/model_1/"),
               paste0(here::here(), "/SMBKC/smbkc_19a/model_4/"), 
               paste0(here::here(), "/SMBKC/smbkc_19a/model_1a/"), 
-              paste0(here::here(), "/SMBKC/smbkc_19a/model_1b/")) #need to update these model options
+              paste0(here::here(), "/SMBKC/smbkc_19a/model_1b/"),
+              paste0(here::here(), "/SMBKC/smbkc_19a/model_3/")) #need to update these model options
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
-.FLEET    = c("Pot","Trawl bycatch","Fixed bycatch","NMFS Trawl","ADF&G Pot")
+.FLEET    = c("Pot","Trawl bycatch","Fixed bycatch","NMFS Trawl","ADF&G Pot", "ADF&G Pot2")
 .TYPE     = c("Retained","Discarded", "Retained & Discarded")
 .SHELL    = c("Aggregate")
 .MATURITY = c("Aggregate")
 .SEAS     = c("1","2","3","4","5")
-.FIGS     = c("./SMBKC/smbkc_19a/doc/safe_figure/")
-
 # Read report file and create gmacs report object (a list):
 fn       <- paste0(.MODELDIR, "gmacs")
 M        <- lapply(fn, read_admb)
@@ -58,9 +58,9 @@ rinline <- function(code){
 }
 
 #alt_mod <- 5 # alt reference time frame
-ref_mod <- 1 # base from last year
-rec_mod <- 2 # base from current yr
-mod_scen<- 2:5 #scenarios you want graphed together
+ref_mod <- 1 # base
+rec_mod <- 2 # base
+mod_scen<- 2:6 #scenarios you want graphed together
 
 ww <- 6
 hh <- 5
