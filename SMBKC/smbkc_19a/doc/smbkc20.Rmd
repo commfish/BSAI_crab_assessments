@@ -1162,29 +1162,27 @@ knitr::include_graphics("safe_figure/mod_scen_ssb_wprojected_yr.png", dpi = 100)
 ```
 
 ```{r M-t, fig.cap = "Time-varying natural mortality ($M_t$). Estimated pulse period occurs in 1998/99 (i.e. $M_{1998}$)."}
-plot_natural_mortality(M[1:4], knots = NULL, slab = "Model")
+knitr::include_graphics("safe_figure/mod_scen_M_t.png", dpi = 100)
 ```
 
 ```{r trawl-survey-biomass, fig.cap = "Comparisons of area-swept estimates of total (90+ mm CL) male survey biomass (tons) and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations."} 
-plot_cpue(M[c(mod_scen)],  "NMFS Trawl", ylab = "NMFS survey biomass (t)")
+knitr::include_graphics("safe_figure/trawl_biomass_mod_scen.png", dpi = 100)
 ```
 
 ```{r pot-survey-cpue, fig.cap = "Comparisons of total (90+ mm CL) male pot survey CPUEs and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations."}
-plot_cpue(M[c(mod_scen)],  "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
+knitr::include_graphics("safe_figure/pot_cpue_mod_scen.png", dpi = 100)
 ```
 
-```{r pot-add-cv, fig.cap = "Comparisons of total (90+ mm CL) male pot survey CPUEs and model predictions for the 'add CV pot' scenario. The black error bars are plus and minus 2 standard deviations, while the red ones incorporate the additional variability ."}
-plot_cpue(M[4],  ShowEstErr = TRUE, "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
+```{r pot-add-cv, fig.cap = "Comparisons of total (90+ mm CL) male pot survey CPUEs and model predictions for the 'add CV pot' (Model 19.2) and 'add CV both' (Model 19.3) scenarios. The black error bars are plus and minus 2 standard deviations, while the red ones incorporate the additional variability ."}
+knitr::include_graphics("safe_figure/pot_cpue_addcv_models2and3.png", dpi = 100)
 ```
 
 ```{r bts-resid-nmfs, fig.cap = "Standardized residuals for area-swept estimates of total male survey biomass for the model scenarios."}
-A <- M[mod_scen];
-plot_cpue_res(A, "NMFS Trawl")
+knitr::include_graphics("safe_figure/trawl_biomass_mod_scen_residuals.png", dpi = 100)
 ```
 
 ```{r bts-resid-adfg, fig.cap = "Standardized residuals for total male pot survey CPUEs for each of the Gmacs model scenarios."}
-A <- M[mod_scen];
-plot_cpue_res(A, "ADF&G Pot")
+knitr::include_graphics("safe_figure/pot_cpue_mod_scen_residuals.png", dpi = 100)
 ```
 
 ```{r sc-pot, fig.cap = "Observed and model estimated size-frequencies of SMBKC by year retained in the directed pot fishery for the model scenarios."}
@@ -1206,16 +1204,24 @@ knitr::include_graphics("safe_figure/lf_3.png", dpi = 450)
 ```
 
 
-```{r sc-res-ref, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADF&G pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **reference** model (19.0)."}
-plot_size_comps_res(M[ref_mod])
+```{r sc-res-ref, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADF&G pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **reference** model (16.0)."}
+knitr::include_graphics("safe_figure/ref_mod_size_comp_residuals.png", dpi = 100)
 ```
 
-```{r sc-res-fit, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADF&G pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **fit surveys** model (19.1)."}
-plot_size_comps_res(M[3])
+```{r sc-res-vast, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADF&G pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **VAST** model (19.1)."}
+knitr::include_graphics("safe_figure/VAST_size_comp_residuals.png", dpi = 100)
 ```
 
 ```{r sc-res-addcv, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADF&G pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **add CV pot** model (19.2)."}
-plot_size_comps_res(M[4])
+knitr::include_graphics("safe_figure/addCV_size_comp_residuals.png", dpi = 100)
+```
+
+```{r sc-res-addcvboth, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADF&G pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **add CV both** model (19.3)."}
+knitr::include_graphics("safe_figure/addCVBoth_size_comp_residuals.png", dpi = 100)
+```
+
+```{r sc-res-qblock, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADF&G pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **q time block pot** model (19.4)."}
+knitr::include_graphics("safe_figure/qblock_size_comp_residuals.png", dpi = 100)
 ```
 
 ```{r fit-to-catch, fig.cap = "Comparison of observed and model predicted retained catch and bycatches in each of the Gmacs models. Note that difference in units between each of the panels, some panels are expressed in numbers of crab, some as biomass (tons).", fig.height =12}
