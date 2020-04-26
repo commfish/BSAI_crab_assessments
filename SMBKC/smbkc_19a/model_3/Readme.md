@@ -19,3 +19,5 @@ start with these, simple vs. extreme
 Changes are needed to the .dat and .ctl files
 
 a.Jie had suggested a normal prior instead of a uniform one. same initial value for both (0.003) normal prior (0.1 ?)
+
+conclusion: decided to just run with model 3a. Going to get CPT feedback before exploring more time block options. Not sure how helpful these are.  Overall ssb is the same as base model, but recruitment maybe a little higher in last 2 years.
