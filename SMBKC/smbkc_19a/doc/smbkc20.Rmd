@@ -463,23 +463,23 @@ This assessment model again uses the modeling framework Gmacs and is detailed in
 ## Model Selection and Evaluation {-}
 
 Five models are presented with the reference model being the same configuration as approved last year (Palof et al. 2019), 
-two sensitivities are considered, one which weights the survey data more heavily and one that adds an additional CV on the
-ADF&G pot survey data. In addition to these sensitivities, we evaluated the impacts of adding new data 
-to the reference model. In summary, the following lists the models presented and the naming convention used: **update**
+three sensitivities are considered, one that adds an additional CV on the
+ADF&G pot survey data, one that adds an additional CV on both survies (for comparison), and one that has time blocks for the ADF&G survey catchability (q). In addition to these sensitivities, there is a model presented that includes VAST estimates for the NOAA trawl survey time series. We will also evaluate the impacts of adding new data 
+to the reference model, once 2020 data is obtained. All models below do NOT include any new data from the 2019 accepted model and SAFE report. In summary, the following lists the models presented and the naming convention used: 
 
-1. **16.0 - 2019 Model**: the 2019 recommended model without any new data
+1. **16.0 - 2019 Model**: the 2019 recommended model
 
-2. **16.0 - 2019 Reference Model**: updated with Jan 2020 updates to GMACS
+2. **16.0 - 2019 Reference Model**: updated with Jan 2020 updates to GMACS, 
 
-3. **19.1 - VAST NMFS trawl data**: model 19.0 with VAST data output for the NMFS trawl survey time series 
+3. **19.1 - VAST NMFS trawl data**: model 16.0 with VAST data output for the NMFS trawl survey time series 
 
-4. **19.2 - add CV pot**: includes an estimated additional CV on the ADF&G pot survey
+4. **19.2 - add CV pot**: model 16.0 + an estimated additional CV on the ADF&G pot survey
 
-5. **19.3 - add CV both**: includes an estimated additional CV on the ADF&G pot survey and the NOAA trawl survey 
+5. **19.3 - add CV both**: model 16.0 + an estimated additional CV on the ADF&G pot survey and the NOAA trawl survey 
 
 6. **19.4 - q time block pot**: time block estimated q's for ADF&G pot survey. 2 time blocks: 1995 to 2013 and 2015 to 2018. 
 
-Note the naming convention. The base model is model 16.0 since that was the year of model development. 
+Note the change in naming convention (per SSC comments). The base model is model 16.0 since that was the year of model development and acceptance. 
 
 ## Results {-}
 
