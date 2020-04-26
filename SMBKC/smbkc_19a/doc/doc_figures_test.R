@@ -22,7 +22,7 @@ source("./SMBKC/smbkc_19a/doc/gmr_functions2020.R")
 cur_yr <- 2019 # update annually 
 
 # update model names and file locations
-mod_names <- c("model 16.0", "model 16.0 (ref)", "model 19.1 (VAST))", "model 19.2 (add CV pot)", "model 19.3 (add CV both)", "model 19.4 (q time block pot)") 
+mod_names <- c("model 16.0", "model 16.0 (ref)", "model 19.1 (VAST)", "model 19.2 (add CV pot)", "model 19.3 (add CV both)", "model 19.4 (q time block pot)") 
 .MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_19/model_1/"), 
               paste0(here::here(), "/SMBKC/smbkc_19a/model_1/"),
               paste0(here::here(), "/SMBKC/smbkc_19a/model_4/"), 
@@ -418,19 +418,20 @@ ggsave(paste0(.FIGS, "mod_scen_ssb_wprojected_yr.png"), width = ww*1.25, height 
 ggsave(paste0(.FIGS, "PRESENTATION_mod_scen_ssb_wprojected_yr.png"), width = ww*1.5, height = hh)
 
 
+# !!natural_mortality -------------
+#, fig.cap = "Time-varying natural mortality ($M_t$). Estimated pulse period occurs in 1998/99 (i.e. $M_{1998}$). \\label{fig:M_t}"}
+# updated with my own function due to issues with maturity in gmr
+#plot_natural_mortality(M[mod_scen], knots = NULL, slab = "Model")
+plot_natural_mortality2(M[mod_scen], knots = NULL, slab = "Model")
+ggsave(paste0(.FIGS, "mod_scen_M_t.png"), width = 1.25*ww, height = hh)
+#plot_natural_mortality(M, knots = NULL, slab = "Model")
 
-#  ```{r natural_mortality, fig.cap = "Time-varying natural mortality ($M_t$). Estimated pulse period occurs in 1998/99 (i.e. $M_{1998}$). \\label{fig:M_t}"}
-plot_natural_mortality(M, knots = NULL, slab = "Model")
-
+#!! trawl survey -----------
 #{r trawl_survey_biomass, fig.cap = "Comparisons of area-swept estimates of total (90+ mm CL) male survey biomass (tons) and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations.\\label{fig:trawl_survey_biomass}"} 
 plot_cpue(M[c(mod_scen)],  "NMFS Trawl", ylab = "NMFS survey biomass (t)")
-ggsave(paste0(.FIGS, "trawl_biomass_mod_scen.png"), width = ww*1.5, height = hh)
-#p.df <- .get_cpue_df(M[mod_scen])
-#filter(p.df,fleet=="NMFS Trawl") %>% 
-#  ggplot(aes(x=(year),y=cpue,col=Model)) + geom_point(position=position_dodge(0.9) ) + .THEME + xlab("Year") +
-#  geom_errorbar(aes(ymin=lbe, ymax=ube), width=.2,position=position_dodge(0.9) ) + geom_line(aes(x=year,y=pred)) + ylab("NMFS survey biomass (t)")
-#plot_cpue(M[mod_scen], "NMFS Trawl", ylab = "Survey biomass (tons)") 
+ggsave(paste0(.FIGS, "trawl_biomass_mod_scen.png"), width = ww*1.5, height = 1.1*hh)
 
+#!! pot survey -------
 #{r pot_survey_cpue, fig.cap = "Comparisons of total (90+ mm CL) male pot survey CPUEs and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations.\\label{fig:pot_survey_cpue}"}
 plot_cpue(M[c(mod_scen)],  "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
 ggsave(paste0(.FIGS, "pot_cpue_mod_scen.png"), width = ww*1.5, height = hh)
@@ -450,47 +451,18 @@ for (i in 1:11)
   #df[i]<-  (dvo[n3+i]+dv0[2]-dvo[2])  #be changed as well.
 }      
 
-# add cv on pot survey -----------
+# !!add cv on pot survey -----------
+#plot_cpue(M[4],  ShowEstErr = TRUE, "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
 plot_cpue(M[4],  ShowEstErr = TRUE,"ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
 ggsave(paste0(.FIGS, "pot_cpue_addcv.png"), width = ww*1.5, height = hh)
 
-plot_cpue(M[c(mod_scen)])
-ggsave(paste0(.FIGS, "cpue_mod_scen_both.png"), width = ww*2.5, height = 1.25*hh)
+plot_cpue(M[4:5],  ShowEstErr = TRUE,"ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
+ggsave(paste0(.FIGS, "pot_cpue_addcv_models2and3.png"), width = ww*1.5, height = hh)
 
 ##catch --------
 plot_catch(M[2])
 ggsave(paste0(.FIGS, "catch.png"), width = ww*1.2, height = hh*1.2)
 dev.off()
-# code to look at this figure more closely
-  A <- M[[2]]
-  df <- data.frame(Model = names(M)[2], A$dCatchData_out)
-  colnames(df) <- c("model", "year", "seas", 
-                    "fleet", "sex", "obs", "cv", 
-                    "type", "units", "mult", "effort", 
-                    "discard.mortality")
-  df$observed <- na.omit(as.vector(t(A$obs_catch_out)))
-  df$predicted <- na.omit(as.vector(t(A$pre_catch_out)))
-  df$residuals <- as.vector(t(A$res_catch_out))
-  df$sex <- .SEX[df$sex + 1]
-  df$fleet <- .FLEET[df$fleet]
-  df$type <- .TYPE[df$type]
-  df$sd <- sqrt(log(1 + df$cv^2))
-  df$lb <- exp(log(df$obs) - 1.96 * df$sd)
-  df$ub <- exp(log(df$obs) + 1.96 * df$sd)
-  mdf <- rbind(mdf, df)
-  if (!all(df$observed == df$obs)) {
-    stop("Error: observed catch data is buggered.")
-  }
-}
-mdf$year <- as.integer(mdf$year)
-mdf$sex <- factor(mdf$sex, levels = .SEX)
-mdf$type <- as.factor(mdf$type)
-mdf$fleet <- factor(mdf$fleet, levels = .FLEET)
-return(mdf)
-
-
-
-
 
 #{r bts_resid_nmfs, fig.cap = "Standardized residuals for area-swept estimates of total male survey biomass for the model scenarios. \\label{fig:bts_resid_nmfs}"}
 A <- M[mod_scen];
