@@ -144,6 +144,11 @@ plot_cpue_res(M, "ADFG Pot")
 ggsave(paste0(.FIGS, "cpue_pot_residuals.png"), width = ww*2.5, height = hh)
 dev.off()
 
+# fishing mortality ----
+plot_F(M)
+plot_F2(M)
+ggsave(paste0(.FIGS, "Fmort.png"), width = ww*1.2, height = hh*1.2)
+
 # SMBKC plots new  -------------
 # SSB -----------
 ssb <- .get_ssb_df(M) # ssb now does NOT include projection year so only up to 2018 crab year - 2019 projection (example)
