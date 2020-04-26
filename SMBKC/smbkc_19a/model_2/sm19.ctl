@@ -186,8 +186,8 @@
 ##  LAMBDA: Arbitrary relative weights for each series, 0 = do not fit.
 ## SURVEYS/INDICES ONLY
 ## ival    lb       ub    phz   prior   p1       p2    Analytic?   LAMBDA Emphasis
-   1.0     0.5      1.2    2    1       1.0      0.05   0           1             1 # NMFS trawl
- 0.003      0        5     2    0       0        9.0   0           1             1 # ADF&G pot
+   1.0     0.5      1.2    3    1       1.0      0.025   0           1             1 # NMFS trawl
+ 0.003      0        5     4    0       0        9.0   0           1             1 # ADF&G pot
 ## ==================================================================================== ##
 
 ## ==================================================================================== ##
