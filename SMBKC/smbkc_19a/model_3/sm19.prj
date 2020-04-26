@@ -1,5 +1,5 @@
 1                          # Do not compute MSY (1=Yes)
-0 1 1 1 1                  # Set to 0 if F35% applied to this fleet; 1 if F is to be fixed
+0 1 1 1 1 1                  # Set to 0 if F35% applied to this fleet; 1 if F is to be fixed
 1978 2018                  # First and last year for average recruitment/MMB for Bspr calculation (Tier 3 or Tier 4)
 1979 2018                  # First and last year for average sex ratio for computing reference points UPDATED
 2014 2018                  # First and last year for average F for discards (computing reference points and projections)
