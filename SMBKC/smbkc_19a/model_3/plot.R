@@ -1,4 +1,4 @@
-# K.Palof  11-20-19/ 04-01-20
+# K.Palof  11-20-19/ 04-26-2020
 
 # Code for plotting output of GMACS models for SMBKC
 # Taken from Jim Ianellii https://github.com/seacode/gmacs/tree/develop/examples/smbkc_18a/model_1 but updated 
@@ -6,7 +6,7 @@
 # Model or Model(s) plotted here: 
 # Stock: SMBKC
 # Year and timing: 2019a - models for May 2020
-# Model: model_1
+# Model: model_3a - time blocks for q for pot survey
 
 # load ------------
 #require(devtools)
@@ -24,17 +24,17 @@ source("./SMBKC/smbkc_19a/doc/gmr_functions2020.R")
 # Model 1 plots -------------------------
 cur_yr <- 2019 # update annually 
 
-mod_names <- c("model_1")
-.MODELDIR = c("./SMBKC/smbkc_19a/model_1/") # directory where the model results are
+mod_names <- c("model_3a")
+.MODELDIR = c("./SMBKC/smbkc_19a/model_3/") # directory where the model results are
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
-.FLEET    = c("Pot","Trawl bycatch","Fixed bycatch","NMFS Trawl","ADFG Pot")
+.FLEET    = c("Pot","Trawl bycatch","Fixed bycatch","NMFS Trawl","ADFG Pot1","ADFG Pot2" )
 .TYPE     = c("Retained","Discarded", "Retained & Discarded")
 .SHELL    = c("Aggregate","Aggregate")
 .MATURITY = c("Aggregate")
 .SEAS     = c("Annual")
-.FIGS     = c("./SMBKC/smbkc_19a/model_1/figure/")
+.FIGS     = c("./SMBKC/smbkc_19a/model_3/figure/")
 
 fn       <- paste0(.MODELDIR, "gmacs")
 M        <- lapply(fn, read_admb) #need .prj file to run gmacs and need .rep file here
@@ -60,8 +60,12 @@ plot_cpue(M, ShowEstErr = TRUE, "NMFS Trawl", ylab = "Survey biomass (t)")
 ggsave(paste0(.FIGS, "cpue_trawl.png"), width = ww, height = hh)
 dev.off()
 
-plot_cpue(M, ShowEstErr = TRUE, "ADFG Pot", ylab = "Survey biomass (t)")
+plot_cpue(M, ShowEstErr = TRUE, "ADFG Pot1", ylab = "CPUE")
 ggsave(paste0(.FIGS, "cpue_pot.png"), width = ww, height = hh)
+dev.off()
+
+plot_cpue(M, ShowEstErr = TRUE, "ADFG Pot2", ylab = "CPUE")
+ggsave(paste0(.FIGS, "cpue_pot2.png"), width = ww, height = hh)
 dev.off()
 
 # smbkc edited function - see gmr_functions2020.R
@@ -122,7 +126,11 @@ dev.off()
 plot_size_comps(M, 3)
 ggsave(paste0(.FIGS, "lf_3.png"), width = ww*2, height = hh*1.5)
 dev.off()
- 
+
+plot_size_comps(M, 4)
+ggsave(paste0(.FIGS, "lf_4.png"), width = ww*2, height = hh*1.5)
+dev.off()
+
 #.get_sizeComps_df
 # plot_size_comps(M, 4)
 # ggsave(paste0(.FIGS, "lf_4.png"), width = ww*2, height = hh*1.5)
@@ -140,10 +148,13 @@ plot_cpue_res(M, "NMFS Trawl")
 ggsave(paste0(.FIGS, "cpue_trawl_residuals.png"), width = ww*2.5, height = hh)
 dev.off()
 
-plot_cpue_res(M, "ADFG Pot")
-ggsave(paste0(.FIGS, "cpue_pot_residuals.png"), width = ww*2.5, height = hh)
+plot_cpue_res(M, "ADFG Pot1")
+ggsave(paste0(.FIGS, "cpue_pot1_residuals.png"), width = ww*2.5, height = hh)
 dev.off()
 
+plot_cpue_res(M, "ADFG Pot2")
+ggsave(paste0(.FIGS, "cpue_pot2_residuals.png"), width = ww*2.5, height = hh)
+dev.off()
 # SMBKC plots new  -------------
 # SSB -----------
 ssb <- .get_ssb_df(M) # ssb now does NOT include projection year so only up to 2018 crab year - 2019 projection (example)
