@@ -17,3 +17,5 @@ a. q for 1995- 2013, q for 2015-2018
 start with these, simple vs. extreme
 
 Changes are needed to the .dat and .ctl files
+
+a.Jie had suggested a normal prior instead of a uniform one. same initial value for both (0.003) normal prior (0.1 ?)
