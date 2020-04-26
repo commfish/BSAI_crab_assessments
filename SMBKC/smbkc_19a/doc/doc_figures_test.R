@@ -37,6 +37,7 @@ mod_names <- c("model 16.0", "model 16.0 (ref)", "model 19.1 (VAST))", "model 19
 .SHELL    = c("Aggregate")
 .MATURITY = c("Aggregate")
 .SEAS     = c("1","2","3","4","5")
+.FIGS     = c("./SMBKC/smbkc_19a/doc/safe_figure/")
 # Read report file and create gmacs report object (a list):
 fn       <- paste0(.MODELDIR, "gmacs")
 M        <- lapply(fn, read_admb)
@@ -61,6 +62,7 @@ rinline <- function(code){
 ref_mod <- 1 # base
 rec_mod <- 2 # base
 mod_scen<- 2:6 #scenarios you want graphed together
+mod_scen2 <- c(2, 6)
 
 ww <- 6
 hh <- 5
@@ -73,6 +75,52 @@ hh <- 5
   tail(1) %>%
   .$x -> bio_lt_percent
 
+# Tables 1 to 3 calcs -------
+## table 1 ------
+round(M[[ref_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_1819
+round(M[[ref_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_1819
+
+# use in May 2020
+round(M[[ref_mod]]$spr_bmsy*M[[ref_mod]]$spr_depl/1000, 2) -> mmb_1920
+round(M[[ref_mod]]$spr_cofl/1000, 2) -> ofl_1920
+round(M[[ref_mod]]$spr_cofl/1000*0.8, 2) -> abc_1920
+
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_1920a
+round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_1920a
+round(M[[rec_mod]]$spr_cofl/1000*0.8, 2) -> abc_1920a
+
+# use with actual 2020 data
+#round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_1920
+#round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_1920
+#round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2021
+#round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2021
+#round(M[[rec_mod]]$spr_cofl/1000*0.8, 2) -> abc_2021
+
+
+#round(M[[alt_mod]]$spr_bmsy*M[[alt_mod]]$spr_depl/1000, 2) -> alt_mmb_1920
+#round(M[[alt_mod]]$spr_cofl/1000, 2) -> alt_ofl_1920
+#round(M[[alt_mod]]$spr_cofl/1000*0.8, 2) -> alt_abc_1920
+
+# table 2 ----------
+round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_1819_lb
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]* 2204.62/1e6, 2) -> mmb_1819_lb
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_1920_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 3) -> ofl_1920_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.8, 2) -> abc_1920_lb
+
+
+# ofl and abc basis -------- table 3
+# ofl and abc basis -------- table 3
+round(M[[rec_mod]]$spr_bmsy/1000, 2) -> bmsy_cur
+round(M[[rec_mod]]$spr_depl, 2) -> ratio_bmsy
+round(M[[rec_mod]]$sd_fofl[1], 3) -> fofl
+
+#round(M[[alt_mod]]$spr_bmsy*M[[alt_mod]]$spr_depl/1000, 2) -> alt_mmb_1920
+#round(M[[alt_mod]]$spr_bmsy/1000, 2) -> alt_bmsy_cur
+#round(M[[alt_mod]]$spr_depl, 2) -> alt_ratio_bmsy
+#round(M[[alt_mod]]$sd_fofl[1], 3) -> alt_fofl
+
+
 ## data extent -----------
 plot_datarange(M[ref_mod])
 plot_datarangeSM(M[rec_mod]) # see gmr_functions2020.R
@@ -80,7 +128,9 @@ plot_datarangeSM(M[rec_mod]) # see gmr_functions2020.R
 #ggsave(p1, paste0(.FIGS, "data_extent.png"), width = ww, height = hh)
 # had to save manually because I can't get this call to work...**FIX
 
-## fig 6/7 2018 safe - 2018 compared to reference model --------
+##!! fig 6/7 2018 safe - 2018 compared to reference model --------
+# for final doc will be models 1 and 2, 1 will be updated to be smbkc_19a/model_1 
+#     and 2 will be smbkc_20/model_1 
 plot_cpue(M[2], "NMFS Trawl", ylab = "Survey biomass (t)")
 #plot_cpue(M[1:2], "NMFS Trawl", ylab = "Survey biomass (t)") 
 ggsave(paste0(.FIGS, "trawl_cpue_ref.png"), width = ww*1.25, height = hh*.9)
@@ -94,20 +144,21 @@ ggsave(paste0(.FIGS, "cpue_ref_both.png"), width = ww*2.5, height = hh)
 
 
 ### Sensitivity of new data in 2018 on estimated recruitment ; 1978-2018
-## recruitment - reference to base ----------------------------
+## !!recruitment - reference to base ----------------------------
 A <- M
 for (i in c(2)) {
   ii <- which(A[[i]]$fit$names %in% "sd_log_recruits"); ii <- ii[length(ii)]
   A[[i]]$fit$est[ii] <- NA
   A[[i]]$fit$std[ii] <- NA
 }
-plot_recruitment(A[2]) # does not include recent recruitment - for comparison
-plot_recruitment(M[2])
-#plot_recruitment(M[1:2])
+plot_recruitment(A[1:2]) # does not include recent recruitment - for comparison
+plot_recruitment(M[1:2])
+#plot_recruitment(M[1:2]) **FIX** determine which one of the above to use with new data?
 ggsave(paste0(.FIGS, "recruit_ref.png"), width = ww*1.5, height = hh)
 
 ## !!fishing mortality ------
-plot_F(M[2]) 
+#plot_F(M[2]) **FIX** bring in this from model 1 for now.
+plot_F(Mbase)
 plot_F2(M[2]) # 
 ggsave(paste0(.FIGS, "fishing_mortality.png"), width = ww*1.5, height = hh)
 
@@ -131,13 +182,16 @@ ssb %>%
 
 # ssb current year uncertainty --------
 # need to run mcmc and projections here 
+# current year ref model
 un_ssb <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
-un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_18a/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
+# last years ref model
+un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
 
 # ssb vector only includes model years - here crab year 1978 to 2019 does NOT include projection, need to add
 #   projection year for graphical purposes
 ssb_last <- data.frame("Model" = names(M[1:2]),
-                       "year" = c(cur_yr-1, cur_yr), 
+                       "year" = c(cur_yr, cur_yr),
+                       #"year" = c(cur_yr-1, cur_yr), 
                        "ssb" = c(M[[1]]$spr_bmsy * M[[1]]$spr_depl,
                                  M[[2]]$spr_bmsy * M[[2]]$spr_depl),
                        "lb" = c(un_ssb2$lci, un_ssb$lci), # need to update these from .csv output
@@ -228,11 +282,15 @@ dev.off()
 
 
 
-## selectivity ----------
+## !!selectivity ----------
 #"Comparisons of the estimated stage-1 and stage-2 selectivities for the different model scenarios (the stage-3 selectivities are all fixed at 1). Estimated selectivities are shown for the directed pot fishery, the trawl bycatch fishery, the fixed bycatch fishery, the NMFS trawl survey, and the ADF&G pot survey. Two selectivity periods are estimated in the directed pot fishery, from 1978-2008 and 2009-2017.\\label{fig:selectivity}", fig.height = 15}
-plot_selectivity(M[mod_scen]) 
-plot_selectivity(M[2])
-ggsave(paste0(.FIGS, "selectivity_mod_scen.png"), width = ww*1.5, height = hh)
+plot_selectivity(M[2:5]) 
+#plot_selectivity(M[2])
+ggsave(paste0(.FIGS, "selectivity_mod_scen.png"), width = ww*1.5, height = 1.1*hh)
+
+#plot_selectivity(M[mod_scen2])
+plot_selectivity(M[6])
+ggsave(paste0(.FIGS, "selectivity_q_timeblock.png"), width = ww*1.5, height = 0.5*hh)
 ## ** FIX ** display is not good.
 
 ## recruitment mod scen ----------------
