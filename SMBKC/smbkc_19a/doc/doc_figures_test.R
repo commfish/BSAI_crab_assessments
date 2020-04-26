@@ -481,26 +481,38 @@ ggsave(paste0(.FIGS, "pot_cpue_mod_scen_residuals.png"), width = ww*1.5, height 
 ## !!size comps ---------------
 ## !!!!!!!!!!!!! load my functions file here
 #source("./SMBKC/code/functions.R") # moved to top
-#{r sc_pot, fig.cap = "Observed and model estimated size-frequencies of SMBKC by year retained in the directed pot fishery for the model scenarios. \\label{fig:sc_pot}"}
-plot_size_comps(M[mod_scen], 1, legend_loc=c(.87,.1))
+# CHECK to see which function is being used here **FIX** rename my function
+#{r sc_pot_discarded, fig.cap = "Observed and model estimated size-frequencies of discarded male SMBKC by year in the NMFS trawl survey for the model scenarios. \\label{fig:sc_pot_discarded}"}
+plot_size_comps(M[mod_scen], 1, legend_loc = "right")#legend_loc=c(.87,.01))
 ggsave(paste0(.FIGS, "lf_1.png"), width = 8.5, height = 5, unit = "in")
 
-#{r sc_pot_discarded, fig.cap = "Observed and model estimated size-frequencies of discarded male SMBKC by year in the NMFS trawl survey for the model scenarios. \\label{fig:sc_pot_discarded}"}
-plot_size_comps(M[mod_scen], 2, legend_loc = "bottom")
+#{r sc_trawl_discarded, fig.cap = "Observed and model estimated size-frequencies of discarded SMBKC by year in the ADF&G pot survey for the model scenarios.\\label{fig:sc_trawl_discarded}"}
+
+plot_size_comps(M[mod_scen], 2, legend_loc = "right")
 ggsave(paste0(.FIGS, "lf_2.png"), width = 12, height = 7.5, unit = "in")
 
-#{r sc_trawl_discarded, fig.cap = "Observed and model estimated size-frequencies of discarded SMBKC by year in the ADF&G pot survey for the model scenarios.\\label{fig:sc_trawl_discarded}"}
-plot_size_comps(M[mod_scen], 3, legend_loc=c(.87,.2))
+#{r sc_pot_res_selex, fig.cap = "Bubble plots of residuals by stage and year for the directed pot fishery size composition data for SMBKC in the reference model.\\label{fig:sc_res_ref}"}
+plot_size_comps(M[mod_scen], 3, legend_loc = "right") #legend_loc=c(.87,.2))
 ggsave(paste0(.FIGS, "lf_3.png"), width = 8.5, height = 5, unit = "in")
 
-#{r sc_pot_res_selex, fig.cap = "Bubble plots of residuals by stage and year for the directed pot fishery size composition data for SMBKC in the reference model.\\label{fig:sc_res_ref}"}
-plot_size_comps_res(M[ref_mod])
+plot_size_comps(M[mod_scen], 4, legend_loc = "right") 
+ggsave(paste0(.FIGS, "lf_4.png"), width = 8.5, height = 5, unit = "in")
 
-#{r sc_trawl_discarded_res, fig.cap = "Bubble plots of residuals by stage and year for the ADF&G pot survey size composition data for SMBKC in the **fit surveys** model.\\label{fig:sc_res_fit_survey}"}
+#!! size comp residuals -------
+plot_size_comps_res(M[rec_mod])
+ggsave(paste0(.FIGS, "ref_mod_size_comp_residuals.png"), width = ww*1.5, height = 1.1*hh)
+
 plot_size_comps_res(M[3])
+ggsave(paste0(.FIGS, "VAST_size_comp_residuals.png"), width = ww*1.5, height = 1.1*hh)
 
-#{r fit_to_catch, fig.cap = "Comparison of observed and model predicted retained catch and bycatches in each of the Gmacs models. Note that difference in units between each of the panels, some panels are expressed in numbers of crab, some as biomass (tons).\\label{fig:fit_to_catch}", fig.height = 12}
-plot_catch(M[rec_mod]) # Note this should be rec_mod or all models
+plot_size_comps_res(M[4])
+ggsave(paste0(.FIGS, "addCV_size_comp_residuals.png"), width = ww*1.5, height = 1.1*hh)
+
+plot_size_comps_res(M[5])
+ggsave(paste0(.FIGS, "addcvBoth_size_comp_residuals.png"), width = ww*1.5, height = 1.1*hh)
+
+plot_size_comps_res(M[6])
+ggsave(paste0(.FIGS, "qblock_size_comp_residuals.png"), width = ww*1.5, height = 1.5*hh)
 
 # !!dynamic Bzero ----------------------
 #{r Dynamic_Bzero, fig.cap = "Comparisons of mature male biomass relative to the dynamic $B_0$ value, (15 February, 1978-2018) for  each of the model scenarios.\\label{fig:dynB0}"}
