@@ -197,7 +197,7 @@ Computations which indicate the relative impact of fishing
   2017/18 & 4.1 & 2.85 & 0.000 & 0.000 & 0.007  & 0.27 & 0.22 \\ 
   2018/19 & 3.84 & 2.54 & 0.000 & 0.000 & 0.002 & 0.08 & 0.07 \\
   2019/20 &                & `r mmb_1920_lb` &  &  &  & `r ofl_1920_lb` & `r abc_1920_lb` \\
-  2020/21 &       & `r mmb_1920_lba` &  &  &  & `r ofl_1920_lba` & `r abc_1920_lba` \\
+  2020/21 &       &  &  &  &  &  &  \\
  \\
   \hline
 \end{tabular}
@@ -226,8 +226,8 @@ Computations which indicate the relative impact of fishing
   \\
   2019/20 & 4c & `r bmsy_cur` & `r mmb_1920` & `r ratio_bmsy` & 
   `r fofl ` & 1 & 1978-2018 & 0.18 \\ 
-  2020/21 &    & `r bmsy_cura` & `r mmb_1920a` & `r ratio_bmsya` & 
-  `r fofla ` & 1 & 1978-2018 & 0.18 \\
+  2020/21 &    &  &  &  & 
+   & 1 & 1978-2019 & 0.18 \\
   \hline
 \end{tabular}
 \end{table}
@@ -268,9 +268,10 @@ Details of this implementation and other model details are provided in Appendix 
 
 ## Changes in Assessment Results {-}
 
-Both surveys indicate a decline over the past few years. The "reference" model is that which was selected for use in 2018 and 2019.
-There is only one new data set to be included this year so this becomes the updated reference model (model 16.0 ref). 
-Two alternative models are presented to assess sensitivity to the model, while another is provided for alternative reference point calculations (Table \@ref(tab:ofl-basis)) using a recent regime time frame. The **fit survey** configuration simply adds emphasis on the design-based survey data (by assuming a lower input variance). The **add CV pot** configuration estimates an additional CV on the pot survey data, which in turn allows the model to fit the trawl-survey estimates better. **update here**
+Both surveys indicate a decline over the past few years. The "reference" model is that which was selected for use in 2019.
+In fall of 2020 there will be only one new data set to be included so this becomes the updated reference model (model 16.0 ref). 
+One alternative model is presented to explore the use of VAST on estimates of the time series of NOAA trawl survey data (**VAST**).  
+Three alternative models are presented to assess sensitivity to the model, attempting to deal with the disparity between the two survey time series. The **add CV pot** configuration estimates an additional CV on the pot survey data, which in turn allows the model to fit the trawl-survey estimates better. The **add CV both** configuration estimates an additional CV on both survey data sets as a sensitivity run to see if these results differ much from the **add CV pot** run. The last alternative model presented **q time block pot** attempts to address CPT and SSC concerns over ADF&G pot survey catchability by creating two time blocks for this survey. The time blocks (1995 - 2013, 2015-2018) were an initial attempt to deal with the idea of a random walk for survey catchability. 
 
 
 # B. Responses to SSC and CPT  {-}
@@ -282,7 +283,7 @@ Comment: *Regarding general code development, the SSC and CPT outstanding reques
 
   1. *add the ability to conduct retrospective analyses*
 
-     Underway but progress was limited in implementing this feature. We plan to  conduct a retrospective analysis for the final assessment in September 2020.
+     Underway but progress was limited in implementing this feature. We plan to  conduct a retrospective analysis of at least the base model for the final assessment in September 2020.
      
   2. *Continued exploration of data weighting (Francis and other approaches) and evaluation of models with and without the 1998 natural mortality spike. The authors are encouraged to bring other models forward for CPT and SSC consideration*
   
@@ -293,16 +294,16 @@ Comment: *Regarding potential model scenarios for 2020, the SSC and CPT requests
   1. *Extra CV for both surveys*
   2. *Random walk or exploration of catchability*
   
-  Underway but progress was limited due to unexpected world events.
+  Model 19.2 has an extra CV for both surveys. Model 19.3 has an initial attempt at dealing with pot survey catchability. More work is most likely needed on this but progress was limited due to unexpected world events.
 
 Comment: *Explore potential explanations for the discrepancy in the time trends of the two types of survey data, including movement hypotheses using spatial models (not necessarily VAST)*
   
-  Limited progress due to data availability (ADF&G), hope to have progress update Sept. 2020
+  Limited progress due to data availability (ADF&G), current plan is to have progress update in Sept. 2020
 
 Comment: *Please use the correct model number (e.g., if 19.0 is the same model as was first adopted in 16.0 then it is still 16.0.)*
 
   Completed. Base model is 16.0.
-**update here**
+
   
 # C. Introduction {-}
 
@@ -461,7 +462,7 @@ This assessment model again uses the modeling framework Gmacs and is detailed in
 
 ## Model Selection and Evaluation {-}
 
-Four models are presented with the reference model being the same configuration as approved last year (Palof et al. 2019), **update**
+Five models are presented with the reference model being the same configuration as approved last year (Palof et al. 2019), 
 two sensitivities are considered, one which weights the survey data more heavily and one that adds an additional CV on the
 ADF&G pot survey data. In addition to these sensitivities, we evaluated the impacts of adding new data 
 to the reference model. In summary, the following lists the models presented and the naming convention used: **update**
@@ -474,7 +475,9 @@ to the reference model. In summary, the following lists the models presented and
 
 4. **19.2 - add CV pot**: includes an estimated additional CV on the ADF&G pot survey
 
-5. **19.3 - add CV pot & trawl**: includes an estimated additional CV on the ADF&G pot survey and the NOAA trawl survey 
+5. **19.3 - add CV both**: includes an estimated additional CV on the ADF&G pot survey and the NOAA trawl survey 
+
+6. **19.4 - q time block pot**: time block estimated q's for ADF&G pot survey. 2 time blocks: 1995 to 2013 and 2015 to 2018. 
 
 Note the naming convention. The base model is model 16.0 since that was the year of model development. 
 
