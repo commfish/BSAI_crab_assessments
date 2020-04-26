@@ -1,4 +1,4 @@
-# K.Palof  11-20-19/ 04-01-20
+# K.Palof  11-20-19/ 04-25-20
 
 # Code for plotting output of GMACS models for SMBKC
 # Taken from Jim Ianellii https://github.com/seacode/gmacs/tree/develop/examples/smbkc_18a/model_1 but updated 
@@ -6,7 +6,8 @@
 # Model or Model(s) plotted here: 
 # Stock: SMBKC
 # Year and timing: 2019a - models for May 2020
-# Model: model_1
+# Model: model_2 - estimate survey Q for both survies - initial run
+#    Q for trawl is uniform prior
 
 # load ------------
 #require(devtools)
@@ -24,8 +25,8 @@ source("./SMBKC/smbkc_19a/doc/gmr_functions2020.R")
 # Model 1 plots -------------------------
 cur_yr <- 2019 # update annually 
 
-mod_names <- c("model_1")
-.MODELDIR = c("./SMBKC/smbkc_19a/model_1/") # directory where the model results are
+mod_names <- c("both_Q")
+.MODELDIR = c("./SMBKC/smbkc_19a/model_2/") # directory where the model results are
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
@@ -34,7 +35,7 @@ mod_names <- c("model_1")
 .SHELL    = c("Aggregate","Aggregate")
 .MATURITY = c("Aggregate")
 .SEAS     = c("Annual")
-.FIGS     = c("./SMBKC/smbkc_19a/model_1/figure/")
+.FIGS     = c("./SMBKC/smbkc_19a/model_2/figure/")
 
 fn       <- paste0(.MODELDIR, "gmacs")
 M        <- lapply(fn, read_admb) #need .prj file to run gmacs and need .rep file here
