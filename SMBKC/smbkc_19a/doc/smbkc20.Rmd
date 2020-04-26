@@ -523,7 +523,7 @@ Also, the residuals for recruitment in the first size group are large for these
 model runs, presumably because higher estimates of recruits in some years are required by the model 
 to match the observed biomass trends. 
 
-Selectivity estimates show some variability between models (Figure \@ref(fig:selectivity)). Estimated recruitment is
+Selectivity estimates show some variability between models (Figure \@ref(fig:selectivity) and \@ref(fig:selectivity2)). Estimated recruitment is
 variable over time for all models and in recent years is well below average (Figure \@ref(fig:recruitment)).  Estimated
 mature male biomass on 15 February also fluctuates considerably (Figure \@ref(fig:mmb)). Estimated natural mortality each
 year ($M_t$) is presented in Figure \@ref(fig:M-t).
@@ -1126,21 +1126,21 @@ knitr::include_graphics("safe_figure/CrabN_Station.png", dpi = 400)
 ```
 
 ```{r surv1, fig.cap = "Fits to NMFS area-swept trawl estimates of total ($/ge$ 90mm) male survey biomass for the reference model only (will show 16.0 ref with new data and 16.0 as last year's accepted model). Error bars are plus and minus 2 standard deviations."} 
-knitr::include_graphics("safe_figure/trawl_cpue_ref.png", dpi = 125)
+knitr::include_graphics("safe_figure/trawl_cpue_ref.png", dpi = 100)
 ```
 
 ```{r surv2, fig.cap = "Comparisons of fits to CPUE from the ADF&G pot surveys for the reference model 16.0 ref (note that there is no new pot data for 2019). Error bars are plus and minus 2 standard deviations."} 
-knitr::include_graphics("safe_figure/pot_cpue_ref.png", dpi = 125)
+knitr::include_graphics("safe_figure/pot_cpue_ref.png", dpi = 100)
 ```
 
 ```{r rec1, fig.cap = "Set up to show sensitivity of new data in 2020 on estimated recruitment ; 1978-2018."}
-knitr::include_graphics("safe_figure/recruit_ref.png", dpi = 125)
+knitr::include_graphics("safe_figure/recruit_ref.png", dpi = 100)
 ```
 
 ```{r ssb1, fig.cap = "Sensitivity of new data in 2019 on estimated mature male biomass (MMB); 1978-2019."}
 #plot_ssb(M[1:2], ylab = "Mature male biomass (tons) on 15 February")# needs to be fixed 
 
-knitr::include_graphics("safe_figure/lastyr_reference_ssb_wprojected_yr.png", dpi = 150)
+knitr::include_graphics("safe_figure/lastyr_reference_ssb_wprojected_yr.png", dpi = 100)
 # bring in from doc_figures_test.R to have current year projection and error associated.
 ```
 
@@ -1153,7 +1153,7 @@ knitr::include_graphics("safe_figure/selectivity_q_timeblock.png", dpi = 150)
 ```
 
 ```{r recruitment, fig.cap = "Estimated recruitment 1979-2018 comparing model alternatives. The solid horizontal lines in the background represent the estimate of the average recruitment parameter ($\\bar{R}$) in each model scenario."}
-plot_recruitment(M[mod_scen])
+knitr::include_graphics("safe_figure/recruitment_mod_scen_ribbons.png", dpi = 100)
 ```
 
 ```{r mmb, fig.cap = "Comparisons of estimated mature male biomass (MMB) time series on 15 February during 1978-2019 for each of the model scenarios."}
