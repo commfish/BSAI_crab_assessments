@@ -9,7 +9,7 @@
 #   5      : Pot survey
 #========================================================================================================
 # Fisheries:  1 Pot Fishery,  2 Pot Discard,  3 Trawl by-catch, 3 Fixed by-catch
-# Surveys:   4 NMFS Trawl Survey, 5 Pot Survey
+# Surveys:   4 NMFS Trawl Survey, 5 Pot Survey1, 6 Pot Survey2
 #========================================================================================================
 1978  # Start year
 2018  # End year (updated) last year of fishery does NOT include current survey year
@@ -76,8 +76,8 @@
 Pot_Fishery Trawl_Bycatch Fixed_bycatch
 # Survey names (delimited with spaces no spaces in names)
 NMFS_Trawl ADFG_Pot1 ADFG_Pot2
-# Are the fleets instantaneous (0) or continuous (1)
-1 1 1 1 1 1
+# Are the fleets instantaneous (0) or continuous (1) (this is by season NOT fleet)
+1 1 1 1 1 
 # Number  of  catch data  frames
 4
 # Number  of  rows  in  each  data  frame
