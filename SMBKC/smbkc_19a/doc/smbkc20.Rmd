@@ -1161,7 +1161,7 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 ```{r pop-abundance-lastyr, results = "asis"}
 df <- read.csv(paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/numbers_last_yrs.csv'))
 names(df) <- c("Year","$n_1$","$n_2$","$n_3$","MMB","CV MMB")
-tab <- xtable(df, digits = c(0,0,0,0,0,0,3), caption = "Population abundances ($\\boldsymbol{n}$) by crab stage in numbers of crab at the time of the survey and mature male biomass (MMB) in tons on 15 February for the {\\bf model configuration used in 2017}.", label = "tab:pop-abundance-lastyr")
+tab <- xtable(df, digits = c(0,0,0,0,0,0,3), caption = "Population abundances ($\\boldsymbol{n}$) by crab stage in numbers of crab at the time of the survey and mature male biomass (MMB) in tons on 15 February for the {\\bf model configuration used in 2019}.", label = "tab:pop-abundance-lastyr")
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function=function(x){x})
 ```
 
@@ -1204,7 +1204,7 @@ knitr::include_graphics("safe_figure/CrabN_Station.png", dpi = 400)
 knitr::include_graphics("safe_figure/trawl_cpue_ref.png", dpi = 100)
 ```
 
-```{r surv2, fig.cap = "Comparisons of fits to CPUE from the ADF&G pot surveys for the reference model 16.0 ref (note that there is no new pot data for 2019). Error bars are plus and minus 2 standard deviations."} 
+```{r surv2, fig.cap = "Comparisons of fits to CPUE from the ADFG pot surveys for the reference model 16.0 ref (note that there is no new pot data for 2019). Error bars are plus and minus 2 standard deviations."} 
 knitr::include_graphics("safe_figure/pot_cpue_ref.png", dpi = 100)
 ```
 
@@ -1219,11 +1219,11 @@ knitr::include_graphics("safe_figure/lastyr_reference_ssb_wprojected_yr.png", dp
 # bring in from doc_figures_test.R to have current year projection and error associated.
 ```
 
-```{r selectivity, fig.cap = "Comparisons of the estimated stage-1 and stage-2 selectivities for the different model scenarios (the stage-3 selectivities are all fixed at 1). Estimated selectivities are shown for the directed pot fishery, the trawl bycatch fishery, the fixed bycatch fishery, the NMFS trawl survey, and the ADF&G pot survey. Two selectivity periods are estimated in the directed pot fishery, from 1978-2008 and 2009-2018."}
+```{r selectivity, fig.cap = "Comparisons of the estimated stage-1 and stage-2 selectivities for the different model scenarios (the stage-3 selectivities are all fixed at 1). Estimated selectivities are shown for the directed pot fishery, the trawl bycatch fishery, the fixed bycatch fishery, the NMFS trawl survey, and the ADFG pot survey. Two selectivity periods are estimated in the directed pot fishery, from 1978-2008 and 2009-2018."}
 knitr::include_graphics("safe_figure/selectivity_mod_scen.png", dpi = 150)
 ```
 
-```{r selectivity2, fig.cap = "Comparisons of the estimated stage-1 and stage-2 selectivities for the q time block pot model scenario (the stage-3 selectivities are all fixed at 1). Estimated selectivities are shown for the directed pot fishery, the trawl bycatch fishery, the fixed bycatch fishery, the NMFS trawl survey, and the ADF&G pot survey. Two selectivity periods are estimated in the directed pot fishery, from 1978-2008 and 2009-2018."}
+```{r selectivity2, fig.cap = "Comparisons of the estimated stage-1 and stage-2 selectivities for the q time block pot model scenario (the stage-3 selectivities are all fixed at 1). Estimated selectivities are shown for the directed pot fishery, the trawl bycatch fishery, the fixed bycatch fishery, the NMFS trawl survey, and the ADFG pot survey. Two selectivity periods are estimated in the directed pot fishery, from 1978-2008 and 2009-2018."}
 knitr::include_graphics("safe_figure/selectivity_q_timeblock.png", dpi = 150)
 ```
 
@@ -1279,23 +1279,23 @@ knitr::include_graphics("safe_figure/lf_3.png", dpi = 450)
 ```
 
 
-```{r sc-res-ref, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADF&G pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **reference** model (16.0)."}
+```{r sc-res-ref, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADFG pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **reference** model (16.0)."}
 knitr::include_graphics("safe_figure/ref_mod_size_comp_residuals.png", dpi = 100)
 ```
 
-```{r sc-res-vast, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADF&G pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **VAST** model (19.1)."}
+```{r sc-res-vast, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADFG pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **VAST** model (19.1)."}
 knitr::include_graphics("safe_figure/VAST_size_comp_residuals.png", dpi = 100)
 ```
 
-```{r sc-res-addcv, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADF&G pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **add CV pot** model (19.2)."}
+```{r sc-res-addcv, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADFG pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **add CV pot** model (19.2)."}
 knitr::include_graphics("safe_figure/addCV_size_comp_residuals.png", dpi = 100)
 ```
 
-```{r sc-res-addcvboth, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADF&G pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **add CV both** model (19.3)."}
+```{r sc-res-addcvboth, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADFG pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **add CV both** model (19.3)."}
 knitr::include_graphics("safe_figure/addCVBoth_size_comp_residuals.png", dpi = 100)
 ```
 
-```{r sc-res-qblock, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADF&G pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **q time block pot** model (19.4)."}
+```{r sc-res-qblock, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADFG pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **q time block pot** model (19.4)."}
 knitr::include_graphics("safe_figure/qblock_size_comp_residuals.png", dpi = 100)
 ```
 
