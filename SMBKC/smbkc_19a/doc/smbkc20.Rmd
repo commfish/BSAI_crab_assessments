@@ -26,6 +26,7 @@ options(xtable.comment = FALSE)
 ## before running update model specs here and in doc_figures_test.R
 ## run code in that R file with !! to get table and figure input here
 # the model specs
+folder <- "smbkc_19a"
 mod_names <- c("model 16.0", "model 16.0 (ref)", "model 19.1 (VAST))", "model 19.2 (add CV pot)", "model 19.3 (add CV both)", "model 19.4 (q time block pot)") 
 .MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_19/model_1/"), 
               paste0(here::here(), "/SMBKC/smbkc_19a/model_1/"),
@@ -1131,8 +1132,8 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 ```
 
 ```{r est-pars-all, results = "asis"}
-df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_19/doc/safe_tables/all_parms.csv"))
-df %>% select(-altregime) -> df
+df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_19a/doc/safe_tables/all_parms.csv"))
+#df %>% select(-altregime) -> df
 tab <- xtable(df, caption = "Comparisons of parameter estimates for the model scenarios.", label = "tab:est-pars-all", digits = 3)
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, NA.string = "-")
 ```
@@ -1142,7 +1143,7 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 ## issues with output no in .rep file. Need to look into this. E-mail Jim
 # updated to work for draft - need to figure out how to get Francis weightings and 
 #   lamdas
-df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_19/doc/safe_tables/data_weighting.csv"))
+df <- read.csv(paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/data_weighting.csv'))
 names(df) <- c("Component",mod_names[mod_scen])
 tab       <- xtable(df, caption = "Comparisons of data weights, SDNR and MAR (standard deviation of normalized residuals and median absolute residual) values for the model scenarios.", label = "tab:data-weighting")
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,5,10,nrow(tab)))
@@ -1150,25 +1151,25 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 
 
 ```{r likelihood-components, results = "asis"}
-df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_19/doc/safe_tables/neg_log_like.csv"))
+df <- read.csv(paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/neg_log_like.csv'))
 #names(df) <- c("Component",mod_names[mod_scen])
-names(df) <- c("Component", "19.0 (ref)", "19.1 (fit survey)", "19.2 (add CV pot)")
+names(df) <- c("Component", "Ref", "VAST", "addCVpot", "addCVboth", "qBlock")
 tab <- xtable(df, caption = "Comparisons of negative log-likelihood values for the selected model scenarios. It is important to note that comparisons among models may be limited since the assumed variances are modified (e.g., {\\bf Fit surveys} model).", label = "tab:likelihood-components")
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
 ```
 
 ```{r pop-abundance-lastyr, results = "asis"}
-df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_19/doc/safe_tables/numbers_last_yrs.csv"))
+df <- read.csv(paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/numbers_last_yrs.csv'))
 names(df) <- c("Year","$n_1$","$n_2$","$n_3$","MMB","CV MMB")
 tab <- xtable(df, digits = c(0,0,0,0,0,0,3), caption = "Population abundances ($\\boldsymbol{n}$) by crab stage in numbers of crab at the time of the survey and mature male biomass (MMB) in tons on 15 February for the {\\bf model configuration used in 2017}.", label = "tab:pop-abundance-lastyr")
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function=function(x){x})
 ```
 
 ```{r pop-abundance-base, results = "asis"}
-df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_19/doc/safe_tables/numbers_current_yrs.csv"))
-names(df) <- c("Year","$n_1$","$n_2$","$n_3$","MMB","CV MMB")
-tab <- xtable(df, digits = c(0,0,0,0,0,0,3), caption = "Population abundances ($\\boldsymbol{n}$) by crab stage in numbers of crab at the time of the survey (1 July, season 1) and mature male biomass (MMB) in tons on 15 February for the reference model.", label = "tab:pop-abundance-base")
-print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function=function(x){x})
+#df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_19/doc/safe_tables/numbers_current_yrs.csv"))
+#names(df) <- c("Year","$n_1$","$n_2$","$n_3$","MMB","CV MMB")
+#tab <- xtable(df, digits = c(0,0,0,0,0,0,3), caption = "Population abundances ($\\boldsymbol{n}$) by crab stage in numbers of crab at the time of the survey (1 July, season 1) and mature male biomass (MMB) in tons on 15 February for the reference model.", label = "tab:pop-abundance-base")
+#print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function=function(x){x})
 ```
 
 
