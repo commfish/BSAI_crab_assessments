@@ -626,6 +626,9 @@ write.csv(df3, paste0(here::here(), '/SMBKC/', folder,'/doc/safe_tables/all_parm
 #```{r data_weighting, results = "asis"}
 # updated to work for draft - need to figure out how to get Francis weightings and 
 #   lamdas
+# shorten names for tables
+Mname2 <- c("Ref","VAST","addCVpot", "addCVboth", "qBlock")
+
 df <- NULL
 for (ii in mod_scen)
 {
@@ -644,7 +647,7 @@ for (ii in mod_scen)
   df      <- cbind(df, v)
 }
 df        <- data.frame(rownames(df), df, row.names = NULL)
-names(df) <- c("Component",mod_names[mod_scen])
+names(df) <- c("Component", Mname2) #mod_names[mod_scen])
 write.csv(df, paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/data_weighting.csv'), 
           row.names = FALSE)
 
