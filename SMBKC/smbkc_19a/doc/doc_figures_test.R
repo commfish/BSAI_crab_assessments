@@ -654,6 +654,7 @@ write.csv(df, paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/data_wei
 
 # !!Likelihood components -----------------
 #```{r likelihood_components, results = "asis"}
+Mname2 <- c("Ref","VAST","addCVpot", "addCVboth", "qBlock")
 df <- NULL
 for (ii in mod_scen)
 {
@@ -683,12 +684,12 @@ for (ii in mod_scen)
   df <- cbind(df, v)
 }
 df <- data.frame(rownames(df), df, row.names = NULL)
-names(df) <- c("Component",mod_names[mod_scen])
-write.csv(df, paste0(here::here(), '/SMBKC/smbkc_19/doc/safe_tables/neg_log_like.csv'), 
+names(df) <- c("Component", Mname2) #mod_names[mod_scen])
+write.csv(df, paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/neg_log_like.csv'), 
           row.names = FALSE)
 
-### !!population abundance 2018 model -----------------------
-#```{r pop-abundance-2018, results = "asis"}
+### !!population abundance last years model -----------------------
+#```{r pop-abundance-2019, results = "asis"}
 
 A         <- M[[1]]
 i         <- grep("sd_log_ssb", A$fit$names) #does not have proj value in here
@@ -709,7 +710,7 @@ names(df) <- c("Year","$n_1$","$n_2$","$n_3$","MMB","CV MMB")
 write.csv(df, paste0(here::here(), '/SMBKC/smbkc_19/doc/safe_tables/numbers_last_yrs.csv'), 
           row.names = FALSE)
 
-### !!population abundance 2019 base model -----------------------
+### !!population abundance current year base model -----------------------
 #```{r pop-abundance-2019, results = "asis"}
 A         <- M[[ref_mod]]
 i         <- grep("sd_log_ssb", A$fit$names) #does not have proj value in here
