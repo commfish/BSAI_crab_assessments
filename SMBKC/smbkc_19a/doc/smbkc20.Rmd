@@ -245,7 +245,7 @@ There are no new changes in management of the fishery.
 Data used in this assessment have been updated to include the most recently
 available fishery and survey numbers. This assessment plans to includes of one new
 survey data point - the 2020 NMFS trawl-survey estimate of abudance. 
-The triennial ADF&G pot survey were last conducted in 2018, and are back on a triennial cycle, with the next survey in 2021.  
+The triennial ADF&G pot survey were last conducted in 2018, and are back on a triennial cycle, with the next survey in 2021.
 The NMFS trawl-surveys have associated size
 compositon data. The assessment will also use updated 2010-2019 groundfish and
 fixed gear bycatch estimates based on NMFS Alaska Regional Office (AKRO) data. 
@@ -271,6 +271,7 @@ Details of this implementation and other model details are provided in Appendix 
 Both surveys indicate a decline over the past few years. The "reference" model is that which was selected for use in 2019.
 In fall of 2020 there will be only one new data set to be included so this becomes the updated reference model (model 16.0 ref). 
 One alternative model is presented to explore the use of VAST on estimates of the time series of NOAA trawl survey data (**VAST**).  
+
 Three alternative models are presented to assess sensitivity to the model, attempting to deal with the disparity between the two survey time series. The **add CV pot** configuration estimates an additional CV on the pot survey data, which in turn allows the model to fit the trawl-survey estimates better. The **add CV both** configuration estimates an additional CV on both survey data sets as a sensitivity run to see if these results differ much from the **add CV pot** run. The last alternative model presented **q time block pot** attempts to address CPT and SSC concerns over ADF&G pot survey catchability by creating two time blocks for this survey. The time blocks (1995 - 2013, 2015-2018) were an initial attempt to deal with the idea of a random walk for survey catchability. 
 
 
@@ -291,10 +292,12 @@ Comment: *Regarding general code development, the SSC and CPT outstanding reques
 
 
 Comment: *Regarding potential model scenarios for 2020, the SSC and CPT requests are:*
+    
   1. *Extra CV for both surveys*
+      
   2. *Random walk or exploration of catchability*
-  
-  Model 19.2 has an extra CV for both surveys. Model 19.3 has an initial attempt at dealing with pot survey catchability. More work is most likely needed on this but progress was limited due to unexpected world events.
+    
+    Model 19.2 has an extra CV for both surveys. Model 19.3 has an initial attempt at dealing with pot survey catchability. More work is most likely needed on this but progress was limited due to unexpected world events.
 
 Comment: *Explore potential explanations for the discrepancy in the time trends of the two types of survey data, including movement hypotheses using spatial models (not necessarily VAST)*
   
