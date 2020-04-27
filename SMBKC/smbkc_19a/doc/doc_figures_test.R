@@ -20,6 +20,7 @@ source("./SMBKC/smbkc_19a/doc/gmr_functions2020.R")
 # All model plots  -------------------------
 # first model is reference to previous year
 cur_yr <- 2019 # update annually 
+folder <- "smbkc_19a"
 
 # update model names and file locations
 mod_names <- c("model 16.0", "model 16.0 (ref)", "model 19.1 (VAST)", "model 19.2 (add CV pot)", "model 19.3 (add CV both)", "model 19.4 (q time block pot)") 
@@ -63,6 +64,7 @@ ref_mod <- 1 # base
 rec_mod <- 2 # base
 mod_scen<- 2:6 #scenarios you want graphed together
 mod_scen2 <- c(2, 6)
+mod_scen3 <- 2:5
 
 ww <- 6
 hh <- 5
@@ -566,8 +568,9 @@ df1 %>%
 Parameter <- NULL
 Estimate <- NULL
 Model <- NULL
-Mname <- c("2018", "Ref","FitSurvey","addCVpot", "altregime")
-for (ii in 2:5)
+Mname <- c("last yr", "Ref","VAST","addCVpot", "addCVboth", "qBlock")
+#c("model 16.0", "model 16.0 (ref)", "model 19.1 (VAST)", "model 19.2 (add CV pot)", "model 19.3 (add CV both)", "model 19.4 (q time block pot)") 
+for (ii in 2:6)
 {
   x <- M[[ii]]$fit
   i <- c(grep("m_dev", x$names)[1],
@@ -591,23 +594,35 @@ Parameter <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
                "log Stage-1 NMFS trawl selectivity","log Stage-2 NMFS trawl selectivity",
                "log Stage-1 ADF\\&G pot selectivity","log Stage-2 ADF\\&G pot selectivity")
                #"$F_\\text{OFL}$","OFL")
-Parameter <- c(Parameter, Parameter, Parameter, Parameter) 
+ParameterQ <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
+                "$\\log (\\bar{R})$","$\\log (n^0_1)$","$\\log (n^0_2)$","$\\log (n^0_3)$",
+                "$q_{pot1}$", "$q_{pot2}$","$\\log (\\bar{F}^\\text{df})$","$\\log (\\bar{F}^\\text{tb})$","$\\log (\\bar{F}^\\text{fb})$",
+                "log Stage-1 directed pot selectivity 1978-2008","log Stage-2 directed pot selectivity 1978-2008",
+                "log Stage-1 directed pot selectivity 2009-2017","log Stage-2 directed pot selectivity 2009-2017",
+                "log Stage-1 NMFS trawl selectivity","log Stage-2 NMFS trawl selectivity",
+                "log Stage-1 ADF\\&G pot1 selectivity","log Stage-2 ADF\\&G pot1 selectivity",
+                "log Stage-1 ADF\\&G pot2 selectivity","log Stage-2 ADF\\&G pot2 selectivity")
+Parameter <- c(Parameter, Parameter, Parameter, Parameter, ParameterQ) 
 df1 <- data.frame(Model, Parameter, Estimate)
-
-df2 <- data.frame(Model = c("Ref", "Ref", "FitSurvey", "FitSurvey", "addCVpot", "addCVpot", "altregime", "altregime"),
-                  Parameter = c("$F_\\text{OFL}$","OFL", "$F_\\text{OFL}$","OFL", "$F_\\text{OFL}$","OFL", "$F_\\text{OFL}$","OFL"), 
-                  Estimate = c(M[[ref_mod]]$sd_fofl[1], M[[ref_mod]]$spr_cofl,
+#Mname <- c("last yr", "Ref","VAST","addCVpot", "addCVboth", "qBlock")
+df2 <- data.frame(Model = c("Ref", "Ref", "VAST", "VAST", "addCVpot", "addCVpot", "addCVboth", "addCVboth", "qBlock", "qBlock"),
+                  Parameter = c("$F_\\text{OFL}$","OFL", "$F_\\text{OFL}$","OFL", 
+                                "$F_\\text{OFL}$","OFL", "$F_\\text{OFL}$","OFL", 
+                                "$F_\\text{OFL}$","OFL"), 
+                  Estimate = c(M[[rec_mod]]$sd_fofl[1], M[[rec_mod]]$spr_cofl,
                                 M[[3]]$sd_fofl[1], M[[3]]$spr_cofl, 
                                 M[[4]]$sd_fofl[1], M[[4]]$spr_cofl, 
-                                M[[5]]$sd_fofl[1], M[[5]]$spr_cofl))
+                                M[[5]]$sd_fofl[1], M[[5]]$spr_cofl, 
+                                M[[6]]$sd_fofl[1], M[[6]]$spr_cofl))
 df1 %>% 
   bind_rows(df2) -> df
-df <- tidyr::spread(df, Model, Estimate) %>% dplyr::select(Parameter, Ref, FitSurvey, addCVpot, altregime)
-write.csv(df, paste0(here::here(), '/SMBKC/smbkc_19/doc/safe_tables/all_parms.csv'), 
+df3 <- tidyr::spread(df, Model, Estimate) %>% 
+  dplyr::select(Parameter, Ref, VAST, addCVpot, addCVboth, qBlock)
+write.csv(df3, paste0(here::here(), '/SMBKC/', folder,'/doc/safe_tables/all_parms.csv'), 
           row.names = FALSE)
 ### see chunk in .rmd to bring this file in
 
-## data weighting ---------------------
+## !!data weighting ---------------------
 #```{r data_weighting, results = "asis"}
 # updated to work for draft - need to figure out how to get Francis weightings and 
 #   lamdas
@@ -615,17 +630,22 @@ df <- NULL
 for (ii in mod_scen)
 {
   x       <- M[[ii]]
-  SDNR    <- c(x$sdnr_MAR_cpue[,1], x$sdnr_MAR_lf[,1]); names(SDNR) <- c("SDNR NMFS trawl survey","SDNR ADF\\&G pot survey","SDNR directed pot LF","SDNR NMFS trawl survey LF","SDNR ADF\\&G pot survey LF")
+  SDNR    <- c(x$sdnr_MAR_cpue[,1], 
+               x$sdnr_MAR_lf[,1]); names(SDNR) <- c("SDNR NMFS trawl survey",
+                                                    "SDNR ADF\\&G pot survey",
+                                                    "SDNR directed pot LF",
+                                                    "SDNR NMFS trawl survey LF",
+                                                    "SDNR ADF\\&G pot survey LF")
   MAR     <- c(x$sdnr_MAR_cpue[,2], x$sdnr_MAR_lf[,2]); names(MAR) <- c("MAR NMFS trawl survey","MAR ADF\\&G pot survey","MAR directed pot LF","MAR NMFS trawl survey LF","MAR ADF\\&G pot survey LF")
   #Francis <- x$Francis_weights; names(Francis) <- c("Fancis weight for directed pot LF","Francis weight for NMFS trawl survey LF","Francis weight for ADF\\&G pot survey LF")
-  wt_cpue <- c(ifelse(ii == 3, 1.5,1), ifelse(ii == 3, 2 ,1)); names(wt_cpue) <- c("NMFS trawl survey weight","ADF\\&G pot survey weight")
+  wt_cpue <- c(ifelse(ii == 3, 1,1), ifelse(ii == 3, 1 ,1)); names(wt_cpue) <- c("NMFS trawl survey weight","ADF\\&G pot survey weight")
   wt_lf   <- c(1,1,1); names(wt_lf) <- c("Directed pot LF weight","NMFS trawl survey LF weight","ADF\\&G pot survey LF weight")
   v       <- c(wt_cpue, wt_lf, SDNR, MAR)
   df      <- cbind(df, v)
 }
 df        <- data.frame(rownames(df), df, row.names = NULL)
 names(df) <- c("Component",mod_names[mod_scen])
-write.csv(df, paste0(here::here(), '/SMBKC/smbkc_19/doc/safe_tables/data_weighting.csv'), 
+write.csv(df, paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/data_weighting.csv'), 
           row.names = FALSE)
 
 
