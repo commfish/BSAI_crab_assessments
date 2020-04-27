@@ -135,11 +135,11 @@ plot_datarangeSM(M[rec_mod]) # see gmr_functions2020.R
 #     and 2 will be smbkc_20/model_1 
 plot_cpue(M[2], "NMFS Trawl", ylab = "Survey biomass (t)")
 #plot_cpue(M[1:2], "NMFS Trawl", ylab = "Survey biomass (t)") 
-ggsave(paste0(.FIGS, "trawl_cpue_ref.png"), width = ww*1.25, height = hh*.9)
+ggsave(paste0(.FIGS, "trawl_cpue_ref.png"), width = ww*1.08, height = hh*.9)
 
 plot_cpue(M[2], "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
 #plot_cpue(M[1:2], "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
-ggsave(paste0(.FIGS, "pot_cpue_ref.png"), width = ww*1.5, height = hh)
+ggsave(paste0(.FIGS, "pot_cpue_ref.png"), width = ww*1.08, height = hh)
 
 plot_cpue(M[2])
 ggsave(paste0(.FIGS, "cpue_ref_both.png"), width = ww*2.5, height = hh)
@@ -156,7 +156,7 @@ for (i in c(2)) {
 plot_recruitment(A[1:2]) # does not include recent recruitment - for comparison
 plot_recruitment(M[1:2])
 #plot_recruitment(M[1:2]) **FIX** determine which one of the above to use with new data?
-ggsave(paste0(.FIGS, "recruit_ref.png"), width = ww*1.5, height = hh)
+ggsave(paste0(.FIGS, "recruit_ref.png"), width = ww*1.08, height = hh)
 
 ## !!fishing mortality ------
 #plot_F(M[2]) **FIX** bring in this from model 1 for now.
@@ -289,11 +289,11 @@ dev.off()
 #"Comparisons of the estimated stage-1 and stage-2 selectivities for the different model scenarios (the stage-3 selectivities are all fixed at 1). Estimated selectivities are shown for the directed pot fishery, the trawl bycatch fishery, the fixed bycatch fishery, the NMFS trawl survey, and the ADF&G pot survey. Two selectivity periods are estimated in the directed pot fishery, from 1978-2008 and 2009-2017.\\label{fig:selectivity}", fig.height = 15}
 plot_selectivity(M[2:5]) 
 #plot_selectivity(M[2])
-ggsave(paste0(.FIGS, "selectivity_mod_scen.png"), width = ww*1.5, height = 1.1*hh)
+ggsave(paste0(.FIGS, "selectivity_mod_scen.png"), width = ww*1.20, height = 1.1*hh)
 
 #plot_selectivity(M[mod_scen2])
 plot_selectivity(M[6])
-ggsave(paste0(.FIGS, "selectivity_q_timeblock.png"), width = ww*1.5, height = 0.5*hh)
+ggsave(paste0(.FIGS, "selectivity_q_timeblock.png"), width = ww*1.20, height = 0.5*hh)
 ## ** FIX ** display is not good.
 
 ## !!recruitment mod scen ----------------
@@ -306,7 +306,7 @@ ggsave(paste0(.FIGS, "selectivity_q_timeblock.png"), width = ww*1.5, height = 0.
 #}
 #plot_recruitment(A[mod_scen])
 plot_recruitment(M[mod_scen])
-ggsave(paste0(.FIGS, "recruit_mod_scen.png"), width = ww*1.5, height = hh)
+ggsave(paste0(.FIGS, "recruit_mod_scen.png"), width = ww*1.20, height = hh)
 
 # !!recruit ribbons -------------
 rec <- .get_recruitment_df(M[mod_scen])
@@ -344,7 +344,7 @@ rec %>%
              color = Model)) +
   #geom_text(data = avgR_options, aes(x= 1980, y = meanR, label = years), 
   #          hjust = -2.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) 
-ggsave(paste0(.FIGS, "recruitment_mod_scen_ribbons.png"), width = 1.5*ww, height = hh)
+ggsave(paste0(.FIGS, "recruitment_mod_scen_ribbons.png"), width = 1.20*ww, height = hh)
 dev.off()
 
 # ssb mod scen ---------------
