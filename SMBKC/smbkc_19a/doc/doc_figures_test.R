@@ -63,8 +63,8 @@ rinline <- function(code){
 ref_mod <- 1 # base
 rec_mod <- 2 # base
 mod_scen<- 2:6 #scenarios you want graphed together
-mod_scen2 <- c(2, 6)
-mod_scen3 <- 2:5
+mod_scen2 <- c(2, 6) # base model and q time block
+mod_scen3 <- 2:5 # without q time block
 
 ww <- 6
 hh <- 5
@@ -433,6 +433,25 @@ ggsave(paste0(.FIGS, "mod_scen_M_t.png"), width = 1.25*ww, height = hh)
 #{r trawl_survey_biomass, fig.cap = "Comparisons of area-swept estimates of total (90+ mm CL) male survey biomass (tons) and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations.\\label{fig:trawl_survey_biomass}"} 
 plot_cpue(M[c(mod_scen)],  "NMFS Trawl", ylab = "NMFS survey biomass (t)")
 ggsave(paste0(.FIGS, "trawl_biomass_mod_scen.png"), width = ww*1.10, height = 1.1*hh)
+
+plot_cpue2(M[mod_scen], "NMFS Trawl", ylab = "NMFS survey biomass (t)", 
+           vastdata = TRUE, vastm = "model 19.1 (VAST)")
+ggsave(paste0(.FIGS, "trawl_biomass_mod_scen2.png"), width = ww*1.10, height = 1.1*hh)
+
+plot_cpue2(M[2:3],  "NMFS Trawl", ylab = "NMFS survey biomass (t)", 
+           vastdata = TRUE, vastm = "model 19.1 (VAST)")
+ggsave(paste0(.FIGS, "trawl_biomass_base_vast.png"), width = ww*1.20, height = 1.1*hh)
+
+plot_cpue3(M[2:3],  "NMFS Trawl", ylab = "NMFS survey biomass (t)", 
+           vastdata = TRUE, vastm = "model 19.1 (VAST)")
+plot_cpue3(M[mod_scen],  "NMFS Trawl", ylab = "NMFS survey biomass (t)", 
+           vastdata = TRUE, vastm = "model 19.1 (VAST)")
+ggsave(paste0(.FIGS, "trawl_biomass_mod_scen3.png"), width = ww*1.10, height = 1.1*hh)
+
+plot_cpue(M[c(2, 4:6)],  "NMFS Trawl", ylab = "NMFS survey biomass (t)")
+ggsave(paste0(.FIGS, "trawl_biomass_mod_scen_WO_vast.png"), width = ww*1.10, height = 1.1*hh)
+
+
 
 #!! pot survey -------
 #{r pot_survey_cpue, fig.cap = "Comparisons of total (90+ mm CL) male pot survey CPUEs and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations.\\label{fig:pot_survey_cpue}"}
