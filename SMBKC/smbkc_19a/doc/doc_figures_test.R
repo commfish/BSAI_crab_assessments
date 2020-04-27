@@ -293,7 +293,7 @@ ggsave(paste0(.FIGS, "selectivity_mod_scen.png"), width = ww*1.20, height = 1.1*
 
 #plot_selectivity(M[mod_scen2])
 plot_selectivity(M[6])
-ggsave(paste0(.FIGS, "selectivity_q_timeblock.png"), width = ww*1.20, height = 0.5*hh)
+ggsave(paste0(.FIGS, "selectivity_q_timeblock.png"), width = ww*1.20, height = 0.275*hh)
 ## ** FIX ** display is not good.
 
 ## !!recruitment mod scen ----------------
@@ -417,7 +417,7 @@ ssb2 %>%
   #ggtitle("Base model - model 1 (Model 3 2018)") +
   ylab("Mature male biomass (tons) on 15 February") + xlab("Year") +
   .THEME
-ggsave(paste0(.FIGS, "mod_scen_ssb_wprojected_yr.png"), width = ww*1.25, height = hh)
+ggsave(paste0(.FIGS, "mod_scen_ssb_wprojected_yr.png"), width = ww*1.18, height = hh)
 ggsave(paste0(.FIGS, "PRESENTATION_mod_scen_ssb_wprojected_yr.png"), width = ww*1.5, height = hh)
 
 
@@ -432,12 +432,12 @@ ggsave(paste0(.FIGS, "mod_scen_M_t.png"), width = 1.25*ww, height = hh)
 #!! trawl survey -----------
 #{r trawl_survey_biomass, fig.cap = "Comparisons of area-swept estimates of total (90+ mm CL) male survey biomass (tons) and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations.\\label{fig:trawl_survey_biomass}"} 
 plot_cpue(M[c(mod_scen)],  "NMFS Trawl", ylab = "NMFS survey biomass (t)")
-ggsave(paste0(.FIGS, "trawl_biomass_mod_scen.png"), width = ww*1.5, height = 1.1*hh)
+ggsave(paste0(.FIGS, "trawl_biomass_mod_scen.png"), width = ww*1.10, height = 1.1*hh)
 
 #!! pot survey -------
 #{r pot_survey_cpue, fig.cap = "Comparisons of total (90+ mm CL) male pot survey CPUEs and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations.\\label{fig:pot_survey_cpue}"}
 plot_cpue(M[c(mod_scen)],  "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
-ggsave(paste0(.FIGS, "pot_cpue_mod_scen.png"), width = ww*1.5, height = hh)
+ggsave(paste0(.FIGS, "pot_cpue_mod_scen.png"), width = ww*1.10, height = hh)
 
 # additional CV on pot survey fix --------
 # **FIX** in .tpl - below from Jie but not working...
@@ -457,14 +457,14 @@ for (i in 1:11)
 # !!add cv on pot survey -----------
 #plot_cpue(M[4],  ShowEstErr = TRUE, "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
 plot_cpue(M[4],  ShowEstErr = TRUE,"ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
-ggsave(paste0(.FIGS, "pot_cpue_addcv.png"), width = ww*1.5, height = hh)
+ggsave(paste0(.FIGS, "pot_cpue_addcv.png"), width = ww*1.10, height = hh)
 
 plot_cpue(M[4:5],  ShowEstErr = TRUE,"ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
-ggsave(paste0(.FIGS, "pot_cpue_addcv_models2and3.png"), width = ww*1.5, height = hh)
+ggsave(paste0(.FIGS, "pot_cpue_addcv_models2and3.png"), width = ww*1.10, height = hh)
 
-##catch --------
+##!!catch --------
 plot_catch(M[2])
-ggsave(paste0(.FIGS, "catch.png"), width = ww*1.2, height = hh*1.2)
+ggsave(paste0(.FIGS, "catch.png"), width = ww*1.02, height = hh*1.2)
 #dev.off()
 
 #plot_catch(M[mod_scen]) # to confusing but run for comparison
@@ -474,12 +474,12 @@ ggsave(paste0(.FIGS, "catch.png"), width = ww*1.2, height = hh*1.2)
 #A <- M[mod_scen];
 #plot_cpue_res(A, "NMFS Trawl")
 plot_cpue_res(M[mod_scen], "NMFS Trawl")
-ggsave(paste0(.FIGS, "trawl_biomass_mod_scen_residuals.png"), width = ww*1.5, height = 1.1*hh)
+ggsave(paste0(.FIGS, "trawl_biomass_mod_scen_residuals.png"), width = ww*1.20, height = 1.1*hh)
 
 #!! pot_res --------
 #{r bts_resid_adfg, fig.cap = "Standardized residuals for total male pot survey CPUEs for each of the Gmacs model scenarios.\\label{fig:bts_resid_adfg}"}
 plot_cpue_res(M[mod_scen], "ADF&G Pot")
-ggsave(paste0(.FIGS, "pot_cpue_mod_scen_residuals.png"), width = ww*1.5, height = 1.1*hh)
+ggsave(paste0(.FIGS, "pot_cpue_mod_scen_residuals.png"), width = ww*1.20, height = 1.1*hh)
 
 ## !!size comps ---------------
 ## !!!!!!!!!!!!! load my functions file here
@@ -503,19 +503,19 @@ ggsave(paste0(.FIGS, "lf_4.png"), width = 8.5, height = 5, unit = "in")
 
 #!! size comp residuals -------
 plot_size_comps_res(M[rec_mod])
-ggsave(paste0(.FIGS, "ref_mod_size_comp_residuals.png"), width = ww*1.5, height = 1.1*hh)
+ggsave(paste0(.FIGS, "ref_mod_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
 
 plot_size_comps_res(M[3])
-ggsave(paste0(.FIGS, "VAST_size_comp_residuals.png"), width = ww*1.5, height = 1.1*hh)
+ggsave(paste0(.FIGS, "VAST_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
 
 plot_size_comps_res(M[4])
-ggsave(paste0(.FIGS, "addCV_size_comp_residuals.png"), width = ww*1.5, height = 1.1*hh)
+ggsave(paste0(.FIGS, "addCV_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
 
 plot_size_comps_res(M[5])
-ggsave(paste0(.FIGS, "addcvBoth_size_comp_residuals.png"), width = ww*1.5, height = 1.1*hh)
+ggsave(paste0(.FIGS, "addcvBoth_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
 
 plot_size_comps_res(M[6])
-ggsave(paste0(.FIGS, "qblock_size_comp_residuals.png"), width = ww*1.5, height = 1.5*hh)
+ggsave(paste0(.FIGS, "qblock_size_comp_residuals.png"), width = ww*1.20, height = 1.5*hh)
 
 # !!dynamic Bzero ----------------------
 #{r Dynamic_Bzero, fig.cap = "Comparisons of mature male biomass relative to the dynamic $B_0$ value, (15 February, 1978-2018) for  each of the model scenarios.\\label{fig:dynB0}"}
