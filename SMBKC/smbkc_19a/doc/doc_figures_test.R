@@ -690,14 +690,14 @@ write.csv(df, paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/neg_log_
 
 ### !!population abundance last years model -----------------------
 #```{r pop-abundance-2019, results = "asis"}
-
 A         <- M[[1]]
 i         <- grep("sd_log_ssb", A$fit$names) #does not have proj value in here
 SD        <- A$fit$std[i]
 tl        <- length(A$mod_yrs)
 
 # ssb current year uncertainty
-un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_18a/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
+#un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_18a/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
+un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
 
 
 years = c(as.integer(A$mod_yrs[1:tl]), A$mod_yrs[tl]+1)
@@ -707,7 +707,7 @@ ssb_cv = c((exp(SD[1:tl])-1), (exp(un_ssb2$CV_ssb)-1))
 df        <- data.frame(years, A$N_males[ ,1], A$N_males[ ,2], 
                         A$N_males[ ,3], ssb, ssb_cv)
 names(df) <- c("Year","$n_1$","$n_2$","$n_3$","MMB","CV MMB")
-write.csv(df, paste0(here::here(), '/SMBKC/smbkc_19/doc/safe_tables/numbers_last_yrs.csv'), 
+write.csv(df, paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/numbers_last_yrs.csv'), 
           row.names = FALSE)
 
 ### !!population abundance current year base model -----------------------
