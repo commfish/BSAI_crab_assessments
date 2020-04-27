@@ -158,6 +158,7 @@ ggsave(paste0(.FIGS, "recruit_ref.png"), width = ww*1.5, height = hh)
 
 ## !!fishing mortality ------
 #plot_F(M[2]) **FIX** bring in this from model 1 for now.
+plot_F(M[mod_scen])
 plot_F(Mbase)
 plot_F2(M[2]) # 
 ggsave(paste0(.FIGS, "fishing_mortality.png"), width = ww*1.5, height = hh)
