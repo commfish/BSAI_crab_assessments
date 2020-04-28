@@ -27,7 +27,7 @@ options(xtable.comment = FALSE)
 ## run code in that R file with !! to get table and figure input here
 # the model specs
 folder <- "smbkc_19a"
-mod_names <- c("model 16.0", "model 16.0 (ref)", "model 19.1 (VAST))", "model 19.2 (add CV pot)", "model 19.3 (add CV both)", "model 19.4 (q time block pot)") 
+mod_names <- c("model 16.0", "model 16.0 (ref)", "model 19.1 (VAST)", "model 19.2 (add CV pot)", "model 19.3 (add CV both)", "model 19.4 (q time block pot)") 
 .MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_19/model_1/"), 
               paste0(here::here(), "/SMBKC/smbkc_19a/model_1/"),
               paste0(here::here(), "/SMBKC/smbkc_19a/model_4/"), 
@@ -272,7 +272,7 @@ Both surveys indicate a decline over the past few years. The "reference" model i
 In fall of 2020 there will be only one new data set to be included so this becomes the updated reference model (model 16.0 ref). 
 One alternative model is presented to explore the use of VAST on estimates of the time series of NOAA trawl survey data (**VAST**).  
 
-Three alternative models are presented to assess sensitivity to the model, attempting to deal with the disparity between the two survey time series. The **add CV pot** configuration estimates an additional CV on the pot survey data, which in turn allows the model to fit the trawl-survey estimates better. The **add CV both** configuration estimates an additional CV on both survey data sets as a sensitivity run to see if these results differ much from the **add CV pot** run. The last alternative model presented **q time block pot** attempts to address CPT and SSC concerns over ADF&G pot survey catchability by creating two time blocks for this survey. The time blocks (1995 - 2013, 2015-2018) were an initial attempt to deal with the idea of a random walk for survey catchability. 
+Three alternative models are presented to assess sensitivity to the model, attempting to deal with the disparity between the two survey time series. The **add CV pot** configuration estimates an additional CV on the pot survey data, which in turn allows the model to fit the trawl-survey estimates better. The **add CV both** configuration estimates an additional CV on both survey data sets as a sensitivity run to see if these results differ much from the **add CV pot** run. The last alternative model presented **q time block pot** attempts to address CPT and SSC concerns over ADF&G pot survey catchability by creating two time blocks for this survey. The time blocks (1995 - 2013, 2015-2018) were an initial attempt to deal with the idea of a random walk for survey catchability. Other sensitivities were explored, including estimating both the trawl survey and pot survey catchability, but are not reported here due to insignificant findings.
 
 
 # B. Responses to SSC and CPT  {-}
@@ -294,10 +294,12 @@ Comment: *Regarding general code development, the SSC and CPT outstanding reques
 Comment: *Regarding potential model scenarios for 2020, the SSC and CPT requests are:*
     
   1. *Extra CV for both surveys*
+  
+    Model 19.3 has an extra CV for both surveys, for comparison to Model 19.2 with only an additional CV on the pot survey.
       
   2. *Random walk or exploration of catchability*
     
-     Model 19.2 has an extra CV for both surveys. Model 19.3 has an initial attempt at dealing with pot survey catchability. More work is most likely needed on this but progress was limited due to unexpected world events.
+     Model 19.4 has an initial attempt at dealing with pot survey catchability by applying time blocks to q for the pot survey. More work is most likely needed on this but progress was limited due to unexpected world events.
 
 Comment: *Explore potential explanations for the discrepancy in the time trends of the two types of survey data, including movement hypotheses using spatial models (not necessarily VAST)*
   
@@ -495,20 +497,20 @@ the ADF&G pot survey, or fit post 2005 trawl survey data points well.
 ### b. Effective sample sizes and weighting factors {-}
 Observed and estimated effective sample sizes are compared in Table \@ref(tab:effn). 
 Data weighting factors, standard deviation of normalized residuals (SDNRs), and median absolute residual (MAR) are 
-presented in Table \@ref(tab:data-weighting). The SDNR for the trawl survey
-is acceptable at 1.66 in the reference model. Francis (2011) weighting was applied in 2017
-but given the relatively few size
-bins in this assessment, this application was suspended this year.  
-**update**The SDNRs for the pot surveys show a similar pattern in each of the
+presented in Table \@ref(tab:data-weighting). 
+Currently the SDNR and MAR are not outputting correctly for the survey data in GMACS.  This will be fixed before the Sept. 2020 meeting. 
+In Sept. 2019 the SDNR for the trawl survey
+was acceptable at 1.66 in the reference model. Francis (2011) weighting was applied in 2017 but given the relatively few size bins in this assessment, this application was suspended this year.  
+In Sept. 2019 the SDNRs for the pot surveys showed a similar pattern in each of the
 scenarios, but are much higher suggesting an inconsistency between 
 the pot survey data and the model structure and other data
 components. Rather than re-weighting, we chose to retain the values 
 as specified, noting that down-weighting these data would effectively 
 exclude the signal from this series. 
-The MAR values for the trawl and pot surveys shows the same pattern among each of the
+The MAR values for the trawl and pot surveys showed the same pattern among each of the
 scenarios as the SDNR. The MAR values for the trawl survey and pot survey size compositions were relatively good,
-ranging from 0.60 to 0.65 for the reference case.
-The SDNRs for the directed pot fishery and other size compositions were  similar to previous estimates.
+ranging from 0.60 to 0.68 for the reference case.
+The SDNRs for the directed pot fishery and other size compositions were similar to previous estimates.
 
 ### c. Parameter estimates {-}
 Model parameter estimates for each of the Gmacs scenarios are summarized in Tables \@ref(tab:est-pars-ref),
@@ -559,20 +561,18 @@ Completion of a retrospective analysis, for at least the base model, is anticipa
 Estimated standard deviations of parameters and selected management measures for the models are summarized in
 Tables \@ref(tab:est-pars-ref), \@ref(tab:est-pars-3), \@ref(tab:est-pars-4), 
 \@ref(tab:est-pars-5), and \@ref(tab:est-pars-6),
-(compiled in Table \@ref(tab:est-pars-all)). Model estimates of mature male biomass and OFL in 2019 are
-presented in Section F.
+(compiled in Table \@ref(tab:est-pars-all)). Model estimates of mature male biomass and OFL in 2019 are presented in Section F.
 
 ### g. Comparison of alternative model scenarios.{-}
-**update**The estimates of mature male biomass (Figure \@ref(fig:mmb)), for the **fit survey** sensitivity 
-differs from the other models due to a low value for pot survey catchability being estimated (which tends to scale the population estimate). Difference in the mature male biomass since 2010 in the **add CV pot** model are due to the model following the trajectory of the trawl survey and downweighting the declines in the pot survey. 
-The **fit Survey** scenario upweights both the trawl and pot surveys abundance indices and represents a model run
-that places greater emphasis on the abundance indices.
-The **add CV pot** scenario places more emphasis on the trawl survey, essentially ignoring the pot survey results in more recent years (since 2010). 
+The estimates of mature male biomass (Figure \@ref(fig:mmb)) for the additional CV models differs from the other models due to a low value for pot survey catchability being estimated (which tends to scale the population estimate). 
+Difference in the mature male biomass since 2010 in the these models (19.2 and 19.3) are due to the model overfitting the trajectory of the trawl survey and downweighting the declines in the pot survey (Figure \@ref(fig:trawl-survey-biomass-wovast). 
+The **VAST** scenario generally has high mature male biomass estimates since the early 90s, which would be expected since the trawl survey biomass estimates generated from VAST are larger in the 90s and 2000s (Figure \@ref(fig:trawl-survey-biomass-base-vast)).
+The VAST model trawl survey biomass fit also captures the 90s survey data more closey than the reference model. 
+The **q block pot** fits the mature male biomass very similarly to the reference model, which is expected since they both fit the survey data similarly. The addition of a time block for recent years of the pot survey does not appear to improve model fit to this survey or change the fit overall. 
 
-In summary, the use of the reference model for management purposes is preferred since it provides the best fit to all 
-of the data and is consistent with previous model specifications.  Research on alternative model specifications (e.g., natural mortality variability) was limited this year since the authors were focused on the time frame to estimate reference points and rebuilding projections (Appendix C). 
-Consequently, the reference model appears reasonable and appropriate for ABC and OFL  determinations for this stock in
-2019. Additionally, the **fit surveys** and the **add CV pot** models provide conflicting conditions of this stock depending on which survey results are more believable. These conflicting results, in addition to the stock being in a overfished state, should highlight the caution needed providing management advice.
+In summary, these model scenarios were provided to explore the sensitivity of this model. Currently, the reference model is still the most appropriate model for settting reference points and model specifications. 
+Research on alternative model specifications that may address the disparities between the trawl and pot survey data are ongoing, as is proposed spatial analyses of these data sets. 
+Additionally, the overfished status of this stock lends itself to maintaining the status quo base model until an appropriate resolute is found to deal with the trawl and pot survey data fit issues.
 
 # F. Calculation of the OFL and ABC{-}
 The overfishing level (OFL) is the fishery-related mortality biomass associated with fishing mortality $F_\mathit{OFL}$. The SMBKC stock is currently managed as Tier 4, and only a Tier 4 analysis is presented here. Thus, given stock estimates or suitable proxy values of $B_\mathit{MSY}$ and $F_\mathit{MSY}$, along with two additional parameters $\alpha$ and $\beta$, $F_\mathit{OFL}$ is determined by the control rule
@@ -623,7 +623,7 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 
 # G. Rebuilding Analysis {-}
 
-This stock was declared overfished in fall of 2018 and a rebuilding plan was under initial review by the NPFMC in December 2019. The rebuilding plan is scheduled for final review during the June 2020 NPFMC meeting. 
+This stock was declared overfished in fall of 2018 and a rebuilding plan was under initial review by the NPFMC in December 2019. The rebuilding plan is scheduled for final review during the June 2020 NPFMC meeting. The most updated rebuilding plan can be found on the NPFMC website for the upcoming June 2020 meeting.
 
 
 # H. Data Gaps and Research Priorities {-}
@@ -639,8 +639,8 @@ The following topics have been listed as areas where more research on SMBKC is n
   4. Natural mortality.
 
 # I. Projections and outlook {-}
-**update**The outlook for recruitment is pessimistic and the abundance relative to the proxy $B_\mathit{MSY}$ is low. 
-The NMFS survey results in 2018 noted ocean conditions warmer than 
+The outlook for recruitment is pessimistic and the abundance relative to the proxy $B_\mathit{MSY}$ is low. 
+The NMFS survey results in 2019 noted ocean conditions warmer than 
 normal with an absence of a "cold pool" in the region. This could have detrimental effects on the SMBKC stocks and
 should be carefully monitored. Relative to the impact of historical fishing, we again conducted a
  "dynamic-$B_0$" analysis. This procedure simply projects
@@ -1153,7 +1153,8 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 # updated to work for draft - need to figure out how to get Francis weightings and 
 #   lamdas
 df <- read.csv(paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/data_weighting.csv'))
-names(df) <- c("Component",mod_names[mod_scen])
+Mname2 <- c("Ref","VAST","addCVpot", "addCVboth", "qBlock")
+names(df) <- c("Component", Mname2)
 tab       <- xtable(df, caption = "Comparisons of data weights, SDNR and MAR (standard deviation of normalized residuals and median absolute residual) values for the model scenarios.", label = "tab:data-weighting")
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,5,10,nrow(tab)))
 ```
