@@ -18,7 +18,7 @@ source("./SMBKC/code/functions.R")
 source("./SMBKC/code/helper.R") 
 source("./SMBKC/smbkc_19a/doc/gmr_functions2020.R") 
 
-# All model plots  -------------------------
+# ALL Model setup  -------------------------
 # first model is reference to previous year
 cur_yr <- 2019 # update annually 
 folder <- "smbkc_19a" # update annually 
@@ -70,6 +70,50 @@ mod_scen3 <- 2:5 # without q time block
 ww <- 6
 hh <- 5
 
+## FIGURES ===================================
+## data extent -----------
+plot_datarange(M[ref_mod])
+plot_datarangeSM(M[rec_mod]) # see gmr_functions2020.R
+
+# had to save manually because I can't get this call to work...**FIX
+
+##!! fig 6/7 Last year's model compared to reference model --------
+# for final doc will be models 1 and 2, 1 will be updated to be smbkc_19a/model_1 
+#     and 2 will be smbkc_20/model_1 
+plot_cpue(M[2], "NMFS Trawl", ylab = "Survey biomass (t)")
+#plot_cpue(M[1:2], "NMFS Trawl", ylab = "Survey biomass (t)") 
+ggsave(paste0(.FIGS, "trawl_cpue_ref.png"), width = ww*1.08, height = hh*.9)
+
+plot_cpue(M[2], "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
+#plot_cpue(M[1:2], "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
+ggsave(paste0(.FIGS, "pot_cpue_ref.png"), width = ww*1.08, height = hh)
+
+plot_cpue(M[2])
+ggsave(paste0(.FIGS, "cpue_ref_both.png"), width = ww*2.5, height = hh)
 
 
+
+
+
+
+
+### Sensitivity of new data in 2018 on estimated recruitment ; 1978-2018
+## !!recruit - ref to base ----------------------------
+A <- M
+for (i in c(2)) {
+  ii <- which(A[[i]]$fit$names %in% "sd_log_recruits"); ii <- ii[length(ii)]
+  A[[i]]$fit$est[ii] <- NA
+  A[[i]]$fit$std[ii] <- NA
+}
+plot_recruitment(A[1:2]) # does not include recent recruitment - for comparison
+plot_recruitment(M[1:2])
+#plot_recruitment(M[1:2]) **FIX** determine which one of the above to use with new data?
+ggsave(paste0(.FIGS, "recruit_ref.png"), width = ww*1.08, height = hh)
+
+## !!fishing mortality ------
+#plot_F(M[2]) **FIX** bring in this from model 1 for now.
+#plot_F(M[mod_scen])
+plot_F(Mbase)
+plot_F2(M[2]) # 
+ggsave(paste0(.FIGS, "fishing_mortality.png"), width = ww*1.5, height = hh)
 
