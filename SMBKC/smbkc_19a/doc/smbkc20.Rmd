@@ -530,26 +530,30 @@ variable over time for all models and in recent years is well below average (Fig
 mature male biomass on 15 February also fluctuates considerably (Figure \@ref(fig:mmb)). Also here the models that include an extra CV for the pot survey have much higher recent mature male biomass estimates. Model 19.1, which uses the VAST estimates of the NOAA trawl survey data, generally follows the same trends as the base model but has a greater magnitude of mmb since the 1990s, this is also reflected in larger overall recruitment. Estimated natural mortality in each
 year ($M_t$) is presented in Figure \@ref(fig:M-t), showing the mortality event in the late 90s.
 
-Estimates of fishing morality, from the reference model, are shown to assist with the rebuilding and reference point time frame discussions (Figure \@ref(fig:fishing-mort)). Fishing mortality can not be ruled out as being an influential factor in the current stock status.
+Estimates of fishing morality, from the reference model (16.0), are shown to assist with the rebuilding and reference point time frame discussions (Figure \@ref(fig:fishing-mort)). Fishing mortality can not be ruled out as being an influential factor in the current stock status.
 
 ### d. Evaluation of the fit to the data.{-}
-**update**The model fits to total male ($\ge$ 90 mm CL) trawl survey biomass tend to miss the recent peak around 2010, and fits recent survey data points on the lower end of their error bars (Figures \@ref(fig:trawl-survey-biomass)). These fits are most likely being pulled down by the recent decline in the ADF&G pot survey data points, since the **add CV pot** model captures the upward error bars for these data points when it is allowed to fit the ADF&G pot survey data very poorly.
-All of the models fit the pot survey CPUE poorly (Figure \@ref(fig:pot-survey-cpue)), with the **add CV pot** model having the worst fit due to the addition of variability (Figure \@ref(fig:pot-add-cv)). For the trawl survey the standardized residuals have similar patterns with the exception of recent years for the **add CV pot** model (19.2), generally poor fit to the last 15 years of data (Figure \@ref(fig:bts-resid-nmfs)). The standardized residuals for the ADF&G pot survey have similar patterns but are much larger for the "add CV pot" model than the others, for obvious reasons (Figure \@ref(fig:bts-resid-adfg)).
+The model fits to total male ($\ge$ 90 mm CL) trawl survey biomass tend to miss the recent peak around 2010, and fits recent survey data points on the lower end of their error bars (Figures \@ref(fig:trawl-survey-biomass)). 
+These fits are most likely being pulled down by the recent decline in the ADF&G pot survey data points, since the **add CV pot** and the **add CV both** models captures the upward error bars for these data points when it is allowed to fit the ADF&G pot survey data very poorly. 
+However, these two models tend to overfit the recent trawl survey data points (Figure \@ref(fig:trawl-survey-biomass-wovast)).
+
+The VAST model estimates tend to be higher than the traditional trawl surey estimates, but also miss the up tick around 2010, however this model tends to fit the recent survey years more fairly (Figure \@ref(fig:trawl-survey-biomass-base-vast) and \@ref(fig:surv1-vast)). The reference model is biased low in recent years, while the additional CV models are biased high. 
+
+All of the models fit the pot survey CPUE poorly (Figure \@ref(fig:pot-survey-cpue)), with the **add CV pot** and **add CV both** models having the worst fit due to the addition of variability (Figure \@ref(fig:pot-add-cv)). 
+
+For the trawl survey the standardized residuals have similar patterns with the exception of recent years for the **add CV pot** and **add CV both** models (19.2, 19.3), generally poor fit to the last 15 years of data (Figure \@ref(fig:bts-resid-nmfs)). The standardized residuals for the ADF&G pot survey have similar patterns but are much larger for the additional CV models than the others, for obvious reasons (Figure \@ref(fig:bts-resid-adfg)).
 
 Fits to the size compositions for trawl survey, pot survey, and commercial observer data are reasonable but miss the largest
 size category in some years (Figures \@ref(fig:sc-pot), \@ref(fig:sc-pot-discarded), and \@ref(fig:sc-trawl-discarded)) 
-for all scenarios. Representative residual  plots of the composition data fits are generally poor (Figures \@ref(fig:sc-res-ref), \@ref(fig:sc-res-fit) and \@ref(fig:sc-res-addcv)).
+for all scenarios. Representative residual  plots of the composition data fits are generally poor (Figures \@ref(fig:sc-res-ref), \@ref(fig:sc-res-vast),  \@ref(fig:sc-res-addcv), \@ref(fig:sc-res-addcvboth), and \@ref(fig:sc-res-qblock)).
 The model fits to different types of retained and discarded catch values performed as expected given the assumed levels
-of uncertainty on the input data (Figure  \@ref(fig:fit-to-catch)).
+of uncertainty on the input data (Figure \@ref(fig:fit-to-catch)).
 
-Unsurprisingly, the **fit surveys** model fits the 
-the NMFS survey biomass and ADF&G pot survey CPUE  data better but still has a similar residual pattern
-(Figures \@ref(fig:trawl-survey-biomass) and \@ref(fig:pot-survey-cpue)). 
-It is worth noting that that this scenario (included for exploratory purposes) resulted in worse SDNR and MAR values for the two abundance indices.
 
 ### e. Retrospective and historical analyses {-}
 This is only the third year a formal assessment model developed for this stock. As such, retrospective patterns and 
-historical analyses relative to fisheries impacts are limited. Completion of a retrospective analysis is anticipated to be presented in Sept. 2020.
+historical analyses relative to fisheries impacts are limited. 
+Completion of a retrospective analysis, for at least the base model, is anticipated to be presented in Sept. 2020.
 
 ### f. Uncertainty and sensitivity analyses.{-}
 Estimated standard deviations of parameters and selected management measures for the models are summarized in
@@ -691,7 +695,7 @@ Otto, R.S. 1990. An overview of eastern Bering Sea king and Tanner crab fisherie
 
 Otto, R.S., and P.A. Cummiskey. 1990. Growth of adult male blue king crab (*Paralithodes platypus*). Pages 245-258 [In] Proceedings of the international symposium on king and Tanner crabs. University of Alaska Fairbanks, Alaska Sea Grant Report 90-4, Fairbanks.
 
-Palof, K.J. **update**
+Palof, K.J., J. Zheng, and Ianelli, J., 2019. Stock assessment of Saint Matthews Island blue king crab. North Pacific Fishery Management Council. Anchorage AK.
 
 Paul, J.M., A. J. Paul, R.S. Otto, and R.A. MacIntosh. 1991. Spermatophore presence in relation to carapace length for eastern Bering Sea blue king crab (*Paralithodes platypus*, Brandt, 1850) and red king crab (*P. camtschaticus*, Tilesius, 1815). J. Shellfish Res. 10: 157-163.
 
@@ -988,7 +992,7 @@ df2 <- data.frame(Parameter = c("$F_\\text{OFL}$","OFL"),
                   SD = c(0.005473, 9.2544)) # directly from gmacs.std file **FIX**
 df1 %>% 
   bind_rows(df2) -> df
-tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the reference (19.0) model.", label = "tab:est-pars-ref", digits = 3)
+tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the reference (16.0) model.", label = "tab:est-pars-ref", digits = 3)
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
 ```
 
@@ -1022,7 +1026,7 @@ df2 <- data.frame(Parameter = c("$F_\\text{OFL}$","OFL"),
                   SD = c(0.0000, 0.17539)) # directly from gmacs.std file **FIX**)
 df1 %>% 
   bind_rows(df2) -> df
-tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the 'fit surveys' (19.1) model.", label = "tab:est-pars-3", digits = 3)
+tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the 'VAST' (19.1) model.", label = "tab:est-pars-3", digits = 3)
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
 ```
 
@@ -1095,7 +1099,7 @@ df2 <- data.frame(Parameter = c("$F_\\text{OFL}$","OFL"),
                   SD = c(0.017538, 99.801)) # directly from gmacs.std file **FIX**)
 df1 %>% 
   bind_rows(df2) -> df
-tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the 'add CV both' (19.3) model.", label = "tab:est-pars-4", digits = 3)
+tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the 'add CV both' (19.3) model.", label = "tab:est-pars-5", digits = 3)
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
 ```
 
@@ -1131,7 +1135,7 @@ df2 <- data.frame(Parameter = c("$F_\\text{OFL}$","OFL"),
                   SD = c(0.017538, 99.801)) # directly from gmacs.std file **FIX**)
 df1 %>% 
   bind_rows(df2) -> df
-tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the 'q time block pot' (19.4) model.", label = "tab:est-pars-4", digits = 3)
+tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the 'q time block pot' (19.4) model.", label = "tab:est-pars-6", digits = 3)
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
 ```
 
@@ -1209,6 +1213,10 @@ knitr::include_graphics("safe_figure/CrabN_Station.png", dpi = 400)
 knitr::include_graphics("safe_figure/trawl_cpue_ref.png", dpi = 200)
 ```
 
+```{r surv1-vast, fig.cap = "Fits to NMFS area-swept trawl estimates of total ($/ge$ 90mm) male survey biomass for the VAST model only, data plotted here are VAST trawl survey estimates. Error bars are plus and minus 2 standard deviations."} 
+knitr::include_graphics("safe_figure/trawl_biomass_VASTonly.png", dpi = 200)
+```
+
 ```{r surv2, fig.cap = "Comparisons of fits to CPUE from the ADFG pot surveys for the reference model 16.0 ref (note that there is no new pot data for 2019). Error bars are plus and minus 2 standard deviations."} 
 knitr::include_graphics("safe_figure/pot_cpue_ref.png", dpi = 150)
 ```
@@ -1245,15 +1253,24 @@ knitr::include_graphics("safe_figure/mod_scen_ssb_wprojected_yr.png", dpi = 100)
 knitr::include_graphics("safe_figure/mod_scen_M_t.png", dpi = 100)
 ```
 
-```{r trawl-survey-biomass, fig.cap = "Comparisons of area-swept estimates of total (90+ mm CL) male survey biomass (tons) and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations."} 
-knitr::include_graphics("safe_figure/trawl_biomass_mod_scen.png", dpi = 100)
+```{r trawl-survey-biomass, fig.cap = "Comparisons of area-swept estimates of total (90+ mm CL) male survey biomass (tons) and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations. Triangles represent VAST survey estimtaes."} 
+knitr::include_graphics("safe_figure/trawl_biomass_mod_scen3.png", dpi = 100)
 ```
+
+```{r trawl-survey-biomass-base-vast, fig.cap = "Comparisons of area-swept estimates of total (90+ mm CL) male survey biomass (tons) and model predictions for the reference model and the VAST model. The error bars are plus and minus 2 standard deviations. Triangles represent VAST survey estimtaes."} 
+knitr::include_graphics("safe_figure/trawl_biomass_base_vast.png", dpi = 100)
+```
+
+```{r trawl-survey-biomass-wovast, fig.cap = "Comparisons of area-swept estimates of total (90+ mm CL) male survey biomass (tons) and model predictions model scenarios excluding the VAST model. The error bars are plus and minus 2 standard deviations."} 
+knitr::include_graphics("safe_figure/trawl_biomass_mod_scen_WO_vast.png", dpi = 100)
+```
+
 
 ```{r pot-survey-cpue, fig.cap = "Comparisons of total (90+ mm CL) male pot survey CPUEs and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations."}
 knitr::include_graphics("safe_figure/pot_cpue_mod_scen.png", dpi = 100)
 ```
 
-```{r pot-add-cv, fig.cap = "Comparisons of total (90+ mm CL) male pot survey CPUEs and model predictions for the 'add CV pot' (Model 19.2) and 'add CV both' (Model 19.3) scenarios. The black error bars are plus and minus 2 standard deviations, while the red ones incorporate the additional variability ."}
+```{r pot-add-cv, fig.cap = "Comparisons of total (90+ mm CL) male pot survey CPUEs and model predictions for the 'add CV pot' (Model 19.2) and 'add CV both' (Model 19.3) scenarios. The black error bars are plus and minus 2 standard deviations, while the red/blue ones incorporate the additional variability."}
 knitr::include_graphics("safe_figure/pot_cpue_addcv_models2and3.png", dpi = 100)
 ```
 
@@ -1284,23 +1301,23 @@ knitr::include_graphics("safe_figure/lf_3.png", dpi = 450)
 ```
 
 
-```{r sc-res-ref, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADFG pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **reference** model (16.0)."}
+```{r sc-res-ref, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADFG pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the 'reference' model (16.0)."}
 knitr::include_graphics("safe_figure/ref_mod_size_comp_residuals.png", dpi = 100)
 ```
 
-```{r sc-res-vast, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADFG pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **VAST** model (19.1)."}
+```{r sc-res-vast, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADFG pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the 'VAST' model (19.1)."}
 knitr::include_graphics("safe_figure/VAST_size_comp_residuals.png", dpi = 100)
 ```
 
-```{r sc-res-addcv, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADFG pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **add CV pot** model (19.2)."}
+```{r sc-res-addcv, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADFG pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the 'add CV pot' model (19.2)."}
 knitr::include_graphics("safe_figure/addCV_size_comp_residuals.png", dpi = 100)
 ```
 
-```{r sc-res-addcvboth, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADFG pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **add CV both** model (19.3)."}
+```{r sc-res-addcvboth, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADFG pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the 'add CV both' model (19.3)."}
 knitr::include_graphics("safe_figure/addCVBoth_size_comp_residuals.png", dpi = 100)
 ```
 
-```{r sc-res-qblock, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADFG pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the **q time block pot** model (19.4)."}
+```{r sc-res-qblock, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADFG pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the 'q time block pot' model (19.4)."}
 knitr::include_graphics("safe_figure/qblock_size_comp_residuals.png", dpi = 100)
 ```
 
