@@ -654,6 +654,7 @@ df1 %>%
   bind_rows(df2) -> df
 df3 <- tidyr::spread(df, Model, Estimate) %>% 
   dplyr::select(Parameter, Ref, VAST, addCVpot, addCVboth, qBlock)
+# **FIX ** reorder these to match other tables - currently done manually
 write.csv(df3, paste0(here::here(), '/SMBKC/', folder,'/doc/safe_tables/all_parms.csv'), 
           row.names = FALSE)
 ### see chunk in .rmd to bring this file in
