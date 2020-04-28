@@ -403,7 +403,7 @@ Data used in this assessment were updated to include the most recently available
 assessment will use one new survey data point, which is the 2020 NMFS trawl-survey estimate of abudance, and
 its associated size compositon data. 
 The assessment also uses updated 1993-2018 groundfish and fixed gear bycatch estimates based on AKRO data.
-The fishery was closed in 2018/19 so no directed fishery catch data were available. 
+The fishery was closed in 2018/19, and is also closed in 2019/20, so no directed fishery catch data were available. 
 The data used in each of the new models is shown in Figure \@ref(fig:data-extent).
 
 ## Major Data Sources {-}
@@ -517,7 +517,7 @@ Model parameter estimates for each of the Gmacs scenarios are summarized in Tabl
 \@ref(tab:est-pars-3), \@ref(tab:est-pars-4), \@ref(tab:est-pars-5), and 
 \@ref(tab:est-pars-6). These parameter
 estimates are compared in Table \@ref(tab:est-pars-all). Negative log-likelihood values and management measures for each
-of the model configurations are compared in Tables \@ref(tab:management-quants) through \@ref(tab:likelihood-components).
+of the model configurations are compared in Tables \@ref(tab:management-quants) and \@ref(tab:likelihood-components).
 
 There are differences in parameter estimates among models as 
 reflected in the log-likelihood components and the management quantities. 
@@ -1210,11 +1210,11 @@ knitr::include_graphics("safe_figure/Fig3.png", dpi = 125)
 knitr::include_graphics("safe_figure/CrabN_Station.png", dpi = 400)
 ```
 
-```{r surv1, fig.cap = "Fits to NMFS area-swept trawl estimates of total ($/ge$ 90mm) male survey biomass for the reference model only (will show 16.0 ref with new data and 16.0 as last year's accepted model). Error bars are plus and minus 2 standard deviations."} 
+```{r surv1, fig.cap = "Fits to NMFS area-swept trawl estimates of total (> 90mm) male survey biomass for the reference model only (will show 16.0 ref with new data and 16.0 as last year's accepted model). Error bars are plus and minus 2 standard deviations."} 
 knitr::include_graphics("safe_figure/trawl_cpue_ref.png", dpi = 200)
 ```
 
-```{r surv1-vast, fig.cap = "Fits to NMFS area-swept trawl estimates of total ($/ge$ 90mm) male survey biomass for the VAST model only, data plotted here are VAST trawl survey estimates. Error bars are plus and minus 2 standard deviations."} 
+```{r surv1-vast, fig.cap = "Fits to NMFS area-swept trawl estimates of total (> 90mm) male survey biomass for the VAST model only, data plotted here are VAST trawl survey estimates. Error bars are plus and minus 2 standard deviations."} 
 knitr::include_graphics("safe_figure/trawl_biomass_VASTonly.png", dpi = 200)
 ```
 
