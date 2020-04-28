@@ -461,7 +461,8 @@ ggsave(paste0(.FIGS, "trawl_biomass_mod_scen_WO_vast.png"), width = ww*1.10, hei
 #!! pot survey -------
 #{r pot_survey_cpue, fig.cap = "Comparisons of total (90+ mm CL) male pot survey CPUEs and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations.\\label{fig:pot_survey_cpue}"}
 plot_cpue(M[c(mod_scen)],  "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
-ggsave(paste0(.FIGS, "pot_cpue_mod_scen.png"), width = ww*1.10, height = hh)
+#ggsave(paste0(.FIGS, "pot_cpue_mod_scen.png"), width = ww*1.10, height = hh)
+# READ had to use user derived function since I have 2 q's for model 6
 
 # additional CV on pot survey fix --------
 # **FIX** in .tpl - below from Jie but not working...
@@ -485,6 +486,17 @@ ggsave(paste0(.FIGS, "pot_cpue_addcv.png"), width = ww*1.10, height = hh)
 
 plot_cpue(M[4:5],  ShowEstErr = TRUE,"ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
 ggsave(paste0(.FIGS, "pot_cpue_addcv_models2and3.png"), width = ww*1.10, height = hh)
+
+## !!q block ----
+plot_cpue(M[6], "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
+plot_cpue(M[6], "ADF&G Pot2", ylab = "Pot survey CPUE (crab/potlift)")
+
+plot_cpue_q(M[6], "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)", 
+            qblock = TRUE)
+
+plot_cpue_q(M[mod_scen], "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)", 
+            qblock = TRUE)
+ggsave(paste0(.FIGS, "pot_cpue_mod_scen.png"), width = ww*1.10, height = hh)
 
 ##!!catch --------
 plot_catch(M[2])
