@@ -438,6 +438,11 @@ plot_cpue2(M[mod_scen], "NMFS Trawl", ylab = "NMFS survey biomass (t)",
            vastdata = TRUE, vastm = "model 19.1 (VAST)")
 ggsave(paste0(.FIGS, "trawl_biomass_mod_scen2.png"), width = ww*1.10, height = 1.1*hh)
 
+# vast only 
+plot_cpue(M[3], "NMFS Trawl", ylab = "NMFS survey biomass (t)")
+plot_cpue2(M[3], "NMFS Trawl", ylab = "NMFS survey biomass (t)")
+ggsave(paste0(.FIGS, "trawl_biomass_VASTonly.png"), width = ww*1.10, height = 1.1*hh)
+
 plot_cpue2(M[2:3],  "NMFS Trawl", ylab = "NMFS survey biomass (t)", 
            vastdata = TRUE, vastm = "model 19.1 (VAST)")
 ggsave(paste0(.FIGS, "trawl_biomass_base_vast.png"), width = ww*1.20, height = 1.1*hh)
