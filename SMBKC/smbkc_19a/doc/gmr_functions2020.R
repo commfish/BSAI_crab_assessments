@@ -451,9 +451,9 @@ plot_cpue_VAST <-
         expand_limits(y = 0) +
         geom_pointrange(aes(year, area_swept_cpue, ymax = area_swept_ub, 
                             ymin = area_swept_lb)) +
-        geom_line(aes(year, vast_cpue), col = "darkgreen", lwd = 1) +
+        geom_line(aes(year, vast_cpue), col = "gold4", lwd = 1) +
         geom_ribbon(aes(x=year, ymax = vast_ub, ymin = vast_lb), alpha = 0.25, 
-                    fill = "darkgreen")
+                    fill = "gold4")
       
     }
     else if (vastdata == FALSE) {
@@ -474,25 +474,25 @@ plot_cpue_VAST <-
     #  }
     #}
     
-    #if (.OVERLAY) {
-    #  if (length(M) == 1 && length(unique(mdf$sex)) == 1) {
-    #    p <- p + geom_line(data = mdf, aes(year, pred)) +
-    #      facet_wrap(~fleet, scales = "free_y")
-    #  } else if (length(M) != 1 && length(unique(mdf$sex)) == 1) {
-    #    p <- p + geom_line(data = mdf, aes(year, pred, color = Model, linetype = Model)) +
-    #      facet_wrap(~fleet, scales = "free_y")
-    #  } else if (length(M) == 1 && length(unique(mdf$sex)) != 1) {
-    #    p <- p + geom_line(data = mdf, aes(year, pred, color = sex)) + labs(col = slab) +
-    #      facet_wrap(~fleet + sex, scales = "free_y")
-    #  } else {
-      #  p <- p + geom_line(data = mdf, aes(year, pred, color = Model, linetype = Model)) +
-      #    facet_wrap(~fleet + sex, scales = "free_y")
-    #  }
-    #} else {
-    #  p  <- p + geom_line(data = mdf, aes(year, pred))
-    #  p  <- p + facet_wrap(~fleet + sex + Model, scales = "free_y")
+    if (.OVERLAY) {
+      if (length(M) == 1 && length(unique(mdf$sex)) == 1) {
+        p <- p + geom_line(data = mdf, aes(year, pred)) +
+          facet_wrap(~fleet, scales = "free_y")
+      } else if (length(M) != 1 && length(unique(mdf$sex)) == 1) {
+        p <- p + geom_line(data = mdf, aes(year, pred, color = Model, linetype = Model)) +
+          facet_wrap(~fleet, scales = "free_y")
+      } else if (length(M) == 1 && length(unique(mdf$sex)) != 1) {
+        p <- p + geom_line(data = mdf, aes(year, pred, color = sex)) + labs(col = slab) +
+          facet_wrap(~fleet + sex, scales = "free_y")
+      } else {
+        p <- p + geom_line(data = mdf, aes(year, pred, color = Model, linetype = Model)) +
+          facet_wrap(~fleet + sex, scales = "free_y")
+      }
+    } else {
+      p  <- p + geom_line(data = mdf, aes(year, pred))
+      p  <- p + facet_wrap(~fleet + sex + Model, scales = "free_y")
     #  p  <- p + scale_shape (guides = FALSE)
-    #}
+    }
     
     p  <- p + labs(x = xlab, y = ylab)
     print(p + .THEME + theme(legend.position=c(.38,.79)) +
