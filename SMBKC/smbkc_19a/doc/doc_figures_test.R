@@ -608,6 +608,9 @@ ggsave(paste0(.FIGS, "catch.png"), width = ww*1.02, height = hh*1.2)
 plot_cpue_res(M[mod_scen], "NMFS Trawl")
 ggsave(paste0(.FIGS, "trawl_biomass_mod_scen_residuals.png"), width = ww*1.20, height = 1.1*hh)
 
+plot_cpue_res(M[2:3], "NMFS Trawl")
+ggsave(paste0(.FIGS, "trawl_biomass_VAST_Ref_residuals.png"), width = ww*1.20, height = 1.1*hh)
+
 #!! pot_res --------
 #{r bts_resid_adfg, fig.cap = "Standardized residuals for total male pot survey CPUEs for each of the Gmacs model scenarios.\\label{fig:bts_resid_adfg}"}
 plot_cpue_res(M[mod_scen], "ADF&G Pot")
