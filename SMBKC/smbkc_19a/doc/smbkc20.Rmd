@@ -570,8 +570,8 @@ The **VAST** scenario generally has high mature male biomass estimates since the
 The VAST model trawl survey biomass fit also captures the 90s survey data more closey than the reference model. 
 The **q block pot** fits the mature male biomass very similarly to the reference model, which is expected since they both fit the survey data similarly. The addition of a time block for recent years of the pot survey does not appear to improve model fit to this survey or change the fit overall. 
 
-The VAST model (19.1) may be an option to consider for model spefications this fall, if the CPT finds the VAST data to be appropriate for model options. In general this model fits the trawl survey data at higher biomasses throughout time, specifically higher in the late 90s (\@ref(fig:surv1-vast) and \@ref(fig:trawl_biomass_base_vast)). 
-Additionally, recruitment estimates for the VAST model trend similarly to the reference model, only at a higher magnitude (\@ref(fig:recruitment2)). As stated above mature male biomass for the VAST model are also generally higher than the reference model, but tend to display a similar trend (\@ref(fig:mmb2)). 
+The VAST model (19.1) may be an option to consider for model spefications this fall, if the CPT finds the VAST data to be appropriate for model options. In general this model fits the trawl survey data at higher biomasses throughout time, specifically higher in the late 90s (Figure \@ref(fig:surv1-vast) and \@ref(fig:trawl-survey-biomass-base-vast)), however it tends to fit the survey data better than the reference model (Figure \@ref(fig:bts-resid-nmfs2)).
+Additionally, recruitment estimates for the VAST model trend similarly to the reference model, only at a higher magnitude (Figure \@ref(fig:recruitment2)). As stated above mature male biomass for the VAST model are also generally higher than the reference model, but tend to display a similar trend (Figure \@ref(fig:mmb2)). 
 The 2019 model mmb for the VAST model is still less than 50% of the $B_\mathit{MSY}$ and therefore the stock would remain in overfished status.  
 
 In summary, these model scenarios, with the exception of the VAST model, were provided to explore the sensitivity of this model. Currently, the reference model is still the most appropriate model for settting reference points and model specifications. 
@@ -1218,7 +1218,7 @@ knitr::include_graphics("safe_figure/CrabN_Station.png", dpi = 400)
 knitr::include_graphics("safe_figure/trawl_cpue_ref.png", dpi = 200)
 ```
 
-```{r surv1-vast, fig.cap = "Fits to NMFS area-swept trawl estimates of total (> 90mm) male survey biomass for the VAST model only, data plotted here are VAST trawl survey estimates. Error bars are plus and minus 2 standard deviations."} 
+```{r surv1-vast, fig.cap = "Fits to NMFS VAST trawl estimates of total (> 90mm) male survey biomass for the VAST model only. Error bars are plus and minus 2 standard deviations."} 
 knitr::include_graphics("safe_figure/trawl_biomass_VASTonly.png", dpi = 200)
 ```
 
@@ -1291,6 +1291,10 @@ knitr::include_graphics("safe_figure/pot_cpue_addcv_models2and3.png", dpi = 100)
 
 ```{r bts-resid-nmfs, fig.cap = "Standardized residuals for area-swept estimates of total male survey biomass for the model scenarios."}
 knitr::include_graphics("safe_figure/trawl_biomass_mod_scen_residuals.png", dpi = 100)
+```
+
+```{r bts-resid-nmfs2, fig.cap = "Standardized residuals for VAST vs area-swept estimates of total male survey biomass for the ref (16.0) and VAST (19.1) model scenarios."}
+knitr::include_graphics("safe_figure/trawl_biomass_VAST_Ref_residuals.png", dpi = 100)
 ```
 
 ```{r bts-resid-adfg, fig.cap = "Standardized residuals for total male pot survey CPUEs for each of the Gmacs model scenarios."}
