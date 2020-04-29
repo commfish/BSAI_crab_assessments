@@ -449,6 +449,8 @@ ggsave(paste0(.FIGS, "trawl_biomass_base_vast.png"), width = ww*1.20, height = 1
 
 plot_cpue3(M[2:3],  "NMFS Trawl", ylab = "NMFS survey biomass (t)", 
            vastdata = TRUE, vastm = "model 19.1 (VAST)")
+ggsave(paste0(.FIGS, "trawl_biomass_base_vast2.png"), width = ww*1.20, height = 1.1*hh)
+
 plot_cpue3(M[mod_scen],  "NMFS Trawl", ylab = "NMFS survey biomass (t)", 
            vastdata = TRUE, vastm = "model 19.1 (VAST)")
 ggsave(paste0(.FIGS, "trawl_biomass_mod_scen3.png"), width = ww*1.10, height = 1.1*hh)
@@ -456,6 +458,9 @@ ggsave(paste0(.FIGS, "trawl_biomass_mod_scen3.png"), width = ww*1.10, height = 1
 plot_cpue(M[c(2, 4:6)],  "NMFS Trawl", ylab = "NMFS survey biomass (t)")
 ggsave(paste0(.FIGS, "trawl_biomass_mod_scen_WO_vast.png"), width = ww*1.10, height = 1.1*hh)
 
+# VAST and area-swept data only ------
+plot_cpue_VAST(M[2:3],  "NMFS Trawl", ylab = "NMFS survey biomass (t)", 
+           vastdata = TRUE, vastm = "model 19.1 (VAST)")
 
 
 #!! pot survey -------
@@ -515,6 +520,9 @@ ggsave(paste0(.FIGS, "trawl_biomass_mod_scen_residuals.png"), width = ww*1.20, h
 #!! pot_res --------
 #{r bts_resid_adfg, fig.cap = "Standardized residuals for total male pot survey CPUEs for each of the Gmacs model scenarios.\\label{fig:bts_resid_adfg}"}
 plot_cpue_res(M[mod_scen], "ADF&G Pot")
+
+# user defined function here also to deal with qblocks **FIX**
+
 ggsave(paste0(.FIGS, "pot_cpue_mod_scen_residuals.png"), width = ww*1.20, height = 1.1*hh)
 
 ## !!size comps ---------------
