@@ -570,7 +570,11 @@ The **VAST** scenario generally has high mature male biomass estimates since the
 The VAST model trawl survey biomass fit also captures the 90s survey data more closey than the reference model. 
 The **q block pot** fits the mature male biomass very similarly to the reference model, which is expected since they both fit the survey data similarly. The addition of a time block for recent years of the pot survey does not appear to improve model fit to this survey or change the fit overall. 
 
-In summary, these model scenarios were provided to explore the sensitivity of this model. Currently, the reference model is still the most appropriate model for settting reference points and model specifications. 
+The VAST model (19.1) may be an option to consider for model spefications this fall, if the CPT finds the VAST data to be appropriate for model options. In general this model fits the trawl survey data at higher biomasses throughout time, specifically higher in the late 90s (\@ref(fig:surv1-vast) and \@ref(fig:trawl_biomass_base_vast)). 
+Additionally, recruitment estimates for the VAST model trend similarly to the reference model, only at a higher magnitude (\@ref(fig:recruitment2)). As stated above mature male biomass for the VAST model are also generally higher than the reference model, but tend to display a similar trend (\@ref(fig:mmb2)). 
+The 2019 model mmb for the VAST model is still less than 50% of the $B_\mathit{MSY}$ and therefore the stock would remain in overfished status.  
+
+In summary, these model scenarios, with the exception of the VAST model, were provided to explore the sensitivity of this model. Currently, the reference model is still the most appropriate model for settting reference points and model specifications. 
 Research on alternative model specifications that may address the disparities between the trawl and pot survey data are ongoing, as is proposed spatial analyses of these data sets. 
 Additionally, the overfished status of this stock lends itself to maintaining the status quo base model until an appropriate resolute is found to deal with the trawl and pot survey data fit issues.
 
@@ -1245,10 +1249,20 @@ knitr::include_graphics("safe_figure/selectivity_q_timeblock.png", dpi = 150)
 knitr::include_graphics("safe_figure/recruitment_mod_scen_ribbons.png", dpi = 100)
 ```
 
+```{r recruitment2, fig.cap = "Estimated recruitment 1979-2018 comparing the VAST (19.1) and Reference model (16.0). The solid horizontal lines in the background represent the estimate of the average recruitment parameter ($\\bar{R}$) in each model scenario."}
+knitr::include_graphics("safe_figure/recruitment_vast_base_ribbons.png", dpi = 100)
+```
+
 ```{r mmb, fig.cap = "Comparisons of estimated mature male biomass (MMB) time series on 15 February during 1978-2019 for each of the model scenarios."}
 #plot_ssb(M[mod_scen], ylab = "Mature male biomass (tons) on 15 February")
 knitr::include_graphics("safe_figure/mod_scen_ssb_wprojected_yr.png", dpi = 100)
 ```
+
+```{r mmb2, fig.cap = "Comparisons of estimated mature male biomass (MMB) time series on 15 February during 1978-2019 for the reference (16.0) and VAST (19.1) model scenarios. Horizontal lines are average mmb from 1978 - 2018 (Bmsy proxy)"}
+#plot_ssb(M[mod_scen], ylab = "Mature male biomass (tons) on 15 February")
+knitr::include_graphics("safe_figure/VAST_Ref_ssb_wprojected_yr.png", dpi = 100)
+```
+
 
 ```{r M-t, fig.cap = "Time-varying natural mortality ($M_t$). Estimated pulse period occurs in 1998/99 (i.e. $M_{1998}$)."}
 knitr::include_graphics("safe_figure/mod_scen_M_t.png", dpi = 100)
@@ -1258,7 +1272,7 @@ knitr::include_graphics("safe_figure/mod_scen_M_t.png", dpi = 100)
 knitr::include_graphics("safe_figure/trawl_biomass_mod_scen3.png", dpi = 100)
 ```
 
-```{r trawl-survey-biomass-base-vast, fig.cap = "Comparisons of area-swept estimates of total (90+ mm CL) male survey biomass (tons) and model predictions for the reference model and the VAST model. The error bars are plus and minus 2 standard deviations. Triangles represent VAST survey estimtaes."} 
+```{r trawl-survey-biomass-base-vast, fig.cap = "Comparisons of estimates of total (90+ mm CL) male survey biomass (tons) and model predictions for the reference (area-swept) model and the VAST model. The error bars are plus and minus 2 standard deviations. Triangles represent VAST survey estimtaes."} 
 knitr::include_graphics("safe_figure/trawl_biomass_base_vast.png", dpi = 100)
 ```
 
