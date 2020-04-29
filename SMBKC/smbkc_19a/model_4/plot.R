@@ -153,9 +153,17 @@ head(ssb)
 #   projection year for graphical purposes
 # ssb current year uncertainty
 un_ssb <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
-ssb_last <- data.frame("year" = cur_yr, "ssb" = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
-                       "lb" = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
-                       "ub" = M[[1]]$spr_bmsy * M[[1]]$spr_depl) 
+
+# temporary way to estimate uncertainty in proj year
+ssb %>% 
+  filter(year == 2018) %>% 
+  mutate(lper = lb/ssb, uper = ub/ssb) -> temp2
+
+
+ssb_last <- data.frame( "Model" = names(M),
+                        "year" = cur_yr, "ssb" = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
+                       "lb" = M[[1]]$spr_bmsy * M[[1]]$spr_depl*temp2$lper, 
+                       "ub" = M[[1]]$spr_bmsy * M[[1]]$spr_depl*temp2$uper) 
 #ssb_last <- data.frame("year" = cur_yr, "ssb" = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
 #                       "lb" = un_ssb$lci, 
 #                       "ub" = un_ssb$uci)
