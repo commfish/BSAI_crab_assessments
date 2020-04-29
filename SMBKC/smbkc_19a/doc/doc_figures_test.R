@@ -347,6 +347,44 @@ rec %>%
 ggsave(paste0(.FIGS, "recruitment_mod_scen_ribbons.png"), width = 1.20*ww, height = hh)
 dev.off()
 
+##!! recruit VAST/base ------
+rec <- .get_recruitment_df(M[2:3])
+head(rec)
+
+#rbar is estimated in model
+# need to pull rbar from model output with different recruitment years
+rec %>% 
+  group_by(Model) %>% 
+  summarise(meanR = mean(exp(log_rec)/1000000)) %>% 
+  mutate(years = "1978-2018")-> avgR
+
+
+avgR  -> avgR_options
+#mutate(Bmsy50 = 0.5*Bmsy) -> Bmsy_options
+avgR_options # see above is calculated average recruitment for each time series
+rec$rbar[1]
+
+# recruitment plot
+rec %>% 
+  ggplot(aes(year, y = exp(log_rec)/1000000, group = Model, fill = Model)) +
+  geom_line(aes(color = Model)) +
+  geom_ribbon(aes(x=year, ymax = ub/1000000, ymin = lb/1000000), alpha = 0.15) +
+  expand_limits(y=0) +
+  ggtitle("Recruitment VAST vs. Reference model") +
+  ylab("Recruitment (millions of individuals)") + xlab("Year") +
+  #scale_colour_manual(name = "", values = c("red", "dark green", "blue"))+
+  #scale_fill_manual(name = "", values = c("red", "dark green", "blue")) +
+  #geom_hline(aes(yintercept = rbar[1]/1000000), color = "gray25") +
+  #geom_text(aes(x = 2000, y = rbar[1]/1000000, label = "R_bar"), 
+  #          hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 3.0) +
+  .THEME +
+  #geom_hline(yintercept = rbar, group = Model, fill = Model)
+  geom_hline(data = avgR_options, aes(yintercept = meanR, group = Model,
+                                      color = Model)) +
+  #geom_text(data = avgR_options, aes(x= 1980, y = meanR, label = years), 
+  #          hjust = -2.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) 
+  ggsave(paste0(.FIGS, "recruitment_vast_base_ribbons.png"), width = 1.20*ww, height = hh)
+dev.off()
 # ssb mod scen ---------------
   
 #"Comparisons of estimated mature male biomass (MMB) time series on 15 February during 1978-2018 for each of the model scenarios.\\label{fig:mmb}"}
@@ -420,6 +458,58 @@ ssb2 %>%
 ggsave(paste0(.FIGS, "mod_scen_ssb_wprojected_yr.png"), width = ww*1.18, height = hh)
 ggsave(paste0(.FIGS, "PRESENTATION_mod_scen_ssb_wprojected_yr.png"), width = ww*1.5, height = hh)
 
+# !!SSB VAST scenarios-----------
+# SSB lst yr / current yr base model-----------
+ssb <- .get_ssb_df(M[2:3]) # ssb now does NOT include projection year so only up to 2018 crab year - 2019 projection (example)
+head(ssb)
+tail(ssb)
+
+# temporary way to estimate uncertainty in proj year
+ssb %>% filter(Model == "model 16.0 (ref)") %>% filter(year == 2018) -> temp1
+temp1 %>% 
+  mutate(lper = lb/ssb, uper = ub/ssb) -> temp2
+
+# ssb vector only includes model years - here crab year 1978 to 2019 does NOT include projection, need to add
+#   projection year for graphical purposes
+ssb_last <- data.frame("Model" = names(M[2:3]),
+                       "year" = c(cur_yr, cur_yr), 
+                       "ssb" = c(M[[2]]$spr_bmsy * M[[2]]$spr_depl,
+                                 M[[3]]$spr_bmsy * M[[3]]$spr_depl),
+                       "lb" = c(M[[2]]$spr_bmsy * M[[2]]$spr_depl*temp2$lper,
+                                M[[3]]$spr_bmsy * M[[3]]$spr_depl*temp2$lper), # need to update these from .csv output
+                       "ub" = c(M[[2]]$spr_bmsy * M[[2]]$spr_depl*temp2$uper,
+                                M[[3]]$spr_bmsy * M[[3]]$spr_depl*temp2$uper))
+# update with 95% credible interval#
+ssb %>% 
+  bind_rows(ssb_last) -> ssb2
+ssb2 %>% 
+  filter(year <2019) %>% 
+  group_by(Model) %>% 
+  summarise(mean(ssb)) %>% 
+  spread(Model, `mean(ssb)`)-> bmsy_proxy
+## ssb plot with current year 
+ssb2 %>% 
+  ggplot(aes(year, ssb, col = Model)) +
+  geom_line() +
+  expand_limits(y=0) +
+  geom_ribbon(aes(x=year, ymax = ub, ymin = lb, fill = Model, col = NULL), alpha = 0.1) +
+  #ylab = "SSB (tonnes)" +
+  scale_y_continuous(expand = c(0,0)) +
+  ylim(0, max(ssb$ub)+ 100) +
+  geom_hline(yintercept = bmsy_proxy$`model 16.0 (ref)`, color = "red", 
+             lwd = 0.75) +
+  geom_hline(yintercept = bmsy_proxy$`model 19.1 (VAST)`, color = "cyan3", 
+             linetype = "dotdash", lwd = 0.75) +
+  #geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
+  #           lty = c("solid", "dashed"))+
+  #geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
+  #          hjust = -0.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
+  #ggtitle("Base model - model 1 (Model 3 2018)") +
+  ylab("Mature male biomass (tons) on 15 February") + xlab("Year") +
+  .THEME
+ggsave(paste0(.FIGS, "VAST_Ref_ssb_wprojected_yr.png"), width = ww*1.18, height = hh)
+ggsave(paste0(.FIGS, "PRESENTATION_VAST_Ref_ssb_wprojected_yr.png"), width = ww*1.5, height = hh)
+
 
 # !!natural_mortality -------------
 #, fig.cap = "Time-varying natural mortality ($M_t$). Estimated pulse period occurs in 1998/99 (i.e. $M_{1998}$). \\label{fig:M_t}"}
@@ -461,6 +551,7 @@ ggsave(paste0(.FIGS, "trawl_biomass_mod_scen_WO_vast.png"), width = ww*1.10, hei
 # VAST and area-swept data only ------
 plot_cpue_VAST(M[2:3],  "NMFS Trawl", ylab = "NMFS survey biomass (t)", 
            vastdata = TRUE, vastm = "model 19.1 (VAST)")
+ggsave(paste0(.FIGS, "trawl_biomass_VAST_areaSP.png"), width = ww*1.10, height = 1.1*hh)
 
 
 #!! pot survey -------
