@@ -571,7 +571,7 @@ The **q block pot** fits the mature male biomass very similarly to the reference
 
 The VAST model (19.1) may be an option to consider for model spefications this fall, if the CPT finds the VAST data to be appropriate for model options. In general this model fits the trawl survey data at higher biomasses throughout time, specifically higher in the late 90s (Figure \@ref(fig:surv1-vast) and \@ref(fig:trawl-survey-biomass-base-vast)), however it tends to fit the survey data better than the reference model (Figure \@ref(fig:bts-resid-nmfs2)).
 Additionally, recruitment estimates for the VAST model trend similarly to the reference model, only at a higher magnitude (Figure \@ref(fig:recruitment2)). As stated above mature male biomass for the VAST model are also generally higher than the reference model, but tend to display a similar trend (Figure \@ref(fig:mmb2)). 
-The 2019 model mmb for the VAST model is still less than 50% of the $B_\mathit{MSY}$ and therefore the stock would remain in overfished status.  
+The 2019 model MMB for the VAST model is still less than 50% of the $B_\mathit{MSY}$ and therefore the stock would remain in overfished status.  
 
 In summary, these model scenarios, with the exception of the VAST model, were provided to explore the sensitivity of this model. Currently, the reference model is still the most appropriate model for settting reference points and model specifications. 
 Research on alternative model specifications that may address the disparities between the trawl and pot survey data are ongoing, as is proposed spatial analyses of these data sets. 
@@ -636,19 +636,22 @@ The following topics have been listed as areas where more research on SMBKC is n
   1. Growth increments and molting probabilities as a function of size.
 
   2. Trawl survey catchability and selectivities.
+  
+  3. Pot survey catchability and selectivities.
 
-  3. Temporal changes in spatial distributions near the island.
+  4. Temporal changes in spatial distributions near the island.
 
-  4. Natural mortality.
+  5. Natural mortality.
 
 # I. Projections and outlook {-}
 The outlook for recruitment is pessimistic and the abundance relative to the proxy $B_\mathit{MSY}$ is low. 
 The NMFS survey results in 2019 noted ocean conditions warmer than 
 normal with an absence of a "cold pool" in the region. This could have detrimental effects on the SMBKC stock and
-should be carefully monitored. Relative to the impact of historical fishing, we again conducted a
- "dynamic-$B_0$" analysis. This procedure simply projects
-the population based on estimated recruitment but removes the effect of fishing. For the reference case,
+should be carefully monitored. 
+Relative to the impact of historical fishing, we again conducted a "dynamic-$B_0$" analysis. 
+This procedure simply projects the population based on estimated recruitment but removes the effect of fishing. For the reference case,
 this suggests that the impact of fishing has reduced the stock to about `r .get_dynB0_df(Mbase) %>% transmute(round(100*ssb,0)) %>% slice(n())`% of what it would have been in the absence of fishing (Figure \@ref(fig:dynamic-bzero)). 
+Supporting the hypothesis that fishing pressure has not substantially contributed to the decline of this stock compared to other contributors.
 The other non-fishing contributors to the observed depleted stock trend (ignoring stock-recruit relationship) may reflect variable  survival rates due to environmental conditions and also range shifts. 
  
 
