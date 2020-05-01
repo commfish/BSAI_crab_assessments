@@ -144,9 +144,9 @@ This 2019 biomass of $\ge$ 90 mm carapace length (CL) male crab is
 The most recent 3-year average of the NMFS survey is 40% of the mean value, indicating a decline in biomass compared to
 historical survey estimates, notably in 2010 and 2011 that were over four times the current average.
 However, the 2019 value is substantially larger than the two previous years (3,170 t compared to 1,731 t in 2018 and 1,794 t in 2017).
-The ADFG pot survey did not occur in 2019, but in 2018 the relative biomass in this index was the lowest
+The ADFG pot survey did not occur in 2019, but in 2018 the relative biomass index was the lowest
 in the time series (12% of the mean from the 11 surveys conducted since 1995).
-The assessment model estimates tempers this increase and suggests that the stock (in survey biomass units) is presently at about
+The assessment model estimates temper this increase and suggest that the stock (in survey biomass units) is presently at about
 `r bio_lt_percent `% 
 of the long term model-predicted survey biomass average, similar to the last two years. 
 The trend from these values suggests a steady state in the last few years, which does not fit the 2019 observed survey data point well.
@@ -166,7 +166,7 @@ Computations which indicate the relative impact of fishing
  
  \begin{table}[ht]
  \centering
- \caption{Status and catch specifications (1000 t) for the reference model. Alternative reference point time frame included for comparison for projection year (alt).}
+ \caption{Status and catch specifications (1000 t) for the reference model.}
  \label{tab:status}
  \begin{tabular}{lccccccc}
   \hline
@@ -175,7 +175,7 @@ Computations which indicate the relative impact of fishing
   \hline
   2015/16 & 1.84 & 2.11 & 0.19 & 0.05 & 0.053 & 0.28 & 0.22 \\ 
   2016/17 & 1.97 & 2.23 & 0.00 & 0.00 & 0.001 & 0.14 & 0.11 \\
-  2017/18 & 1.85 & 1.29 & 0.00 & 0.00 & 0.003 & 0.12 & 0.10 \\
+  2017/18 & 1.85 & 2.05 & 0.00 & 0.00 & 0.003 & 0.12 & 0.10 \\
   2018/19 & 1.74 & 1.15 & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
   2019/20 &      & `r mmb_1920` & 0.00 & 0.00 &  & `r ofl_1920` & `r abc_1920` \\
   2020/21 &      &  &  &  &  &  &  \\
@@ -186,7 +186,7 @@ Computations which indicate the relative impact of fishing
 
 \begin{table}[ht]
 \centering
-\caption{Status and catch specifications (million pounds) for the reference model.Alternative reference point time frame included for comparison for projection year (alt).}
+\caption{Status and catch specifications (million pounds) for the reference model.}
 \label{tab:status-pounds}
 \begin{tabular}{lccccccc}
   \hline
@@ -243,24 +243,24 @@ There are no new changes in management of the fishery.
 ## Changes to the Input Data {-}
 
 Data used in this assessment have been updated to include the most recently
-available fishery and survey numbers. This assessment plans to includes of one new
+available fishery and survey numbers. 
+This assessment plans to include one new
 survey data point - the 2020 NMFS trawl-survey estimate of abudance. 
-The triennial ADF&G pot survey were last conducted in 2018, and are back on a triennial cycle, with the next survey in 2021.
+The triennial ADF&G pot surveys were last conducted in 2018, and are back on a triennial cycle, with the next survey in 2021.
 The NMFS trawl-surveys have associated size
-compositon data. The assessment will also use updated 2010-2019 groundfish and
+compositon data. 
+The assessment will also use updated 2010-2019 groundfish trawl and
 fixed gear bycatch estimates based on NMFS Alaska Regional Office (AKRO) data. 
 The directed fishery has been closed since 2016/17, so no recent fishery data are available.
 
 ## Changes in Assessment Methodology {-}
 
-This assessment uses the General model for Alasks crab stocks (GMACS) framework. The
+This assessment uses the General Model for Alaska Crab Stocks (GMACS) framework. The
 model is configured to track three stages of length categories and was 
-first presented in May 2011 by W.Gaeuman, ADF&G, per.com. and accepted by the CPT in May 2012. 
+first presented in May 2011 by W.Gaeuman, ADF&G, and accepted by the CPT in May 2012. 
 A difference from the original approach and that used here is that natural and fishing mortalities are
-continuous within `r M[[ref_mod]]$nseason` discrete seasons (using the appropriate
-catch equation rather than assuming an applied pulse removal). Season length in Gmacs
-is controlled by changing the proportion of natural mortality that is applied
-each season. 
+continuous within `r M[[ref_mod]]$nseason` discrete time blocks within a year (using the appropriate catch equation rather than assuming an applied pulse removal). 
+The time blocks within a year in GMACS are controlled by changing the proportion of natural mortality that is applied each block. 
 Diagnostic output includes estimates of the "dynamic $B_0$" which simply
 computes the ratio of the estimated spawning biomass relative to the spawning biomass that would have occurred 
 had there been no historical fishing mortality. 
@@ -272,7 +272,7 @@ Both surveys indicate a decline over the past few years. The "reference" model i
 In fall of 2020 there will be only one new data set to be included so this becomes the updated reference model (model 16.0 ref). 
 One alternative model is presented to explore the use of VAST on estimates of the time series of NOAA trawl survey data (**VAST**).  
 
-Three alternative models are presented to assess sensitivity to the model, attempting to deal with the disparity between the two survey time series. The **add CV pot** configuration estimates an additional CV on the pot survey data, which in turn allows the model to fit the trawl-survey estimates better. The **add CV both** configuration estimates an additional CV on both survey data sets as a sensitivity run to see if these results differ much from the **add CV pot** run. The last alternative model presented **q time block pot** attempts to address CPT and SSC concerns over ADF&G pot survey catchability by creating two time blocks for this survey. The time blocks (1995 - 2013, 2015-2018) were an initial attempt to deal with the idea of a random walk for survey catchability. Other sensitivities were explored, including estimating both the trawl survey and pot survey catchability, but are not reported here due to insignificant findings.
+The other three model alternatives are presented to assess sensitivity to the model, attempting to deal with the disparity between the two survey time series. The **add CV pot** configuration estimates an additional CV on the pot survey data, which in turn allows the model to fit the trawl-survey estimates better. The **add CV both** configuration estimates an additional CV on both survey data sets as a sensitivity run to see if these results differ much from the **add CV pot** run. The last alternative model presented **q time block pot** attempts to address CPT and SSC concerns over ADF&G pot survey catchability by creating two time blocks for this survey. The time blocks (1995 - 2013, 2015-2018) were an initial attempt to deal with the idea of a random walk for survey catchability. Other sensitivities were explored, including estimating both the trawl survey and pot survey catchability, but are not reported here due to insignificant findings.
 
 
 # B. Responses to SSC and CPT  {-}
@@ -458,13 +458,13 @@ only male crab $\ge$ 90 mm in CL, but combined stages 3 and 4 of the earlier mod
 above). This consolidation was driven by concern about the accuracy and consistency of shell-condition information,
 which had been used in distinguishing stages 3 and 4 of the earlier model.
 
-In 2016 the accepted SMBKC assessment model made use of the modeling framework Gmacs (Webber et al. 2016). In that
+In 2016 the accepted SMBKC assessment model made use of the modeling framework GMACS (Webber et al. 2016). In that
 assessment,  an effort was made to match the 2015 SMBKC stock assessment model to bridge a framework which 
 provided greater flexibility and opportunity to evaluate model assumptions more fully.
 
 ## Assessment Methodology {-}
 
-This assessment model again uses the modeling framework Gmacs and is detailed in Appendix A.
+This assessment model again uses the modeling framework GMACS and is detailed in Appendix A.
 
 ## Model Selection and Evaluation {-}
 
@@ -513,7 +513,7 @@ ranging from 0.60 to 0.68 for the reference case.
 The SDNRs for the directed pot fishery and other size compositions were similar to previous estimates.
 
 ### c. Parameter estimates {-}
-Model parameter estimates for each of the Gmacs scenarios are summarized in Tables \@ref(tab:est-pars-ref),
+Model parameter estimates for each of the GMACS scenarios are summarized in Tables \@ref(tab:est-pars-ref),
 \@ref(tab:est-pars-3), \@ref(tab:est-pars-4), \@ref(tab:est-pars-5), and 
 \@ref(tab:est-pars-6). These parameter
 estimates are compared in Table \@ref(tab:est-pars-all). Negative log-likelihood values and management measures for each
@@ -535,11 +535,11 @@ year ($M_t$) is presented in Figure \@ref(fig:M-t), showing the mortality event 
 Estimates of fishing morality, from the reference model (16.0), are shown to assist with the rebuilding and reference point time frame discussions (Figure \@ref(fig:fishing-mort)). Fishing mortality can not be ruled out as being an influential factor in the current stock status.
 
 ### d. Evaluation of the fit to the data.{-}
-The model fits to total male ($\ge$ 90 mm CL) trawl survey biomass tend to miss the recent peak around 2010, and fits recent survey data points on the lower end of their error bars (Figures \@ref(fig:trawl-survey-biomass)). 
+The model fits to total male ($\ge$ 90 mm CL) trawl survey biomass tend to miss the recent peak around 2010 and fits recent survey data points on the lower end of their error bars (Figures \@ref(fig:trawl-survey-biomass)). 
 These fits are most likely being pulled down by the recent decline in the ADF&G pot survey data points, since the **add CV pot** and the **add CV both** models captures the upward error bars for these data points when it is allowed to fit the ADF&G pot survey data very poorly. 
 However, these two models tend to overfit the recent trawl survey data points (Figure \@ref(fig:trawl-survey-biomass-wovast)).
 
-The VAST model estimates tend to be higher than the traditional trawl surey estimates, but also miss the up tick around 2010, however this model tends to fit the recent survey years more fairly (Figure \@ref(fig:trawl-survey-biomass-base-vast) and \@ref(fig:surv1-vast)). The reference model is biased low in recent years, while the additional CV models are biased high. 
+The VAST model estimates tend to be higher than the traditional trawl surey estimates, but also miss the up tick around 2010; however, this model tends to fit the recent survey years more fairly (Figure \@ref(fig:trawl-survey-biomass-base-vast) and \@ref(fig:surv1-vast)). The reference model is biased low in recent years, while the additional CV models are biased high. 
 
 All of the models fit the pot survey CPUE poorly (Figure \@ref(fig:pot-survey-cpue)), with the **add CV pot** and **add CV both** models having the worst fit due to the addition of variability (Figure \@ref(fig:pot-add-cv)). 
 
@@ -553,8 +553,7 @@ of uncertainty on the input data (Figure \@ref(fig:fit-to-catch)).
 
 
 ### e. Retrospective and historical analyses {-}
-This is only the third year a formal assessment model developed for this stock. As such, retrospective patterns and 
-historical analyses relative to fisheries impacts are limited. 
+This is only the third year GMACS has been used for this stock. As such, retrospective patterns and historical analyses of GMACS assessments are limited. 
 Completion of a retrospective analysis, for at least the base model, is anticipated to be presented in Sept. 2020.
 
 ### f. Uncertainty and sensitivity analyses.{-}
@@ -564,7 +563,7 @@ Tables \@ref(tab:est-pars-ref), \@ref(tab:est-pars-3), \@ref(tab:est-pars-4),
 (compiled in Table \@ref(tab:est-pars-all)). Model estimates of mature male biomass and OFL in 2019 are presented in Section F.
 
 ### g. Comparison of alternative model scenarios.{-}
-The estimates of mature male biomass (Figure \@ref(fig:mmb)) for the additional CV models differs from the other models due to a low value for pot survey catchability being estimated (which tends to scale the population estimate). 
+The estimates of mature male biomass (Figure \@ref(fig:mmb)) for the additional CV models differ from the other models due to a low value for pot survey catchability being estimated (which tends to scale the population estimate). 
 Difference in the mature male biomass since 2010 in the these models (19.2 and 19.3) are due to the model overfitting the trajectory of the trawl survey and downweighting the declines in the pot survey (Figure \@ref(fig:trawl-survey-biomass-wovast). 
 The **VAST** scenario generally has high mature male biomass estimates since the early 90s, which would be expected since the trawl survey biomass estimates generated from VAST are larger in the 90s and 2000s (Figure \@ref(fig:trawl-survey-biomass-base-vast)).
 The VAST model trawl survey biomass fit also captures the 90s survey data more closey than the reference model. 
@@ -645,7 +644,7 @@ The following topics have been listed as areas where more research on SMBKC is n
 # I. Projections and outlook {-}
 The outlook for recruitment is pessimistic and the abundance relative to the proxy $B_\mathit{MSY}$ is low. 
 The NMFS survey results in 2019 noted ocean conditions warmer than 
-normal with an absence of a "cold pool" in the region. This could have detrimental effects on the SMBKC stocks and
+normal with an absence of a "cold pool" in the region. This could have detrimental effects on the SMBKC stock and
 should be carefully monitored. Relative to the impact of historical fishing, we again conducted a
  "dynamic-$B_0$" analysis. This procedure simply projects
 the population based on estimated recruitment but removes the effect of fishing. For the reference case,
@@ -656,7 +655,7 @@ The other non-fishing contributors to the observed depleted stock trend (ignorin
 # J. Acknowledgements {-}
 
 We thank the Crab Plan Team and ADF&G staff for reviewing an earlier draft of this report 
-and Andre Punt for his input into refinements to the Gmacs model code, specifically the projections module.
+and Andre Punt for his input into refinements to the GMACS model code, specifically the projections module.
 
 # K. References {-}
 Alaska Department of Fish and Game (ADF&G). 2013. Crab observer training and deployment manual. Alaska Department of Fish and Game Shellfish Observer Program, Dutch Harbor. Unpublished.
@@ -904,7 +903,7 @@ from the 96 common stations surveyed during the ADF\&G SMBKC pot surveys. Source
 ```{r length-weight, results = "asis"}
 df <- data.frame(M[[2]]$mod_yrs, M[[2]]$mean_wt[1:length(M[[2]]$mod_yrs), ] * 1000)
 names(df) <- c("Year","Stage-1","Stage-2","Stage-3")
-tab <- xtable(df, caption = "Mean weight (kg) by stage in used in all of the models (provided as a vector of weights at length each year to Gmacs).", label = "tab:length-weight", digits = c(0,0,1,1,1))
+tab <- xtable(df, caption = "Mean weight (kg) by stage in used in all of the models (provided as a vector of weights at length each year to GMACS).", label = "tab:length-weight", digits = c(0,0,1,1,1))
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
 ```
 
@@ -993,7 +992,7 @@ Parameter <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
 df1 <- data.frame(Parameter, Estimate, SD)
 df2 <- data.frame(Parameter = c("$F_\\text{OFL}$","OFL"), 
                   Estimate = c(M[[ref_mod]]$sd_fofl[1], M[[ref_mod]]$spr_cofl), 
-                  SD = c(0.005473, 9.2544)) # directly from gmacs.std file **FIX**
+                  SD = c(0.005473, 9.2544)) # directly from GMACS.std file **FIX**
 df1 %>% 
   bind_rows(df2) -> df
 tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the reference (16.0) model.", label = "tab:est-pars-ref", digits = 3)
@@ -1297,7 +1296,7 @@ knitr::include_graphics("safe_figure/trawl_biomass_mod_scen_residuals.png", dpi 
 knitr::include_graphics("safe_figure/trawl_biomass_VAST_Ref_residuals.png", dpi = 100)
 ```
 
-```{r bts-resid-adfg, fig.cap = "Standardized residuals for total male pot survey CPUEs for each of the Gmacs model scenarios."}
+```{r bts-resid-adfg, fig.cap = "Standardized residuals for total male pot survey CPUEs for each of the GMACS model scenarios."}
 knitr::include_graphics("safe_figure/pot_cpue_mod_scen_residuals.png", dpi = 100)
 ```
 
@@ -1340,7 +1339,7 @@ knitr::include_graphics("safe_figure/addCVBoth_size_comp_residuals.png", dpi = 1
 knitr::include_graphics("safe_figure/qblock_size_comp_residuals.png", dpi = 100)
 ```
 
-```{r fit-to-catch, fig.cap = "Comparison of observed and model predicted retained catch and bycatches in each of the Gmacs models. Note that difference in units between each of the panels, some panels are expressed in numbers of crab, some as biomass (tons).", fig.height =12}
+```{r fit-to-catch, fig.cap = "Comparison of observed and model predicted retained catch and bycatches in each of the GMACS models. Note that difference in units between each of the panels, some panels are expressed in numbers of crab, some as biomass (tons).", fig.height =12}
 knitr::include_graphics("safe_figure/catch.png", dpi = 100) # Note this should be rec_mod or all models
 ```
 
@@ -1361,13 +1360,13 @@ knitr::include_graphics("safe_figure/dyn_Bzero.png", dpi = 375)
 # Appendix A: SMBKC Model Description {-}
 
 ## 1. Introduction {-}
-The Gmacs model has been specified to account only for male crab $\ge$ 90 mm in carapace length (CL). These are
+The GMACS model has been specified to account only for male crab $\ge$ 90 mm in carapace length (CL). These are
 partitioned into three stages (size- classes) determined by CL measurements of (1) 90-104 mm, (2) 105-119 mm, and (3)
 120+ mm. For management of the St. Matthew Island blue king crab (SMBKC) fishery, 120 mm CL is used as the proxy value
 for the legal measurement of 5.5 inch carapace width (CW), whereas 105 mm CL is the management proxy for mature-male
 size (state regulation *5 AAC 34.917 (d)*). 
 Accordingly, within the model only stage-3 crab are retained in the directed fishery, and stage-2 and stage-3 crab together comprise the collection of mature males. Some justification for the 105 mm value is presented in Pengilly and Schmidt (1995), who used it in developing the current regulatory SMBKC harvest strategy. The term "recruit" here designates recruits to the model, i.e., annual new stage-1 crab, rather than recruits to the fishery. 
-The following description of model structure reflects the Gmacs base model configuration.
+The following description of model structure reflects the GMACS base model configuration.
 
 ## 2. Model Population Dynamics {-}
 
@@ -1421,7 +1420,7 @@ With boldface lower-case letters indicating vector quantities we designate the v
 \begin{equation}
     \boldsymbol{n}_{t,y} = n_{l,t,y} = \left[ n_{1,t,y}, n_{2,t,y}, n_{3,t,y} \right]^\top.
 \end{equation}
-The number of new crab, or recruits, of each stage entering the model each season $t$ and year $y$ is represented as the vector $\boldsymbol{r}_{t,y}$. The SMBKC formulation of Gmacs specifies recruitment to stage-1 only during season $t=5$, thus the recruitment size distribution is
+The number of new crab, or recruits, of each stage entering the model each season $t$ and year $y$ is represented as the vector $\boldsymbol{r}_{t,y}$. The SMBKC formulation of GMACS specifies recruitment to stage-1 only during season $t=5$, thus the recruitment size distribution is
 \begin{equation}
     \phi_l = \left[ 1, 0, 0 \right]^\top,
 \end{equation}
@@ -1472,7 +1471,7 @@ The survival matrix $\boldsymbol{S}_{t,y}$ during season $t$ and year $y$ is
     0 & 0 & 1-e^{-Z_{3,t,y}} \end{array} \right].
 \end{equation}
 
-The basic population dynamics underlying Gmacs can thus be described as
+The basic population dynamics underlying GMACS can thus be described as
 \begin{align}
     \boldsymbol{n}_{t+1,y} &= \boldsymbol{S}_{t,y} \boldsymbol{n}_{t,y}, &\text{ if } t<5 \notag\\
     \boldsymbol{n}_{t,y+1} &= \boldsymbol{G} \boldsymbol{S}_{t,y} \boldsymbol{n}_{t,y} + \boldsymbol{r}_{t,y} &\text{ if } t=5.
@@ -1607,7 +1606,7 @@ and the likelihood is
 \end{equation}
 
 
-Gmacs calculates standard deviation of the normalised residual (SDNR) values
+GMACS calculates standard deviation of the normalised residual (SDNR) values
 and median of the absolute residual (MAR) values for all abundance indices and
 size compositions to help the user come up with resonable likelihood weights.
 For an abundance data set to be well fitted, the SDNR should not be much
@@ -1619,11 +1618,11 @@ and 20, respectively. Although an SDNR not much greater than 1 is a necessary
 condition for a good fit, it is not sufficient. It is important to plot the
 observed and expected abundances to ensure that the fit is good.
 
-Gmacs also calculates Francis weights for each of the size composition data
+GMACS also calculates Francis weights for each of the size composition data
 sets supplied (Francis 2011). If the user wishes to use the Francis iterative
 re-weighting method, first the weights applied to the abundance indices should
 be adjusted by trial and error until the SDNR (and/or MAR) are adequte. Then
-the Francis weights supplied by Gmacs should be used as the new likelihood
+the Francis weights supplied by GMACS should be used as the new likelihood
 weights for each of the size composition data sets the next time the model is
 run. The user can then iteratively adjust the abudance index and size
 composition weights until adequate SDNR (and/or MAR) values are achieved,
