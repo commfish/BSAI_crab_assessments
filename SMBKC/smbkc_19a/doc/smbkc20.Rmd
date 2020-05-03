@@ -294,8 +294,8 @@ Comment: *Regarding general code development, the SSC and CPT outstanding reques
 Comment: *Regarding potential model scenarios for 2020, the SSC and CPT requests are:*
     
   1. *Extra CV for both surveys*
-  
-    Model 19.3 has an extra CV for both surveys, for comparison to Model 19.2 with only an additional CV on the pot survey.
+    
+     Model 19.3 has an extra CV for both surveys, for comparison to Model 19.2 with only an additional CV on the pot survey.
       
   2. *Random walk or exploration of catchability*
     
@@ -1170,7 +1170,7 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 df <- read.csv(paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/neg_log_like.csv'))
 #names(df) <- c("Component",mod_names[mod_scen])
 names(df) <- c("Component", "Ref", "VAST", "addCVpot", "addCVboth", "qBlock")
-tab <- xtable(df, caption = "Comparisons of negative log-likelihood values for the selected model scenarios. It is important to note that comparisons among models may be limited since the assumed variances are modified (e.g., {\\bf Fit surveys} model).", label = "tab:likelihood-components")
+tab <- xtable(df, caption = "Comparisons of negative log-likelihood values for the selected model scenarios. It is important to note that comparisons among models may be limited since the number of parameters between models changes (e.g., {\\bf add CV} models).", label = "tab:likelihood-components")
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
 ```
 
