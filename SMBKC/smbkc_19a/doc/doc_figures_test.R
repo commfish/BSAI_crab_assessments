@@ -524,6 +524,10 @@ ggsave(paste0(.FIGS, "mod_scen_M_t.png"), width = 1.25*ww, height = hh)
 plot_cpue(M[c(mod_scen)],  "NMFS Trawl", ylab = "NMFS survey biomass (t)")
 ggsave(paste0(.FIGS, "trawl_biomass_mod_scen.png"), width = ww*1.10, height = 1.1*hh)
 
+# additional CV on trawl survey ---------
+plot_cpue(M[4:5],  ShowEstErr = TRUE, "NMFS Trawl", ylab = "NMFS survey biomass (t)")
+ggsave(paste0(.FIGS, "PRESENTATION_trawl_biomass_addCVboth.png"), width = ww*1.50, height = 1.1*hh)
+
 plot_cpue2(M[mod_scen], "NMFS Trawl", ylab = "NMFS survey biomass (t)", 
            vastdata = TRUE, vastm = "model 19.1 (VAST)")
 ggsave(paste0(.FIGS, "trawl_biomass_mod_scen2.png"), width = ww*1.10, height = 1.1*hh)
@@ -547,6 +551,7 @@ ggsave(paste0(.FIGS, "trawl_biomass_mod_scen3.png"), width = ww*1.10, height = 1
 
 plot_cpue(M[c(2, 4:6)],  "NMFS Trawl", ylab = "NMFS survey biomass (t)")
 ggsave(paste0(.FIGS, "trawl_biomass_mod_scen_WO_vast.png"), width = ww*1.10, height = 1.1*hh)
+ggsave(paste0(.FIGS, "PRESENTATION_trawl_biomass_mod_scen_WO_vast.png"), width = ww*1.30, height = 1.1*hh)
 
 # VAST and area-swept data only ------
 plot_cpue_VAST(M[2:3],  "NMFS Trawl", ylab = "NMFS survey biomass (t)", 
@@ -593,6 +598,12 @@ plot_cpue_q(M[6], "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)",
 plot_cpue_q(M[mod_scen], "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)", 
             qblock = TRUE)
 ggsave(paste0(.FIGS, "pot_cpue_mod_scen.png"), width = ww*1.10, height = hh)
+ggsave(paste0(.FIGS, "PRESENTATION_pot_cpue_mod_scen.png"), width = ww*1.50, height = hh)
+
+# presentation 
+plot_cpue_q(M[c(2, 4:6)], "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)", 
+            qblock = TRUE)
+ggsave(paste0(.FIGS, "PRESENTATION_pot_cpue_mod_scen_woVAST.png"), width = ww*1.50, height = hh)
 
 ##!!catch --------
 plot_catch(M[2])
