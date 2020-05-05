@@ -21,7 +21,7 @@ source("./SMBKC/code/functions.R")
 source("./SMBKC/code/helper.R") 
 source("./SMBKC/smbkc_19a/doc/gmr_functions2020.R") 
 
-# Model 1 plots -------------------------
+# Model 4 plots -------------------------
 cur_yr <- 2019 # update annually 
 folder <- "smbkc_19a"
   
@@ -144,6 +144,11 @@ dev.off()
 plot_cpue_res(M, "ADFG Pot")
 ggsave(paste0(.FIGS, "cpue_pot_residuals.png"), width = ww*2.5, height = hh)
 dev.off()
+
+# fishing mortality ----
+plot_F(M)
+plot_F2(M)
+ggsave(paste0(.FIGS, "fishing_mortality.png"), width = ww*1.2, height = hh*1.2)
 
 # SMBKC plots new  -------------
 # SSB -----------
