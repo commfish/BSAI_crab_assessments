@@ -294,6 +294,8 @@ ggsave(paste0(.FIGS, "selectivity_mod_scen.png"), width = ww*1.20, height = 1.1*
 #plot_selectivity(M[mod_scen2])
 plot_selectivity(M[6])
 ggsave(paste0(.FIGS, "selectivity_q_timeblock.png"), width = ww*1.20, height = 0.275*hh)
+ggsave(paste0(.FIGS, "PRES_selectivity_q_timeblock.png"), width = ww*1.20, height = 0.375*hh)
+
 ## ** FIX ** display is not good.
 
 ## !!recruitment mod scen ----------------
@@ -629,6 +631,9 @@ plot_cpue_res(M[mod_scen], "ADF&G Pot")
 # user defined function here also to deal with qblocks **FIX**
 
 ggsave(paste0(.FIGS, "pot_cpue_mod_scen_residuals.png"), width = ww*1.20, height = 1.1*hh)
+
+plot_cpue_res(Mbase, "ADF&G Pot")
+ggsave(paste0(.FIGS, "pot_cpue_REF_residuals.png"), width = ww*1.20, height = 1.1*hh)
 
 ## !!size comps ---------------
 ## !!!!!!!!!!!!! load my functions file here
