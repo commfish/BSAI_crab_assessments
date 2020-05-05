@@ -76,3 +76,16 @@ Need to run mcmc above to get .psv file for projections
 
 # retrospective pattern analysis 
 Use model_1 for this. Manually adjust data and .ctl file for this 
+
+
+## to do list: Tackle before Sept. 2020
+address **FIX** tags in 'doc_figures_test.R' file and move things to figures_tables_create_SAFE.R' once they work.
+
+gmr plotting issues:
+- fishing mortality
+- issues with time blocks
+- fix gmr with my changes and make them general before pushing to github
+
+Other models options?
+
+Spatial analysis of the survey data
