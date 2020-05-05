@@ -60,7 +60,7 @@ plot_cpue(M, ShowEstErr = TRUE, "NMFS Trawl", ylab = "Survey biomass (t)")
 ggsave(paste0(.FIGS, "cpue_trawl.png"), width = ww, height = hh)
 dev.off()
 
-plot_cpue(M, ShowEstErr = TRUE, "ADFG Pot", ylab = "Survey biomass (t)")
+plot_cpue(M, ShowEstErr = TRUE, "ADFG Pot", ylab = "Pot survey CPUE (crab/potlift)")
 ggsave(paste0(.FIGS, "cpue_pot.png"), width = ww, height = hh)
 dev.off()
 
