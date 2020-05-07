@@ -1,4 +1,4 @@
-# K.Palof  11-20-19/ 04-01-20/4-23-20
+# K.Palof  11-20-19/ 04-01-20
 
 # Code for plotting output of GMACS models for SMBKC
 # Taken from Jim Ianellii https://github.com/seacode/gmacs/tree/develop/examples/smbkc_18a/model_1 but updated 
@@ -6,7 +6,7 @@
 # Model or Model(s) plotted here: 
 # Stock: SMBKC
 # Year and timing: 2019a - models for May 2020
-# Model: model_1a
+# Model: model_1a : additional CV on ADFG pot survey
 
 # load ------------
 #require(devtools)
@@ -17,22 +17,24 @@
 # click "install and restart"
 
 require(gmr)
-#setwd("./smbkc_19/model_1")
+source("./SMBKC/code/functions.R") 
+source("./SMBKC/code/helper.R") 
+source("./SMBKC/smbkc_19a/doc/gmr_functions2020.R") 
 
 # Model 1 plots -------------------------
 cur_yr <- 2019 # update annually 
 
-mod_names <- c("add_CV_pot")
+mod_names <- c("add CV pot")
 .MODELDIR = c("./SMBKC/smbkc_19a/model_1a/") # directory where the model results are
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
 .FLEET    = c("Pot","Trawl bycatch","Fixed bycatch","NMFS Trawl","ADFG Pot")
-.TYPE     = c("Retained & Discarded","Retained","Discarded")
+.TYPE     = c("Retained","Discarded", "Retained & Discarded")
 .SHELL    = c("Aggregate","Aggregate")
 .MATURITY = c("Aggregate")
 .SEAS     = c("Annual")
-.FIGS     = c("./SMBKC/smbkc_19a/model_1/figure/")
+.FIGS     = c("./SMBKC/smbkc_19a/model_1a/figure/")
 
 fn       <- paste0(.MODELDIR, "gmacs")
 M        <- lapply(fn, read_admb) #need .prj file to run gmacs and need .rep file here
@@ -41,13 +43,12 @@ names(M) <- mod_names
 ww <- 6
 hh <- 5
 
-
-# Jim's plots -------------------------------
+# Plots from Jim Ianelli's -------------------------------
 plot_recruitment_size(M)
 ggsave(paste0(.FIGS, "rec_size.png"), width = ww*2.5, height = hh*1.5)
 dev.off()
 
-plot_catch(M)
+plot_catch(M) # adjusted .TYPE to reflect what it should be check this in the future
 ggsave(paste0(.FIGS, "catch.png"), width = ww*1.2, height = hh*1.2)
 dev.off()
 
@@ -59,19 +60,16 @@ plot_cpue(M, ShowEstErr = TRUE, "NMFS Trawl", ylab = "Survey biomass (t)")
 ggsave(paste0(.FIGS, "cpue_trawl.png"), width = ww, height = hh)
 dev.off()
 
-plot_cpue(M, ShowEstErr = TRUE, "ADFG Pot", ylab = "Pot survey CPUE (crab/potlift)")
+plot_cpue(M, ShowEstErr = TRUE, "ADFG Pot", ylab = "Pot survey adjusted CPUE (crab/potlift)")
 ggsave(paste0(.FIGS, "cpue_pot.png"), width = ww, height = hh)
 dev.off()
 
-ggsave(paste0(.FIGS, "pot_cpue_addcv.png"), width = ww*1.5, height = hh)
-
-
-# look at code not working error in if (A$nmature == 2) { : argument is of length zero
-plot_natural_mortality(M, plt_knots = FALSE)
+# smbkc edited function - see gmr_functions2020.R
+plot_natural_mortality2(M, plt_knots = FALSE)
 ggsave(paste0(.FIGS, "M_t.png"), width = ww, height = hh)
 dev.off()
 
-plot_ssb(M)
+plot_ssb(M) #doesn't show projection year, which is current year
 ggsave(paste0(.FIGS, "ssb.png"), width = ww, height = hh)
 dev.off()
 
@@ -79,9 +77,7 @@ plot_recruitment(M)
 ggsave(paste0(.FIGS, "recruitment.png"), width = ww, height = hh)
 dev.off()
 
-#Error in data.frame(Model = names(M)[i], type = "Capture", M[[i]]$slx_capture) : 
-# arguments imply differing number of rows: 1, 0
-plot_selectivity(M) # **FIX** not working
+plot_selectivity(M) # **FIX** not displaying well.  working.
 ggsave(paste0(.FIGS, "selectivity.png"), width = ww*1.5, height = hh*1.5)
 dev.off()
 
@@ -114,8 +110,7 @@ dev.off()
 # dev.off()
 # 
 
-# Error in names(x) <- value : 
-# 'names' attribute [12] must be the same length as the vector [9] 
+# updated .tpl to include output. Not sure why but this was taken out by Jie? ask him
 plot_size_comps(M, 1)
 ggsave(paste0(.FIGS, "lf_1.png"), width = ww*2, height = hh*1.5)
 dev.off()
@@ -155,12 +150,14 @@ ssb <- .get_ssb_df(M) # ssb now does NOT include projection year so only up to 2
 head(ssb)
 # ssb vector only includes model years - here crab year 1978 to 2019 does NOT include projection, need to add
 #   projection year for graphical purposes
-# ssb current year uncertainty
+# ssb current year uncertainty  **FIX ** 
 un_ssb <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
 ssb_last <- data.frame("year" = cur_yr, "ssb" = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
-                       "lb" = un_ssb$lci, 
-                       "ub" = un_ssb$uci) 
-
+                       "lb" = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
+                       "ub" = M[[1]]$spr_bmsy * M[[1]]$spr_depl) 
+#ssb_last <- data.frame("year" = cur_yr, "ssb" = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
+#                       "lb" = un_ssb$lci, 
+#                       "ub" = un_ssb$uci)
 
 # should be current crab year; update with lb and ub from projection file
 # update with 95% credible interval
@@ -177,7 +174,7 @@ ssb %>%
     #           lty = c("solid", "dashed"))+
     #geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
     #          hjust = -0.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
-    ggtitle("Reference model (19.0)") +
+    ggtitle("Reference model (16.0)") +
     ylab("Mature male biomass (t) on 15th February") + xlab("Year") +
     .THEME
 ggsave(paste0(.FIGS, "ssb19_wprojected_yr.png"), width = ww, height = hh)
@@ -212,7 +209,7 @@ as.character(M[[1]]$spr_nyr)
 
 
 ofl_df <- data.frame(Bmsy, MMB, B_Bmsy, Fofl, years)
-write_csv(ofl_df, paste0('./SMBKC/smbkc_19/model_1/ofl_table_', mod_names, '.csv'))
+write_csv(ofl_df, paste0(.MODELDIR, '/ofl_table_', mod_names, '.csv'))
 
 ssb %>% 
   ggplot(aes(year, ssb)) +
@@ -279,15 +276,8 @@ rec %>%
   summarise(meanR = mean(exp(log_rec)/1000000)) %>% 
   mutate(years = "1978-2018")-> avgR
 
-rec %>% 
-  filter(year >= 1996) %>% 
-  summarise(meanR = mean (exp(log_rec)/1000000)) %>% 
-  mutate(years = "1996-2018")-> avgR2
-
-avgR %>% 
-  bind_rows(avgR2) -> avgR_options
 #mutate(Bmsy50 = 0.5*Bmsy) -> Bmsy_options
-avgR_options # see above is calculated average recruitment for each time series
+avgR # see above is calculated average recruitment for each time series
 rec$rbar[1]
 
 # recruitment plot ----------
@@ -302,10 +292,10 @@ rec %>%
   geom_text(aes(x = 2000, y = rbar[1]/1000000, label = "R_bar"), 
             hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 3.0) +
   .THEME +
-  geom_hline(data = avgR_options, aes(yintercept = meanR), color = c("blue", "red"), 
-             lty = c("solid", "dashed"))+
-  geom_text(data = avgR_options, aes(x= 1980, y = meanR, label = years), 
-            hjust = -2.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) 
+  #geom_hline(data = avgR_options, aes(yintercept = meanR), color = c("blue", "red"), 
+  #           lty = c("solid", "dashed"))+
+  #geom_text(data = avgR_options, aes(x= 1980, y = meanR, label = years), 
+  #          hjust = -2.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) 
 ggsave(paste0(.FIGS, "recruitment_line_with years.png"), width = ww, height = hh)
 dev.off()
          
@@ -338,7 +328,10 @@ M[[base_model_1]]$spr_cofl
 ## Dynamic B0 ----
 #.get_dynB0_df(M)  # not currently in output, can I add this?
 
-plot_dynB0(M) # currently working! see updates to .tpl file 
+plot_dynB0(M) 
+ggsave(paste0(.FIGS, "dynamicB0.png"), width = ww*2.5, height = hh)
+dev.off()
+# currently working! see updates to .tpl file 
 # From Jim I: Also, I think a commented out line needs to be reinstated.  
 #             So comment out lines 1786 and 1787 and UNcomment lines 1800 and 1801, 
 #             then call it directly: plot_dynB0(model_object) .
