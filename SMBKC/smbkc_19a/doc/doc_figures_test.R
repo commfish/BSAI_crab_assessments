@@ -558,11 +558,11 @@ plot_cpue(M[c(2, 4:6)],  "NMFS Trawl", ylab = "NMFS survey biomass (t)")
 ggsave(paste0(.FIGS, "trawl_biomass_mod_scen_WO_vast.png"), width = ww*1.10, height = 1.1*hh)
 ggsave(paste0(.FIGS, "PRESENTATION_trawl_biomass_mod_scen_WO_vast.png"), width = ww*1.30, height = 1.1*hh)
 
+
 # VAST and area-swept data only ------
 plot_cpue_VAST(M[2:3],  "NMFS Trawl", ylab = "NMFS survey biomass (t)", 
            vastdata = TRUE, vastm = "model 19.1 (VAST)")
 ggsave(paste0(.FIGS, "trawl_biomass_VAST_areaSP.png"), width = ww*1.10, height = 1.1*hh)
-
 
 #!! pot survey -------
 #{r pot_survey_cpue, fig.cap = "Comparisons of total (90+ mm CL) male pot survey CPUEs and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations.\\label{fig:pot_survey_cpue}"}
