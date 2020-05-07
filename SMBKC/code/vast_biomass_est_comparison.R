@@ -5,6 +5,9 @@
 
 #load -------
 library(tidyverse)
+require(gmr) # see figures_tables_create_SAFE for instructions on updating this
+
+.THEME    = theme_bw(base_size = 12, base_family = "")
 
 # VAST data --------
 data_vast_19 <- read.csv(here::here("SMBKC/smbkc_19a/data/SMBKC_GE90_BIOMASS.csv"))
@@ -42,4 +45,6 @@ data_trawl %>%
   select(Year, BIOMASS_MT, BIOMASS_MT_CV, Estimate_metric_tons, SD_mt) %>% 
   ggplot(aes(Year, BIOMASS_MT)) +
   geom_line() +
-  geom_line(aes(Year, Estimate_metric_tons), col = "red")
+  geom_line(aes(Year, Estimate_metric_tons), col = "blue") +
+  .THEME
+  

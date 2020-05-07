@@ -10,11 +10,16 @@ Models housed in smbkc_19a
 Model             | Model in Doc  | Description
 ---------- ---    | ------------- | -------------
 model_1           |   16.0        | - Basecase (last year's selected model 1) - with no new data     
-model_1a          |   20.2        | - add CV for ADF&G pot survey, line 202 .ctl file
-model_1b          |   20.3        | - add CV for both surveys, lines 201, 202 .ctl file
-model_
+model_1a          |   19.2        | - add CV for ADF&G pot survey, line 202 .ctl file
+model_1b          |   19.3        | - add CV for both surveys, lines 201, 202 .ctl file
+model_2           |               | - estimate both q's - see readme.md but no sig finding. 
+                  |               |    trawl q goes to 1, pot q is similar to base, no reason to
+                  |               |    report.
+                  
+model_3           |   19.4        | - "time" blocks for q estimates for the ADFG pot survey, 
+                  |               |     2 time blocks, see readme.md in model_3 folder for more                    |               |     information
 
-model_4           |   20.1        | - Apply VAST series - Jon Richar provided VAST estimates using just the trawl survey 
+model_4           |   19.1        | - Apply VAST series - Jon Richar provided VAST estimates using just the trawl survey 
                   |               |    - April 2020
 
 
@@ -71,3 +76,16 @@ Need to run mcmc above to get .psv file for projections
 
 # retrospective pattern analysis 
 Use model_1 for this. Manually adjust data and .ctl file for this 
+
+
+## to do list: Tackle before Sept. 2020
+address **FIX** tags in 'doc_figures_test.R' file and move things to figures_tables_create_SAFE.R' once they work.
+
+gmr plotting issues:
+- fishing mortality
+- issues with time blocks
+- fix gmr with my changes and make them general before pushing to github
+
+Other models options?
+
+Spatial analysis of the survey data
