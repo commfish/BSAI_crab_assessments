@@ -203,7 +203,301 @@ plot_natural_mortality2 <-
     print(p + .THEME)
   }
 
+A <- M[mod_scen]
 
+plot_cpue2 <- 
+function(M, subsetby = "", xlab = "Year", ylab = "CPUE", slab = "Sex", 
+         ShowEstErr = FALSE, logy = FALSE, vastdata = FALSE, vastm = NULL)
+{
+  mdf <- .get_cpue_df(M)
+  if (subsetby != "") mdf <- subset(mdf, fleet == subsetby)
+  
+  if (logy) {
+    mdf$cpue <- log(mdf$cpue)
+    mdf$lb <- log(mdf$lb)
+    mdf$ub <- log(mdf$ub)
+    mdf$lbe <- log(mdf$lbe)
+    mdf$ube <- log(mdf$ube)
+    mdf$pred <- log(mdf$pred)
+    ylab <- paste0("log(", ylab, ")")
+  }
+  
+  xlab <- paste0("\n", xlab)
+  ylab <- paste0(ylab, "\n")
+  
+  if (vastdata == TRUE){
+    mdf %>% 
+      mutate(dataseries = as.factor(ifelse(Model == vastm, "vast", "area"))) -> mdf
+    p  <- ggplot(mdf, aes(year, cpue, shape = dataseries)) +
+      expand_limits(y = 0) +
+      geom_pointrange(aes(year, cpue, ymax = ub, ymin = lb), position = position_dodge(width = 0.85 )) 
+      
+  }
+  else if (vastdata == FALSE) {
+    p  <- ggplot(mdf, aes(year, cpue)) +
+      expand_limits(y = 0) +
+      geom_pointrange(aes(year, cpue, ymax = ub, ymin = lb), col = "black")
+  }
+  
+  if (ShowEstErr) {
+    if (length(M) == 1 && length(unique(mdf$sex)) == 1) {
+      p  <- p + geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe), color = "red", shape = 1, linetype = "dotted", position = position_dodge(width = 1))
+    } else if (length(M) != 1 && length(unique(mdf$sex)) == 1) {
+      p  <- p + geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe, col = Model), shape = 1, linetype = "dotted", position = position_dodge(width = 1))
+    } else if (length(M) == 1 && length(unique(mdf$sex)) != 1) {
+      p  <- p + geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe, col = sex), shape = 1, linetype = "dotted", position = position_dodge(width = 1))
+    } else {
+      p  <- p + geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe, col = Model), shape = 1, linetype = "dotted", position = position_dodge(width = 1))
+    }
+  }
+  
+  if (.OVERLAY) {
+    if (length(M) == 1 && length(unique(mdf$sex)) == 1) {
+      p <- p + geom_line(data = mdf, aes(year, pred, color = Model, linetype = Model)) +
+        facet_wrap(~fleet, scales = "free_y")
+    } else if (length(M) != 1 && length(unique(mdf$sex)) == 1) {
+      p <- p + geom_line(data = mdf, aes(year, pred, color = Model, linetype = Model)) +
+        facet_wrap(~fleet, scales = "free_y")
+    } else if (length(M) == 1 && length(unique(mdf$sex)) != 1) {
+      p <- p + geom_line(data = mdf, aes(year, pred, color = sex)) + labs(col = slab) +
+        facet_wrap(~fleet + sex, scales = "free_y")
+    } else {
+      p <- p + geom_line(data = mdf, aes(year, pred, color = Model, linetype = Model)) +
+        facet_wrap(~fleet + sex, scales = "free_y")
+    }
+  } else {
+    p  <- p + geom_line(data = mdf, aes(year, pred))
+    p  <- p + facet_wrap(~fleet + sex + Model, scales = "free_y")
+  }
+  
+  p  <- p + labs(x = xlab, y = ylab)
+  print(p + .THEME + theme(legend.position = "right",
+                           legend.box = "vertical"))
+}
+
+plot_cpue_q <- 
+  function(M, subsetby = "", xlab = "Year", ylab = "CPUE", slab = "Sex", 
+           ShowEstErr = FALSE, logy = FALSE, qblock = FALSE)
+  {
+    mdf <- .get_cpue_df(M)
+    
+    if (qblock == TRUE) {
+      mdf %>% 
+        mutate(fleet = ifelse(fleet == "ADF&G Pot2", "ADF&G Pot", fleet)) -> mdf
+    }
+    if (subsetby != "") mdf <- subset(mdf, fleet == subsetby)
+    
+    if (logy) {
+      mdf$cpue <- log(mdf$cpue)
+      mdf$lb <- log(mdf$lb)
+      mdf$ub <- log(mdf$ub)
+      mdf$lbe <- log(mdf$lbe)
+      mdf$ube <- log(mdf$ube)
+      mdf$pred <- log(mdf$pred)
+      ylab <- paste0("log(", ylab, ")")
+    }
+    
+    xlab <- paste0("\n", xlab)
+    ylab <- paste0(ylab, "\n")
+    
+    
+    p  <- ggplot(mdf, aes(year, cpue)) +
+        expand_limits(y = 0) +
+        geom_pointrange(aes(year, cpue, ymax = ub, ymin = lb), col = "black")
+    
+    if (ShowEstErr) {
+      if (length(M) == 1 && length(unique(mdf$sex)) == 1) {
+        p  <- p + geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe), color = "red", shape = 1, linetype = "dotted", position = position_dodge(width = 1))
+      } else if (length(M) != 1 && length(unique(mdf$sex)) == 1) {
+        p  <- p + geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe, col = Model), shape = 1, linetype = "dotted", position = position_dodge(width = 1))
+      } else if (length(M) == 1 && length(unique(mdf$sex)) != 1) {
+        p  <- p + geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe, col = sex), shape = 1, linetype = "dotted", position = position_dodge(width = 1))
+      } else {
+        p  <- p + geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe, col = Model), shape = 1, linetype = "dotted", position = position_dodge(width = 1))
+      }
+    }
+    
+    if (.OVERLAY) {
+      if (length(M) == 1 && length(unique(mdf$sex)) == 1) {
+        p <- p + geom_line(data = mdf, aes(year, pred)) +
+          facet_wrap(~fleet, scales = "free_y")
+      } else if (length(M) != 1 && length(unique(mdf$sex)) == 1) {
+        p <- p + geom_line(data = mdf, aes(year, pred, color = Model, linetype = Model)) +
+          facet_wrap(~fleet, scales = "free_y")
+      } else if (length(M) == 1 && length(unique(mdf$sex)) != 1) {
+        p <- p + geom_line(data = mdf, aes(year, pred, color = sex)) + labs(col = slab) +
+          facet_wrap(~fleet + sex, scales = "free_y")
+      } else {
+        p <- p + geom_line(data = mdf, aes(year, pred, color = Model, linetype = Model)) +
+          facet_wrap(~fleet + sex, scales = "free_y")
+      }
+    } else {
+      p  <- p + geom_line(data = mdf, aes(year, pred))
+      p  <- p + facet_wrap(~fleet + sex + Model, scales = "free_y")
+    }
+    
+    p  <- p + labs(x = xlab, y = ylab)
+    print(p + .THEME + theme(legend.position=c(.8,.85)))
+  }
+
+plot_cpue3 <- 
+  function(M, subsetby = "", xlab = "Year", ylab = "CPUE", slab = "Sex", 
+           ShowEstErr = FALSE, logy = FALSE, vastdata = FALSE, vastm = NULL)
+  {
+    mdf <- .get_cpue_df(M)
+    if (subsetby != "") mdf <- subset(mdf, fleet == subsetby)
+    
+    if (logy) {
+      mdf$cpue <- log(mdf$cpue)
+      mdf$lb <- log(mdf$lb)
+      mdf$ub <- log(mdf$ub)
+      mdf$lbe <- log(mdf$lbe)
+      mdf$ube <- log(mdf$ube)
+      mdf$pred <- log(mdf$pred)
+      ylab <- paste0("log(", ylab, ")")
+    }
+    
+    xlab <- paste0("\n", xlab)
+    ylab <- paste0(ylab, "\n")
+    
+    if (vastdata == TRUE){
+      mdf %>% 
+        mutate(dataseries = as.factor(ifelse(Model == vastm, "vast", "area"))) -> mdf
+      p  <- ggplot(mdf, aes(year, cpue, shape = dataseries, fill = dataseries)) +
+        expand_limits(y = 0) +
+        scale_shape(guide = FALSE) +
+        #geom_line(aes(year, cpue), lwd = 1.25) +
+        #geom_ribbon(aes(x=year, ymax = ub, ymin = lb), alpha = 0.25) 
+        geom_pointrange(aes(year, cpue, ymax = ub, ymin = lb), 
+                        position = position_dodge(width = 0.85 ), 
+                        show.legend = FALSE) 
+      
+    }
+    else if (vastdata == FALSE) {
+      p  <- ggplot(mdf, aes(year, cpue)) +
+        expand_limits(y = 0) +
+        geom_pointrange(aes(year, cpue, ymax = ub, ymin = lb), col = "black")
+    }
+    
+    if (ShowEstErr) {
+      if (length(M) == 1 && length(unique(mdf$sex)) == 1) {
+        p  <- p + geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe), color = "red", shape = 1, linetype = "dotted", position = position_dodge(width = 1))
+      } else if (length(M) != 1 && length(unique(mdf$sex)) == 1) {
+        p  <- p + geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe, col = Model), shape = 1, linetype = "dotted", position = position_dodge(width = 1))
+      } else if (length(M) == 1 && length(unique(mdf$sex)) != 1) {
+        p  <- p + geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe, col = sex), shape = 1, linetype = "dotted", position = position_dodge(width = 1))
+      } else {
+        p  <- p + geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe, col = Model), shape = 1, linetype = "dotted", position = position_dodge(width = 1))
+      }
+    }
+    
+    if (.OVERLAY) {
+      if (length(M) == 1 && length(unique(mdf$sex)) == 1) {
+        p <- p + geom_line(data = mdf, aes(year, pred)) +
+          facet_wrap(~fleet, scales = "free_y")
+      } else if (length(M) != 1 && length(unique(mdf$sex)) == 1) {
+        p <- p + geom_line(data = mdf, aes(year, pred, color = Model, linetype = Model)) +
+          facet_wrap(~fleet, scales = "free_y")
+      } else if (length(M) == 1 && length(unique(mdf$sex)) != 1) {
+        p <- p + geom_line(data = mdf, aes(year, pred, color = sex)) + labs(col = slab) +
+          facet_wrap(~fleet + sex, scales = "free_y")
+      } else {
+        p <- p + geom_line(data = mdf, aes(year, pred, color = Model, linetype = Model)) +
+          facet_wrap(~fleet + sex, scales = "free_y")
+      }
+    } else {
+      p  <- p + geom_line(data = mdf, aes(year, pred))
+      p  <- p + facet_wrap(~fleet + sex + Model, scales = "free_y")
+      p  <- p + scale_shape (guides = FALSE)
+    }
+    
+    p  <- p + labs(x = xlab, y = ylab)
+    print(p + .THEME + theme(legend.position=c(.38,.79)) +
+            guides(shape = FALSE))
+  }
+
+plot_cpue_VAST <- 
+  function(M, subsetby = "", xlab = "Year", ylab = "CPUE", slab = "Sex", 
+           ShowEstErr = FALSE, logy = FALSE, vastdata = FALSE, vastm = NULL, 
+           options = FALSE)
+  {
+    mdf <- .get_cpue_df(M)
+    if (subsetby != "") mdf <- subset(mdf, fleet == subsetby)
+    
+    if (logy) {
+      mdf$cpue <- log(mdf$cpue)
+      mdf$lb <- log(mdf$lb)
+      mdf$ub <- log(mdf$ub)
+      mdf$lbe <- log(mdf$lbe)
+      mdf$ube <- log(mdf$ube)
+      mdf$pred <- log(mdf$pred)
+      ylab <- paste0("log(", ylab, ")")
+    }
+    
+    xlab <- paste0("\n", xlab)
+    ylab <- paste0(ylab, "\n")
+    
+    if (vastdata == TRUE){
+      mdf %>% 
+        mutate(dataseries = as.factor(ifelse(Model == vastm, "vast", "area_swept"))) -> mdf
+      mdf %>% 
+        select(year, fleet, dataseries, cpue, lb, ub) -> mdf2 #lbe, ube, pred) -> mdf2
+      mdf2 %>% 
+        melt(id.vars = c("year", "fleet", "dataseries")) %>% 
+        unite("dataVar", dataseries:variable, remove = FALSE) %>% 
+        dcast(year + fleet ~ dataVar, value.var = "value") -> mdf3
+      
+      p  <- ggplot(mdf3, aes(year, area_swept_cpue))+
+        expand_limits(y = 0) +
+        geom_pointrange(aes(year, area_swept_cpue, ymax = area_swept_ub, 
+                            ymin = area_swept_lb)) +
+        geom_line(aes(year, vast_cpue), col = "gold4", lwd = 1) +
+        geom_ribbon(aes(x=year, ymax = vast_ub, ymin = vast_lb), alpha = 0.25, 
+                    fill = "gold4")
+      
+    }
+    else if (vastdata == FALSE) {
+      p  <- ggplot(mdf, aes(year, cpue)) +
+        expand_limits(y = 0) +
+        geom_pointrange(aes(year, cpue, ymax = ub, ymin = lb), col = "black")
+    }
+    
+    #if (ShowEstErr) {
+    #  if (length(M) == 1 && length(unique(mdf$sex)) == 1) {
+    #    p  <- p + geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe), color = "red", shape = 1, linetype = "dotted", position = position_dodge(width = 1))
+    #  } else if (length(M) != 1 && length(unique(mdf$sex)) == 1) {
+    #    p  <- p + geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe, col = Model), shape = 1, linetype = "dotted", position = position_dodge(width = 1))
+    #  } else if (length(M) == 1 && length(unique(mdf$sex)) != 1) {
+    #    p  <- p + geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe, col = sex), shape = 1, linetype = "dotted", position = position_dodge(width = 1))
+    #  } else {
+    #    p  <- p + geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe, col = Model), shape = 1, linetype = "dotted", position = position_dodge(width = 1))
+    #  }
+    #}
+    
+    if (.OVERLAY) {
+      if (length(M) == 1 && length(unique(mdf$sex)) == 1) {
+        p <- p + geom_line(data = mdf, aes(year, pred)) +
+          facet_wrap(~fleet, scales = "free_y")
+      } else if (length(M) != 1 && length(unique(mdf$sex)) == 1) {
+        p <- p + geom_line(data = mdf, aes(year, pred, color = Model, linetype = Model)) +
+          facet_wrap(~fleet, scales = "free_y")
+      } else if (length(M) == 1 && length(unique(mdf$sex)) != 1) {
+        p <- p + geom_line(data = mdf, aes(year, pred, color = sex)) + labs(col = slab) +
+          facet_wrap(~fleet + sex, scales = "free_y")
+      } else {
+        p <- p + geom_line(data = mdf, aes(year, pred, color = Model, linetype = Model)) +
+          facet_wrap(~fleet + sex, scales = "free_y")
+      }
+    } else {
+      p  <- p + geom_line(data = mdf, aes(year, pred))
+      p  <- p + facet_wrap(~fleet + sex + Model, scales = "free_y")
+    #  p  <- p + scale_shape (guides = FALSE)
+    }
+    
+    p  <- p + labs(x = xlab, y = ylab)
+    print(p + .THEME + theme(legend.position=c(.38,.79)) +
+            guides(shape = FALSE))
+  }
 
 
 # under development -----------------
