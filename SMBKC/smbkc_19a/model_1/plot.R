@@ -24,7 +24,7 @@ source("./SMBKC/smbkc_19a/doc/gmr_functions2020.R")
 # Model 1 plots -------------------------
 cur_yr <- 2019 # update annually 
 
-mod_names <- c("model_1")
+mod_names <- c("model 16.0 (ref)")
 .MODELDIR = c("./SMBKC/smbkc_19a/model_1/") # directory where the model results are
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
@@ -60,7 +60,7 @@ plot_cpue(M, ShowEstErr = TRUE, "NMFS Trawl", ylab = "Survey biomass (t)")
 ggsave(paste0(.FIGS, "cpue_trawl.png"), width = ww, height = hh)
 dev.off()
 
-plot_cpue(M, ShowEstErr = TRUE, "ADFG Pot", ylab = "Survey biomass (t)")
+plot_cpue(M, ShowEstErr = TRUE, "ADFG Pot", ylab = "Pot survey CPUE (crab/potlift)")
 ggsave(paste0(.FIGS, "cpue_pot.png"), width = ww, height = hh)
 dev.off()
 
@@ -143,6 +143,11 @@ dev.off()
 plot_cpue_res(M, "ADFG Pot")
 ggsave(paste0(.FIGS, "cpue_pot_residuals.png"), width = ww*2.5, height = hh)
 dev.off()
+
+# fishing mortality ----
+plot_F(M)
+plot_F2(M)
+ggsave(paste0(.FIGS, "fishing_mortality.png"), width = ww*1.2, height = hh*1.2)
 
 # SMBKC plots new  -------------
 # SSB -----------
