@@ -4,12 +4,22 @@
 # Data manipulation for bycatch in Groundfish fisheries for SMBKC
 
 # data obtained from AKFIN: provide instructions
+#
+#  URL: https://akfinbi.psmfc.org/analytics 
+#  See login info in e-mail, results in file similar to "Crab Bycatch Estimates.csv" below
+# "Crab Data" tab, "Estimates of Crab Bycatch in Groundfish Fisheries", "Crab Bycatch Estimates: 2009- present, by crab year"
+#   From drop down menus "2009 to 2020", Fishery name: "Saint Matthew blue king crab", 
+#   Species Group Name: Blue King Crab
+#   Click - "detail report" 
+#    at bottom of page click "export", choose Data - .csv - save in data folder for current year - here smbkc_20/data
 
+#   
 # load -----
 source("./SMBKC/code/packages.R")
 
 # data -----
-gf_bycatch <- read.csv("C:/Users/kjpalof/Documents/SMBKC/DATA_SMBKC/Crab Bycatch Estimates.csv")
+#gf_bycatch <- read.csv("C:/Users/kjpalof/Documents/SMBKC/DATA_SMBKC/Crab Bycatch Estimates.csv") # old location
+gf_bycatch <- read.csv(paste0(here::here(), '/SMBKC/smbkc_20/data/Crab Bycatch Estimates.csv'))
 
 # clean-up data ---------
 head(gf_bycatch)
