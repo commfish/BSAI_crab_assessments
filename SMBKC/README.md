@@ -16,8 +16,10 @@
   
   smbkc_19a   | updates to .tpl and .ctl file from Jie and Andre's edits.
               | 11-13-19 updates are from Jie - see 'src_11132019' and sm19_11132019.ctl
-              | 11-18-19 updates from Andre and new .ctl file are ones currently in this folder. Includes updates to .tpl from
-              | jan 2020 modeling workshop updates and model runs for May 2020
+              | 11-18-19 updates from Andre and new .ctl file are ones currently in this folder. Includes updates to .tpl               |  from jan 2020 modeling workshop updates and model runs for May 2020
+              
+  smbkc_20    | model runs for 2020 september assessment, mostly focusing on lack of survey data for 2019 and 
+              |   associated uncertainty 
               
   src folder
               | 11-19-19 udpates from Andre to .tpl - see new src folder in GMACS folder
