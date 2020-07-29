@@ -22,10 +22,10 @@ source("./SMBKC/code/helper.R")
 source("./SMBKC/smbkc_19a/doc/gmr_functions2020.R") 
 
 # Model 1 plots -------------------------
-cur_yr <- 2019 # update annually 
+cur_yr <- 2020 # update annually 
 
 mod_names <- c("model 16.0 (ref)")
-.MODELDIR = c("./SMBKC/smbkc_19a/model_1/") # directory where the model results are
+.MODELDIR = c("./SMBKC/smbkc_20/model_1/") # directory where the model results are
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
@@ -34,7 +34,7 @@ mod_names <- c("model 16.0 (ref)")
 .SHELL    = c("Aggregate","Aggregate")
 .MATURITY = c("Aggregate")
 .SEAS     = c("Annual")
-.FIGS     = c("./SMBKC/smbkc_19a/model_1/figure/")
+.FIGS     = c("./SMBKC/smbkc_20/model_1/figure/")
 
 fn       <- paste0(.MODELDIR, "gmacs")
 M        <- lapply(fn, read_admb) #need .prj file to run gmacs and need .rep file here
@@ -151,6 +151,7 @@ ggsave(paste0(.FIGS, "fishing_mortality.png"), width = ww*1.2, height = hh*1.2)
 
 # SMBKC plots new  -------------
 # SSB -----------
+# ** FIX ** use correct variablity for this figure by running projections. 
 ssb <- .get_ssb_df(M) # ssb now does NOT include projection year so only up to 2018 crab year - 2019 projection (example)
 head(ssb)
 # ssb vector only includes model years - here crab year 1978 to 2019 does NOT include projection, need to add
@@ -182,7 +183,7 @@ ssb %>%
     ggtitle("Reference model (16.0)") +
     ylab("Mature male biomass (t) on 15th February") + xlab("Year") +
     .THEME
-ggsave(paste0(.FIGS, "ssb19_wprojected_yr.png"), width = ww, height = hh)
+ggsave(paste0(.FIGS, "ssb20_wprojected_yr.png"), width = ww, height = hh)
 dev.off()
 
 # Bmsy proxy table --------
