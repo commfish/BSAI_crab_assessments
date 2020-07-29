@@ -16,6 +16,7 @@
 #   
 # load -----
 source("./SMBKC/code/packages.R")
+model_yr = "smbkc_20"
 
 # data -----
 #gf_bycatch <- read.csv("C:/Users/kjpalof/Documents/SMBKC/DATA_SMBKC/Crab Bycatch Estimates.csv") # old location
@@ -28,19 +29,19 @@ head(gf_bycatch)
 gf_bycatch %>% 
   group_by(Crab.Year, Agency.Gear.Code) %>% 
   summarise(sum = sum(Estimate.Num)) %>% 
-  dcast( ., Crab.Year ~ Agency.Gear.Code, sum) %>% 
+  reshape2::dcast( ., Crab.Year ~ Agency.Gear.Code, sum) %>% 
   mutate(trawl = (NPT + PTR)/2, fixed = (HAL + POT)/2) -> gf_by_nums# combine trawl and fixed, divide by 2 - MALE only
 # ignore 2019, this is just the beginning of this season, data up until 2018
-write.csv(gf_by_nums, paste0(here::here(), '/SMBKC/smbkc_19/data/gf_bycatch_numbers.csv'), 
+write.csv(gf_by_nums, paste0(here::here(), '/SMBKC/', model_yr, '/data/gf_bycatch_numbers.csv'), 
           row.names = FALSE)
 
 # weight -
 gf_bycatch %>% 
   group_by(Crab.Year, Agency.Gear.Code) %>% 
   summarise(sum = sum(Estimate.Wt..kg.crab.)) %>% 
-  dcast( ., Crab.Year ~ Agency.Gear.Code, sum) %>% 
+  reshape2::dcast( ., Crab.Year ~ Agency.Gear.Code, sum) %>% 
   mutate(trawl = (NPT + PTR)/2, fixed = (HAL + POT)/2, 
          trawl_thou = trawl/1000, fixed_thou = fixed/1000) -> gf_by_weight# combine trawl and fixed, divide by 2 - MALE only
 # ignore 2019, this is just the beginning of this season, data up until 2018
-write.csv(gf_by_weight, paste0(here::here(), '/SMBKC/smbkc_19/data/gf_bycatch_weight.csv'), 
+write.csv(gf_by_weight, paste0(here::here(), '/SMBKC/', model_yr, '/data/gf_bycatch_weight.csv'), 
           row.names = FALSE)
