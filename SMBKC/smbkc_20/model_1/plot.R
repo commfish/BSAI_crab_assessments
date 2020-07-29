@@ -1,11 +1,11 @@
-# K.Palof  11-20-19/ 04-01-20
+# K.Palof  11-20-19/ 04-01-20/ 7-28-20
 
 # Code for plotting output of GMACS models for SMBKC
 # Taken from Jim Ianellii https://github.com/seacode/gmacs/tree/develop/examples/smbkc_18a/model_1 but updated 
 
 # Model or Model(s) plotted here: 
 # Stock: SMBKC
-# Year and timing: 2019a - models for May 2020
+# Year and timing: 2020 - models for sept 2020
 # Model: model_1
 
 # load ------------
@@ -13,7 +13,7 @@
 #devtools::install_github("seacode/gmacs", subdir = "/gmr", ref = "develop") #, INSTALL_opts="--no-staged-install") #- only needs to be performed once, but needs to be 
 # done again when updates are made to the package
 # if gmr is updated and above doesn't work try:
-# go to Build above - direct it to the gmr folder - press OK. Over on right in the Build tab (upper right hand side) - 
+# go to Build above - "configure build tools" - direct it to the gmr folder - press OK. Over on right in the Build tab (upper right hand side) - 
 # click "install and restart"
 
 require(gmr)
