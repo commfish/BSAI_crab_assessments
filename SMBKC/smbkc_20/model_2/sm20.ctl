@@ -217,14 +217,14 @@
 ##   pmin is the cumulative proportion used in tail compression.
 ## ==================================================================================== ##
 #  1   1   1  # Type of likelihood
-  2   2   2  # Type of likelihood
-#  5   5   5   # Type of likelihood
-  0   0   0   # Auto tail compression (pmin)
-  1   1   1   # Initial value for effective sample size multiplier
- -4  -4  -4   # Phz for estimating effective sample size (if appl.)
-  1   2   3   # Composition aggregator
-  1   1   1   # LAMBDA
-  1   1   1   # Emphasis
+  2   2   # Type of likelihood
+#  5   5  # Type of likelihood
+  0   0   # Auto tail compression (pmin)
+  1   1   # Initial value for effective sample size multiplier
+ -4  -4   # Phz for estimating effective sample size (if appl.)
+  1   2   # Composition aggregator
+  1   1   # LAMBDA
+  1   1   # Emphasis
 ## ==================================================================================== ##
 
 ## ==================================================================================== ##
