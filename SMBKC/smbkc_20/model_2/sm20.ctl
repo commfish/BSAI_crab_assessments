@@ -1,4 +1,4 @@
-## =============================================== updated for sept 2020 base model     ##
+## =============================================== updated for sept 2020 model 2 without pot survey     ##
 ## LEADING PARAMETER CONTROLS                                                           ##
 # Controls for leading parameter vector theta
 # LEGEND FOR PRIOR:
@@ -122,19 +122,19 @@
 ##     sex dep: 0 for sex-independent, 1 for sex-dependent                              ##
 ## ==================================================================================== ##
 ## ivector for number of year periods or nodes                                          ##
-## POT       TBycatch FBycatch  NMFS_S   ADFG_pot
-## Gear-1    Gear-2   Gear-3    Gear-4   Gear-5
-   2         1        1         1        1         # Selectivity periods
-   0         0        0         0        0         # sex specific selectivity
-   0         3        3         0        0         # male selectivity type
-   0         0        0         0        0         # within another gear
-   0         0        0         0        0         # extra parameters
-## Gear-1    Gear-2   Gear-3    Gear-4   Gear-5
-   1         1        1         1        1         # Retention periods
-   0         0        0         0        0         # sex specific retention
-   3         6        6         6        6         # male retention type
-   1         0        0         0        0         # male retention flag (0 -> no, 1 -> yes)
-   0         0        0         0        0         # extra parameters
+## POT       TBycatch FBycatch  NMFS_S   
+## Gear-1    Gear-2   Gear-3    Gear-4   
+   2         1        1         1        # Selectivity periods
+   0         0        0         0        # sex specific selectivity
+   0         3        3         0        # male selectivity type
+   0         0        0         0        # within another gear
+   0         0        0         0        # extra parameters
+## Gear-1    Gear-2   Gear-3    Gear-4   
+   1         1        1         1        # Retention periods
+   0         0        0         0        # sex specific retention
+   3         6        6         6        # male retention type
+   1         0        0         0        # male retention flag (0 -> no, 1 -> yes)
+   0         0        0         0        # extra parameters
 ## gear  par   sel                                             phz    start  end        ##
 ## index index par sex  ival  lb    ub     prior p1     p2     mirror period period     ##
 # Gear-1
@@ -154,10 +154,6 @@
    4     11    1   0    0.7     0.001 1.0    0       0      1   4     1978   2020 # update end yr
    4     12    2   0    0.8     0.001 1.0    0       0      1   4     1978   2020 # update end yr
    4     13    3   0    0.9     0.001 1.0    0       0      1   -5     1978   2020 # update end yr
-# Gear-5
-   5     14    1   0    0.4     0.001 1.0    0       0      1   4     1978   2020 # update end yr
-   5     15    2   0    0.7     0.001 1.0    0       0      1   4     1978   2020 # update end yr
-   5     16    3   0    1.0     0.001 2.0    0       0      1   -2     1978   2020 # update end yr
 ## Retained
 # Gear-1
   -1     17    1   0    120        50 200    0      1    900    -7     1978   2019 # update end yr
@@ -168,8 +164,6 @@
   -3     20    1   0   595    1    999    0      1    999   -3     1978   2019 # update end yr
 # Gear-4
   -4     21    1   0   595    1    999    0      1    999   -3     1978   2020 # update end yr
-# Gear-5
-  -5     22    1   0   595    1    999    0      1    999   -3     1978   2020 # update end yr
 
 # Number of asymptotic parameters
 1
@@ -187,7 +181,6 @@
 ## SURVEYS/INDICES ONLY
 ## ival    lb       ub    phz   prior   p1       p2    Analytic?   LAMBDA Emphasis
    1.0     0.5      1.2   -4    0       0        9.0   0           1             1 # NMFS trawl
- 0.003      0        5     3    0       0        9.0   0           1             1 # ADF&G pot
 ## ==================================================================================== ##
 
 ## ==================================================================================== ##
@@ -199,8 +192,7 @@
 ## ==================================================================================== ##
 ## ival        lb        ub        phz   prior     p1      p2
    0.0000001      0.00000001   10.0      -4    4         1.0     100   # NMFS (PHASE -4)
-   0.0000001      0.00000001   10.0      -4    4         1.0     100   # ADF&G
-## ==================================================================================== ##
+ ## ==================================================================================== ##
 
 ## ==================================================================================== ##
 ## PENALTIES FOR AVERAGE FISHING MORTALITY RATE FOR EACH GEAR
@@ -210,7 +202,6 @@
    0.0001           0.0     4.0      50.0        1       -1     -12     4     -10     10    -10     10  # Trawl
    0.0001           0.0     4.0      50.0        1       -1     -12     4     -10     10    -10     10  # Fixed
    0.00             0.0     2.00     20.00       -1      -1     -12     4     -10     10    -10     10  # NMFS
-   0.00             0.0     2.00     20.00       -1      -1     -12     4     -10     10    -10     10  # ADF&G
 ## ==================================================================================== ##
 
 ## ==================================================================================== ##
