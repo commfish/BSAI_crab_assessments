@@ -12,7 +12,7 @@ Models housed in smbkc_20/retrospective_model_1
 
 
 ## dat, ctl, prj files - FILE UPDATES ANNUALLY
-.dat file lives in data folder in assessment root.  "smbkc_20/data/retro_data"
+.dat file lives in data folder in assessment root.  "smbkc_20/retrospective_model_1/retro_data"
 
 Update annually - 
 .ctl file updated for model_1 in that folder with new year ranges, etc. each model needs the .ctl file updated.
