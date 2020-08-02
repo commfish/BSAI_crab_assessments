@@ -1,12 +1,14 @@
-# K.Palof  11-20-19/ 04-01-20
+# K.Palof  8-2-2020
 
 # Code for plotting output of GMACS models for SMBKC
 # Taken from Jim Ianellii https://github.com/seacode/gmacs/tree/develop/examples/smbkc_18a/model_1 but updated 
 
+## file set up for examining retrospective output. Focus on SSB time series.
+
 # Model or Model(s) plotted here: 
 # Stock: SMBKC
-# Year and timing: 2019a - models for May 2020
-# Model: model_1
+# Year and timing: 2020 retrospecive_model_1 
+# Model: model_1_19
 
 # load ------------
 #require(devtools)
@@ -24,8 +26,8 @@ source("./SMBKC/smbkc_19a/doc/gmr_functions2020.R")
 # Model 1 plots -------------------------
 cur_yr <- 2019 # update annually 
 
-mod_names <- c("model 16.0 (ref)")
-.MODELDIR = c("./SMBKC/smbkc_19a/model_1/") # directory where the model results are
+mod_names <- c("retro_19")
+.MODELDIR = c("./SMBKC/smbkc_20/retrospective_model_1/2019/") # directory where the model results are
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
@@ -34,7 +36,7 @@ mod_names <- c("model 16.0 (ref)")
 .SHELL    = c("Aggregate","Aggregate")
 .MATURITY = c("Aggregate")
 .SEAS     = c("Annual")
-.FIGS     = c("./SMBKC/smbkc_19a/model_1/figure/")
+.FIGS     = c("./SMBKC/smbkc_20/retrospective_model_1/2019/output/")
 
 fn       <- paste0(.MODELDIR, "gmacs")
 M        <- lapply(fn, read_admb) #need .prj file to run gmacs and need .rep file here
@@ -44,14 +46,6 @@ ww <- 6
 hh <- 5
 
 # Plots from Jim Ianelli's -------------------------------
-plot_recruitment_size(M)
-ggsave(paste0(.FIGS, "rec_size.png"), width = ww*2.5, height = hh*1.5)
-dev.off()
-
-plot_catch(M) # adjusted .TYPE to reflect what it should be check this in the future
-ggsave(paste0(.FIGS, "catch.png"), width = ww*1.2, height = hh*1.2)
-dev.off()
-
 plot_cpue(M, ShowEstErr = TRUE)
 ggsave(paste0(.FIGS, "cpue.png"), width = ww*2.5, height = hh)
 dev.off()
@@ -80,61 +74,6 @@ dev.off()
 plot_selectivity(M) # **FIX** not displaying well.  working.
 ggsave(paste0(.FIGS, "selectivity.png"), width = ww*1.5, height = hh*1.5)
 dev.off()
-
-# plot_growth_transition(M)
-# ggsave(paste0(.FIGS, "growth_transition.png"), width = ww*1.5, height = hh*1.5)
-# dev.off()
-# 
-# plot_molt_prob(M)
-# ggsave(paste0(.FIGS, "molt_prob.png"), width = ww*1.5, height = hh*1.5)
-# dev.off()
-# 
-# plot_size_transition(M)
-# ggsave(paste0(.FIGS, "size_transition.png"), width = ww*1.5, height = hh*1.5)
-# # dev.off()
-# 
-# plot_growth_inc(M)
-# ggsave(paste0(.FIGS, "gi.png"), width = ww, height = hh)
-# dev.off()
-# 
-# plot_length_weight(M)
-# ggsave(paste0(.FIGS, "length_weight.png"), width = ww, height = hh)
-# dev.off()
-# 
-plot_numbers(M) # not updating for 2019 **FIX**
-ggsave(paste0(.FIGS, "numbers.png"), width = ww*2, height = hh*1.5)
-dev.off()
-# 
-# plot_numbers(M, subsetby = c("1975","2014"))
-# ggsave(paste0(.FIGS, "numbers.png"), width = ww*1.2, height = hh)
-# dev.off()
-# 
-
-# updated .tpl to include output. Not sure why but this was taken out by Jie? ask him
-plot_size_comps(M, 1)
-ggsave(paste0(.FIGS, "lf_1.png"), width = ww*2, height = hh*1.5)
-dev.off()
- 
-plot_size_comps(M, 2)
-ggsave(paste0(.FIGS, "lf_2.png"), width = ww*2, height = hh*1.5)
-dev.off()
- 
-plot_size_comps(M, 3)
-ggsave(paste0(.FIGS, "lf_3.png"), width = ww*2, height = hh*1.5)
-dev.off()
- 
-#.get_sizeComps_df
-# plot_size_comps(M, 4)
-# ggsave(paste0(.FIGS, "lf_4.png"), width = ww*2, height = hh*1.5)
-# dev.off()
-# 
-# plot_size_comps(M, 5)
-# ggsave(paste0(.FIGS, "lf_5.png"), width = ww*2, height = hh*1.5)
-# dev.off()
-# 
-# plot_size_comps(M, 6)
-# ggsave(paste0(.FIGS, "lf_6.png"), width = ww*2, height = hh*1.5)
-# # # dev.off()
 
 plot_cpue_res(M, "NMFS Trawl")
 ggsave(paste0(.FIGS, "cpue_trawl_residuals.png"), width = ww*2.5, height = hh)
@@ -183,57 +122,6 @@ ssb %>%
     ylab("Mature male biomass (t) on 15th February") + xlab("Year") +
     .THEME
 ggsave(paste0(.FIGS, "ssb19_wprojected_yr.png"), width = ww, height = hh)
-dev.off()
-
-# Bmsy proxy table --------
-# need ssb from above
-ssb %>% 
-  filter(year <= cur_yr-1) %>% 
-  summarise(Bmsy = mean(ssb)) %>% 
-  mutate(years = "1978-2018", label = "1978-2018 B_MSY" )-> Bmsy
-ssb %>% 
-  filter(year <= cur_yr-1) %>% 
-  filter(year >= 1996) %>% 
-  summarise(Bmsy = mean (ssb)) %>% 
-  mutate(years = "1996-2018", label = "1996-2018 B_MSY")->Bmsy2
-
-Bmsy %>% 
-  bind_rows(Bmsy2) %>% 
-  mutate(Bmsy50 = 0.5*Bmsy) -> Bmsy_options
-
-Bmsy_options %>% 
-  mutate(reduction = (Bmsy-Bmsy[1])/ Bmsy[1])
-
-
-Bmsy = M[[1]]$spr_bmsy
-MMB = M[[1]]$spr_bmsy * M[[1]]$spr_depl
-B_Bmsy = M[[1]]$spr_depl
-Fofl = M[[1]]$sd_fofl[1] # Fofl for current year
-years = as.character(M[[1]]$spr_syr)
-as.character(M[[1]]$spr_nyr)
-
-
-ofl_df <- data.frame(Bmsy, MMB, B_Bmsy, Fofl, years)
-write_csv(ofl_df, paste0(.MODELDIR, '/ofl_table_', mod_names, '.csv'))
-
-ssb %>% 
-  ggplot(aes(year, ssb)) +
-  geom_line() +
-  geom_ribbon(aes(x=year, ymax = ub, ymin = lb), alpha = 0.2) +
-  expand_limits(y=0) +
-  scale_y_continuous(expand = c(0,0)) +
-  scale_y_continuous(limits = c(0,max(ssb$ub, na.rm = TRUE)),
-                     breaks= seq(min(0), max(max(ssb$ub, 
-                                                 na.rm = TRUE)), by = 2000)) +
-  geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
-             lty = c("solid", "dashed"))+
-  geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
-            hjust = -1.25, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
-  ggtitle("Reference model (19.0)") +
-  ylab("Mature male biomass (t) on 15th February") + xlab("Year") +
-  .THEME + 
-  FNGr::theme_sleek()
-ggsave(paste0(.FIGS, "ssb19_Bmsy_wprojected_yr.png"), width = ww, height = hh)
 dev.off()
 
 ### cpue ---------------
@@ -304,41 +192,5 @@ rec %>%
 ggsave(paste0(.FIGS, "recruitment_line_with years.png"), width = ww, height = hh)
 dev.off()
          
-## recruitment est for ESP ------
-# recruitment output for ecosystem indicators
-rec %>% 
-  mutate(recruit = exp(log_rec)) %>% 
-  select(year, sex, recruit, lb, ub) %>% 
-  mutate(recruit_tons = recruit*0.000748427) %>% 
-  write.csv(paste0(.FIGS, "recruitment_output.csv")) 
 
-#this is in number of individuals
-# weight for first size bin is 0.000748427 (from line 31 of .ctl file)
-# 0.0007, 0.0012, 0.0019  I think these weights are already in tons???? check with Jie
-# 524010.0422*0.0019 + 158547.8651*0.0012 seems about corret for ssb for 2018 
-
-
-### need option with new average recruitment    
-
-# abundance -----
-num <- .get_numbers_df(M)
-
-lw1 <- .get_length_weight_df(M) #not working
-
-
-
-### OFL --------
-M[[base_model_1]]$spr_cofl
-
-## Dynamic B0 ----
-#.get_dynB0_df(M)  # not currently in output, can I add this?
-
-plot_dynB0(M) 
-ggsave(paste0(.FIGS, "dynamicB0.png"), width = ww*2.5, height = hh)
-dev.off()
-# currently working! see updates to .tpl file 
-# From Jim I: Also, I think a commented out line needs to be reinstated.  
-#             So comment out lines 1786 and 1787 and UNcomment lines 1800 and 1801, 
-#             then call it directly: plot_dynB0(model_object) .
-## plot selectivity -----------
 
