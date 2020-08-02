@@ -1,8 +1,8 @@
 1                          # Do not compute MSY (1=Yes)
 0 1 1 1 1                  # Set to 0 if F35% applied to this fleet; 1 if F is to be fixed
-1978 2018                  # First and last year for average recruitment/MMB for Bspr calculation (Tier 3 or Tier 4)
-1979 2018                  # First and last year for average sex ratio for computing reference points UPDATED
-2015 2018                  # First and last year for average F for discards (computing reference points and projections)
+1978 2017                  # First and last year for average recruitment/MMB for Bspr calculation (Tier 3 or Tier 4)
+1979 2017                  # First and last year for average sex ratio for computing reference points UPDATED
+2013 2017                  # First and last year for average F for discards (computing reference points and projections)
 
 # OFL specifications
 0.35                       # Target SPR ratio for Bmsy proxy.
@@ -23,7 +23,7 @@
 
 4 # 2                      # Stock-recruitment option (1=Mean Rec;2=Ricker;3=Beverton-Holt;4=Mean recruitment)
 7                          # Time to recruitment
-1978 2018                  # First and last years for generating future recruitment (only used if Stock_recruitment option = 1)
+1978 2017                  # First and last years for generating future recruitment (only used if Stock_recruitment option = 1)
 #1999 2008                 # First and last years for generating future recruitment
 500000                       # Mean recruitment
 0.00001 # 0.6              # SigmaR (only used if Stock_recruitment option = 2) [0.6]
