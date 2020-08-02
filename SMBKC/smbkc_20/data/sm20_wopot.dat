@@ -78,7 +78,7 @@ Pot_Fishery Trawl_Bycatch Fixed_bycatch
 # Survey names (delimited with spaces no spaces in names)
 NMFS_Trawl
 # Are the fleets instantaneous (0) or continuous (1)
-1 1 1 1
+1 1 1 1 1
 # Number  of  catch data  frames
 4
 # Number  of  rows  in  each  data  frame
@@ -250,7 +250,7 @@ NMFS_Trawl
 1	2018	1	4	1	0	1730.742	0.281	1							
 1	2019	1	4	1	0	3170.467	0.337	1	#	(updated	-	EBSsurvey_analysis.R)			
 ##  Number  of  length  frequency matrices
-3
+2
 ##  Number  of  rows  in  each  matrix
 15  42# (updated)
 ##  Number  of  bins  in  each  matrix  (columns  of  size  data)
