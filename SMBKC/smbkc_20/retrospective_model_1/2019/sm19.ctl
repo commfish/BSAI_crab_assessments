@@ -273,7 +273,7 @@
 ## OTHER CONTROLS
 ## ==================================================================================== ##
 1978       # First rec_dev
-2019       # last rec_dev (updated annually)
+2018       # last rec_dev (updated annually)
    3       # Estimated rec_dev phase
   -3       # Estimated sex_ratio
  0.5       # initial sex-ratio  
