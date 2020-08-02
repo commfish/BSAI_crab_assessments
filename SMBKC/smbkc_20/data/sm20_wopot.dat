@@ -1,20 +1,20 @@
 #========================================================================================================
-# Gmacs Main  Data  File  Version 1.1:  SM20 Sept 2020 version.
+# Gmacs Main  Data  File  Version 1.1:  SM20 without ADFG pot survey Sept 2020 sensitivity.
 # GEAR_INDEX  DESCRIPTION
 #   1      : Pot fishery retained catch.
 #   1      : Pot fishery with discarded catch.
 #   2      : Trawl bycatch
 #   3      : Fixed bycatch
 #   4      : Trawl survey
-#   5      : Pot survey
+#   5      : Pot survey : removed in this run so no 5th fleet.
 #========================================================================================================
 # Fisheries:  1 Pot Fishery,  2 Pot Discard,  3 Trawl by-catch, 3 Fixed by-catch
-# Surveys:   4 NMFS Trawl Survey, 5 Pot Survey
+# Surveys:   4 NMFS Trawl Survey
 #========================================================================================================
 1978  # Start year
 2019  # End year (updated) last year of fishery does NOT include current survey year
 5    # Number of seasons
-5    # Number of fleets (fisheries and surveys)
+4    # Number of fleets (fisheries and surveys)
 1    # Number of sexes
 1    # Number of shell condition types
 1    # Number of maturity types
@@ -76,9 +76,9 @@
 # Fishing fleet names (delimited with spaces no spaces in names)
 Pot_Fishery Trawl_Bycatch Fixed_bycatch
 # Survey names (delimited with spaces no spaces in names)
-NMFS_Trawl ADFG_Pot
+NMFS_Trawl
 # Are the fleets instantaneous (0) or continuous (1)
-1 1 1 1 1
+1 1 1 1
 # Number  of  catch data  frames
 4
 # Number  of  rows  in  each  data  frame
@@ -202,9 +202,9 @@ NMFS_Trawl ADFG_Pot
 ##  Units of abundance: 1 = biomass, 2 = numbers
 ##  for SMBKC pot survey Units are in  crabs for Abundance.
 ##  Number  of  relative  abundance indicies
-2
+1
 ##  Number  of  rows  in  each  index
-53
+42
 # Survey data (abundance indices, units are mt for trawl survey and crab/potlift for pot survey)
 #	Year,	Seas,	Fleet,	Sex,	Maturity,	Abundance,	CV	units							
 1	1978	1	4	1	0	6832.819	0.394	1							
@@ -249,23 +249,12 @@ NMFS_Trawl ADFG_Pot
 1	2017	1	4	1	0	1793.76	0.599	1							
 1	2018	1	4	1	0	1730.742	0.281	1							
 1	2019	1	4	1	0	3170.467	0.337	1	#	(updated	-	EBSsurvey_analysis.R)			
-2	1995	1	5	1	0	12042	0.13	2							
-2	1998	1	5	1	0	12531	0.06	2							
-2	2001	1	5	1	0	8477	0.08	2							
-2	2004	1	5	1	0	1667	0.15	2							
-2	2007	1	5	1	0	8643	0.09	2							
-2	2010	1	5	1	0	10209	0.13	2							
-2	2013	1	5	1	0	5643	0.19	2							
-2	2015	1	5	1	0	2805	0.18	2							
-2	2016	1	5	1	0	2378	0.186	2							
-2	2017	1	5	1	0	1689	0.25	2							
-2	2018	1	5	1	0	745	0.14	2	#	no	smbkc	pot	survey	in	2019
 ##  Number  of  length  frequency matrices
 3
 ##  Number  of  rows  in  each  matrix
-15  42  11 # (updated)
+15  42# (updated)
 ##  Number  of  bins  in  each  matrix  (columns  of  size  data)
-3  3  3
+3  3
 ##  SIZE  COMPOSITION DATA  FOR ALL FLEETS
 ##  SIZE  COMP  LEGEND
 ##  Sex:  1 = male, 2 = female, 0 = both  sexes combined
@@ -333,19 +322,6 @@ NMFS_Trawl ADFG_Pot
   2017  1 4 1 0 0 0 21  0.0849  0.2994  0.6157
   2018  1 4 1 0 0 0 31  0.1475  0.2219  0.6306
   2019  1 4 1 0 0 0 50  0.1961  0.2346  0.5692 # no survey so not updated
-  ##length  proportions of  pot survey
-  ##Year, Seas, Fleet,  Sex,  Type, Shell,  Maturity, Nsamp,  DataVec
-  1995  1 5 1 0 0 0 100 0.1594  0.2656  0.5751
-  1998  1 5 1 0 0 0 100  0.0769  0.2205  0.7026
-  2001  1 5 1 0 0 0 100  0.1493  0.2049  0.6457
-  2004  1 5 1 0 0 0 100  0.0672  0.2484  0.6845
-  2007  1 5 1 0 0 0 100  0.1257  0.3148  0.5595
-  2010  1 5 1 0 0 0 100  0.1299  0.3209  0.5492
-  2013  1 5 1 0 0 0 100  0.1556  0.2477  0.5967
-  2015  1 5 1 0 0 0 100  0.0706  0.2431  0.6859
-  2016  1 5 1 0 0 0 100  0.0832  0.1917  0.7251
-  2017  1 5 1 0 0 0 100  0.1048  0.2540  0.6412
-  2018  1 5 1 0 0 0 100  0.10201 0.21611 0.68188 # no survey so not updated
 ##  Growth data (increment)
 # Type of growth increment (0=ignore;1=growth increment with a CV;2=size-at-release; size-at) 
 0
