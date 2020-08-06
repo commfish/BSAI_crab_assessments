@@ -99,8 +99,8 @@ ssb_last <- data.frame("year" = cur_yr, "ssb" = M[[1]]$spr_bmsy * M[[1]]$spr_dep
                        "lb" = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
                        "ub" = M[[1]]$spr_bmsy * M[[1]]$spr_depl) 
 ssb %>% 
-  bind_rows(ssb_last) %>% 
-  write.csv(paste0(.FILES, paste0("ssb_", cur_yr, ".csv")))-> ssb 
+  bind_rows(ssb_last) -> ssb
+write.csv(ssb, paste0(.FILES, paste0("ssb_", cur_yr, ".csv")), row.names = FALSE)
 
 
 rec <- .get_recruitment_df(M)
