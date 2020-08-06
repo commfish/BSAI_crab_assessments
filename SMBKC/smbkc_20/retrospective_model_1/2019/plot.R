@@ -37,6 +37,7 @@ mod_names <- c("retro_19")
 .MATURITY = c("Aggregate")
 .SEAS     = c("Annual")
 .FIGS     = c("./SMBKC/smbkc_20/retrospective_model_1/2019/output/")
+.FILES    = c("./SMBKC/smbkc_20/retrospective_model_1/combined_data/")
 
 fn       <- paste0(.MODELDIR, "gmacs")
 M        <- lapply(fn, read_admb) #need .prj file to run gmacs and need .rep file here
@@ -87,6 +88,43 @@ dev.off()
 plot_F(M)
 plot_F2(M)
 ggsave(paste0(.FIGS, "fishing_mortality.png"), width = ww*1.2, height = hh*1.2)
+
+## saved output for retrospective -------------
+ssb <- .get_ssb_df(M) # ssb now does NOT include projection year so only up to 2018 crab year - 2019 projection (example)
+head(ssb)
+# ssb vector only includes model years - here crab year 1978 to 2019 does NOT include projection, need to add
+#   projection year for graphical purposes
+# ssb current year uncertainty
+ssb_last <- data.frame("year" = cur_yr, "ssb" = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
+                       "lb" = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
+                       "ub" = M[[1]]$spr_bmsy * M[[1]]$spr_depl) 
+ssb %>% 
+  bind_rows(ssb_last) %>% 
+  write.csv(paste0(.FILES, paste0("ssb_", cur_yr, ".csv")))-> ssb 
+
+
+rec <- .get_recruitment_df(M)
+head(rec)
+rec %>% 
+  mutate(recruit = exp(log_rec)) %>% 
+  select(year, sex, recruit, lb, ub) %>% 
+  mutate(recruit_tons = recruit*0.000748427) %>% 
+  write.csv(paste0(.FILES, paste0("recruitment_output_", cur_yr, ".csv"))) 
+
+temp <- data.frame(year = cur_yr, 
+                   avgr = rec$rbar[1], 
+                   bmsy = M[[1]]$spr_bmsy,
+                   mmb_terminal = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
+                   status = M[[1]]$spr_depl, 
+                   OFL = M[[1]]$sd_fofl[1], 
+                   type = "retro")
+write.csv(temp, paste0(.FILES, "summary.csv"))
+          
+rec$rbar[1]
+M[[1]]$spr_bmsy
+M[[1]]$spr_bmsy * M[[1]]$spr_depl
+M[[1]]$spr_depl
+M[[1]]$sd_fofl[1]
 
 # SMBKC plots new  -------------
 # SSB -----------
