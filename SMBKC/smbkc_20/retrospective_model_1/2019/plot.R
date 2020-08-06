@@ -95,7 +95,7 @@ head(ssb)
 # ssb vector only includes model years - here crab year 1978 to 2019 does NOT include projection, need to add
 #   projection year for graphical purposes
 # ssb current year uncertainty
-ssb_last <- data.frame("year" = cur_yr, "ssb" = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
+ssb_last <- data.frame("Model" = mod_names, "year" = cur_yr, "ssb" = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
                        "lb" = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
                        "ub" = M[[1]]$spr_bmsy * M[[1]]$spr_depl) 
 ssb %>% 
