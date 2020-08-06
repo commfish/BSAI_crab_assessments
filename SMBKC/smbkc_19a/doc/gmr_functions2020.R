@@ -203,7 +203,7 @@ plot_natural_mortality2 <-
     print(p + .THEME)
   }
 
-A <- M[mod_scen]
+#A <- M[mod_scen]
 
 plot_cpue2 <- 
 function(M, subsetby = "", xlab = "Year", ylab = "CPUE", slab = "Sex", 
@@ -340,6 +340,7 @@ plot_cpue_q <-
     print(p + .THEME + theme(legend.position=c(.8,.85)))
   }
 
+# dealing with VAST data plotting
 plot_cpue3 <- 
   function(M, subsetby = "", xlab = "Year", ylab = "CPUE", slab = "Sex", 
            ShowEstErr = FALSE, logy = FALSE, vastdata = FALSE, vastm = NULL)
@@ -500,7 +501,8 @@ plot_cpue_VAST <-
   }
 
 
-# under development -----------------
+# under development ------------
+# Fishing mortality plot adjusted-----------------
 plot_F2 <- function (M, scales = "free_y", xlab = "Year", ylab = "F", 
                      mlab = "Model") 
 {
@@ -569,3 +571,90 @@ plot_F2 <- function (M, scales = "free_y", xlab = "Year", ylab = "F",
   fbar$fleet <- factor(fbar$fleet, levels = .FLEET)
   return(list(F = fdf, fbar = fbar))
 }
+
+
+## size comps ----------
+plot_size_comps2 <- function(M, which_plots = "all", xlab = "Mid-point of size-class (mm)", ylab = "Proportion",
+                            slab = "Sex", mlab = "Model", tlab = "Fleet", res = FALSE,legend_loc=c(1,1))
+{
+  ylab <- paste0(ylab, "\n")
+  
+  mdf <- .get_sizeComps_df(M)
+  ix <- pretty(1:length(M[[1]]$mid_points))
+  
+  p <- ggplot(data = mdf[[1]])
+  
+  if (res)
+  {
+    xlab <- paste0(xlab, "\n")
+    p <- p + geom_point(aes(factor(year), variable, col = factor(sign(resd)), size = abs(resd)), alpha = 0.6)
+    p <- p + scale_size_area(max_size = 10)
+    p <- p + labs(x = "\nYear", y = xlab, col = "Sign", size = "Residual")
+    #p <- p + scale_x_discrete(breaks = pretty(mdf[[1]]$mod_yrs))
+    #p <- p + scale_y_discrete(breaks = pretty(mdf[[1]]$mid_points))
+    if (length(unique(do.call(rbind.data.frame, mdf)$model)) != 1)
+    {
+      p <- p + facet_wrap(~model)
+    }
+    p <- p + .THEME + theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
+  } else {
+    xlab <- paste0("\n", xlab)
+    p <- p + geom_bar(aes(variable, value), stat = "identity", position = "dodge", alpha = 0.5, fill = "grey")
+    if (length(unique(do.call(rbind.data.frame, mdf)$model)) == 1)
+    {
+      p <- p + geom_line(aes(as.numeric(variable), pred), alpha = 0.85)
+    } else {
+      p <- p + geom_line(aes(as.numeric(variable), pred, col = model), alpha = 0.85)
+    }
+    p <- p + scale_x_discrete(breaks=M[[1]]$mid_points[ix]) 
+    p <- p + labs(x = xlab, y = ylab, col = mlab, fill = slab, linetype = tlab)
+    p <- p + ggtitle("title")
+    p <- p + facet_wrap(~year) + .THEME #+ ylim(0,0.3)
+    p <- p + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, size = 10),
+                   strip.text.x = element_text(margin= margin(1,0,1,0)),
+                   panel.grid.major = element_blank(), 
+                   panel.grid.minor = element_blank(),
+                   legend.position=legend_loc,
+                   panel.border = element_blank(),
+                   strip.background = element_rect(color="white",fill="white"))
+    p <- p + geom_text(aes(label = paste0("N = ", nsamp)), x = -Inf, y = Inf, hjust = -0.2, vjust = 1.5)
+  }
+  #print(p)
+  fun <- function(x, p)
+  {
+    if (length(unique(do.call(rbind.data.frame, mdf)$fleet)) == 1 && length(unique(do.call(rbind.data.frame, mdf)$sex)) == 1 && length(unique(do.call(rbind.data.frame, mdf)$seas)) == 1)
+    {
+      p$labels$title <- ""
+    } else if (length(unique(do.call(rbind.data.frame, mdf)$fleet)) != 1 && length(unique(do.call(rbind.data.frame, mdf)$sex)) == 1 && length(unique(do.call(rbind.data.frame, mdf)$seas)) == 1) {
+      p$labels$title <- paste("Gear =", unique(x$fleet))
+    } else if (length(unique(do.call(rbind.data.frame, mdf)$fleet)) == 1 && length(unique(do.call(rbind.data.frame, mdf)$sex)) != 1 && length(unique(do.call(rbind.data.frame, mdf)$seas)) == 1) {
+      p$labels$title <- paste("Sex =", unique(x$sex))
+    } else if (length(unique(do.call(rbind.data.frame, mdf)$fleet)) == 1 && length(unique(do.call(rbind.data.frame, mdf)$sex)) == 1 && length(unique(do.call(rbind.data.frame, mdf)$seas)) != 1) {
+      p$labels$title <- paste("Season =", unique(x$seas))
+    } else if (length(unique(do.call(rbind.data.frame, mdf)$fleet)) != 1 && length(unique(do.call(rbind.data.frame, mdf)$sex)) != 1 && length(unique(do.call(rbind.data.frame, mdf)$seas)) == 1) {
+      p$labels$title <- paste("Gear =", unique(x$fleet), ", Sex =", unique(x$sex))
+    } else if (length(unique(do.call(rbind.data.frame, mdf)$fleet)) != 1 && length(unique(do.call(rbind.data.frame, mdf)$sex)) == 1 && length(unique(do.call(rbind.data.frame, mdf)$seas)) != 1) {
+      p$labels$title <- paste("Gear =", unique(x$fleet), ", Season =", unique(x$seas))
+    } else if (length(unique(do.call(rbind.data.frame, mdf)$fleet)) == 1 && length(unique(do.call(rbind.data.frame, mdf)$sex)) != 1 && length(unique(do.call(rbind.data.frame, mdf)$seas)) != 1) {
+      p$labels$title <- paste("Sex =", unique(x$sex), ", Season =", unique(x$seas))
+    } else {
+      p$labels$title <- paste("Gear =", unique(x$fleet), ", Sex =", unique(x$sex), ", Season =", unique(x$seas))
+    }
+    p %+% x
+  }
+  
+  plist <- lapply(mdf, fun, p = p)
+  
+  if (which_plots == "all")
+  {
+    print(plist)
+  } else {
+    print(plist[[which_plots]])
+  }
+}
+
+
+
+
+
+
