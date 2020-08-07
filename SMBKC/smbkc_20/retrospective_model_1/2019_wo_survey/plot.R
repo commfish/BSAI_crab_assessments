@@ -8,7 +8,7 @@
 # Model or Model(s) plotted here: 
 # Stock: SMBKC
 # Year and timing: 2020 retrospecive_model_1 
-# Model: model_1_19
+# Model: model_1_19 / without terminal year of the survey
 
 # load ------------
 #require(devtools)
@@ -26,8 +26,8 @@ source("./SMBKC/smbkc_19a/doc/gmr_functions2020.R")
 # Model 1 plots -------------------------
 cur_yr <- 2019 # update annually 
 
-mod_names <- c("retro_19")
-.MODELDIR = c("./SMBKC/smbkc_20/retrospective_model_1/2019/") # directory where the model results are
+mod_names <- c("retro_19_woTS") ## make sure to UPDATE this to be the correct name
+.MODELDIR = c(paste0("./SMBKC/smbkc_20/retrospective_model_1/", cur_yr, "_wo_survey/")) # directory where the model results are
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
@@ -36,7 +36,7 @@ mod_names <- c("retro_19")
 .SHELL    = c("Aggregate","Aggregate")
 .MATURITY = c("Aggregate")
 .SEAS     = c("Annual")
-.FIGS     = c("./SMBKC/smbkc_20/retrospective_model_1/2019/output/")
+.FIGS     = c(paste0("./SMBKC/smbkc_20/retrospective_model_1/", cur_yr, "_wo_survey/output/"))
 .FILES    = c("./SMBKC/smbkc_20/retrospective_model_1/combined_data/")
 
 fn       <- paste0(.MODELDIR, "gmacs")
@@ -100,8 +100,10 @@ ssb_last <- data.frame("Model" = mod_names, "year" = cur_yr, "ssb" = M[[1]]$spr_
                        "ub" = M[[1]]$spr_bmsy * M[[1]]$spr_depl) 
 ssb %>% 
   bind_rows(ssb_last) -> ssb
-write.csv(ssb, paste0(.FILES, paste0("ssb_", cur_yr, ".csv")), row.names = FALSE)
+write.csv(ssb, paste0(.FILES, paste0("ssb_", cur_yr, "wo_Tsurvey.csv")), row.names = FALSE)
 
+write.table(ssb, file = paste0(.FILES, "ssb_2019.csv"), sep = ",",
+            append = TRUE, col.names = FALSE, row.names = FALSE)
 
 rec <- .get_recruitment_df(M)
 head(rec)
@@ -109,7 +111,7 @@ rec %>%
   mutate(recruit = exp(log_rec)) %>% 
   select(year, sex, recruit, lb, ub) %>% 
   mutate(recruit_tons = recruit*0.000748427) %>% 
-  write.csv(paste0(.FILES, paste0("recruitment_output_", cur_yr, ".csv"))) 
+  write.csv(paste0(.FILES, paste0("recruitment_output_", cur_yr, "wo_terminal_survey.csv"))) 
 
 temp <- data.frame(year = cur_yr, 
                    avgr = rec$rbar[1], 
@@ -117,7 +119,7 @@ temp <- data.frame(year = cur_yr,
                    mmb_terminal = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
                    status = M[[1]]$spr_depl, 
                    OFL = M[[1]]$sd_fofl[1], 
-                   type = "retro")
+                   type = "wo_term_sur_retro") # update here for terminal year missing
 write.csv(temp, paste0(.FILES, "summary.csv"))
           
 rec$rbar[1]
