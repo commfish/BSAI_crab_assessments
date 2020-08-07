@@ -20,3 +20,7 @@ mmb %>%
     theme_bw(base_size = 12, base_family = "") -> p1
 
 ggsave(paste0(.FIGS, "ssb_time_series.png"), p1, dpi = 800, width = 1.5*6, height = 5)
+
+#**FIX** need to add 2020 model here. 
+
+# comparison btn retro and leave out terminal yr survey -----------------
