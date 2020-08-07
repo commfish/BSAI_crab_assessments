@@ -6,6 +6,7 @@
 
 # load --
 source("./SMBKC/code/helper.R")
+.FIGS = c(paste0("./SMBKC/smbkc_20/retrospective_model_1/figures/"))
 
 # data ---
 mmb <- read.csv(paste0(here::here(), '/SMBKC/smbkc_20/retrospective_model_1/combined_data/ssb_2019.csv'))
@@ -16,4 +17,6 @@ sum_stats <- read.csv(paste0(here::here(), '/SMBKC/smbkc_20/retrospective_model_
 mmb %>% 
   ggplot(aes(year, ssb, group = Model)) +
     geom_line(aes(group = Model, colour = Model), lwd = 0.75) +
-    theme_bw(base_size = 12, base_family = "")
+    theme_bw(base_size = 12, base_family = "") -> p1
+
+ggsave(paste0(.FIGS, "ssb_time_series.png"), p1, dpi = 800, width = 1.5*6, height = 5)
