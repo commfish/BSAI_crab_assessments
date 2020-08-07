@@ -8,7 +8,7 @@
 # Model or Model(s) plotted here: 
 # Stock: SMBKC
 # Year and timing: 2020 retrospecive_model_1 
-# Model: model_1_13
+# Model: model_1_12
 
 # load ------------
 #require(devtools)
@@ -24,9 +24,9 @@ source("./SMBKC/code/helper.R")
 source("./SMBKC/smbkc_19a/doc/gmr_functions2020.R") 
 
 # Model 1 plots -------------------------
-cur_yr <- 2013 # update annually 
+cur_yr <- 2012# update annually 
 
-mod_names <- c("retro_13") # update annually
+mod_names <- c("retro_12") # update annually
 .MODELDIR = c(paste0("./SMBKC/smbkc_20/retrospective_model_1/", cur_yr,"/")) # directory where the model results are
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
