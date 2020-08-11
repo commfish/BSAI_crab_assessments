@@ -15,7 +15,9 @@
 #devtools::install_github("seacode/gmacs", subdir = "/gmr", ref = "develop") #, INSTALL_opts="--no-staged-install") #- only needs to be performed once, but needs to be 
 # done again when updates are made to the package
 # if gmr is updated and above doesn't work try:
-# go to Build above - direct it to the gmr folder - press OK. Over on right in the Build tab (upper right hand side) - 
+# go to Build (menu option) above - choose "configure build tools" direct it to the gmr folder 'R projects/gmacs/gmr'
+# or where ever you have it saved from Github on your computer - press OK. Over on right in the Build (in R studio there's a 
+# "Build" tab between the "connections" and the "git" tabs (upper right hand side) - 
 # click "install and restart"
 
 require(gmr)
