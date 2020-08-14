@@ -116,7 +116,8 @@ temp <- data.frame(year = cur_yr,
                    bmsy = M[[1]]$spr_bmsy,
                    mmb_terminal = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
                    status = M[[1]]$spr_depl, 
-                   OFL = M[[1]]$sd_fofl[1], 
+                   f_ofl = M[[1]]$sd_fofl[1],
+                   OFL = M[[1]]$spr_cofl/1000,
                    type = "retro")
 write.csv(temp, paste0(.FILES, "summary.csv"), row.names = FALSE)
           
@@ -125,6 +126,8 @@ M[[1]]$spr_bmsy
 M[[1]]$spr_bmsy * M[[1]]$spr_depl
 M[[1]]$spr_depl
 M[[1]]$sd_fofl[1]
+M[[1]]$spr_cofl/1000
+
 
 # SMBKC plots new  -------------
 # SSB -----------
