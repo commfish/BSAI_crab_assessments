@@ -10,15 +10,40 @@ In each year, .dat, ctl, and .prj files need to be updated to reflect those of d
 
 Models housed in smbkc_20/retrospective_model_1
 
+Use model_1 for this. Manually adjust data and .ctl file for this 
 
-## dat, ctl, prj files - FILE UPDATES ANNUALLY
-.dat file lives in data folder in assessment root.  "smbkc_20/retrospective_model_1/retro_data"
+## folder structure - 
+Each folder is labeld with the "year" for that retrospective run (i.e. when the model ends)
 
-Update annually - 
-.ctl file updated for model_1 in that folder with new year ranges, etc. each model needs the .ctl file updated.
+Each folder labeled "year_wo_survey" has that same retrospective run without the terminal survey data.
+i.e. for 2019 this includes all the same data as 2019 but does not have 2019 trawl survey data - abundance or length comps.
 
+
+## dat, ctl, prj files - FILEs UPDATED FOR EACH YEAR
+.dat files lives in data folder in assessment root.  "smbkc_20/retrospective_model_1/retro_data"
+.ctl and .prj files live in each "year" designated folder
+
+### retrospective pattern analysis 
+#### .dat file: 
+For each year in the past remove the corresponding "new" data - both survey and catch in the .dat file, also change model end date. 
+Changes: 
+line 15 - end year (last year of fishery data in the model, i.e. 2019 model, this is 2018)
+catch data - remove catch data from year remove (2019 model, no catch in 2019)
+abundance data - remove abundance data (i.e. 2018 model remove 2019 survey data)
+- both catch and abundance need to adjust associated row numbers above these data inputs.
+
+#### .ctl file
+Lines 140 to 172, adjust end year here to reflect particular model year, remember catch data is the previous year (i.e. 2019 has 2018/2019 catch data labeled 2018), whereas survey data is same as model year (i.e. 2019)
+
+Line 276 - adjust last rec_dev year
+
+
+#### .prj file 
+Update end year ranges and bycatch year ranges in the first section. Update meanrecruitement years (Line 26)
+
+
+BEFORE RUNNING MODEL: 
 update gmacs.dat with correct file names for .dat, .ctl, .prj
-
 
 # Run the model
 1) Using ADMB shell navigate to the folder for model_1
@@ -33,9 +58,6 @@ Look at model output - did model converge? how are parameter estimates? check al
 
 NOTE: check on ssb output. only has 41 years instead of 42 - crab year so 1978 to 2018 does not included projection for 2019/20
 
-
-# retrospective pattern analysis 
-Use model_1 for this. Manually adjust data and .ctl file for this 
 
 
 
