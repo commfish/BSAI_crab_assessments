@@ -122,7 +122,7 @@ temp <- data.frame(year = cur_yr,
                    type = "retro")
 #write.csv(temp, paste0(.FILES, "summary.csv"))
 write.table(temp, file = paste0(.FILES, "summary.csv"), sep = ",",
-            append = TRUE, col.names = FALSE)
+            append = TRUE, col.names = FALSE, row.names = FALSE)
 
 rec$rbar[1]
 M[[1]]$spr_bmsy
