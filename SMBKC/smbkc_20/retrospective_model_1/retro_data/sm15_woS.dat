@@ -1,5 +1,5 @@
 #========================================================================================================
-# Gmacs Main  Data  File  Version 1.1:  sept2020 model 2015 retro.
+# Gmacs Main  Data  File  Version 1.1:  sept2020 model 2015 retro without terminal survey year.
 # GEAR_INDEX  DESCRIPTION
 #   1      : Pot fishery retained catch.
 #   1      : Pot fishery with discarded catch.
@@ -202,7 +202,7 @@ NMFS_Trawl ADFG_Pot
 ##  Number  of  relative  abundance indicies
 2
 ##  Number  of  rows  in  each  index
-46
+45
 # Survey data (abundance indices, units are mt for trawl survey and crab/potlift for pot survey)
 #	Year,	Seas,	Fleet,	Sex,	Maturity,	Abundance,	CV	units							
 1	1978	1	4	1	0	6832.819	0.394	1							
@@ -242,7 +242,7 @@ NMFS_Trawl ADFG_Pot
 1	2012	1	4	1	0	6200.219	0.339	1							
 1	2013	1	4	1	0	2287.557	0.217	1							
 1	2014	1	4	1	0	6029.22	0.449	1							
-1	2015	1	4	1	0	5877.433	0.77	1							
+#1	2015	1	4	1	0	5877.433	0.77	1							
 #1	2016	1	4	1	0	3485.909	0.393	1							
 #1	2017	1	4	1	0	1793.76	0.599	1							
 #1	2018	1	4	1	0	1730.742	0.281	1							
@@ -261,7 +261,7 @@ NMFS_Trawl ADFG_Pot
 ##  Number  of  length  frequency matrices
 3
 ##  Number  of  rows  in  each  matrix
-15  38  8 # (updated)
+15  37  8 # (updated)
 ##  Number  of  bins  in  each  matrix  (columns  of  size  data)
 3  3  3
 ##  SIZE  COMPOSITION DATA  FOR ALL FLEETS
@@ -326,7 +326,7 @@ NMFS_Trawl ADFG_Pot
   2012  1 4 1 0 0 0 50  0.1573  0.4393  0.4034
   2013  1 4 1 0 0 0 37  0.2100  0.2834  0.5065
   2014  1 4 1 0 0 0 50  0.1738  0.3912  0.4350
-  2015  1 4 1 0 0 0 50  0.2340  0.2994  0.4666
+  #2015  1 4 1 0 0 0 50  0.2340  0.2994  0.4666
   #2016  1 4 1 0 0 0 50  0.2255  0.2780  0.4965
   #2017  1 4 1 0 0 0 21  0.0849  0.2994  0.6157
   #2018  1 4 1 0 0 0 31  0.1475  0.2219  0.6306
