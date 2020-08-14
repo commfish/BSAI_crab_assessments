@@ -118,7 +118,7 @@ temp <- data.frame(year = cur_yr,
                    status = M[[1]]$spr_depl, 
                    OFL = M[[1]]$sd_fofl[1], 
                    type = "retro")
-write.csv(temp, paste0(.FILES, "summary.csv"))
+write.csv(temp, paste0(.FILES, "summary.csv"), row.names = FALSE)
           
 rec$rbar[1]
 M[[1]]$spr_bmsy
