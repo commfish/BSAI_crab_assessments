@@ -102,7 +102,7 @@ ssb %>%
   bind_rows(ssb_last) -> ssb
 write.csv(ssb, paste0(.FILES, paste0("ssb_", cur_yr, "_woTS.csv")), row.names = FALSE)
 
-write.table(ssb, file = paste0(.FILES, "ssb_2019.csv"), sep = ",",
+write.table(ssb, file = paste0(.FILES, "ssb_all.csv"), sep = ",",
             append = TRUE, col.names = FALSE, row.names = FALSE)
 
 rec <- .get_recruitment_df(M)
@@ -118,17 +118,20 @@ temp <- data.frame(year = cur_yr,
                    bmsy = M[[1]]$spr_bmsy,
                    mmb_terminal = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
                    status = M[[1]]$spr_depl, 
-                   OFL = M[[1]]$sd_fofl[1], 
+                   f_ofl = M[[1]]$sd_fofl[1],
+                   OFL = M[[1]]$spr_cofl/1000,
                    type = "wo_term_sur_retro")
 #write.csv(temp, paste0(.FILES, "summary.csv"))
+temp
 write.table(temp, file = paste0(.FILES, "summary.csv"), sep = ",",
-            append = TRUE, col.names = FALSE)
+            append = TRUE, col.names = FALSE, row.names = FALSE)
 
 rec$rbar[1]
 M[[1]]$spr_bmsy
 M[[1]]$spr_bmsy * M[[1]]$spr_depl
 M[[1]]$spr_depl
 M[[1]]$sd_fofl[1]
+M[[1]]$spr_cofl/1000
 
 # SMBKC plots new  -------------
 # SSB -----------
