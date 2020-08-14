@@ -101,6 +101,7 @@ ssb_last <- data.frame("Model" = mod_names, "year" = cur_yr, "ssb" = M[[1]]$spr_
 ssb %>% 
   bind_rows(ssb_last) -> ssb
 write.csv(ssb, paste0(.FILES, paste0("ssb_", cur_yr, ".csv")), row.names = FALSE)
+write.csv(ssb, paste0(.FILES, "ssb_all.csv"), row.names = FALSE)
 
 
 rec <- .get_recruitment_df(M)
@@ -119,6 +120,7 @@ temp <- data.frame(year = cur_yr,
                    f_ofl = M[[1]]$sd_fofl[1],
                    OFL = M[[1]]$spr_cofl/1000,
                    type = "retro")
+temp
 write.csv(temp, paste0(.FILES, "summary.csv"), row.names = FALSE)
           
 rec$rbar[1]

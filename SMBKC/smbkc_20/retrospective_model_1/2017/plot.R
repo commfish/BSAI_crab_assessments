@@ -26,8 +26,8 @@ source("./SMBKC/smbkc_19a/doc/gmr_functions2020.R")
 # Model 1 plots -------------------------
 cur_yr <- 2017 # update annually 
 
-mod_names <- c("retro_17") # update annually
-.MODELDIR = c(paste0("./SMBKC/smbkc_20/retrospective_model_1/", cur_yr,"/")) # directory where the model results are
+mod_names <- c("retro_17")
+.MODELDIR = c(paste0("./SMBKC/smbkc_20/retrospective_model_1/", cur_yr, "/")) # directory where the model results are
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
@@ -102,7 +102,7 @@ ssb %>%
   bind_rows(ssb_last) -> ssb
 write.csv(ssb, paste0(.FILES, paste0("ssb_", cur_yr, ".csv")), row.names = FALSE)
 
-write.table(ssb, file = paste0(.FILES, "ssb_2019.csv"), sep = ",",
+write.table(ssb, file = paste0(.FILES, "ssb_all.csv"), sep = ",",
             append = TRUE, col.names = FALSE, row.names = FALSE)
 
 rec <- .get_recruitment_df(M)
@@ -118,8 +118,10 @@ temp <- data.frame(year = cur_yr,
                    bmsy = M[[1]]$spr_bmsy,
                    mmb_terminal = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
                    status = M[[1]]$spr_depl, 
-                   OFL = M[[1]]$sd_fofl[1], 
+                   f_ofl = M[[1]]$sd_fofl[1],
+                   OFL = M[[1]]$spr_cofl/1000, 
                    type = "retro")
+temp
 #write.csv(temp, paste0(.FILES, "summary.csv"))
 write.table(temp, file = paste0(.FILES, "summary.csv"), sep = ",",
             append = TRUE, col.names = FALSE, row.names = FALSE)
@@ -129,6 +131,7 @@ M[[1]]$spr_bmsy
 M[[1]]$spr_bmsy * M[[1]]$spr_depl
 M[[1]]$spr_depl
 M[[1]]$sd_fofl[1]
+M[[1]]$spr_cofl/1000
 
 # SMBKC plots new  -------------
 # SSB -----------
