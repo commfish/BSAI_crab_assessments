@@ -42,6 +42,11 @@ Line 276 - adjust last rec_dev year
 Update end year ranges and bycatch year ranges in the first section. Update meanrecruitement years (Line 26)
 
 
+### Retro without terminal survey year
+.ctl and .prj files do NOT have to be changed
+.dat file changes are reflected in new data file name (make sure to update gmacs.dat in each particular folder)
+
+
 BEFORE RUNNING MODEL: 
 update gmacs.dat with correct file names for .dat, .ctl, .prj
 
@@ -59,5 +64,10 @@ Look at model output - did model converge? how are parameter estimates? check al
 NOTE: check on ssb output. only has 41 years instead of 42 - crab year so 1978 to 2018 does not included projection for 2019/20
 
 
+# Summary files / figures 
+Summarized data is saved in teh combined_data folder (which really should be combined results **FIX**).
+
+Files with results in one file are "ssb_all.csv" and "summary.csv"
+See R code "summary_figures_analysis.R" for more details
 
 
