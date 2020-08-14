@@ -25,13 +25,13 @@
 7                          # Time to recruitment
 1978 2019                  # First and last years for generating future recruitment (only used if Stock_recruitment option = 1)
 #1999 2008                 # First and last years for generating future recruitment
-500000                       # Mean recruitment
+500000                       # Mean recruitment ?? ask what this means??
 0.00001 # 0.6              # SigmaR (only used if Stock_recruitment option = 2) [0.6]
 0.0                        # Prow
 0.0                        # Initial eps
 
 # State strategy
-1 # 1                          # Apply strategies [OFL, ABC] (1=yes;0=no)
+1 # 1                      # Apply strategies [OFL, ABC] (1=yes;0=no) (1 = state harvest strategy SMBKC, 0 = F as above, line 19)
 0.001729630                # Mean weight to use (mature)
 0.001930932                # Mean weight to use (legal)
 
