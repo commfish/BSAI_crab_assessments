@@ -267,10 +267,9 @@ Details of this implementation and other model details are provided in Appendix 
 ## Changes in Assessment Results {-}
 
 Both surveys indicate a decline over the past few years. The "reference" model is that which was selected for use in 2019.
-In fall of 2020 there will be only one new data set to be included so this becomes the updated reference model (model 16.0 ref). 
-One alternative model is presented to explore the use of VAST on estimates of the time series of NOAA trawl survey data (**VAST**).  
+The base model presented here is the reference model with updated groundfish bycatch data for the 2019/20 crab season (model 16.0 base). No additional models are presented here for consideration, but further simulations and analysis was done to assess the uncertainty in the 2020 biomass estimates and reference point calculations (Appendix C). 
 
-The other three model alternatives are presented to assess sensitivity to the model, attempting to deal with the disparity between the two survey time series. The **add CV pot** configuration estimates an additional CV on the pot survey data, which in turn allows the model to fit the trawl-survey estimates better. The **add CV both** configuration estimates an additional CV on both survey data sets as a sensitivity run to see if these results differ much from the **add CV pot** run. The last alternative model presented **q time block pot** attempts to address CPT and SSC concerns over ADF&G pot survey catchability by creating two time blocks for this survey. The time blocks (1995 - 2013, 2015-2018) were an initial attempt to deal with the idea of a random walk for survey catchability. Other sensitivities were explored, including estimating both the trawl survey and pot survey catchability, but are not reported here due to insignificant findings.
+One additional model is presented to assess sensitivity of data inputs to the model, attempting to deal with the disparity between the two survey time series. The **no pot** configuration runs the base model 16.0 without the ADF&G pot survey data, therefore only having the NMFS trawl survey as the abundance data. 
 
 
 # B. Responses to SSC and CPT  {-}
