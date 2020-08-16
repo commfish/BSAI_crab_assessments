@@ -68,6 +68,40 @@ mod_scen<- 2:3 #scenarios you want graphed together
 ww <- 6
 hh <- 5
 
+### Executive summary stats ===========
+# not currently saved here just viewed
+.get_cpue_df(Mbase) %>% 
+  filter(fleet==.FLEET[4]) %>% 
+  mutate(x = round(100*pred/mean(pred),0)) %>% 
+  select(x) %>% 
+  tail(1) %>%
+  .$x -> bio_lt_percent
+
+# Tables 1 to 3 calcs -------
+## table 1 ------
+round(M[[ref_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_1819
+round(M[[ref_mod]]$ssb[length(M[[ref_mod]]$ssb)]/1000, 2) -> mmb_1819
+# use with actual 2020 data
+round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_1920
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_1920
+
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2021
+round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2021 # not estimating OFL correctly **FIX**
+round(M[[rec_mod]]$spr_cofl/1000*0.8, 2) -> abc_2021
+
+# table 2 ----------
+round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_1819_lb
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]* 2204.62/1e6, 2) -> mmb_1819_lb
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_1920_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 3) -> ofl_1920_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.8, 2) -> abc_1920_lb
+
+# ofl and abc basis -------- table 3
+# ofl and abc basis -------- table 3
+round(M[[rec_mod]]$spr_bmsy/1000, 2) -> bmsy_cur
+round(M[[rec_mod]]$spr_depl, 2) -> ratio_bmsy
+round(M[[rec_mod]]$sd_fofl[1], 3) -> fofl
+
 ## FIGURES ===================================
 ## data extent -----------
 #plot_datarange(M[ref_mod]) # call in gmr not working - need to edit this on github
@@ -106,7 +140,9 @@ ggsave(paste0(.FIGS, "recruit_ref.png"), width = ww*1.08, height = hh)
 ## !!fishing mortality ------
 #plot_F(M[2]) **FIX** bring in this from model 1 for now.
 #plot_F(M[mod_scen])
+# *** FIX *** why are these not working?
 plot_F(Mbase)
-plot_F2(M[2]) # 
+plot_F2(Mbase) # 
+plot_F2(M[1:3])
 ggsave(paste0(.FIGS, "fishing_mortality.png"), width = ww*1.5, height = hh)
 
