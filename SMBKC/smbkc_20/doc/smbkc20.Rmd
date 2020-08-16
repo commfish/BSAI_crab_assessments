@@ -288,26 +288,30 @@ Comment: *Regarding general code development, the SSC and CPT outstanding reques
      We continued with the iterative re-weighting for composition data. We did not address models without the natural mortality spike. These have been considered previously. 
 
 
-Comment: *Regarding potential model scenarios for 2020, the SSC and CPT requests are:*
+Comment: *Regarding potential model scenarios for Sept. 2020, the SSC and CPT requests are:*
     
-  1. *Extra CV for both surveys*
+  1. *Explore model without ADf&G pot survey data*
     
-     Model 19.3 has an extra CV for both surveys, for comparison to Model 19.2 with only an additional CV on the pot survey.
+     Model 20.1 explores this sensitivity to the data inputs and is shown here in the model scenarios.
       
   2. *Random walk or exploration of catchability*
     
-     Model 19.4 has an initial attempt at dealing with pot survey catchability by applying time blocks to q for the pot survey. More work is most likely needed on this but progress was limited due to unexpected world events.
+     The intial model of time blocks for Q did not show much potential for this in May 2020, therefore it was not a focus for the Sept. 2020 runs. More coding work is needed to make a true random walk for catchability GMACS and this will be added to GMACS model development, hopefully durin the Jan 2021 modeling workshop. 
 
 Comment: *Explore potential explanations for the discrepancy in the time trends of the two types of survey data, including movement hypotheses using spatial models (not necessarily VAST)*
   
-  Limited progress due to data availability (ADF&G), current plan is to have progress update in Sept. 2020
+  Limited progress due to time availability and current world events. This will be a large focus on upcoming work on this model as the scenario without the ADF&G pot survey data (20.1) shows the differences in the current reality of the stock between the two abundance surveys.
 
+Comment: *Explore May 2020 model with VAST estimates*
+
+  Progress is underway to refine the SMBKC VAST estimates using preliminary code that incorporates the island effect. Jon Richar (NMFS) is working on these estimates. At the time of this final SAFE there are no additional improvements to this data set and therefore the VAST model is not presented as a model option. Future work on VAST models for this stock includes VAST data output for the NMFS trawl survey incorporating the island effect and VAST output using both survey data sets together. 
   
 Comment: *Please use the correct model number (e.g., if 19.0 is the same model as was first adopted in 16.0 then it is still 16.0.)*
 
   Completed. Base model is 16.0.
 
-  
+
+
 # C. Introduction {-}
 
 ## Scientific Name {-}
