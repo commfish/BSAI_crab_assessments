@@ -1,5 +1,5 @@
 ---
-title: "Saint Matthew Island Blue King Crab Stock Assesssment May 2020 draft"
+title: "Saint Matthew Island Blue King Crab Stock Assesssment 2020"
 author: |
   | Katie Palof$^1$, Jie Zheng$^1$, Jim Ianelli$^2$ 
   | $^1$Alaska Department of Fish and Game, katie.palof@alaska.gov and jie.zheng@alaska.gov
@@ -26,14 +26,11 @@ options(xtable.comment = FALSE)
 ## before running update model specs here and in doc_figures_test.R
 ## run code in that R file with !! to get table and figure input here
 # the model specs
-folder <- "smbkc_19a"
-mod_names <- c("model 16.0", "model 16.0 (ref)", "model 19.1 (VAST)", "model 19.2 (add CV pot)", "model 19.3 (add CV both)", "model 19.4 (q time block pot)") 
-.MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_19/model_1/"), 
-              paste0(here::here(), "/SMBKC/smbkc_19a/model_1/"),
-              paste0(here::here(), "/SMBKC/smbkc_19a/model_4/"), 
-              paste0(here::here(), "/SMBKC/smbkc_19a/model_1a/"), 
-              paste0(here::here(), "/SMBKC/smbkc_19a/model_1b/"),
-              paste0(here::here(), "/SMBKC/smbkc_19a/model_3/")) #need to update these model options
+folder <- "smbkc_20"
+mod_names <- c("model 16.0 (2019)", "model 16.0 (base)", "model 20.1 (no pot)") 
+.MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_19a/model_1/"),
+              paste0(here::here(), "/SMBKC/smbkc_20/model_1/"), 
+              paste0(here::here(), "/SMBKC/smbkc_20/model_2/")) #need to update these model options
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
@@ -63,9 +60,9 @@ rinline <- function(code){
 }
 
 #alt_mod <- 5 # alt reference time frame
-ref_mod <- 1 # base
+ref_mod <- 1 # 2019 model
 rec_mod <- 2 # base
-mod_scen<- 2:6 #scenarios you want graphed together
+mod_scen<- 2:3 #scenarios you want graphed together
 ```
 
 ```{r exesum, echo = FALSE}
@@ -76,7 +73,7 @@ mod_scen<- 2:6 #scenarios you want graphed together
   tail(1) %>%
   .$x -> bio_lt_percent
 
-## table 1 ------
+## table 1 ------*** FIX ***
 round(M[[ref_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_1819
 round(M[[ref_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_1819
 
@@ -137,7 +134,7 @@ The directed fishery resumed again in 2014/15 with a TAC of 300 t (0.655 million
 relatively poor with a retained catch of 140 t (0.309 million pounds). 
 The retained catch in 2015/16 was even lower at 48 t (0.105 million pounds) and the fishery has remained closed since 2016/17.
 
-3. **Stock biomass**: The 1978-2019 NMFS trawl survey mean biomass is 5,605 t with the 2019 value being the
+3. **Stock biomass**:  The 1978-2019 NMFS trawl survey mean biomass is 5,605 t with the 2019 value being the
 15th lowest (3,170 t; the tenth lowest since 2000). 
 This 2019 biomass of $\ge$ 90 mm carapace length (CL) male crab is 
 57% of the long term mean  at 6.99 million pounds (with a CV of 34%), and an 83% increase from the 2018 biomass.
