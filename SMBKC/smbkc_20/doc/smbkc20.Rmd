@@ -468,27 +468,23 @@ This assessment model again uses the modeling framework GMACS and is detailed in
 
 ## Model Selection and Evaluation {-}
 
-Five models are presented with the reference model being the same configuration as approved last year (Palof et al. 2019), 
-three sensitivities are considered, one that adds an additional CV on the
-ADF&G pot survey data, one that adds an additional CV on both surveys (for comparison), and one that has time blocks for the ADF&G survey catchability (q). In addition to these sensitivities, there is a model presented that includes VAST estimates for the NOAA trawl survey time series. We will also evaluate the impacts of adding new data 
-to the reference model, once 2020 data is obtained. All models below do NOT include any new data from the 2019 accepted model and SAFE report. In summary, the following lists the models presented and the naming convention used: 
+Two models are presented with the reference model being the same configuration as approved last year (Palof et al. 2019), 
+one sensitivity is considered which excludes the ADF&G pot survey data. In addition to this sensitivty, we evaluated
+the impacts of adding new data (here just groundfish bycatch) to the reference model. 
+In summary, the following lists the models presented and the naming convention used: 
 
-1. **16.0 - 2019 Reference Model**: updated with Jan 2020 updates to GMACS
+1. **16.0 - 2019 Model**: 2019 accepted model
 
-2. **19.1 - VAST NMFS trawl data**: model 16.0 with VAST data output for the NMFS trawl survey time series 
+2. **16.0 - 2020 Reference Model**: updated with 2019/20 groudfish bycatch 
 
-3. **19.2 - add CV pot**: model 16.0 + an estimated additional CV on the ADF&G pot survey
-
-4. **19.3 - add CV both**: model 16.0 + an estimated additional CV on the ADF&G pot survey and the NOAA trawl survey 
-
-5. **19.4 - q time block pot**: time block estimated q's for ADF&G pot survey. 2 time blocks: 1995 to 2013 and 2015 to 2018. 
+3. **20.1 - no ADF&G pot survey data**: model 16.0 - excludes ADF&G pot survey data - abundace and length comps
 
 Note the change in naming convention (per SSC comments). The base model is model 16.0 since that was the year of model development and acceptance. 
 
 ## Results {-}
 
 ### a. Sensitivity to new data {-}
-There is no new data from the September 2019 model runs, therefore sesults for scenarios are provided with comparisons to the 2019 model, which is shown in Figures \@ref(fig:surv1) and \@ref(fig:surv2) with recruitment and spawning biomass shown in 
+There is no new survey data for the September 2020 model runs, the only additional data is groundfish bycatch data fr the 2019/20 crab season. Additionally, the groundfish bycatch data was updated for past years due to some changes in the weights used to estimate crab bycatch in the groundfish fisheries (per. comm. NMFS AKRO). The 2020 reference model is compared here to the 2019 accepted model, which is shown in Figures \@ref(fig:surv1) and \@ref(fig:surv2) with recruitment and spawning biomass shown in 
 Figures \@ref(fig:rec1) and \@ref(fig:ssb1), respectively. 
 The 2019 fits to survey CPUEs and spawning biomass show that the addition of new data results in a slight increase compared
 to the 2018 assessment. However, in the past few years the reference model does not capture the recent survey declines in
@@ -1220,9 +1216,6 @@ knitr::include_graphics("safe_figure/CrabN_Station.png", dpi = 400)
 knitr::include_graphics("safe_figure/trawl_cpue_ref.png", dpi = 200)
 ```
 
-```{r surv1-vast, fig.cap = "Fits to NMFS VAST trawl estimates of total (> 90mm) male survey biomass for the VAST model only. Error bars are plus and minus 2 standard deviations."} 
-knitr::include_graphics("safe_figure/trawl_biomass_VASTonly.png", dpi = 200)
-```
 
 ```{r surv2, fig.cap = "Comparisons of fits to CPUE from the ADFG pot surveys for the reference model 16.0 ref (note that there is no new pot data for 2019). Error bars are plus and minus 2 standard deviations."} 
 knitr::include_graphics("safe_figure/pot_cpue_ref.png", dpi = 150)
@@ -1232,7 +1225,7 @@ knitr::include_graphics("safe_figure/pot_cpue_ref.png", dpi = 150)
 knitr::include_graphics("safe_figure/recruit_ref.png", dpi = 100)
 ```
 
-```{r ssb1, fig.cap = "Sensitivity of new data in 2019 on estimated mature male biomass (MMB); 1978-2019."}
+```{r ssb1, fig.cap = "Sensitivity of new data in 2020 on estimated mature male biomass (MMB); 1978-2020."}
 #plot_ssb(M[1:2], ylab = "Mature male biomass (tons) on 15 February")# needs to be fixed 
 
 knitr::include_graphics("safe_figure/lastyr_reference_ssb_wprojected_yr.png", dpi = 100)
@@ -1243,43 +1236,25 @@ knitr::include_graphics("safe_figure/lastyr_reference_ssb_wprojected_yr.png", dp
 knitr::include_graphics("safe_figure/selectivity_mod_scen.png", dpi = 150)
 ```
 
-```{r selectivity2, fig.cap = "Comparisons of the estimated stage-1 and stage-2 selectivities for the q time block pot model scenario (the stage-3 selectivities are all fixed at 1). Estimated selectivities are shown for the directed pot fishery, the trawl bycatch fishery, the fixed bycatch fishery, the NMFS trawl survey, and the ADFG pot survey. Two selectivity periods are estimated in the directed pot fishery, from 1978-2008 and 2009-2018."}
-knitr::include_graphics("safe_figure/selectivity_q_timeblock.png", dpi = 150)
-```
 
-```{r recruitment, fig.cap = "Estimated recruitment 1979-2018 comparing model alternatives. The solid horizontal lines in the background represent the estimate of the average recruitment parameter ($\\bar{R}$) in each model scenario."}
+```{r recruitment, fig.cap = "Estimated recruitment 1979-2019 comparing model alternatives. The solid horizontal lines in the background represent the estimate of the average recruitment parameter ($\\bar{R}$) in each model scenario."}
 knitr::include_graphics("safe_figure/recruitment_mod_scen_ribbons.png", dpi = 100)
 ```
 
-```{r recruitment2, fig.cap = "Estimated recruitment 1979-2018 comparing the VAST (19.1) and Reference model (16.0). The solid horizontal lines in the background represent the estimate of the average recruitment parameter ($\\bar{R}$) in each model scenario."}
-knitr::include_graphics("safe_figure/recruitment_vast_base_ribbons.png", dpi = 100)
-```
 
 ```{r mmb, fig.cap = "Comparisons of estimated mature male biomass (MMB) time series on 15 February during 1978-2019 for each of the model scenarios."}
 #plot_ssb(M[mod_scen], ylab = "Mature male biomass (tons) on 15 February")
 knitr::include_graphics("safe_figure/mod_scen_ssb_wprojected_yr.png", dpi = 100)
 ```
 
-```{r mmb2, fig.cap = "Comparisons of estimated mature male biomass (MMB) time series on 15 February during 1978-2019 for the reference (16.0) and VAST (19.1) model scenarios. Horizontal lines are average mmb from 1978 - 2018 (Bmsy proxy)"}
-#plot_ssb(M[mod_scen], ylab = "Mature male biomass (tons) on 15 February")
-knitr::include_graphics("safe_figure/VAST_Ref_ssb_wprojected_yr.png", dpi = 100)
-```
 
 
 ```{r M-t, fig.cap = "Time-varying natural mortality ($M_t$). Estimated pulse period occurs in 1998/99 (i.e. $M_{1998}$)."}
 knitr::include_graphics("safe_figure/mod_scen_M_t.png", dpi = 100)
 ```
 
-```{r trawl-survey-biomass, fig.cap = "Comparisons of area-swept estimates of total (90+ mm CL) male survey biomass (tons) and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations. Triangles represent VAST survey estimtaes."} 
-knitr::include_graphics("safe_figure/trawl_biomass_mod_scen3.png", dpi = 100)
-```
-
-```{r trawl-survey-biomass-base-vast, fig.cap = "Comparisons of estimates of total (90+ mm CL) male survey biomass (tons) and model predictions for the reference (area-swept) model and the VAST model. The error bars are plus and minus 2 standard deviations. Triangles represent VAST survey estimtaes."} 
-knitr::include_graphics("safe_figure/trawl_biomass_base_vast.png", dpi = 100)
-```
-
-```{r trawl-survey-biomass-wovast, fig.cap = "Comparisons of area-swept estimates of total (90+ mm CL) male survey biomass (tons) and model predictions model scenarios excluding the VAST model. The error bars are plus and minus 2 standard deviations."} 
-knitr::include_graphics("safe_figure/trawl_biomass_mod_scen_WO_vast.png", dpi = 100)
+```{r trawl-survey-biomass, fig.cap = "Comparisons of area-swept estimates of total (90+ mm CL) male survey biomass (tons) and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations."} 
+knitr::include_graphics("safe_figure/trawl_biomass_mod_scen.png", dpi = 100)
 ```
 
 
@@ -1287,17 +1262,11 @@ knitr::include_graphics("safe_figure/trawl_biomass_mod_scen_WO_vast.png", dpi = 
 knitr::include_graphics("safe_figure/pot_cpue_mod_scen.png", dpi = 100)
 ```
 
-```{r pot-add-cv, fig.cap = "Comparisons of total (90+ mm CL) male pot survey CPUEs and model predictions for the 'add CV pot' (Model 19.2) and 'add CV both' (Model 19.3) scenarios. The black error bars are plus and minus 2 standard deviations, while the red/blue ones incorporate the additional variability."}
-knitr::include_graphics("safe_figure/pot_cpue_addcv_models2and3.png", dpi = 100)
-```
 
 ```{r bts-resid-nmfs, fig.cap = "Standardized residuals for area-swept estimates of total male survey biomass for the model scenarios."}
 knitr::include_graphics("safe_figure/trawl_biomass_mod_scen_residuals.png", dpi = 100)
 ```
 
-```{r bts-resid-nmfs2, fig.cap = "Standardized residuals for VAST vs area-swept estimates of total male survey biomass for the ref (16.0) and VAST (19.1) model scenarios."}
-knitr::include_graphics("safe_figure/trawl_biomass_VAST_Ref_residuals.png", dpi = 100)
-```
 
 ```{r bts-resid-adfg, fig.cap = "Standardized residuals for total male pot survey CPUEs for each of the GMACS model scenarios."}
 knitr::include_graphics("safe_figure/pot_cpue_mod_scen_residuals.png", dpi = 100)
@@ -1326,27 +1295,17 @@ knitr::include_graphics("safe_figure/lf_3.png", dpi = 450)
 knitr::include_graphics("safe_figure/ref_mod_size_comp_residuals.png", dpi = 100)
 ```
 
-```{r sc-res-vast, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADFG pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the 'VAST' model (19.1)."}
-knitr::include_graphics("safe_figure/VAST_size_comp_residuals.png", dpi = 100)
+```{r sc-res-nopot, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (NMFS trawl survey, and the directed pot fishery) for SMBKC in the 'no pot' model (20.1)."}
+knitr::include_graphics("safe_figure/no_ADF&G_pot_size_comp_residuals.png", dpi = 100)
 ```
 
-```{r sc-res-addcv, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADFG pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the 'add CV pot' model (19.2)."}
-knitr::include_graphics("safe_figure/addCV_size_comp_residuals.png", dpi = 100)
-```
 
-```{r sc-res-addcvboth, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADFG pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the 'add CV both' model (19.3)."}
-knitr::include_graphics("safe_figure/addCVBoth_size_comp_residuals.png", dpi = 100)
-```
-
-```{r sc-res-qblock, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (ADFG pot survey, NMFS trawl survey, and the directed pot fishery) for SMBKC in the 'q time block pot' model (19.4)."}
-knitr::include_graphics("safe_figure/qblock_size_comp_residuals.png", dpi = 100)
-```
 
 ```{r fit-to-catch, fig.cap = "Comparison of observed and model predicted retained catch and bycatches in each of the GMACS models. Note that difference in units between each of the panels, some panels are expressed in numbers of crab, some as biomass (tons).", fig.height =12}
 knitr::include_graphics("safe_figure/catch.png", dpi = 100) # Note this should be rec_mod or all models
 ```
 
-```{r fishing-mort, fig.cap = "Fishing mortality estimates from the reference model (19.0) for directed and bycatch fleets", fig.height =12}
+```{r fishing-mort, fig.cap = "Fishing mortality estimates from the reference model (16.0) for directed and bycatch fleets", fig.height =12}
 knitr::include_graphics("safe_figure/fishing_mortality.png", dpi = 375)
 ```
 
