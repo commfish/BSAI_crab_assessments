@@ -306,3 +306,99 @@ ggsave(paste0(.FIGS, "catch.png"), width = ww*1.02, height = hh*1.2)
 #plot_cpue_res(A, "NMFS Trawl")
 plot_cpue_res(M[mod_scen], "NMFS Trawl")
 ggsave(paste0(.FIGS, "trawl_biomass_mod_scen_residuals.png"), width = ww*1.20, height = 1.1*hh)
+
+
+#!! pot_res --------
+#{r bts_resid_adfg, fig.cap = "Standardized residuals for total male pot survey CPUEs for each of the Gmacs model scenarios.\\label{fig:bts_resid_adfg}"}
+plot_cpue_res(M[mod_scen], "ADF&G Pot")
+ggsave(paste0(.FIGS, "pot_cpue_mod_scen_residuals.png"), width = ww*1.20, height = 1.1*hh)
+
+plot_cpue_res(Mbase, "ADF&G Pot")
+ggsave(paste0(.FIGS, "pot_cpue_REF_residuals.png"), width = ww*1.20, height = 1.1*hh)
+
+## !!size comps ---------------
+## !!!!!!!!!!!!! load my functions file here
+#source("./SMBKC/code/functions.R") # moved to top
+# CHECK to see which function is being used here **FIX** rename my function
+#{r sc_pot_discarded, fig.cap = "Observed and model estimated size-frequencies of discarded male SMBKC by year in the NMFS trawl survey for the model scenarios. \\label{fig:sc_pot_discarded}"}
+plot_size_comps(M[mod_scen], 1, legend_loc = "right")#legend_loc=c(.87,.01))
+ggsave(paste0(.FIGS, "lf_1.png"), width = 8.5, height = 5, unit = "in")
+
+plot_size_comps(M[mod_scen], 2, legend_loc = "right")
+ggsave(paste0(.FIGS, "lf_2.png"), width = 12, height = 7.5, unit = "in")
+
+plot_size_comps(M[2], 3, legend_loc = "right") #legend_loc=c(.87,.2))
+ggsave(paste0(.FIGS, "lf_3.png"), width = 8.5, height = 5, unit = "in")
+
+#!! size comp residuals -------
+plot_size_comps_res(M[rec_mod])
+ggsave(paste0(.FIGS, "ref_mod_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
+
+plot_size_comps_res(M[3])
+ggsave(paste0(.FIGS, "no_ADF&G_pot_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
+
+# !!dynamic Bzero ----------------------
+#{r Dynamic_Bzero, fig.cap = "Comparisons of mature male biomass relative to the dynamic $B_0$ value, (15 February, 1978-2018) for  each of the model scenarios.\\label{fig:dynB0}"}
+plot_dynB0(M[mod_scen]) #**FIX**
+ggsave(paste0(.FIGS, "dyn_Bzero.png"), width = 8.5, height = 5, unit = "in")
+# not currently being output in .rep file - made Jim aware of this I need to talk to him again about this.
+#.get_dynB0_df(M)
+
+## TABLES ====================================
+
+## !!table of all parameter output -------
+#```{r est_pars_all, results = "asis"}
+Parameter <- NULL
+Estimate <- NULL
+Model <- NULL
+Mname <- c("last yr", "Ref","nopot")
+#c("model 16.0 (2019)", "model 16.0 (2020)", "model 20.1 (no pot )") 
+for (ii in 2:3)
+{
+  x <- M[[ii]]$fit
+  i <- c(grep("m_dev", x$names)[1],
+         grep("theta", x$names),
+         grep("survey_q", x$names),
+         grep("log_fbar", x$names),
+         grep("log_slx_pars", x$names))
+  #grep("sd_fofl", x$names),
+  #grep("sd_ofl", x$names) )
+  Parameter <- c(Parameter, x$names[i])
+  Estimate <- c(Estimate, x$est[i])
+  Model <- c(Model, rep(Mname[ii], length(i)))
+}
+j <- grep("survey_q", Parameter)
+Estimate[j] <- Estimate[j] * 1000
+Parameter_ref <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
+               "$\\log (\\bar{R})$","$\\log (n^0_1)$","$\\log (n^0_2)$","$\\log (n^0_3)$",
+               "$q_{pot}$", "$\\log (\\bar{F}^\\text{df})$","$\\log (\\bar{F}^\\text{tb})$","$\\log (\\bar{F}^\\text{fb})$",
+               "log Stage-1 directed pot selectivity 1978-2008","log Stage-2 directed pot selectivity 1978-2008",
+               "log Stage-1 directed pot selectivity 2009-2017","log Stage-2 directed pot selectivity 2009-2017",
+               "log Stage-1 NMFS trawl selectivity","log Stage-2 NMFS trawl selectivity",
+               "log Stage-1 ADF\\&G pot selectivity","log Stage-2 ADF\\&G pot selectivity")
+#"$F_\\text{OFL}$","OFL")
+Parameter_nopot <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
+                "$\\log (\\bar{R})$","$\\log (n^0_1)$","$\\log (n^0_2)$","$\\log (n^0_3)$",
+                "$\\log (\\bar{F}^\\text{df})$","$\\log (\\bar{F}^\\text{tb})$","$\\log (\\bar{F}^\\text{fb})$",
+                "log Stage-1 directed pot selectivity 1978-2008","log Stage-2 directed pot selectivity 1978-2008",
+                "log Stage-1 directed pot selectivity 2009-2017","log Stage-2 directed pot selectivity 2009-2017",
+                "log Stage-1 NMFS trawl selectivity","log Stage-2 NMFS trawl selectivity")
+Parameter <- c(Parameter_ref, Parameter_nopot) #, Parameter, Parameter, ParameterQ) 
+df1 <- data.frame(Model, Parameter, Estimate)
+#Mname <- c("last yr", "Ref","VAST","addCVpot", "addCVboth", "qBlock")
+df2 <- data.frame(Model = c("Ref", "Ref", "nopot", "nopot"),
+                  Parameter = c("$F_\\text{OFL}$","OFL", "$F_\\text{OFL}$","OFL"), 
+                  Estimate = c(M[[rec_mod]]$sd_fofl[1], M[[rec_mod]]$spr_cofl,
+                               M[[3]]$sd_fofl[1], M[[3]]$spr_cofl))
+df1 %>% 
+  bind_rows(df2) -> df
+df3 <- tidyr::spread(df, Model, Estimate) %>% 
+  dplyr::select(Parameter, Ref, nopot)
+# **FIX ** reorder these to match other tables - currently done manually
+write.csv(df3, paste0(here::here(), '/SMBKC/', folder,'/doc/safe_tables/all_parms.csv'), 
+          row.names = FALSE)
+### see chunk in .rmd to bring this file in
+
+
+
+
