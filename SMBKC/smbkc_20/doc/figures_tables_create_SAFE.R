@@ -169,8 +169,109 @@ ssb %>%
 
 # ssb current year uncertainty --------
 # need to run mcmc and projections here 
+# last years ref model
+un_ssb <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
+# current years ref model
+un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_20/model_1/projections/proj_1/d/uncertainty_ssb_2020.csv"))
+
+# ssb vector only includes model years - here crab year 1978 to 2019 does NOT include projection, need to add
+#   projection year for graphical purposes
+ssb_last <- data.frame("Model" = names(M[1:2]),
+                       "year" = c(cur_yr, cur_yr),
+                       #"year" = c(cur_yr-1, cur_yr), 
+                       "ssb" = c(M[[1]]$spr_bmsy * M[[1]]$spr_depl,
+                                 M[[2]]$spr_bmsy * M[[2]]$spr_depl),
+                       "lb" = c(un_ssb$lci, un_ssb2$lci), # need to update these from .csv output
+                       "ub" = c(un_ssb$uci, un_ssb2$uci)) 
+# should be current crab year; update with lb and ub from projection file
+# update with 95% credible interval
+ssb %>% 
+  bind_rows(ssb_last) -> ssb
 
 
+## ssb plot with current year 
+ssb %>% 
+  ggplot(aes(year, ssb, col = Model)) +
+  geom_line() +
+  geom_ribbon(aes(x=year, ymax = ub, ymin = lb, fill = Model, col = NULL), alpha = 0.2) +
+  expand_limits(y=0) +
+  ylim(0, max(ssb$ub)+ 100)+
+  #ylab = "SSB (tonnes)" +
+  #scale_y_continuous(expand = c(0,0)) +
+  #geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
+  #           lty = c("solid", "dashed"))+
+  #geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
+  #          hjust = -0.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
+  #ggtitle("Base model - model 1 (Model 3 2018)") +
+  ylab("Mature male biomass (tons) on 15 February") + xlab("Year") +
+  .THEME
+ggsave(paste0(.FIGS, "lastyr_reference_ssb_wprojected_yr.png"), width = ww*1.25, height = hh)
+ggsave(paste0(.FIGS, "PRESENTATION_lastyr_reference_ssb_wprojected_yr.png"), width = ww*1.5, height = hh)
+
+# !!SSB model scenarios-----------
+# SSB lst yr / current yr base model-----------
+ssb <- .get_ssb_df(M[mod_scen]) # ssb now does NOT include projection year so only up to 2018 crab year - 2019 projection (example)
+head(ssb)
+tail(ssb)
+
+# ssb current year uncertainty
+un_ssb_ref <- read.csv(here::here("./SMBKC/smbkc_19a/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))#
+un_ssb_vast <- read.csv(here::here("./SMBKC/smbkc_19a/model_4/projections/proj_1/d/uncertainty_ssb_2019.csv")) #need to run
+un_ssb_cv <- read.csv(here::here("./SMBKC/smbkc_19a/model_1a/projections/proj_1/d/uncertainty_ssb_2019.csv")) #need to run
+un_ssb_cv2 <- read.csv(here::here("./SMBKC/smbkc_19a/model_1b/projections/proj_1/d/uncertainty_ssb_2019.csv")) #need to run
+un_ssb_q <- read.csv(here::here("./SMBKC/smbkc_19a/model_3/projections/proj_1/d/uncertainty_ssb_2019.csv")) #need to run
+
+#un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_5/d/uncertainty_ssb_2019.csv")) #
+# temporary way to estimate uncertainty in proj year
+ssb %>% filter(Model == "model 16.0 (ref)") %>% filter(year == 2018) -> temp1
+temp1 %>% 
+  mutate(lper = lb/ssb, uper = ub/ssb) -> temp2
+
+# ssb vector only includes model years - here crab year 1978 to 2019 does NOT include projection, need to add
+#   projection year for graphical purposes
+ssb_last <- data.frame("Model" = names(M[mod_scen]),
+                       "year" = c(cur_yr, cur_yr, cur_yr, cur_yr, cur_yr), 
+                       "ssb" = c(M[[2]]$spr_bmsy * M[[2]]$spr_depl,
+                                 M[[3]]$spr_bmsy * M[[3]]$spr_depl,
+                                 M[[4]]$spr_bmsy * M[[4]]$spr_depl, 
+                                 M[[5]]$spr_bmsy * M[[5]]$spr_depl, 
+                                 M[[6]]$spr_bmsy * M[[6]]$spr_depl),
+                       "lb" = c(M[[2]]$spr_bmsy * M[[2]]$spr_depl*temp2$lper,
+                                M[[3]]$spr_bmsy * M[[3]]$spr_depl*temp2$lper,
+                                M[[4]]$spr_bmsy * M[[4]]$spr_depl*temp2$lper, 
+                                M[[5]]$spr_bmsy * M[[5]]$spr_depl*temp2$lper, 
+                                M[[6]]$spr_bmsy * M[[6]]$spr_depl*temp2$lper), # need to update these from .csv output
+                       "ub" = c(M[[2]]$spr_bmsy * M[[2]]$spr_depl*temp2$uper,
+                                M[[3]]$spr_bmsy * M[[3]]$spr_depl*temp2$uper,
+                                M[[4]]$spr_bmsy * M[[4]]$spr_depl*temp2$uper, 
+                                M[[5]]$spr_bmsy * M[[5]]$spr_depl*temp2$uper, 
+                                M[[6]]$spr_bmsy * M[[6]]$spr_depl*temp2$uper))
+#"lb" = c(un_ssb_ref$lci, un_ssb_fit$lci, un_ssb_cv$lci), # need to update these from .csv output
+#"ub" = c(un_ssb_ref$uci, un_ssb_fit$uci, un_ssb_cv$uci)) 
+# should be current crab year; update with lb and ub from projection file
+# update with 95% credible interval#
+ssb %>% 
+  bind_rows(ssb_last) -> ssb2
+
+
+## ssb plot with current year 
+ssb2 %>% 
+  ggplot(aes(year, ssb, col = Model)) +
+  geom_line() +
+  expand_limits(y=0) +
+  geom_ribbon(aes(x=year, ymax = ub, ymin = lb, fill = Model, col = NULL), alpha = 0.1) +
+  #ylab = "SSB (tonnes)" +
+  scale_y_continuous(expand = c(0,0)) +
+  ylim(0, max(ssb$ub)+ 100)+
+  #geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
+  #           lty = c("solid", "dashed"))+
+  #geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
+  #          hjust = -0.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
+  #ggtitle("Base model - model 1 (Model 3 2018)") +
+  ylab("Mature male biomass (tons) on 15 February") + xlab("Year") +
+  .THEME
+ggsave(paste0(.FIGS, "mod_scen_ssb_wprojected_yr.png"), width = ww*1.18, height = hh)
+ggsave(paste0(.FIGS, "PRESENTATION_mod_scen_ssb_wprojected_yr.png"), width = ww*1.5, height = hh)
 
 # !!ref_recruit ribbons -------------
 rec <- .get_recruitment_df(M[1:2])
@@ -267,6 +368,10 @@ rec %>%
   #geom_text(data = avgR_options, aes(x= 1980, y = meanR, label = years), 
   #          hjust = -2.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) 
   ggsave(paste0(.FIGS, "recruitment_mod_scen_ribbons.png"), width = 1.20*ww, height = hh)
+
+
+
+
 
 ## !!selectivity ----------
 #"Comparisons of the estimated stage-1 and stage-2 selectivities for the different model scenarios (the stage-3 selectivities are all fixed at 1). Estimated selectivities are shown for the directed pot fishery, the trawl bycatch fishery, the fixed bycatch fishery, the NMFS trawl survey, and the ADF&G pot survey. Two selectivity periods are estimated in the directed pot fishery, from 1978-2008 and 2009-2017.\\label{fig:selectivity}", fig.height = 15}
@@ -400,5 +505,152 @@ write.csv(df3, paste0(here::here(), '/SMBKC/', folder,'/doc/safe_tables/all_parm
 ### see chunk in .rmd to bring this file in
 
 
+## !!data weighting ---------------------
+#```{r data_weighting, results = "asis"}
+# updated to work for draft - need to figure out how to get Francis weightings and 
+#   lamdas
+# shorten names for tables
+Mname2 <- c("Ref","nopot")
 
+df <- NULL
+for (ii in rec_mod)
+{
+  x       <- M[[ii]]
+  SDNR    <- c(x$sdnr_MAR_cpue[,1], 
+               x$sdnr_MAR_lf[,1]); names(SDNR) <- c("SDNR NMFS trawl survey",
+                                                    "SDNR ADF\\&G pot survey",
+                                                    "SDNR directed pot LF",
+                                                    "SDNR NMFS trawl survey LF",
+                                                    "SDNR ADF\\&G pot survey LF")
+  MAR     <- c(x$sdnr_MAR_cpue[,2], x$sdnr_MAR_lf[,2]); names(MAR) <- c("MAR NMFS trawl survey","MAR ADF\\&G pot survey","MAR directed pot LF","MAR NMFS trawl survey LF","MAR ADF\\&G pot survey LF")
+  #Francis <- x$Francis_weights; names(Francis) <- c("Fancis weight for directed pot LF","Francis weight for NMFS trawl survey LF","Francis weight for ADF\\&G pot survey LF")
+  wt_cpue <- c(ifelse(ii == 3, 1,1), ifelse(ii == 3, 1 ,1)); names(wt_cpue) <- c("NMFS trawl survey weight","ADF\\&G pot survey weight")
+  wt_lf   <- c(1,1,1); names(wt_lf) <- c("Directed pot LF weight","NMFS trawl survey LF weight","ADF\\&G pot survey LF weight")
+  v       <- c(wt_cpue, wt_lf, SDNR, MAR)
+  df      <- cbind(df, v)
+}
+df_ref        <- data.frame(rownames(df), df, row.names = NULL)
+names(df_ref) <- c("Component", "Ref") #mod_names[mod_scen])
+
+df <- NULL
+for (ii in 3)
+{
+  x       <- M[[ii]]
+  SDNR    <- c(x$sdnr_MAR_cpue[1], 
+               x$sdnr_MAR_lf[,1]); names(SDNR) <- c("SDNR NMFS trawl survey",
+                                                    "SDNR directed pot LF",
+                                                    "SDNR NMFS trawl survey LF")
+  MAR     <- c(x$sdnr_MAR_cpue[2], x$sdnr_MAR_lf[,2]); names(MAR) <- c("MAR NMFS trawl survey",
+                                                                       "MAR directed pot LF",
+                                                                       "MAR NMFS trawl survey LF")
+  #Francis <- x$Francis_weights; names(Francis) <- c("Fancis weight for directed pot LF","Francis weight for NMFS trawl survey LF","Francis weight for ADF\\&G pot survey LF")
+  wt_cpue <- c(ifelse(ii == 3, 1,1)); names(wt_cpue) <- 
+                                            c("NMFS trawl survey weight")
+  wt_lf   <- c(1,1); names(wt_lf) <- c("Directed pot LF weight","NMFS trawl survey LF weight")
+  v       <- c(wt_cpue, wt_lf, SDNR, MAR)
+  df      <- cbind(df, v)
+}
+df_nopot        <- data.frame(rownames(df), df, row.names = NULL)
+names(df_nopot) <- c("Component", "nopot") #mod_names[mod_scen])
+
+df_ref %>% 
+  left_join(df_nopot) -> df
+
+write.csv(df, paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/data_weighting.csv'), 
+          row.names = FALSE)
+
+# !!Likelihood components -----------------
+#```{r likelihood_components, results = "asis"}
+Mname2 <- c("Ref","nopot")
+df <- NULL
+for (ii in mod_scen)
+{
+  x        <- M[[ii]]
+  # Catch
+  ll_catch <- x$nloglike[1,]
+  dc       <- .get_catch_df(M[1])
+  names(ll_catch) <- unique(paste0(dc$fleet, " ", dc$type, " Catch"))
+  # Abundance indices
+  ll_cpue  <- x$nloglike[2,1:2]
+  names(ll_cpue) <- c("NMFS Trawl Survey","ADF\\&G Pot Survey CPUE")
+  # Size compositions
+  ll_lf    <- x$nloglike[3,1:3]
+  names(ll_lf) <- c("Directed Pot LF","NMFS Trawl LF","ADF\\&G Pot LF")
+  # Recruitment deviations
+  ll_rec <- sum(x$nloglike[4,], na.rm = TRUE)
+  names(ll_rec) <- "Recruitment deviations"
+  # Penalties
+  F_pen <- x$nlogPenalty[2]; names(F_pen) <- "F penalty"
+  M_pen <- x$nlogPenalty[3]; names(M_pen) <- "M penalty"
+  # Priors
+  prior <- sum(x$priorDensity); names(prior) <- "Prior"
+  v <- c(ll_catch, ll_cpue, ll_lf, ll_rec, F_pen, M_pen, prior)
+  sv <- sum(v, na.rm = TRUE); names(sv) <- "Total"
+  npar <- x$fit$nopar; names(npar) <- "Total estimated parameters"
+  v <- c(v, sv, npar)
+  df <- cbind(df, v)
+}
+df <- data.frame(rownames(df), df, row.names = NULL)
+names(df) <- c("Component", Mname2) #mod_names[mod_scen])
+write.csv(df, paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/neg_log_like.csv'), 
+          row.names = FALSE)
+
+### !!population abundance last years model -----------------------
+#```{r pop-abundance-2019, results = "asis"}
+A         <- M[[1]]
+i         <- grep("sd_log_ssb", A$fit$names) #does not have proj value in here
+SD        <- A$fit$std[i]
+tl        <- length(A$mod_yrs)
+
+# ssb current year uncertainty
+#un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_18a/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
+un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
+
+
+years = c(as.integer(A$mod_yrs[1:tl]), A$mod_yrs[tl]+1)
+ssb = c(A$ssb, A$spr_bmsy*A$spr_depl)
+ssb_cv = c((exp(SD[1:tl])-1), (exp(un_ssb2$CV_ssb)-1))
+
+df        <- data.frame(years, A$N_males[ ,1], A$N_males[ ,2], 
+                        A$N_males[ ,3], ssb, ssb_cv)
+names(df) <- c("Year","$n_1$","$n_2$","$n_3$","MMB","CV MMB")
+write.csv(df, paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/numbers_last_yrs.csv'), 
+          row.names = FALSE)
+
+### !!population abundance current year base model -----------------------
+#```{r pop-abundance-2019, results = "asis"}
+A         <- M[[rec_mod]]
+i         <- grep("sd_log_ssb", A$fit$names) #does not have proj value in here
+SD        <- A$fit$std[i]
+tl        <- length(A$mod_yrs)
+
+# ssb current year uncertainty
+un_ssb <- read.csv(here::here("./SMBKC/smbkc_20/model_1/projections/proj_1/d/uncertainty_ssb_2020.csv"))
+
+
+years = c(as.integer(A$mod_yrs[1:tl]), A$mod_yrs[tl]+1)
+ssb = c(A$ssb, A$spr_bmsy*A$spr_depl)
+ssb_cv = c((exp(SD[1:tl])-1), (exp(un_ssb$CV_ssb)-1))
+
+df        <- data.frame(years, A$N_males[ ,1], A$N_males[ ,2], 
+                        A$N_males[ ,3], ssb, ssb_cv)
+names(df) <- c("Year","$n_1$","$n_2$","$n_3$","MMB","CV MMB")
+write.csv(df, paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/numbers_current_yrs.csv'), 
+          row.names = FALSE)
+
+## table 4 -------------------
+df <- NULL
+
+for (ii in mod_scen)
+{
+  x      <- M[[ii]]
+  mmb    <- x$ssb[length(x$ssb)]; names(mmb) <- paste0("$\\text{MMB}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")
+  fofl   <- x$sd_fofl[1]; names(fofl)          <- "$F_\\text{OFL}$"
+  OFL    <- x$spr_cofl; names(OFL)           <- paste0("$\\text{OFL}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")
+  Bmsy   <- x$spr_bmsy; names(Bmsy)          <- "$B_\\text{MSY}$"
+  B_Bmsy <- x$spr_depl; names(B_Bmsy)          <- "$MMB/B_\\text{MSY}$"
+  ABC    <- OFL * 0.8; names(ABC)            <- paste0("$\\text{ABC}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")
+  v      <- c(mmb, Bmsy, fofl, OFL, ABC)
+  df     <- cbind(df, v)
+}
 
