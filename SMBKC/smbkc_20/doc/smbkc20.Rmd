@@ -400,11 +400,10 @@ also occurred in the eastern Bering Sea groundfish fisheries (Table \@ref(tab:sm
 
 ## Summary of New Information {-}
 
-Data used in this assessment were updated to include the most recently available fishery and survey numbers. This
-assessment will use one new survey data point, which is the 2020 NMFS trawl-survey estimate of abudance, and
-its associated size compositon data. 
-The assessment also uses updated 1993-2018 groundfish and fixed gear bycatch estimates based on AKRO data.
-The fishery was closed in 2018/19, and is also closed in 2019/20, so no directed fishery catch data were available. 
+Data used in this assessment were updated to include the most recently available fishery and survey numbers. 
+The only new data in the 2020 assessment model is updated bycatch estimates, no new survey or size composition data was added.
+The assessment uses updated 1993-2019 groundfish and fixed gear bycatch estimates based on AKRO data.
+The directed fishery has been closed since the 2016/17 season, and therefore no directed fishery catch data are available. 
 The data used in each of the new models is shown in Figure \@ref(fig:data-extent).
 
 ## Major Data Sources {-}
@@ -415,7 +414,7 @@ eastern Bering Sea trawl survey (1978-2019; Table \@ref(tab:stage-cpue-nmfs)); r
 survey (every third year during 1995-2013, then 2015-2018; Table \@ref(tab:stage-cpue));
 mean somatic mass given length category by year (Table \@ref(tab:length-weight)); 
 size-frequency information from ADF&G crab-observer pot-lift sampling (1990/91-1998/99, 2009/10-2012/13, and
-2014/15-2016/17; Table \@ref(tab:stage-cpue-1)); and the NMFS groundfish-observer bycatch biomass estimates (1992/93-2018/19;
+2014/15-2016/17; Table \@ref(tab:stage-cpue-1)); and the NMFS groundfish-observer bycatch biomass estimates (1992/93-2019/20;
 Table \@ref(tab:smbkc-groundfish-bycatch)).
 
 Figure \@ref(fig:stations) maps stations from which SMBKC trawl-survey and pot-survey data were obtained. 
