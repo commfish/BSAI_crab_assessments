@@ -26,14 +26,14 @@ cur_yr <- 2020 # update annually
 folder <- "smbkc_20" # update annually 
 
 # update model names and file locations
-mod_names <- c("model 16.0 (2019)", "model 16.0 (2020 base)", "model 20.1 (no pot)") 
+mod_names <- c("model 16.0 (2019)", "model 16.0 (2020)", "model 20.1 (no pot)") 
 .MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_19a/model_1/"),
               paste0(here::here(), "/SMBKC/smbkc_20/model_1/"), 
               paste0(here::here(), "/SMBKC/smbkc_20/model_2/")) #need to update these model options
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
-.FLEET    = c("Pot","Trawl bycatch","Fixed bycatch","NMFS Trawl","ADF&G Pot", "ADF&G Pot2")
+.FLEET    = c("Pot","Trawl bycatch","Fixed bycatch","NMFS Trawl","ADF&G Pot")
 .TYPE     = c("Retained","Discarded", "Retained & Discarded")
 .SHELL    = c("Aggregate")
 .MATURITY = c("Aggregate")
@@ -140,9 +140,88 @@ ggsave(paste0(.FIGS, "recruit_ref.png"), width = ww*1.08, height = hh)
 ## !!fishing mortality ------
 #plot_F(M[2]) **FIX** bring in this from model 1 for now.
 #plot_F(M[mod_scen])
-# *** FIX *** why are these not working?
 plot_F(Mbase)
-plot_F2(Mbase) # 
-plot_F2(M[1:3])
+plot_F2(M[2])
 ggsave(paste0(.FIGS, "fishing_mortality.png"), width = ww*1.5, height = hh)
+
+## ssb -----------
+#"Sensitivity of new data in 2020 on estimated mature male biomass (MMB); 1978-2019. \\label{fig:ssb1}"}
+plot_ssb(M[1:2], ylab = "Mature male biomass (tons) on 15 February")
+# !!SSB lst yr / current yr base model-----------
+ssb <- .get_ssb_df(M[1:2]) # ssb now does NOT include projection year so only up to 2018 crab year - 2019 projection (example)
+head(ssb)
+tail(ssb)
+
+# Bmsy proxy and SHS level ------
+SHS <- c(1978:2012)
+ssb %>% 
+  filter(Model == "model 16.0 (2020 base)") %>% 
+  mutate(b_msy = mean(ssb)) %>% 
+  mutate(SHS_proxy = mean(ssb[year %in% SHS])) %>% 
+  group_by(Model) %>% 
+  mutate(b_msy/SHS_proxy)
+
+# ssb current year uncertainty --------
+# need to run mcmc and projections here 
+
+# !!ref_recruit ribbons -------------
+rec <- .get_recruitment_df(M[1:2])
+head(rec)
+
+rec$rbar[1]
+rec %>% 
+  ggplot(aes(year, y = exp(log_rec)/1000000, group = Model, fill = Model)) +
+  geom_line(aes(color = Model)) +
+  geom_ribbon(aes(x=year, ymax = ub/1000000, ymin = lb/1000000), alpha = 0.15) +
+  expand_limits(y=0) +
+  ggtitle("Recruitment reference model") +
+  ylab("Recruitment (millions of individuals)") + xlab("Year") +
+  scale_colour_manual(name = "", values = c("red", "darkcyan"))+
+  scale_fill_manual(name = "", values = c("red", "darkcyan")) +
+  geom_hline(aes(yintercept = rbar[1]/1000000), color = "red") +
+  geom_hline(aes(yintercept = rbar[80]/1000000), color = "darkcyan") +
+  #geom_text(aes(x = 2000, y = rbar[1]/1000000, label = "R_bar"), 
+  #          hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 3.0) +
+  .THEME +
+  #geom_hline(data = avgR_options, aes(yintercept = meanR), color = c("blue", "red"), 
+  #           lty = c("solid", "dashed"))+
+  #geom_text(data = avgR_options, aes(x= 1980, y = meanR, label = years), 
+  #          hjust = -2.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) 
+  ggsave(paste0(.FIGS, "recruitment_ref_ribbons.png"), width = 1.5*ww, height = hh)
+
+# !!Current year (2020) ref recruit ribbon --------------
+rec <- .get_recruitment_df(M[2])
+head(rec)
+
+rec$rbar[1]
+
+# recruitment plot
+rec %>% 
+  ggplot(aes(year, y = exp(log_rec)/1000000, group = Model, fill = Model)) +
+  geom_line(aes(color = Model)) +
+  geom_ribbon(aes(x=year, ymax = ub/1000000, ymin = lb/1000000), alpha = 0.15) +
+  expand_limits(y=0) +
+  ggtitle("Recruitment reference (base) model") +
+  ylab("Recruitment (millions of individuals)") + xlab("Year") +
+  #scale_colour_manual(name = "", values = c("red", "darkcyan"))+
+  #scale_fill_manual(name = "", values = c("red", "darkcyan")) +
+  geom_hline(aes(yintercept = rbar[1]/1000000), color = "black") +
+  #geom_hline(aes(yintercept = rbar[80]/1000000), color = "darkcyan") +
+  #geom_text(aes(x = 2000, y = rbar[1]/1000000, label = "R_bar"), 
+  #          hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 3.0) +
+  .THEME +
+  #geom_hline(data = avgR_options, aes(yintercept = meanR), color = c("blue", "red"), 
+  #           lty = c("solid", "dashed"))+
+  #geom_text(data = avgR_options, aes(x= 1980, y = meanR, label = years), 
+  #          hjust = -2.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) 
+  ggsave(paste0(.FIGS, "recruitment_ref_ribbons_", cur_yr, ".png"), width = 1.5*ww, height = hh)
+
+## !!selectivity ----------
+#"Comparisons of the estimated stage-1 and stage-2 selectivities for the different model scenarios (the stage-3 selectivities are all fixed at 1). Estimated selectivities are shown for the directed pot fishery, the trawl bycatch fishery, the fixed bycatch fishery, the NMFS trawl survey, and the ADF&G pot survey. Two selectivity periods are estimated in the directed pot fishery, from 1978-2008 and 2009-2017.\\label{fig:selectivity}", fig.height = 15}
+plot_selectivity(M[2:3]) 
+#plot_selectivity(M[2])
+ggsave(paste0(.FIGS, "selectivity_mod_scen.png"), width = ww*1.50, height = 1.1*hh)
+ggsave(paste0(.FIGS, "PRES_selectivity_mod_scen.png"), width = ww*1.20, height = 1.3*hh)
+
+
 
