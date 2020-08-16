@@ -281,7 +281,7 @@ Comment: *Regarding general code development, the SSC and CPT outstanding reques
 
   1. *add the ability to conduct retrospective analyses*
 
-     Underway but progress was limited in implementing this feature. We plan to  conduct a retrospective analysis of at least the base model for the final assessment in September 2020.
+     Retrospective runs/simulations are presented here in Appendix C as part of the analyses done to assess uncertainty in the model output.
      
   2. *Continued exploration of data weighting (Francis and other approaches) and evaluation of models with and without the 1998 natural mortality spike. The authors are encouraged to bring other models forward for CPT and SSC consideration*
   
