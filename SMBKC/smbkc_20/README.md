@@ -9,6 +9,9 @@ Models housed in smbkc_20
 Model             | Model in Doc  | Description
 ---------- ---    | ------------- | -------------
 model_1           |   16.0        | - Basecase (last year's selected model 1) - with new gf bycatch data   
+model_1_rfix      |   20.0a       | - 16.0, no rec dev estimated for 2019 (attempt to deal with large recruitment estimate                                           in the terminal year of the model). Edit to .ctl file
+model_1_rfix2     |   20.0b       | - 16.0, no rec dev estimated in 2019, plus changes to .tpl file suggested by Jie to                                           use average recruitment for most recent year.
+
 model_2           |   20.1        | - remove pot survey data from base model - sensitivity analysis
 
 
@@ -66,6 +69,9 @@ Need to run mcmc above to get .psv file for projections
 4) See code in KJP_risk_profile_general.R to summarise output from projection run
 5) Then see 'rebuilding_figures.R' for plotting
 
+
+### projections used for variablity in 2020 estimate
+Projection 1d was used to determine the variability in the 2020 ssb estimate, although the projection used does not greatly impact the intial year variability
 
 # retrospective pattern analysis 
 Use model_1 for this. Manually adjust data and .ctl file for this 
