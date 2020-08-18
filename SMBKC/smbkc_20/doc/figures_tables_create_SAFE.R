@@ -177,7 +177,7 @@ un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_20/model_1/projections/proj_1/d/un
 # ssb vector only includes model years - here crab year 1978 to 2019 does NOT include projection, need to add
 #   projection year for graphical purposes
 ssb_last <- data.frame("Model" = names(M[1:2]),
-                       "year" = c(cur_yr, cur_yr),
+                       "year" = c(cur_yr-1, cur_yr),
                        #"year" = c(cur_yr-1, cur_yr), 
                        "ssb" = c(M[[1]]$spr_bmsy * M[[1]]$spr_depl,
                                  M[[2]]$spr_bmsy * M[[2]]$spr_depl),
@@ -215,37 +215,28 @@ head(ssb)
 tail(ssb)
 
 # ssb current year uncertainty
-un_ssb_ref <- read.csv(here::here("./SMBKC/smbkc_19a/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))#
-un_ssb_vast <- read.csv(here::here("./SMBKC/smbkc_19a/model_4/projections/proj_1/d/uncertainty_ssb_2019.csv")) #need to run
-un_ssb_cv <- read.csv(here::here("./SMBKC/smbkc_19a/model_1a/projections/proj_1/d/uncertainty_ssb_2019.csv")) #need to run
-un_ssb_cv2 <- read.csv(here::here("./SMBKC/smbkc_19a/model_1b/projections/proj_1/d/uncertainty_ssb_2019.csv")) #need to run
-un_ssb_q <- read.csv(here::here("./SMBKC/smbkc_19a/model_3/projections/proj_1/d/uncertainty_ssb_2019.csv")) #need to run
+un_ssb_ref <- read.csv(here::here("./SMBKC/smbkc_20/model_1/projections/proj_1/d/uncertainty_ssb_2020.csv"))#
+un_ssb_nopot <- read.csv(here::here("./SMBKC/smbkc_20/model_2/projections/proj_1/d/uncertainty_ssb_2020.csv")) #need to run
+#un_ssb_cv <- read.csv(here::here("./SMBKC/smbkc_19a/model_1a/projections/proj_1/d/uncertainty_ssb_2019.csv")) #need to run
+#un_ssb_cv2 <- read.csv(here::here("./SMBKC/smbkc_19a/model_1b/projections/proj_1/d/uncertainty_ssb_2019.csv")) #need to run
+#un_ssb_q <- read.csv(here::here("./SMBKC/smbkc_19a/model_3/projections/proj_1/d/uncertainty_ssb_2019.csv")) #need to run
 
 #un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_5/d/uncertainty_ssb_2019.csv")) #
 # temporary way to estimate uncertainty in proj year
-ssb %>% filter(Model == "model 16.0 (ref)") %>% filter(year == 2018) -> temp1
-temp1 %>% 
-  mutate(lper = lb/ssb, uper = ub/ssb) -> temp2
+#ssb %>% filter(Model == "model 16.0 (ref)") %>% filter(year == 2018) -> temp1
+#temp1 %>% 
+#  mutate(lper = lb/ssb, uper = ub/ssb) -> temp2
 
 # ssb vector only includes model years - here crab year 1978 to 2019 does NOT include projection, need to add
 #   projection year for graphical purposes
 ssb_last <- data.frame("Model" = names(M[mod_scen]),
-                       "year" = c(cur_yr, cur_yr, cur_yr, cur_yr, cur_yr), 
+                       "year" = c(cur_yr, cur_yr), 
                        "ssb" = c(M[[2]]$spr_bmsy * M[[2]]$spr_depl,
-                                 M[[3]]$spr_bmsy * M[[3]]$spr_depl,
-                                 M[[4]]$spr_bmsy * M[[4]]$spr_depl, 
-                                 M[[5]]$spr_bmsy * M[[5]]$spr_depl, 
-                                 M[[6]]$spr_bmsy * M[[6]]$spr_depl),
-                       "lb" = c(M[[2]]$spr_bmsy * M[[2]]$spr_depl*temp2$lper,
-                                M[[3]]$spr_bmsy * M[[3]]$spr_depl*temp2$lper,
-                                M[[4]]$spr_bmsy * M[[4]]$spr_depl*temp2$lper, 
-                                M[[5]]$spr_bmsy * M[[5]]$spr_depl*temp2$lper, 
-                                M[[6]]$spr_bmsy * M[[6]]$spr_depl*temp2$lper), # need to update these from .csv output
-                       "ub" = c(M[[2]]$spr_bmsy * M[[2]]$spr_depl*temp2$uper,
-                                M[[3]]$spr_bmsy * M[[3]]$spr_depl*temp2$uper,
-                                M[[4]]$spr_bmsy * M[[4]]$spr_depl*temp2$uper, 
-                                M[[5]]$spr_bmsy * M[[5]]$spr_depl*temp2$uper, 
-                                M[[6]]$spr_bmsy * M[[6]]$spr_depl*temp2$uper))
+                                 M[[3]]$spr_bmsy * M[[3]]$spr_depl),
+                       "lb" = c(un_ssb_ref$lci, un_ssb_nopot$lci), # need to update these from .csv output
+                       "ub" = c(un_ssb_ref$uci, un_ssb_nopot$uci))
+                       #"ub" = c(M[[2]]$spr_bmsy * M[[2]]$spr_depl*temp2$uper,
+                                #M[[3]]$spr_bmsy * M[[3]]$spr_depl*temp2$uper))
 #"lb" = c(un_ssb_ref$lci, un_ssb_fit$lci, un_ssb_cv$lci), # need to update these from .csv output
 #"ub" = c(un_ssb_ref$uci, un_ssb_fit$uci, un_ssb_cv$uci)) 
 # should be current crab year; update with lb and ub from projection file
