@@ -15,15 +15,24 @@ source("./SMBKC/code/helper.R")
 mmb <- read.csv(paste0(here::here(), '/SMBKC/smbkc_20/retrospective_model_1/combined_data/ssb_all.csv'))
 sum_stats <- read.csv(paste0(here::here(), '/SMBKC/smbkc_20/retrospective_model_1/combined_data/summary.csv'))
 
-
+mmb_cur <- read.csv(paste0(here::here(), '/SMBKC/smbkc_20/retrospective_model_1/combined_data/ssb_2020.csv'))
 # data clean-up ---------
+mmb_cur %>% 
+  mutate(model = "2020 base") %>% 
+  select(Model = model, par, log_ssb, log_sd, year, ssb, lb, ub) %>% 
+  mutate(type = "retro") -> mmb_cur2
+
 mmb %>% 
-  mutate(type = ifelse(str_detect(Model, "woTS"), "woTS", "retro")) -> mmb2
+  mutate(type = ifelse(str_detect(Model, "woTS"), "woTS", "retro")) %>% 
+  rbind(mmb_cur2) -> mmb2
+
 
 # retro mmb all ---------
 mmb2 %>% 
   ggplot(aes(year, ssb, group = Model)) +
     geom_line(aes(group = Model, colour = Model), lwd = 0.75) +
+    ylab("Mature male biomass (tons) on Feb 15th") +
+  xlab("Year") +
     theme_bw(base_size = 12, base_family = "")
 
 ggsave(paste0(.FIGS, "ssb_time_series_all.png"), width = 1.5*6, height = 5)
@@ -33,6 +42,8 @@ mmb2 %>%
   filter(type == "retro") %>% 
   ggplot(aes(year, ssb, group = Model)) +
   geom_line(aes(group = Model, colour = Model), lwd = 0.75) +
+  ylab("Mature male biomass (tons) on Feb 15th") +
+  xlab("Year") +
   theme_bw(base_size = 12, base_family = "")
 
 ggsave(paste0(.FIGS, "ssb_time_series_normal.png"), width = 1.5*6, height = 5)
