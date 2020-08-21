@@ -348,3 +348,42 @@ dev.off()
 #             then call it directly: plot_dynB0(model_object) .
 ## plot selectivity -----------
 
+
+
+## Approach 3 uncertainty data -----------
+plot_cpue_res(M, "NMFS Trawl")
+
+cpue <- .get_cpue_df(M)
+
+cpue %>% 
+  filter(fleet == "NMFS Trawl") -> cpueT
+
+cpueT %>% 
+  mutate(residM = pred/cpue) %>% 
+  summarise(quants = quantile(residM, prob = c(0.25, 0.75)), avgCV = mean(cvest)) %>% 
+  mutate(highlow = quants*1657.498)
+
+#  quants     avgCV  highlow
+#1 0.6527948 0.3313095 1082.006
+#2 1.3054630 0.3313095 2163.802
+# results from app3a - model run with fake 2020 data and large CV
+# pred value for 2020 = 1657.498 (line 70 plot.R from model_1_app3a)
+
+
+# last 5 year average 
+cpueT %>% 
+  filter(year > 2015) %>% 
+  summarise(avg_cpue = mean(cpue))
+
+## trawl survey
+cpue %>% 
+  filter(fleet == "NMFS Trawl") %>% 
+  ggplot(aes(year, cpue)) +
+  expand_limits(y = 0) +
+  geom_pointrange(aes(year, cpue, ymax = ub, ymin = lb), col = "black") +
+  #geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe), color = "red", 
+  #                shape = 1, linetype = "dotted", position = position_dodge(width = 1)) +
+  geom_line(aes(year, pred), linetype = "solid", col = "red") +
+  labs(x = "Year", y = "CPUE") +
+  .THEME
+
