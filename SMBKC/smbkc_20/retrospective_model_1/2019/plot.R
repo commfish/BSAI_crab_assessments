@@ -71,13 +71,6 @@ dev.off()
 plot_recruitment(M)
 ggsave(paste0(.FIGS, "recruitment.png"), width = ww, height = hh)
 dev.off()
-plot_ssb(M) #doesn't show projection year, which is current year
-ggsave(paste0(.FIGS, "ssb.png"), width = ww, height = hh)
-dev.off()
-
-plot_recruitment(M)
-ggsave(paste0(.FIGS, "recruitment.png"), width = ww, height = hh)
-dev.off()
 
 plot_selectivity(M) # **FIX** not displaying well.  working.
 ggsave(paste0(.FIGS, "selectivity.png"), width = ww*1.5, height = hh*1.5)
