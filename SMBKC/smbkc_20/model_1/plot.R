@@ -25,7 +25,7 @@ source("./SMBKC/smbkc_19a/doc/gmr_functions2020.R")
 # Model 1 plots -------------------------
 cur_yr <- 2020 # update annually 
 
-mod_names <- c("model 16.0 (ref)")
+mod_names <- c("model 16.0 (2020 base)")
 .MODELDIR = c("./SMBKC/smbkc_20/model_1/") # directory where the model results are
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
@@ -36,6 +36,7 @@ mod_names <- c("model 16.0 (ref)")
 .MATURITY = c("Aggregate")
 .SEAS     = c("Annual")
 .FIGS     = c("./SMBKC/smbkc_20/model_1/figure/")
+.FILES    = c("./SMBKC/smbkc_20/retrospective_model_1/combined_data/")
 
 fn       <- paste0(.MODELDIR, "gmacs")
 M        <- lapply(fn, read_admb) #need .prj file to run gmacs and need .rep file here
@@ -158,10 +159,10 @@ head(ssb)
 # ssb vector only includes model years - here crab year 1978 to 2019 does NOT include projection, need to add
 #   projection year for graphical purposes
 # ssb current year uncertainty
-un_ssb <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
+un_ssb <- read.csv(here::here("./SMBKC/smbkc_20/model_1/projections/proj_1/d/uncertainty_ssb_2020.csv"))
 ssb_last <- data.frame("year" = cur_yr, "ssb" = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
-                       "lb" = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
-                       "ub" = M[[1]]$spr_bmsy * M[[1]]$spr_depl) 
+                       "lb" = un_ssb$lci, 
+                       "ub" = un_ssb$uci) 
 #ssb_last <- data.frame("year" = cur_yr, "ssb" = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
 #                       "lb" = un_ssb$lci, 
 #                       "ub" = un_ssb$uci)
@@ -170,6 +171,9 @@ ssb_last <- data.frame("year" = cur_yr, "ssb" = M[[1]]$spr_bmsy * M[[1]]$spr_dep
 # update with 95% credible interval
 ssb %>% 
   bind_rows(ssb_last) -> ssb
+
+write.csv(ssb, paste0(.FILES, paste0("ssb_", cur_yr, ".csv")), row.names = FALSE)
+
 
 ssb %>% 
   ggplot(aes(year, ssb)) +
