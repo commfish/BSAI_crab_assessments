@@ -539,11 +539,12 @@ However, this model, similar to the additional CV models presenting in May 2020,
 
 The reference or base model fit to the pot survey CPUE is similar to past reference models, fitting the overall trends in the data but not capturing some of the high and low points well (Figure \@ref(fig:pot-survey-cpue)). 
 
-For the trawl survey the standardized residuals have similar patterns with the exception of recent years for the **add CV pot** and **add CV both** models (19.2, 19.3), generally poor fit to the last 15 years of data (Figure \@ref(fig:bts-resid-nmfs)). The standardized residuals for the ADF&G pot survey have similar patterns but are much larger for the additional CV models than the others, for obvious reasons (Figure \@ref(fig:bts-resid-adfg)).
+For the trawl survey the standardized residuals are more balanced in model 20.1 (**no pot**), without the ADF&G pot survey data, especially in recent years. The reference model has a clear residual pattern in the last 15 years, continually under fitting the observed data points (Figure \@ref(fig:bts-resid-nmfs)). The standardized residuals for the ADF&G pot survey have similar patterns to past refernce model iterations (Figure \@ref(fig:bts-resid-adfg)).
 
 Fits to the size compositions for trawl survey, pot survey, and commercial observer data are reasonable but miss the largest
 size category in some years (Figures \@ref(fig:sc-pot), \@ref(fig:sc-pot-discarded), and \@ref(fig:sc-trawl-discarded)) 
-for all scenarios. Representative residual  plots of the composition data fits are generally poor (Figures \@ref(fig:sc-res-ref), \@ref(fig:sc-res-vast).
+for both scenarios. 
+Representative residual plots of the composition data fits are show generally poor fit to the three composition data sources (Figures \@ref(fig:sc-res-ref) and \@ref(fig:sc-res-nopot).
 The model fits to different types of retained and discarded catch values performed as expected given the assumed levels
 of uncertainty on the input data (Figure \@ref(fig:fit-to-catch)).
 
