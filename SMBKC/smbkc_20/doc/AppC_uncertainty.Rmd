@@ -1,0 +1,26 @@
+---
+output:
+  bookdown::pdf_document2:
+    fig_caption: true
+    includes: null
+    toc: no
+---
+# Appendix C. Assessing uncertainty in model output due to lack of terminal year survey data for St. Matthew blue king crab {-}
+
+\pagenumbering{gobble}
+
+```{r global_options, include=FALSE, echo = FALSE, message = FALSE, warning=FALSE}
+library(knitr)
+opts_chunk$set(fig.width = 12, fig.height = 7, echo = FALSE, warning = FALSE, message = FALSE,  dpi=300)
+```
+
+# Introduction{-}
+In 2018 the MMB for SMBKC fell below 50% of the $B_{MSY}$ proxy or the MSST, using average mature male biomass from 1978-2017. The stock was determined to be overfished (but overfishing is not occurring since the fishery has been closes the last two years) and a rebuilding plan is to be implemented within 2 years. This document summarizes the projections performed on the 2019 assessment model and their associated rebuilding probabilities for the stock using the projections module developed for GMACS (A.Punt pers Comm). 
+All projections presented here are performed on the base or reference model with 2019 data, results include projections that look at a alternative regime time frame for reference point calculations.
+
+
+
+
+```{r proj2by, fig.cap = "Comparisons of probability of recovery with ricker s-r relationshipusing the entire time series (1978-2018) under different bycatch levels, show as with a min F = 0 and a max F equivalent to the state harvest rate (SHR). Projection 2"}
+knitr::include_graphics("safe_figure/proj2ALL_rec_1yr_prob.png", dpi = 125)
+```
