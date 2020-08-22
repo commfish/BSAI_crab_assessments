@@ -231,3 +231,9 @@ summary_2020
 summary_2020 %>% 
   rbind(low_summary) %>% 
   rbind(high_summary)
+
+# save output for table here -----
+
+# bar graphs for summary -------
+
+# 
