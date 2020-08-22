@@ -15,8 +15,13 @@ opts_chunk$set(fig.width = 12, fig.height = 7, echo = FALSE, warning = FALSE, me
 ```
 
 # Introduction{-}
-In 2018 the MMB for SMBKC fell below 50% of the $B_{MSY}$ proxy or the MSST, using average mature male biomass from 1978-2017. The stock was determined to be overfished (but overfishing is not occurring since the fishery has been closes the last two years) and a rebuilding plan is to be implemented within 2 years. This document summarizes the projections performed on the 2019 assessment model and their associated rebuilding probabilities for the stock using the projections module developed for GMACS (A.Punt pers Comm). 
-All projections presented here are performed on the base or reference model with 2019 data, results include projections that look at a alternative regime time frame for reference point calculations.
+The summer of 2020 trawl surveys were cancelled due to logistic difficulties caused by the global pandemic COVID-19. Therefore the crab assessment authors meet to discuss approaches to present the potential of additional uncertainty in the current years models - specifically the projected mature male biomass and associated reference points. The objective of these approaches/simulations was to provide the plan team (CPT) and the SSC a range of potential additional uncertainty that could be applied to the buffers used on the OFL calculations to produce an appropriate ABC. 
+
+## Objectives {-}
+
+    1. Can we characterize the additional uncertainty in the current years estimates due to the lack of terminal year survey data? If so, what does it look like?
+
+    2. Is the model uncertainty characterized in objective #1 currently included in the ABC buffer applied to this stock or do we need to apply additional uncertainty measures?
 
 
 # Approaches {-}
@@ -24,7 +29,14 @@ All projections presented here are performed on the base or reference model with
 
 ## Approach 1 and 2: retrospective patterns with and without terminal survey data {-}
 
+Retrospective analysis are typically performed on models to characterize the tendencies of a model to over or under estimate current trends in biomass, recruitment, etc. Retrospective patterns are described as a clear tendency for a model to either over or under estimate. Approach 1 compares the output of retrospective models with the terminal year of survey data and ones where the terminal year of trawl survey data are removed (both abundance and size composition data). 
+A number of key model outputs were compared for these retrospective runs. These include: average recruitment, Bmsy, status of the stock, terminal year mmb, and reference point calculations (OFL). 
+
 ## Approach 3: encompassing expected variability {-}
+
+This approach was designed to run models with "fake" 2020 data to determine how much a data point in 2020 could have potential influeced the model outcome. The same key model outputs were compared in this approach as in approach 1. 
+
+Copy methors here from Martin's write up. 
 
 ```{r proj2by, fig.cap = "Comparisons of probability of recovery with ricker s-r relationshipusing the entire time series (1978-2018) under different bycatch levels, show as with a min F = 0 and a max F equivalent to the state harvest rate (SHR). Projection 2"}
 knitr::include_graphics("safe_figure/proj2ALL_rec_1yr_prob.png", dpi = 125)
