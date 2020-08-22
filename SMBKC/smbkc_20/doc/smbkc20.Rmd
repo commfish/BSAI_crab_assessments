@@ -551,13 +551,12 @@ of uncertainty on the input data (Figure \@ref(fig:fit-to-catch)).
 
 ### e. Retrospective and historical analyses {-}
 This is the fourth year GMACS has been used for this stock. As such, retrospective patterns and historical analyses of GMACS assessments are limited. 
-Completion of a retrospective analysis, for the base model, was completed and is presented in Appendix C.
+However, completion of a retrospective analysis, for the base model, was completed (add figure) and is presented in Appendix C.
 
 ### f. Uncertainty and sensitivity analyses.{-}
 Estimated standard deviations of parameters and selected management measures for the models are summarized in
-Tables \@ref(tab:est-pars-ref), \@ref(tab:est-pars-3), \@ref(tab:est-pars-4), 
-\@ref(tab:est-pars-5), and \@ref(tab:est-pars-6),
-(compiled in Table \@ref(tab:est-pars-all)). Model estimates of mature male biomass and OFL in 2019 are presented in Section F.
+Tables \@ref(tab:est-pars-ref), \@ref(tab:est-pars-3), and \@ref(tab:est-pars-4),
+(compiled in Table \@ref(tab:est-pars-all)). Model estimates of mature male biomass and OFL in 2020 are presented in Section F.
 
 ### g. Comparison of alternative model scenarios.{-}
 The estimates of mature male biomass (Figure \@ref(fig:mmb)) for the additional CV models differ from the other models due to a low value for pot survey catchability being estimated (which tends to scale the population estimate). 
