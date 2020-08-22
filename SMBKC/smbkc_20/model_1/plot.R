@@ -242,6 +242,25 @@ ssb %>%
 ggsave(paste0(.FIGS, "ssb19_Bmsy_wprojected_yr.png"), width = ww, height = hh)
 dev.off()
 
+## summary stats for comparing, retrospective -------
+temp <- data.frame(year = cur_yr, 
+                   avgr = rec$rbar[1], 
+                   bmsy = M[[1]]$spr_bmsy,
+                   mmb_terminal = M[[1]]$spr_bmsy * M[[1]]$spr_depl, 
+                   status = M[[1]]$spr_depl, 
+                   f_ofl = M[[1]]$sd_fofl[1],
+                   OFL = M[[1]]$spr_cofl/1000,
+                   type = "base model 1")
+temp
+write.csv(temp, paste0(.FILES, "summary_2020_model_1.csv"), row.names = FALSE)
+
+rec$rbar[1]
+M[[1]]$spr_bmsy
+M[[1]]$spr_bmsy * M[[1]]$spr_depl
+M[[1]]$spr_depl
+M[[1]]$sd_fofl[1]
+M[[1]]$spr_cofl/1000
+
 ### cpue ---------------
 cpue <- .get_cpue_df(M)
 
