@@ -9,8 +9,8 @@ Models housed in smbkc_20
 Model             | Model in Doc  | Description
 ---------- ---    | ------------- | -------------
 model_1           |   16.0        | - Basecase (last year's selected model 1) - with new gf bycatch data   
-model_1_rfix      |   20.0a       | - 16.0, no rec dev estimated for 2019 (attempt to deal with large recruitment estimate                                           in the terminal year of the model). Edit to .ctl file
-model_1_rfix2     |   20.0b       | - 16.0, no rec dev estimated in 2019, plus changes to .tpl file suggested by Jie to                                           use average recruitment for most recent year.
+model_1_rfix      |   16.0b       | - 16.0, no rec dev estimated for 2019 (attempt to deal with large recruitment estimate                                           in the terminal year of the model). Edit to .ctl file
+model_1_rfix2     |   16.0a      | - 16.0, no rec dev estimated in 2019, plus changes to .tpl file suggested by Jie to                                           use average recruitment for most recent year.
 
 model_2           |   20.1        | - remove pot survey data from base model - sensitivity analysis
 
