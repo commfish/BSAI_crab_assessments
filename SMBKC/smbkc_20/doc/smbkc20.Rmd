@@ -74,37 +74,24 @@ mod_scen<- 2:3 #scenarios you want graphed together
   .$x -> bio_lt_percent
 
 ## table 1 ------*** FIX ***
-round(M[[ref_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_1819
-round(M[[ref_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_1819
-
-# use in May 2020
-round(M[[ref_mod]]$spr_bmsy*M[[ref_mod]]$spr_depl/1000, 2) -> mmb_1920
-round(M[[ref_mod]]$spr_cofl/1000, 2) -> ofl_1920
-round(M[[ref_mod]]$spr_cofl/1000*0.8, 2) -> abc_1920
-
-round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_1920a
-round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_1920a
-round(M[[rec_mod]]$spr_cofl/1000*0.8, 2) -> abc_1920a
-
-# use with actual 2020 data
-#round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_1920
-#round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_1920
-#round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2021
+## table 1 ------
+round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_1920
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_1920
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2021
 #round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2021
 #round(M[[rec_mod]]$spr_cofl/1000*0.8, 2) -> abc_2021
-
-
-#round(M[[alt_mod]]$spr_bmsy*M[[alt_mod]]$spr_depl/1000, 2) -> alt_mmb_1920
-#round(M[[alt_mod]]$spr_cofl/1000, 2) -> alt_ofl_1920
-#round(M[[alt_mod]]$spr_cofl/1000*0.8, 2) -> alt_abc_1920
+rec_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1/figure/ofl_calc.csv"))
+round(rec_ofl$OFL_2020/1000, 2) -> ofl_2021
+round(ofl_2021*0.8, 2) -> abc_2021
 
 # table 2 ----------
-round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_1819_lb
-round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]* 2204.62/1e6, 2) -> mmb_1819_lb
-round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_1920_lb
-round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 3) -> ofl_1920_lb
-round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.8, 2) -> abc_1920_lb
-
+round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_1920_lb
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]* 2204.62/1e6, 2) -> mmb_1920_lb
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_2021_lb
+#round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 3) -> ofl_1920_lb
+#round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.8, 2) -> abc_1920_lb
+round(rec_ofl$OFL_2020* 2204.62/1e6, 3) -> ofl_2021_lb
+round(ofl_2021_lb*0.8, 2) -> abc_2021_lb
 
 # ofl and abc basis -------- table 3
 # ofl and abc basis -------- table 3
@@ -112,10 +99,6 @@ round(M[[rec_mod]]$spr_bmsy/1000, 2) -> bmsy_cur
 round(M[[rec_mod]]$spr_depl, 2) -> ratio_bmsy
 round(M[[rec_mod]]$sd_fofl[1], 3) -> fofl
 
-#round(M[[alt_mod]]$spr_bmsy*M[[alt_mod]]$spr_depl/1000, 2) -> alt_mmb_1920
-#round(M[[alt_mod]]$spr_bmsy/1000, 2) -> alt_bmsy_cur
-#round(M[[alt_mod]]$spr_depl, 2) -> alt_ratio_bmsy
-#round(M[[alt_mod]]$sd_fofl[1], 3) -> alt_fofl
 
 ```
 
@@ -175,8 +158,8 @@ Computations which indicate the relative impact of fishing
   2016/17 & 1.97 & 2.23 & 0.00 & 0.00 & 0.001 & 0.14 & 0.11 \\
   2017/18 & 1.85 & 2.05 & 0.00 & 0.00 & 0.003 & 0.12 & 0.10 \\
   2018/19 & 1.74 & 1.15 & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
-  2019/20 &      & `r mmb_1920` & 0.00 & 0.00 &  & `r ofl_1920` & `r abc_1920` \\
-  2020/21 &      &  &  &  &  &  &  \\
+  2019/20 & `r msst_1920 ` & `r mmb_1920` & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
+  2020/21 &      & `r mmb_2021 ` &  &  &  & `r ofl_2021 ` & `r abc 2021 ` \\
  \\
   \hline
 \end{tabular}
@@ -195,8 +178,8 @@ Computations which indicate the relative impact of fishing
   2016/17 & 4.3 & 4.91 & 0.000 & 0.000 & 0.002  & 0.31 & 0.25 \\ 
   2017/18 & 4.1 & 2.85 & 0.000 & 0.000 & 0.007  & 0.27 & 0.22 \\ 
   2018/19 & 3.84 & 2.54 & 0.000 & 0.000 & 0.002 & 0.08 & 0.07 \\
-  2019/20 &  & `r mmb_1920_lb` & 0.000 & 0.000 &  & `r ofl_1920_lb` & `r abc_1920_lb` \\
-  2020/21 &       &  &  &  &  &  &  \\
+  2019/20 & `r msst_1920_lb` & `r mmb_1920_lb` & 0.000 & 0.000 & 0.002 & 0.096 & 0.08 \\
+  2020/21 &       &  &  &  &  & `r ofl_1920_lb` & `r abc_1920_lb`  \\
  \\
   \hline
 \end{tabular}
@@ -221,10 +204,9 @@ Computations which indicate the relative impact of fishing
   2015/16 & 4b & 3.71 & 2.45 & 0.66 & 0.11 & 1 & 1978-2015 & 0.18 \\ 
   2016/17 & 4b & 3.67 & 2.23 & 0.61 & 0.09 & 1 & 1978-2016 & 0.18 \\ 
   2017/18 & 4b & 3.86 & 2.05 & 0.53 & 0.08 & 1 & 1978-2017 & 0.18 \\
-  2018/19 & 4b & 3.7  & `r mmb_1819` & 0.35 & 0.043 & 1 & 1978-2017 & 0.18 \\
-  2019/20 & 4c & `r bmsy_cur` & `r mmb_1920` & `r ratio_bmsy` & 
-  `r fofl ` & 1 & 1978-2018 & 0.18 \\ 
-  2020/21 &    &  &  &  & 
+  2018/19 & 4b & 3.7  & 1.15 & 0.35 & 0.043 & 1 & 1978-2017 & 0.18 \\
+  2019/20 & 4c & 3.48 & `r mmb_1920` & 0.31 & 0.042 & 1 & 1978-2018 & 0.18 \\ 
+  2020/21 & 4?  & `r bmsy_cur` &  `r mmb_2021` &  `r ratio_bmsy` & `r fofl `
    & 1 & 1978-2019 & 0.18 \\
   \hline
 \end{tabular}
