@@ -500,12 +500,16 @@ Parameter_nopot <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})
 Parameter <- c(Parameter_ref, Parameter_ref, Parameter_nopot) #, Parameter, Parameter, ParameterQ) 
 df1 <- data.frame(Model, Parameter, Estimate)
 #Mname <- c("last yr", "Ref","VAST","addCVpot", "addCVboth", "qBlock")
+ref_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1/figure/ofl_calc.csv"))
+fixR_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1_rfix_TPL/figure/ofl_calc.csv"))
+nopot_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_2/figure/ofl_calc.csv"))
+
 df2 <- data.frame(Model = c("Ref", "Ref", "fixR", "fixR", "nopot", "nopot"),
                   Parameter = c("$F_\\text{OFL}$","OFL", "$F_\\text{OFL}$","OFL", 
                                 "$F_\\text{OFL}$","OFL"), 
-                  Estimate = c(M[[rec_mod]]$sd_fofl[1], M[[rec_mod]]$spr_cofl,
-                               M[[3]]$sd_fofl[1], M[[3]]$spr_cofl, 
-                               M[[4]]$sd_fofl[1], M[[4]]$spr_cofl))
+                  Estimate = c(M[[rec_mod]]$sd_fofl[1], ref_ofl$OFL_2020, #M[[rec_mod]]$spr_cofl,
+                               M[[3]]$sd_fofl[1], fixR_ofl$OFL_2020, #M[[3]]$spr_cofl, 
+                               M[[4]]$sd_fofl[1], nopot_ofl$OFL_2020))#M[[4]]$spr_cofl))
 df1 %>% 
   bind_rows(df2) -> df
 df3 <- tidyr::spread(df, Model, Estimate) %>% 
