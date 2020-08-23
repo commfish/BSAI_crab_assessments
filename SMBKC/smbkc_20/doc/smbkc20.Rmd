@@ -26,12 +26,17 @@ options(xtable.comment = FALSE)
 ## before running update model specs here and in doc_figures_test.R
 ## run code in that R file with !! to get table and figure input here
 # the model specs
+cur_yr <- 2020 
 folder <- "smbkc_20"
-mod_names <- c("model 16.0 (2019)", "model 16.0 (base)", "model 20.1 (no pot)") 
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
+mod_names <- c("model 16.0 (2019)", "model 16.0 (2020)", "model 16.0a (fix R ter)", "model 20.1 (no pot)") 
 .MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_19a/model_1/"),
               paste0(here::here(), "/SMBKC/smbkc_20/model_1/"), 
+              paste0(here::here(), "/SMBKC/smbkc_20/model_1_rfix_TPL/"),
               paste0(here::here(), "/SMBKC/smbkc_20/model_2/")) #need to update these model options
-.THEME    = theme_bw(base_size = 12, base_family = "")
+.THEME    = list(theme_bw(base_size = 12, base_family = ""), scale_fill_manual(values=cbPalette), 
+  scale_colour_manual(values=cbPalette))
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
 .FLEET    = c("Pot","Trawl bycatch","Fixed bycatch","NMFS Trawl","ADF&G Pot", "ADF&G Pot2")
@@ -62,7 +67,7 @@ rinline <- function(code){
 #alt_mod <- 5 # alt reference time frame
 ref_mod <- 1 # 2019 model
 rec_mod <- 2 # base
-mod_scen<- 2:3 #scenarios you want graphed together
+mod_scen<- 2:4 #scenarios you want graphed together
 ```
 
 ```{r exesum, echo = FALSE}
@@ -526,32 +531,25 @@ For the trawl survey the standardized residuals are more balanced in model 20.1 
 Fits to the size compositions for trawl survey, pot survey, and commercial observer data are reasonable but miss the largest
 size category in some years (Figures \@ref(fig:sc-pot), \@ref(fig:sc-pot-discarded), and \@ref(fig:sc-trawl-discarded)) 
 for both scenarios. 
-Representative residual plots of the composition data fits are show generally poor fit to the three composition data sources (Figures \@ref(fig:sc-res-ref) and \@ref(fig:sc-res-nopot).
+Representative residual plots of the composition data fits are show generally poor fit to the three composition data sources (Figures \@ref(fig:sc-res-ref), \@ref(fig:sc-res-fixR) and \@ref(fig:sc-res-nopot).
 The model fits to different types of retained and discarded catch values performed as expected given the assumed levels
 of uncertainty on the input data (Figure \@ref(fig:fit-to-catch)).
 
 
 ### e. Retrospective and historical analyses {-}
 This is the fourth year GMACS has been used for this stock. As such, retrospective patterns and historical analyses of GMACS assessments are limited. 
-However, completion of a retrospective analysis, for the base model, was completed (add figure) and is presented in Appendix C.
+However, completion of a retrospective analysis, for the base model, was completed (\@ref(fig:retrospective)) and is presented in Appendix C.
 
 ### f. Uncertainty and sensitivity analyses.{-}
 Estimated standard deviations of parameters and selected management measures for the models are summarized in
-Tables \@ref(tab:est-pars-ref), \@ref(tab:est-pars-3), and \@ref(tab:est-pars-4),
+Tables \@ref(tab:est-pars-ref), \@ref(tab:est-pars-fixR), and \@ref(tab:est-pars-4),
 (compiled in Table \@ref(tab:est-pars-all)). Model estimates of mature male biomass and OFL in 2020 are presented in Section F.
 
 ### g. Comparison of alternative model scenarios.{-}
-The estimates of mature male biomass (Figure \@ref(fig:mmb)) for the additional CV models differ from the other models due to a low value for pot survey catchability being estimated (which tends to scale the population estimate). 
-Difference in the mature male biomass since 2010 in the these models (19.2 and 19.3) are due to the model overfitting the trajectory of the trawl survey and downweighting the declines in the pot survey (Figure \@ref(fig:trawl-survey-biomass-wovast). 
-The **VAST** scenario generally has high mature male biomass estimates since the early 90s, which would be expected since the trawl survey biomass estimates generated from VAST are larger in the 90s and 2000s (Figure \@ref(fig:trawl-survey-biomass-base-vast)).
-The VAST model trawl survey biomass fit also captures the 90s survey data more closey than the reference model. 
-The **q block pot** fits the mature male biomass very similarly to the reference model, which is expected since they both fit the survey data similarly. The addition of a time block for recent years of the pot survey does not appear to improve model fit to this survey or change the fit overall. 
+The estimates of mature male biomass (Figure \@ref(fig:mmb)) for the **no pot** model differs from the reference models due to the removal of the pot survey abundance and size composition data. This abundance time series contrasts with the NMFS trawl survey and when present tends to lower the scale of the population estimate. 
+This difference is greatest in the last 10 years, recognizing the contrast between these abundance time series and the influence of the ADF&G pot survey on the current population status. 
 
-The VAST model (19.1) may be an option to consider for model spefications this fall, if the CPT finds the VAST data to be appropriate for model options. In general this model fits the trawl survey data at higher biomasses throughout time, specifically higher in the late 90s (Figure \@ref(fig:surv1-vast) and \@ref(fig:trawl-survey-biomass-base-vast)), however it tends to fit the survey data better than the reference model (Figure \@ref(fig:bts-resid-nmfs2)).
-Additionally, recruitment estimates for the VAST model trend similarly to the reference model, only at a higher magnitude (Figure \@ref(fig:recruitment2)). As stated above mature male biomass for the VAST model are also generally higher than the reference model, but tend to display a similar trend (Figure \@ref(fig:mmb2)). 
-The 2019 model MMB for the VAST model is still less than 50% of the $B_\mathit{MSY}$ and therefore the stock would remain in overfished status.  
-
-In summary, these model scenarios, with the exception of the VAST model, were provided to explore the sensitivity of this model. Currently, the reference model is still the most appropriate model for settting reference points and model specifications. 
+In summary, these model scenarios, were provided to explore the sensitivity of this model. Currently, the reference model is still the most appropriate model for settting reference points and model specifications. 
 Research on alternative model specifications that may address the disparities between the trawl and pot survey data are ongoing, as is proposed spatial analyses of these data sets. 
 Additionally, the overfished status of this stock lends itself to maintaining the status quo base model until an appropriate resolute is found to deal with the trawl and pot survey data fit issues.
 
@@ -587,16 +585,29 @@ for (ii in 2:4)
   x      <- M[[ii]]
   mmb    <- x$ssb[length(x$ssb)]; names(mmb) <- paste0("$\\text{MMB}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")
   fofl   <- x$sd_fofl[1]; names(fofl)          <- "$F_\\text{OFL}$"
-  OFL    <- x$spr_cofl; names(OFL)           <- paste0("$\\text{OFL}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")
+  #OFL    <- x$spr_cofl; names(OFL)           <- paste0("$\\text{OFL}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")
   Bmsy   <- x$spr_bmsy; names(Bmsy)          <- "$B_\\text{MSY}$"
   B_Bmsy <- x$spr_depl; names(B_Bmsy)          <- "$MMB/B_\\text{MSY}$"
-  ABC    <- OFL * 0.8; names(ABC)            <- paste0("$\\text{ABC}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")
-  v      <- c(mmb, Bmsy, B_Bmsy, fofl, OFL, ABC)
+  #ABC    <- OFL * 0.8; names(ABC)            <- paste0("$\\text{ABC}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")
+  v      <- c(mmb, Bmsy, B_Bmsy, fofl)#, OFL, ABC)
   df     <- cbind(df, v)
  }
 df <- data.frame(rownames(df), df, row.names = NULL)
 names(df) <- c("Component", Mname2) #mod_names[2:6])
-tab <- xtable(df, caption = "Comparisons of management measures for the model scenarios. Biomass and OFL are in tons.", label = "tab:management-quants", digits = 3)
+
+ref_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1/figure/ofl_calc.csv"))
+fixR_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1_rfix_TPL/figure/ofl_calc.csv"))
+nopot_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_2/figure/ofl_calc.csv"))
+
+df4 <- data.frame(Component = c(paste0("$\\text{OFL}_{", (M[[2]]$mod_yrs[length(M[[2]]$mod_yrs)]+ 1), "}$"),
+                   paste0("$\\text{ABC}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")), 
+                  Ref = c(ref_ofl$OFL_2020, ref_ofl$OFL_2020*.80) , 
+                  fixR = c(fixR_ofl$OFL_2020, fixR_ofl$OFL_2020*.80) ,
+                  nopot = c(nopot_ofl$OFL_2020, nopot_ofl$OFL_2020*.80))
+df %>% 
+  rbind(df4) -> df2
+
+tab <- xtable(df2, caption = "Comparisons of management measures for the model scenarios. Biomass and OFL are in tons.", label = "tab:management-quants", digits = 3)
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
 ```
 
@@ -1014,7 +1025,7 @@ df2 <- data.frame(Parameter = c("$F_\\text{OFL}$","OFL"),
                   SD = c(0.0070834, (.21218*(rfix_ofl$OFL_2020/1.1364)))) # directly from GMACS.std file **FIX**
 df1 %>% 
   bind_rows(df2) -> df
-tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the reference model with fixed terminal year recruitment (16.0a).", label = "tab:est-pars-3", digits = 3)
+tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the reference model with fixed terminal year recruitment (16.0a).", label = "tab:est-pars-fixR", digits = 3)
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
 ```
 
@@ -1043,11 +1054,11 @@ Parameter <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
                "log Stage-1 NMFS trawl selectivity","log Stage-2 NMFS trawl selectivity")
                #"$F_\\text{OFL}$","OFL")
 df1 <- data.frame(Parameter, Estimate, SD)
-rfix_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1_rfix_TPL/figure/ofl_calc.csv"))
+nopot_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_2/figure/ofl_calc.csv"))
 
 df2 <- data.frame(Parameter = c("$F_\\text{OFL}$","OFL"), 
-                  Estimate = c(M[[3]]$sd_fofl[1], rfix_ofl$OFL_2020), #M[[3]]$spr_cofl)
-                  SD = c(0.0070834, (.21218*(rfix_ofl$OFL_2020/1.1364)))) # directly from GMACS.std file **FIX**
+                  Estimate = c(M[[3]]$sd_fofl[1], nopot_ofl$OFL_2020), #M[[3]]$spr_cofl)
+                  SD = c(0.00000, (.28051*(nopot_ofl$OFL_2020/1.2040)))) # directly from GMACS.std file **FIX**
 df1 %>% 
   bind_rows(df2) -> df
 tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the 'no pot' (20.1) model.", label = "tab:est-pars-4", digits = 3)
@@ -1068,7 +1079,7 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 # updated to work for draft - need to figure out how to get Francis weightings and 
 #   lamdas
 df <- read.csv(paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/data_weighting.csv'))
-Mname2 <- c("Ref","nopot")
+Mname2 <- c("Ref", "fixR", "nopot")
 names(df) <- c("Component", Mname2)
 tab       <- xtable(df, caption = "Comparisons of data weights, SDNR and MAR (standard deviation of normalized residuals and median absolute residual) values for the model scenarios.", label = "tab:data-weighting")
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,5,10,nrow(tab)))
@@ -1078,7 +1089,7 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 ```{r likelihood-components, results = "asis"}
 df <- read.csv(paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/neg_log_like.csv'))
 #names(df) <- c("Component",mod_names[mod_scen])
-names(df) <- c("Component", "Ref", "nopot")
+names(df) <- c("Component", "Ref", "fixR", "nopot")
 tab <- xtable(df, caption = "Comparisons of negative log-likelihood values for the selected model scenarios. It is important to note that comparisons among models may be limited since the number of parameters between models changes (e.g., {\\bf add CV} models).", label = "tab:likelihood-components")
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
 ```
@@ -1208,6 +1219,10 @@ knitr::include_graphics("safe_figure/lf_3.png", dpi = 450)
 knitr::include_graphics("safe_figure/ref_mod_size_comp_residuals.png", dpi = 100)
 ```
 
+```{r sc-res-fixR, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (NMFS trawl survey, and the directed pot fishery) for SMBKC in the 'fixR' model (16.0a)."}
+knitr::include_graphics("safe_figure/ref_fixed_R_ter_size_comp_residuals.png", dpi = 100)
+```
+
 ```{r sc-res-nopot, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (NMFS trawl survey, and the directed pot fishery) for SMBKC in the 'no pot' model (20.1)."}
 knitr::include_graphics("safe_figure/no_ADF&G_pot_size_comp_residuals.png", dpi = 100)
 ```
@@ -1227,6 +1242,9 @@ knitr::include_graphics("safe_figure/fishing_mortality.png", dpi = 375)
 knitr::include_graphics("safe_figure/dyn_Bzero.png", dpi = 375)
 ```
 
+```{r retrospective, fig.cap = "Retrospective pattern in mature male biomass(mmb, t) for the reference (base) model.", fig.height =12}
+knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/ssb_time_series_normal.png"), dpi = 375)
+```
                 
                 
 \pagebreak 
