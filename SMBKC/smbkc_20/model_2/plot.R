@@ -329,7 +329,71 @@ lw1 <- .get_length_weight_df(M) #not working
 
 
 ### OFL --------
-M[[base_model_1]]$spr_cofl
+M[[1]]$sd_fofl[1]
+M[[1]]$spr_cofl
+
+# the OFL calculations do not appear correct, Jie helped me to do them "by hand" attempt here to do so in R.
+
+# 2020 numbers
+.get_numbers_df(M) -> numbers
+numbers[124:129, ] -> numbers
+numbers %>% 
+  mutate(Year = c(2019, 2019, 2019, 2020, 2020, 2020)) %>% 
+  select(Model, variable = mp, Year, N) %>% 
+  spread(Year, N) -> numbers20
+
+# selectivity 2020
+.get_selectivity_df(M) -> selectivity
+
+selectivity %>% 
+  filter(year == 2009) %>% 
+  spread(fleet, value) %>% 
+  filter(type == "Capture") %>% 
+  select(Model, variable, Pot, `Trawl bycatch`) ->sel20a
+
+selectivity %>% 
+  filter(year == 2009) %>% 
+  spread(fleet, value) %>% 
+  filter(type == "Retained") %>% 
+  select(Model, variable, Pot_retain = Pot) -> sel20b
+
+sel20a %>% 
+  left_join(sel20b) -> sel20
+sel20
+# weight - at - length
+M[[1]]$mean_wt[43,]
+M[[1]]$mid_points
+
+weight <- data.frame(variable = M[[1]]$mid_points, weight = M[[1]]$mean_wt[43,])
+
+# selectivity by fleet
+
+s_fleet <- data.frame(M[[1]]$slx_capture)
+s_fleet %>% 
+  rename(Year = V1, male = V2, fleet = V3, '97.5' = V4, '112.5' = V5, '127.5' = V6) -> s_fleet
+
+s_fleet %>% 
+  filter(Year == 2018) -> s_fleet_cur
+s_fleet_cur
+# combine 
+sel20 %>% 
+  left_join(numbers20) %>% 
+  left_join(weight) -> ofl_data
+
+ofl_data
+M[[1]]$sd_fofl[1] -> fofl
+fofl
+# calculate OFL step 1 --------
+ofl_data %>% 
+  mutate(step1 = `2020`*weight*(1-exp(-fofl))*Pot*(Pot_retain+(1-Pot_retain)*.20), 
+         step2 = (`2019`- step1/weight)*exp(-0.44)*`Trawl bycatch`*(1-exp(-0.0016))*weight*0.5) -> ofl_data2
+
+ofl_data2 %>% 
+  group_by(Model) %>% 
+  summarise(st1 = sum(step1), st2 = sum(step2)) %>% 
+  mutate(OFL_2020 = st1 + st2) %>% 
+  as.data.frame() %>% 
+  write.csv(paste0(.FIGS, "ofl_calc.csv"), row.names = FALSE) 
 
 ## Dynamic B0 ----
 #.get_dynB0_df(M)  # not currently in output, can I add this?
