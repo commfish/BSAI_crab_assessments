@@ -45,3 +45,5 @@ gf_bycatch %>%
 # ignore 2019, this is just the beginning of this season, data up until 2018
 write.csv(gf_by_weight, paste0(here::here(), '/SMBKC/', model_yr, '/data/gf_bycatch_weight.csv'), 
           row.names = FALSE)
+
+# ** FIX ** need to add in lines here to summarize catch for executive summary tables 
