@@ -142,7 +142,7 @@ ggsave(paste0(.FIGS, "recruit_ref.png"), width = ww*1.08, height = hh)
 #plot_F(M[mod_scen])
 plot_F(Mbase)
 plot_F2(M[2])
-ggsave(paste0(.FIGS, "fishing_mortality.png"), width = ww*1.5, height = hh)
+ggsave(paste0(.FIGS, "fishing_mortality.png"), width = ww*1.25, height = hh)
 
 ## ssb -----------
 #"Sensitivity of new data in 2020 on estimated mature male biomass (MMB); 1978-2019. \\label{fig:ssb1}"}
