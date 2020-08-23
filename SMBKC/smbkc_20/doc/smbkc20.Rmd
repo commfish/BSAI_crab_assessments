@@ -73,7 +73,7 @@ mod_scen<- 2:3 #scenarios you want graphed together
   tail(1) %>%
   .$x -> bio_lt_percent
 
-## table 1 ------*** FIX ***
+
 ## table 1 ------
 round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_1920
 round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_1920
@@ -159,7 +159,7 @@ Computations which indicate the relative impact of fishing
   2017/18 & 1.85 & 2.05 & 0.00 & 0.00 & 0.003 & 0.12 & 0.10 \\
   2018/19 & 1.74 & 1.15 & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
   2019/20 & `r msst_1920 ` & `r mmb_1920` & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
-  2020/21 &      & `r mmb_2021 ` &  &  &  & `r ofl_2021 ` & `r abc 2021 ` \\
+  2020/21 &      & `r mmb_2021 ` &  &  &  & `r ofl_2021 ` & `r abc_2021 ` \\
  \\
   \hline
 \end{tabular}
@@ -179,7 +179,7 @@ Computations which indicate the relative impact of fishing
   2017/18 & 4.1 & 2.85 & 0.000 & 0.000 & 0.007  & 0.27 & 0.22 \\ 
   2018/19 & 3.84 & 2.54 & 0.000 & 0.000 & 0.002 & 0.08 & 0.07 \\
   2019/20 & `r msst_1920_lb` & `r mmb_1920_lb` & 0.000 & 0.000 & 0.002 & 0.096 & 0.08 \\
-  2020/21 &       &  &  &  &  & `r ofl_1920_lb` & `r abc_1920_lb`  \\
+  2020/21 &       & `r mmb_2021_lb` &  &  &  & `r ofl_2021_lb` & `r abc_2021_lb`  \\
  \\
   \hline
 \end{tabular}
@@ -580,9 +580,9 @@ $F_\mathit{OFL}$, OFL, ABC, and MMB in 2019 for all scenarios are summarized in 
 is 80% of the OFL.
 
 ```{r management-quants, results = "asis"}
-Mname2 <- c("Ref","nopot")
+Mname2 <- c("Ref", "fixR" ,"nopot")
 df <- NULL
-for (ii in 2:3)
+for (ii in 2:4)
  {
   x      <- M[[ii]]
   mmb    <- x$ssb[length(x$ssb)]; names(mmb) <- paste0("$\\text{MMB}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")
@@ -971,17 +971,56 @@ Parameter <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
                "log Stage-1 ADF\\&G pot selectivity","log Stage-2 ADF\\&G pot selectivity")
                #"$F_\\text{OFL}$","OFL")
 df1 <- data.frame(Parameter, Estimate, SD)
+rec_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1/figure/ofl_calc.csv"))
+
 df2 <- data.frame(Parameter = c("$F_\\text{OFL}$","OFL"), 
-                  Estimate = c(M[[ref_mod]]$sd_fofl[1], M[[ref_mod]]$spr_cofl), 
-                  SD = c(0.005473, 9.2544)) # directly from GMACS.std file **FIX**
+                  Estimate = c(M[[ref_mod]]$sd_fofl[1], rec_ofl$OFL_2020), #M[[rec_mod]]$spr_cofl
+                  SD = c(0.0071253, (.46387*(rec_ofl$OFL_2020/1.35)))) # directly from GMACS.std file **FIX**
 df1 %>% 
   bind_rows(df2) -> df
 tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the reference (16.0) model.", label = "tab:est-pars-ref", digits = 3)
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
 ```
 
-```{r est-pars-3, results = "asis"}
+```{r est-pars-fixR, results = "asis"}
 x <- M[[3]]$fit
+i <- c(grep("m_dev", x$names)[1],
+       grep("theta", x$names),
+       grep("survey_q", x$names),
+       grep("log_fbar", x$names),
+       grep("log_slx_pars", x$names)
+       #grep("sd_fofl", x$names),
+       #grep("spr_cofl", x$names)
+)
+Parameter <- x$names[i]
+Estimate <- x$est[i]
+SD <- x$std[i]
+j <- grep("survey_q", Parameter)
+Estimate[j] <- Estimate[j] * 1000
+SD[j] <- SD[j] * 1000
+Parameter <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
+               "$\\log (\\bar{R})$","$\\log (n^0_1)$","$\\log (n^0_2)$","$\\log (n^0_3)$",
+               "$q_{pot}$", "$\\log (\\bar{F}^\\text{df})$","$\\log (\\bar{F}^\\text{tb})$","$\\log (\\bar{F}^\\text{fb})$",
+               "log Stage-1 directed pot selectivity 1978-2008","log Stage-2 directed pot selectivity 1978-2008",
+               "log Stage-1 directed pot selectivity 2009-2017","log Stage-2 directed pot selectivity 2009-2017",
+               "log Stage-1 NMFS trawl selectivity","log Stage-2 NMFS trawl selectivity",
+               "log Stage-1 ADF\\&G pot selectivity","log Stage-2 ADF\\&G pot selectivity")
+               #"$F_\\text{OFL}$","OFL")
+df1 <- data.frame(Parameter, Estimate, SD)
+rfix_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1_rfix_TPL/figure/ofl_calc.csv"))
+
+df2 <- data.frame(Parameter = c("$F_\\text{OFL}$","OFL"), 
+                  Estimate = c(M[[3]]$sd_fofl[1], rfix_ofl$OFL_2020), #M[[3]]$spr_cofl)
+                  SD = c(0.0070834, (.21218*(rfix_ofl$OFL_2020/1.1364)))) # directly from GMACS.std file **FIX**
+df1 %>% 
+  bind_rows(df2) -> df
+tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the reference model with fixed terminal year recruitment (16.0a).", label = "tab:est-pars-3", digits = 3)
+print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
+```
+
+
+```{r est-pars-4, results = "asis"}
+x <- M[[4]]$fit
 i <- c(grep("m_dev", x$names)[1],
        grep("theta", x$names),
        grep("survey_q", x$names),
@@ -1004,16 +1043,16 @@ Parameter <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
                "log Stage-1 NMFS trawl selectivity","log Stage-2 NMFS trawl selectivity")
                #"$F_\\text{OFL}$","OFL")
 df1 <- data.frame(Parameter, Estimate, SD)
+rfix_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1_rfix_TPL/figure/ofl_calc.csv"))
+
 df2 <- data.frame(Parameter = c("$F_\\text{OFL}$","OFL"), 
-                  Estimate = c(M[[3]]$sd_fofl[1], M[[3]]$spr_cofl),
-                  SD = c(0.0000, 0.17539)) # directly from gmacs.std file **FIX**)
+                  Estimate = c(M[[3]]$sd_fofl[1], rfix_ofl$OFL_2020), #M[[3]]$spr_cofl)
+                  SD = c(0.0070834, (.21218*(rfix_ofl$OFL_2020/1.1364)))) # directly from GMACS.std file **FIX**
 df1 %>% 
   bind_rows(df2) -> df
-tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the 'no pot' (20.1) model.", label = "tab:est-pars-3", digits = 3)
+tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the 'no pot' (20.1) model.", label = "tab:est-pars-4", digits = 3)
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
 ```
-
-
 
 
 ```{r est-pars-all, results = "asis"}
@@ -1095,7 +1134,7 @@ knitr::include_graphics("safe_figure/trawl_cpue_ref.png", dpi = 200)
 knitr::include_graphics("safe_figure/pot_cpue_ref.png", dpi = 150)
 ```
 
-```{r rec1, fig.cap = "Set up to show sensitivity of new data in 2020 on estimated recruitment ; 1978-2018."}
+```{r rec1, fig.cap = "Set up to show sensitivity of new data in 2020 on estimated recruitment ; 1978-2018, does not show recent recruitment, i.e. 2019."}
 knitr::include_graphics("safe_figure/recruit_ref.png", dpi = 100)
 ```
 
