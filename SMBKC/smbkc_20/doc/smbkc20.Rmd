@@ -615,7 +615,7 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 
 # G. Rebuilding Analysis {-}
 
-This stock was declared overfished in fall of 2018 and a rebuilding plan was under initial review by the NPFMC in December 2019. The rebuilding plan is scheduled for final review during the June 2020 NPFMC meeting. The most updated rebuilding plan can be found on the NPFMC website for the upcoming June 2020 meeting.
+This stock was declared overfished in fall of 2018 and a rebuilding plan went before the Council for final review in June 2020. The most updated rebuilding plan can be found on the NPFMC website for the June 2020 meeting. 
 
 
 # H. Data Gaps and Research Priorities {-}
@@ -647,7 +647,7 @@ The other non-fishing contributors to the observed depleted stock trend (ignorin
 # J. Acknowledgements {-}
 
 We thank the Crab Plan Team and ADF&G staff for reviewing an earlier draft of this report 
-and Andre Punt for his input into refinements to the GMACS model code, specifically the projections module.
+and Andre Punt for his continued input into refinements to the GMACS model code, specifically the projections module.
 
 # K. References {-}
 Alaska Department of Fish and Game (ADF&G). 2013. Crab observer training and deployment manual. Alaska Department of Fish and Game Shellfish Observer Program, Dutch Harbor. Unpublished.
@@ -1025,7 +1025,7 @@ df2 <- data.frame(Parameter = c("$F_\\text{OFL}$","OFL"),
                   SD = c(0.0070834, (.21218*(rfix_ofl$OFL_2020/1.1364)))) # directly from GMACS.std file **FIX**
 df1 %>% 
   bind_rows(df2) -> df
-tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the reference model with fixed terminal year recruitment (16.0a).", label = "tab:est-pars-fixR", digits = 3)
+tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the reference model with fixed terminal year recruitment 'fixR' (16.0a).", label = "tab:est-pars-fixR", digits = 3)
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
 ```
 
@@ -1090,7 +1090,7 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 df <- read.csv(paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/neg_log_like.csv'))
 #names(df) <- c("Component",mod_names[mod_scen])
 names(df) <- c("Component", "Ref", "fixR", "nopot")
-tab <- xtable(df, caption = "Comparisons of negative log-likelihood values for the selected model scenarios. It is important to note that comparisons among models may be limited since the number of parameters between models changes (e.g., {\\bf add CV} models).", label = "tab:likelihood-components")
+tab <- xtable(df, caption = "Comparisons of negative log-likelihood values for the selected model scenarios. It is important to note that comparisons among models may be limited since the number of parameters between models changes (e.g., {\\bf nopot} model).", label = "tab:likelihood-components")
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
 ```
 
@@ -1165,8 +1165,11 @@ knitr::include_graphics("safe_figure/selectivity_mod_scen.png", dpi = 150)
 knitr::include_graphics("safe_figure/recruitment_mod_scen_ribbons.png", dpi = 100)
 ```
 
+```{r recruitment2, fig.cap = "Estimated recruitment 1979-2019 comparing ref model (16.0) and model with fixed recruitment in the terminal year (16.0a). The solid horizontal lines in the background represent the estimate of the average recruitment parameter ($\\bar{R}$) in each model scenario."}
+knitr::include_graphics("safe_figure/recruitment_ref_ribbons_2020.png", dpi = 100)
+```
 
-```{r mmb, fig.cap = "Comparisons of estimated mature male biomass (MMB) time series on 15 February during 1978-2019 for each of the model scenarios."}
+```{r mmb, fig.cap = "Comparisons of estimated mature male biomass (MMB) time series on 15 February during 1978-2020 for each of the model scenarios."}
 #plot_ssb(M[mod_scen], ylab = "Mature male biomass (tons) on 15 February")
 knitr::include_graphics("safe_figure/mod_scen_ssb_wprojected_yr.png", dpi = 100)
 ```
@@ -1242,7 +1245,7 @@ knitr::include_graphics("safe_figure/fishing_mortality.png", dpi = 375)
 knitr::include_graphics("safe_figure/dyn_Bzero.png", dpi = 375)
 ```
 
-```{r retrospective, fig.cap = "Retrospective pattern in mature male biomass(mmb, t) for the reference (base) model.", fig.height =12}
+```{r retrospective, fig.cap = "Retrospective pattern in mature male biomass(mmb, t) for the reference (base) model (16.0).", fig.height =12}
 knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/ssb_time_series_normal.png"), dpi = 375)
 ```
                 
