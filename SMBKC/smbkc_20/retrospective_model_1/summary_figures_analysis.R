@@ -10,7 +10,9 @@
 # load --
 source("./SMBKC/code/helper.R")
 .FIGS = c(paste0("./SMBKC/smbkc_20/retrospective_model_1/figures/"))
-
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+.THEME    = list(theme_bw(base_size = 12, base_family = ""), scale_fill_manual(values=cbPalette), 
+                 scale_colour_manual(values=cbPalette))
 # data ---
 mmb <- read.csv(paste0(here::here(), '/SMBKC/smbkc_20/retrospective_model_1/combined_data/ssb_all.csv'))
 sum_stats <- read.csv(paste0(here::here(), '/SMBKC/smbkc_20/retrospective_model_1/combined_data/summary.csv'))
@@ -249,7 +251,7 @@ app3_ssb %>%
   ylab("Mature male biomass (tons) on Feb 15th") +
   xlab("Year") +
   ylim(c(0,11000)) +
-  theme_bw(base_size = 12, base_family = "") +
+  .THEME + #theme_bw(base_size = 12, base_family = "") +
   geom_line(aes(year, Bmsy, group = Model, colour = Model))
 ggsave(paste0(.FIGS, "app3_ssb_all_yrs.png"), width = 1.5*6, height = 5)
 
@@ -260,7 +262,7 @@ app3_ssb %>%
   ylab("Mature male biomass (tons) on Feb 15th") +
   xlab("Year") +
   #ylim(c(0, 3500)) +
-  theme_bw(base_size = 12, base_family = "") #+
+  .THEME  #theme_bw(base_size = 12, base_family = "") +
   #geom_line(aes(year, Bmsy, group = Model, colour = Model))
 ggsave(paste0(.FIGS, "app3_last_10yrs_ssb.png"), width = 1.5*6, height = 5)
 
@@ -271,10 +273,34 @@ summary_2020
 
 summary_2020 %>% 
   rbind(low_summary) %>% 
-  rbind(high_summary)
+  rbind(high_summary) -> sum_stats2
 
+
+## bring in OFL calcs from manual file -----------
+ref_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1/figure/ofl_calc.csv"))
+low_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1_app3_low/figure/ofl_calc.csv"))
+high_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1_app3_high/figure/ofl_calc.csv"))
+
+sum_stats2 %>% 
+  mutate(OFL = c(ref_ofl$OFL_2020, low_ofl$OFL_2020, high_ofl$OFL_2020)) -> sum_stats2
+write.csv(sum_stats2, paste0(here::here(), "/SMBKC/smbkc_20/doc/safe_tables/app3_sum_stats.csv"), row.names = FALSE)
 # save output for table here -----
 
 # bar graphs for summary -------
+sum_stats2 %>% 
+  select(-year) %>% 
+  mutate(avgr = avgr/1000000) %>% 
+  melt(id.vars = "type") %>% 
+  ggplot(aes(type, value, fill = type)) +
+  geom_bar(stat = "identity", position = position_dodge()) +
+  facet_wrap(~variable, scales = "free_y") +
+  ggtitle("Approach 3 - high, low, 2020 base") +
+  ylab("Model outputs") +
+  xlab("") +
+    #scale_fill_discrete(name = "Type", labels = c("Retrospective", "MissingSurvey")) +
+  .THEME +
+  theme(axis.text.x = element_blank()) #theme_bw(base_size = 12, base_family = "")
+ggsave(paste0(.FIGS, "app3_bar_graph_output.png"), width = 1.15*6, height = 5)
+
 
 # 
