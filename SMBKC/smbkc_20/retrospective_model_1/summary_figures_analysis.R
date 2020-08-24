@@ -42,6 +42,34 @@ mmb2 %>%
 
 ggsave(paste0(.FIGS, "ssb_time_series_all.png"), width = 1.25*6, height = 5)
 
+
+# retro mmb compare last 5 years ----------
+mmb2 %>% 
+  filter(Model.end.yr > 2015) %>% 
+  ggplot(aes(year, ssb, group = Model)) +
+  geom_line(aes(group = Model, colour = Model.end.yr, linetype = type), lwd = 0.75) +
+  ylab("Mature male biomass (tons) on Feb 15th") +
+  xlab("Year") +
+  ylim(c(0,11500)) +
+  theme_bw(base_size = 12, base_family = "") +
+  scale_colour_discrete(name  ="Model end year")
+
+ggsave(paste0(.FIGS, "ssb_time_series_last5_compare.png"), width = 1.25*6, height = 5)
+
+# retro mmb compare last 5 years recent time period----------
+mmb2 %>% 
+  filter(Model.end.yr > 2015) %>% 
+  filter(year > 2000) %>% 
+  ggplot(aes(year, ssb, group = Model)) +
+  geom_line(aes(group = Model, colour = Model.end.yr, linetype = type), lwd = 0.75) +
+  ylab("Mature male biomass (tons) on Feb 15th") +
+  xlab("Year") +
+  ylim(c(0,3000)) +
+  theme_bw(base_size = 12, base_family = "") +
+  scale_colour_discrete(name  ="Model end year")
+
+ggsave(paste0(.FIGS, "ssb_time_series_last5_compare_recent.png"), width = 1.25*6, height = 5)
+
 # retro mmb normal ----------
 mmb2 %>% 
   filter(type == "retro") %>% 
@@ -50,11 +78,24 @@ mmb2 %>%
   ylab("Mature male biomass (tons) on Feb 15th") +
   xlab("Year") +
   ylim(c(0,11500)) +
-  theme_bw(base_size = 12, base_family = "")
+  theme_bw(base_size = 12, base_family = "") +
+  scale_colour_discrete(name  ="Model end year")
 
 ggsave(paste0(.FIGS, "ssb_time_series_normal.png"), width = 1.25*6, height = 5)
 
+# retro mmb normal current years ----------
+mmb2 %>% 
+  filter(type == "retro") %>%
+  filter(year > 2000) %>% 
+  ggplot(aes(year, ssb, group = Model.end.yr)) +
+  geom_line(aes(group = Model, colour = Model.end.yr), lwd = 0.75) +
+  ylab("Mature male biomass (tons) on Feb 15th") +
+  xlab("Year") +
+  ylim(c(0,7500)) +
+  theme_bw(base_size = 12, base_family = "") +
+  scale_colour_discrete(name  ="Model end year")
 
+ggsave(paste0(.FIGS, "ssb_time_series_normal_current.png"), width = 1.25*6, height = 5)
 # comparison btn retro and leave out terminal yr survey -----------------
 head(sum_stats)
 
