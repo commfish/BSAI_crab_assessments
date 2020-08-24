@@ -15,7 +15,7 @@ opts_chunk$set(fig.width = 12, fig.height = 7, echo = FALSE, warning = FALSE, me
 ```
 
 # Introduction{-}
-The summer of 2020 trawl surveys were cancelled due to logistic difficulties caused by the global pandemic COVID-19. Therefore the crab assessment authors meet to discuss approaches to present the potential of additional uncertainty in the current years models - specifically the projected mature male biomass and associated reference points. The objective of these approaches/simulations was to provide the plan team (CPT) and the SSC a range of potential additional uncertainty that could be applied to the buffers used on the OFL calculations to produce an appropriate ABC. 
+The summer of 2020 trawl surveys were cancelled due to logistic difficulties caused by the global pandemic COVID-19. Therefore, the crab assessment authors meet to discuss approaches to address the potential of additional uncertainty in the current year models - specifically the projected mature male biomass and associated reference points. The objective of these approaches/simulations was to provide the plan team (CPT) and the SSC a range of potential additional uncertainty that could be applied to the buffers used on the OFL calculations to produce an appropriate ABC. 
 
 ## Objectives {-}
 
@@ -38,6 +38,19 @@ This approach was designed to run models with "fake" 2020 data to determine how 
 
 Copy methors here from Martin's write up. 
 
-```{r proj2by, fig.cap = "Comparisons of probability of recovery with ricker s-r relationshipusing the entire time series (1978-2018) under different bycatch levels, show as with a min F = 0 and a max F equivalent to the state harvest rate (SHR). Projection 2"}
-knitr::include_graphics("safe_figure/proj2ALL_rec_1yr_prob.png", dpi = 125)
+```{r retrospective, fig.cap = "Retrospective run estimates of mature male biomass (mmb) for the SMBKC reference model (16.0) for the last 10 years. "}
+knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/ssb_time_series_normal.png"), dpi = 125)
+```
+
+
+```{r retrospective2, fig.cap = "Retrospective run estimates of mature male biomass (mmb) for the SMBKC reference model (16.0) for the last 10 years, only showing the last 20 years for a detailed view. "}
+knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/ssb_time_series_normal_current.png"), dpi = 125)
+```
+
+```{r retrospective-compare, fig.cap = "Retrospective run estimates of mature male biomass (mmb) for the SMBKC reference model (16.0) including models that eliminated the terminal year survey data. "}
+knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/ssb_time_series_all.png"), dpi = 125)
+```
+
+```{r retrospective-compare2, fig.cap = "Retrospective run estimates of mature male biomass (mmb) for the SMBKC reference model (16.0) including models that eliminated the terminal year survey data for the last 5 model years. Highlighting the last 20 years for a more detailed view.  "}
+knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/ssb_time_series_last5_compare_recent.png"), dpi = 125)
 ```
