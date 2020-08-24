@@ -1,4 +1,4 @@
-# katie.palof@alaska.gov    8-21-19/ 4-9-2020
+# katie.palof@alaska.gov    8-21-19/ 4-9-2020/ 8-16-2020
 
 # Figures for SAFE document for SMBKC
 # goal would be for these to be created in the .Rmd document instead of here
@@ -18,18 +18,16 @@ source("./SMBKC/code/helper.R")
 source("./SMBKC/smbkc_19a/doc/gmr_functions2020.R") 
 
 # All model plots  -------------------------
+# ALL Model setup  -------------------------
 # first model is reference to previous year
-cur_yr <- 2019 # update annually 
-folder <- "smbkc_19a"
+cur_yr <- 2020 # update annually 
+folder <- "smbkc_20" # update annually 
 
 # update model names and file locations
-mod_names <- c("model 16.0", "model 16.0 (ref)", "model 19.1 (VAST)", "model 19.2 (add CV pot)", "model 19.3 (add CV both)", "model 19.4 (q time block pot)") 
-.MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_19/model_1/"), 
-              paste0(here::here(), "/SMBKC/smbkc_19a/model_1/"),
-              paste0(here::here(), "/SMBKC/smbkc_19a/model_4/"), 
-              paste0(here::here(), "/SMBKC/smbkc_19a/model_1a/"), 
-              paste0(here::here(), "/SMBKC/smbkc_19a/model_1b/"),
-              paste0(here::here(), "/SMBKC/smbkc_19a/model_3/")) #need to update these model options
+mod_names <- c("model 16.0 (2019)", "model 16.0 (2020 base)", "model 20.1 (no pot)") 
+.MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_19a/model_1/"),
+              paste0(here::here(), "/SMBKC/smbkc_20/model_1/"), 
+              paste0(here::here(), "/SMBKC/smbkc_20/model_2/")) #need to update these model options
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
@@ -60,11 +58,9 @@ rinline <- function(code){
 }
 
 #alt_mod <- 5 # alt reference time frame
-ref_mod <- 1 # base
+ref_mod <- 1 # base 2019
 rec_mod <- 2 # base
-mod_scen<- 2:6 #scenarios you want graphed together
-mod_scen2 <- c(2, 6) # base model and q time block
-mod_scen3 <- 2:5 # without q time block
+mod_scen<- 2:3 #scenarios you want graphed together
 
 ww <- 6
 hh <- 5
@@ -78,10 +74,10 @@ hh <- 5
   .$x -> bio_lt_percent
 
 # Tables 1 to 3 calcs -------
+
 ## table 1 ------
 round(M[[ref_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_1819
 round(M[[ref_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_1819
-
 # use in May 2020
 round(M[[ref_mod]]$spr_bmsy*M[[ref_mod]]$spr_depl/1000, 2) -> mmb_1920
 round(M[[ref_mod]]$spr_cofl/1000, 2) -> ofl_1920
