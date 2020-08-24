@@ -179,7 +179,7 @@ ssb %>%
   mutate(b_msy/SHS_proxy)
 
 
-# ssb current year uncertainty --------
+# !!ssb current year uncertainty --------
 # need to run mcmc and projections here 
 # last years ref model
 un_ssb <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
@@ -220,7 +220,7 @@ ssb %>%
 ggsave(paste0(.FIGS, "lastyr_reference_ssb_wprojected_yr.png"), width = ww*1.18, height = hh)
 ggsave(paste0(.FIGS, "PRESENTATION_lastyr_reference_ssb_wprojected_yr.png"), width = ww*1.5, height = hh)
 
-# **FIX** run mcmc and proj for 16.0a -------
+
 # !!SSB model scenarios-----------
 # SSB lst yr / current yr base model-----------
 ssb <- .get_ssb_df(M[mod_scen]) # ssb now does NOT include projection year so only up to 2018 crab year - 2019 projection (example)
@@ -230,6 +230,8 @@ tail(ssb)
 # ssb current year uncertainty
 un_ssb_ref <- read.csv(here::here("./SMBKC/smbkc_20/model_1/projections/proj_1/d/uncertainty_ssb_2020.csv"))#
 un_ssb_nopot <- read.csv(here::here("./SMBKC/smbkc_20/model_2/projections/proj_1/d/uncertainty_ssb_2020.csv")) #need to run
+un_ssb_fixR <- read.csv(here::here("./SMBKC/smbkc_20/model_1_rfix_TPL/projections/proj_1/d/uncertainty_ssb_2020.csv")) #need to run
+#
 #un_ssb_cv <- read.csv(here::here("./SMBKC/smbkc_19a/model_1a/projections/proj_1/d/uncertainty_ssb_2019.csv")) #need to run
 #un_ssb_cv2 <- read.csv(here::here("./SMBKC/smbkc_19a/model_1b/projections/proj_1/d/uncertainty_ssb_2019.csv")) #need to run
 #un_ssb_q <- read.csv(here::here("./SMBKC/smbkc_19a/model_3/projections/proj_1/d/uncertainty_ssb_2019.csv")) #need to run
@@ -243,11 +245,12 @@ un_ssb_nopot <- read.csv(here::here("./SMBKC/smbkc_20/model_2/projections/proj_1
 # ssb vector only includes model years - here crab year 1978 to 2019 does NOT include projection, need to add
 #   projection year for graphical purposes
 ssb_last <- data.frame("Model" = names(M[mod_scen]),
-                       "year" = c(cur_yr, cur_yr), 
+                       "year" = c(cur_yr, cur_yr, cur_yr), 
                        "ssb" = c(M[[2]]$spr_bmsy * M[[2]]$spr_depl,
-                                 M[[3]]$spr_bmsy * M[[3]]$spr_depl),
-                       "lb" = c(un_ssb_ref$lci, un_ssb_nopot$lci), # need to update these from .csv output
-                       "ub" = c(un_ssb_ref$uci, un_ssb_nopot$uci))
+                                 M[[3]]$spr_bmsy * M[[3]]$spr_depl, 
+                                 M[[4]]$spr_bmsy * M[[4]]$spr_depl),
+                       "lb" = c(un_ssb_ref$lci, un_ssb_fixR$lci, un_ssb_nopot$lci), # need to update these from .csv output
+                       "ub" = c(un_ssb_ref$uci, un_ssb_fixR$uci, un_ssb_nopot$uci))
                        #"ub" = c(M[[2]]$spr_bmsy * M[[2]]$spr_depl*temp2$uper,
                                 #M[[3]]$spr_bmsy * M[[3]]$spr_depl*temp2$uper))
 #"lb" = c(un_ssb_ref$lci, un_ssb_fit$lci, un_ssb_cv$lci), # need to update these from .csv output
