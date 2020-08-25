@@ -5,7 +5,7 @@ output:
     includes: null
     toc: no
 ---
-# Appendix C. Assessing uncertainty in model output due to lack of terminal year survey data for St. Matthew blue king crab {-}
+# Appendix C. Assessing uncertainty in model output due to lack of terminal year survey data for St. Matthew blue king crab (SMBKC) {-}
 
 \pagenumbering{gobble}
 
@@ -15,13 +15,15 @@ opts_chunk$set(fig.width = 12, fig.height = 7, echo = FALSE, warning = FALSE, me
 ```
 
 # Introduction{-}
-The summer of 2020 trawl surveys were cancelled due to logistic difficulties caused by the global pandemic COVID-19. Therefore, the crab assessment authors meet to discuss approaches to address the potential of additional uncertainty in the current year models - specifically the projected mature male biomass and associated reference points. The objective of these approaches/simulations was to provide the plan team (CPT) and the SSC a range of potential additional uncertainty that could be applied to the buffers used on the OFL calculations to produce an appropriate ABC. 
+NMFS trawl surveys during the summer of 2020 were cancelled due to logistic difficulties caused by the global pandemic COVID-19. Therefore, the crab assessment authors meet to discuss approaches to address the potential of additional uncertainty in the current year models - specifically the projected mature male biomass and associated reference points. The objective of these approaches/simulations was to provide the plan team (CPT) and the SSC a range of potential additional uncertainty that could be applied to the buffers used on the OFL calculations to produce an appropriate ABC. 
 
 ## Objectives {-}
 
-    1. Can we characterize the additional uncertainty in the current years estimates due to the lack of terminal year survey data? If so, what does it look like?
+    1. Can we characterize the additional uncertainty in the current years estimates due to 
+    the lack of terminal year survey data? If so, what does it look like?
 
-    2. Is the model uncertainty characterized in objective #1 currently included in the ABC buffer applied to this stock or do we need to apply additional uncertainty measures?
+    2. Is the model uncertainty characterized in objective #1 currently included in the ABC 
+    buffer applied to this stock or do we need to apply additional uncertainty measures?
 
 
 # Approaches {-}
