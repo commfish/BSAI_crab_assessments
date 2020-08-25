@@ -304,4 +304,63 @@ sum_stats2 %>%
 ggsave(paste0(.FIGS, "app3_bar_graph_output.png"), width = 1.15*6, height = 5)
 
 
-# 
+# # comparison btn retro and leave out terminal yr survey -----------------
+head(sum_stats2)
+
+sum_stats2 %>% 
+  select(year, avgr, type) %>% 
+  spread(type, avgr) %>% 
+  mutate(quant = "avgR", 
+         L_base = (App3_L - `base model 1`)/`base model 1`*100, 
+         H_base = (App3_H - `base model 1`)/`base model 1`*100) %>% 
+  select(quant, L_base, H_base) -> avgR
+
+sum_stats2 %>% 
+  select(year, bmsy, type) %>% 
+  spread(type, bmsy) %>% 
+  mutate(quant = "Bmsy", 
+         L_base = (App3_L - `base model 1`)/`base model 1`*100, 
+         H_base = (App3_H - `base model 1`)/`base model 1`*100) %>% 
+  select(quant, L_base, H_base) -> Bmsy
+
+sum_stats2 %>% 
+  select(year, mmb_terminal, type) %>% 
+  spread(type, mmb_terminal) %>% 
+  mutate(quant = "Terminal_MMB", 
+         L_base = (App3_L - `base model 1`)/`base model 1`*100, 
+         H_base = (App3_H - `base model 1`)/`base model 1`*100) %>% 
+  select(quant, L_base, H_base) -> Terminal_mmb
+
+sum_stats2 %>% 
+  select(year, status, type) %>% 
+  spread(type, status) %>% 
+  mutate(quant = "Status", 
+         L_base = (App3_L - `base model 1`)/`base model 1`*100, 
+         H_base = (App3_H - `base model 1`)/`base model 1`*100) %>% 
+  select(quant, L_base, H_base) -> Status
+
+sum_stats2 %>% 
+  select(year, f_ofl, type) %>% 
+  spread(type, f_ofl) %>% 
+  mutate(quant = "F_ofl", 
+         L_base = (App3_L - `base model 1`)/`base model 1`*100, 
+         H_base = (App3_H - `base model 1`)/`base model 1`*100) %>% 
+  select(quant, L_base, H_base) -> F_ofl
+
+sum_stats2 %>% 
+  select(year, OFL, type) %>% 
+  spread(type, OFL) %>% 
+  mutate(quant = "OFL", 
+         L_base = (App3_L - `base model 1`)/`base model 1`*100, 
+         H_base = (App3_H - `base model 1`)/`base model 1`*100) %>% 
+  select(quant, L_base, H_base) -> OFL
+
+avgR %>% 
+  bind_rows(Bmsy) %>% 
+  bind_rows(Terminal_mmb) %>% 
+  bind_rows(Status) %>% 
+  bind_rows(F_ofl) %>% 
+  bind_rows(OFL) -> stats_compare
+
+stats_compare
+write.csv(stats_compare, paste0(.FIGS, "stats_summary_app3_table.csv"), row.names = FALSE)
