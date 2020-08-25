@@ -36,11 +36,12 @@ sum_stats %>%
 # retro mmb all ---------
 mmb2 %>% 
   ggplot(aes(year, ssb, group = Model)) +
-    geom_line(aes(group = Model, colour = Model), lwd = 0.75) +
+  geom_line(aes(group = Model, colour = Model.end.yr, linetype = type), lwd = 0.75) +
     ylab("Mature male biomass (tons) on Feb 15th") +
   xlab("Year") +
   ylim(c(0,11500)) +
-    theme_bw(base_size = 12, base_family = "")
+    theme_bw(base_size = 12, base_family = "") +
+  scale_colour_discrete(name  ="Model end year")
 
 ggsave(paste0(.FIGS, "ssb_time_series_all.png"), width = 1.25*6, height = 5)
 
@@ -253,7 +254,7 @@ app3_ssb %>%
   ylim(c(0,11000)) +
   .THEME + #theme_bw(base_size = 12, base_family = "") +
   geom_line(aes(year, Bmsy, group = Model, colour = Model))
-ggsave(paste0(.FIGS, "app3_ssb_all_yrs.png"), width = 1.5*6, height = 5)
+ggsave(paste0(.FIGS, "app3_ssb_all_yrs.png"), width = 1.18*6, height = 5)
 
 app3_ssb %>% 
   filter(year > 2010) %>% 
@@ -264,7 +265,7 @@ app3_ssb %>%
   #ylim(c(0, 3500)) +
   .THEME  #theme_bw(base_size = 12, base_family = "") +
   #geom_line(aes(year, Bmsy, group = Model, colour = Model))
-ggsave(paste0(.FIGS, "app3_last_10yrs_ssb.png"), width = 1.5*6, height = 5)
+ggsave(paste0(.FIGS, "app3_last_10yrs_ssb.png"), width = 1.18*6, height = 5)
 
 # summary stats app3 -----------
 low_summary
