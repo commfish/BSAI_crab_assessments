@@ -43,7 +43,11 @@ In general models that lacked the terminal year of survey data performed similar
 
 This approach was designed to run models with "fake" 2020 data to determine how much a data point in 2020 could have potential influenced the model outcome. The same key model outputs were compared in this approach as in approach 1. 
 
-Copy methods here from Martin's write up. 
+This approach evaluates the impact of different hypothetical 2020 survey outcomes, and is based on a SSC recommendation in its June minutes. Using the NMFS trawl survey time series fit in the proposed base or reference model the multiplicative residuals were calculated (predicted survey fit/observed survey data point) for each year. The 25th and 75th percentiles of the multiplicative residual distribution were obtained, which would represent a typical low and high value for the survey (Martin Dorn per comm.). 
+
+A predicted survey value was obtained for 2020 by running the base model with a hypothetical survey value with a very high CV (100), so that the model did not attempt to fit the observation. For SMBKC the hypothetical survey value was an average of the last 4 years of the survey to best estimate the hypothetical 2020 data point even though the CV for this data point was large. Once the base model was fit with this hypothetical data point the resulting estimate for the 2020 survey was used to complete two additional model runs. These runs multiplied the predicted 2020 survey data point by the 25th and 75th percentiles of the multiplicative residuals to simulate a "low" and "high" survey data point. The CV for these runs was set equal to the median survey CV. These two runs were evaluated along side the 2020 base model to determine the sensitivity of model output and management quantities on the 2020 survey data point. 
+
+ 
 
 \pagebreak 
 
