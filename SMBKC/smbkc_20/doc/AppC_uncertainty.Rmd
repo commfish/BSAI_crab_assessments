@@ -50,7 +50,7 @@ A predicted survey value was obtained for 2020 by running the base model with a 
 ### Results {-}
 Overall, the model output and management quantities did not differ much between the base and the low and high hyppothetical survey data runs for 2020 (Figure \@ref(fig:app3-compare)). The estimate mature male biomass trend was the same, with little difference evident when viewing the entire time series (Figure \@ref(fig:app3-all-ssb)). A detailed view of the last 10 years is provided for the mmb estimates in order to view the small difference in the three model estimates. The trends are all similar, with the only difference being the scale of the mmb estimate in the last 7 years (Figure \@ref(fig:app3-compare2)). In reference to the base model the "high" run increased the mmb by a very small amount, where the "low" run decreased the mmb trend by about twice as much. All model estimates were very similar and within the typical range of uncertainty of the base model (add figure for this here). 
 
-
+Add table for quantities, plus % difference between them.
 
 
 \pagebreak 
