@@ -148,6 +148,25 @@ avgR %>%
 stats_compare
 write.csv(stats_compare, paste0(.FIGS, "stats_summary_compare_table.csv"), row.names = FALSE)
 
+stats_compare %>% 
+  gather(quant, measurement, avgR:OFL, factor_key=TRUE) %>% 
+  summarise(mean(measurement))
+#mean(measurement)
+#1         0.9545492
+stats_compare %>% 
+  gather(quant, measurement, avgR:OFL, factor_key=TRUE) %>% 
+  group_by(quant) %>% 
+  summarise(mean(measurement))
+
+#quant        `mean(measurement)`
+#<fct>                      <dbl>
+#1 avgR                     -0.112 
+#2 Bmsy                      0.0723
+#3 Terminal_mmb              0.554 
+#4 Status                    0.381 
+#5 F_ofl                     0.829 
+#6 OFL                       4.00  
+
 
 # bar graphs for visual ------------
 sum_stats %>% 
@@ -273,6 +292,18 @@ app3_ssb %>%
   #geom_line(aes(year, Bmsy, group = Model, colour = Model))
 ggsave(paste0(.FIGS, "app3_last_10yrs_ssb.png"), width = 1.18*6, height = 5)
 
+app3_ssb %>% 
+  filter(year > 2000) %>% 
+  ggplot(aes(year, ssb, group = Model)) +
+  geom_line(aes(group = Model, colour = Model), lwd = 0.75) +
+  geom_ribbon(aes(x=year, ymax = ub, ymin = lb, fill = Model, col = NULL), alpha = 0.1) +
+  ylab("Mature male biomass (tons) on Feb 15th") +
+  xlab("Year") +
+  #ylim(c(0, 3500)) +
+  .THEME  #theme_bw(base_size = 12, base_family = "") +
+#geom_line(aes(year, Bmsy, group = Model, colour = Model))
+ggsave(paste0(.FIGS, "app3_last_20yrs_ssb_ribbons.png"), width = 1.18*6, height = 5)
+
 # summary stats app3 -----------
 low_summary
 high_summary
@@ -332,7 +363,7 @@ sum_stats2 %>%
 sum_stats2 %>% 
   select(year, mmb_terminal, type) %>% 
   spread(type, mmb_terminal) %>% 
-  mutate(quant = "Terminal_MMB", 
+  mutate(quant = "Terminal-MMB", 
          L_base = (App3_L - `base model 1`)/`base model 1`*100, 
          H_base = (App3_H - `base model 1`)/`base model 1`*100) %>% 
   select(quant, L_base, H_base) -> Terminal_mmb
@@ -348,7 +379,7 @@ sum_stats2 %>%
 sum_stats2 %>% 
   select(year, f_ofl, type) %>% 
   spread(type, f_ofl) %>% 
-  mutate(quant = "F_ofl", 
+  mutate(quant = "F-ofl", 
          L_base = (App3_L - `base model 1`)/`base model 1`*100, 
          H_base = (App3_H - `base model 1`)/`base model 1`*100) %>% 
   select(quant, L_base, H_base) -> F_ofl
