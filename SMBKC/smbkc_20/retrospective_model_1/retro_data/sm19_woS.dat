@@ -81,7 +81,7 @@ NMFS_Trawl ADFG_Pot
 # Number  of  catch data  frames
 4
 # Number  of  rows  in  each  data  frame
-27  18 28  28 #(updated - all should increase 1 if value for current year NO placeholder for direct fishery if closed)
+29  18 28  28 #(updated - all should increase 1 if value for current year NO placeholder for direct fishery if closed)
 ##  CATCH DATA
 ##  Type of catch: 1 = retained, 2 = discard
 ##  Units of catch: 1 = biomass, 2 = numbers
@@ -115,9 +115,11 @@ NMFS_Trawl ADFG_Pot
 2012   3     1     1     379386  0.03   1     2     1     0     0.2
 2014   3     1     1     69109   0.03   1     2     1     0     0.2
 2015   3     1     1     24407   0.03   1     2     1     0     0.2
-#2016   3     1     1     10.000  0.03   1     2     1     0     0.2
-#2017   3     1     1     10.000  0.03   1     2     1     0     0.2
+2016   3     1     1     10.000  0.03   1     2     1     0     0.2
+2017   3     1     1     10.000  0.03   1     2     1     0     0.2
 #2018   3     1     1     10.000  0.03   1     2     1     0     0.2 # placeholder no fishery
+#2019   3     1     1     10.000  0.03   1     2     1     0     0.2 # placeholder no fishery
+# Male  discards  Pot fishery
 # Male  discards  Pot fishery
 1990   3     1     1    254.9787861    0.6    2     1     1     0     0.2
 1991   3     1     1    531.4483252    0.6    2     1     1     0     0.2
