@@ -71,3 +71,9 @@ Files with results in one file are "ssb_all.csv" and "summary.csv"
 See R code "summary_figures_analysis.R" for more details
 
 
+# Model issues with fofl and OFL estimation --
+Some of the runs were not producing fofl and OFL estimates that were appropriate.  It appears that adding in a small insignificant catch in the prior year to that model allowed the OFL estimation to occur.  Why does GMACS need a small catch in some years and not others?  Troubleshoot this - add to GMACS jan workshop.
+See .dat files for the following years as examples:
+2018 - both
+2019 - wo T
+2014 - both
