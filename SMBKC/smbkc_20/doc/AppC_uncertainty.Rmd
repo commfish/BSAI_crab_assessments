@@ -12,6 +12,8 @@ output:
 ```{r global_options, include=FALSE, echo = FALSE, message = FALSE, warning=FALSE}
 library(knitr)
 opts_chunk$set(fig.width = 12, fig.height = 7, echo = FALSE, warning = FALSE, message = FALSE,  dpi=300)
+library(xtable)
+options(xtable.comment = FALSE)
 ```
 
 # Introduction{-}
@@ -32,11 +34,22 @@ NMFS trawl surveys during the summer of 2020 were cancelled due to logistic diff
 ## Approach 1 and 2: retrospective patterns with and without terminal survey data {-}
 
 Retrospective analysis are typically performed on models to characterize the tendencies of a model to over or under estimate current trends in biomass, recruitment, etc. Retrospective patterns are described as a clear tendency for a model to either over or under estimate. Approach 1 compares the output of retrospective models with the terminal year of survey data and ones where the terminal year of trawl survey data are removed (both abundance and size composition data). 
+
 A number of key model outputs were compared for these retrospective runs. These include: average recruitment, Bmsy, status of the stock, terminal year mmb, and reference point calculations (OFL). 
 
-### Results {-}
-In general models that lacked the terminal year of survey data performed similarly to models with the survey data. In cases where the model outputs differed the model without the terminal year of survey data tended to have results similar to the previous years model. 
 
+
+### Results {-}
+Retrospective analysis of the base model show a retrospective pattern that tends to overestimate mmb in the terminal (Figure \@ref(fig:retrospective) and \@ref(fig:retrospective2)). Since 2018 the mmb estimates have been relatively stable, however, they are the lowest in the model history and reflect a time of overfished declaration for the stock. 
+
+
+In general, models that lacked the terminal year of survey data performed similarly to models with the survey data for each model end year (Figure \@ref(fig:retrospective-compare)). In cases where the model outputs differed the model without the terminal year of survey data tended to have results similar to the previous years model. For the last 5 yeras of retrospective model runs the models with and without the terminal year of survey data performed very similarly. These results support the hypothesis that for SMBKC in the last few years no additional uncertainty is present in the mmb estimates with the lack of the terminal year survey data (Figure \@ref(fig:retrospective-compare2)).
+
+Figures \@ref(fig:compare-avgR) through \@ref(fig:compare-OFL) display the small differences between these model runs in each model end year. There are some small differences in the model with and without the terminal year of survey data, but most of these exist around between 2013 and 2015 where the population was transitioning from healthy levels to overfished. The is most evident in the terminal mmb, $F_{OFL}$, and OFL comparisons for 2013 (\@ref(fig:compare-bmsy), 
+\@ref(fig:compare-fofl), and \@ref(fig:compare-OFL)).
+
+The average percent difference between these quantities was approximately 1% overall and was the highest in OFL comparisons at an average difference of 4% (Table \@ref(tab:diff-compare)). Most differences were small and even unnoticable in years where the population trajectory was similar to the previous year. 
+Based on this analyis the author does not recommend additional uncertainty in the ABC buffer for SMBKC for the 2020 base model. 
 
 
 ## Approach 3: encompassing expected variability {-}
@@ -113,4 +126,15 @@ knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_mode
 
 ```{r app3-compare, fig.cap = "Model output and reference points from approach 3. Comparing the 2020 base model with a model that has a high 'fake' 2020 survey data point and one that has a low 'fake' survey data point. "}
 knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/app3_bar_graph_output.png"), dpi = 125)
+```
+
+\pagebreak 
+# Tables {-}
+
+```{r diff-compare, results = "asis"}
+df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/stats_summary_compare_table.csv"))
+
+names(df) <- c("Year","AvgR","Bmsy", "Terminal MMB", "Status", "Fofl", "OFL")
+tab <- xtable(df, caption = "Comparisons of the percent difference in parameter estimates for the retrospective models with and without the terminal year of survey data.", label = "tab:diff-compare", digits = 3)
+print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, NA.string = "-")
 ```
