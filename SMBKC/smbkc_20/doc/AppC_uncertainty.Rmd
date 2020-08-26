@@ -68,6 +68,9 @@ Based on this analysis the author does not recommend additional uncertainty in t
 
 
 # Recommendations on uncertainty {-}
+The analysis performed in this appendix, including the general retrospective analysis, suggest that no additional uncertainty is neccessary for SMBKC. Any additional variability in the model estimates from not having a survey data point in 2020 would like produce a small change in the calculated 2020 OFL. The current buffer of 25% (or 20% check this) includes the expected uncertainty in the model output that is observed in the retrospective analysis, adding to this uncertainty does not appear neccessary at this time. 
+
+The current status of the stock is still overfished, and the directed fishery is closed. The only harvest for this stock comes from bycatch in the groundfish and other crab fisheries which occurs at very low levels. While increasing the buffer on the ABC would not impact these fisheries, it also does not appear neccessary to keep the bycatch numbers well below the projected ABC.
 
 
 
