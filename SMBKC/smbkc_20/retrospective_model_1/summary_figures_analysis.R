@@ -132,12 +132,18 @@ sum_stats %>%
   mutate(F_ofl = (wo_term_sur_retro-retro)/retro*100) %>% 
   select(year, F_ofl) -> F_ofl
 
+sum_stats %>% 
+  select(year, OFL , type) %>% 
+  spread(type, OFL ) %>% 
+  mutate(OFL = (wo_term_sur_retro-retro)/retro*100) %>% 
+  select(year, OFL) -> OFL
 
 avgR %>% 
   left_join(Bmsy) %>% 
   left_join(Terminal_mmb) %>% 
   left_join(Status) %>% 
-  left_join(F_ofl) -> stats_compare
+  left_join(F_ofl) %>% 
+  left_join(OFL) -> stats_compare
 
 stats_compare
 write.csv(stats_compare, paste0(.FIGS, "stats_summary_compare_table.csv"), row.names = FALSE)
