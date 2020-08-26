@@ -131,6 +131,7 @@ M[[1]]$spr_bmsy
 M[[1]]$spr_bmsy * M[[1]]$spr_depl
 M[[1]]$spr_depl
 M[[1]]$sd_fofl[1]
+M[[1]]$spr_cofl
 M[[1]]$spr_cofl/1000
 
 # SMBKC plots new  -------------

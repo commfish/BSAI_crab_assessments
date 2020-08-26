@@ -132,7 +132,7 @@ M[[1]]$spr_bmsy * M[[1]]$spr_depl
 M[[1]]$spr_depl
 M[[1]]$sd_fofl[1]
 M[[1]]$spr_cofl/1000
-
+M[[1]]$spr_cofl
 # SMBKC plots new  -------------
 # SSB -----------
 ssb <- .get_ssb_df(M) # ssb now does NOT include projection year so only up to 2018 crab year - 2019 projection (example)
