@@ -134,7 +134,7 @@ The ADFG pot survey last occured in 2018, when the relative biomass index was th
 in the time series (12% of the mean from the 11 surveys conducted since 1995).
 The assessment model estimates temper this increase and suggest that the stock (in survey biomass units) is presently at about
 `r bio_lt_percent `% 
-of the long term model-predicted survey biomass average, similar to the last two years. 
+of the long term model-predicted survey biomass average, similar to the last three years. 
 The trend from these values suggests a steady state in the last few years, which does not fit the 2019 observed survey data point well.
 
 4. **Recruitment**: Recruitment is based on estimated number of male crab within the 90-104 mm CL size class
@@ -145,7 +145,7 @@ available pot-survey data) whereas in 2018 the value was the lowest observed at 
 
 5. **Management performance**: In this assessment, estimated total male catch is the sum of fishery-reported retained
 catch, estimated male discard mortality in the directed fishery, and estimated male bycatch mortality in the groundfish fisheries.
-Based on the reference model for SMBKC, the estimate for mature male biomass was below the minimum stock-size threshold (MSST) in 2018/19 and is in an "overfished" condition, despite fishery closures in the last three years 
+Based on the reference model for SMBKC, the estimate for mature male biomass was below the minimum stock-size threshold (MSST) in 2018/19 and is in an "overfished" condition, despite a directed fishery closure since the 2016/17 season. 
 (and hence overfishing has not occurred) (Tables \@ref(tab:status), \@ref(tab:ofl-basis), and \@ref(tab:management-quants)). 
 Computations which indicate the relative impact of fishing 
 (i.e., the "dynamic $B_0$") suggests, that the current spawning stock biomass has been reduced to `r .get_dynB0_df(Mbase) %>% transmute(round(100*ssb,0)) %>% slice(n())`% of what it would have been in the absence of fishing, assuming the same level of recruitment as estimated. 
@@ -165,7 +165,6 @@ Computations which indicate the relative impact of fishing
   2018/19 & 1.74 & 1.15 & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
   2019/20 & `r msst_1920 ` & `r mmb_1920` & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
   2020/21 &      & `r mmb_2021 ` &  &  &  & `r ofl_2021 ` & `r abc_2021 ` \\
- \\
   \hline
 \end{tabular}
 \end{table}
@@ -185,7 +184,6 @@ Computations which indicate the relative impact of fishing
   2018/19 & 3.84 & 2.54 & 0.000 & 0.000 & 0.002 & 0.08 & 0.07 \\
   2019/20 & `r msst_1920_lb` & `r mmb_1920_lb` & 0.000 & 0.000 & 0.002 & 0.096 & 0.08 \\
   2020/21 &       & `r mmb_2021_lb` &  &  &  & `r ofl_2021_lb` & `r abc_2021_lb`  \\
- \\
   \hline
 \end{tabular}
 \end{table}
@@ -193,9 +191,8 @@ Computations which indicate the relative impact of fishing
 
 6. **Basis for the OFL**: Estimated mature-male biomass (MMB) on 15 February is used as the measure of 
  biomass for this Tier 4 stock, with males measuring $\ge$ 105 mm CL considered mature. 
- The $B_\mathit{MSY}$ proxy is obtained by averaging estimated MMB over a specific reference period, and current CPT/SSC guidance recommends using the full assessment time frame as the default reference period. 
- Both the full time frame and the current regime are presented here for consideration for 2019/20.
- 
+ The $B_\mathit{MSY}$ proxy is obtained by averaging estimated MMB over a specific reference period, and current CPT/SSC guidance recommends using the full assessment time frame (1978 - 2019) as the default reference period. 
+
 \begin{table}[ht]
 \centering
 \caption{Basis for the OFL (1000 t) from the reference model.}
@@ -210,8 +207,8 @@ Computations which indicate the relative impact of fishing
   2016/17 & 4b & 3.67 & 2.23 & 0.61 & 0.09 & 1 & 1978-2016 & 0.18 \\ 
   2017/18 & 4b & 3.86 & 2.05 & 0.53 & 0.08 & 1 & 1978-2017 & 0.18 \\
   2018/19 & 4b & 3.7  & 1.15 & 0.35 & 0.043 & 1 & 1978-2017 & 0.18 \\
-  2019/20 & 4c & 3.48 & `r mmb_1920` & 0.31 & 0.042 & 1 & 1978-2018 & 0.18 \\ 
-  2020/21 & 4?  & `r bmsy_cur` &  `r mmb_2021` &  `r ratio_bmsy` & `r fofl `
+  2019/20 & 4b & 3.48 & `r mmb_1920` & 0.31 & 0.042 & 1 & 1978-2018 & 0.18 \\ 
+  2020/21 & 4b  & `r bmsy_cur` &  `r mmb_2021` &  `r ratio_bmsy` & `r fofl `
    & 1 & 1978-2019 & 0.18 \\
   \hline
 \end{tabular}
@@ -254,9 +251,9 @@ Details of this implementation and other model details are provided in Appendix 
 ## Changes in Assessment Results {-}
 
 Both surveys indicate a decline over the past few years. The "reference" model is that which was selected for use in 2019.
-The base model presented here is the reference model with updated groundfish bycatch data for the 2019/20 crab season (model 16.0 base). No additional models are presented here for consideration, but further simulations and analysis was done to assess the uncertainty in the 2020 biomass estimates and reference point calculations (Appendix C). 
+The base model presented here is the reference model with updated groundfish bycatch data for the 2019/20 crab season (model 16.0 base). One additional model is presented for consideration, which is a small variant of the base model, model 16.0a, which fixes recruitment in the most recent year to the average of the last few years to avoid unrealistically high recruitment estimates. Additionally, further simulations and analysis were done to assess the uncertainty in the 2020 biomass estimates and reference point calculations (Appendix C). 
 
-One additional model is presented to assess sensitivity of data inputs to the model, attempting to deal with the disparity between the two survey time series. The **no pot** configuration runs the base model 16.0 without the ADF&G pot survey data, therefore only having the NMFS trawl survey as the abundance data. 
+One additional model is presented to assess sensitivity of data inputs to the model, attempting to deal with the disparity between the two survey time series. The **no pot** configuration runs the base model 16.0 without the ADF&G pot survey data, therefore only having the NMFS trawl survey as the abundance index. 
 
 
 # B. Responses to SSC and CPT  {-}
@@ -268,7 +265,7 @@ Comment: *Regarding general code development, the SSC and CPT outstanding reques
 
   1. *add the ability to conduct retrospective analyses*
 
-     Retrospective runs/simulations are presented here in Appendix C as part of the analyses done to assess uncertainty in the model output.
+     Retrospective runs/simulations are presented here in Appendix C as part of the analyses done to assess uncertainty in the model output. The ability to automate these in GMACS is still under developement but the author was able to do them by manually editing the data files.
      
   2. *Continued exploration of data weighting (Francis and other approaches) and evaluation of models with and without the 1998 natural mortality spike. The authors are encouraged to bring other models forward for CPT and SSC consideration*
   
@@ -283,7 +280,7 @@ Comment: *Regarding potential model scenarios for Sept. 2020, the SSC and CPT re
       
   2. *Random walk or exploration of catchability*
     
-     The intial model of time blocks for Q did not show much potential for this in May 2020, therefore it was not a focus for the Sept. 2020 runs. More coding work is needed to make a true random walk for catchability GMACS and this will be added to GMACS model development, hopefully durin the Jan 2021 modeling workshop. 
+     The intial model of time blocks for Q did not show much potential for this in May 2020, therefore it was not a focus for the Sept. 2020 runs. More coding work is needed to make a true random walk for catchability GMACS and this will be added to GMACS model development, hopefully during the Jan 2021 modeling workshop. 
 
 Comment: *Explore potential explanations for the discrepancy in the time trends of the two types of survey data, including movement hypotheses using spatial models (not necessarily VAST)*
   
@@ -464,7 +461,9 @@ In summary, the following lists the models presented and the naming convention u
 
 2. **16.0 - 2020 Reference Model**: updated with 2019/20 groudfish bycatch 
 
-3. **20.1 - no ADF&G pot survey data**: model 16.0 - excludes ADF&G pot survey data - abundace and length comps
+3. **16.0a - 2020 Reference Model with fixed terminal year recruitment**: terminal year recruitment fixed as the average of the last seven years
+
+4. **20.1 - no ADF&G pot survey data**: model 16.0 - excludes ADF&G pot survey data - abundace and length comps
 
 Note the change in naming convention (per SSC comments). The base model is model 16.0 since that was the year of model development and acceptance. 
 
@@ -481,7 +480,7 @@ the ADF&G pot survey, or fit post 2005 trawl survey data points well.
 Observed and estimated effective sample sizes are compared in Table \@ref(tab:effn). 
 Data weighting factors, standard deviation of normalized residuals (SDNRs), and median absolute residual (MAR) are 
 presented in Table \@ref(tab:data-weighting). 
-Currently the SDNR and MAR are not outputting correctly for the survey data in GMACS.  This will be fixed before the Sept. 2020 meeting. **fix**
+Currently the SDNR and MAR are not outputting correctly for the survey data in GMACS.  This will be fixed before the Sept. 2020 meeting. 
 In Sept. 2019 the SDNR for the trawl survey
 was acceptable at 1.66 in the reference model. Francis (2011) weighting was applied in 2017 but given the relatively few size bins in this assessment, this application was suspended for this assessment.  
 In Sept. 2019 the SDNRs for the pot surveys showed a similar pattern in each of the
@@ -496,8 +495,7 @@ ranging from 0.60 to 0.68 for the reference case.
 The SDNRs for the directed pot fishery and other size compositions were similar to previous estimates.
 
 ### c. Parameter estimates {-}
-Model parameter estimates for each of the GMACS scenarios are summarized in Tables \@ref(tab:est-pars-ref) and 
-\@ref(tab:est-pars-3). These parameter
+Model parameter estimates for each of the GMACS scenarios are summarized in Tables \@ref(tab:est-pars-ref), \@ref(tab:est-pars-fixR), and \@ref(tab:est-pars-4). These parameter
 estimates are compared in Table \@ref(tab:est-pars-all). Negative log-likelihood values and management measures for each
 of the model configurations are compared in Tables \@ref(tab:management-quants) and \@ref(tab:likelihood-components).
 
