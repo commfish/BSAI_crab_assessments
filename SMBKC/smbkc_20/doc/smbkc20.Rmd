@@ -473,16 +473,17 @@ Note the change in naming convention (per SSC comments). The base model is model
 There is no new survey data for the September 2020 model runs, the only additional data is groundfish bycatch data for the 2019/20 crab season. Additionally, the groundfish bycatch data was updated for past years due to some changes in the weights used to estimate crab bycatch in the groundfish fisheries (per. comm. NMFS AKRO). The 2020 reference model is compared here to the 2019 accepted model, which is shown in Figures \@ref(fig:surv1) and \@ref(fig:surv2) with recruitment and spawning biomass shown in 
 Figures \@ref(fig:rec1) and \@ref(fig:ssb1), respectively. 
 The 2019 accepted model and the 2020 base model have identical fits to the survey data, as well as identical estimates of ssb and recruitment. This is expected since there are no new influential data in the 2020 model. 
-As has been noted in the past the reference model still does not capture the recent survey declines in
+As has been noted in the past, the reference model still does not capture the recent survey declines in
 the ADF&G pot survey, or fit post 2005 trawl survey data points well. 
 
 ### b. Effective sample sizes and weighting factors {-}
 Observed and estimated effective sample sizes are compared in Table \@ref(tab:effn). 
 Data weighting factors, standard deviation of normalized residuals (SDNRs), and median absolute residual (MAR) are 
 presented in Table \@ref(tab:data-weighting). 
-Currently the SDNR and MAR are not outputting correctly for the survey data in GMACS.  This will be fixed before the Sept. 2020 meeting. 
+Currently the SDNR and MAR are not outputting correctly for the survey data in GMACS.  This is on the list to address at the Januaury 2021 modeling workshop.
 In Sept. 2019 the SDNR for the trawl survey
 was acceptable at 1.66 in the reference model. Francis (2011) weighting was applied in 2017 but given the relatively few size bins in this assessment, this application was suspended for this assessment.  
+
 In Sept. 2019 the SDNRs for the pot surveys showed a similar pattern in each of the
 scenarios, but are much higher suggesting an inconsistency between 
 the pot survey data and the model structure and other data
@@ -501,19 +502,18 @@ of the model configurations are compared in Tables \@ref(tab:management-quants) 
 
 There are differences in parameter estimates among models as 
 reflected in the log-likelihood components and the management quantities. 
-The parameter estimates in the "no pot" scenario differs greatly from the reference model, as expected, due to the removal of recent ADF&G pot survey data points that pulled the mmb trend downward (see Table \@ref(tab:est-pars-all)). 
-Also, the size composition residuals are smaller for the trawl survey in the "nopot" model, presumably because 
+The parameter estimates in the "no pot" scenario differs greatly from the reference model, as expected, due to the removal of recent ADF&G pot survey data points that pulled the MMB trend downward (Table \@ref(tab:est-pars-all)). 
+Also, the size composition residuals are smaller for the trawl survey in the **nopot** model, presumably because 
 they are allowed to fit these size compositions better due to the removal of the size composition data from the ADF&G pot survey.  
 
-Selectivity estimates for the directed fishery show some variability between models (Figure \@ref(fig:selectivity). 
-Estimated recruitment is similar in both models until the mid-2000s when the **no pot** model has consistently higher recruitment, contributing to higher mmb for this model in recent years (Figure \@ref(fig:recruitment)). 
+Selectivity estimates for the directed fishery show some variability between models (Figure \@ref(fig:selectivity)). 
+Estimated recruitment is similar in both models until the mid-2000s when the **no pot** model (20.1) has consistently higher recruitment, contributing to higher mmb for this model in recent years (Figure \@ref(fig:recruitment)). 
 Estimated mature male biomass on 15 February also is considerably considerably higher in the **no pot** model (Figure \@ref(fig:mmb)). 
-The **no pot** model (20.1) has a better fit to recent years of the NMFS trawl survey data, fitting most of the post-2010 data ranges (fit line encompasses the error bars), compared to the reference model that only fits three of the last 10 years. The improved fit of the trawl survey which corresponds to increased mmb estimates in the last 10 years. Not surprisingly this time frame also corresponds to sharp declines in the ADF&G pot survey abundance estimates that started in the post-2010 data. 
+The **no pot** model has a better fit to recent years of the NMFS trawl survey data, fitting most of the post-2010 data ranges (fit line encompasses the error bars), compared to the reference model that only fits three of the last 10 years. The improved fit of the trawl survey corresponds to increased mmb estimates in the last 10 years. Not surprisingly this time frame also corresponds to sharp declines in the ADF&G pot survey abundance estimates that started in the post-2010 data. 
 
 
 Estimated natural mortality in each year ($M_t$) is presented in Figure \@ref(fig:M-t), 
 showing the mortality event in the late 90s.
-
 Estimates of fishing morality, from the reference model (16.0), are shown to assist with the rebuilding and reference point time frame discussions (Figure \@ref(fig:fishing-mort)). Fishing mortality can not be ruled out as being an influential factor in the current stock status.
 
 ### d. Evaluation of the fit to the data.{-}
@@ -536,20 +536,23 @@ of uncertainty on the input data (Figure \@ref(fig:fit-to-catch)).
 
 ### e. Retrospective and historical analyses {-}
 This is the fourth year GMACS has been used for this stock. As such, retrospective patterns and historical analyses of GMACS assessments are limited. 
-However, completion of a retrospective analysis, for the base model, was completed (\@ref(fig:retrospective)) and is presented in Appendix C.
+However, completion of a retrospective analysis, for the base model, was completed (Figure \@ref(fig:retrospective)) and is presented in detail in Appendix C.
 
 ### f. Uncertainty and sensitivity analyses.{-}
 Estimated standard deviations of parameters and selected management measures for the models are summarized in
 Tables \@ref(tab:est-pars-ref), \@ref(tab:est-pars-fixR), and \@ref(tab:est-pars-4),
 (compiled in Table \@ref(tab:est-pars-all)). Model estimates of mature male biomass and OFL in 2020 are presented in Section F.
 
+Uncertainty surrounding the lack of a 2020 trawl survey data point was examined using two approaches and the results are contained in Appendix C. Overall, the authors did not find much additional uncertainty for the reference model due to the lack of a 2020 data point. The current trajectory of the stock (MMB and recruitment) suggests a low status (below $B_{MSY}$) that would not change even with the addition of hypothetical 2020 data point (Approach 3, Appendix C).  Appendix C goes into more detail for these analyses and a more thourough discussion of the authors recommendations. 
+
 ### g. Comparison of alternative model scenarios.{-}
-The estimates of mature male biomass (Figure \@ref(fig:mmb)) for the **no pot** model differs from the reference models due to the removal of the pot survey abundance and size composition data. This abundance time series contrasts with the NMFS trawl survey and when present tends to lower the scale of the population estimate. 
+The estimates of mature male biomass (Figure \@ref(fig:mmb)) for the **no pot** model differs from the reference models (16.0 and 16.0a) due to the removal of the pot survey abundance and size composition data. This abundance time series contrasts with the NMFS trawl survey and when present tends to lower the scale of the population estimate. 
 This difference is greatest in the last 10 years, recognizing the contrast between these abundance time series and the influence of the ADF&G pot survey on the current population status. 
 
-In summary, these model scenarios, were provided to explore the sensitivity of this model. Currently, the reference model is still the most appropriate model for settting reference points and model specifications. 
+In summary, the **no pot** model scenario was provided to explore the sensitivity of this model. Currently, the reference model is still the most appropriate model for settting reference points and model specifications. 
 Research on alternative model specifications that may address the disparities between the trawl and pot survey data are ongoing, as is proposed spatial analyses of these data sets. 
-Additionally, the overfished status of this stock lends itself to maintaining the status quo base model until an appropriate resolute is found to deal with the trawl and pot survey data fit issues.
+Additionally, the overfished status of this stock lends itself to maintaining the status quo base model until an appropriate resolution is found to deal with the trawl and pot survey data fit issues.
+The two reference models presented here, 16.0 and 16.0a, only differ in the estimation of 2019 recruitment. Model 16.0a fixes the 2019 recruitment to be the average of the last seven years of the model, effectively limiting the models ability to estimate unreasonably high recruitment in the lack of a 2020 data point. However, fixing terminal year recruitment has a minimal effect on the status of the stock, projected MMB, or the resulting OFL for 2020 (Table \@ref(tab:management-quants)). The recommended model for 2020 would be the reference model (16.0) to maintain consistency for this stock during the rebuilding time frame and with the lack of a 2020 data point for the trawl survey. 
 
 # F. Calculation of the OFL and ABC{-}
 The overfishing level (OFL) is the fishery-related mortality biomass associated with fishing mortality $F_\mathit{OFL}$. The SMBKC stock is currently managed as Tier 4, and only a Tier 4 analysis is presented here. Thus, given stock estimates or suitable proxy values of $B_\mathit{MSY}$ and $F_\mathit{MSY}$, along with two additional parameters $\alpha$ and $\beta$, $F_\mathit{OFL}$ is determined by the control rule
