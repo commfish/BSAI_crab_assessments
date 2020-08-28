@@ -1105,7 +1105,7 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 ```{r pop-abundance-base, results = "asis"}
 df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_19/doc/safe_tables/numbers_current_yrs.csv"))
 names(df) <- c("Year","$n_1$","$n_2$","$n_3$","MMB","CV MMB")
-tab <- xtable(df, digits = c(0,0,0,0,0,0,3), caption = "Population abundances ($\\boldsymbol{n}$) by crab stage in numbers of crab at the time of the survey (1 July, season 1) and mature male biomass (MMB) in tons on 15 February for the reference model.", label = "tab:pop-abundance-base")
+tab <- xtable(df, digits = c(0,0,0,0,0,0,3), caption = "Population abundances ($\\boldsymbol{n}$) by crab stage in numbers of crab at the time of the survey (1 July, season 1) and mature male biomass (MMB) in tons on 15 February for the 2020 reference model.", label = "tab:pop-abundance-base")
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function=function(x){x})
 ```
 
@@ -1137,16 +1137,16 @@ knitr::include_graphics("safe_figure/Fig3.png", dpi = 125)
 knitr::include_graphics("safe_figure/CrabN_Station.png", dpi = 400)
 ```
 
-```{r surv1, fig.cap = "Fits to NMFS area-swept trawl estimates of total (> 90mm) male survey biomass for the reference model only (will show 16.0 ref with new data and 16.0 as last year's accepted model). Error bars are plus and minus 2 standard deviations."} 
+```{r surv1, fig.cap = "Fits to NMFS area-swept trawl estimates of total (> 90mm) male survey biomass for the reference model only (16.0 ref for 2020 and 16.0 2019 accepted model). Error bars are plus and minus 2 standard deviations."} 
 knitr::include_graphics("safe_figure/trawl_cpue_ref.png", dpi = 200)
 ```
 
 
-```{r surv2, fig.cap = "Comparisons of fits to CPUE from the ADFG pot surveys for the reference model 16.0 ref (note that there is no new pot data for 2019). Error bars are plus and minus 2 standard deviations."} 
+```{r surv2, fig.cap = "Comparisons of fits to CPUE from the ADFG pot surveys for the reference model 16.0 reference model in 2019 and 2020. Error bars are plus and minus 2 standard deviations."} 
 knitr::include_graphics("safe_figure/pot_cpue_ref.png", dpi = 150)
 ```
 
-```{r rec1, fig.cap = "Set up to show sensitivity of new data in 2020 on estimated recruitment ; 1978-2018, does not show recent recruitment, i.e. 2019."}
+```{r rec1, fig.cap = "Reference model estimated recruitment (2019 and 2020) for comparison from 1978-2018, does not show recent recruitment, i.e. 2019."}
 knitr::include_graphics("safe_figure/recruit_ref.png", dpi = 100)
 ```
 
@@ -1157,12 +1157,12 @@ knitr::include_graphics("safe_figure/lastyr_reference_ssb_wprojected_yr.png", dp
 # bring in from doc_figures_test.R to have current year projection and error associated.
 ```
 
-```{r selectivity, fig.cap = "Comparisons of the estimated stage-1 and stage-2 selectivities for the different model scenarios (the stage-3 selectivities are all fixed at 1). Estimated selectivities are shown for the directed pot fishery, the trawl bycatch fishery, the fixed bycatch fishery, the NMFS trawl survey, and the ADFG pot survey. Two selectivity periods are estimated in the directed pot fishery, from 1978-2008 and 2009-2018."}
+```{r selectivity, fig.cap = "Comparisons of the estimated stage-1 and stage-2 selectivities for the different model scenarios (the stage-3 selectivities are all fixed at 1). Estimated selectivities are shown for the directed pot fishery, the trawl bycatch fishery, the fixed bycatch fishery, the NMFS trawl survey, and the ADFG pot survey. Two selectivity periods are estimated in the directed pot fishery, from 1978-2008 and 2009-2019."}
 knitr::include_graphics("safe_figure/selectivity_mod_scen.png", dpi = 150)
 ```
 
 
-```{r recruitment, fig.cap = "Estimated recruitment 1979-2019 comparing model alternatives. The solid horizontal lines in the background represent the estimate of the average recruitment parameter ($\\bar{R}$) in each model scenario."}
+```{r recruitment, fig.cap = "Estimated recruitment 1979-2019 comparing model alternatives. The solid horizontal lines in the background represent the estimate of the average recruitment parameter ($\\bar{R}$) in each model scenario. Note the high uncertainty in recruitment in both the ref and the nopot model due to the lack of 2020 data."}
 knitr::include_graphics("safe_figure/recruitment_mod_scen_ribbons.png", dpi = 100)
 ```
 
@@ -1242,11 +1242,11 @@ knitr::include_graphics("safe_figure/fishing_mortality.png", dpi = 375)
 ```
 
 
-```{r dynamic-bzero, fig.cap = "Comparison of mature male biomass relative to the dynamic B zero value, (15 February, 1978-2018) for each of the model scenarios.", fig.height =12}
+```{r dynamic-bzero, fig.cap = "Comparison of mature male biomass relative to the dynamic B zero value, (15 February, 1978-2019) for each of the model scenarios.", fig.height =12}
 knitr::include_graphics("safe_figure/dyn_Bzero.png", dpi = 375)
 ```
 
-```{r retrospective, fig.cap = "Retrospective pattern in mature male biomass(mmb, t) for the reference (base) model (16.0).", fig.height =12}
+```{r retrospective, fig.cap = "Retrospective pattern in mature male biomass(MMB (t)) for the reference (base) model (16.0).", fig.height =12}
 knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/ssb_time_series_normal.png"), dpi = 375)
 ```
                 
