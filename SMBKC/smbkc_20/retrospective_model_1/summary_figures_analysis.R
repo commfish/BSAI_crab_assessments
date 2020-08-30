@@ -9,6 +9,7 @@
 
 # load --
 source("./SMBKC/code/helper.R")
+library(icesAdvice)
 .FIGS = c(paste0("./SMBKC/smbkc_20/retrospective_model_1/figures/"))
 cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 .THEME    = list(theme_bw(base_size = 12, base_family = ""), scale_fill_manual(values=cbPalette), 
@@ -99,6 +100,21 @@ mmb2 %>%
   scale_colour_discrete(name  ="Model end year")
 
 ggsave(paste0(.FIGS, "ssb_time_series_normal_current.png"), width = 1.25*6, height = 5)
+
+# mohn's row -----
+mmb2 %>% 
+  filter(type == "retro") %>% 
+  select(Model.end.yr, year, ssb) %>% 
+  spread(Model.end.yr, ssb) %>% 
+  select(year, `2020`, `2019`, `2018`, `2017`, `2016`, `2015`, `2014`, `2013`, `2012`) -> out2
+
+
+mohn(out2)
+mohn(out2, peels = 5, details = FALSE, plot = TRUE)
+mohn(out2, peels = 7, details = FALSE, plot = TRUE)
+mohn(out2, peels = 9, details = FALSE, plot = TRUE)
+
+
 # comparison btn retro and leave out terminal yr survey -----------------
 head(sum_stats)
 
