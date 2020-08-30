@@ -348,6 +348,18 @@ rec %>%
 # abundance -----
 num <- .get_numbers_df(M)
 
+num %>% 
+  mutate(size_group = ifelse(mp == 97.5, "g1_90-104", ifelse(mp == 112.5, "group2", "group3"))) %>% 
+  select(-mp, -Shell) %>% 
+  spread(size_group, N) %>% 
+  mutate(g1_tons = `g1_90-104`*0.000748427, 
+         group2_tons = group2*0.001165731, 
+         group3_tons = group3*0.001930932 ) %>% 
+  write.csv(paste0(.FIGS, "numbers_tons_base_model.csv")) 
+
+# abundance -----
+num <- .get_numbers_df(M)
+
 lw1 <- .get_length_weight_df(M) #not working
 
 
