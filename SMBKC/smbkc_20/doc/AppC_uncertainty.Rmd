@@ -23,7 +23,7 @@ options(xtable.comment = FALSE)
 
 
 # Introduction{-}
-NMFS trawl surveys during the summer of 2020 were cancelled due to logistic difficulties caused by the global pandemic COVID-19. Therefore, the crab assessment authors met to discuss approaches to address the potential of additional uncertainty in the current year models - specifically the projected mature male biomass and associated reference points. The objective of these approaches/simulations was to provide the plan team (CPT) and the SSC a range of potential additional uncertainty that could be applied to the buffers used on the OFL calculations to produce an appropriate ABC for the 2020/21 crab season. 
+NMFS trawl surveys during the summer of 2020 were cancelled due to logistic difficulties caused by the global pandemic COVID-19. Therefore, the crab assessment authors met to discuss approaches to address the potential of additional uncertainty in the current year models - specifically the projected mature male biomass and associated reference points. The objective of these approaches/simulations was to provide the crab plan team (CPT) and the scientific and statistical committee (SSC) a range of potential additional uncertainty that could be applied to the buffers used on the OFL calculations to produce an appropriate ABC for the 2020/21 crab season. 
 
 ## Objectives {-}
 
@@ -70,7 +70,7 @@ Based on this analysis the author does not recommend additional uncertainty in t
 
 
 # Recommendations on uncertainty {-}
-The analysis performed in this appendix, including the general retrospective analysis, suggest that no additional uncertainty is neccessary for SMBKC. Any additional variability in the model estimates from not having a survey data point in 2020 would like produce a small change in the calculated 2020 OFL. The current buffer of 25% (or 20% check this) includes the expected uncertainty in the model output that is observed in the retrospective analysis, adding to this uncertainty does not appear neccessary at this time. 
+The analysis performed in this appendix, including the general retrospective analysis, suggest that no additional uncertainty is neccessary for SMBKC. Any additional variability in the model estimates from not having a survey data point in 2020 would like produce a small change in the calculated 2020 OFL. The current buffer of 20% includes the expected uncertainty in the model output that is observed in the retrospective analysis, adding to this uncertainty does not appear neccessary at this time. 
 
 The current status of the stock is still overfished, and the directed fishery is closed. The only harvest for this stock comes from bycatch in the groundfish and other crab fisheries which occurs at very low levels. While increasing the buffer on the ABC would not impact these fisheries, it also does not appear neccessary to keep the bycatch numbers well below the projected ABC.
 
