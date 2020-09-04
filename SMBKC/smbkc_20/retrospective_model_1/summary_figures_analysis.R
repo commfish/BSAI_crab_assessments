@@ -195,12 +195,20 @@ stats_compare %>%
          sta = Status^2, 
          f = F_ofl^2, 
          ofl = OFL^2) %>% 
-  select(avgr = Rec, bmsy = Bs, mmb_terminal = tmmb, status = sta, 
-         f_ofl = f, OFL = ofl) %>% 
-  gather(quant, error_sq, avgr:OFL) %>% 
+  select(avgR = Rec, Bmsy = Bs, Terminal_mmb = tmmb, Status = sta, 
+         F_ofl = f, OFL = ofl) %>% 
+  gather(quant, error_sq, avgR:OFL) %>% 
   group_by(quant) %>% 
-  summarise(RMSE = sqrt(sum(error_sq)/10))
+  summarise(RMSE = sqrt(sum(error_sq)/10)) %>% 
+  spread(quant, RMSE) %>% 
+  mutate(year = "RMS") %>% 
+  select(year, avgR, Bmsy, Terminal_mmb, Status, F_ofl, OFL)-> RSE
 
+
+stats_compare %>% 
+  bind_rows(RSE) -> stats_compare2
+stats_compare2
+write.csv(stats_compare2, paste0(.FIGS, "stats_summary_compare_table2.csv"), row.names = FALSE)
 
 # bar graphs for visual ------------
 sum_stats %>% 
