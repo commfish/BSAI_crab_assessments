@@ -183,6 +183,24 @@ stats_compare %>%
 #5 F_ofl                     0.829 
 #6 OFL                       4.00  
 
+# MSE for each quanitity of interest ---------
+head(sum_stats)
+avgR %>% mutate(st1 = avgR^2) %>% summarise(RMSE = sqrt(sum(st1)/10))
+
+
+stats_compare %>% 
+  mutate(Rec = avgR^2, 
+         Bs = Bmsy^2, 
+         tmmb = Terminal_mmb^2, 
+         sta = Status^2, 
+         f = F_ofl^2, 
+         ofl = OFL^2) %>% 
+  select(avgr = Rec, bmsy = Bs, mmb_terminal = tmmb, status = sta, 
+         f_ofl = f, OFL = ofl) %>% 
+  gather(quant, error_sq, avgr:OFL) %>% 
+  group_by(quant) %>% 
+  summarise(RMSE = sqrt(sum(error_sq)/10))
+
 
 # bar graphs for visual ------------
 sum_stats %>% 
