@@ -145,7 +145,7 @@ knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_mode
 # Tables {-}
 
 ```{r diff-compare, results = "asis"}
-df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/stats_summary_compare_table.csv"))
+df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/stats_summary_compare_table2.csv"))
 
 names(df) <- c("Year","AvgR","Bmsy", "Terminal MMB", "Status", "Fofl", "OFL")
 tab <- xtable(df, caption = "Comparisons of the percent difference in parameter estimates for the retrospective models with and without the terminal year of survey data.", label = "tab:diff-compare", digits = 3)
