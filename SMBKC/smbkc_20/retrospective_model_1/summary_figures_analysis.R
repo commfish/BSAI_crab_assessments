@@ -18,6 +18,8 @@ cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2",
 mmb <- read.csv(paste0(here::here(), '/SMBKC/smbkc_20/retrospective_model_1/combined_data/ssb_all.csv'))
 sum_stats <- read.csv(paste0(here::here(), '/SMBKC/smbkc_20/retrospective_model_1/combined_data/summary.csv'))
 
+parms <- read.csv(paste0(here::here(), '/SMBKC/smbkc_20/retrospective_model_1/combined_data/error_summary.csv'))
+
 mmb_cur <- read.csv(paste0(here::here(), '/SMBKC/smbkc_20/retrospective_model_1/combined_data/ssb_2020.csv'))
 # bring in 2020 model results here. - current year
 
@@ -209,6 +211,23 @@ stats_compare %>%
   bind_rows(RSE) -> stats_compare2
 stats_compare2
 write.csv(stats_compare2, paste0(.FIGS, "stats_summary_compare_table2.csv"), row.names = FALSE)
+
+
+# parameter estimates and CV  ------------------
+head(parms)
+
+# avg CV retro cs. without terminal year -------
+parms %>% 
+  filter(value == "CV") %>% 
+  group_by(type) %>% 
+  summarise(Bmsy_cv = mean(Bmsy), 
+            OFL_cv = mean(OFL), 
+            status_cv = mean(status), 
+            terminal_cv = mean(terminal_ssb)) %>% 
+  mutate(type = ifelse(type == "retro", "retro", "missing-survey")) %>% 
+  write.csv(paste0(.FIGS, "CV_summary_compare_table.csv"), row.names = FALSE)
+
+
 
 # bar graphs for visual ------------
 sum_stats %>% 
