@@ -88,7 +88,7 @@ round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2021
 #round(M[[rec_mod]]$spr_cofl/1000*0.8, 2) -> abc_2021
 rec_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1/figure/ofl_calc.csv"))
 round(rec_ofl$OFL_2020/1000, 2) -> ofl_2021
-round(ofl_2021*0.8, 2) -> abc_2021
+round(ofl_2021*0.75, 2) -> abc_2021 # 25 % buffer
 
 # table 2 ----------
 round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_1920_lb
@@ -97,7 +97,7 @@ round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_2021_lb
 #round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 3) -> ofl_1920_lb
 #round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.8, 2) -> abc_1920_lb
 round(rec_ofl$OFL_2020* 2204.62/1e6, 3) -> ofl_2021_lb
-round(ofl_2021_lb*0.8, 2) -> abc_2021_lb
+round(ofl_2021_lb*0.75, 2) -> abc_2021_lb # 25 % buffer
 
 # ofl and abc basis -------- table 3
 # ofl and abc basis -------- table 3
@@ -146,7 +146,7 @@ available pot-survey data) whereas in 2018 the value was the lowest observed at 
 
 5. **Management performance**: In this assessment, estimated total male catch is the sum of fishery-reported retained
 catch, estimated male discard mortality in the directed fishery, and estimated male bycatch mortality in the groundfish fisheries.
-Based on the reference model for SMBKC, the estimate for mature male biomass was below the minimum stock-size threshold (MSST) in 2018/19 and is in an "overfished" condition, despite a directed fishery closure since the 2016/17 season. 
+Based on the reference model for SMBKC, the estimate for mature male biomass was below the minimum stock-size threshold (MSST) in 2018/19 and is in an "overfished" condition, despite a directed fishery closure since the 2016/17 season 
 (and hence overfishing has not occurred) (Tables \@ref(tab:status), \@ref(tab:ofl-basis), and \@ref(tab:management-quants)). 
 Computations which indicate the relative impact of fishing 
 (i.e., the "dynamic $B_0$") suggests, that the current spawning stock biomass has been reduced to `r .get_dynB0_df(Mbase) %>% transmute(round(100*ssb,0)) %>% slice(n())`% of what it would have been in the absence of fishing, assuming the same level of recruitment as estimated. 
@@ -252,9 +252,9 @@ Details of this implementation and other model details are provided in Appendix 
 ## Changes in Assessment Results {-}
 
 Both surveys indicate a decline over the past few years. The "reference" model is that which was selected for use in 2019.
-The base model presented here is the reference model with updated groundfish bycatch data for the 2019/20 crab season (model 16.0 base). One additional model is presented for consideration, which is a small variant of the base model, model 16.0a, which fixes recruitment in the most recent year to the average of the last few years to avoid unrealistically high recruitment estimates. Additionally, further simulations and analysis were done to assess the uncertainty in the 2020 biomass estimates and reference point calculations (Appendix C). 
+The base model presented here is the reference model with updated groundfish bycatch data for the 2019/20 crab season (model 16.0 base). One additional model is presented for consideration, which is a small variant of the base model, model 16.0a (**fixR**), which fixes recruitment in the most recent year to the average of the last seven years to avoid unrealistically high recruitment estimates. Additionally, retrospective analyses without the terminal year of survey data  and runs with "fake" survey data were performed to assess the uncertainty in the 2020 biomass estimates and reference point calculations due to the lack of a 2020 survey; the methods and results are detailed in Appendix C. 
 
-One additional model is presented to assess sensitivity of data inputs to the model, attempting to deal with the disparity between the two survey time series. The **no pot** configuration runs the base model 16.0 without the ADF&G pot survey data, therefore only having the NMFS trawl survey as the abundance index. 
+In addition to the two models for considerations, one additional model is presented here to assess sensitivity of data inputs to the model, attempting to deal with the disparity between the two survey time series (**no pot**). The **no pot** configuration runs the base model 16.0 without the ADF&G pot survey data, therefore only having the NMFS trawl survey as the abundance index. 
 
 
 # B. Responses to SSC and CPT  {-}
@@ -266,11 +266,11 @@ Comment: *Regarding general code development, the SSC and CPT outstanding reques
 
   1. *add the ability to conduct retrospective analyses*
 
-     Retrospective runs/simulations are presented here in Appendix C as part of the analyses done to assess uncertainty in the model output. The ability to automate these in GMACS is still under developement but the author was able to do them by manually editing the data files.
+     Retrospective runs/simulations are presented here in Appendix C as part of the analyses done to assess uncertainty in the model output (Figure \@ref(fig:retrospective)). The ability to automate these in GMACS is still under developement but the author was able to do them by manually editing the data files.
      
   2. *Continued exploration of data weighting (Francis and other approaches) and evaluation of models with and without the 1998 natural mortality spike. The authors are encouraged to bring other models forward for CPT and SSC consideration*
   
-     We continued with the iterative re-weighting for composition data. We did not address models without the natural mortality spike. These have been considered previously. 
+     We continued with the iterative re-weighting for composition data (Table \@ref(tab:data-weighting)). We did not address models without the natural mortality spike. These have been considered previously. 
 
 
 Comment: *Regarding potential model scenarios for Sept. 2020, the SSC and CPT requests are:*
@@ -285,7 +285,7 @@ Comment: *Regarding potential model scenarios for Sept. 2020, the SSC and CPT re
 
 Comment: *Explore potential explanations for the discrepancy in the time trends of the two types of survey data, including movement hypotheses using spatial models (not necessarily VAST)*
   
-  Limited progress due to time availability and current world events. This will be a large focus on upcoming work on this model as the scenario without the ADF&G pot survey data (20.1) shows the differences in the current reality of the stock between the two abundance surveys.
+  Limited progress due to time availability and current world events. This will be a large focus on upcoming work on this model as the scenario without the ADF&G pot survey data (20.1) shows the differences in the current status of the stock between the two abundance surveys (Figure \@ref(fig:mmb)).
 
 Comment: *Explore May 2020 model with VAST estimates*
 
@@ -443,7 +443,7 @@ only male crab $\ge$ 90 mm in CL, but combined stages 3 and 4 of the earlier mod
 above). This consolidation was driven by concern about the accuracy and consistency of shell-condition information,
 which had been used in distinguishing stages 3 and 4 of the earlier model.
 
-In 2016 the accepted SMBKC assessment model made use of the modeling framework GMACS (Webber et al. 2016). In that
+In 2016 the accepted SMBKC assessment model made use of the modeling framework GMACS encompassing a three-stage model structure (Webber et al. 2016). In that
 assessment,  an effort was made to match the 2015 SMBKC stock assessment model to bridge a framework which 
 provided greater flexibility and opportunity to evaluate model assumptions more fully.
 
@@ -508,9 +508,9 @@ Also, the size composition residuals are smaller for the trawl survey in the **n
 they are allowed to fit these size compositions better due to the removal of the size composition data from the ADF&G pot survey.  
 
 Selectivity estimates for the directed fishery show some variability between models (Figure \@ref(fig:selectivity)). 
-Estimated recruitment is similar in both models until the mid-2000s when the **no pot** model (20.1) has consistently higher recruitment, contributing to higher mmb for this model in recent years (Figure \@ref(fig:recruitment)). 
+Estimated recruitment is similar in both models until the mid-2000s when the **no pot** model (20.1) has consistently higher recruitment, contributing to higher MMB for this model in recent years (Figure \@ref(fig:recruitment)). 
 Estimated mature male biomass on 15 February also is considerably considerably higher in the **no pot** model (Figure \@ref(fig:mmb)). 
-The **no pot** model has a better fit to recent years of the NMFS trawl survey data, fitting most of the post-2010 data ranges (fit line encompasses the error bars), compared to the reference model that only fits three of the last 10 years. The improved fit of the trawl survey corresponds to increased mmb estimates in the last 10 years. Not surprisingly this time frame also corresponds to sharp declines in the ADF&G pot survey abundance estimates that started in the post-2010 data. 
+The **no pot** model has a better fit to recent years of the NMFS trawl survey data, fitting most of the post-2010 data ranges (fit line encompasses the error bars), compared to the reference model that only fits three of the last 10 years. The improved fit of the trawl survey corresponds to increased MMB estimates in the last 10 years. Not surprisingly this time frame also corresponds to sharp declines in the ADF&G pot survey abundance estimates that started in the post-2010 data. 
 
 
 Estimated natural mortality in each year ($M_t$) is presented in Figure \@ref(fig:M-t), 
@@ -530,7 +530,7 @@ For the trawl survey the standardized residuals are more balanced in model 20.1 
 Fits to the size compositions for trawl survey, pot survey, and commercial observer data are reasonable but miss the largest
 size category in some years (Figures \@ref(fig:sc-pot), \@ref(fig:sc-pot-discarded), and \@ref(fig:sc-trawl-discarded)) 
 for both scenarios. 
-Representative residual plots of the composition data fits are show generally poor fit to the three composition data sources (Figures \@ref(fig:sc-res-ref), \@ref(fig:sc-res-fixR) and \@ref(fig:sc-res-nopot).
+Representative residual plots of the composition data fits generally have a poor fit to the three composition data sources (Figures \@ref(fig:sc-res-ref), \@ref(fig:sc-res-fixR) and \@ref(fig:sc-res-nopot).
 The model fits to different types of retained and discarded catch values performed as expected given the assumed levels
 of uncertainty on the input data (Figure \@ref(fig:fit-to-catch)).
 
@@ -547,7 +547,7 @@ Tables \@ref(tab:est-pars-ref), \@ref(tab:est-pars-fixR), and \@ref(tab:est-pars
 Uncertainty surrounding the lack of a 2020 trawl survey data point was examined using two approaches and the results are contained in Appendix C. Overall, the authors did not find much additional uncertainty for the reference model due to the lack of a 2020 data point. The current trajectory of the stock (MMB and recruitment) suggests a low status (below $B_{MSY}$) that would not change even with the addition of hypothetical 2020 data point (Approach 3, Appendix C).  Appendix C goes into more detail for these analyses and a more thourough discussion of the authors recommendations. 
 
 ### g. Comparison of alternative model scenarios.{-}
-The estimates of mature male biomass (Figure \@ref(fig:mmb)) for the **no pot** model differs from the reference models (16.0 and 16.0a) due to the removal of the pot survey abundance and size composition data. This abundance time series contrasts with the NMFS trawl survey and when present tends to lower the scale of the population estimate. 
+The estimates of mature male biomass (Figure \@ref(fig:mmb)) for the **no pot** model differs from the reference model (16.0) due to the removal of the pot survey abundance and size composition data. This abundance time series contrasts with the NMFS trawl survey and when present tends to lower the scale of the population estimate. 
 This difference is greatest in the last 10 years, recognizing the contrast between these abundance time series and the influence of the ADF&G pot survey on the current population status. 
 
 In summary, the **no pot** model scenario was provided to explore the sensitivity of this model. Currently, the reference model is still the most appropriate model for settting reference points and model specifications. 
@@ -556,7 +556,7 @@ Additionally, the overfished status of this stock lends itself to maintaining th
 The two reference models presented here, 16.0 and 16.0a, only differ in the estimation of 2019 recruitment. Model 16.0a fixes the 2019 recruitment to be the average of the last seven years of the model, effectively limiting the models ability to estimate unreasonably high recruitment in the lack of a 2020 data point. However, fixing terminal year recruitment has a minimal effect on the status of the stock, projected MMB, or the resulting OFL for 2020 (Table \@ref(tab:management-quants)). The recommended model for 2020 would be the reference model (16.0) to maintain consistency for this stock during the rebuilding time frame and with the lack of a 2020 data point for the trawl survey. 
 
 # F. Calculation of the OFL and ABC{-}
-The overfishing level (OFL) is the fishery-related mortality biomass associated with fishing mortality $F_\mathit{OFL}$. The SMBKC stock is currently managed as Tier 4, and only a Tier 4 analysis is presented here. Thus, given stock estimates or suitable proxy values of $B_\mathit{MSY}$ and $F_\mathit{MSY}$, along with two additional parameters $\alpha$ and $\beta$, $F_\mathit{OFL}$ is determined by the control rule
+The overfishing level (OFL) is the total catch associated with the $F_\mathit{OFL}$ fishing mortality. The SMBKC stock is currently managed as Tier 4, and only a Tier 4 analysis is presented here. Thus, given stock estimates or suitable proxy values of $B_\mathit{MSY}$ and $F_\mathit{MSY}$, along with two additional parameters $\alpha$ and $\beta$, $F_\mathit{OFL}$ is determined by the control rule
 \begin{align}
     F_\mathit{OFL} &= 
     \begin{cases}
@@ -569,15 +569,15 @@ where $B$ is quantified as mature-male biomass (MMB) at mating with time of mati
 February. Note that as $B$ itself is a function of the fishing mortality $F_\mathit{OFL}$ (therefore numerical
 approximation of $F_\mathit{OFL}$ is required). As implemented for this assessment, all calculations proceed according
 to the model equations given in Appendix A. $F_\mathit{OFL}$ is taken to be full-selection fishing mortality in the
-directed pot fishery and groundfish trawl and fixed-gear fishing mortalities set at their model geometric mean values
+directed pot fishery and groundfish trawl and fixed-gear fishing mortalities set at their geometric mean values
 over years for which there are data-based estimates of bycatch-mortality biomass.
 
 The currently recommended Tier 4 convention is to use the full assessment period, currently `r M[[rec_mod]]$spr_syr`-
 `r M[[rec_mod]]$spr_nyr`, to define a $B_\mathit{MSY}$ proxy in terms of average estimated MMB and to set $\gamma$ = 1.0 with
 assumed stock natural mortality $M$ = 0.18 $\text{yr}^{-1}$ in setting the $F_\mathit{MSY}$ proxy value $\gamma M$. The
 parameters $\alpha$ and $\beta$ are assigned their default values $\alpha$ = 0.10 and $\beta$ = 0.25. The
-$F_\mathit{OFL}$, OFL, ABC, and MMB in 2019 for all scenarios are summarized in Table \@ref(tab:management-quants). The ABC
-is 80% of the OFL.
+$F_\mathit{OFL}$, OFL, ABC, and MMB in 2019 for all scenarios are summarized in Table \@ref(tab:management-quants). The currently recommended ABC
+is 75% of the OFL (ABC buffer = 25%).
 
 ```{r management-quants, results = "asis"}
 Mname2 <- c("Ref", "fixR" ,"nopot")
@@ -603,9 +603,9 @@ nopot_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_2/figure/ofl_c
 
 df4 <- data.frame(Component = c(paste0("$\\text{OFL}_{", (M[[2]]$mod_yrs[length(M[[2]]$mod_yrs)]+ 1), "}$"),
                    paste0("$\\text{ABC}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")), 
-                  Ref = c(ref_ofl$OFL_2020, ref_ofl$OFL_2020*.80) , 
-                  fixR = c(fixR_ofl$OFL_2020, fixR_ofl$OFL_2020*.80) ,
-                  nopot = c(nopot_ofl$OFL_2020, nopot_ofl$OFL_2020*.80))
+                  Ref = c(ref_ofl$OFL_2020, ref_ofl$OFL_2020*.75) , 
+                  fixR = c(fixR_ofl$OFL_2020, fixR_ofl$OFL_2020*.75) ,
+                  nopot = c(nopot_ofl$OFL_2020, nopot_ofl$OFL_2020*.75))
 df %>% 
   rbind(df4) -> df2
 
