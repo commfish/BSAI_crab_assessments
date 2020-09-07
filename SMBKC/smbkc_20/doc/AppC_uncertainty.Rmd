@@ -50,6 +50,8 @@ In general, models that lacked the terminal year of survey data performed simila
 Figures \@ref(fig:compare-avgR) through \@ref(fig:compare-OFL) display the small differences between these model runs in each model end year. There are some small differences in the model with and without the terminal year of survey data, but most of these exist around between 2013 and 2015 where the population was transitioning from healthy levels to overfished. This is most evident in the terminal MMB, $F_{OFL}$, and OFL comparisons for 2013 (Figures \@ref(fig:compare-bmsy), 
 \@ref(fig:compare-fofl), and \@ref(fig:compare-OFL)).
 
+Hypothetically if the uncertainty about the quantities of interest increased due to the lack of a terminal year of survey data the resuling average CVs for the quantities would be larger in runs without the terminal year of survey data. Table \@ref(tab:diff-cv) summarises the average CVs over all years for the "normal" retrospective runs and those without the terminal year of survey data. There are small differences in the average CVs, with those in the "missing survey" retrospective runs being slightly larger on average, but this difference is small and does not suggest increase uncertainty in the "missing survey" runs.
+
 The average percent difference between these quantities was approximately 1% overall and was the highest in OFL comparisons at an average difference of 4% (Table \@ref(tab:diff-compare)). Most differences were small and even unnoticeable in years where the population trajectory was similar to the previous year. The underlying model processes (growth, mortality, selectivity, etc.) drive the current year's model estimates without the presence of new abundance or size data, and the uncertainty about these processes has not increased with the lack of one year of survey data.  
 Based on this analysis the author does not recommend additional uncertainty in the ABC buffer for SMBKC for the 2020 base model. 
 
@@ -156,7 +158,7 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/CV_summary_compare_table.csv"))
 
 names(df) <- c("Type","CV-Bmsy","CV-OFL", "CV-status", "CV-temrinal-SSB")
-tab <- xtable(df, caption = "Average CV over all years (2010-2019) for normal retrospective runs and those missing the terminal year of survey data. ", label = "tab:diff-compare", digits = 3)
+tab <- xtable(df, caption = "Average CV over all years (2010-2019) for normal retrospective runs and those missing the terminal year of survey data. ", label = "tab:diff-compare", digits = 2)
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, NA.string = "-")
 ```
 
