@@ -133,6 +133,49 @@ M[[1]]$spr_depl
 M[[1]]$sd_fofl[1]
 M[[1]]$spr_cofl/1000
 
+# parameters and error summary ------------------
+options(scipen=999)
+x <- M[[1]]$fit
+i <- c(grep("sd_rbar", x$names)[1],
+       grep("sd_Bmsy", x$names),
+       grep("sd_last_ssb", x$names),
+       grep("sd_depl", x$names),
+       grep("sd_fofl[1]", x$names),
+       grep("sd_ofl", x$names)
+       #grep("spr_cofl", x$names)
+)
+Parameter <- x$names[i]
+Estimate <- x$est[i]
+SD <- x$std[i]
+Parameter <- c("rbar", "Bmsy", "terminal_ssb", "status", "OFL")
+
+df1 <- data.frame(Parameter, Estimate, SD)
+df1 %>% 
+  mutate(CV = SD/Estimate*100) -> df1
+
+df1 %>% 
+  select(Parameter, Estimate) %>% 
+  spread(Parameter, Estimate) %>% 
+  mutate(value = "Estimate") -> df1_est
+df1 %>% 
+  select(Parameter, SD) %>% 
+  spread(Parameter, SD) %>% 
+  mutate(value = "SD") -> df1_sd
+df1 %>% 
+  select(Parameter, CV) %>% 
+  spread(Parameter, CV) %>% 
+  mutate(value = "CV") -> df1_cv
+
+df1_est %>% 
+  bind_rows(df1_sd) %>% 
+  bind_rows(df1_cv) %>% 
+  mutate(year = cur_yr, 
+         type = "retro") -> df2
+df2
+#write.csv(df2, paste0(.FILES, "error_summary.csv"), row.names = FALSE)
+write.table(df2, file = paste0(.FILES, "error_summary.csv"), sep = ",",
+            append = TRUE, col.names = FALSE, row.names = FALSE)
+
 # SMBKC plots new  -------------
 # SSB -----------
 ssb <- .get_ssb_df(M) # ssb now does NOT include projection year so only up to 2018 crab year - 2019 projection (example)
