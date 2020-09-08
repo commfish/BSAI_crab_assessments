@@ -33,7 +33,8 @@ cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2",
 #scale_colour_manual(values=cbPalette)
 
 # update model names and file locations
-mod_names <- c("model 16.0 (2019)", "model 16.0 (2020)", "model 16.0a (fix R ter)", "model 20.1 (no pot)") 
+mod_names <- c("model 16.0 (2019)", "model 16.0 (2020)", "model 16.0a (fix R ter)", "model 20.1 (no pot)")
+#mod_names <- c("16.0 (2019)", "16.0 (2020)", "16.0a (fix R ter)", "20.1 (no pot)")
 .MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_19a/model_1/"),
               paste0(here::here(), "/SMBKC/smbkc_20/model_1/"), 
               paste0(here::here(), "/SMBKC/smbkc_20/model_1_rfix_TPL/"),
