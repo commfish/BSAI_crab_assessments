@@ -70,6 +70,12 @@ Need to run mcmc above to get .psv file for projections
 5) Then see 'rebuilding_figures.R' for plotting
 
 
+# .prj file updates 
+Prow and Initial eps?
+- setting ProwR=0 and Initial epp = -999 - gives you same results as just running ricker SR (option 2)
+
+
+
 ### projections used for variablity in 2020 estimate
 Projection 1d was used to determine the variability in the 2020 ssb estimate, although the projection used does not greatly impact the intial year variability
 
