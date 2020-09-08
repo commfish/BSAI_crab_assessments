@@ -158,7 +158,7 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/CV_summary_compare_table.csv"))
 
 names(df) <- c("Type","CV-Bmsy","CV-OFL", "CV-status", "CV-temrinal-SSB")
-tab <- xtable(df, caption = "Average CV over all years (2010-2019) for normal retrospective runs and those missing the terminal year of survey data. ", label = "tab:diff-compare", digits = 2)
+tab <- xtable(df, caption = "Average CV over all years (2010-2019) for normal retrospective runs and those missing the terminal year of survey data. ", label = "tab:diff-cv", digits = 2)
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, NA.string = "-")
 ```
 
