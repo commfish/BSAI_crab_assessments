@@ -371,12 +371,13 @@ rec %>%
   #geom_hline(aes(yintercept = rbar, group = Model, fill = Model))
   geom_hline(aes(yintercept = rbar[1]/1000000), color = "#999999") +
   geom_hline(aes(yintercept = rbar[76]/1000000), color = "#E69F00") +
-    geom_hline(aes(yintercept = rbar[121]/1000000), color = "#56B4E9") +
+    geom_hline(aes(yintercept = rbar[121]/1000000), color = "#56B4E9")
   #geom_hline(data = avgR_options, aes(yintercept = meanR, group = Model,
   #                                    color = Model)) +
   #geom_text(data = avgR_options, aes(x= 1980, y = meanR, label = years), 
   #          hjust = -2.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) 
-  ggsave(paste0(.FIGS, "recruitment_mod_scen_ribbons.png"), width = 1.18*ww, height = hh)
+ggsave(paste0(.FIGS, "recruitment_mod_scen_ribbons.png"), width = 1.18*ww, height = hh)
+ggsave(paste0(.FIGS, "PRESENTATION_recruitment_mod_scen_ribbons.png"), width = 1.5*ww, height = hh)
 
 
 
