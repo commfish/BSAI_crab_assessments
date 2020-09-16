@@ -416,6 +416,8 @@ ggsave(paste0(.FIGS, "pot_cpue_mod_scen.png"), width = ww*1.10, height = hh)
 plot_catch(M[2])
 ggsave(paste0(.FIGS, "catch.png"), width = ww*1.02, height = hh*1.2)
 
+plot_catch(M[2:4])
+ggsave(paste0(.FIGS, "catch_mod_scen.png"), width = ww*1.35, height = hh*1.2)
 #!! trawl_res --------
 #{r bts_resid_nmfs, fig.cap = "Standardized residuals for area-swept estimates of total male survey biomass for the model scenarios. \\label{fig:bts_resid_nmfs}"}
 #A <- M[mod_scen];
