@@ -156,6 +156,19 @@ sum_stats %>%
   mutate(OFL = (wo_term_sur_retro-retro)/retro*100) %>% 
   select(year, OFL) -> OFL
 
+# output for box plot -----
+sum_stats %>% 
+  select(year, OFL , type) %>% 
+  spread(type, OFL ) %>% 
+  mutate(OFL = (wo_term_sur_retro-retro)/retro, 
+         peel = (year - 2019), 
+         stock = 'SMBKC') %>% 
+  select(stock, peel, OFL) -> box_plot
+write.csv(box_plot, paste0(.FIGS, "ofl_box_plot_smbkc.csv"), row.names = FALSE)
+ 
+
+
+
 avgR %>% 
   left_join(Bmsy) %>% 
   left_join(Terminal_mmb) %>% 
@@ -462,3 +475,8 @@ avgR %>%
 
 stats_compare
 write.csv(stats_compare, paste0(.FIGS, "stats_summary_app3_table.csv"), row.names = FALSE)
+
+
+
+
+
