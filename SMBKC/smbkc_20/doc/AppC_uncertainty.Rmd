@@ -43,14 +43,14 @@ Retrospective analysis are typically performed on models to characterize the ten
 A number of key model outputs were compared for these retrospective runs. These include: average recruitment, $B_{msy}$, status of the stock, terminal year MMB, and reference point calculations (OFL). 
 
 ### Results {-}
-Retrospective analysis of the base model show a retrospective pattern that tends to overestimate mature male biomass (MMB) in the terminal year (Figure \@ref(fig:retrospective) and \@ref(fig:retrospective2)). Using a peel of the last 5 years estimates of MMB the estimated Mohn's $\rho$ is -0.346, which suggests a retrospecive pattern in the MMB estimates for the base model. Since 2018 the MMB estimates have been relatively stable, however, they are the lowest in the model history and reflect a time of overfished declaration for the stock. 
+Retrospective analysis of the base model show a retrospective pattern that tends to overestimate mature male biomass (MMB) in the terminal year (Figure \@ref(fig:retrospective) and \@ref(fig:retrospective2)). Using a peel of the last 5 years estimates of MMB the estimated Mohn's $\rho$ is -0.346, which suggests a retrospective pattern in the MMB estimates for the base model. Since 2018 the MMB estimates have been relatively stable, however, they are the lowest in the model history and reflect a time of overfished declaration for the stock. 
 
 In general, models that lacked the terminal year of survey data performed similarly to models with the survey data for each model end year (Figure \@ref(fig:retrospective-compare)). In cases where the model outputs differed the model without the terminal year of survey data tended to have results similar to the previous years model. For the last 5 years of retrospective model runs the models with and without the terminal year of survey data performed very similarly. These results support the hypothesis that for SMBKC in the last few years no additional uncertainty is present in the mmb estimates with the lack of the terminal year survey data (Figure \@ref(fig:retrospective-compare2)).
 
 Figures \@ref(fig:compare-avgR) through \@ref(fig:compare-OFL) display the small differences between these model runs in each model end year. There are some small differences in the model with and without the terminal year of survey data, but most of these exist around between 2013 and 2015 where the population was transitioning from healthy levels to overfished. This is most evident in the terminal MMB, $F_{OFL}$, and OFL comparisons for 2013 (Figures \@ref(fig:compare-bmsy), 
 \@ref(fig:compare-fofl), and \@ref(fig:compare-OFL)).
 
-Hypothetically if the uncertainty about the quantities of interest increased due to the lack of a terminal year of survey data the resuling average CVs for the quantities would be larger in runs without the terminal year of survey data. Table \@ref(tab:diff-cv) summarises the average CVs over all years for the "normal" retrospective runs and those without the terminal year of survey data. There are small differences in the average CVs, with those in the "missing survey" retrospective runs being slightly larger on average, but this difference is small and does not suggest increase uncertainty in the "missing survey" runs.
+Hypothetically if the uncertainty about the quantities of interest increased due to the lack of a terminal year of survey data the resulting average CVs for the quantities would be larger in runs without the terminal year of survey data. Table \@ref(tab:diff-cv) summaries the average CVs over all years for the "normal" retrospective runs and those without the terminal year of survey data. There are small differences in the average CVs, with those in the "missing survey" retrospective runs being slightly larger on average, but this difference is small and does not suggest increase uncertainty in the "missing survey" runs.
 
 The average percent difference between these quantities was approximately 1% overall and was the highest in OFL comparisons at an average difference of 4% (Table \@ref(tab:diff-compare)). Most differences were small and even unnoticeable in years where the population trajectory was similar to the previous year. The underlying model processes (growth, mortality, selectivity, etc.) drive the current year's model estimates without the presence of new abundance or size data, and the uncertainty about these processes has not increased with the lack of one year of survey data.  
 Based on this analysis the author does not recommend additional uncertainty in the ABC buffer for SMBKC for the 2020 base model. 
@@ -72,9 +72,9 @@ Based on this analysis the author does not recommend additional uncertainty in t
 
 
 # Recommendations on uncertainty {-}
-The analysis performed in this appendix, including the general retrospective analysis, suggest that no additional uncertainty is neccessary for SMBKC. Any additional variability in the model estimates from not having a survey data point in 2020 would like produce a small change in the calculated 2020 OFL. The current buffer of 20% includes the expected uncertainty in the model output that is observed in the retrospective analysis, adding to this uncertainty does not appear neccessary at this time. 
+The analysis performed in this appendix, including the general retrospective analysis, suggest that no additional uncertainty is necessary for SMBKC. Any additional variability in the model estimates from not having a survey data point in 2020 would like produce a small change in the calculated 2020 OFL. The current buffer of 20% includes the expected uncertainty in the model output that is observed in the retrospective analysis, adding to this uncertainty does not appear necessary at this time. 
 
-The current status of the stock is still overfished, and the directed fishery is closed. The only harvest for this stock comes from bycatch in the groundfish and other crab fisheries which occurs at very low levels. While increasing the buffer on the ABC would not impact these fisheries, it also does not appear neccessary to keep the bycatch numbers well below the projected ABC.
+The current status of the stock is still overfished, and the directed fishery is closed. The only harvest for this stock comes from bycatch in the groundfish and other crab fisheries which occurs at very low levels. While increasing the buffer on the ABC would not impact these fisheries, it also does not appear necessary to keep the bycatch numbers well below the projected ABC.
 
 
 
@@ -157,7 +157,7 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 ```{r diff-cv, results = "asis"}
 df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/CV_summary_compare_table.csv"))
 
-names(df) <- c("Type","CV-Bmsy","CV-OFL", "CV-status", "CV-temrinal-SSB")
+names(df) <- c("Type","CV-Bmsy","CV-OFL", "CV-status", "CV-terminal-SSB")
 tab <- xtable(df, caption = "Average CV over all years (2010-2019) for normal retrospective runs and those missing the terminal year of survey data. ", label = "tab:diff-cv", digits = 2)
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, NA.string = "-")
 ```
