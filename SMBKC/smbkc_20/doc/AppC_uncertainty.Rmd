@@ -1,0 +1,172 @@
+---
+output:
+  bookdown::pdf_document2:
+    fig_caption: true
+    includes: null
+    toc: no
+---
+# Appendix C. Assessing uncertainty in model output due to lack of terminal year survey data for St. Matthew blue king crab (SMBKC) {-}
+
+
+```{r global_options, include=FALSE, echo = FALSE, message = FALSE, warning=FALSE}
+library(knitr)
+opts_chunk$set(fig.width = 12, fig.height = 7, echo = FALSE, warning = FALSE, message = FALSE,  dpi=300)
+library(xtable)
+options(xtable.comment = FALSE)
+```
+
+\pagenumbering{arabic}
+```{r page } 
+#\pagenumbering{gobble}
+
+```
+
+
+# Introduction{-}
+NMFS trawl surveys during the summer of 2020 were cancelled due to logistic difficulties caused by the global pandemic COVID-19. Therefore, the crab assessment authors met to discuss approaches to address the potential of additional uncertainty in the current year models - specifically the projected mature male biomass and associated reference points. The objective of these approaches/simulations was to provide the crab plan team (CPT) and the scientific and statistical committee (SSC) a range of potential additional uncertainty that could be applied to the buffers used on the OFL calculations to produce an appropriate ABC for the 2020/21 crab season. 
+
+## Objectives {-}
+
+    1. Can we characterize the additional uncertainty in the current years estimates due to 
+    the lack of terminal year survey data? If so, what does it look like?
+
+    2. Is the model uncertainty characterized in objective #1 currently included in the ABC 
+    buffer applied to this stock or do we need to apply additional uncertainty measures?
+
+
+# Approaches {-}
+
+## Approach 1 (and 2): retrospective patterns with and without terminal survey data {-}
+
+Retrospective analysis are typically performed on models to characterize the tendencies of a model to over or under estimate current trends in biomass, recruitment, etc. Retrospective patterns are described as a clear tendency for a model to either over or under estimate. Approach 1 compares the output of retrospective models with the terminal year of survey data and ones where the terminal year of trawl survey data are removed (both abundance and size composition data). Approach 2 was to do this for the last year's model - 2019 - which is included in the analysis. 
+
+A number of key model outputs were compared for these retrospective runs. These include: average recruitment, $B_{msy}$, status of the stock, terminal year MMB, and reference point calculations (OFL). 
+
+### Results {-}
+Retrospective analysis of the base model show a retrospective pattern that tends to overestimate mature male biomass (MMB) in the terminal year (Figure \@ref(fig:retrospective) and \@ref(fig:retrospective2)). Using a peel of the last 5 years estimates of MMB the estimated Mohn's $\rho$ is -0.346, which suggests a retrospective pattern in the MMB estimates for the base model. Since 2018 the MMB estimates have been relatively stable, however, they are the lowest in the model history and reflect a time of overfished declaration for the stock. 
+
+In general, models that lacked the terminal year of survey data performed similarly to models with the survey data for each model end year (Figure \@ref(fig:retrospective-compare)). In cases where the model outputs differed the model without the terminal year of survey data tended to have results similar to the previous years model. For the last 5 years of retrospective model runs the models with and without the terminal year of survey data performed very similarly. These results support the hypothesis that for SMBKC in the last few years no additional uncertainty is present in the mmb estimates with the lack of the terminal year survey data (Figure \@ref(fig:retrospective-compare2)).
+
+Figures \@ref(fig:compare-avgR) through \@ref(fig:compare-OFL) display the small differences between these model runs in each model end year. There are some small differences in the model with and without the terminal year of survey data, but most of these exist around between 2013 and 2015 where the population was transitioning from healthy levels to overfished. This is most evident in the terminal MMB, $F_{OFL}$, and OFL comparisons for 2013 (Figures \@ref(fig:compare-bmsy), 
+\@ref(fig:compare-fofl), and \@ref(fig:compare-OFL)).
+
+Hypothetically if the uncertainty about the quantities of interest increased due to the lack of a terminal year of survey data the resulting average CVs for the quantities would be larger in runs without the terminal year of survey data. Table \@ref(tab:diff-cv) summaries the average CVs over all years for the "normal" retrospective runs and those without the terminal year of survey data. There are small differences in the average CVs, with those in the "missing survey" retrospective runs being slightly larger on average, but this difference is small and does not suggest increase uncertainty in the "missing survey" runs.
+
+The average percent difference between these quantities was approximately 1% overall and was the highest in OFL comparisons at an average difference of 4% (Table \@ref(tab:diff-compare)). Most differences were small and even unnoticeable in years where the population trajectory was similar to the previous year. The underlying model processes (growth, mortality, selectivity, etc.) drive the current year's model estimates without the presence of new abundance or size data, and the uncertainty about these processes has not increased with the lack of one year of survey data.  
+Based on this analysis the author does not recommend additional uncertainty in the ABC buffer for SMBKC for the 2020 base model. 
+
+
+## Approach 3: encompassing expected variability {-}
+
+This approach was designed to run models with "fake" 2020 data to determine how much a data point in 2020 could have potential influenced the model outcome. The same key model outputs were compared in this approach as in approach 1. 
+
+This approach evaluates the impact of different hypothetical 2020 survey outcomes, and is based on a SSC recommendation in its June minutes. Using the NMFS trawl survey time series fit in the proposed base or reference model the multiplicative residuals were calculated (predicted survey fit/observed survey data point) for each year. The 25th and 75th percentiles of the multiplicative residual distribution were obtained, which would represent a typical low and high value for the survey (Martin Dorn per comm.). 
+
+A predicted survey value was obtained for 2020 by running the base model with a hypothetical survey value with a very high CV (100), so that the model did not attempt to fit the observation. For SMBKC the hypothetical survey value was an average of the last 4 years of the survey to best estimate the hypothetical 2020 data point even though the CV for this data point was large. Once the base model was fit with this hypothetical data point the resulting estimate for the 2020 survey was used to complete two additional model runs. These runs multiplied the predicted 2020 survey data point by the 25th and 75th percentiles of the multiplicative residuals to simulate a "low" and "high" survey data point. The CV for these runs was set equal to the median survey CV. These two runs were evaluated along side the 2020 base model to determine the sensitivity of model output and management quantities on the 2020 survey data point. 
+
+### Results {-}
+Overall, the model output and management quantities did not differ much between the base and the low and high hypothetical survey data runs for 2020 (Figure \@ref(fig:app3-compare) and Table \@ref(tab:app3-results)). 
+
+The estimated mature male biomass trend was the same, with little difference evident when viewing the entire time series (Figure \@ref(fig:app3-all-ssb)). A detailed view of the last 10 years is provided for the MMB estimates in order to view the small difference in the three model estimates. The trends are all similar, with the only difference being the scale of the MMB estimate in the last 7 years (Figure \@ref(fig:app3-all-ssb2)). In reference to the base model the "high" run increased the MMB by a very small amount, where the "low" run decreased the MMB trend by about twice as much. All model estimates were very similar and within the typical range of uncertainty of the base model (Figure \@ref(fig:app3-all-ssb3)). 
+Based on this analysis the author does not recommend additional uncertainty in the ABC buffer for SMBKC for the 2020 base model.
+
+
+# Recommendations on uncertainty {-}
+The analysis performed in this appendix, including the general retrospective analysis, suggest that no additional uncertainty is necessary for SMBKC. Any additional variability in the model estimates from not having a survey data point in 2020 would like produce a small change in the calculated 2020 OFL. The current buffer of 20% includes the expected uncertainty in the model output that is observed in the retrospective analysis, adding to this uncertainty does not appear necessary at this time. 
+
+The current status of the stock is still overfished, and the directed fishery is closed. The only harvest for this stock comes from bycatch in the groundfish and other crab fisheries which occurs at very low levels. While increasing the buffer on the ABC would not impact these fisheries, it also does not appear necessary to keep the bycatch numbers well below the projected ABC.
+
+
+
+\pagebreak 
+
+# Figures {-}
+
+```{r retrospective, fig.cap = "Retrospective run estimates of mature male biomass (mmb) for the SMBKC reference model (16.0) for the last 10 years. "}
+knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/ssb_time_series_normal.png"), dpi = 125)
+```
+
+
+```{r retrospective2, fig.cap = "Retrospective run estimates of mature male biomass (mmb) for the SMBKC reference model (16.0) for the last 10 years, only showing the last 20 years for a detailed view. "}
+knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/ssb_time_series_normal_current.png"), dpi = 125)
+```
+
+```{r retrospective-compare, fig.cap = "Retrospective run estimates of mature male biomass (mmb) for the SMBKC reference model (16.0) including models that eliminated the terminal year survey data. "}
+knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/ssb_time_series_all.png"), dpi = 125)
+```
+
+```{r retrospective-compare2, fig.cap = "Retrospective run estimates of mature male biomass (mmb) for the SMBKC reference model (16.0) including models that eliminated the terminal year survey data for the last 5 model years. Highlighting the last 20 years for a more detailed view.  "}
+knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/ssb_time_series_last5_compare_recent.png"), dpi = 125)
+```
+
+```{r compare-avgR, fig.cap = "Comparison of average recruitment model estimates from 'normal' retrospective runs and those without the terminal year survey data.  "}
+knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/avgR_compare.png"), dpi = 125)
+```
+
+```{r compare-bmsy, fig.cap = "Comparison of Bmsy model estimates from 'normal' retrospective runs and those without the terminal year survey data.  "}
+knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/Bmsy_compare.png"), dpi = 125)
+```
+
+```{r compare-status, fig.cap = "Comparison of the model estimate of 'status' (B/Bmsy) from 'normal' retrospective runs and those without the terminal year survey data.  "}
+knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/Status_compare.png"), dpi = 125)
+```
+
+```{r compare-mmb, fig.cap = "Comparison of the model estimate of terminal year mmb from 'normal' retrospective runs and those without the terminal year survey data.  "}
+knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/Terminal_mmb_compare.png"), dpi = 125)
+```
+
+
+```{r compare-fofl, fig.cap = "Comparison of the model estimate of fofl from 'normal' retrospective runs and those without the terminal year survey data.  "}
+knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/fofl_compare.png"), dpi = 125)
+```
+
+
+```{r compare-OFL, fig.cap = "Comparison of the model estimate of OFL from 'normal' retrospective runs and those without the terminal year survey data.  "}
+knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/OFL_compare.png"), dpi = 125)
+```
+
+```{r app3-compare, fig.cap = "Model output and reference points from approach 3. Comparing the 2020 base model with a model that has a high 'fake' 2020 survey data point and one that has a low 'fake' survey data point. "}
+knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/app3_bar_graph_output.png"), dpi = 125)
+```
+
+
+```{r app3-all-ssb, fig.cap = "Mature male biomass estimates from approach 3. Comparing the 2020 base model with a model that has a high 'fake' 2020 survey data point and one that has a low 'fake' survey data point. "}
+knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/app3_ssb_all_yrs.png"), dpi = 125)
+```
+
+```{r app3-all-ssb2, fig.cap = "Mature male biomass estimates from approach 3. Comparing the 2020 base model with a model that has a high 'fake' 2020 survey data point and one that has a low 'fake' survey data point, only showing the last 10 years for detail on model differentiation. "}
+knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/app3_last_10yrs_ssb.png"), dpi = 125)
+```
+
+```{r app3-all-ssb3, fig.cap = "Mature male biomass estimates with associated variability from approach 3. Comparing the 2020 base model with a model that has a high 'fake' 2020 survey data point and one that has a low 'fake' survey data point, only showing the last 20 years for detail on model differentiation. "}
+knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/app3_last_20yrs_ssb_ribbons.png"), dpi = 125)
+```
+
+
+\pagebreak 
+# Tables {-}
+
+```{r diff-compare, results = "asis"}
+df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/stats_summary_compare_table2.csv"))
+
+names(df) <- c("Year","AvgR","Bmsy", "Terminal MMB", "Status", "Fofl", "OFL")
+tab <- xtable(df, caption = "Comparisons of the percent difference in parameter estimates for the retrospective models with and without the terminal year of survey data.", label = "tab:diff-compare", digits = 3)
+print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, NA.string = "-")
+```
+
+```{r diff-cv, results = "asis"}
+df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/CV_summary_compare_table.csv"))
+
+names(df) <- c("Type","CV-Bmsy","CV-OFL", "CV-status", "CV-terminal-SSB")
+tab <- xtable(df, caption = "Average CV over all years (2010-2019) for normal retrospective runs and those missing the terminal year of survey data. ", label = "tab:diff-cv", digits = 2)
+print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, NA.string = "-")
+```
+
+
+```{r app3-results, results = "asis"}
+df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/stats_summary_app3_table.csv"))
+
+names(df) <- c("Variable","Diff-Ltobase","Diff-Htobase")
+tab <- xtable(df, caption = "Comparisons of the percent difference in parameter estimates for the low and high models in approach 3 compared to the 2020 base model (16.0).", label = "tab:app3-results", digits = 3)
+print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, NA.string = "-")
+```

@@ -6,6 +6,7 @@
 source("./SMBKC/code/helper.R")
 source("./SMBKC/code/functions.R") # load function for summarising output from projection
 
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 
 # just use for the projection used in the rebulding doc (#2) needed here.
 
@@ -31,6 +32,16 @@ raw %>%
 raw_all %>% 
   summarise(Bmsy = mean(V9)) -> Bmsy
 
+
+raw_all %>% 
+  group_by(year, FishMort) %>% 
+  summarise(q0.05 = quantile(mmb, prob = 0.05), 
+            q0.25 = quantile(mmb, prob = 0.25),
+            q0.50 = quantile(mmb, prob = 0.50),
+            q0.75 = quantile(mmb, prob = 0.75),
+            q0.95 = quantile(mmb, prob = 0.95), 
+            Bmsy = mean(V9)) -> ricker_var
+  write.csv(ricker_var,paste0(here::here(), '/SMBKC/smbkc_19/doc/rebuilding_2019/proj2d_variability.csv'))
 # 95 % of the distribution in gray. Average MMB in year projection in solid line
 raw_all %>% 
   group_by(year, FishMort) %>% 

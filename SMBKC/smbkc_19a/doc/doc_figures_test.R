@@ -5,34 +5,44 @@
 #   but this file will be used to text out figures.
 
 # load ------------
+# done again when updates are made to the package or intially first time
 #require(devtools)
 #devtools::install_github("seacode/gmacs", subdir = "/gmr", ref = "develop") - only needs to be performed once.
+# alternate gmr instructions:::
+# if gmr is updated and above doesn't work try:
+# go to Build above - direct it to the gmr folder - press OK. Over on right in the Build tab (upper right hand side) - 
+# click "install and restart"
 require(gmr)
-#setwd("./smbkc_19/model_1")
+source("./SMBKC/code/functions.R")
+source("./SMBKC/code/helper.R") 
+source("./SMBKC/smbkc_19a/doc/gmr_functions2020.R") 
 
 # All model plots  -------------------------
-# still reference 2018 models since I'm currently runing 2019 **FIX**
+# first model is reference to previous year
 cur_yr <- 2019 # update annually 
+folder <- "smbkc_19a"
 
-mod_names <- c("model 16.0", "model 16.0 (ref)", "model 19.1 (VAST))", "model 19.2 (add CV pot)", "model 19.3 (add CV both)") 
+# update model names and file locations
+mod_names <- c("model 16.0", "model 16.0 (ref)", "model 19.1 (VAST)", "model 19.2 (add CV pot)", "model 19.3 (add CV both)", "model 19.4 (q time block pot)") 
 .MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_19/model_1/"), 
               paste0(here::here(), "/SMBKC/smbkc_19a/model_1/"),
               paste0(here::here(), "/SMBKC/smbkc_19a/model_4/"), 
               paste0(here::here(), "/SMBKC/smbkc_19a/model_1a/"), 
-              paste0(here::here(), "/SMBKC/smbkc_19a/model_1b/")) #need to update these model options
+              paste0(here::here(), "/SMBKC/smbkc_19a/model_1b/"),
+              paste0(here::here(), "/SMBKC/smbkc_19a/model_3/")) #need to update these model options
 .THEME    = theme_bw(base_size = 12, base_family = "")
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
-.FLEET    = c("Pot","Trawl bycatch","Fixed bycatch","NMFS Trawl","ADF&G Pot")
+.FLEET    = c("Pot","Trawl bycatch","Fixed bycatch","NMFS Trawl","ADF&G Pot", "ADF&G Pot2")
 .TYPE     = c("Retained","Discarded", "Retained & Discarded")
 .SHELL    = c("Aggregate")
 .MATURITY = c("Aggregate")
 .SEAS     = c("1","2","3","4","5")
+.FIGS     = c("./SMBKC/smbkc_19a/doc/safe_figure/")
 # Read report file and create gmacs report object (a list):
 fn       <- paste0(.MODELDIR, "gmacs")
 M        <- lapply(fn, read_admb)
 names(M) <- mod_names
-jj <- 1 # The position in the list that Jies model outputs sit
 
 nmult_1 <- 1e+06
 nmult_2 <- 0.0004535923 * 1e+6
@@ -52,7 +62,9 @@ rinline <- function(code){
 #alt_mod <- 5 # alt reference time frame
 ref_mod <- 1 # base
 rec_mod <- 2 # base
-mod_scen<- 2:4 #scenarios you want graphed together
+mod_scen<- 2:6 #scenarios you want graphed together
+mod_scen2 <- c(2, 6) # base model and q time block
+mod_scen3 <- 2:5 # without q time block
 
 ww <- 6
 hh <- 5
@@ -65,53 +77,93 @@ hh <- 5
   tail(1) %>%
   .$x -> bio_lt_percent
 
+# Tables 1 to 3 calcs -------
+## table 1 ------
+round(M[[ref_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_1819
+round(M[[ref_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_1819
+
+# use in May 2020
+round(M[[ref_mod]]$spr_bmsy*M[[ref_mod]]$spr_depl/1000, 2) -> mmb_1920
+round(M[[ref_mod]]$spr_cofl/1000, 2) -> ofl_1920
+round(M[[ref_mod]]$spr_cofl/1000*0.8, 2) -> abc_1920
+
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_1920a
+round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_1920a
+round(M[[rec_mod]]$spr_cofl/1000*0.8, 2) -> abc_1920a
+
+# use with actual 2020 data
+#round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_1920
+#round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_1920
+#round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2021
+#round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2021
+#round(M[[rec_mod]]$spr_cofl/1000*0.8, 2) -> abc_2021
+
+
+#round(M[[alt_mod]]$spr_bmsy*M[[alt_mod]]$spr_depl/1000, 2) -> alt_mmb_1920
+#round(M[[alt_mod]]$spr_cofl/1000, 2) -> alt_ofl_1920
+#round(M[[alt_mod]]$spr_cofl/1000*0.8, 2) -> alt_abc_1920
+
+# table 2 ----------
+round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_1819_lb
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]* 2204.62/1e6, 2) -> mmb_1819_lb
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_1920_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 3) -> ofl_1920_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.8, 2) -> abc_1920_lb
+
+
+# ofl and abc basis -------- table 3
+# ofl and abc basis -------- table 3
+round(M[[rec_mod]]$spr_bmsy/1000, 2) -> bmsy_cur
+round(M[[rec_mod]]$spr_depl, 2) -> ratio_bmsy
+round(M[[rec_mod]]$sd_fofl[1], 3) -> fofl
+
+#round(M[[alt_mod]]$spr_bmsy*M[[alt_mod]]$spr_depl/1000, 2) -> alt_mmb_1920
+#round(M[[alt_mod]]$spr_bmsy/1000, 2) -> alt_bmsy_cur
+#round(M[[alt_mod]]$spr_depl, 2) -> alt_ratio_bmsy
+#round(M[[alt_mod]]$sd_fofl[1], 3) -> alt_fofl
+
+
 ## data extent -----------
-plot_datarange(M[rec_mod])
-ggsave(p1, paste0(.FIGS, "data_extent.png"), width = ww, height = hh)
+plot_datarange(M[ref_mod])
+plot_datarangeSM(M[rec_mod]) # see gmr_functions2020.R
+#p1 <- plot_datarangeSM(M[rec_mod]) 
+#ggsave(p1, paste0(.FIGS, "data_extent.png"), width = ww, height = hh)
+# had to save manually because I can't get this call to work...**FIX
 
-## fig 6/7 2018 safe - 2018 compared to reference model --------
-plot_cpue(M[1:2], "NMFS Trawl", ylab = "Survey biomass (t)") 
-ggsave(paste0(.FIGS, "trawl_cpue_ref.png"), width = ww*1.25, height = hh*.9)
+##!! fig 6/7 2018 safe - 2018 compared to reference model --------
+# for final doc will be models 1 and 2, 1 will be updated to be smbkc_19a/model_1 
+#     and 2 will be smbkc_20/model_1 
+plot_cpue(M[2], "NMFS Trawl", ylab = "Survey biomass (t)")
+#plot_cpue(M[1:2], "NMFS Trawl", ylab = "Survey biomass (t)") 
+ggsave(paste0(.FIGS, "trawl_cpue_ref.png"), width = ww*1.08, height = hh*.9)
 
-plot_cpue(M[1:2], "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
-ggsave(paste0(.FIGS, "pot_cpue_ref.png"), width = ww*1.5, height = hh)
+plot_cpue(M[2], "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
+#plot_cpue(M[1:2], "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
+ggsave(paste0(.FIGS, "pot_cpue_ref.png"), width = ww*1.08, height = hh)
 
-plot_cpue(M[1:2])
+plot_cpue(M[2])
 ggsave(paste0(.FIGS, "cpue_ref_both.png"), width = ww*2.5, height = hh)
 
+
 ### Sensitivity of new data in 2018 on estimated recruitment ; 1978-2018
+## !!recruitment - reference to base ----------------------------
 A <- M
-for (i in c(1,2)) {
+for (i in c(2)) {
   ii <- which(A[[i]]$fit$names %in% "sd_log_recruits"); ii <- ii[length(ii)]
   A[[i]]$fit$est[ii] <- NA
   A[[i]]$fit$std[ii] <- NA
 }
-plot_recruitment(A[1:2])
+plot_recruitment(A[1:2]) # does not include recent recruitment - for comparison
 plot_recruitment(M[1:2])
-ggsave(paste0(.FIGS, "recruit_ref.png"), width = ww*1.5, height = hh)
-
+#plot_recruitment(M[1:2]) **FIX** determine which one of the above to use with new data?
+ggsave(paste0(.FIGS, "recruit_ref.png"), width = ww*1.08, height = hh)
 
 ## !!fishing mortality ------
-#plot_F(M[2]) 
-plot_F2(M[2])
+#plot_F(M[2]) **FIX** bring in this from model 1 for now.
+plot_F(M[mod_scen])
+plot_F(Mbase)
+plot_F2(M[2]) # 
 ggsave(paste0(.FIGS, "fishing_mortality.png"), width = ww*1.5, height = hh)
-
-plot_F2 <- function (M, scales = "free_y", xlab = "Year", ylab = "F", 
-          mlab = "Model") 
-{
-  xlab <- paste0("\n", xlab)
-  ylab <- paste0(ylab, "\n")
-  m <- .get_F_df(M)
-  mdf <- m$F
-  mdf$season <- paste0("Season: ", mdf$season)
-  fbar <- m$fbar
-  p <- ggplot(data = mdf) + geom_hline(data = fbar, aes(yintercept = fbar, 
-                                                        color = Model), linetype = "dashed", alpha = 0.5) + 
-    geom_line(aes(year, F, col = model, group = 1)) + facet_grid(fleet ~ 
-                                                                   season, scales = scales) + labs(x = xlab, y = ylab)
-  print(p + .THEME + theme(legend.position = c(0.2, 0.9)))
-}
-
 
 ## ssb -----------
 #"Sensitivity of new data in 2019 on estimated mature male biomass (MMB); 1978-2019. \\label{fig:ssb1}"}
@@ -124,21 +176,25 @@ tail(ssb)
 # Bmsy proxy and SHS level ------
 SHS <- c(1978:2012)
 ssb %>% 
-  filter(Model == "model 19.0 (ref)") %>% 
+  filter(Model == "model 16.0 (ref)") %>% 
   mutate(b_msy = mean(ssb)) %>% 
   mutate(SHS_proxy = mean(ssb[year %in% SHS])) %>% 
   group_by(Model) %>% 
   mutate(b_msy/SHS_proxy)
 
 
-# ssb current year uncertainty
+# ssb current year uncertainty --------
+# need to run mcmc and projections here 
+# current year ref model
 un_ssb <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
-un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_18a/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
+# last years ref model
+un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
 
 # ssb vector only includes model years - here crab year 1978 to 2019 does NOT include projection, need to add
 #   projection year for graphical purposes
 ssb_last <- data.frame("Model" = names(M[1:2]),
-                       "year" = c(cur_yr-1, cur_yr), 
+                       "year" = c(cur_yr, cur_yr),
+                       #"year" = c(cur_yr-1, cur_yr), 
                        "ssb" = c(M[[1]]$spr_bmsy * M[[1]]$spr_depl,
                                  M[[2]]$spr_bmsy * M[[2]]$spr_depl),
                        "lb" = c(un_ssb2$lci, un_ssb$lci), # need to update these from .csv output
@@ -229,13 +285,20 @@ dev.off()
 
 
 
-## selectivity ----------
+## !!selectivity ----------
 #"Comparisons of the estimated stage-1 and stage-2 selectivities for the different model scenarios (the stage-3 selectivities are all fixed at 1). Estimated selectivities are shown for the directed pot fishery, the trawl bycatch fishery, the fixed bycatch fishery, the NMFS trawl survey, and the ADF&G pot survey. Two selectivity periods are estimated in the directed pot fishery, from 1978-2008 and 2009-2017.\\label{fig:selectivity}", fig.height = 15}
-plot_selectivity(M[mod_scen]) 
-ggsave(paste0(.FIGS, "selectivity_mod_scen.png"), width = ww*1.5, height = hh)
-## ** FIX ** not currently being output in .rep file.  Need to read this from Gmacsall.out 
+plot_selectivity(M[2:5]) 
+#plot_selectivity(M[2])
+ggsave(paste0(.FIGS, "selectivity_mod_scen.png"), width = ww*1.20, height = 1.1*hh)
 
-## recruitment mod scen ----------------
+#plot_selectivity(M[mod_scen2])
+plot_selectivity(M[6])
+ggsave(paste0(.FIGS, "selectivity_q_timeblock.png"), width = ww*1.20, height = 0.275*hh)
+ggsave(paste0(.FIGS, "PRES_selectivity_q_timeblock.png"), width = ww*1.20, height = 0.375*hh)
+
+## ** FIX ** display is not good.
+
+## !!recruitment mod scen ----------------
 # "Estimated recruitment 1979-2018 comparing model alternatives. The solid horizontal lines in the background represent the estimate of the average recruitment parameter ($\\bar{R}$) in each model scenario.\\label{fig:recruitment}"}
 #A <- M
 #for (i in mod_scen) {
@@ -245,9 +308,9 @@ ggsave(paste0(.FIGS, "selectivity_mod_scen.png"), width = ww*1.5, height = hh)
 #}
 #plot_recruitment(A[mod_scen])
 plot_recruitment(M[mod_scen])
-ggsave(paste0(.FIGS, "recruit_mod_scen.png"), width = ww*1.5, height = hh)
+ggsave(paste0(.FIGS, "recruit_mod_scen.png"), width = ww*1.20, height = hh)
 
-# recruit ribbons -------------
+# !!recruit ribbons -------------
 rec <- .get_recruitment_df(M[mod_scen])
 head(rec)
 
@@ -258,14 +321,8 @@ rec %>%
   summarise(meanR = mean(exp(log_rec)/1000000)) %>% 
   mutate(years = "1978-2018")-> avgR
 
-rec %>% 
-  filter(year >= 1996) %>% 
-  group_by(Model) %>% 
-  summarise(meanR = mean (exp(log_rec)/1000000)) %>% 
-  mutate(years = "1996-2018")-> avgR2
 
-avgR %>% 
-  bind_rows(avgR2) -> avgR_options
+avgR  -> avgR_options
 #mutate(Bmsy50 = 0.5*Bmsy) -> Bmsy_options
 avgR_options # see above is calculated average recruitment for each time series
 rec$rbar[1]
@@ -278,26 +335,65 @@ rec %>%
   expand_limits(y=0) +
   ggtitle("Recruitment model scenarios") +
   ylab("Recruitment (millions of individuals)") + xlab("Year") +
-  scale_colour_manual(name = "", values = c("red", "dark green", "blue"))+
-  scale_fill_manual(name = "", values = c("red", "dark green", "blue")) +
+  #scale_colour_manual(name = "", values = c("red", "dark green", "blue"))+
+  #scale_fill_manual(name = "", values = c("red", "dark green", "blue")) +
   #geom_hline(aes(yintercept = rbar[1]/1000000), color = "gray25") +
   #geom_text(aes(x = 2000, y = rbar[1]/1000000, label = "R_bar"), 
   #          hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 3.0) +
   .THEME +
-  #geom_hline(data = avgR_options, aes(yintercept = meanR), color = c("blue", "red"), 
-  #           lty = c("solid", "dashed"))+
+  #geom_hline(yintercept = rbar, group = Model, fill = Model)
+  geom_hline(data = avgR_options, aes(yintercept = meanR, group = Model,
+             color = Model)) +
   #geom_text(data = avgR_options, aes(x= 1980, y = meanR, label = years), 
   #          hjust = -2.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) 
-ggsave(paste0(.FIGS, "recruitment_mod_scen_ribbons.png"), width = 1.5*ww, height = hh)
+ggsave(paste0(.FIGS, "recruitment_mod_scen_ribbons.png"), width = 1.20*ww, height = hh)
 dev.off()
 
+##!! recruit VAST/base ------
+rec <- .get_recruitment_df(M[2:3])
+head(rec)
+
+#rbar is estimated in model
+# need to pull rbar from model output with different recruitment years
+rec %>% 
+  group_by(Model) %>% 
+  summarise(meanR = mean(exp(log_rec)/1000000)) %>% 
+  mutate(years = "1978-2018")-> avgR
 
 
+avgR  -> avgR_options
+#mutate(Bmsy50 = 0.5*Bmsy) -> Bmsy_options
+avgR_options # see above is calculated average recruitment for each time series
+rec$rbar[1]
+
+# recruitment plot
+rec %>% 
+  ggplot(aes(year, y = exp(log_rec)/1000000, group = Model, fill = Model)) +
+  geom_line(aes(color = Model)) +
+  geom_ribbon(aes(x=year, ymax = ub/1000000, ymin = lb/1000000), alpha = 0.15) +
+  expand_limits(y=0) +
+  ggtitle("Recruitment VAST vs. Reference model") +
+  ylab("Recruitment (millions of individuals)") + xlab("Year") +
+  #scale_colour_manual(name = "", values = c("red", "dark green", "blue"))+
+  #scale_fill_manual(name = "", values = c("red", "dark green", "blue")) +
+  #geom_hline(aes(yintercept = rbar[1]/1000000), color = "gray25") +
+  #geom_text(aes(x = 2000, y = rbar[1]/1000000, label = "R_bar"), 
+  #          hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 3.0) +
+  .THEME +
+  #geom_hline(yintercept = rbar, group = Model, fill = Model)
+  geom_hline(data = avgR_options, aes(yintercept = meanR, group = Model,
+                                      color = Model)) +
+  #geom_text(data = avgR_options, aes(x= 1980, y = meanR, label = years), 
+  #          hjust = -2.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) 
+  ggsave(paste0(.FIGS, "recruitment_vast_base_ribbons.png"), width = 1.20*ww, height = hh)
+dev.off()
 # ssb mod scen ---------------
   
 #"Comparisons of estimated mature male biomass (MMB) time series on 15 February during 1978-2018 for each of the model scenarios.\\label{fig:mmb}"}
 plot_ssb(M[mod_scen], ylab = "Mature male biomass (tons) on 15 February")
 ## **FIX** to include 2019 projected value and associate error
+ggsave(paste0(.FIGS, "ssb_mod_scen_NO_prj_yr.png"), width = 1.5*ww, height = hh)
+dev.off()
 
 # !!SSB model scenarios-----------
 # SSB lst yr / current yr base model-----------
@@ -306,28 +402,47 @@ head(ssb)
 tail(ssb)
 
 # ssb current year uncertainty
-un_ssb_ref <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))#
-un_ssb_fit <- read.csv(here::here("./SMBKC/smbkc_19/model_5/projections/proj_1/d/uncertainty_ssb_2019.csv")) #need to run
-un_ssb_cv <- read.csv(here::here("./SMBKC/smbkc_19/model_1b/projections/proj_1/d/uncertainty_ssb_2019.csv")) #need to run
+un_ssb_ref <- read.csv(here::here("./SMBKC/smbkc_19a/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))#
+un_ssb_vast <- read.csv(here::here("./SMBKC/smbkc_19a/model_4/projections/proj_1/d/uncertainty_ssb_2019.csv")) #need to run
+un_ssb_cv <- read.csv(here::here("./SMBKC/smbkc_19a/model_1a/projections/proj_1/d/uncertainty_ssb_2019.csv")) #need to run
+un_ssb_cv2 <- read.csv(here::here("./SMBKC/smbkc_19a/model_1b/projections/proj_1/d/uncertainty_ssb_2019.csv")) #need to run
+un_ssb_q <- read.csv(here::here("./SMBKC/smbkc_19a/model_3/projections/proj_1/d/uncertainty_ssb_2019.csv")) #need to run
+
 #un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_5/d/uncertainty_ssb_2019.csv")) #
+# temporary way to estimate uncertainty in proj year
+ssb %>% filter(Model == "model 16.0 (ref)") %>% filter(year == 2018) -> temp1
+temp1 %>% 
+  mutate(lper = lb/ssb, uper = ub/ssb) -> temp2
 
 # ssb vector only includes model years - here crab year 1978 to 2019 does NOT include projection, need to add
 #   projection year for graphical purposes
 ssb_last <- data.frame("Model" = names(M[mod_scen]),
-                       "year" = c(cur_yr, cur_yr, cur_yr), 
+                       "year" = c(cur_yr, cur_yr, cur_yr, cur_yr, cur_yr), 
                        "ssb" = c(M[[2]]$spr_bmsy * M[[2]]$spr_depl,
                                  M[[3]]$spr_bmsy * M[[3]]$spr_depl,
-                                 M[[4]]$spr_bmsy * M[[4]]$spr_depl),
-                       "lb" = c(un_ssb_ref$lci, un_ssb_fit$lci, un_ssb_cv$lci), # need to update these from .csv output
-                       "ub" = c(un_ssb_ref$uci, un_ssb_fit$uci, un_ssb_cv$uci)) 
+                                 M[[4]]$spr_bmsy * M[[4]]$spr_depl, 
+                                 M[[5]]$spr_bmsy * M[[5]]$spr_depl, 
+                                 M[[6]]$spr_bmsy * M[[6]]$spr_depl),
+                       "lb" = c(M[[2]]$spr_bmsy * M[[2]]$spr_depl*temp2$lper,
+                                M[[3]]$spr_bmsy * M[[3]]$spr_depl*temp2$lper,
+                                M[[4]]$spr_bmsy * M[[4]]$spr_depl*temp2$lper, 
+                                M[[5]]$spr_bmsy * M[[5]]$spr_depl*temp2$lper, 
+                                M[[6]]$spr_bmsy * M[[6]]$spr_depl*temp2$lper), # need to update these from .csv output
+                       "ub" = c(M[[2]]$spr_bmsy * M[[2]]$spr_depl*temp2$uper,
+                                M[[3]]$spr_bmsy * M[[3]]$spr_depl*temp2$uper,
+                                M[[4]]$spr_bmsy * M[[4]]$spr_depl*temp2$uper, 
+                                M[[5]]$spr_bmsy * M[[5]]$spr_depl*temp2$uper, 
+                                M[[6]]$spr_bmsy * M[[6]]$spr_depl*temp2$uper))
+                       #"lb" = c(un_ssb_ref$lci, un_ssb_fit$lci, un_ssb_cv$lci), # need to update these from .csv output
+                       #"ub" = c(un_ssb_ref$uci, un_ssb_fit$uci, un_ssb_cv$uci)) 
 # should be current crab year; update with lb and ub from projection file
-# update with 95% credible interval
+# update with 95% credible interval#
 ssb %>% 
-  bind_rows(ssb_last) -> ssb
+  bind_rows(ssb_last) -> ssb2
 
 
 ## ssb plot with current year 
-ssb %>% 
+ssb2 %>% 
   ggplot(aes(year, ssb, col = Model)) +
   geom_line() +
   expand_limits(y=0) +
@@ -342,104 +457,226 @@ ssb %>%
   #ggtitle("Base model - model 1 (Model 3 2018)") +
   ylab("Mature male biomass (tons) on 15 February") + xlab("Year") +
   .THEME
-ggsave(paste0(.FIGS, "mod_scen_ssb_wprojected_yr.png"), width = ww*1.25, height = hh)
+ggsave(paste0(.FIGS, "mod_scen_ssb_wprojected_yr.png"), width = ww*1.18, height = hh)
 ggsave(paste0(.FIGS, "PRESENTATION_mod_scen_ssb_wprojected_yr.png"), width = ww*1.5, height = hh)
 
+# !!SSB VAST scenarios-----------
+# SSB lst yr / current yr base model-----------
+ssb <- .get_ssb_df(M[2:3]) # ssb now does NOT include projection year so only up to 2018 crab year - 2019 projection (example)
+head(ssb)
+tail(ssb)
+
+# temporary way to estimate uncertainty in proj year
+ssb %>% filter(Model == "model 16.0 (ref)") %>% filter(year == 2018) -> temp1
+temp1 %>% 
+  mutate(lper = lb/ssb, uper = ub/ssb) -> temp2
+
+# ssb vector only includes model years - here crab year 1978 to 2019 does NOT include projection, need to add
+#   projection year for graphical purposes
+ssb_last <- data.frame("Model" = names(M[2:3]),
+                       "year" = c(cur_yr, cur_yr), 
+                       "ssb" = c(M[[2]]$spr_bmsy * M[[2]]$spr_depl,
+                                 M[[3]]$spr_bmsy * M[[3]]$spr_depl),
+                       "lb" = c(M[[2]]$spr_bmsy * M[[2]]$spr_depl*temp2$lper,
+                                M[[3]]$spr_bmsy * M[[3]]$spr_depl*temp2$lper), # need to update these from .csv output
+                       "ub" = c(M[[2]]$spr_bmsy * M[[2]]$spr_depl*temp2$uper,
+                                M[[3]]$spr_bmsy * M[[3]]$spr_depl*temp2$uper))
+# update with 95% credible interval#
+ssb %>% 
+  bind_rows(ssb_last) -> ssb2
+ssb2 %>% 
+  filter(year <2019) %>% 
+  group_by(Model) %>% 
+  summarise(mean(ssb)) %>% 
+  spread(Model, `mean(ssb)`)-> bmsy_proxy
+## ssb plot with current year 
+ssb2 %>% 
+  ggplot(aes(year, ssb, col = Model)) +
+  geom_line() +
+  expand_limits(y=0) +
+  geom_ribbon(aes(x=year, ymax = ub, ymin = lb, fill = Model, col = NULL), alpha = 0.1) +
+  #ylab = "SSB (tonnes)" +
+  scale_y_continuous(expand = c(0,0)) +
+  ylim(0, max(ssb$ub)+ 100) +
+  geom_hline(yintercept = bmsy_proxy$`model 16.0 (ref)`, color = "red", 
+             lwd = 0.75) +
+  geom_hline(yintercept = bmsy_proxy$`model 19.1 (VAST)`, color = "cyan3", 
+             linetype = "dotdash", lwd = 0.75) +
+  #geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
+  #           lty = c("solid", "dashed"))+
+  #geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
+  #          hjust = -0.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
+  #ggtitle("Base model - model 1 (Model 3 2018)") +
+  ylab("Mature male biomass (tons) on 15 February") + xlab("Year") +
+  .THEME
+ggsave(paste0(.FIGS, "VAST_Ref_ssb_wprojected_yr.png"), width = ww*1.18, height = hh)
+ggsave(paste0(.FIGS, "PRESENTATION_VAST_Ref_ssb_wprojected_yr.png"), width = ww*1.5, height = hh)
 
 
-#  ```{r natural_mortality, fig.cap = "Time-varying natural mortality ($M_t$). Estimated pulse period occurs in 1998/99 (i.e. $M_{1998}$). \\label{fig:M_t}"}
-plot_natural_mortality(M, knots = NULL, slab = "Model")
+# !!natural_mortality -------------
+#, fig.cap = "Time-varying natural mortality ($M_t$). Estimated pulse period occurs in 1998/99 (i.e. $M_{1998}$). \\label{fig:M_t}"}
+# updated with my own function due to issues with maturity in gmr
+#plot_natural_mortality(M[mod_scen], knots = NULL, slab = "Model")
+plot_natural_mortality2(M[mod_scen], knots = NULL, slab = "Model")
+ggsave(paste0(.FIGS, "mod_scen_M_t.png"), width = 1.25*ww, height = hh)
+#plot_natural_mortality(M, knots = NULL, slab = "Model")
 
+# survey fit --------
+plot_cpue(M[c(mod_scen)], c("NMFS Trawl", "ADF&G Pot"))
+
+#!! trawl survey -----------
 #{r trawl_survey_biomass, fig.cap = "Comparisons of area-swept estimates of total (90+ mm CL) male survey biomass (tons) and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations.\\label{fig:trawl_survey_biomass}"} 
 plot_cpue(M[c(mod_scen)],  "NMFS Trawl", ylab = "NMFS survey biomass (t)")
-ggsave(paste0(.FIGS, "trawl_biomass_mod_scen.png"), width = ww*1.5, height = hh)
-#p.df <- .get_cpue_df(M[mod_scen])
-#filter(p.df,fleet=="NMFS Trawl") %>% 
-#  ggplot(aes(x=(year),y=cpue,col=Model)) + geom_point(position=position_dodge(0.9) ) + .THEME + xlab("Year") +
-#  geom_errorbar(aes(ymin=lbe, ymax=ube), width=.2,position=position_dodge(0.9) ) + geom_line(aes(x=year,y=pred)) + ylab("NMFS survey biomass (t)")
-#plot_cpue(M[mod_scen], "NMFS Trawl", ylab = "Survey biomass (tons)") 
+ggsave(paste0(.FIGS, "trawl_biomass_mod_scen.png"), width = ww*1.10, height = 1.1*hh)
 
+# additional CV on trawl survey ---------
+plot_cpue(M[4:5],  ShowEstErr = TRUE, "NMFS Trawl", ylab = "NMFS survey biomass (t)")
+ggsave(paste0(.FIGS, "PRESENTATION_trawl_biomass_addCVboth.png"), width = ww*1.50, height = 1.1*hh)
+
+plot_cpue2(M[mod_scen], "NMFS Trawl", ylab = "NMFS survey biomass (t)", 
+           vastdata = TRUE, vastm = "model 19.1 (VAST)")
+ggsave(paste0(.FIGS, "trawl_biomass_mod_scen2.png"), width = ww*1.10, height = 1.1*hh)
+
+# vast only 
+plot_cpue(M[3], "NMFS Trawl", ylab = "NMFS survey biomass (t)")
+plot_cpue2(M[3], "NMFS Trawl", ylab = "NMFS survey biomass (t)")
+ggsave(paste0(.FIGS, "trawl_biomass_VASTonly.png"), width = ww*1.10, height = 1.1*hh)
+
+plot_cpue2(M[2:3],  "NMFS Trawl", ylab = "NMFS survey biomass (t)", 
+           vastdata = TRUE, vastm = "model 19.1 (VAST)")
+ggsave(paste0(.FIGS, "trawl_biomass_base_vast.png"), width = ww*1.20, height = 1.1*hh)
+
+plot_cpue3(M[2:3],  "NMFS Trawl", ylab = "NMFS survey biomass (t)", 
+           vastdata = TRUE, vastm = "model 19.1 (VAST)")
+ggsave(paste0(.FIGS, "trawl_biomass_base_vast2.png"), width = ww*1.20, height = 1.1*hh)
+
+plot_cpue3(M[mod_scen],  "NMFS Trawl", ylab = "NMFS survey biomass (t)", 
+           vastdata = TRUE, vastm = "model 19.1 (VAST)")
+ggsave(paste0(.FIGS, "trawl_biomass_mod_scen3.png"), width = ww*1.10, height = 1.1*hh)
+
+plot_cpue(M[c(2, 4:6)],  "NMFS Trawl", ylab = "NMFS survey biomass (t)")
+ggsave(paste0(.FIGS, "trawl_biomass_mod_scen_WO_vast.png"), width = ww*1.10, height = 1.1*hh)
+ggsave(paste0(.FIGS, "PRESENTATION_trawl_biomass_mod_scen_WO_vast.png"), width = ww*1.30, height = 1.1*hh)
+
+
+# VAST and area-swept data only ------
+plot_cpue_VAST(M[2:3],  "NMFS Trawl", ylab = "NMFS survey biomass (t)", 
+           vastdata = TRUE, vastm = "model 19.1 (VAST)")
+ggsave(paste0(.FIGS, "trawl_biomass_VAST_areaSP.png"), width = ww*1.10, height = 1.1*hh)
+
+#!! pot survey -------
 #{r pot_survey_cpue, fig.cap = "Comparisons of total (90+ mm CL) male pot survey CPUEs and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations.\\label{fig:pot_survey_cpue}"}
 plot_cpue(M[c(mod_scen)],  "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
-ggsave(paste0(.FIGS, "pot_cpue_mod_scen.png"), width = ww*1.5, height = hh)
-# add cv on pot survey -----------
+#ggsave(paste0(.FIGS, "pot_cpue_mod_scen.png"), width = ww*1.10, height = hh)
+# READ had to use user derived function since I have 2 q's for model 6
+
+# additional CV on pot survey fix --------
+# **FIX** in .tpl - below from Jie but not working...
+dvo<-M[[4]]$dSurveyData[,8]
+dv0<-M[[4]]$cpue_cv_add[1:2]
+dvo2 <- dvo[43:53]
+#n3 = length(dvo)
+dtrawl<-c(rep(0,42))        # n3 is number of survey years
+adfg <-c(rep(0,11))
+for (i in 1:11)
+{
+  #correct the error in Gmacs
+  adfg[i]<-(dvo2[i]+exp(-.3614))   #for ADFG survey, then 1 is replaced by 2, and i and n3 need to 
+  #df[i]<-  (dvo[n3+i]+dv0[2]-dvo[2])  #be changed as well.
+}      
+
+# !!add cv on pot survey -----------
+#plot_cpue(M[4],  ShowEstErr = TRUE, "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
 plot_cpue(M[4],  ShowEstErr = TRUE,"ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
-ggsave(paste0(.FIGS, "pot_cpue_addcv.png"), width = ww*1.5, height = hh)
+ggsave(paste0(.FIGS, "pot_cpue_addcv.png"), width = ww*1.10, height = hh)
 
-plot_cpue(M[c(mod_scen)])
-ggsave(paste0(.FIGS, "cpue_mod_scen_both.png"), width = ww*2.5, height = 1.25*hh)
+plot_cpue(M[4:5],  ShowEstErr = TRUE,"ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
+ggsave(paste0(.FIGS, "pot_cpue_addcv_models2and3.png"), width = ww*1.10, height = hh)
 
-##catch --------
+## !!q block ----
+plot_cpue(M[6], "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)")
+plot_cpue(M[6], "ADF&G Pot2", ylab = "Pot survey CPUE (crab/potlift)")
+
+plot_cpue_q(M[6], "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)", 
+            qblock = TRUE)
+
+plot_cpue_q(M[mod_scen], "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)", 
+            qblock = TRUE)
+ggsave(paste0(.FIGS, "pot_cpue_mod_scen.png"), width = ww*1.10, height = hh)
+ggsave(paste0(.FIGS, "PRESENTATION_pot_cpue_mod_scen.png"), width = ww*1.50, height = hh)
+
+# presentation 
+plot_cpue_q(M[c(2, 4:6)], "ADF&G Pot", ylab = "Pot survey CPUE (crab/potlift)", 
+            qblock = TRUE)
+ggsave(paste0(.FIGS, "PRESENTATION_pot_cpue_mod_scen_woVAST.png"), width = ww*1.50, height = hh)
+
+##!!catch --------
 plot_catch(M[2])
-ggsave(paste0(.FIGS, "catch.png"), width = ww*1.2, height = hh*1.2)
-dev.off()
+ggsave(paste0(.FIGS, "catch.png"), width = ww*1.02, height = hh*1.2)
+#dev.off()
 
-  A <- M[[2]]
-  df <- data.frame(Model = names(M)[2], A$dCatchData_out)
-  colnames(df) <- c("model", "year", "seas", 
-                    "fleet", "sex", "obs", "cv", 
-                    "type", "units", "mult", "effort", 
-                    "discard.mortality")
-  df$observed <- na.omit(as.vector(t(A$obs_catch_out)))
-  df$predicted <- na.omit(as.vector(t(A$pre_catch_out)))
-  df$residuals <- as.vector(t(A$res_catch_out))
-  df$sex <- .SEX[df$sex + 1]
-  df$fleet <- .FLEET[df$fleet]
-  df$type <- .TYPE[df$type]
-  df$sd <- sqrt(log(1 + df$cv^2))
-  df$lb <- exp(log(df$obs) - 1.96 * df$sd)
-  df$ub <- exp(log(df$obs) + 1.96 * df$sd)
-  mdf <- rbind(mdf, df)
-  if (!all(df$observed == df$obs)) {
-    stop("Error: observed catch data is buggered.")
-  }
-}
-mdf$year <- as.integer(mdf$year)
-mdf$sex <- factor(mdf$sex, levels = .SEX)
-mdf$type <- as.factor(mdf$type)
-mdf$fleet <- factor(mdf$fleet, levels = .FLEET)
-return(mdf)
+#plot_catch(M[mod_scen]) # to confusing but run for comparison
 
-
-
-
-
+#!! trawl_res --------
 #{r bts_resid_nmfs, fig.cap = "Standardized residuals for area-swept estimates of total male survey biomass for the model scenarios. \\label{fig:bts_resid_nmfs}"}
-A <- M[mod_scen];
-plot_cpue_res(A, "NMFS Trawl")
+#A <- M[mod_scen];
+#plot_cpue_res(A, "NMFS Trawl")
+plot_cpue_res(M[mod_scen], "NMFS Trawl")
+ggsave(paste0(.FIGS, "trawl_biomass_mod_scen_residuals.png"), width = ww*1.20, height = 1.1*hh)
 
+plot_cpue_res(M[2:3], "NMFS Trawl")
+ggsave(paste0(.FIGS, "trawl_biomass_VAST_Ref_residuals.png"), width = ww*1.20, height = 1.1*hh)
 
+#!! pot_res --------
 #{r bts_resid_adfg, fig.cap = "Standardized residuals for total male pot survey CPUEs for each of the Gmacs model scenarios.\\label{fig:bts_resid_adfg}"}
-A <- M[mod_scen];
-plot_cpue_res(A, "ADF&G Pot")
+plot_cpue_res(M[mod_scen], "ADF&G Pot")
+
+# user defined function here also to deal with qblocks **FIX**
+
+ggsave(paste0(.FIGS, "pot_cpue_mod_scen_residuals.png"), width = ww*1.20, height = 1.1*hh)
+
+plot_cpue_res(Mbase, "ADF&G Pot")
+ggsave(paste0(.FIGS, "pot_cpue_REF_residuals.png"), width = ww*1.20, height = 1.1*hh)
 
 ## !!size comps ---------------
 ## !!!!!!!!!!!!! load my functions file here
-source("./SMBKC/code/functions.R") 
-#{r sc_pot, fig.cap = "Observed and model estimated size-frequencies of SMBKC by year retained in the directed pot fishery for the model scenarios. \\label{fig:sc_pot}"}
-plot_size_comps(M[mod_scen], 1, legend_loc=c(.87,.1))
+#source("./SMBKC/code/functions.R") # moved to top
+# CHECK to see which function is being used here **FIX** rename my function
+#{r sc_pot_discarded, fig.cap = "Observed and model estimated size-frequencies of discarded male SMBKC by year in the NMFS trawl survey for the model scenarios. \\label{fig:sc_pot_discarded}"}
+plot_size_comps(M[mod_scen], 1, legend_loc = "right")#legend_loc=c(.87,.01))
 ggsave(paste0(.FIGS, "lf_1.png"), width = 8.5, height = 5, unit = "in")
 
-#{r sc_pot_discarded, fig.cap = "Observed and model estimated size-frequencies of discarded male SMBKC by year in the NMFS trawl survey for the model scenarios. \\label{fig:sc_pot_discarded}"}
-plot_size_comps(M[mod_scen], 2, legend_loc = "bottom")
+#{r sc_trawl_discarded, fig.cap = "Observed and model estimated size-frequencies of discarded SMBKC by year in the ADF&G pot survey for the model scenarios.\\label{fig:sc_trawl_discarded}"}
+
+plot_size_comps(M[mod_scen], 2, legend_loc = "right")
 ggsave(paste0(.FIGS, "lf_2.png"), width = 12, height = 7.5, unit = "in")
 
-#{r sc_trawl_discarded, fig.cap = "Observed and model estimated size-frequencies of discarded SMBKC by year in the ADF&G pot survey for the model scenarios.\\label{fig:sc_trawl_discarded}"}
-plot_size_comps(M[mod_scen], 3, legend_loc=c(.87,.2))
+#{r sc_pot_res_selex, fig.cap = "Bubble plots of residuals by stage and year for the directed pot fishery size composition data for SMBKC in the reference model.\\label{fig:sc_res_ref}"}
+plot_size_comps(M[mod_scen], 3, legend_loc = "right") #legend_loc=c(.87,.2))
 ggsave(paste0(.FIGS, "lf_3.png"), width = 8.5, height = 5, unit = "in")
 
-#{r sc_pot_res_selex, fig.cap = "Bubble plots of residuals by stage and year for the directed pot fishery size composition data for SMBKC in the reference model.\\label{fig:sc_res_ref}"}
-plot_size_comps_res(M[ref_mod])
+plot_size_comps(M[mod_scen], 4, legend_loc = "right") 
+ggsave(paste0(.FIGS, "lf_4.png"), width = 8.5, height = 5, unit = "in")
 
-#{r sc_trawl_discarded_res, fig.cap = "Bubble plots of residuals by stage and year for the ADF&G pot survey size composition data for SMBKC in the **fit surveys** model.\\label{fig:sc_res_fit_survey}"}
+#!! size comp residuals -------
+plot_size_comps_res(M[rec_mod])
+ggsave(paste0(.FIGS, "ref_mod_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
+
 plot_size_comps_res(M[3])
+ggsave(paste0(.FIGS, "VAST_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
 
-#{r fit_to_catch, fig.cap = "Comparison of observed and model predicted retained catch and bycatches in each of the Gmacs models. Note that difference in units between each of the panels, some panels are expressed in numbers of crab, some as biomass (tons).\\label{fig:fit_to_catch}", fig.height = 12}
-plot_catch(M[rec_mod]) # Note this should be rec_mod or all models
+plot_size_comps_res(M[4])
+ggsave(paste0(.FIGS, "addCV_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
+
+plot_size_comps_res(M[5])
+ggsave(paste0(.FIGS, "addcvBoth_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
+
+plot_size_comps_res(M[6])
+ggsave(paste0(.FIGS, "qblock_size_comp_residuals.png"), width = ww*1.20, height = 1.5*hh)
 
 # !!dynamic Bzero ----------------------
 #{r Dynamic_Bzero, fig.cap = "Comparisons of mature male biomass relative to the dynamic $B_0$ value, (15 February, 1978-2018) for  each of the model scenarios.\\label{fig:dynB0}"}
-plot_dynB0(M[mod_scen])
+plot_dynB0(M[mod_scen]) #**FIX**
 ggsave(paste0(.FIGS, "dyn_Bzero.png"), width = 8.5, height = 5, unit = "in")
 # not currently being output in .rep file - made Jim aware of this I need to talk to him again about this.
 #.get_dynB0_df(M)
@@ -488,8 +725,9 @@ df1 %>%
 Parameter <- NULL
 Estimate <- NULL
 Model <- NULL
-Mname <- c("2018", "Ref","FitSurvey","addCVpot", "altregime")
-for (ii in 2:5)
+Mname <- c("last yr", "Ref","VAST","addCVpot", "addCVboth", "qBlock")
+#c("model 16.0", "model 16.0 (ref)", "model 19.1 (VAST)", "model 19.2 (add CV pot)", "model 19.3 (add CV both)", "model 19.4 (q time block pot)") 
+for (ii in 2:6)
 {
   x <- M[[ii]]$fit
   i <- c(grep("m_dev", x$names)[1],
@@ -513,46 +751,68 @@ Parameter <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
                "log Stage-1 NMFS trawl selectivity","log Stage-2 NMFS trawl selectivity",
                "log Stage-1 ADF\\&G pot selectivity","log Stage-2 ADF\\&G pot selectivity")
                #"$F_\\text{OFL}$","OFL")
-Parameter <- c(Parameter, Parameter, Parameter, Parameter) 
+ParameterQ <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
+                "$\\log (\\bar{R})$","$\\log (n^0_1)$","$\\log (n^0_2)$","$\\log (n^0_3)$",
+                "$q_{pot1}$", "$q_{pot2}$","$\\log (\\bar{F}^\\text{df})$","$\\log (\\bar{F}^\\text{tb})$","$\\log (\\bar{F}^\\text{fb})$",
+                "log Stage-1 directed pot selectivity 1978-2008","log Stage-2 directed pot selectivity 1978-2008",
+                "log Stage-1 directed pot selectivity 2009-2017","log Stage-2 directed pot selectivity 2009-2017",
+                "log Stage-1 NMFS trawl selectivity","log Stage-2 NMFS trawl selectivity",
+                "log Stage-1 ADF\\&G pot1 selectivity","log Stage-2 ADF\\&G pot1 selectivity",
+                "log Stage-1 ADF\\&G pot2 selectivity","log Stage-2 ADF\\&G pot2 selectivity")
+Parameter <- c(Parameter, Parameter, Parameter, Parameter, ParameterQ) 
 df1 <- data.frame(Model, Parameter, Estimate)
-
-df2 <- data.frame(Model = c("Ref", "Ref", "FitSurvey", "FitSurvey", "addCVpot", "addCVpot", "altregime", "altregime"),
-                  Parameter = c("$F_\\text{OFL}$","OFL", "$F_\\text{OFL}$","OFL", "$F_\\text{OFL}$","OFL", "$F_\\text{OFL}$","OFL"), 
-                  Estimate = c(M[[ref_mod]]$sd_fofl[1], M[[ref_mod]]$spr_cofl,
+#Mname <- c("last yr", "Ref","VAST","addCVpot", "addCVboth", "qBlock")
+df2 <- data.frame(Model = c("Ref", "Ref", "VAST", "VAST", "addCVpot", "addCVpot", "addCVboth", "addCVboth", "qBlock", "qBlock"),
+                  Parameter = c("$F_\\text{OFL}$","OFL", "$F_\\text{OFL}$","OFL", 
+                                "$F_\\text{OFL}$","OFL", "$F_\\text{OFL}$","OFL", 
+                                "$F_\\text{OFL}$","OFL"), 
+                  Estimate = c(M[[rec_mod]]$sd_fofl[1], M[[rec_mod]]$spr_cofl,
                                 M[[3]]$sd_fofl[1], M[[3]]$spr_cofl, 
                                 M[[4]]$sd_fofl[1], M[[4]]$spr_cofl, 
-                                M[[5]]$sd_fofl[1], M[[5]]$spr_cofl))
+                                M[[5]]$sd_fofl[1], M[[5]]$spr_cofl, 
+                                M[[6]]$sd_fofl[1], M[[6]]$spr_cofl))
 df1 %>% 
   bind_rows(df2) -> df
-df <- tidyr::spread(df, Model, Estimate) %>% dplyr::select(Parameter, Ref, FitSurvey, addCVpot, altregime)
-write.csv(df, paste0(here::here(), '/SMBKC/smbkc_19/doc/safe_tables/all_parms.csv'), 
+df3 <- tidyr::spread(df, Model, Estimate) %>% 
+  dplyr::select(Parameter, Ref, VAST, addCVpot, addCVboth, qBlock)
+# **FIX ** reorder these to match other tables - currently done manually
+write.csv(df3, paste0(here::here(), '/SMBKC/', folder,'/doc/safe_tables/all_parms.csv'), 
           row.names = FALSE)
 ### see chunk in .rmd to bring this file in
 
-## data weighting ---------------------
+## !!data weighting ---------------------
 #```{r data_weighting, results = "asis"}
 # updated to work for draft - need to figure out how to get Francis weightings and 
 #   lamdas
+# shorten names for tables
+Mname2 <- c("Ref","VAST","addCVpot", "addCVboth", "qBlock")
+
 df <- NULL
 for (ii in mod_scen)
 {
   x       <- M[[ii]]
-  SDNR    <- c(x$sdnr_MAR_cpue[,1], x$sdnr_MAR_lf[,1]); names(SDNR) <- c("SDNR NMFS trawl survey","SDNR ADF\\&G pot survey","SDNR directed pot LF","SDNR NMFS trawl survey LF","SDNR ADF\\&G pot survey LF")
+  SDNR    <- c(x$sdnr_MAR_cpue[,1], 
+               x$sdnr_MAR_lf[,1]); names(SDNR) <- c("SDNR NMFS trawl survey",
+                                                    "SDNR ADF\\&G pot survey",
+                                                    "SDNR directed pot LF",
+                                                    "SDNR NMFS trawl survey LF",
+                                                    "SDNR ADF\\&G pot survey LF")
   MAR     <- c(x$sdnr_MAR_cpue[,2], x$sdnr_MAR_lf[,2]); names(MAR) <- c("MAR NMFS trawl survey","MAR ADF\\&G pot survey","MAR directed pot LF","MAR NMFS trawl survey LF","MAR ADF\\&G pot survey LF")
   #Francis <- x$Francis_weights; names(Francis) <- c("Fancis weight for directed pot LF","Francis weight for NMFS trawl survey LF","Francis weight for ADF\\&G pot survey LF")
-  wt_cpue <- c(ifelse(ii == 3, 1.5,1), ifelse(ii == 3, 2 ,1)); names(wt_cpue) <- c("NMFS trawl survey weight","ADF\\&G pot survey weight")
+  wt_cpue <- c(ifelse(ii == 3, 1,1), ifelse(ii == 3, 1 ,1)); names(wt_cpue) <- c("NMFS trawl survey weight","ADF\\&G pot survey weight")
   wt_lf   <- c(1,1,1); names(wt_lf) <- c("Directed pot LF weight","NMFS trawl survey LF weight","ADF\\&G pot survey LF weight")
   v       <- c(wt_cpue, wt_lf, SDNR, MAR)
   df      <- cbind(df, v)
 }
 df        <- data.frame(rownames(df), df, row.names = NULL)
-names(df) <- c("Component",mod_names[mod_scen])
-write.csv(df, paste0(here::here(), '/SMBKC/smbkc_19/doc/safe_tables/data_weighting.csv'), 
+names(df) <- c("Component", Mname2) #mod_names[mod_scen])
+write.csv(df, paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/data_weighting.csv'), 
           row.names = FALSE)
 
 
 # !!Likelihood components -----------------
 #```{r likelihood_components, results = "asis"}
+Mname2 <- c("Ref","VAST","addCVpot", "addCVboth", "qBlock")
 df <- NULL
 for (ii in mod_scen)
 {
@@ -582,20 +842,20 @@ for (ii in mod_scen)
   df <- cbind(df, v)
 }
 df <- data.frame(rownames(df), df, row.names = NULL)
-names(df) <- c("Component",mod_names[mod_scen])
-write.csv(df, paste0(here::here(), '/SMBKC/smbkc_19/doc/safe_tables/neg_log_like.csv'), 
+names(df) <- c("Component", Mname2) #mod_names[mod_scen])
+write.csv(df, paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/neg_log_like.csv'), 
           row.names = FALSE)
 
-### !!population abundance 2018 model -----------------------
-#```{r pop-abundance-2018, results = "asis"}
-
+### !!population abundance last years model -----------------------
+#```{r pop-abundance-2019, results = "asis"}
 A         <- M[[1]]
 i         <- grep("sd_log_ssb", A$fit$names) #does not have proj value in here
 SD        <- A$fit$std[i]
 tl        <- length(A$mod_yrs)
 
 # ssb current year uncertainty
-un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_18a/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
+#un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_18a/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
+un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
 
 
 years = c(as.integer(A$mod_yrs[1:tl]), A$mod_yrs[tl]+1)
@@ -605,10 +865,10 @@ ssb_cv = c((exp(SD[1:tl])-1), (exp(un_ssb2$CV_ssb)-1))
 df        <- data.frame(years, A$N_males[ ,1], A$N_males[ ,2], 
                         A$N_males[ ,3], ssb, ssb_cv)
 names(df) <- c("Year","$n_1$","$n_2$","$n_3$","MMB","CV MMB")
-write.csv(df, paste0(here::here(), '/SMBKC/smbkc_19/doc/safe_tables/numbers_last_yrs.csv'), 
+write.csv(df, paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/numbers_last_yrs.csv'), 
           row.names = FALSE)
 
-### !!population abundance 2019 base model -----------------------
+### !!population abundance current year base model -----------------------
 #```{r pop-abundance-2019, results = "asis"}
 A         <- M[[ref_mod]]
 i         <- grep("sd_log_ssb", A$fit$names) #does not have proj value in here

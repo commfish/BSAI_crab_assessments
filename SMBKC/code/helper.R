@@ -11,10 +11,11 @@ library(extrafont)
 
 library(grid)
 library(gridExtra)
-library(FNGr) #update this to fngr
+library(fngr) #update this to fngr
 library(scales)
 library(cowplot)
 library(readxl)
+library(stringr)
 options(scipen=9999) # remove scientific notation
 
 loadfonts(device="win")

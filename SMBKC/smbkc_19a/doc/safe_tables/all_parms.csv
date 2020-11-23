@@ -1,0 +1,26 @@
+Parameter,Ref,VAST,addCVpot,addCVboth,qBlock
+Natural mortality deviation in 1998/99 ($\delta^M_{1998})$,1.5728,1.7438,1.8483,1.9844,1.5517
+$\log (\bar{R})$,13.899,14.161,14.202,14.244,13.913
+$\log (n^0_1)$,14.95,15.075,14.948,15.009,14.951
+$\log (n^0_2)$,14.509,14.714,14.461,14.548,14.496
+$\log (n^0_3)$,14.326,14.553,14.293,14.369,14.318
+$q_{pot}$,3.838,2.5423,2.253,2.2365,NA
+$q_{pot1}$,NA,NA,NA,NA,3.7844
+$q_{pot2}$,NA,NA,NA,NA,4.0000
+$\log (\bar{F}^\text{df})$,-2.1247,-2.4404,-2.3202,-2.4476,-2.1394
+$\log (\bar{F}^\text{fb})$,-8.1219,-8.4986,-8.314,-8.3105,-8.1273
+$\log (\bar{F}^\text{tb})$,-9.425,-9.8009,-9.6145,-9.6105,-9.4303
+log Stage-1 directed pot selectivity 1978-2008,-0.81866,-0.7995,-0.79521,-0.66294,-0.80464
+log Stage-2 directed pot selectivity 1978-2008,-0.45192,-0.38839,-0.43797,-0.32298,-0.44757
+log Stage-1 directed pot selectivity 2009-2017,-0.48308,-0.2791,-0.9052,-0.99407,-0.514
+log Stage-2 directed pot selectivity 2009-2017,-4.20E-09,-2.63E-09,-1.55E-08,-1.37E-07,-4.27E-09
+log Stage-1 NMFS trawl selectivity,-0.31952,-0.25171,-0.37677,-0.34281,-0.33573
+log Stage-2 NMFS trawl selectivity,-3.66E-09,-1.78E-09,-1.20E-08,-5.59E-09,-4.06E-09
+log Stage-1 ADF\&G pot selectivity,-0.7248,-0.57892,-1.0668,-1.1222,NA
+log Stage-1 ADF\&G pot1 selectivity,NA,NA,NA,NA,-0.50481
+log Stage-1 ADF\&G pot2 selectivity,NA,NA,NA,NA,-1.2677
+log Stage-2 ADF\&G pot selectivity,-1.53E-08,-4.39E-09,-0.13991,-0.15661,NA
+log Stage-2 ADF\&G pot1 selectivity,NA,NA,NA,NA,-1.39E-08
+log Stage-2 ADF\&G pot2 selectivity,NA,NA,NA,NA,-0.097342
+$F_\text{OFL}$,0.0403,0.0651,0.1413,0.1425,0.0459
+OFL,39.6836,118.1464,383.4127,424.8457,48.2145

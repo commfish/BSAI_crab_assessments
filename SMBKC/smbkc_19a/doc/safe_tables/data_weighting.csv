@@ -1,0 +1,16 @@
+"Component","Ref","VAST","addCVpot","addCVboth","qBlock"
+"NMFS trawl survey weight",1,1,1,1,1
+"ADF\&G pot survey weight",1,1,1,1,1
+"Directed pot LF weight",1,1,1,1,1
+"NMFS trawl survey LF weight",1,1,1,1,1
+"ADF\&G pot survey LF weight",1,1,1,1,1
+"SDNR NMFS trawl survey",0,0,0,0,0
+"SDNR ADF\&G pot survey",0,0,0,0,0
+"SDNR directed pot LF",0.6973,0.7984,0.6393,0.6289,0
+"SDNR NMFS trawl survey LF",1.3005,1.3776,1.0396,0.9205,0.689
+"SDNR ADF\&G pot survey LF",0.9549,1.0705,0.6739,0.6338,1.3
+"MAR NMFS trawl survey",0,0,0,0,1.0165
+"MAR ADF\&G pot survey",0,0,0,0,0
+"MAR directed pot LF",0.5216,0.5699,0.3631,0.4586,0
+"MAR NMFS trawl survey LF",0.5981,0.7329,0.5139,0.4733,0
+"MAR ADF\&G pot survey LF",0.6769,0.8281,0.5769,0.5745,0.5559
