@@ -183,129 +183,171 @@ spec_0416 %>%
 
 # maps of survey catch ---- 
   
-## map of survey catch by subarea
-haul %>%
-    # get trawl mid points
-    mutate(lon = (start_lon + end_lon) / 2,
-           lat = (start_lat + end_lat) / 2) %>%
-    # select relevant data
-    dplyr::select(survey_year, stratum, haul, lon, lat, area_swept) %>%
-    # join to catch data 
-    right_join(catch, by = c("survey_year", "haul")) %>%
-    # change zero catch to NA
-    mutate(wt_kg = ifelse(wt_kg == 0, NA, wt_kg)) %>%
-    ggplot()+
-    geom_polygon(data = survey_poly,  aes(x = long, y = lat, group = group, fill = factor(subarea)), 
-                 alpha = 0.5, show.legend = F)+
-    scale_fill_manual(values = cb_palette[2:7])+
-    #geom_polygon(data = ak, aes(x = long, y = lat, group = group), fill = "grey90")+
-    geom_polygon(data = pi_district, aes(x = long, y = lat, group = group), fill = NA, color = "black")+
-    #geom_point(aes(x = lon, y = lat, size = wt_kg / area_swept), alpha = 0.5)+
-    coord_quickmap(xlim = c(-180.5, -166), ylim = c(54, 61))+
-    labs(x = expression(paste(Longitude^o,~'W')), 
-         y = expression(paste(Latitude^o,~'N')),
-         size = "CPUE (kg / sq km)")+
-    theme(panel.background = element_rect(fill = "grey70"),
-          legend.position = "bottom")+
-    facet_wrap(~survey_year) -> x
-  ggsave("./PIGKC/figures/survey_cpue_wt_map_subarea.png", plot = x, height = 6, width = 8, units = "in")
-
-## map of survey catch by stratum
-  haul %>%
-    # get trawl mid points
-    mutate(lon = (start_lon + end_lon) / 2,
-           lat = (start_lat + end_lat) / 2) %>%
-    # select relevant data
-    dplyr::select(survey_year, stratum, haul, lon, lat, area_swept) %>%
-    # join to catch data 
-    right_join(catch, by = c("survey_year", "haul")) %>%
-    # change zero catch to NA
-    mutate(wt_kg = ifelse(wt_kg == 0, NA, wt_kg)) %>%
-    ggplot()+
-    geom_polygon(data = stratum_poly,  aes(x = long, y = lat, group = B5_, fill = factor(stratum)), 
-                 alpha = 0.5, show.legend = F)+
-    scale_fill_manual(values = cb_palette[2:6])+
-    geom_polygon(data = ak, aes(x = long, y = lat, group = group), fill = "grey90")+
-    geom_polygon(data = pi_district, aes(x = long, y = lat, group = group), fill = NA, color = "black")+
-    geom_point(aes(x = lon, y = lat, size = wt_kg / area_swept), alpha = 0.5)+
-    coord_quickmap(xlim = c(-180.5, -166), ylim = c(54, 61))+
-    labs(x = expression(paste(Longitude^o,~'W')), 
-         y = expression(paste(Latitude^o,~'N')),
-         size = "CPUE (kg / sq km)")+
-    theme(panel.background = element_rect(fill = "grey70"),
-          legend.position = "bottom")+
-    facet_wrap(~survey_year) -> x
-  ggsave("./PIGKC/figures/survey_cpue_wt_map_stratum.png", plot = x, height = 6, width = 8, units = "in")
+# ## map of survey catch by subarea
+# haul %>%
+#     # get trawl mid points
+#     mutate(lon = (start_lon + end_lon) / 2,
+#            lat = (start_lat + end_lat) / 2) %>%
+#     # select relevant data
+#     dplyr::select(survey_year, stratum, haul, lon, lat, area_swept) %>%
+#     # join to catch data 
+#     right_join(catch, by = c("survey_year", "haul")) %>%
+#     # change zero catch to NA
+#     mutate(wt_kg = ifelse(wt_kg == 0, NA, wt_kg)) %>%
+#     ggplot()+
+#     geom_polygon(data = survey_poly,  aes(x = long, y = lat, group = group, fill = factor(subarea)), 
+#                  alpha = 0.5, show.legend = F)+
+#     scale_fill_manual(values = cb_palette[2:7])+
+#     #geom_polygon(data = ak, aes(x = long, y = lat, group = group), fill = "grey90")+
+#     geom_polygon(data = pi_district, aes(x = long, y = lat, group = group), fill = NA, color = "black")+
+#     #geom_point(aes(x = lon, y = lat, size = wt_kg / area_swept), alpha = 0.5)+
+#     coord_quickmap(xlim = c(-180.5, -166), ylim = c(54, 61))+
+#     labs(x = expression(paste(Longitude^o,~'W')), 
+#          y = expression(paste(Latitude^o,~'N')),
+#          size = "CPUE (kg / sq km)")+
+#     theme(panel.background = element_rect(fill = "grey70"),
+#           legend.position = "bottom")+
+#     facet_wrap(~survey_year) -> x
+#   ggsave("./PIGKC/figures/survey_cpue_wt_map_subarea.png", plot = x, height = 6, width = 8, units = "in")
+# 
+# ## map of survey catch by stratum
+#   haul %>%
+#     # get trawl mid points
+#     mutate(lon = (start_lon + end_lon) / 2,
+#            lat = (start_lat + end_lat) / 2) %>%
+#     # select relevant data
+#     dplyr::select(survey_year, stratum, haul, lon, lat, area_swept) %>%
+#     # join to catch data 
+#     right_join(catch, by = c("survey_year", "haul")) %>%
+#     # change zero catch to NA
+#     mutate(wt_kg = ifelse(wt_kg == 0, NA, wt_kg)) %>%
+#     ggplot()+
+#     geom_polygon(data = stratum_poly,  aes(x = long, y = lat, group = B5_, fill = factor(stratum)), 
+#                  alpha = 0.5, show.legend = F)+
+#     scale_fill_manual(values = cb_palette[2:6])+
+#     geom_polygon(data = ak, aes(x = long, y = lat, group = group), fill = "grey90")+
+#     geom_polygon(data = pi_district, aes(x = long, y = lat, group = group), fill = NA, color = "black")+
+#     geom_point(aes(x = lon, y = lat, size = wt_kg / area_swept), alpha = 0.5)+
+#     coord_quickmap(xlim = c(-180.5, -166), ylim = c(54, 61))+
+#     labs(x = expression(paste(Longitude^o,~'W')), 
+#          y = expression(paste(Latitude^o,~'N')),
+#          size = "CPUE (kg / sq km)")+
+#     theme(panel.background = element_rect(fill = "grey70"),
+#           legend.position = "bottom")+
+#     facet_wrap(~survey_year) -> x
+#   ggsave("./PIGKC/figures/survey_cpue_wt_map_stratum.png", plot = x, height = 6, width = 8, units = "in")
+#   
+#   
+# ## map of all survey stations 2002 - 2016, by subarea
+#   haul %>%
+#     # get trawl mid points
+#     mutate(lon = (start_lon + end_lon) / 2,
+#            lat = (start_lat + end_lat) / 2) %>%
+#     # select relevant data
+#     dplyr::select(survey_year, stratum, haul, lon, lat, area_swept) %>%
+#     # join to catch data 
+#     right_join(catch, by = c("survey_year", "haul")) %>%
+#     ggplot()+
+#     geom_polygon(data = survey_poly,  aes(x = long, y = lat, group = group, fill = factor(subarea)), 
+#                  alpha = 0.5, show.legend = F)+
+#     scale_fill_manual(values = cb_palette[2:7])+
+#     geom_polygon(data = ak, aes(x = long, y = lat, group = group), fill = "grey90")+
+#     #geom_polygon(data = pi_district, aes(x = long, y = lat, group = group), fill = NA, color = "black")+
+#     geom_point(aes(x = lon, y = lat), size = 0.5)+
+#     coord_quickmap(xlim = c(-180.5, -166), ylim = c(54, 61))+
+#     labs(x = expression(paste(Longitude^o,~'W')), 
+#          y = expression(paste(Latitude^o,~'N')))+
+#     theme(panel.background = element_rect(fill = "grey70"),
+#           legend.position = "bottom") -> x
+#   ggsave("./PIGKC/figures/survey_area_subarea.png", plot = x, height = 5, width = 8, units = "in")
+# 
+#   ## map of all survey stations 2002 - 2016, by subarea, with PI district
+#   haul %>%
+#     # get trawl mid points
+#     mutate(lon = (start_lon + end_lon) / 2,
+#            lat = (start_lat + end_lat) / 2) %>%
+#     # select relevant data
+#     dplyr::select(survey_year, stratum, haul, lon, lat, area_swept) %>%
+#     # join to catch data 
+#     right_join(catch, by = c("survey_year", "haul")) %>%
+#     ggplot()+
+#     geom_polygon(data = survey_poly,  aes(x = long, y = lat, group = group, fill = factor(subarea)), 
+#                  alpha = 0.5, show.legend = F)+
+#     scale_fill_manual(values = cb_palette[2:7])+
+#     geom_polygon(data = ak, aes(x = long, y = lat, group = group), fill = "grey90")+
+#     geom_polygon(data = pi_district, aes(x = long, y = lat, group = group), fill = NA, color = "black")+
+#     geom_point(aes(x = lon, y = lat), size = 0.5)+
+#     coord_quickmap(xlim = c(-180.5, -166), ylim = c(54, 61))+
+#     labs(x = expression(paste(Longitude^o,~'W')), 
+#          y = expression(paste(Latitude^o,~'N')))+
+#     theme(panel.background = element_rect(fill = "grey70"),
+#           legend.position = "bottom") -> x
+#   ggsave("./PIGKC/figures/survey_area_subarea_pidist.png", plot = x, height = 5, width = 8, units = "in")
+#   
+#   ## map of all survey stations 2002 - 2016, by stratum
+#   haul %>%
+#     # get trawl mid points
+#     mutate(lon = (start_lon + end_lon) / 2,
+#            lat = (start_lat + end_lat) / 2) %>%
+#     # select relevant data
+#     dplyr::select(survey_year, stratum, haul, lon, lat, area_swept) %>%
+#     # join to catch data 
+#     right_join(catch, by = c("survey_year", "haul")) %>%
+#     ggplot()+
+#     geom_polygon(data = stratum_poly,  aes(x = long, y = lat, group = B5_, fill = depth_m), 
+#                  alpha = 0.5, show.legend = T)+
+#     scale_fill_manual(values = cb_palette[2:7])+
+#     geom_polygon(data = ak, aes(x = long, y = lat, group = group), fill = "grey90")+
+#     #geom_polygon(data = pi_district, aes(x = long, y = lat, group = group), fill = NA, color = "black")+
+#     geom_point(aes(x = lon, y = lat), size = 2)+
+#     coord_quickmap(xlim = c(-174, -172), ylim = c(57, 56.5))+
+#     labs(x = expression(paste(Longitude^o,~'W')), 
+#          y = expression(paste(Latitude^o,~'N')),
+#          fill = NULL)+
+#     theme(panel.background = element_rect(fill = "grey70")) -> x
+#   ggsave("./PIGKC/figures/survey_area_stratum.png", plot = x, height = 5, width = 8, units = "in")
+  
+# examine calculated weight vs measured catch weight ----
+  # spec_0416 %>%
+  #   # keep only 2008 - 2016
+  #   # remove any sampling_factor = 0 rows (no catch)
+  #   # remove any unknown or hermaphrodite sex crabs
+  #   filter(survey_year %in% 2008:2016,
+  #          sampling_factor != 0,
+  #          sex != 3) %>%
+  #   # create group field to denote demographic
+  #   mutate(group = case_when(sex == 1 ~ "male",
+  #                            sex == 2 ~ "female"),
+  #          calc_wt_kg = case_when(group == "female" ~ 0.001424 * length^2.781 / 1000,
+  #                                 group == "male" ~ 0.0002988 * length^3.135 / 1000)) %>%
+  #   # sum to get calculated weight by haul
+  #   group_by(survey_year, haul) %>%
+  #   summarise(calc_wt_kg = sum(calc_wt_kg)) %>%
+  #   # join with measured catch weight
+  #   left_join(catch, by = c("survey_year", "haul")) -> tmp
+  # 
+  # # 1:1 plot 
+  # tmp %>%
+  #   ggplot()+
+  #   geom_point(aes(x = wt_kg, y = calc_wt_kg))+
+  #   geom_line(aes(x = wt_kg, y = wt_kg), linetype = 2)+
+  #   facet_wrap(~survey_year)+
+  #   labs(x = "Measured weight (kg)", y = "Calculated weight (kg)") -> x
+  # ggsave("./PIGKC/figures/measured_vs_calc_wt_catch.png", plot = x, height = 4, width = 4, units = "in")
+  # 
+  # # look at sum total and cv
+  # tmp %>%
+  #   group_by(survey_year) %>%
+  #   summarise(calc_wt  = sum(calc_wt_kg),
+  #             cv_calc = sqrt(var(calc_wt_kg) / n()) / mean(calc_wt_kg),
+  #             meas_wt  = sum(wt_kg),
+  #             cv_meas = sqrt(var(wt_kg) / n()) / mean(wt_kg))
   
   
-## map of all survey stations 2002 - 2016, by subarea
-  haul %>%
-    # get trawl mid points
-    mutate(lon = (start_lon + end_lon) / 2,
-           lat = (start_lat + end_lat) / 2) %>%
-    # select relevant data
-    dplyr::select(survey_year, stratum, haul, lon, lat, area_swept) %>%
-    # join to catch data 
-    right_join(catch, by = c("survey_year", "haul")) %>%
-    ggplot()+
-    geom_polygon(data = survey_poly,  aes(x = long, y = lat, group = group, fill = factor(subarea)), 
-                 alpha = 0.5, show.legend = F)+
-    scale_fill_manual(values = cb_palette[2:7])+
-    geom_polygon(data = ak, aes(x = long, y = lat, group = group), fill = "grey90")+
-    #geom_polygon(data = pi_district, aes(x = long, y = lat, group = group), fill = NA, color = "black")+
-    geom_point(aes(x = lon, y = lat), size = 0.5)+
-    coord_quickmap(xlim = c(-180.5, -166), ylim = c(54, 61))+
-    labs(x = expression(paste(Longitude^o,~'W')), 
-         y = expression(paste(Latitude^o,~'N')))+
-    theme(panel.background = element_rect(fill = "grey70"),
-          legend.position = "bottom") -> x
-  ggsave("./PIGKC/figures/survey_area_subarea.png", plot = x, height = 5, width = 8, units = "in")
-
-  ## map of all survey stations 2002 - 2016, by subarea, with PI district
-  haul %>%
-    # get trawl mid points
-    mutate(lon = (start_lon + end_lon) / 2,
-           lat = (start_lat + end_lat) / 2) %>%
-    # select relevant data
-    dplyr::select(survey_year, stratum, haul, lon, lat, area_swept) %>%
-    # join to catch data 
-    right_join(catch, by = c("survey_year", "haul")) %>%
-    ggplot()+
-    geom_polygon(data = survey_poly,  aes(x = long, y = lat, group = group, fill = factor(subarea)), 
-                 alpha = 0.5, show.legend = F)+
-    scale_fill_manual(values = cb_palette[2:7])+
-    geom_polygon(data = ak, aes(x = long, y = lat, group = group), fill = "grey90")+
-    geom_polygon(data = pi_district, aes(x = long, y = lat, group = group), fill = NA, color = "black")+
-    geom_point(aes(x = lon, y = lat), size = 0.5)+
-    coord_quickmap(xlim = c(-180.5, -166), ylim = c(54, 61))+
-    labs(x = expression(paste(Longitude^o,~'W')), 
-         y = expression(paste(Latitude^o,~'N')))+
-    theme(panel.background = element_rect(fill = "grey70"),
-          legend.position = "bottom") -> x
-  ggsave("./PIGKC/figures/survey_area_subarea_pidist.png", plot = x, height = 5, width = 8, units = "in")
   
-  ## map of all survey stations 2002 - 2016, by stratum
-  haul %>%
-    # get trawl mid points
-    mutate(lon = (start_lon + end_lon) / 2,
-           lat = (start_lat + end_lat) / 2) %>%
-    # select relevant data
-    dplyr::select(survey_year, stratum, haul, lon, lat, area_swept) %>%
-    # join to catch data 
-    right_join(catch, by = c("survey_year", "haul")) %>%
-    ggplot()+
-    geom_polygon(data = stratum_poly,  aes(x = long, y = lat, group = B5_, fill = depth_m), 
-                 alpha = 0.5, show.legend = T)+
-    scale_fill_manual(values = cb_palette[2:7])+
-    geom_polygon(data = ak, aes(x = long, y = lat, group = group), fill = "grey90")+
-    #geom_polygon(data = pi_district, aes(x = long, y = lat, group = group), fill = NA, color = "black")+
-    geom_point(aes(x = lon, y = lat), size = 2)+
-    coord_quickmap(xlim = c(-174, -172), ylim = c(57, 56.5))+
-    labs(x = expression(paste(Longitude^o,~'W')), 
-         y = expression(paste(Latitude^o,~'N')),
-         fill = NULL)+
-    theme(panel.background = element_rect(fill = "grey70")) -> x
-  ggsave("./PIGKC/figures/survey_area_stratum.png", plot = x, height = 5, width = 8, units = "in")
+  
+  
+  
   
 # catch by haul by sex/size group (specimen data) ----
 
@@ -363,184 +405,16 @@ haul %>%
 
 
 
-# abundance and biomass estimates, scenario 2020a ----
-## MMB 2008 - 2016, subareas 2-4, sample within stratum and subarea
-  
-## extrapolate catch by haul to abundance and biomass by stratum  
-catch_by_haul %>%
-  # get density in number and weight by stratum
-  group_by(survey_year, stratum, subarea, stratum_area, group) %>%
-  summarise(n_stations = n(),
-            mean_density_num = mean(num_crab / area_swept),
-            var_density_num = var(num_crab / area_swept),
-            mean_density_wt = mean(wt_crab_kg / area_swept),
-            var_density_wt = var(wt_crab_kg / area_swept)) %>%
-  # get abundance and biomass within stratum
-  mutate(abundance = stratum_area * mean_density_num,
-         var_abundance = stratum_area^2 * var_density_num / n_stations,
-         biomass = stratum_area * mean_density_wt,
-         var_biomass = stratum_area^2 * var_density_wt / n_stations) -> stratum_est
-
-## compute an unweighted sum of abundance and biomass within subareas
-stratum_est %>%
-  group_by(survey_year, subarea, group) %>%
-  mutate(subarea_area = sum(stratum_area)) %>% 
-  summarise(abundance = sum(abundance),
-            var_abundance = sum(var_abundance),
-            cv_abund = sqrt(var_abundance) / abundance,
-            biomass = sum(biomass),
-            var_biomass = sum(var_biomass),
-            cv_biomass = sqrt(var_biomass) / biomass) -> subarea_est
-
-## save output
-subarea_est %>%
-  filter(survey_year != 2004) %>%
-write_csv("./PIGKC/output/survey_estimates_2020a.csv")
-
-## extract re-model inputs
-subarea_est %>%
-  filter(subarea %in% c(2:4),
-         survey_year != 2004) %>%
-  group_by(survey_year, group) %>%
-  summarise(abundance = sum(abundance),
-            se_abundance = sqrt(sum(var_abundance)),
-            biomass = sum(biomass),
-            se_biomass = sqrt(sum(var_biomass))) %>%
-  # convert variances into a CV
-  mutate(cv_abund = se_abundance / abundance,
-         cv_biomass = se_biomass / biomass) -> pi_est
-
-## export random effects model input data file
-### extract data
-#### model years
-pi_est %>%
-  filter(group == "male_mature") %>%
-  pull(survey_year) -> yrs
-#### starting year
-start <- min(yrs)
-#### ending year
-end <- 2022 
-#### number of estimates
-n <- nrow(filter(pi_est, group == "male_mature"))
-#### biomass estimates (in metric tons)
-pi_est %>%
-  filter(group == "male_mature") %>%
-  pull(biomass) / 1000 -> biomass
-#### cv of biomass estimates
-pi_est %>%
-  filter(group == "male_mature") %>%
-  pull(cv_biomass) -> cv
-
-### compile input file
-rbind(c(start, "#Start year of model", rep("", n - 2)),
-      c(end, "#End year of model", rep("", n - 2)),
-      c(n, "#number of survey estimates", rep("", n - 2)),
-      c("#Years of survey", rep("", n - 1)),
-      c(yrs),
-      c("#biomass estimates mature males, subarea 2-4, sample within subarea and stratum", rep("", n - 1)),
-      c(round(biomass, 2)),
-      c("#Coefficients of variation for biomass estimates", rep("", n - 1)),
-      c(round(cv, 2))) %>%
-  write.table(., paste0("./PIGKC/model/", YEAR,"/2020a/re.dat"), 
-              quote = F, row.names = F, col.names = F)
-
-# abundance and biomass estimates, scenario 2020b ----
-## MMB 2008 - 2016, survey area inside PI district, sample within stratum only
-
-## extrapolate catch by haul to abundance and biomass by stratum  
-catch_by_haul %>%
-  # remove hauls not in PI district
-  rename(x = lon, y = lat) %>%
-  mutate(in_pi = splancs::inout(pts = .,
-                                poly = pi_district %>%
-                                  dplyr::select(long, lat) %>%
-                                  rename(x = long, y = lat))) %>%
-  rename(lon = x, lat = y) %>%
-  filter(in_pi == T) %>%
-  # remove subarea from stratum
-  mutate(stratum = substring(stratum, 2, 2)) %>%
-  # get density in number and weight by stratum
-  group_by(survey_year, stratum, group) %>%
-  summarise(n_stations = n(),
-            mean_density_num = mean(num_crab / area_swept),
-            var_density_num = var(num_crab / area_swept),
-            mean_density_wt = mean(wt_crab_kg / area_swept),
-            var_density_wt = var(wt_crab_kg / area_swept)) %>%
-  # join to stratm area
-  left_join(strata %>%
-              filter(stratum %in% 11:55) %>%
-              mutate(stratum = substring(stratum, 2, 2)) %>%
-              group_by(stratum) %>%
-              summarise(stratum_area_pi = sum(stratum_area_pi)),
-            by = "stratum") %>%
-  # get abundance and biomass within stratum
-  mutate(abundance = stratum_area_pi * mean_density_num,
-         var_abundance = stratum_area_pi^2 * var_density_num / n_stations,
-         biomass = stratum_area_pi * mean_density_wt,
-         var_biomass = stratum_area_pi^2 * var_density_wt / n_stations) -> stratum_est
-
-## compute an sum of abundance and biomass within survey area of PI district
-stratum_est %>%
-  group_by(survey_year, group) %>%
-  summarise(n_stations = sum(n_stations),
-            abundance = sum(abundance),
-            var_abundance = sum(var_abundance),
-            cv_abund = sqrt(var_abundance) / abundance,
-            biomass = sum(biomass),
-            var_biomass = sum(var_biomass),
-            cv_biomass = sqrt(var_biomass) / biomass) -> survey_est
-
-## save output
-survey_est %>%
-  filter(survey_year != 2004) %>%
-  write_csv("./PIGKC/output/survey_estimates_2020b.csv")
-
-## extract re-model inputs
-survey_est %>%
-  filter(survey_year != 2004)-> pi_est
-
-## export random effects model input data file
-### extract data
-#### model years
-pi_est %>%
-  filter(group == "male_mature") %>%
-  pull(survey_year) -> yrs
-#### starting year
-start <- min(yrs)
-#### ending year
-end <- 2022 
-#### number of estimates
-n <- nrow(filter(pi_est, group == "male_mature"))
-#### biomass estimates (in metric tons)
-pi_est %>%
-  filter(group == "male_mature") %>%
-  pull(biomass) / 1000 -> biomass
-#### cv of biomass estimates
-pi_est %>%
-  filter(group == "male_mature") %>%
-  pull(cv_biomass) -> cv
-
-### compile input file
-rbind(c(start, "#Start year of model", rep("", n - 2)),
-      c(end, "#End year of model", rep("", n - 2)),
-      c(n, "#number of survey estimates", rep("", n - 2)),
-      c("#Years of survey", rep("", n - 1)),
-      c(yrs),
-      c("#biomass estimates mature males, survey area inside PI District, sample within stratum only", rep("", n - 1)),
-      c(round(biomass, 2)),
-      c("#Coefficients of variation for biomass estimates", rep("", n - 1)),
-      c(round(cv, 2))) %>%
-  write.table(., paste0("./PIGKC/model/", YEAR,"/2020b/re.dat"), 
-              quote = F, row.names = F, col.names = F)
-
-
-# abundance and biomass estimates, scenario 2020c ----
-## MMB 2008 - 2016, subareas 2-4, sample within stratum only
+# abundance and biomass estimates, mmb 2002 -2016 subareas 2-4  ----
+## MMB 2002 - 2016, subareas 2-4, compute biomass within stratum only
+## MMB in 2002 and 2004 calculated from ratio in 2008 - 2016
 
 ## extrapolate catch by haul to abundance and biomass by stratum  
 catch_by_haul %>%
   # remain only subareas 2 - 4
-  filter(subarea %in% 2:4) %>%
+  # remove 2004
+  filter(subarea %in% 2:4,
+         survey_year != 2004) %>%
   # remove subarea from stratum and combine area
   mutate(stratum = substring(stratum, 2, 2)) %>%
   dplyr::select(-stratum_area, -stratum_area_pi) %>%
@@ -557,13 +431,15 @@ catch_by_haul %>%
             var_density_num = var(num_crab / area_swept),
             mean_density_wt = mean(wt_crab_kg / area_swept),
             var_density_wt = var(wt_crab_kg / area_swept)) %>%
+  # get denisty estimates for the survey area
+  group_by(survey_year, group) %>%
   # get abundance and biomass within stratum
   mutate(abundance = stratum_area * mean_density_num,
          var_abundance = stratum_area^2 * var_density_num / n_stations,
          biomass = stratum_area * mean_density_wt,
          var_biomass = stratum_area^2 * var_density_wt / n_stations) -> stratum_est
-  
-## compute an sum of abundance and biomass within survey area of PI district
+
+## compute a sum of abundance and biomass within survey area of PI district
 stratum_est %>%
   group_by(survey_year, group) %>%
   summarise(n_stations = sum(n_stations),
@@ -574,15 +450,72 @@ stratum_est %>%
             var_biomass = sum(var_biomass),
             cv_biomass = sqrt(var_biomass) / biomass) -> survey_est
 
-
-## save output
+# compute ratio
 survey_est %>%
-  filter(survey_year != 2004) %>%
-  write_csv("./PIGKC/output/survey_estimates_2020c.csv")
+  # remove legal males so that sum is total
+  filter(group != "male_legal") %>%
+  # compute ratio per year
+  group_by(survey_year) %>%
+  summarise(ratio = sum(biomass[group == "male_mature"]) / sum(biomass)) -> ratio
 
-## extract re-model inputs
+## compute total catch for 2002 and 2004
+catch %>%
+  filter(survey_year %in% 2002:2004) %>%
+  # joiningg to satifactory hauls
+  left_join(haul %>%
+              filter(haul_type == 3, performance == 0) %>%
+              dplyr::select(survey_year, haul, area_swept, stratum),
+            by = c("survey_year", "haul")) %>%
+  # retain only subareas 2 - 4 
+  filter(stratum %in% 21:45) %>%
+  # remove subarea from stratum
+  mutate(stratum = substring(stratum, 2, 2)) %>%
+  # compute density
+  mutate(density = wt_kg / area_swept) %>%
+  # compute mean density variance by stratum
+  group_by(survey_year, stratum) %>%
+  summarise(n_stations = n(),
+            mean_density = mean(density),
+            var_density = var(density)) %>%
+  # join to survey area
+  left_join(strata %>%
+              filter(stratum %in% 21:45) %>%
+              mutate(stratum = substring(stratum, 2, 2)) %>%
+              group_by(stratum) %>%
+              summarise(stratum_area = sum(stratum_area)),
+            by = "stratum") %>%
+  # extrapolate to the stratum area
+  mutate(tot_biomass = mean_density * stratum_area,
+         var_tot_biomass = var_density * stratum_area^2 / n_stations) %>%
+  # estimate mmb using ratio, variance as product of ind rv
+  mutate(mmb = tot_biomass * mean(ratio$ratio),
+         var_mmb = (tot_biomass^2 * (var(ratio$ratio) / nrow(ratio))) + (mean(ratio$ratio)^2 * var_tot_biomass) + (var_tot_biomass * (var(ratio$ratio) / nrow(ratio)))) %>%
+  dplyr::select(survey_year, stratum, mmb, var_mmb) %>%
+  rename(biomass = mmb,
+         var_biomass = var_mmb) %>%
+  # sum within a year
+  group_by(survey_year) %>%
+  summarise(biomass = sum(biomass),
+            var_biomass = sum(var_biomass)) %>%
+  # add group
+  mutate(group = "male_mature") -> mmb_0204
+
+## combine all years and groups
 survey_est %>%
-  filter(survey_year != 2004)-> pi_est
+  # bind to mmb for 2002 and 2004
+  bind_rows(mmb_0204) %>%
+  dplyr::select(survey_year, group, biomass, var_biomass) %>%
+  mutate(se_biomass = sqrt(var_biomass),
+         cv_biomass = se_biomass / biomass) %>%
+  arrange(survey_year) -> pi_est
+
+## output survey mmb estimates
+pi_est %>%
+  filter(group == "male_mature") %>%
+  write_csv("./PIGKC/output/survey_mmb_timeseries_subareas2-4.csv")
+
+
+
 
 ## export random effects model input data file
 ### extract data
@@ -611,204 +544,15 @@ rbind(c(start, "#Start year of model", rep("", n - 2)),
       c(n, "#number of survey estimates", rep("", n - 2)),
       c("#Years of survey", rep("", n - 1)),
       c(yrs),
-      c("#Biomass estimates mature males, subareas 2 - 4, sample within stratum only", rep("", n - 1)),
+      c("#biomass estimates mature males, subareas 2 - 4, sample withn stratum only, 2002 and 2004 based on mean mmb:total ratio", rep("", n - 1)),
       c(round(biomass, 2)),
       c("#Coefficients of variation for biomass estimates", rep("", n - 1)),
       c(round(cv, 2))) %>%
-  write.table(., paste0("./PIGKC/model/", YEAR,"/2020c/re.dat"), 
+  write.table(., paste0("./PIGKC/model/", YEAR,"/2020f/re.dat"), 
               quote = F, row.names = F, col.names = F)
 
 
-
-# examine calculated weight vs measured catch weight ----
-spec_0416 %>%
-  # keep only 2008 - 2016
-  # remove any sampling_factor = 0 rows (no catch)
-  # remove any unknown or hermaphrodite sex crabs
-  filter(survey_year %in% 2008:2016,
-         sampling_factor != 0,
-         sex != 3) %>%
-  # create group field to denote demographic
-  mutate(group = case_when(sex == 1 ~ "male",
-                           sex == 2 ~ "female"),
-         calc_wt_kg = case_when(group == "female" ~ 0.001424 * length^2.781 / 1000,
-                                group == "male" ~ 0.0002988 * length^3.135 / 1000)) %>%
-  # sum to get calculated weight by haul
-  group_by(survey_year, haul) %>%
-  summarise(calc_wt_kg = sum(calc_wt_kg)) %>%
-  # join with measured catch weight
-  left_join(catch, by = c("survey_year", "haul")) -> tmp
-
-# 1:1 plot 
-tmp %>%
-  ggplot()+
-  geom_point(aes(x = wt_kg, y = calc_wt_kg))+
-  geom_line(aes(x = wt_kg, y = wt_kg), linetype = 2)+
-  facet_wrap(~survey_year)+
-  labs(x = "Measured weight (kg)", y = "Calculated weight (kg)") -> x
-ggsave("./PIGKC/figures/measured_vs_calc_wt_catch.png", plot = x, height = 4, width = 4, units = "in")
-
-# look at sum total and cv
-tmp %>%
-  group_by(survey_year) %>%
-  summarise(calc_wt  = sum(calc_wt_kg),
-            cv_calc = sqrt(var(calc_wt_kg) / n()) / mean(calc_wt_kg),
-            meas_wt  = sum(wt_kg),
-            cv_meas = sqrt(var(wt_kg) / n()) / mean(wt_kg))
-
-
-
-
-# abundance and biomass estimates, scenario 2020d ----
-## MMB 2002 - 2016, subareas 2-4, compute biomass within stratum, sum to subarea
-## MMB in 2002 and 2004 calculated from ratio in 2008 - 2016
-
-## extrapolate catch by haul to abundance and biomass by stratum  
-catch_by_haul %>%
-  # remove 2004
-  filter(survey_year != 2004) %>%
-  # get density in number and weight by stratum
-  group_by(survey_year, stratum, subarea, stratum_area, group) %>%
-  summarise(n_stations = n(),
-            mean_density_num = mean(num_crab / area_swept),
-            var_density_num = var(num_crab / area_swept),
-            mean_density_wt = mean(wt_crab_kg / area_swept),
-            var_density_wt = var(wt_crab_kg / area_swept)) %>%
-  # get abundance and biomass within stratum
-  mutate(abundance = stratum_area * mean_density_num,
-         var_abundance = stratum_area^2 * var_density_num / n_stations,
-         biomass = stratum_area * mean_density_wt,
-         var_biomass = stratum_area^2 * var_density_wt / n_stations) -> stratum_est
-
-## compute an unweighted sum of abundance and biomass within subareas
-stratum_est %>%
-  group_by(survey_year, subarea, group) %>%
-  mutate(subarea_area = sum(stratum_area)) %>% 
-  summarise(abundance = sum(abundance),
-            var_abundance = sum(var_abundance),
-            cv_abund = sqrt(var_abundance) / abundance,
-            biomass = sum(biomass),
-            var_biomass = sum(var_biomass),
-            cv_biomass = sqrt(var_biomass) / biomass) -> subarea_est
-
-## compute the ratio of mature males to total catch in weight
-subarea_est %>%
-  # remove legal males so that sum is total
-  # retain only subarea 2 - 4
-  filter(group != "male_legal",
-         subarea %in% 2:4) %>%
-  # compute ratio per year
-  group_by(survey_year) %>%
-  summarise(ratio = sum(biomass[group == "male_mature"]) / sum(biomass)) -> ratio
-
-## compute total catch for 2002 and 2004
-catch %>%
-  filter(survey_year %in% 2002:2004) %>%
-  # joiningg to satifactory hauls
-  left_join(haul %>%
-              filter(haul_type == 3, performance == 0) %>%
-              dplyr::select(survey_year, haul, area_swept, stratum, subarea, stratum_area),
-            by = c("survey_year", "haul")) %>%
-  # retain only subareas 2 - 4 
-  filter(subarea %in% 2:4) %>%
-  # compute density
-  mutate(density = wt_kg / area_swept) %>%
-  # compute mean density variance by stratum
-  group_by(survey_year, stratum, subarea, stratum_area) %>%
-  summarise(n_stations = n(),
-            mean_density = mean(density),
-            var_density = var(density)) %>%
-  # extrapolate to te stratum area
-  mutate(biomass = mean_density * stratum_area,
-         var_biomass = var_density * stratum_area^2 / n_stations) %>%
-  # sum total biomass across stratum within subareas
-  group_by(survey_year, subarea) %>%
-  summarise(tot_biomass = sum(biomass, na.rm = T),
-            var_tot_biomass = sum(var_biomass, na.rm = T)) %>%
-  # join with mean mature male : total biomass ratio 2008 - 2016
-  mutate(mmb = tot_biomass * mean(ratio$ratio),
-         var_mmb = var_tot_biomass * mean(ratio$ratio)^2) %>%
-  dplyr::select(survey_year, subarea, mmb, var_mmb) %>%
-  rename(biomass = mmb,
-         var_biomass = var_mmb) %>%
-  # add group
-  mutate(group = "male_mature") -> mmb_0204
-
-## extract re-model inputs from 2008 - 2016
-subarea_est %>%
-  filter(subarea %in% c(2:4),
-         survey_year != 2004) %>%
-  # bind to mmb for 2002 and 2004
-  bind_rows(mmb_0204) %>%
-  group_by(survey_year, group) %>%
-  summarise(abundance = sum(abundance),
-            se_abundance = sqrt(sum(var_abundance)),
-            biomass = sum(biomass),
-            se_biomass = sqrt(sum(var_biomass))) %>%
-  # convert variances into a CV
-  mutate(cv_abund = se_abundance / abundance,
-         cv_biomass = se_biomass / biomass) %>%
-  arrange(survey_year) -> pi_est
-
-## export random effects model input data file
-### extract data
-#### model years
-pi_est %>%
-  filter(group == "male_mature") %>%
-  pull(survey_year) %>%
-  sort()  -> yrs
-#### starting year
-start <- min(yrs)
-#### ending year
-end <- 2022 
-#### number of estimates
-n <- nrow(filter(pi_est, group == "male_mature"))
-#### biomass estimates (in metric tons)
-pi_est %>%
-  filter(group == "male_mature") %>%
-  pull(biomass) / 1000 -> biomass
-#### cv of biomass estimates
-pi_est %>%
-  filter(group == "male_mature") %>%
-  pull(cv_biomass) -> cv
-
-### compile input file
-rbind(c(start, "#Start year of model", rep("", n - 2)),
-      c(end, "#End year of model", rep("", n - 2)),
-      c(n, "#number of survey estimates", rep("", n - 2)),
-      c("#Years of survey", rep("", n - 1)),
-      c(yrs),
-      c("#biomass estimates mature males, subarea 2-4, sample within stratum and subarea, 2002 and 2004 based on mean mmb:total ratio", rep("", n - 1)),
-      c(round(biomass, 2)),
-      c("#Coefficients of variation for biomass estimates", rep("", n - 1)),
-      c(round(cv, 2))) %>%
-  write.table(., paste0("./PIGKC/model/", YEAR,"/2020d/re.dat"), 
-              quote = F, row.names = F, col.names = F)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# abundance and biomass estimates, scenario 2020e ----
+# abundance and biomass estimates, mmb 2002 -2016 surveyarea in PI district ----
 ## MMB 2002 - 2016, survey area within PI district, compute biomass within stratum only
 ## MMB in 2002 and 2004 calculated from ratio in 2008 - 2016
 
@@ -901,12 +645,12 @@ catch %>%
               group_by(stratum) %>%
               summarise(stratum_area_pi = sum(stratum_area_pi)),
             by = "stratum") %>%
-  # extrapolate to te stratum area
+  # extrapolate to the stratum area
   mutate(tot_biomass = mean_density * stratum_area_pi,
          var_tot_biomass = var_density * stratum_area_pi^2 / n_stations) %>%
-  # join with mean mature male : total biomass ratio 2008 - 2016
+  # estimate mmb using ratio, variance as product of ind rv
   mutate(mmb = tot_biomass * mean(ratio$ratio),
-         var_mmb = var_tot_biomass * mean(ratio$ratio)^2) %>%
+         var_mmb = (tot_biomass^2 * (var(ratio$ratio) / nrow(ratio))) + (mean(ratio$ratio)^2 * var_tot_biomass) + (var_tot_biomass * (var(ratio$ratio) / nrow(ratio)))) %>%
   dplyr::select(survey_year, stratum, mmb, var_mmb) %>%
   rename(biomass = mmb,
          var_biomass = var_mmb) %>%
@@ -926,184 +670,15 @@ survey_est %>%
          cv_biomass = se_biomass / biomass) %>%
   arrange(survey_year) -> pi_est
 
-## export random effects model input data file
-### extract data
-#### model years
+
+## output survey mmb estimates
 pi_est %>%
   filter(group == "male_mature") %>%
-  pull(survey_year) %>%
-  sort() -> yrs
-#### starting year
-start <- min(yrs)
-#### ending year
-end <- 2022 
-#### number of estimates
-n <- nrow(filter(pi_est, group == "male_mature"))
-#### biomass estimates (in metric tons)
-pi_est %>%
-  filter(group == "male_mature") %>%
-  pull(biomass) / 1000 -> biomass
-#### cv of biomass estimates
-pi_est %>%
-  filter(group == "male_mature") %>%
-  pull(cv_biomass) -> cv
-
-### compile input file
-rbind(c(start, "#Start year of model", rep("", n - 2)),
-      c(end, "#End year of model", rep("", n - 2)),
-      c(n, "#number of survey estimates", rep("", n - 2)),
-      c("#Years of survey", rep("", n - 1)),
-      c(yrs),
-      c("#biomass estimates mature males, survey area within PI district, sample within stratum only,  2002 and 2004 based on mean mmb:total ratio", rep("", n - 1)),
-      c(round(biomass, 2)),
-      c("#Coefficients of variation for biomass estimates", rep("", n - 1)),
-      c(round(cv, 2))) %>%
-  write.table(., paste0("./PIGKC/model/", YEAR,"/2020e/re.dat"), 
-              quote = F, row.names = F, col.names = F)
+  write_csv("./PIGKC/output/survey_mmb_timeseries_surveyarea_pi_district.csv")
 
 
 
 
-
-
-
-# abundance and biomass estimates, scenario 2020f ----
-## MMB 2002 - 2016, subareas 2-4,, compute biomass within stratum only
-## MMB in 2002 and 2004 calculated from ratio in 2008 - 2016
-
-## extrapolate catch by haul to abundance and biomass by stratum  
-catch_by_haul %>%
-  # remain only subareas 2 - 4
-  # remove 2004
-  filter(subarea %in% 2:4,
-         survey_year != 2004) %>%
-  # remove subarea from stratum and combine area
-  mutate(stratum = substring(stratum, 2, 2)) %>%
-  dplyr::select(-stratum_area, -stratum_area_pi) %>%
-  left_join(strata %>%
-              filter(stratum %in% 21:45) %>%
-              mutate(stratum = substring(stratum, 2, 2)) %>%
-              group_by(stratum) %>%
-              summarise(stratum_area = sum(stratum_area)),
-            by = "stratum") %>%
-  # get density in number and weight by stratum
-  group_by(survey_year, stratum, stratum_area, group) %>%
-  summarise(n_stations = n(),
-            mean_density_num = mean(num_crab / area_swept),
-            var_density_num = var(num_crab / area_swept),
-            mean_density_wt = mean(wt_crab_kg / area_swept),
-            var_density_wt = var(wt_crab_kg / area_swept)) %>%
-  # get denisty estimates for the survey area
-  group_by(survey_year, group) %>%
-  # get abundance and biomass within stratum
-  mutate(abundance = stratum_area * mean_density_num,
-         var_abundance = stratum_area^2 * var_density_num / n_stations,
-         biomass = stratum_area * mean_density_wt,
-         var_biomass = stratum_area^2 * var_density_wt / n_stations) -> stratum_est
-
-## compute a sum of abundance and biomass within survey area of PI district
-stratum_est %>%
-  group_by(survey_year, group) %>%
-  summarise(n_stations = sum(n_stations),
-            abundance = sum(abundance),
-            var_abundance = sum(var_abundance),
-            cv_abund = sqrt(var_abundance) / abundance,
-            biomass = sum(biomass),
-            var_biomass = sum(var_biomass),
-            cv_biomass = sqrt(var_biomass) / biomass) -> survey_est
-
-## compute the ratio of mature males to total catch in weight
-survey_est %>%
-  # remove legal males so that sum is total
-  filter(group != "male_legal") %>%
-  # compute ratio per year
-  group_by(survey_year) %>%
-  summarise(ratio = sum(biomass[group == "male_mature"]) / sum(biomass)) -> ratio
-
-## compute total catch for 2002 and 2004
-catch %>%
-  filter(survey_year %in% 2002:2004) %>%
-  # joiningg to satifactory hauls
-  left_join(haul %>%
-              filter(haul_type == 3, performance == 0) %>%
-              dplyr::select(survey_year, haul, area_swept, stratum),
-            by = c("survey_year", "haul")) %>%
-  # retain only subareas 2 - 4 
-  filter(stratum %in% 21:45) %>%
-  # remove subarea from stratum
-  mutate(stratum = substring(stratum, 2, 2)) %>%
-  # compute density
-  mutate(density = wt_kg / area_swept) %>%
-  # compute mean density variance by stratum
-  group_by(survey_year, stratum) %>%
-  summarise(n_stations = n(),
-            mean_density = mean(density),
-            var_density = var(density)) %>%
-  # join to survey area
-  left_join(strata %>%
-              filter(stratum %in% 21:45) %>%
-              mutate(stratum = substring(stratum, 2, 2)) %>%
-              group_by(stratum) %>%
-              summarise(stratum_area = sum(stratum_area)),
-            by = "stratum") %>%
-  # extrapolate to te stratum area
-  mutate(tot_biomass = mean_density * stratum_area,
-         var_tot_biomass = var_density * stratum_area^2 / n_stations) %>%
-  # join with mean mature male : total biomass ratio 2008 - 2016
-  mutate(mmb = tot_biomass * mean(ratio$ratio),
-         var_mmb = var_tot_biomass * mean(ratio$ratio)^2) %>%
-  dplyr::select(survey_year, stratum, mmb, var_mmb) %>%
-  rename(biomass = mmb,
-         var_biomass = var_mmb) %>%
-  # sum within a year
-  group_by(survey_year) %>%
-  summarise(biomass = sum(biomass),
-            var_biomass = sum(var_biomass)) %>%
-  # add group
-  mutate(group = "male_mature") -> mmb_0204
-
-## extract re-model inputs
-survey_est %>%
-  # bind to mmb for 2002 and 2004
-  bind_rows(mmb_0204) %>%
-  dplyr::select(survey_year, group, biomass, var_biomass) %>%
-  mutate(se_biomass = sqrt(var_biomass),
-         cv_biomass = se_biomass / biomass) %>%
-  arrange(survey_year) -> pi_est
-
-## export random effects model input data file
-### extract data
-#### model years
-pi_est %>%
-  filter(group == "male_mature") %>%
-  pull(survey_year) -> yrs
-#### starting year
-start <- min(yrs)
-#### ending year
-end <- 2022
-#### number of estimates
-n <- nrow(filter(pi_est, group == "male_mature"))
-#### biomass estimates (in metric tons)
-pi_est %>%
-  filter(group == "male_mature") %>%
-  pull(biomass) / 1000 -> biomass
-#### cv of biomass estimates
-pi_est %>%
-  filter(group == "male_mature") %>%
-  pull(cv_biomass) -> cv
-
-### compile input file
-rbind(c(start, "#Start year of model", rep("", n - 2)),
-      c(end, "#End year of model", rep("", n - 2)),
-      c(n, "#number of survey estimates", rep("", n - 2)),
-      c("#Years of survey", rep("", n - 1)),
-      c(yrs),
-      c("#biomass estimates mature males, subareas 2 - 4, sample withn stratum only, 2002 and 2004 based on mean mmb:total ratio", rep("", n - 1)),
-      c(round(biomass, 2)),
-      c("#Coefficients of variation for biomass estimates", rep("", n - 1)),
-      c(round(cv, 2))) %>%
-  write.table(., paste0("./PIGKC/model/", YEAR,"/2020f/re.dat"), 
-              quote = F, row.names = F, col.names = F)
 
 
 
