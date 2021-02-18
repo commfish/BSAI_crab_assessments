@@ -12,9 +12,9 @@ library(FNGr); theme_set(theme_sleek())
 #source("./PIGKC/code/nmfs_slope_biomass_est.R")
 
 ## global options
-YEAR <- 2020
+YEAR <- 2021
 ## version of input data to be run
-subdir <- "2020f"
+subdir <- "20f"
 
 # run model ----
 
