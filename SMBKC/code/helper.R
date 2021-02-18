@@ -11,7 +11,7 @@ library(extrafont)
 
 library(grid)
 library(gridExtra)
-library(fngr) #update this to fngr
+#library(fngr) #update this to fngr
 library(scales)
 library(cowplot)
 library(readxl)
