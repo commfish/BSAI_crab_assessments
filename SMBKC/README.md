@@ -21,6 +21,7 @@
   smbkc_20    | model runs for 2020 september assessment, mostly focusing on lack of survey data for 2019 and 
               |   associated uncertainty 
               
+  smbkc_21    | model runs to test newest version of GMACS - note to self - see 'C:\Users\kjpalof\Documents\Current projects\GMACS\Jan2021_workshop' for most recent version with spring updates made during workshop and by Andre, etc.         
   src folder
               | 11-19-19 udpates from Andre to .tpl - see new src folder in GMACS folder
               |  also includes updates to .prj file.
