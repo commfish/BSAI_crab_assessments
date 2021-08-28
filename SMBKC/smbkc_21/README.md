@@ -1,27 +1,26 @@
-original 7-28-2020
-# St. Matthews Blue King Crab 2020 - model options for Sept 2020
-prep for model options for Sept 2020 meeting
+modified 8-27-2021
+# St. Matthews Blue King Crab 2021 - model options for Sept 2021
+prep for Sept 2021 meeting
 
-Models housed in smbkc_20 
+SMBKC moved to a bi-annual assessment, so this year just update bycatch numbers in the final table, carry over or project OFL/ABC from 2020 model. 
+model_1 is here as base model if projections are preferred. 
+
+Models housed in smbkc_21 
 
 ## Alternatives
 
 Model             | Model in Doc  | Description
 ---------- ---    | ------------- | -------------
-model_1           |   16.0        | - Basecase (last year's selected model 1) - with new gf bycatch data   
-model_1_rfix      |   16.0b       | - 16.0, no rec dev estimated for 2019 (attempt to deal with large recruitment estimate                                           in the terminal year of the model). Edit to .ctl file
-model_1_rfix2     |   16.0a      | - 16.0, no rec dev estimated in 2019, plus changes to .tpl file suggested by Jie to                                           use average recruitment for most recent year.
-
-model_2           |   20.1        | - remove pot survey data from base model - sensitivity analysis
-
-
-model_4           |   19.1        | - Apply VAST series - Jon Richar provided VAST estimates using just the trawl survey 
-                  |               |    - April 2020
+model_1           |   16.0        | - Basecase (last year's selected model 1) - no data updates due to off year cycle  
 
 
 Notice the use of a single .dat file for all of the different model runs. 
 The .dat file sits in assessment root, 
 each model has its own directory (i.e. model_1, ..., model_4), and in each model directory is a different control file.
+
+## off year cycle 
+Obtain groundfish bycatch - see 'bycatch_groundfish.R' for instructions on data pull and manipulation
+
 
 ## dat, ctl, prj files - FILE UPDATES ANNUALLY
 .dat file lives in data folder in assessment root.  
@@ -36,7 +35,7 @@ SMBKC_GE90_BIOMASS.csv - file from J. Richar using VAST to produce estimates fro
 
 # Run the model
 1) Using ADMB shell navigate to the folder for model_1
-    ' cd Documents\BSAI_crab_assessments\SMBKC\smbkc_20\model_1'
+    ' cd Documents\BSAI_crab_assessments\SMBKC\smbkc_21\model_1'
     
 2) type 'gmacs'
 
