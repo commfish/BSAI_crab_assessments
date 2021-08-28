@@ -1,8 +1,13 @@
----
-title: "Saint Matther Island blue king crab 2021"
-author: "Katie Palof"
-date: "8/27/2021"
-output: pdf_document
+title: "Saint Matthew Island Blue King Crab update 2021"
+author: |
+  | Katie Palof$^1$, Jie Zheng$^1$
+  | $^1$Alaska Department of Fish and Game, katie.palof@alaska.gov and jie.zheng@alaska.gov
+date: "`r format(Sys.time(), '%B %Y')`"
+output:
+  bookdown::pdf_document2:
+    fig_caption: true
+    includes: null
+    toc: no
 ---
 \pagenumbering{arabic}
 
@@ -12,11 +17,12 @@ opts_chunk$set(fig.width = 12, fig.height = 7, echo = FALSE, warning = FALSE, me
 #\pagenumbering{gobble}
 ```
 
+# Summary {-}
+The Saint Matthew Island blue king crab (SMBKC) assessment is now on a biennial cycle. 2021 if the "off" year in the cycle, so only an update to determine overfishing status in the 2020/21 season is presented here. However, multi-year OFLs and ABCs were NOT set in the September 2020 SAFE therefore those need to be set for the 2021/22 season.
 
-5. **Management performance**: In this assessment, estimated total male catch is the sum of fishery-reported retained
-catch, estimated male discard mortality in the directed fishery, and estimated male bycatch mortality in the groundfish fisheries.
-Based on the reference model for SMBKC, the estimate for mature male biomass was below the minimum stock-size threshold (MSST) in 2018/19 and is in an "overfished" condition, despite a directed fishery closure since the 2016/17 season 
-(and hence overfishing has not occurred) (Tables \@ref(tab:status) and  \@ref(tab:ofl-basis)). 
+The most recent assessment was conducted in September 2020. In that assessment and this update, estimated total male catch is the sum of fishery-reported retained catch, estimated male discard mortality in the directed fishery, and estimated male bycatch mortality in the groundfish fisheries. Since the directed fishery is closed the total catch is the sum of the bycatch mortality in the groundfish fisheries and other crab fisheries. 
+
+Based on the 2020 accepted model for SMBKC, the estimate for mature male biomass was below the minimum stock-size threshold (MSST) in 2020/21 and continutes to be in an "overfished" condition, despite a directed fishery closure since the 2016/17 season. Total catch for 2020/21 is below the OFL, overfishin did not occur on this stock in 2020/21 (Tables \@ref(tab:status) and  \@ref(tab:ofl-basis)). 
  
  
  \begin{table}[ht]
@@ -58,7 +64,7 @@ Based on the reference model for SMBKC, the estimate for mature male biomass was
 \end{table}
 
 
-6. **Basis for the OFL**: Estimated mature-male biomass (MMB) on 15 February is used as the measure of 
+**Basis for the OFL**: Estimated mature-male biomass (MMB) on 15 February is used as the measure of 
  biomass for this Tier 4 stock, with males measuring $\ge$ 105 mm CL considered mature. 
  The $B_\mathit{MSY}$ proxy is obtained by averaging estimated MMB over a specific reference period, and current CPT/SSC guidance recommends using the full assessment time frame (1978 - 2019) as the default reference period. 
 
