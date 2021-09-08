@@ -4,11 +4,11 @@ author: "| Katie Palof$^1$, Jie Zheng$^1$ \n| $^1$Alaska Department of Fish and 
   katie.palof@alaska.gov and jie.zheng@alaska.gov\n"
 date: "`r format(Sys.time(), '%B %Y')`"
 output:
-  pdf_document:
-    toc: no
   bookdown::pdf_document2:
     fig_caption: yes
     includes: null
+    toc: no
+  pdf_document:
     toc: no
 ---
 \pagenumbering{arabic}
@@ -28,7 +28,6 @@ Based on the 2020 accepted model for SMBKC, the estimate for mature male biomass
 
 Since no model runs are performed in an off cycle assessment year, the status of the stock is expected to be the same for the 2021/22 season, and therefore the OFL and ABC (using a 25% buffer as previously set in 2020) would be the same. Bycatch mortality from the 2020/21 season is insufficient to affect the status determination for this stock. 
  
- 
  \begin{table}[ht]
  \centering
  \caption{Status and catch specifications (1000 t) for the base model.}
@@ -38,7 +37,6 @@ Since no model runs are performed in an off cycle assessment year, the status of
   & & Biomass & & Retained & Total & & \\
   Year & MSST & ($\mathit{MMB}_\text{mating}$) & TAC & catch & male catch & OFL & ABC \\
   \hline
-  2016/17 & 1.97 & 2.23 & 0.00 & 0.00 & 0.001 & 0.14 & 0.11 \\
   2017/18 & 1.85 & 2.05 & 0.00 & 0.00 & 0.003 & 0.12 & 0.10 \\
   2018/19 & 1.74 & 1.15 & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
   2019/20 & 1.67 & 1.06 & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
@@ -57,7 +55,6 @@ Since no model runs are performed in an off cycle assessment year, the status of
   & & Biomass & & Retained & Total & & \\
   Year & MSST & ($\mathit{MMB}_\text{mating}$) & TAC & catch & male catch & OFL & ABC \\
   \hline
-  2016/17 & 4.3 & 4.91 & 0.000 & 0.000 & 0.002  & 0.31 & 0.25 \\ 
   2017/18 & 4.1 & 2.85 & 0.000 & 0.000 & 0.007  & 0.27 & 0.22 \\ 
   2018/19 & 3.84 & 2.54 & 0.000 & 0.000 & 0.002 & 0.08 & 0.07 \\
   2019/20 & 3.68 & 2.34 & 0.000 & 0.000 & 0.002 & 0.096 & 0.08 \\
@@ -68,9 +65,11 @@ Since no model runs are performed in an off cycle assessment year, the status of
 \end{table}
 
 
+\newpage
 **Basis for the OFL**: Estimated mature-male biomass (MMB) on 15 February is used as the measure of 
  biomass for this Tier 4 stock, with males measuring $\ge$ 105 mm CL considered mature. 
  The $B_\mathit{MSY}$ proxy is obtained by averaging estimated MMB over a specific reference period, and current CPT/SSC guidance recommends using the full assessment time frame (1978 - 2019) as the default reference period. 
+
 
 \begin{table}[ht]
 \centering
@@ -81,7 +80,6 @@ Since no model runs are performed in an off cycle assessment year, the status of
   & & & Biomass & & & & & Natural \\ 
   Year & Tier & $B_\mathit{MSY}$ & ($\mathit{MMB}_\text{mating}$) & $B/B_\mathit{MSY}$ & $F_\mathit{OFL}$ & $\gamma$ & Basis for $B_\mathit{MSY}$ & mortality \\ 
   \hline
-  2016/17 & 4b & 3.67 & 2.23 & 0.61 & 0.09 & 1 & 1978-2016 & 0.18 \\ 
   2017/18 & 4b & 3.86 & 2.05 & 0.53 & 0.08 & 1 & 1978-2017 & 0.18 \\
   2018/19 & 4b & 3.7  & 1.15 & 0.35 & 0.043 & 1 & 1978-2017 & 0.18 \\
   2019/20 & 4b & 3.48 & 1.06 & 0.31 & 0.042 & 1 & 1978-2018 & 0.18 \\ 
