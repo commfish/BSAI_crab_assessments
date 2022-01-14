@@ -1,0 +1,26 @@
+# TheHeader
+## GMACS Verison 2.01.A; Compiled 2202-01-14 
+# datafile
+sm20_v22.dat
+# controlfile
+sm20_v22.ctl
+# projectfile
+sm20_v22.prj
+# IsJittered
+0
+# sdJitter
+0.1
+# OutRefPars
+1
+# OutRefPars
+1
+# OutSSB
+0
+# Outfbar
+0
+# OutDynB0
+0
+# nyrRetro
+0
+# dataeof
+9999
