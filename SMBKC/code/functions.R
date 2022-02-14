@@ -1,6 +1,60 @@
 # k palof
-# 04-09-2019 
+# 04-09-2019 / 1-14-22
 # user created functions for smbkc projections
+
+proj_biomass_out <- function(location, folder, recruit, output){
+  proj_file <- read.table(paste0(here::here(), '/SMBKC/smbkc_21/', location, '/', folder, '/mcoutPROJ.rep'), 
+                          header = TRUE)[,-c(4,5,6,7,8)]
+  Nyear <- length(proj_file[1,])-4
+  Nline <- length(proj_file[,1])
+  print(Nyear)
+  print(Nline)
+  
+  raw <- proj_file
+  
+  raw %>% 
+    gather(year, mmb, -Draw, -Replicate, -F_val, -BMSY) %>% 
+    mutate(year = as.numeric(as.factor(year)), 
+           FishMort = ifelse(F_val == 1, "F = 0", "F = 0.18")) -> raw_all 
+  
+  raw_all %>% 
+    summarise(Bmsy = mean(BMSY)) -> Bmsy
+  
+  raw_all %>% 
+    group_by(year, FishMort) %>% 
+    summarise(q0.05 = quantile(mmb, prob = 0.05), 
+              q0.25 = quantile(mmb, prob = 0.25),
+              q0.50 = quantile(mmb, prob = 0.50),
+              q0.75 = quantile(mmb, prob = 0.75),
+              q0.95 = quantile(mmb, prob = 0.95), 
+              Bmsy = mean(BMSY)) -> typical_var
+  write.csv(typical_var,paste0(here::here(), '/SMBKC/smbkc_21/', location, '/', folder, '/proj_variability.csv'))
+  raw_all %>% 
+    group_by(year, FishMort) %>% 
+    summarise(q0.05 = quantile(mmb, prob = 0.05), 
+              q0.25 = quantile(mmb, prob = 0.25),
+              q0.50 = quantile(mmb, prob = 0.50),
+              q0.75 = quantile(mmb, prob = 0.75),
+              q0.95 = quantile(mmb, prob = 0.95), 
+              Bmsy = mean(BMSY)) %>% 
+    ggplot(aes(year, q0.50, colour = FishMort)) +
+    geom_line(lwd = 1) +
+    scale_color_manual(name = "", values = c(cbPalette[4], cbPalette[1]))+
+    geom_ribbon(aes(ymin = q0.05, ymax = q0.95, x = year, fill = FishMort), alpha = 0.17) +
+    scale_fill_manual(name = "", values = c(cbPalette[4], cbPalette[1]))+
+    geom_hline(yintercept = Bmsy[1,], lwd = 0.75, color = "darkgoldenrod4", linetype = "dashed") +
+    geom_text(aes(0, 3300, label = "Bmsy proxy",
+                  vjust = -1, hjust = 0.05)) +
+    ylab ("MMB (tons)") +
+    xlab ("Projection Year") +
+    ggtitle(recruit) -> plotA
+  
+  ggsave(paste0(here::here(), '/SMBKC/smbkc_21/', location, '/', output,'.png'), plotA, dpi = 800,
+         width = 7.5, height = 3.75)
+}
+
+
+
 
 f_sum <- function(data, col1, col2, div){
   col1 = enquo(col1)
