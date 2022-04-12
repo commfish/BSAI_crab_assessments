@@ -23,13 +23,17 @@
 
 # load -----
 source("./SMBKC/code/packages.R")
-cur_yr = 2019
+cur_yr = 2021 # Current survey data 
 
 # data -----
-by_weight <- read.csv("C:/Users/kjpalof/Documents/SMBKC/DATA_SMBKC/EBSCrab_AB_Sizegroup_2019.csv")
-haul_bkc <- read.csv("C:/Users/kjpalof/Documents/SMBKC/DATA_SMBKC/EBSCrab_Haul_bkc_7519.csv")
-size_group <- read.csv("C:/Users/kjpalof/Documents/SMBKC/DATA_SMBKC/EBSCrab_Abundance_Biomass_2019.csv")
-
+# data files from AKFIN are saved as a different type of .csv open files and resave as csv general
+by_weight <- read.csv(paste0(here::here(), '/SMBKC/data/trawl_survey/EBSCrab_AB_Sizegroup_', cur_yr, '.csv'))
+# need to ignore first 5 rows here 
+haul_bkc <- read.csv(paste0(here::here(), '/SMBKC/data/trawl_survey/EBSCrab_Haul_', cur_yr, '.csv'))
+#haul_bkc <- read.csv("C:/Users/kjpalof/Documents/SMBKC/DATA_SMBKC/EBSCrab_Haul_bkc_7519.csv")
+# size group file comes out with first 7 rows as identifiers. remove these, manually for now, automate later
+#size_group <- read.csv("C:/Users/kjpalof/Documents/SMBKC/DATA_SMBKC/EBSCrab_Abundance_Biomass_2019.csv")
+size_group <- read.csv(paste0(here::here(), '/SMBKC/data/trawl_survey/EBSCrab_Abundance_Biomass_', cur_yr, '.csv'))
 
 # survey biomass cleanup/results ---------
 head(by_weight)
