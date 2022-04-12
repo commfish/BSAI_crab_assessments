@@ -1,5 +1,5 @@
 # k.palof katie.palof@alaska.gov
-# date updated: 8-15-19
+# date updated: 8-15-19 / 4-12-22
 
 # Data manipulation for EBS trawl survey results to put into SMBKC model
 
@@ -7,9 +7,10 @@
 # by_weight - 
 # "Crab Data" - tab
 # "EBS Crab Survey" - "Summary Reports" - "Abundance/BIomass, Size Group Matrix" - 
-# drop down menu - 1975 to current year (2019) - Blue King Crab 
-# click "export" Data - csv 
+# drop down menu - 1975 to current year (2019) - Blue King Crab  - District - "STMATT"
+# click "export" Data - csv , add current year to file name
 # for "by_weight"
+# save to 'SMBKC/data/trawl_survey/'
 
 # size_group 
 # "EBS Crab Survey" - "Large Data Download" - "Abundance/BIomass, Large Data Download" - 
