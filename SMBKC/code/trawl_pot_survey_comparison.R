@@ -120,7 +120,7 @@ raster::getData("GADM", country = c("USA"), level = 1, path = "./SMBKC/data/map_
 adfg_stations %>%
   filter(incommon96 == 1) %>%
   st_as_sf(., coords = c("midpoint_longitude", "midpoint_latitude"), crs = "+proj=longlat +datum=WGS84 +no_defs") %>%
-  st_intersects(ebs_grid) %>%
+  st_intersects(ebs_grid) %>%  # subset ebs_grid for just R-24 
   unlist %>%
   unique %>%
   ebs_grid$STATION_ID[.] -> race_stations_intersecting_incommon96
@@ -224,7 +224,7 @@ race_prop_incommon96 %>%
   geom_line(aes(x = year, y = prop))+
   labs(x = NULL, y = "Proportion of Total Biomass", color = NULL)+
   theme_bw() -> x
-
+##  !!TJ fraction of race within ADF&G? correct?
 ggsave("./SMBKC/figures/prop_tot_biomass_in_96incommon_foot.png", plot = x, height = 3, width = 6, units = "in")  
 
 
