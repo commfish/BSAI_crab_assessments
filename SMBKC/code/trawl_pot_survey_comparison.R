@@ -228,7 +228,7 @@ race_prop_incommon96 %>%
 ggsave("./SMBKC/figures/prop_tot_biomass_in_96incommon_foot.png", plot = x, height = 3, width = 6, units = "in")  
 
 
-# timeseries of porportion of race biomass in R-24 ----
+# timeseries of proportion of race biomass in R-24 ----
 
 race_station_cpue %>%
   filter(station == "R-24") %>%
@@ -239,7 +239,7 @@ race_station_cpue %>%
   left_join(race_biomass_ts %>%
               dplyr::select(year, biomass)) %>%
   # compute proportion
-  mutate(prop = biomass_r24 / biomass) %>%
+  mutate(prop = biomass_r24 / biomass) %>% 
   
   ggplot()+
   geom_point(aes(x = year, y = prop))+
@@ -249,6 +249,38 @@ race_station_cpue %>%
 
 ggsave("./SMBKC/figures/prop_tot_biomass_in_r24.png", plot = x, height = 3, width = 6, units = "in")  
 
+
+# timeseries of proportion of race biomass in pot survey or NOT in R-24 ----
+
+race_prop_incommon96 %>%
+  group_by(year) %>%
+  summarise(prop_adfg = sum(frac_biomass) / sum(tot_biomass)) %>%
+  # join to proportion of race biomass not in r24
+  left_join(race_station_cpue %>%
+              filter(station == "R-24") %>%
+              # scale to station abundance
+              mutate(biomass_r24 = cpue_t * station_area_nmi2) %>%
+              dplyr::select(year, biomass_r24) %>%
+              # join to total biomass data
+              left_join(race_biomass_ts %>%
+                          dplyr::select(year, biomass)) %>%
+              # compute proportion
+              mutate(prop_not_r24 = 1 - (biomass_r24 / biomass)) %>%
+              dplyr::select(year, prop_not_r24)) %>%
+  # pivot to long format
+  pivot_longer(2:3, names_to = "index", values_to = "value") %>%
+  # fix labels
+  mutate(index = case_when(index == "prop_not_r24" ~ "RACE Grid (Excluding R-24)",
+                           index == "prop_adfg" ~ "RACE Grid within Core Pot Survey")) %>%
+  
+  ggplot()+
+  geom_point(aes(x = year, y = value, color = index), alpha = 0.5)+
+  geom_line(aes(x = year, y = value, color = index), alpha = 0.5)+
+  labs(x = NULL, y = "Proportion of Total Biomass", color = NULL)+
+  scale_color_viridis_d()+
+  theme_bw() -> x
+
+ggsave("./SMBKC/figures/prop_tot_biomass_in_adfg_or_not_r24.png", plot = x, height = 3, width = 6, units = "in") 
 
 # timerseries of adfg pot survey total cpue ----
 
