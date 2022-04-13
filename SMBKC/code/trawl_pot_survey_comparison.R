@@ -278,7 +278,8 @@ race_prop_incommon96 %>%
   geom_line(aes(x = year, y = value, color = index), alpha = 0.5)+
   labs(x = NULL, y = "Proportion of Total Biomass", color = NULL)+
   scale_color_viridis_d()+
-  theme_bw() -> x
+  theme_bw()+
+  theme(legend.position = "bottom") -> x
 
 ggsave("./SMBKC/figures/prop_tot_biomass_in_adfg_or_not_r24.png", plot = x, height = 3, width = 6, units = "in") 
 
