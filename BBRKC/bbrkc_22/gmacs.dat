@@ -1,0 +1,13 @@
+bbrkc221.dat
+bbrkc221a.ctl
+bbrkc.prj
+1  0.1                   # Jitter & sd
+# Output variances of (1=Yes)
+1   # Reference points
+0   # Recruits
+0   # SSB
+0   # Fbar
+0   # OutDynB0
+0   # Retrospective analysis number
+# EOF
+9999
