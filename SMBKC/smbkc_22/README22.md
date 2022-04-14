@@ -4,16 +4,17 @@ prep for May 2022 meeting
 
 SMBKC moved to a bi-annual assessment, full assessment in 2022 (even years)
 
-model_1 is here as base model if projections are preferred. 
-
 Models housed in smbkc_22 
 
 ## Alternatives
 
 Model             | Model in Doc  | Description
 ---------- ---    | ------------- | -------------
-model_1_base20    |   16.0        | - Basecase (last year's selected model 1) - no data updates due to off year cycle
+model_1_base20    |   16.0_b      | - Basecase (last year's selected model 1) - no data updates due to off year cycle
 model_1_22        |   16.0        | - Basecase updated with 2021 survey data, gf bycatch 2021,
+model_1_22a       |   16.0a        | - model_1_22 with updated ADF&G pot survey data
+model_2a           |   22.0a        | - Increased M ,0.21
+model_2b           |   22.0b        | - Increased M, 0.26
 
 
 Notice the use of a single .dat file for all of the different model runs. 

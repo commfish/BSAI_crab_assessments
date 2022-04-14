@@ -45,7 +45,7 @@ smbkc_area_swept %>%
   filter(SIZE_GROUP == "MALE_GE90") %>% 
   select(SURVEY_YEAR, SPECIES_NAME, SIZE_GROUP, ABUNDANCE, ABUNDANCE_CV,  
          BIOMASS_LBS, BIOMASS_LBS_CV ,BIOMASS_MT, BIOMASS_MT_CV, BIOMASS_MT_CI) -> biomass_mt 
-write.csv(biomass_mt, paste0(here::here(), '/SMBKC/smbkc_19/data/survey_biomass_mt.csv'), 
+write.csv(biomass_mt, paste0(here::here(), '/SMBKC/smbkc_22/data/survey_biomass_mt.csv'), 
             row.names = FALSE)
 
 
