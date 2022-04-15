@@ -12,7 +12,7 @@
 # Surveys:   4 NMFS Trawl Survey, 5 Pot Survey
 #========================================================================================================
 1978  # Start year
-2019  # End year (updated) last year of fishery does NOT include current survey year
+2020  # End year (updated) last year of fishery does NOT include current survey year
 5    # Number of seasons
 5    # Number of fleets (fisheries and surveys)
 1    # Number of sexes
@@ -72,6 +72,7 @@
 0.000	0.440	0.000	0.190	0.370
 0.000 0.440 0.000 0.190 0.370
 0.000	0.440	0.000	0.190	0.370 # (updated)
+0.000 0.440 0.000 0.190 0.370 # (updated 4-14-22)
 #0  0.0025  0  0.6245  0.373
 # Fishing fleet names (delimited with spaces no spaces in names)
 Pot_Fishery Trawl_Bycatch Fixed_bycatch
@@ -82,7 +83,7 @@ NMFS_Trawl ADFG_Pot
 # Number  of  catch data  frames
 4
 # Number  of  rows  in  each  data  frame
-27  18 29  29 #(updated - all should increase 1 if value for current year NO placeholder for direct fishery if closed)
+27  18 30  30 #(updated - all should increase 1 if value for current year NO placeholder for direct fishery if closed)
 ##  CATCH DATA
 ##  Type of catch: 1 = retained, 2 = discard
 ##  Units of catch: 1 = biomass, 2 = numbers
@@ -171,7 +172,7 @@ NMFS_Trawl ADFG_Pot
 2017	2	2	1	0.048	0.31	2	1	1	0	0.8 # updated in 2020 was 0.052, now 0.48?
 2018	2	2	1	0.001	0.31	2	1	1	0	0.8 # (data is 0 but small value for placeholder)
 2019  2 2 1 0.030 0.31  2 1 1 0 0.8 # (updated )
-#2020  2 2 1 0.0 0.31  2 1 1 0 0.8 # (need to update)
+2020  2 2 1 0.001 0.31  2 1 1 0 0.8 # (4-14-22)
 #	Fixed	fishery	discards							
 1991	2	3	1	0.045	0.31	2	1	1	0	0.5
 1992	2	3	1	2.268	0.31	2	1	1	0	0.5
@@ -199,10 +200,10 @@ NMFS_Trawl ADFG_Pot
 2014	2	3	1	0.490	0.31	2	1	1	0	0.5
 2015	2	3	1	0.711	0.31	2	1	1	0	0.5
 2016	2	3	1	1.630	0.31	2	1	1	0	0.5 # updated from 1.632
-2017	2	3	1	5.842	0.31	2	1	1	0	0.5 # updates was 6.032
-2018	2	3	1	1.140	0.31	2	1	1	0	0.5 # updated was 1.281
-2019  2 3 1 1.038 0.31  2 1 1 0 0.5 # (updated - bycatch_groundfish.R)
-#2020  2 3 1 0.000 0.31  2 1 1 0 0.5 # (need to update - bycatch_groundfish.R)
+2017	2	3	1	5.935	0.31	2	1	1	0	0.5 # updates was 6.032
+2018	2	3	1	1.224	0.31	2	1	1	0	0.5 # updated was 1.281
+2019  2 3 1 1.124 0.31  2 1 1 0 0.5 # (updated - bycatch_groundfish.R)
+2020  2 3 1 0.671 0.31  2 1 1 0 0.5 # (4-14-22 - bycatch_groundfish.R)
 ##  RELATIVE  ABUNDANCE DATA
 ##  Units of abundance: 1 = biomass, 2 = numbers
 ##  for SMBKC pot survey Units are in  crabs for Abundance.
@@ -211,8 +212,8 @@ NMFS_Trawl ADFG_Pot
 # Index Type  (1=Selecivity; 2=retention)
 # AEPAEP
 1 1
-##  Number  of  rows  in  each  index
-53
+##  Number  of  rows  in  each  index, need to update when survey data is added
+54
 # Survey data (abundance indices, units are mt for trawl survey and crab/potlift for pot survey)
 #	Index, Year,	Seas,	Fleet,	Sex,	Maturity,	Abundance,	CV	 abundance units	 timing						
 1	      1978	    1	    4	      1	    0	      6832.819	 0.394	        1	         0						
@@ -257,7 +258,7 @@ NMFS_Trawl ADFG_Pot
 1	2017	1	4	1	0	1793.76	0.599	1 0  							
 1	2018	1	4	1	0	1730.742	0.281	1 0 							
 1	2019	1	4	1	0	3170.467	0.337	1	 0  #	(updated	-	EBSsurvey_analysis.R)		
-#1  2021  1 4 1 0 0  0.0 1  0	# need to update 
+1 2021  1 4 1 0 1929.298  0.427 1  0	# updated 4-14-22
 2	1995	1	5	1	0	12042	0.13	2 0 						
 2	1998	1	5	1	0	12531	0.06	2 0 						
 2	2001	1	5	1	0	8477	0.08	2 0    							
@@ -268,11 +269,11 @@ NMFS_Trawl ADFG_Pot
 2	2015	1	5	1	0	2805	0.18	2 0   							
 2	2016	1	5	1	0	2378	0.186	2 0 						
 2	2017	1	5	1	0	1689	0.25	2 0 							
-2	2018	1	5	1	0	745	0.14	2	 0 #	no	smbkc	pot	survey	in	2019
+2	2018	1	5	1	0	745	0.14	2	 0 #	no	smbkc	pot	survey	in	2019, 2020, 2021
 ##  Number  of  length  frequency matrices
 3
 ##  Number  of  rows  in  each  matrix
-15  42  11 # (updated)
+15  43  11 # (updated 4-14-22)
 ##  Number  of  bins  in  each  matrix  (columns  of  size  data)
 3  3  3
 ##  SIZE  COMPOSITION DATA  FOR ALL FLEETS
@@ -342,6 +343,7 @@ NMFS_Trawl ADFG_Pot
   2017  1 4 1 0 0 0 21  0.0849  0.2994  0.6157
   2018  1 4 1 0 0 0 31  0.1475  0.2219  0.6306
   2019  1 4 1 0 0 0 50  0.1961  0.2346  0.5692 # no survey so not updated
+  2021  1 4 1 0 0 0 50  0.3323  0.1320  0.5357 # updated 4-14-22
   ##length  proportions of  pot survey
   ##Year, Seas, Fleet,  Sex,  Type, Shell,  Maturity, Nsamp,  DataVec
   1995  1 5 1 0 0 0 100 0.1594  0.2656  0.5751
