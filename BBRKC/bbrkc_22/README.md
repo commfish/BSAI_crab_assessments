@@ -39,3 +39,5 @@ Jie has models that estimate M and models that fix it at 0.18
 ctl file:
 starts from 1985 
 change intial values - Jie had to play around with this
+changes to selectivity and molting probability
+changes to Natural mortality
