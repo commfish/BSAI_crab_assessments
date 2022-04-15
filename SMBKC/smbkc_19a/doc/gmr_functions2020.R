@@ -500,8 +500,24 @@ plot_cpue_VAST <-
             guides(shape = FALSE))
   }
 
+# ssb without using .std file
+.get_ssb_dfKP <- function(M)
+{
+  n <- length(M)
+  mdf <- NULL
+  for (i in 1:n)
+  {
+    A <- M[[i]]
+    df <- data.frame(Model = names(M)[i],
+                     ssb = c(A$ssb, (A$spr_bmsy *A$spr_depl)))
+    df$year <- c(A$mod_yrs, (max(A$mod_yrs)+1))
+    mdf     <- rbind(mdf, df)
+  }
+  return(mdf)
+}
 
 # under development ------------
+
 # Fishing mortality plot adjusted-----------------
 plot_F2 <- function (M, scales = "free_y", xlab = "Year", ylab = "F", 
                      mlab = "Model") 
