@@ -1,5 +1,5 @@
-## jan 2022 modeling workshop smbkc 2020 version
-## =============================================== updated for sept 2020 base model     ##
+## May 2022 smbkc base model 16.0 version 
+## =============================================== updated for may 2022 base model     ##
 ## LEADING PARAMETER CONTROLS                                                           ##
 #  Controls  for  leading  parameter  vector  theta
 #  LEGEND  FOR  PRIOR:
@@ -68,6 +68,7 @@
 0.000748427    0.001165731    0.001930932
 0.000748427    0.001165731    0.001930932
 0.000748427    0.001165731    0.001930932 # (updated - should this change?)
+0.000748427    0.001165731    0.001930932 # (add line here each year? - 4-14-22)
 # Proportion mature by sex
 0 1 1
 # Proportion legal by sex
@@ -160,35 +161,35 @@
    1     1     1   0    0.4    0.001 1.0    0       0      1    3     1978   2008
    1     2     2   0    0.7    0.001 1.0    0       0      1    3     1978   2008
    1     3     3   0    1.0    0.001 2.0    0       0      1    -2     1978   2008
-   1     1     1   0    0.4    0.001 1.0    0       0      1    3     2009   2019 # update end yr
-   1     2     2   0    1.0    0.001 1.0    0       0      1    3     2009   2019 # update end yr
-   1     3     3   0    1.0    0.001 2.0    0       0      1    -2     2009   2019 # update end yr
+   1     1     1   0    0.4    0.001 1.0    0       0      1    3     2009   2020 # update end yr
+   1     2     2   0    1.0    0.001 1.0    0       0      1    3     2009   2020 # update end yr
+   1     3     3   0    1.0    0.001 2.0    0       0      1    -2     2009   2020 # update end yr
 # Gear-2
-   2     7     1   0    40      10.0  200    0      10    200   -3     1978   2019 # update end yr
-   2     8     2   0    60      10.0  200    0      10    200   -3     1978   2019 # update end yr
+   2     7     1   0    40      10.0  200    0      10    200   -3     1978   2020 # update end yr
+   2     8     2   0    60      10.0  200    0      10    200   -3     1978   2020 # update end yr
 # Gear-3
-   3     9     1   0    40      10.0  200    0      10    200   -3     1978   2019 # update end yr
-   3    10     2   0    60      10.0  200    0      10    200   -3     1978   2019 # update end yr
+   3     9     1   0    40      10.0  200    0      10    200   -3     1978   2020 # update end yr
+   3    10     2   0    60      10.0  200    0      10    200   -3     1978   2020 # update end yr
 # Gear-4
-   4     11    1   0    0.7     0.001 1.0    0       0      1   4     1978   2020 # update end yr
-   4     12    2   0    1.0     0.001 1.0    0       0      1   4     1978   2020 # update end yr
-   4     13    3   0    0.9     0.001 1.0    0       0      1   -5     1978   2020 # update end yr
+   4     11    1   0    0.7     0.001 1.0    0       0      1   4     1978   2021 # update end yr
+   4     12    2   0    1.0     0.001 1.0    0       0      1   4     1978   2021 # update end yr
+   4     13    3   0    0.9     0.001 1.0    0       0      1   -5     1978   2021 # update end yr
 # Gear-5
-   5     14    1   0    0.4     0.001 1.0    0       0      1   4     1978   2020 # update end yr
-   5     15    2   0    1.0     0.001 1.0    0       0      1   4     1978   2020 # update end yr
-   5     16    3   0    1.0     0.001 2.0    0       0      1   -2     1978   2020 # update end yr
+   5     14    1   0    0.4     0.001 1.0    0       0      1   4     1978   2021 # update end yr
+   5     15    2   0    1.0     0.001 1.0    0       0      1   4     1978   2021 # update end yr
+   5     16    3   0    1.0     0.001 2.0    0       0      1   -2     1978   2021 # update end yr
 ## Retained
 # Gear-1
-  -1     17    1   0    120        50 200    0      1    900    -7     1978   2019 # update end yr
-  -1     18    2   0    123       110 200    0      1    900    -7     1978   2019 # update end yr
+  -1     17    1   0    120        50 200    0      1    900    -7     1978   2020 # update end yr
+  -1     18    2   0    123       110 200    0      1    900    -7     1978   2020 # update end yr
 # Gear-2
-  -2     19    1   0   595    1    999    0      1    999   -3     1978   2019 # update end yr
+  -2     19    1   0   595    1    999    0      1    999   -3     1978   2020 # update end yr
 # Gear-3
-  -3     20    1   0   595    1    999    0      1    999   -3     1978   2019 # update end yr
+  -3     20    1   0   595    1    999    0      1    999   -3     1978   2020 # update end yr
 # Gear-4
-  -4     21    1   0   595    1    999    0      1    999   -3     1978   2020 # update end yr
+  -4     21    1   0   595    1    999    0      1    999   -3     1978   2021 # update end yr
 # Gear-5
-  -5     22    1   0   595    1    999    0      1    999   -3     1978   2020 # update end yr
+  -5     22    1   0   595    1    999    0      1    999   -3     1978   2021 # update end yr
 
 # Number of asymptotic parameters
 1
@@ -308,7 +309,7 @@
 ## OTHER CONTROLS
 ## ==================================================================================== ##
 1978       # First rec_dev
-2019       # last rec_dev (updated annually)
+2020       # last rec_dev (updated annually, should be last completed crab year?)
    3       # Estimated rec_dev phase
   -3       # Estimated sex_ratio
  0.5       # initial sex-ratio  
