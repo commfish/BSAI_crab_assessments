@@ -89,7 +89,7 @@ biomass_mt %>%  # all using biomass_mt metric tons
 
 # 3 year average and percent of LT mean 
 biomass_mt %>% 
-  filter(SURVEY_YEAR >= cur_yr-2) %>% 
+  filter(SURVEY_YEAR >= cur_yr-3) %>% # !! change to 3 here to include actual last 3 years due to missing 2020
   summarise(mean_3yr = mean(BIOMASS_MT), pct.lt = mean_3yr/biomass_mt_mean$LT_MEAN[1])
 
 # last years percent change 
@@ -99,7 +99,7 @@ biomass_mt %>%
          pct.change2 = (BIOMASS_LBS[2]-BIOMASS_LBS[1])/BIOMASS_LBS[1],
          pct.change3 = (ABUNDANCE[2]-ABUNDANCE[1])/ABUNDANCE[1])
 
-# Trawl survey "recruitment" estimates  - line 91----------
+# Trawl survey "recruitment" estimates  - line 142----------
 head(smbkc_area_swept) # line 37
 smbkc_area_swept %>% 
   filter(SURVEY_YEAR >= 1978) %>% 
@@ -113,7 +113,7 @@ recruit90to104 %>%
          pct.lt = ABUNDANCE/lt_mean)
 # 6 year average recruitment
 recruit90to104 %>% 
-  filter(SURVEY_YEAR >= cur_yr-5) %>% 
+  filter(SURVEY_YEAR >= cur_yr-6) %>% ## !!! changed to 6 to include last 6 years due to dropping 2020
   summarise(mean_6yr = mean(ABUNDANCE)) %>% 
   mutate(mean_6yr/1012456) # need to change this value to the lt_mean ? I think (was 1026493)
 
