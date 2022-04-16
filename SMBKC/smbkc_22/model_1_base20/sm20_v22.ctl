@@ -150,6 +150,7 @@
    3         6        6         6        6         # male retention type (flat equal to one, 1 parameter)
    1         0        0         0        0         # male retention flag (0 -> no, 1 -> yes)
    0         0        0         0        0         # extra parameters
+   1         1        1         1        1         # determines fi maximum selectivity at size if forced to equal 1 or not
 ##  ————————————————————————————————————————————————————————————————————————————————————##
 ##  Selectivity  P(capture  of  all  sizes)
 ## ———————————————————————————————————————————————————————————————————————————————————— ##
@@ -304,6 +305,14 @@
 ##  ———————————————————————————————————————————————————————————————————————————————————— ##
 0          # emphasis on tagging data
 
+# maturity specific natural mortality? (yes = 1; no = 0; only for use if nmature > 1) # NEW april 22?
+0                                       
+## ——————————————————————————————————————————————————————————————————————————————————————————— ##                                         
+##  ival        lb    ub    phz   prior p1    p2         # parameter     ##                                         
+## ——————————————————————————————————————————————————————————————————————————————————————————— ##                                         
+  0     -1    1   -1    0  1    1   
+#  0     -1    1   -1    0  1    1   
+
 ## ==================================================================================== ##
 ## OTHER CONTROLS
 ## ==================================================================================== ##
@@ -337,7 +346,8 @@
 ## ==================================================================================== ##
 ## EMPHASIS FACTORS (Priors)
 ## ==================================================================================== ##
-# Log_fdevs   meanF       Mdevs  Rec_devs Initial_devs Fst_dif_dev Mean_sex-Ratio   Fvecs    Fdovs 
-      10000       1           1         1            0           0             1      0.000   0       #(10000)
+# Log_fdevs   meanF       Mdevs  Rec_devs Initial_devs Fst_dif_dev Mean_sex-Ratio    Molt_prob  Free selectivity  Init_n_at_len Fvecs Fdovss (!!!NEW for the last two 1/2022)
+      10000       0        1.0         1            0           0             1             0                 0                    0     0      0       
+
 ## EOF
 9999
