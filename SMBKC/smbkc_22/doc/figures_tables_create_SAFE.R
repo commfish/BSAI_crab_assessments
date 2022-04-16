@@ -1,6 +1,6 @@
 # k.palof
-# 4-26-2020 / 8-16-2020
-# Figures and Tables needed for Sept 2020 SAFE SMBKC
+# 4-26-2020 / 8-16-2020 / 4-16-22
+# Figures and Tables needed for May 2022 SAFE SMBKC
 
 # Should be able to just run this file if model results are updated prior to creating
 #   new .rmd for SAFE
@@ -18,7 +18,7 @@
 require(gmr)
 source("./SMBKC/code/functions.R") 
 source("./SMBKC/code/helper.R") 
-source("./SMBKC/smbkc_20/doc/gmr_functions2020.R") 
+source("./SMBKC/code/gmr_functions2020.R") 
 
 # ALL Model setup  -------------------------
 # first model is reference to previous year
