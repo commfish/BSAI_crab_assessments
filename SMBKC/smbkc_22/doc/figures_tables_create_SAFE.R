@@ -15,15 +15,16 @@
 #   to the gmr folder - press OK. 
 # Over on right hand size in the tabs (between connections and git should be build) in the Build tab (upper right hand side) - 
 # click "install and restart"
-require(gmr)
+library(gmr) #require(gmr)
 source("./SMBKC/code/functions.R") 
 source("./SMBKC/code/helper.R") 
+source("./SMBKC/code/packages.R")
 source("./SMBKC/code/gmr_functions2020.R") 
 
 # ALL Model setup  -------------------------
 # first model is reference to previous year
-cur_yr <- 2020 # update annually 
-folder <- "smbkc_20" # update annually 
+cur_yr <- 2022 # update annually 
+folder <- "smbkc_22" # update annually 
 # The palette with grey:
 cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 
@@ -33,12 +34,12 @@ cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2",
 #scale_colour_manual(values=cbPalette)
 
 # update model names and file locations
-mod_names <- c("model 16.0 (2019)", "model 16.0 (2020)", "model 16.0a (fix R ter)", "model 20.1 (no pot)")
+mod_names <- c("model 16.0 (2020)", "model 16.0 (2022)")#, "model 16.0a (fix R ter)", "model 20.1 (no pot)")
 #mod_names <- c("16.0 (2019)", "16.0 (2020)", "16.0a (fix R ter)", "20.1 (no pot)")
-.MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_19a/model_1/"),
-              paste0(here::here(), "/SMBKC/smbkc_20/model_1/"), 
-              paste0(here::here(), "/SMBKC/smbkc_20/model_1_rfix_TPL/"),
-              paste0(here::here(), "/SMBKC/smbkc_20/model_2/")) #need to update these model options
+.MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_22/model_1_base20/"),
+              paste0(here::here(), "/SMBKC/smbkc_22/model_1_22/")) #, 
+              #paste0(here::here(), "/SMBKC/smbkc_20/model_1_rfix_TPL/"),
+              #paste0(here::here(), "/SMBKC/smbkc_20/model_2/")) #need to update these model options
 .THEME    = list(theme_bw(base_size = 12, base_family = ""), scale_fill_manual(values=cbPalette), 
   scale_colour_manual(values=cbPalette))
 .OVERLAY  = TRUE
@@ -48,15 +49,15 @@ mod_names <- c("model 16.0 (2019)", "model 16.0 (2020)", "model 16.0a (fix R ter
 .SHELL    = c("Aggregate")
 .MATURITY = c("Aggregate")
 .SEAS     = c("1","2","3","4","5")
-.FIGS     = c("./SMBKC/smbkc_20/doc/safe_figure/")
-.TABS     = c("./SMBKC/smbkc_20/doc/safe_tables/")
+.FIGS     = c("./SMBKC/smbkc_22/doc/safe_figure/")
+.TABS     = c("./SMBKC/smbkc_22/doc/safe_tables/")
 # Read report file and create gmacs report object (a list):
 fn       <- paste0(.MODELDIR, "gmacs")
 M        <- lapply(fn, read_admb)
 names(M) <- mod_names
 
-nmult_1 <- 1e+06
-nmult_2 <- 0.0004535923 * 1e+6
+#nmult_1 <- 1e+06
+#nmult_2 <- 0.0004535923 * 1e+6
 #fn <- paste0(.MODELDIR[1], "gmacs")
 #Mmatch <- lapply(fn, read_admb)
 #names(Mmatch) <- c("SMBKC")
@@ -65,13 +66,13 @@ fn <- paste0(.MODELDIR[2], "gmacs")
 Mbase <- lapply(fn, read_admb)
 names(Mbase) <- c("SMBKC")
 
-rinline <- function(code){
-  html <- '<code  class="r">``` `CODE` ```</code>'
-  sub("CODE", code, html)
-}
+#rinline <- function(code){
+#  html <- '<code  class="r">``` `CODE` ```</code>'
+#  sub("CODE", code, html)
+#}
 
 #alt_mod <- 5 # alt reference time frame
-ref_mod <- 1 # base 2019
+ref_mod <- 1 # base 2020
 rec_mod <- 2 # base
 mod_scen<- 2:4 #scenarios you want graphed together
 
@@ -80,7 +81,16 @@ hh <- 5
 
 ### Executive summary stats ===========
 # not currently saved here just viewed
-.get_cpue_df(Mbase) %>% 
+
+#.get_cpue_df(M[2]) %>% 
+#  as.data.frame() -> temp
+#temp %>% 
+#  select(Model, Index, year, seas, fleet, sex, cpue, cv, pred) -> temp2
+#write.csv(temp, paste0(here::here(), '/SMBKC/smbkc_22/temp.csv'), 
+#          row.names = FALSE)
+
+.get_cpue_df(Mbase) %>% # extra column here that gets labeled NA. need to fix this - this is a work around
+  select(Model, Index, year, seas, fleet, sex, cpue, cv, pred) %>% 
   filter(fleet==.FLEET[4]) %>% 
   mutate(x = round(100*pred/mean(pred),0)) %>% 
   select(x) %>% 
@@ -89,14 +99,14 @@ hh <- 5
 
 # Tables 1 to 3 calcs -------
 ## table 1 ------
-round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_1920
-round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_1920
-round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2021
-#round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2021
-#round(M[[rec_mod]]$spr_cofl/1000*0.8, 2) -> abc_2021
-rec_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1/figure/ofl_calc.csv"))
-round(rec_ofl$OFL_2020/1000, 2) -> ofl_2021
-round(ofl_2021*0.8, 2) -> abc_2021
+round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_2021
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_2021
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2122
+round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2122
+round(M[[rec_mod]]$spr_cofl/1000*0.75, 2) -> abc_2122
+#rec_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1/figure/ofl_calc.csv"))
+#round(rec_ofl$OFL_2020/1000, 2) -> ofl_2021
+#round(ofl_2021*0.8, 2) -> abc_2021
 
 # table 2 ----------
 round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_1920_lb

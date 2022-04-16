@@ -31,11 +31,11 @@ cur_yr <- 2022
 folder <- "smbkc_22"
 cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 
-mod_names <- c("model 16.0 (2019)", "model 16.0 (2020)", "model 16.0a (fix R ter)", "model 20.1 (no pot)") 
-.MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_19a/model_1/"),
-              paste0(here::here(), "/SMBKC/smbkc_20/model_1/"), 
-              paste0(here::here(), "/SMBKC/smbkc_20/model_1_rfix_TPL/"),
-              paste0(here::here(), "/SMBKC/smbkc_20/model_2/")) #need to update these model options
+mod_names <- c("model 16.0 (2020)", "model 16.0 (2022)")#, "model 16.0a (fix R ter)", "model 20.1 (no pot)") 
+.MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_22/model_1_base20/"),
+              paste0(here::here(), "/SMBKC/smbkc_22/model_1_22/"))#, 
+              #paste0(here::here(), "/SMBKC/smbkc_20/model_1_rfix_TPL/"),
+              #paste0(here::here(), "/SMBKC/smbkc_20/model_2/")) #need to update these model options
 .THEME    = list(theme_bw(base_size = 12, base_family = ""), scale_fill_manual(values=cbPalette), 
   scale_colour_manual(values=cbPalette))
 .OVERLAY  = TRUE
@@ -66,13 +66,14 @@ rinline <- function(code){
 }
 
 #alt_mod <- 5 # alt reference time frame
-ref_mod <- 1 # 2019 model
+ref_mod <- 1 # 2020 model
 rec_mod <- 2 # base
 mod_scen<- 2:4 #scenarios you want graphed together
 ```
 
 ```{r exesum, echo = FALSE}
 .get_cpue_df(Mbase) %>% 
+  select(Model, Index, year, seas, fleet, sex, cpue, cv, pred)
   filter(fleet==.FLEET[4]) %>% 
   mutate(x = round(100*pred/mean(pred),0)) %>% 
   select(x) %>% 
@@ -81,14 +82,11 @@ mod_scen<- 2:4 #scenarios you want graphed together
 
 
 ## table 1 ------
-round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_1920
-round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_1920
-round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2021
-#round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2021
-#round(M[[rec_mod]]$spr_cofl/1000*0.8, 2) -> abc_2021
-rec_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1/figure/ofl_calc.csv"))
-round(rec_ofl$OFL_2020/1000, 2) -> ofl_2021
-round(ofl_2021*0.75, 2) -> abc_2021 # 25 % buffer
+round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_2021
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_2021
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2122
+round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2122
+round(M[[rec_mod]]$spr_cofl/1000*0.75, 2) -> abc_2122 # 25 % buffer
 
 # table 2 ----------
 round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_1920_lb
@@ -165,9 +163,9 @@ Computations which indicate the relative impact of fishing
   2016/17 & 1.97 & 2.23 & 0.00 & 0.00 & 0.001 & 0.14 & 0.11 \\
   2017/18 & 1.85 & 2.05 & 0.00 & 0.00 & 0.003 & 0.12 & 0.10 \\
   2018/19 & 1.74 & 1.15 & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
-  2019/20 & `r msst_1920 ` & `r mmb_1920` & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
-  2020/21 &      & `r mmb_2021 ` &  &  &  & `r ofl_2021 ` & `r abc_2021 ` \\
-  2021/22 &      & `r mmb_2021 ` &  &  &  & `r ofl_2021 ` & `r abc_2021 ` \\
+  2019/20 & 1.67 & 1.07 & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
+  2020/21 & `r msst_2021 ` & `r mmb_2021 ` & 0.00 & 0.00 & 0.001 & 0.05 & 0.04 \\
+  2021/22 &      & `r mmb_2122 ` &  &  &  & `r ofl_2122 ` & `r abc_2122 ` \\
   \hline
 \end{tabular}
 \end{table}
