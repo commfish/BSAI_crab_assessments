@@ -15,6 +15,7 @@ model_1_22        |   16.0        | - Basecase updated with 2021 survey data, gf
 model_1_22a       |   16.0a       | - model_1_22 with updated ADF&G pot survey data
 model_2a          |   22.0a       | - Increased M ,0.21
 model_2b          |   22.0b       | - Increased M, 0.26
+model_1_corner    |  not in doc   | - part of corner station analysis
 
 Note: potential models with varying q? look at survey data compared.
 
