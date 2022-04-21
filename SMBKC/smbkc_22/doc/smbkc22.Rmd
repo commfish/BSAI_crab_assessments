@@ -89,13 +89,11 @@ round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2122
 round(M[[rec_mod]]$spr_cofl/1000*0.75, 2) -> abc_2122 # 25 % buffer
 
 # table 2 ----------
-round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_1920_lb
-round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]* 2204.62/1e6, 2) -> mmb_1920_lb
-round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_2021_lb
-#round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 3) -> ofl_1920_lb
-#round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.8, 2) -> abc_1920_lb
-round(rec_ofl$OFL_2020* 2204.62/1e6, 3) -> ofl_2021_lb
-round(ofl_2021_lb*0.75, 2) -> abc_2021_lb # 25 % buffer
+round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_2021_lb
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]* 2204.62/1e6, 2) -> mmb_2021_lb
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_2122_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 3) -> ofl_2122_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.75, 2) -> abc_2122_lb # 25 % buffer
 
 # ofl and abc basis -------- table 3
 # ofl and abc basis -------- table 3
@@ -182,8 +180,8 @@ Computations which indicate the relative impact of fishing
   2016/17 & 4.3 & 4.91 & 0.000 & 0.000 & 0.002  & 0.31 & 0.25 \\ 
   2017/18 & 4.1 & 2.85 & 0.000 & 0.000 & 0.007  & 0.27 & 0.22 \\ 
   2018/19 & 3.84 & 2.54 & 0.000 & 0.000 & 0.002 & 0.08 & 0.07 \\
-  2019/20 & `r msst_1920_lb` & `r mmb_1920_lb` & 0.000 & 0.000 & 0.002 & 0.096 & 0.08 \\
-  2020/21 &       & `r mmb_2021_lb` &  &  &  & `r ofl_2021_lb` & `r abc_2021_lb`  \\
+  2019/20 & 3.68 & 2.34 & 0.000 & 0.000 & 0.002 & 0.096 & 0.08 \\
+  2020/21 & `r msst_2021_lb `  & `r mmb_2021_lb` & 0.000 & 0.000 & 0.002 & 0.112 & 0.08  \\
   2021/22 &       & `r mmb_2021_lb` &  &  &  & `r ofl_2021_lb` & `r abc_2021_lb`  \\
   \hline
 \end{tabular}
@@ -206,10 +204,9 @@ Computations which indicate the relative impact of fishing
   2016/17 & 4b & 3.67 & 2.23 & 0.61 & 0.09 & 1 & 1978-2016 & 0.18 \\ 
   2017/18 & 4b & 3.86 & 2.05 & 0.53 & 0.08 & 1 & 1978-2017 & 0.18 \\
   2018/19 & 4b & 3.7  & 1.15 & 0.35 & 0.043 & 1 & 1978-2017 & 0.18 \\
-  2019/20 & 4b & 3.48 & `r mmb_1920` & 0.31 & 0.042 & 1 & 1978-2018 & 0.18 \\ 
-  2020/21 & 4b  & `r bmsy_cur` &  `r mmb_2021` &  `r ratio_bmsy` & `r fofl `
-   & 1 & 1978-2019 & 0.18 \\
-  2020/22 & 4b  & `r bmsy_cur` &  `r mmb_2021` &  `r ratio_bmsy` & `r fofl `
+  2019/20 & 4b & 3.48 & 1.06 & 0.31 & 0.042 & 1 & 1978-2018 & 0.18 \\ 
+  2020/21 & 4b & 3.34 &  `r mmb_2021` &  0.34 & 0.047 & 1 & 1978-2019 & 0.18 \\
+  2021/22 & 4b  & `r bmsy_cur` &  `r mmb_2122` &  `r ratio_bmsy` & `r fofl `
    & 1 & 1978-2019 & 0.18 \\
   \hline
 \end{tabular}
@@ -229,7 +226,7 @@ Data used in this assessment have been updated to include the most recently
 available fishery data. 
 This assessment includes one new survey data points of the 2021 NMFS trawl-survey, which is included here since this assessment is now on a biennial cycle.  
 The triennial ADF&G pot surveys were last conducted in 2018, and are back on a semi-triennial cycle, with the next survey planned for 2022.
-There is new size compositon data from the trawl survey. 
+There is new size composition data from the trawl survey. 
 The assessment was updated with 2010-2020 groundfish trawl and
 fixed gear bycatch estimates based on NMFS Alaska Regional Office (AKRO) data. 
 The directed fishery has been closed since 2016/17, so no recent fishery data are available.
@@ -249,10 +246,10 @@ Details of this implementation and other model details are provided in Appendix 
 
 ## Changes in Assessment Results {-}
 
-Both surveys indicate a decline over the past few years. The "reference" model is that which was selected for use in 2019.
-The base model presented here is the reference model with updated groundfish bycatch data for the 2019/20 crab season (model 16.0 base). One additional model is presented for consideration, which is a small variant of the base model, model 16.0a (**fixR**), which fixes recruitment in the most recent year to the average of the last seven years to avoid unrealistically high recruitment estimates. Additionally, retrospective analyses without the terminal year of survey data  and runs with "fake" survey data were performed to assess the uncertainty in the 2020 biomass estimates and reference point calculations due to the lack of a 2020 survey; the methods and results are detailed in Appendix C. 
+Both surveys indicate a decline over the past few years. The "reference" model is that which was selected for use in 2020, the year of the last full assessment.
+The base model presented here is the reference model with updated groundfish bycatch data for the 2020/21 crab season and updated survey data - biomass and size composition - from the 2021 NMFS trawl survey (model 16.0 2022). 
 
-In addition to the two models for considerations, one additional model is presented here to assess sensitivity of data inputs to the model, attempting to deal with the disparity between the two survey time series (**no pot**). The **no pot** configuration runs the base model 16.0 without the ADF&G pot survey data, therefore only having the NMFS trawl survey as the abundance index. 
+In addition to the reference/base model other models are presented here for sensitivity of life history constants. Here two models are presented that raise the natural mortality from the accepted fixed value of 0.18 for king crab. Model 22.0a has a M = 0.21,  for considerations, one additional model is presented here to assess sensitivity of data inputs to the model, attempting to deal with the disparity between the two survey time series (**no pot**). The **no pot** configuration runs the base model 16.0 without the ADF&G pot survey data, therefore only having the NMFS trawl survey as the abundance index. 
 
 
 # B. Responses to SSC and CPT  {-}
