@@ -249,7 +249,7 @@ Details of this implementation and other model details are provided in Appendix 
 Both surveys indicate a decline over the past few years. The "reference" model is that which was selected for use in 2020, the year of the last full assessment.
 The base model presented here is the reference model with updated groundfish bycatch data for the 2020/21 crab season and updated survey data - biomass and size composition - from the 2021 NMFS trawl survey (model 16.0 2022). 
 
-In addition to the reference/base model other models are presented here for sensitivity of life history constants. Here two models are presented that raise the natural mortality from the accepted fixed value of 0.18 for king crab. Model 22.0a has a M = 0.21,  for considerations, one additional model is presented here to assess sensitivity of data inputs to the model, attempting to deal with the disparity between the two survey time series (**no pot**). The **no pot** configuration runs the base model 16.0 without the ADF&G pot survey data, therefore only having the NMFS trawl survey as the abundance index. 
+In addition to the reference/base model other models are presented here for sensitivity of life history constants. Here two models are presented that raise the natural mortality from the accepted fixed value of 0.18 for king crab. Model 22.0a has a M = 0.21 and Model 22.0b has a M = 0.26. These values were taken from methods of Hoenig (ref?) and Then et al. (ref) using a maximum age of 25 or 30 years. Assuming a maximum age of less than 25 years produced a high estimate of natural mortality using Then et al. methods.
 
 
 # B. Responses to SSC and CPT  {-}
