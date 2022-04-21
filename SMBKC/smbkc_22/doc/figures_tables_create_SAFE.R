@@ -34,12 +34,12 @@ cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2",
 #scale_colour_manual(values=cbPalette)
 
 # update model names and file locations
-mod_names <- c("model 16.0 (2020)", "model 16.0 (2022)")#, "model 16.0a (fix R ter)", "model 20.1 (no pot)")
+mod_names <- c("model 16.0 (2020)", "model 16.0 (2022)", "model 22.0a (M=0.21)", "model 22.0b (M=0.26)")
 #mod_names <- c("16.0 (2019)", "16.0 (2020)", "16.0a (fix R ter)", "20.1 (no pot)")
 .MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_22/model_1_base20/"),
-              paste0(here::here(), "/SMBKC/smbkc_22/model_1_22/")) #, 
-              #paste0(here::here(), "/SMBKC/smbkc_20/model_1_rfix_TPL/"),
-              #paste0(here::here(), "/SMBKC/smbkc_20/model_2/")) #need to update these model options
+              paste0(here::here(), "/SMBKC/smbkc_22/model_1_22/"), 
+              paste0(here::here(), "/SMBKC/smbkc_22/model_2a/"),
+              paste0(here::here(), "/SMBKC/smbkc_22/model_2b/")) #need to update these model options
 .THEME    = list(theme_bw(base_size = 12, base_family = ""), scale_fill_manual(values=cbPalette), 
   scale_colour_manual(values=cbPalette))
 .OVERLAY  = TRUE
@@ -109,13 +109,13 @@ round(M[[rec_mod]]$spr_cofl/1000*0.75, 2) -> abc_2122
 #round(ofl_2021*0.8, 2) -> abc_2021
 
 # table 2 ----------
-round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_1920_lb
-round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]* 2204.62/1e6, 2) -> mmb_1920_lb
-round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_2021_lb
-#round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 3) -> ofl_1920_lb
-#round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.8, 2) -> abc_1920_lb
-round(rec_ofl$OFL_2020* 2204.62/1e6, 3) -> ofl_2021_lb
-round(ofl_2021_lb*0.8, 2) -> abc_2021_lb
+round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_2021_lb
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]* 2204.62/1e6, 2) -> mmb_2021_lb
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_2122_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 3) -> ofl_2122_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.75, 2) -> abc_2122_lb
+#round(rec_ofl$OFL_2020* 2204.62/1e6, 3) -> ofl_2021_lb
+#round(ofl_2021_lb*0.8, 2) -> abc_2021_lb
 
 # ofl and abc basis -------- table 3
 # ofl and abc basis -------- table 3
@@ -148,6 +148,7 @@ ggsave(paste0(.FIGS, "cpue_ref_both.png"), width = ww*2.5, height = hh)
 
 ### Sensitivity of new data in 2018 on estimated recruitment ; 1978-2018
 ## !!recruit - ref to base ----------------------------
+## !!! doesn't work with new GMACS version with gmacs.std file. Need to bring in from gmacsall.out
 A <- M
 for (i in c(2)) {
   ii <- which(A[[i]]$fit$names %in% "sd_log_recruits"); ii <- ii[length(ii)]
@@ -169,9 +170,25 @@ ggsave(paste0(.FIGS, "fishing_mortality.png"), width = ww*1.25, height = hh)
 
 ## ssb -----------
 #"Sensitivity of new data in 2020 on estimated mature male biomass (MMB); 1978-2019. \\label{fig:ssb1}"}
-plot_ssb(M[1:2], ylab = "Mature male biomass (tons) on 15 February")
+ssb <- .get_ssb_dfKP(M[1:2])
+ssb %>% 
+  ggplot(aes(year, ssb, col = Model)) +
+  geom_line() +
+  #geom_ribbon(aes(x=year, ymax = ub, ymin = lb), alpha = 0.2) +
+  expand_limits(y=0) +
+  scale_y_continuous(expand = c(0,0)) +
+  #geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
+  #           lty = c("solid", "dashed"))+
+  #geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
+  #          hjust = -0.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
+  ggtitle("Reference model (16.0)") +
+  ylab("Mature male biomass (t) on 15th February") + xlab("Year") +
+  .THEME
+ggsave(paste0(.FIGS, "reference_ssb_wprojected_yr.png"), width = ww, height = hh)
+
+#plot_ssb(M[1:2], ylab = "Mature male biomass (tons) on 15 February")
 # !!SSB lst yr / current yr base model-----------
-ssb <- .get_ssb_df(M[1:2]) # ssb now does NOT include projection year so only up to 2018 crab year - 2019 projection (example)
+#ssb <- .get_ssb_df(M[1:2]) # ssb now does NOT include projection year so only up to 2018 crab year - 2019 projection (example)
 head(ssb)
 tail(ssb)
 
@@ -183,36 +200,26 @@ ggsave(paste0(.FIGS, "ssb_mod_scen_NO_prj_yr.png"), width = 1.5*ww, height = hh)
 # Bmsy proxy and SHS level ------
 SHS <- c(1978:2012)
 ssb %>% 
-  filter(Model == "model 16.0 (2020 base)") %>% 
+  filter(Model == "model 16.0 (2022 base)") %>% 
   mutate(b_msy = mean(ssb)) %>% 
   mutate(SHS_proxy = mean(ssb[year %in% SHS])) %>% 
   group_by(Model) %>% 
   mutate(b_msy/SHS_proxy)
 
 
-# !!ssb current year uncertainty --------
-# need to run mcmc and projections here 
-# last years ref model
-un_ssb <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
-# current years ref model
-un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_20/model_1/projections/proj_1/d/uncertainty_ssb_2020.csv"))
+#!!ssb current year uncertainty --------
 
-# ssb vector only includes model years - here crab year 1978 to 2019 does NOT include projection, need to add
-#   projection year for graphical purposes
-ssb_last <- data.frame("Model" = names(M[1:2]),
-                       "year" = c(cur_yr-1, cur_yr),
-                       #"year" = c(cur_yr-1, cur_yr), 
-                       "ssb" = c(M[[1]]$spr_bmsy * M[[1]]$spr_depl,
-                                 M[[2]]$spr_bmsy * M[[2]]$spr_depl),
-                       "lb" = c(un_ssb$lci, un_ssb2$lci), # need to update these from .csv output
-                       "ub" = c(un_ssb$uci, un_ssb2$uci)) 
-# should be current crab year; update with lb and ub from projection file
-# update with 95% credible interval
-ssb %>% 
-  bind_rows(ssb_last) -> ssb
+raw_data <- data_out(mod_names[1:2], .MODELDIR[1:2])
 
+ssb1 <- get_ssb_out(mod_names[1:2], raw_data)
+ssb_last <- get_ssb_last(M[1:2]) %>% select(-par, -sd)
 
-## ssb plot with current year 
+ssb1 %>% 
+  select(Model, ssb, year, lb, ub) %>% 
+  rbind(ssb_last) -> ssb
+
+# Figures -----
+## reference with last year ------
 ssb %>% 
   ggplot(aes(year, ssb, col = Model)) +
   geom_line() +
@@ -227,60 +234,32 @@ ssb %>%
   #          hjust = -0.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
   #ggtitle("Base model - model 1 (Model 3 2018)") +
   ylab("Mature male biomass (tons) on 15 February") + xlab("Year") +
-  .THEME
+  .THEME + theme(legend.position = c(0.9, 0.85))
 ggsave(paste0(.FIGS, "lastyr_reference_ssb_wprojected_yr.png"), width = ww*1.18, height = hh)
 ggsave(paste0(.FIGS, "PRESENTATION_lastyr_reference_ssb_wprojected_yr.png"), width = ww*1.5, height = hh)
 
-
 # !!SSB model scenarios-----------
+raw_data <- data_out(mod_names[2:4], .MODELDIR[2:4])
+#  !! FIX!! need to pull this data from all models to create output file 'ssb_rec_out.csv'
+ssb1 <- get_ssb_out(mod_names[1:2], raw_data)
+ssb_last <- get_ssb_last(M[1:2]) %>% select(-par, -sd)
+
+ssb1 %>% 
+  select(Model, ssb, year, lb, ub) %>% 
+  rbind(ssb_last) -> ssb
+
+#ssb2 <- .get_ssb_dfKP(M[mod_scen]) # go to line 296
 # SSB lst yr / current yr base model-----------
-ssb <- .get_ssb_df(M[mod_scen]) # ssb now does NOT include projection year so only up to 2018 crab year - 2019 projection (example)
-head(ssb)
-tail(ssb)
-
-# ssb current year uncertainty
-un_ssb_ref <- read.csv(here::here("./SMBKC/smbkc_20/model_1/projections/proj_1/d/uncertainty_ssb_2020.csv"))#
-un_ssb_nopot <- read.csv(here::here("./SMBKC/smbkc_20/model_2/projections/proj_1/d/uncertainty_ssb_2020.csv")) #need to run
-un_ssb_fixR <- read.csv(here::here("./SMBKC/smbkc_20/model_1_rfix_TPL/projections/proj_1/d/uncertainty_ssb_2020.csv")) #need to run
-#
-#un_ssb_cv <- read.csv(here::here("./SMBKC/smbkc_19a/model_1a/projections/proj_1/d/uncertainty_ssb_2019.csv")) #need to run
-#un_ssb_cv2 <- read.csv(here::here("./SMBKC/smbkc_19a/model_1b/projections/proj_1/d/uncertainty_ssb_2019.csv")) #need to run
-#un_ssb_q <- read.csv(here::here("./SMBKC/smbkc_19a/model_3/projections/proj_1/d/uncertainty_ssb_2019.csv")) #need to run
-
-#un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_5/d/uncertainty_ssb_2019.csv")) #
-# temporary way to estimate uncertainty in proj year
-#ssb %>% filter(Model == "model 16.0 (ref)") %>% filter(year == 2018) -> temp1
-#temp1 %>% 
-#  mutate(lper = lb/ssb, uper = ub/ssb) -> temp2
-
-# ssb vector only includes model years - here crab year 1978 to 2019 does NOT include projection, need to add
-#   projection year for graphical purposes
-ssb_last <- data.frame("Model" = names(M[mod_scen]),
-                       "year" = c(cur_yr, cur_yr, cur_yr), 
-                       "ssb" = c(M[[2]]$spr_bmsy * M[[2]]$spr_depl,
-                                 M[[3]]$spr_bmsy * M[[3]]$spr_depl, 
-                                 M[[4]]$spr_bmsy * M[[4]]$spr_depl),
-                       "lb" = c(un_ssb_ref$lci, un_ssb_fixR$lci, un_ssb_nopot$lci), # need to update these from .csv output
-                       "ub" = c(un_ssb_ref$uci, un_ssb_fixR$uci, un_ssb_nopot$uci))
-                       #"ub" = c(M[[2]]$spr_bmsy * M[[2]]$spr_depl*temp2$uper,
-                                #M[[3]]$spr_bmsy * M[[3]]$spr_depl*temp2$uper))
-#"lb" = c(un_ssb_ref$lci, un_ssb_fit$lci, un_ssb_cv$lci), # need to update these from .csv output
-#"ub" = c(un_ssb_ref$uci, un_ssb_fit$uci, un_ssb_cv$uci)) 
-# should be current crab year; update with lb and ub from projection file
-# update with 95% credible interval#
-ssb %>% 
-  bind_rows(ssb_last) -> ssb2
-
 
 ## ssb plot with current year 
-ssb2 %>% 
+ssb %>% 
   ggplot(aes(year, ssb, col = Model)) +
   geom_line() +
   expand_limits(y=0) +
-  geom_ribbon(aes(x=year, ymax = ub, ymin = lb, fill = Model, col = NULL), alpha = 0.1) +
+  #geom_ribbon(aes(x=year, ymax = ub, ymin = lb, fill = Model, col = NULL), alpha = 0.1) +
   #ylab = "SSB (tonnes)" +
   scale_y_continuous(expand = c(0,0)) +
-  ylim(0, max(ssb$ub)+ 100)+
+  #ylim(0, max(ssb$ub)+ 100)+
   #geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
   #           lty = c("solid", "dashed"))+
   #geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
@@ -455,18 +434,18 @@ ggsave(paste0(.FIGS, "lf_1.png"), width = 8.5, height = 5, unit = "in")
 plot_size_comps(M[mod_scen], 2, legend_loc = "right")
 ggsave(paste0(.FIGS, "lf_2.png"), width = 12, height = 7.5, unit = "in")
 
-plot_size_comps(M[2:3], 3, legend_loc = "right") #legend_loc=c(.87,.2))
+plot_size_comps(M[2:4], 3, legend_loc = "right") #legend_loc=c(.87,.2))
 ggsave(paste0(.FIGS, "lf_3.png"), width = 8.5, height = 5, unit = "in")
 
 #!! size comp residuals -------
 plot_size_comps_res(M[rec_mod])
 ggsave(paste0(.FIGS, "ref_mod_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
 
-plot_size_comps_res(M[3])
-ggsave(paste0(.FIGS, "ref_fixed_R_ter_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
+#plot_size_comps_res(M[3])
+#ggsave(paste0(.FIGS, "ref_fixed_R_ter_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
 
-plot_size_comps_res(M[4])
-ggsave(paste0(.FIGS, "no_ADF&G_pot_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
+#plot_size_comps_res(M[4])
+#ggsave(paste0(.FIGS, "no_ADF&G_pot_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
 
 # !!dynamic Bzero ----------------------
 #{r Dynamic_Bzero, fig.cap = "Comparisons of mature male biomass relative to the dynamic $B_0$ value, (15 February, 1978-2018) for  each of the model scenarios.\\label{fig:dynB0}"}
@@ -687,3 +666,64 @@ for (ii in mod_scen)
   df     <- cbind(df, v)
 }
 
+
+## archieved -----------------
+# old ssb last uncertainty from projections ------
+
+#ssb_pr <- .get_ssb_dfKP_2(M[1:2])
+
+# need to run mcmc and projections here 
+# last years ref model
+un_ssb <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
+# current years ref model
+un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_20/model_1/projections/proj_1/d/uncertainty_ssb_2020.csv"))
+
+# ssb vector only includes model years - here crab year 1978 to 2019 does NOT include projection, need to add
+#   projection year for graphical purposes
+ssb_last <- data.frame("Model" = names(M[1:2]),
+                       "year" = c(cur_yr-1, cur_yr),
+                       #"year" = c(cur_yr-1, cur_yr), 
+                       "ssb" = c(M[[1]]$spr_bmsy * M[[1]]$spr_depl,
+                                 M[[2]]$spr_bmsy * M[[2]]$spr_depl),
+                       "lb" = c(un_ssb$lci, un_ssb2$lci), # need to update these from .csv output
+                       "ub" = c(un_ssb$uci, un_ssb2$uci)) 
+# should be current crab year; update with lb and ub from projection file
+# update with 95% credible interval
+
+# SSB lst yr / current yr base model-----------
+ssb <- .get_ssb_df(M[mod_scen]) # ssb now does NOT include projection year so only up to 2018 crab year - 2019 projection (example)
+head(ssb)
+tail(ssb)
+
+# ssb current year uncertainty
+un_ssb_ref <- read.csv(here::here("./SMBKC/smbkc_20/model_1/projections/proj_1/d/uncertainty_ssb_2020.csv"))#
+un_ssb_nopot <- read.csv(here::here("./SMBKC/smbkc_20/model_2/projections/proj_1/d/uncertainty_ssb_2020.csv")) #need to run
+un_ssb_fixR <- read.csv(here::here("./SMBKC/smbkc_20/model_1_rfix_TPL/projections/proj_1/d/uncertainty_ssb_2020.csv")) #need to run
+#
+#un_ssb_cv <- read.csv(here::here("./SMBKC/smbkc_19a/model_1a/projections/proj_1/d/uncertainty_ssb_2019.csv")) #need to run
+#un_ssb_cv2 <- read.csv(here::here("./SMBKC/smbkc_19a/model_1b/projections/proj_1/d/uncertainty_ssb_2019.csv")) #need to run
+#un_ssb_q <- read.csv(here::here("./SMBKC/smbkc_19a/model_3/projections/proj_1/d/uncertainty_ssb_2019.csv")) #need to run
+
+#un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_5/d/uncertainty_ssb_2019.csv")) #
+# temporary way to estimate uncertainty in proj year
+#ssb %>% filter(Model == "model 16.0 (ref)") %>% filter(year == 2018) -> temp1
+#temp1 %>% 
+#  mutate(lper = lb/ssb, uper = ub/ssb) -> temp2
+
+# ssb vector only includes model years - here crab year 1978 to 2019 does NOT include projection, need to add
+#   projection year for graphical purposes
+ssb_last <- data.frame("Model" = names(M[mod_scen]),
+                       "year" = c(cur_yr, cur_yr, cur_yr), 
+                       "ssb" = c(M[[2]]$spr_bmsy * M[[2]]$spr_depl,
+                                 M[[3]]$spr_bmsy * M[[3]]$spr_depl, 
+                                 M[[4]]$spr_bmsy * M[[4]]$spr_depl),
+                       "lb" = c(un_ssb_ref$lci, un_ssb_fixR$lci, un_ssb_nopot$lci), # need to update these from .csv output
+                       "ub" = c(un_ssb_ref$uci, un_ssb_fixR$uci, un_ssb_nopot$uci))
+#"ub" = c(M[[2]]$spr_bmsy * M[[2]]$spr_depl*temp2$uper,
+#M[[3]]$spr_bmsy * M[[3]]$spr_depl*temp2$uper))
+#"lb" = c(un_ssb_ref$lci, un_ssb_fit$lci, un_ssb_cv$lci), # need to update these from .csv output
+#"ub" = c(un_ssb_ref$uci, un_ssb_fit$uci, un_ssb_cv$uci)) 
+# should be current crab year; update with lb and ub from projection file
+# update with 95% credible interval#
+ssb %>% 
+  bind_rows(ssb_last) -> ssb2
