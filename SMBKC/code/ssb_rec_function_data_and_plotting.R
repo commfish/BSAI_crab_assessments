@@ -14,7 +14,12 @@ mod_names <- c("model 16.0 (2020)", "model 16.0 (2022)", "model 22.0a (M=0.21)",
 
 raw_data <- data_out(mod_names[1:2], .MODELDIR[1:2])
 
-ssb <- get_ssb_out(mod_names[1:2], raw_data)
+ssb1 <- get_ssb_out(mod_names[1:2], raw_data)
+ssb_last <- get_ssb_last(M[1:2]) %>% select(-par, -sd)
+
+ssb1 %>% 
+  select(Model, ssb, year, lb, ub) %>% 
+  rbind(ssb_last) -> ssb
 
 # Figures -----
 ## reference with last year ------
@@ -73,3 +78,24 @@ get_ssb_out <- function(model_names, raw_data)
   }
   return(mdf)
 }
+
+get_ssb_last <-function(M)
+{
+  n <- length(M)
+  mdf <- NULL
+  for (i in 1:n)
+  {
+    A <- M[[i]]
+    df <- data.frame(Model = names(M)[i],
+                     par = A$fit$names,
+                     ssb = A$fit$est,
+                     sd = A$fit$std)
+    df      <- subset(df, par == "sd_last_ssb")
+    df$year <- max(A$mod_yrs)+1
+    df$lb   <- df$ssb - 1.96*df$sd
+    df$ub   <- df$ssb + 1.96*df$sd
+    mdf     <- rbind(mdf, df)
+  }
+  return(mdf)
+}
+
