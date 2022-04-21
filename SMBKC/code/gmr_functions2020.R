@@ -516,6 +516,86 @@ plot_cpue_VAST <-
   return(mdf)
 }
 
+
+.get_ssb_dfKP_2 <-function(M)
+{
+  n <- length(M)
+  mdf <- NULL
+  for (i in 1:n)
+  {
+    A <- M[[i]]
+    df <- data.frame(Model = names(M)[i],
+                     par = A$fit$names,
+                     log_ssb = A$fit$est,
+                     log_sd = A$fit$std)
+    df      <- subset(df, par == c("sd_log_ssb", "sd_last_ssb"))
+    df$year <- c(A$mod_yrs, (max(A$mod_yrs)+1))
+    df$ssb  <- exp(df$log_ssb)
+    df$lb   <- exp(df$log_ssb - 1.96*df$log_sd)
+    df$ub   <- exp(df$log_ssb + 1.96*df$log_sd)
+    mdf     <- rbind(mdf, df)
+  }
+  return(mdf)
+}
+
+
+## ssb and rec functions ---------------
+data_out <- function(model_names, direct)
+{
+  n <- length(model_names)
+  mdf <- NULL
+  for (i in 1:n)
+  {
+    out <- read.csv(paste0(direct[i], "ssb_rec_out.csv"), header = TRUE)
+    df <- data.frame(Model = model_names[i], 
+                     par = out$Parameter_name, 
+                     log_par = out$Estimate, 
+                     log_sd = out$Standard_error, 
+                     year = out$Year)
+    mdf     <- rbind(mdf, df)
+  }
+  return(mdf)
+}
+
+get_ssb_out <- function(model_names, raw_data)
+{
+  n <- length(model_names)
+  mdf <- NULL
+  for (i in 1:n)
+  {
+    model <- model_names[i]
+    df <- subset(raw_data, Model == model_names[i])
+    df <- subset(df, par == "Log(ssb)")
+    #df$year <- A$mod_yrs
+    df$ssb  <- exp(df$log_par)
+    df$lb   <- exp(df$log_par - 1.96*df$log_sd)
+    df$ub   <- exp(df$log_par + 1.96*df$log_sd)
+    mdf     <- rbind(mdf, df)
+  }
+  return(mdf)
+}
+
+get_ssb_last <-function(M)
+{
+  n <- length(M)
+  mdf <- NULL
+  for (i in 1:n)
+  {
+    A <- M[[i]]
+    df <- data.frame(Model = names(M)[i],
+                     par = A$fit$names,
+                     ssb = A$fit$est,
+                     sd = A$fit$std)
+    df      <- subset(df, par == "sd_last_ssb")
+    df$year <- max(A$mod_yrs)+1
+    df$lb   <- df$ssb - 1.96*df$sd
+    df$ub   <- df$ssb + 1.96*df$sd
+    mdf     <- rbind(mdf, df)
+  }
+  return(mdf)
+}
+
+
 # under development ------------
 
 # Fishing mortality plot adjusted-----------------
