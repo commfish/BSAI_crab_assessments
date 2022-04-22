@@ -259,38 +259,27 @@ In addition to the reference/base model other models are presented here for sens
 
 Comment: *Regarding general code development, the SSC and CPT outstanding requests continue to be as follows:*
 
-  1. *add the ability to conduct retrospective analyses*
-
-     Retrospective runs/simulations are presented here in Appendix C as part of the analyses done to assess uncertainty in the model output (Figure \@ref(fig:retrospective)). The ability to automate these in GMACS is still under developement but the author was able to do them by manually editing the data files.
-     
-  2. *Continued exploration of data weighting (Francis and other approaches) and evaluation of models with and without the 1998 natural mortality spike. The authors are encouraged to bring other models forward for CPT and SSC consideration*
+  1. *Continued exploration of data weighting (Francis and other approaches) and evaluation of models with and without the 1998 natural mortality spike. The authors are encouraged to bring other models forward for CPT and SSC consideration*
   
      We continued with the iterative re-weighting for composition data (Table \@ref(tab:data-weighting)). We did not address models without the natural mortality spike. These have been considered previously. 
 
-
-Comment: *Regarding potential model scenarios for Sept. 2020, the SSC and CPT requests are:*
-    
-  1. *Explore model without ADf&G pot survey data*
-    
-     Model 20.1 explores this sensitivity to the data inputs and is shown here in the model scenarios.
-      
-  2. *Random walk or exploration of catchability*
-    
-     The intial model of time blocks for Q did not show much potential for this in May 2020, therefore it was not a focus for the Sept. 2020 runs. More coding work is needed to make a true random walk for catchability GMACS and this will be added to GMACS model development, hopefully during the Jan 2021 modeling workshop. 
-
 Comment: *Explore potential explanations for the discrepancy in the time trends of the two types of survey data, including movement hypotheses using spatial models (not necessarily VAST)*
   
-  Limited progress due to time availability and current world events. This will be a large focus on upcoming work on this model as the scenario without the ADF&G pot survey data (20.1) shows the differences in the current status of the stock between the two abundance surveys (Figure \@ref(fig:mmb)).
+  Exploration of the spatial extent and density differences between the surveys was done on all male crab included in the model (Appendix C). The authors plan to use this and further analyses to better characterize catchability/availability for the pot survey. 
 
-Comment: *Explore May 2020 model with VAST estimates*
+Comment: *Explore VAST estimates compared to design based, and ones that combine the two surveys*
 
   Progress is underway to refine the SMBKC VAST estimates using preliminary code that incorporates the island effect. Jon Richar (NMFS) is working on these estimates. At the time of this final SAFE there are no additional improvements to this data set and therefore the VAST model is not presented as a model option. Future work on VAST models for this stock includes VAST data output for the NMFS trawl survey incorporating the island effect and VAST output using both survey data sets together. 
-  
-Comment: *Please use the correct model number (e.g., if 19.0 is the same model as was first adopted in 16.0 then it is still 16.0.)*
 
-  Completed. Base model is 16.0.
+Comment:  *Random walk or exploration of catchability*
+    
+   The initial model of time blocks for Q did not show much potential for this in May 2020, therefore time blocks were not a focus for May 2022. More coding work is needed to make a true random walk for catchability GMACS and this will be added to GMACS model development. 
+     
+Comment: *Consider increasing the number of size bins so that cohorts might be more easily tracked and growth better estimated*
+   A full review of the research and literature for blue king crab is underway but no changes to the assessment model size bins were considered in this review due to the lack of a concrete basis for these changes and concern over sample size reductions with increased size bins.
 
-
+Comment: *Explore the assumed and estimated life history parameters (e.g., natural mortality, growth, and maturity) to ensure the best available science is being used to assess this stock.*
+   Specific research on St.Matthew blue king crab life history parameters is not available and therefore these are borrowed from other stocks/species.    
 
 # C. Introduction {-}
 
