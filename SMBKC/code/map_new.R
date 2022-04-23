@@ -17,7 +17,7 @@ data("nepacLLhigh")
 smbkc_haul_cpue <-data.frame(read.csv(paste0(here::here(), "/SMBKC/data/trawl_survey/ebs-crab-cpue-69323-stmatt/2021/ebs-crab-cpue-69323-stmatt-6.csv"),
                                       header=T, as.is = TRUE))
 smbkc_haul_cpue %>% 
-  filter(SURVEY_YEAR >= 2011, SIZE_GROUP == "MALE_GE90") -> m.df  
+  filter(SURVEY_YEAR >= 2012, SIZE_GROUP == "MALE_GE90") -> m.df  
 
 glimpse(m.df)
 
