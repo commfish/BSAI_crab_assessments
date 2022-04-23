@@ -31,16 +31,16 @@ cur_yr <- 2022
 folder <- "smbkc_22"
 cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 
-mod_names <- c("model 16.0 (2020)", "model 16.0 (2022)")#, "model 16.0a (fix R ter)", "model 20.1 (no pot)") 
+mod_names <- c("model 16.0 (2020)", "model 16.0 (2022)", "model 22.0a (M=0.21)", "model 22.0b (M=0.26)")
 .MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_22/model_1_base20/"),
-              paste0(here::here(), "/SMBKC/smbkc_22/model_1_22/"))#, 
-              #paste0(here::here(), "/SMBKC/smbkc_20/model_1_rfix_TPL/"),
-              #paste0(here::here(), "/SMBKC/smbkc_20/model_2/")) #need to update these model options
+              paste0(here::here(), "/SMBKC/smbkc_22/model_1_22/"), 
+              paste0(here::here(), "/SMBKC/smbkc_22/model_2a/"),
+              paste0(here::here(), "/SMBKC/smbkc_22/model_2b/")) #need to update these model options
 .THEME    = list(theme_bw(base_size = 12, base_family = ""), scale_fill_manual(values=cbPalette), 
   scale_colour_manual(values=cbPalette))
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male")
-.FLEET    = c("Pot","Trawl bycatch","Fixed bycatch","NMFS Trawl","ADF&G Pot", "ADF&G Pot2")
+.FLEET    = c("Pot","Trawl bycatch","Fixed bycatch","NMFS Trawl","ADF&G Pot")
 .TYPE     = c("Retained","Discarded", "Retained & Discarded")
 .SHELL    = c("Aggregate")
 .MATURITY = c("Aggregate")
@@ -73,7 +73,7 @@ mod_scen<- 2:4 #scenarios you want graphed together
 
 ```{r exesum, echo = FALSE}
 .get_cpue_df(Mbase) %>% 
-  select(Model, Index, year, seas, fleet, sex, cpue, cv, pred)
+  dplyr::select(Model, Index, year, seas, fleet, sex, cpue, cv, pred) %>% 
   filter(fleet==.FLEET[4]) %>% 
   mutate(x = round(100*pred/mean(pred),0)) %>% 
   select(x) %>% 
@@ -147,7 +147,7 @@ catch, estimated male discard mortality in the directed fishery, and estimated m
 Based on the reference model for SMBKC, the estimate for mature male biomass was below the minimum stock-size threshold (MSST) in 2018/19 and is in an "overfished" condition, despite a directed fishery closure since the 2016/17 season 
 (and hence overfishing has not occurred) (Tables \@ref(tab:status), \@ref(tab:ofl-basis), and \@ref(tab:management-quants)). 
 Computations which indicate the relative impact of fishing 
-(i.e., the "dynamic $B_0$") suggests, that the current spawning stock biomass has been reduced to `r .get_dynB0_df(Mbase) %>% transmute(round(100*ssb,0)) %>% slice(n())`% of what it would have been in the absence of fishing, assuming the same level of recruitment as estimated. 
+(i.e., the "dynamic $B_0$") suggests, that the current spawning stock biomass has been reduced to `r #.get_dynB0_df(Mbase) %>% transmute(round(100*ssb,0)) %>% slice(n())`% of what it would have been in the absence of fishing, assuming the same level of recruitment as estimated. 
  
  \begin{table}[ht]
  \centering
@@ -182,7 +182,7 @@ Computations which indicate the relative impact of fishing
   2018/19 & 3.84 & 2.54 & 0.000 & 0.000 & 0.002 & 0.08 & 0.07 \\
   2019/20 & 3.68 & 2.34 & 0.000 & 0.000 & 0.002 & 0.096 & 0.08 \\
   2020/21 & `r msst_2021_lb `  & `r mmb_2021_lb` & 0.000 & 0.000 & 0.002 & 0.112 & 0.08  \\
-  2021/22 &       & `r mmb_2021_lb` &  &  &  & `r ofl_2021_lb` & `r abc_2021_lb`  \\
+  2021/22 &       & `r mmb_2122_lb` &  &  &  & `r ofl_2122_lb` & `r abc_2122_lb`  \\
   \hline
 \end{tabular}
 \end{table}
@@ -460,7 +460,7 @@ Note the change in naming convention (per SSC comments). The base model is model
 
 ### a. Sensitivity to new data {-}
 There is no new survey data for the September 2020 model runs, the only additional data is groundfish bycatch data for the 2019/20 crab season. Additionally, the groundfish bycatch data was updated for past years due to some changes in the weights used to estimate crab bycatch in the groundfish fisheries (per. comm. NMFS AKRO). The 2020 reference model is compared here to the 2019 accepted model, which is shown in Figures \@ref(fig:surv1) and \@ref(fig:surv2) with recruitment and spawning biomass shown in 
-Figures \@ref(fig:rec1) and \@ref(fig:ssb1), respectively. 
+Figures \@ref(fig:recruitment2) and \@ref(fig:ssb1), respectively. 
 The 2019 accepted model and the 2020 base model have identical fits to the survey data, as well as identical estimates of SSB and recruitment. This is expected since there are no new influential data in the 2020 model. 
 As has been noted in the past, the reference model still does not capture the recent survey declines in
 the ADF&G pot survey, or fit post 2005 trawl survey data points well. 
@@ -945,6 +945,8 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
   2017 &              & 42         &   643    & &              & 21         & 100 \\
   2018 &              & 62         &   286    & &              & 31         & 100 \\
   2019 &              & 105        &          & &              & 50         & \\
+  2020 &              &            &          & &              &          & \\
+  2021 &              & 59         &          & &              & 50         & \\
   \hline
 \end{tabular}
 \end{table}
@@ -975,18 +977,18 @@ Parameter <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
                "log Stage-1 ADF\\&G pot selectivity","log Stage-2 ADF\\&G pot selectivity")
                #"$F_\\text{OFL}$","OFL")
 df1 <- data.frame(Parameter, Estimate, SD)
-rec_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1/figure/ofl_calc.csv"))
+#rec_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1/figure/ofl_calc.csv"))
 
 df2 <- data.frame(Parameter = c("$F_\\text{OFL}$","OFL"), 
-                  Estimate = c(M[[ref_mod]]$sd_fofl[1], rec_ofl$OFL_2020), #M[[rec_mod]]$spr_cofl
-                  SD = c(0.0071253, (.46387*(rec_ofl$OFL_2020/1.35)))) # directly from GMACS.std file **FIX**
+                  Estimate = c(M[[rec_mod]]$sd_fofl[1], M[[rec_mod]]$spr_cofl),
+                  SD = c(0.00737123, 11.99))#(.46387*(rec_ofl$OFL_2020/1.35)))) # **FIX** directly from 'gmacsall.out'
 df1 %>% 
   bind_rows(df2) -> df
-tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the base (16.0) model.", label = "tab:est-pars-ref", digits = 3)
+tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the base (16.0) model 2022.", label = "tab:est-pars-ref", digits = 3)
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
 ```
 
-```{r est-pars-fixR, results = "asis"}
+```{r est-pars-M21, results = "asis"}
 x <- M[[3]]$fit
 i <- c(grep("m_dev", x$names)[1],
        grep("theta", x$names),
@@ -1011,14 +1013,14 @@ Parameter <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
                "log Stage-1 ADF\\&G pot selectivity","log Stage-2 ADF\\&G pot selectivity")
                #"$F_\\text{OFL}$","OFL")
 df1 <- data.frame(Parameter, Estimate, SD)
-rfix_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1_rfix_TPL/figure/ofl_calc.csv"))
+#rfix_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1_rfix_TPL/figure/ofl_calc.csv"))
 
 df2 <- data.frame(Parameter = c("$F_\\text{OFL}$","OFL"), 
-                  Estimate = c(M[[3]]$sd_fofl[1], rfix_ofl$OFL_2020), #M[[3]]$spr_cofl)
-                  SD = c(0.0070834, (.21218*(rfix_ofl$OFL_2020/1.1364)))) # directly from GMACS.std file **FIX**
+                  Estimate = c(M[[3]]$sd_fofl[1], M[[3]]$spr_cofl), #M[[3]]$spr_cofl)
+                  SD = c(0.00785971, 11.47527))#(.21218*(rfix_ofl$OFL_2020/1.1364)))) # directly from 'GMACS.std'gmacsall.out' file **FIX**
 df1 %>% 
   bind_rows(df2) -> df
-tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the base model with fixed terminal year recruitment 'fixR' (16.0a).", label = "tab:est-pars-fixR", digits = 3)
+tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for Model 22.0a with increased M=0.21).", label = "tab:est-pars-M21", digits = 3)
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
 ```
 
@@ -1041,20 +1043,21 @@ Estimate[j] <- Estimate[j] * 1000
 SD[j] <- SD[j] * 1000
 Parameter <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
                "$\\log (\\bar{R})$","$\\log (n^0_1)$","$\\log (n^0_2)$","$\\log (n^0_3)$",
-              "$\\log (\\bar{F}^\\text{df})$","$\\log (\\bar{F}^\\text{tb})$","$\\log (\\bar{F}^\\text{fb})$",
+               "$q_{pot}$", "$\\log (\\bar{F}^\\text{df})$","$\\log (\\bar{F}^\\text{tb})$","$\\log (\\bar{F}^\\text{fb})$",
                "log Stage-1 directed pot selectivity 1978-2008","log Stage-2 directed pot selectivity 1978-2008",
                "log Stage-1 directed pot selectivity 2009-2017","log Stage-2 directed pot selectivity 2009-2017",
-               "log Stage-1 NMFS trawl selectivity","log Stage-2 NMFS trawl selectivity")
+               "log Stage-1 NMFS trawl selectivity","log Stage-2 NMFS trawl selectivity",
+               "log Stage-1 ADF\\&G pot selectivity","log Stage-2 ADF\\&G pot selectivity")
                #"$F_\\text{OFL}$","OFL")
 df1 <- data.frame(Parameter, Estimate, SD)
-nopot_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_2/figure/ofl_calc.csv"))
+#nopot_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_2/figure/ofl_calc.csv"))
 
 df2 <- data.frame(Parameter = c("$F_\\text{OFL}$","OFL"), 
-                  Estimate = c(M[[3]]$sd_fofl[1], nopot_ofl$OFL_2020), #M[[3]]$spr_cofl)
-                  SD = c(0.00000, (.28051*(nopot_ofl$OFL_2020/1.2040)))) # directly from GMACS.std file **FIX**
+                  Estimate = c(M[[4]]$sd_fofl[1], M[[4]]$spr_cofl), #M[[3]]$spr_cofl)
+                  SD = c(0.00000, 0.2521899))#(.28051*(nopot_ofl$OFL_2020/1.2040)))) # directly from 'gmacsall.out' file **FIX**
 df1 %>% 
   bind_rows(df2) -> df
-tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for the 'no pot' (20.1) model.", label = "tab:est-pars-4", digits = 3)
+tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for Model 22.0b increased M = 0.26.", label = "tab:est-pars-4", digits = 3)
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
 ```
 
@@ -1129,40 +1132,43 @@ knitr::include_graphics("safe_figure/Fig3.png", dpi = 125)
 knitr::include_graphics("safe_figure/CrabN_Station.png", dpi = 400)
 ```
 
-```{r surv1, fig.cap = "Fits to NMFS area-swept trawl estimates of total (> 90mm) male survey biomass for the base model only (16.0 ref for 2020 and 16.0 2019 accepted model). Error bars are plus and minus 2 standard deviations."} 
+```{r surv1, fig.cap = "Fits to NMFS area-swept trawl estimates of total (> 90mm) male survey biomass for the base model only (16.0 ref for 2022 and 16.0 2020 accepted model). Error bars are plus and minus 2 standard deviations."} 
 knitr::include_graphics("safe_figure/trawl_cpue_ref.png", dpi = 200)
 ```
 
 
-```{r surv2, fig.cap = "Comparisons of fits to CPUE from the ADFG pot surveys for model 16.0 the reference model in 2019 and 2020. Error bars are plus and minus 2 standard deviations."} 
+```{r surv2, fig.cap = "Comparisons of fits to CPUE from the ADFG pot surveys for model 16.0 the reference model in 2020 and 2022. Error bars are plus and minus 2 standard deviations."} 
 knitr::include_graphics("safe_figure/pot_cpue_ref.png", dpi = 150)
 ```
 
 ```{r rec1, fig.cap = "Reference model estimated recruitment (2019 and 2020) for comparison from 1978-2018, does not show recent recruitment, i.e. 2019."}
-knitr::include_graphics("safe_figure/recruit_ref.png", dpi = 100)
+#knitr::include_graphics("safe_figure/recruit_ref.png", dpi = 100)
 ```
 
-```{r ssb1, fig.cap = "Sensitivity of new data in 2020 on estimated mature male biomass (MMB); 1978-2020."}
+```{r recruitment2, fig.cap = "Estimated recruitment 1979-2020 comparing ref model (16.0) for 2020 and 2022. The solid horizontal lines in the background represent the estimate of the average recruitment parameter ($\\bar{R}$) in each model scenario."}
+knitr::include_graphics("safe_figure/recruitment_ref_ribbons.png", dpi = 100)
+```
+
+
+```{r ssb1, fig.cap = "Sensitivity of new data in 2022 on estimated mature male biomass (MMB); 1978-2021."}
 #plot_ssb(M[1:2], ylab = "Mature male biomass (tons) on 15 February")# needs to be fixed 
 
 knitr::include_graphics("safe_figure/lastyr_reference_ssb_wprojected_yr.png", dpi = 100)
 # bring in from doc_figures_test.R to have current year projection and error associated.
 ```
 
-```{r selectivity, fig.cap = "Comparisons of the estimated stage-1 and stage-2 selectivities for the different model scenarios (the stage-3 selectivities are all fixed at 1). Estimated selectivities are shown for the directed pot fishery, the trawl bycatch fishery, the fixed bycatch fishery, the NMFS trawl survey, and the ADFG pot survey. Two selectivity periods are estimated in the directed pot fishery, from 1978-2008 and 2009-2019."}
+```{r selectivity, fig.cap = "Comparisons of the estimated stage-1 and stage-2 selectivities for the different model scenarios (the stage-3 selectivities are all fixed at 1). Estimated selectivities are shown for the directed pot fishery, the trawl bycatch fishery, the fixed bycatch fishery, the NMFS trawl survey, and the ADFG pot survey. Two selectivity periods are estimated in the directed pot fishery, from 1978-2008 and 2009-2020."}
 knitr::include_graphics("safe_figure/selectivity_mod_scen.png", dpi = 150)
 ```
 
 
-```{r recruitment, fig.cap = "Estimated recruitment 1979-2019 comparing model alternatives. The solid horizontal lines in the background represent the estimate of the average recruitment parameter ($\\bar{R}$) in each model scenario. Note the high uncertainty in recruitment in both the ref and the nopot model due to the lack of 2020 data."}
+```{r recruitment, fig.cap = "Estimated recruitment 1979-2020 comparing model alternatives. The solid horizontal lines in the background represent the estimate of the average recruitment parameter ($\\bar{R}$) in each model scenario. Note the high uncertainty in recruitment in the terminal year."}
 knitr::include_graphics("safe_figure/recruitment_mod_scen_ribbons.png", dpi = 100)
 ```
 
-```{r recruitment2, fig.cap = "Estimated recruitment 1979-2019 comparing ref model (16.0) and model with fixed recruitment in the terminal year (16.0a). The solid horizontal lines in the background represent the estimate of the average recruitment parameter ($\\bar{R}$) in each model scenario."}
-knitr::include_graphics("safe_figure/recruitment_ref_ribbons_2020.png", dpi = 100)
-```
 
-```{r mmb, fig.cap = "Comparisons of estimated mature male biomass (MMB) time series on 15 February during 1978-2020 for each of the model scenarios."}
+
+```{r mmb, fig.cap = "Comparisons of estimated mature male biomass (MMB) time series on 15 February during 1978-2021 for each of the model scenarios."}
 #plot_ssb(M[mod_scen], ylab = "Mature male biomass (tons) on 15 February")
 knitr::include_graphics("safe_figure/mod_scen_ssb_wprojected_yr.png", dpi = 100)
 ```
@@ -1216,11 +1222,11 @@ knitr::include_graphics("safe_figure/ref_mod_size_comp_residuals.png", dpi = 100
 ```
 
 ```{r sc-res-fixR, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (NMFS trawl survey, and the directed pot fishery) for SMBKC in the 'fixR' model (16.0a)."}
-knitr::include_graphics("safe_figure/ref_fixed_R_ter_size_comp_residuals.png", dpi = 100)
+#knitr::include_graphics("safe_figure/ref_fixed_R_ter_size_comp_residuals.png", dpi = 100)
 ```
 
 ```{r sc-res-nopot, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (NMFS trawl survey, and the directed pot fishery) for SMBKC in the 'no pot' model (20.1)."}
-knitr::include_graphics("safe_figure/no_ADF&G_pot_size_comp_residuals.png", dpi = 100)
+#knitr::include_graphics("safe_figure/no_ADF&G_pot_size_comp_residuals.png", dpi = 100)
 ```
 
 
@@ -1239,11 +1245,11 @@ knitr::include_graphics("safe_figure/dyn_Bzero.png", dpi = 375)
 ```
 
 ```{r retrospective, fig.cap = "Retrospective pattern in mature male biomass (MMB (t)) for the reference (base) model (16.0), Mohn's rho = -0.346", fig.height =12}
-knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/ssb_time_series_normal.png"), dpi = 375)
+#knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/ssb_time_series_normal.png"), dpi = 375)
 ```
 
 ```{r project, fig.cap = "Mature male biomass (MMB) projections for the near future using mean recent recruitment (1996 - 2019) and average bycatch levels from the last 5 years. No directed fishering mortality was projected due to the low stock status and overfished declaration.", fig.height =12}
-knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/model_1/projections/safe_proj20.png"), dpi = 375)
+#knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/model_1/projections/safe_proj20.png"), dpi = 375)
 ```
                 
                 
