@@ -595,6 +595,31 @@ get_ssb_last <-function(M)
   return(mdf)
 }
 
+get_rec_out <- function(model_names, raw_data, M)
+{
+  n <- length(model_names)
+  mdf <- NULL
+  for (i in 1:n)
+  {
+    model <- model_names[i]
+    df <- subset(raw_data, Model == model_names[i])
+    df <- subset(df, par == "Log(rec)")
+    #df$year <- A$mod_yrs
+    df$rec  <- exp(df$log_par)
+    df$lb   <- exp(df$log_par - 1.96*df$log_sd)
+    df$ub   <- exp(df$log_par + 1.96*df$log_sd)
+    j <- which(M[[i]]$fit$names %in% c("theta[4]"))
+    #rstd <- M[[i]]$fit$std[j]
+    if (length(j) > 0)
+    {
+      df$rbar = exp(M[[i]]$fit$est[j])
+    } else {
+      df$rbar = NA
+    }
+    mdf     <- rbind(mdf, df)
+  }
+  return(mdf)
+}
 
 # under development ------------
 

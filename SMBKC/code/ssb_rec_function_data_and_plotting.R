@@ -12,8 +12,14 @@ mod_names <- c("model 16.0 (2020)", "model 16.0 (2022)", "model 22.0a (M=0.21)",
 
 #df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_22/model_1_22/", "ssb_rec_out.csv"), header = TRUE)
 
-raw_data <- data_out(mod_names[1:2], .MODELDIR[1:2])
+raw_data <- data_out(mod_names[1:4], .MODELDIR[1:4])
 
+### rec code ----
+rec <- get_rec_out(mod_names[1:4], raw_data)
+
+
+### ssb code -----
+# now in figures_tables_create_SAFE.R 
 ssb1 <- get_ssb_out(mod_names[1:2], raw_data)
 ssb_last <- get_ssb_last(M[1:2]) %>% select(-par, -sd)
 
@@ -94,6 +100,32 @@ get_ssb_last <-function(M)
     df$year <- max(A$mod_yrs)+1
     df$lb   <- df$ssb - 1.96*df$sd
     df$ub   <- df$ssb + 1.96*df$sd
+    mdf     <- rbind(mdf, df)
+  }
+  return(mdf)
+}
+
+get_rec_out <- function(model_names, raw_data, M)
+{
+  n <- length(model_names)
+  mdf <- NULL
+  for (i in 1:n)
+  {
+    model <- model_names[i]
+    df <- subset(raw_data, Model == model_names[i])
+    df <- subset(df, par == "Log(rec)")
+    #df$year <- A$mod_yrs
+    df$rec  <- exp(df$log_par)
+    df$lb   <- exp(df$log_par - 1.96*df$log_sd)
+    df$ub   <- exp(df$log_par + 1.96*df$log_sd)
+    j <- which(M[[i]]$fit$names %in% c("theta[4]"))
+    #rstd <- M[[i]]$fit$std[j]
+    if (length(j) > 0)
+    {
+      df$rbar = exp(M[[i]]$fit$est[j])
+    } else {
+      df$rbar = NA
+    }
     mdf     <- rbind(mdf, df)
   }
   return(mdf)
