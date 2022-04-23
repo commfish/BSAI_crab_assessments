@@ -49,7 +49,7 @@
 0.001930932                # Mean weight to use (legal)
 
 # Stop after XX mcdraws
-3
+10000
 
 ## eof
 9999
