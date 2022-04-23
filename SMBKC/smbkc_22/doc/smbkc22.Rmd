@@ -262,6 +262,9 @@ Comment: *Regarding general code development, the SSC and CPT outstanding reques
   1. *Continued exploration of data weighting (Francis and other approaches) and evaluation of models with and without the 1998 natural mortality spike. The authors are encouraged to bring other models forward for CPT and SSC consideration*
   
      We continued with the iterative re-weighting for composition data (Table \@ref(tab:data-weighting)). We did not address models without the natural mortality spike. These have been considered previously. 
+  
+  2. *retrospective analyses*
+     These were provided in the Sept. 2020 SAFE document and will be provided again in the Sept. 2022 final SAFE.
 
 Comment: *Explore potential explanations for the discrepancy in the time trends of the two types of survey data, including movement hypotheses using spatial models (not necessarily VAST)*
   
@@ -279,7 +282,7 @@ Comment: *Consider increasing the number of size bins so that cohorts might be m
    A full review of the research and literature for blue king crab is underway but no changes to the assessment model size bins were considered in this review due to the lack of a concrete basis for these changes and concern over sample size reductions with increased size bins.
 
 Comment: *Explore the assumed and estimated life history parameters (e.g., natural mortality, growth, and maturity) to ensure the best available science is being used to assess this stock.*
-   Specific research on St.Matthew blue king crab life history parameters is not available and therefore these are borrowed from other stocks/species.    
+   Specific research on St.Matthew blue king crab life history parameters is not available and therefore these are borrowed from other stocks/species. At this time only sensitivities of the model to increased natural mortality (M) were looked at here (Models 22.0a and 22.0b). Sensitivities to the model assumptions on growth and maturity will be explored at a later date. 
 
 # C. Introduction {-}
 
@@ -370,8 +373,9 @@ also occurred in the eastern Bering Sea groundfish fisheries (Table \@ref(tab:sm
 ## Summary of New Information {-}
 
 Data used in this assessment were updated to include the most recently available fishery and survey estimates. 
-The only new data in the 2020 assessment model is updated bycatch estimates, no new survey or size composition data were added.
-The assessment uses updated 1993-2019 groundfish and fixed gear bycatch estimates based on NMFS AKRO data.
+Since this stock is now on a biennial assessment cycle, the new data for these models includes updated bycatch estimates and 2021 NMFS trawl survey 
+biomass and size composition data. 
+The assessment uses updated 1993-2020 groundfish and fixed gear bycatch estimates based on NMFS AKRO data.
 The directed fishery has been closed since the 2016/17 season, and therefore no directed fishery catch data are available. 
 The data used in each of the new models is shown in Figure \@ref(fig:data-extent).
 
@@ -379,11 +383,11 @@ The data used in each of the new models is shown in Figure \@ref(fig:data-extent
 
 Major data sources used in this assessment include annual directed-fishery retained-catch statistics from fish tickets
 (1978/79-1998/99, 2009/10-2012/13, and 2014/15-2015/16; Table \@ref(tab:smbkc-fishery)); results from the annual NMFS
-eastern Bering Sea trawl survey (1978-2019; Table \@ref(tab:stage-cpue-nmfs)); results from the ADF&G SMBKC pot
+eastern Bering Sea trawl survey (1978-2021; Table \@ref(tab:stage-cpue-nmfs)); results from the ADF&G SMBKC pot
 survey (every third year during 1995-2013, then 2015-2018; Table \@ref(tab:stage-cpue));
 mean somatic mass given length category by year (Table \@ref(tab:length-weight)); 
 size-frequency information from ADF&G crab-observer pot-lift sampling (1990/91-1998/99, 2009/10-2012/13, and
-2014/15-2016/17; Table \@ref(tab:stage-cpue-1)); and the NMFS groundfish-observer bycatch biomass estimates (1992/93-2019/20;
+2014/15-2016/17; Table \@ref(tab:stage-cpue-1)); and the NMFS groundfish-observer bycatch biomass estimates (1992/93-2020/21;
 Table \@ref(tab:smbkc-groundfish-bycatch)).
 
 Figure \@ref(fig:stations) maps stations from which SMBKC trawl-survey and pot-survey data were obtained. 
@@ -442,13 +446,13 @@ one sensitivity is considered which excludes the ADF&G pot survey data. In addit
 the impacts of adding new data (here just groundfish bycatch) to the reference model. 
 In summary, the following lists the models presented and the naming convention used: 
 
-1. **16.0 - 2019 Model**: 2019 accepted model
+1. **16.0 - 2020 Model**: 2020 accepted model
 
-2. **16.0 - 2020 Base Model**: updated with 2019/20 groudfish bycatch 
+2. **16.0 - 2022 Base Model**: updated with 2020/21 groundfish bycatch & 2021 NMFS trawl data
 
-3. **16.0a - 2020 Base Model with fixed terminal year recruitment**: terminal year recruitment fixed as the average of the last seven years
+3. **22.0a - 2022 Base Model with fixed M = 0.21**: natural mortality is increased to a base of 0.21 instead of 0.18
 
-4. **20.1 - no ADF&G pot survey data**: model 16.0 - excludes ADF&G pot survey data - abundace and length comps
+4. **22.0b - 2022 Base Model with fixed M = 0.26**: natural mortality is increased to a base of 0.26 instead of 0.18
 
 Note the change in naming convention (per SSC comments). The base model is model 16.0 since that was the year of model development and acceptance. 
 
