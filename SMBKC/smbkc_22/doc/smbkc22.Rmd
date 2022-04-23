@@ -525,7 +525,7 @@ of uncertainty on the input data (Figure \@ref(fig:fit-to-catch)).
 
 ### e. Retrospective and historical analyses {-}
 This is the fourth year GMACS has been used for this stock. As such, retrospective patterns and historical analyses of GMACS assessments are limited. 
-However, completion of a retrospective analysis, for the base model, was completed (Figure \@ref(fig:retrospective)) and is presented in detail in Appendix C.
+However, completion of a retrospective analysis, for the base model, will be completed in Sept. (Figure \@ref(fig:retrospective)) and is presented in detail in an Appendix.
 
 ### f. Uncertainty and sensitivity analyses.{-}
 Estimated standard deviations of parameters and selected management measures for the models are summarized for each individual model in
@@ -569,36 +569,36 @@ $F_\mathit{OFL}$, OFL, ABC, and MMB in 2019 for all scenarios are summarized in 
 is 75% of the OFL (ABC buffer = 25%).
 
 ```{r management-quants, results = "asis"}
-Mname2 <- c("Ref", "fixR" ,"nopot")
+Mname2 <- c("Ref", "M_0.21" ,"M_0.26")
 df <- NULL
 for (ii in 2:4)
  {
   x      <- M[[ii]]
   mmb    <- x$ssb[length(x$ssb)]; names(mmb) <- paste0("$\\text{MMB}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")
   fofl   <- x$sd_fofl[1]; names(fofl)          <- "$F_\\text{OFL}$"
-  #OFL    <- x$spr_cofl; names(OFL)           <- paste0("$\\text{OFL}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")
+  OFL    <- x$spr_cofl; names(OFL)           <- paste0("$\\text{OFL}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")
   Bmsy   <- x$spr_bmsy; names(Bmsy)          <- "$B_\\text{MSY}$"
   B_Bmsy <- x$spr_depl; names(B_Bmsy)          <- "$MMB/B_\\text{MSY}$"
-  #ABC    <- OFL * 0.8; names(ABC)            <- paste0("$\\text{ABC}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")
-  v      <- c(mmb, Bmsy, B_Bmsy, fofl)#, OFL, ABC)
+  ABC    <- OFL * 0.75; names(ABC)            <- paste0("$\\text{ABC}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")
+  v      <- c(mmb, Bmsy, B_Bmsy, fofl, OFL, ABC)
   df     <- cbind(df, v)
  }
 df <- data.frame(rownames(df), df, row.names = NULL)
 names(df) <- c("Component", Mname2) #mod_names[2:6])
 
-ref_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1/figure/ofl_calc.csv"))
-fixR_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1_rfix_TPL/figure/ofl_calc.csv"))
-nopot_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_2/figure/ofl_calc.csv"))
+#ref_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1/figure/ofl_calc.csv"))
+#fixR_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1_rfix_TPL/figure/ofl_calc.csv"))
+#nopot_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_2/figure/ofl_calc.csv"))
 
-df4 <- data.frame(Component = c(paste0("$\\text{OFL}_{", (M[[2]]$mod_yrs[length(M[[2]]$mod_yrs)]+ 1), "}$"),
-                   paste0("$\\text{ABC}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")), 
-                  Ref = c(ref_ofl$OFL_2020, ref_ofl$OFL_2020*.75) , 
-                  fixR = c(fixR_ofl$OFL_2020, fixR_ofl$OFL_2020*.75) ,
-                  nopot = c(nopot_ofl$OFL_2020, nopot_ofl$OFL_2020*.75))
-df %>% 
-  rbind(df4) -> df2
+#df4 <- data.frame(Component = c(paste0("$\\text{OFL}_{", (M[[2]]$mod_yrs[length(M[[2]]$mod_yrs)]+ 1), "}$"),
+#                   paste0("$\\text{ABC}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")), 
+#                  Ref = c(ref_ofl$OFL_2020, ref_ofl$OFL_2020*.75) , 
+#                  fixR = c(fixR_ofl$OFL_2020, fixR_ofl$OFL_2020*.75) ,
+#                  nopot = c(nopot_ofl$OFL_2020, nopot_ofl$OFL_2020*.75))
+#df %>% 
+#  rbind(df4) -> df2
 
-tab <- xtable(df2, caption = "Comparisons of management measures for the model scenarios. Biomass and OFL are in tons.", label = "tab:management-quants", digits = 3)
+tab <- xtable(df, caption = "Comparisons of management measures for the model scenarios. Biomass and OFL are in tons.", label = "tab:management-quants", digits = 3)
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
 ```
 
@@ -607,6 +607,7 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 # G. Rebuilding Analysis {-}
 
 This stock was declared overfished in fall of 2018 and a rebuilding plan went before the Council for final review in June 2020. The most updated rebuilding plan can be found on the NPFMC website for the June 2020 meeting. 
+Progress towards rebuilding will be updated in the Sept. 2022 SAFE report.
 
 
 # H. Data Gaps and Research Priorities {-}
@@ -630,7 +631,7 @@ normal with an absence of a "cold pool" in the region. This could have detriment
 should be carefully monitored. 
 Relative to the impact of historical fishing, we again conducted a "dynamic-$B_0$" analysis. 
 This procedure simply projects the population based on estimated recruitment but removes the effect of fishing. For the reference case,
-this suggests that the impact of fishing has reduced the stock to about `r .get_dynB0_df(Mbase) %>% transmute(round(100*ssb,0)) %>% slice(n())`% of what it would have been in the absence of fishing (Figure \@ref(fig:dynamic-bzero), supporting the hypothesis that fishing pressure is not the sole contributer to the decline of this stock in recent years.
+this suggests that the impact of fishing has reduced the stock to about `r #.get_dynB0_df(Mbase) %>% transmute(round(100*ssb,0)) %>% slice(n())`% of what it would have been in the absence of fishing (Figure \@ref(fig:dynamic-bzero), supporting the hypothesis that fishing pressure is not the sole contributer to the decline of this stock in recent years.
 The other non-fishing contributors to the observed depleted stock trend (ignoring stock-recruit relationship) may reflect variable  survival rates due to environmental conditions and also range shifts. 
  
 
@@ -731,7 +732,7 @@ Zheng, J., M.C. Murphy, and G.H. Kruse. 1997. Application of catch-survey analys
   \multicolumn{2}{l}{2013/14} & \multicolumn{5}{c}{FISHERY CLOSED} \\
   2014/15 & 10,133 & 895 & 9,906 & 0.094 & 0.228 & 0.679 \\
   2015/16 &  5,475 & 419 & 3,248 & 0.115 & 0.252 & 0.633 \\
-  \multicolumn{2}{l}{2016/17 - 2018/19} & \multicolumn{5}{c}{FISHERY CLOSED} \\
+  \multicolumn{2}{l}{2016/17 - 2020/21} & \multicolumn{5}{c}{FISHERY CLOSED} \\
   \hline
 \end{tabular}
 \end{table}
@@ -852,7 +853,7 @@ print(tab, caption.placement = "top", include.rownames = FALSE)
 2017  & 0.091 & 0.323 & 0.663 & 1.077 & 0.657 & & 3.955 & 0.600 & 42  \\
 2018  & 0.154 & 0.232 & 0.660 & 1.047 & 0.298 & & 3.816 & 0.281 & 62  \\
 2019  & 0.403 & 0.482 & 1.170 & 2.056 & 0.352 & & 6.990 & 0.337 & 105  \\
-2021  & 0.423 & 0.168 & 0.682 & 1.273 & 0.496 & & 4.253 & 0.427 & 0  \\
+2021  & 0.423 & 0.168 & 0.682 & 1.273 & 0.496 & & 4.253 & 0.427 & 59  \\
   \hline
 \end{tabular}
 \end{table}
