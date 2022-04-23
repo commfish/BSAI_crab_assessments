@@ -79,6 +79,9 @@ mod_scen<- 2:4 #scenarios you want graphed together
 ww <- 6
 hh <- 5
 
+raw_data <- data_out(mod_names[1:4], .MODELDIR[1:4]) # data pulled from .csv created from gmacsall.out - done manually
+
+
 ### Executive summary stats ===========
 # not currently saved here just viewed
 
@@ -209,7 +212,7 @@ ssb %>%
 
 #!!ssb current year uncertainty --------
 
-raw_data <- data_out(mod_names[1:2], .MODELDIR[1:2])
+raw_data <- data_out(mod_names[1:4], .MODELDIR[1:4])
 
 ssb1 <- get_ssb_out(mod_names[1:2], raw_data)
 ssb_last <- get_ssb_last(M[1:2]) %>% select(-par, -sd)
@@ -234,15 +237,15 @@ ssb %>%
   #          hjust = -0.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
   #ggtitle("Base model - model 1 (Model 3 2018)") +
   ylab("Mature male biomass (tons) on 15 February") + xlab("Year") +
-  .THEME + theme(legend.position = c(0.9, 0.85))
+  .THEME + theme(legend.position = c(0.8, 0.85))
 ggsave(paste0(.FIGS, "lastyr_reference_ssb_wprojected_yr.png"), width = ww*1.18, height = hh)
 ggsave(paste0(.FIGS, "PRESENTATION_lastyr_reference_ssb_wprojected_yr.png"), width = ww*1.5, height = hh)
 
 # !!SSB model scenarios-----------
-raw_data <- data_out(mod_names[2:4], .MODELDIR[2:4])
+#raw_data <- data_out(mod_names[2:4], .MODELDIR[2:4]) # see line 212
 #  !! FIX!! need to pull this data from all models to create output file 'ssb_rec_out.csv'
-ssb1 <- get_ssb_out(mod_names[1:2], raw_data)
-ssb_last <- get_ssb_last(M[1:2]) %>% select(-par, -sd)
+ssb1 <- get_ssb_out(mod_names[2:4], raw_data)
+ssb_last <- get_ssb_last(M[2:4]) %>% select(-par, -sd)
 
 ssb1 %>% 
   select(Model, ssb, year, lb, ub) %>% 
@@ -256,29 +259,31 @@ ssb %>%
   ggplot(aes(year, ssb, col = Model)) +
   geom_line() +
   expand_limits(y=0) +
-  #geom_ribbon(aes(x=year, ymax = ub, ymin = lb, fill = Model, col = NULL), alpha = 0.1) +
+  geom_ribbon(aes(x=year, ymax = ub, ymin = lb, fill = Model, col = NULL), alpha = 0.1) +
   #ylab = "SSB (tonnes)" +
   scale_y_continuous(expand = c(0,0)) +
-  #ylim(0, max(ssb$ub)+ 100)+
+  ylim(0, max(ssb$ub)+ 100)+
   #geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
   #           lty = c("solid", "dashed"))+
   #geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
   #          hjust = -0.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
   #ggtitle("Base model - model 1 (Model 3 2018)") +
   ylab("Mature male biomass (tons) on 15 February") + xlab("Year") +
-  .THEME
+  .THEME + theme(legend.position = c(0.8, 0.85))
 ggsave(paste0(.FIGS, "mod_scen_ssb_wprojected_yr.png"), width = ww*1.18, height = hh)
 ggsave(paste0(.FIGS, "PRESENTATION_mod_scen_ssb_wprojected_yr.png"), width = ww*1.5, height = hh)
 
 # !!ref_recruit ribbons -------------
-rec <- .get_recruitment_df(M[1:2])
+rec <- get_rec_out(mod_names[1:2], raw_data, M[1:2])
+
+#rec <- .get_recruitment_df(M[1:2])
 head(rec)
 #"#999999", "#E69F00", "#56B4E9"
 rec$rbar[1]
 rec %>% 
-  ggplot(aes(year, y = exp(log_rec)/1000000, group = Model, fill = Model)) +
-  geom_line(aes(color = Model)) +
-  geom_ribbon(aes(x=year, ymax = ub/1000000, ymin = lb/1000000), alpha = 0.15) +
+  ggplot(aes(year, y = rec/1000000, group = Model, fill = Model)) +
+  geom_line(aes(color = Model), size = 1.0) +
+  geom_ribbon(aes(x=year, ymax = ub/1000000, ymin = lb/1000000), alpha = 0.25) +
   expand_limits(y=0) +
   ggtitle("Recruitment reference model") +
   ylab("Recruitment (millions of individuals)") + xlab("Year") +
@@ -288,7 +293,7 @@ rec %>%
   geom_hline(aes(yintercept = rbar[80]/1000000), color = "#E69F00") +
   #geom_text(aes(x = 2000, y = rbar[1]/1000000, label = "R_bar"), 
   #          hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 3.0) +
-  .THEME +
+  .THEME + theme(legend.position = c(0.65, 0.85))
   #geom_hline(data = avgR_options, aes(yintercept = meanR), color = c("blue", "red"), 
   #           lty = c("solid", "dashed"))+
   #geom_text(data = avgR_options, aes(x= 1980, y = meanR, label = years), 
@@ -296,38 +301,67 @@ rec %>%
   ggsave(paste0(.FIGS, "recruitment_ref_ribbons.png"), width = 1.18*ww, height = hh)
 
 # !!Current year (2020) ref recruit ribbon --------------
-rec <- .get_recruitment_df(M[2:3])
-head(rec)
+#rec <- .get_recruitment_df(M[2:3])
+#rec <- get_rec_out(mod_names[1:2], raw_data, M[1:2])
+#head(rec)
 
-rec$rbar[1]
+#rec$rbar[1]
 
 # recruitment plot
-rec %>% 
-  ggplot(aes(year, y = exp(log_rec)/1000000, group = Model, fill = Model)) +
-  geom_line(aes(color = Model)) +
-  geom_ribbon(aes(x=year, ymax = ub/1000000, ymin = lb/1000000), alpha = 0.15) +
-  expand_limits(y=0) +
-  ggtitle("Recruitment reference (base) model (16.0) and (16.0a - fixed R 2019)") +
-  ylab("Recruitment (millions of individuals)") + xlab("Year") +
-  #scale_colour_manual(name = "", values = c("red", "darkcyan"))+
-  #scale_fill_manual(name = "", values = c("red", "darkcyan")) +
-  geom_hline(aes(yintercept = rbar[1]/1000000), color = "#999999") +
-  geom_hline(aes(yintercept = rbar[80]/1000000), color = "#E69F00") +
-  #geom_text(aes(x = 2000, y = rbar[1]/1000000, label = "R_bar"), 
+#rec %>% 
+#  ggplot(aes(year, y = rec/1000000, group = Model, fill = Model)) +
+#  geom_line(aes(color = Model)) +
+#  geom_ribbon(aes(x=year, ymax = ub/1000000, ymin = lb/1000000), alpha = 0.15) +
+#  expand_limits(y=0) +
+#  ggtitle("Recruitment reference (base) model (16.0) and (16.0a - fixed R 2019)") +
+#  ylab("Recruitment (millions of individuals)") + xlab("Year") +
+#  #scale_colour_manual(name = "", values = c("red", "darkcyan"))+
+#  #scale_fill_manual(name = "", values = c("red", "darkcyan")) +
+#  geom_hline(aes(yintercept = rbar[1]/1000000), color = "#999999") +
+#  geom_hline(aes(yintercept = rbar[80]/1000000), color = "#E69F00") +
+#  #geom_text(aes(x = 2000, y = rbar[1]/1000000, label = "R_bar"), 
   #          hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 3.0) +
-  .THEME +
+#  .THEME +
+#  #geom_hline(data = avgR_options, aes(yintercept = meanR), color = c("blue", "red"), 
+#  #           lty = c("solid", "dashed"))+
+#  #geom_text(data = avgR_options, aes(x= 1980, y = meanR, label = years), 
+#  #          hjust = -2.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) 
+#  ggsave(paste0(.FIGS, "recruitment_ref_ribbons_", cur_yr, ".png"), width = 1.18*ww, height = hh)
+
+
+## !!recruitment mod scen ----------------
+rec <- get_rec_out(mod_names[2:4], raw_data, M[2:4])
+  
+  #rec <- .get_recruitment_df(M[1:2])
+head(rec)
+  #"#999999", "#E69F00", "#56B4E9"
+rec$rbar[1]
+rec %>% 
+    ggplot(aes(year, y = rec/1000000, group = Model, fill = Model)) +
+    geom_line(aes(color = Model), size = 1.0) +
+    geom_ribbon(aes(x=year, ymax = ub/1000000, ymin = lb/1000000), alpha = 0.25) +
+    expand_limits(y=0) +
+    ggtitle("Recruitment model scenarios") +
+    ylab("Recruitment (millions of individuals)") + xlab("Year") +
+    #scale_colour_manual(name = "", values = c("red", "darkcyan"))+
+    #scale_fill_manual(name = "", values = c("red", "darkcyan")) +
+    geom_hline(aes(yintercept = rbar[1]/1000000), color = "#999999") +
+    geom_hline(aes(yintercept = rbar[80]/1000000), color = "#E69F00") +
+    geom_hline(aes(yintercept = rbar[120]/1000000), color = "#56B4E9") +
+    #geom_text(aes(x = 2000, y = rbar[1]/1000000, label = "R_bar"), 
+    #          hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 3.0) +
+    .THEME + theme(legend.position = c(0.65, 0.85))
   #geom_hline(data = avgR_options, aes(yintercept = meanR), color = c("blue", "red"), 
   #           lty = c("solid", "dashed"))+
   #geom_text(data = avgR_options, aes(x= 1980, y = meanR, label = years), 
   #          hjust = -2.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) 
-  ggsave(paste0(.FIGS, "recruitment_ref_ribbons_", cur_yr, ".png"), width = 1.18*ww, height = hh)
+  ggsave(paste0(.FIGS, "recruit_mod_scen.png"), width = ww*1.18, height = hh)
+  ggsave(paste0(.FIGS, "recruitment_mod_scen_ribbons.png"), width = 1.18*ww, height = hh)
+  ggsave(paste0(.FIGS, "PRESENTATION_recruitment_mod_scen_ribbons.png"), width = 1.5*ww, height = hh)
+#plot_recruitment(M[mod_scen])
 
 
-## !!recruitment mod scen ----------------
-plot_recruitment(M[mod_scen])
-ggsave(paste0(.FIGS, "recruit_mod_scen.png"), width = ww*1.18, height = hh)
-
-# !!recruit ribbons -------------
+# SKIP recruit ribbons -------------
 rec <- .get_recruitment_df(M[mod_scen])
 head(rec)
 
@@ -449,7 +483,20 @@ ggsave(paste0(.FIGS, "ref_mod_size_comp_residuals.png"), width = ww*1.20, height
 
 # !!dynamic Bzero ----------------------
 #{r Dynamic_Bzero, fig.cap = "Comparisons of mature male biomass relative to the dynamic $B_0$ value, (15 February, 1978-2018) for  each of the model scenarios.\\label{fig:dynB0}"}
-plot_dynB0(M[mod_scen]) #**FIX**
+db0 <- get_Db0_out(mod_names[2:4], raw_data, M[2:4])
+
+db0 %>% 
+  ggplot(aes(x=year, y=ssb, col = Model)) +
+  geom_line() +
+  expand_limits(y=0) +
+  geom_ribbon(aes(x=year, ymax = ub, ymin = lb, fill = Model, col = NULL), alpha = 0.1) +
+  #ylab = "SSB (tonnes)" +
+  scale_y_continuous(expand = c(0,0)) +
+  ylim(0, max(db0$ub))+
+  ylab("RSB (SSB/dB0)") + xlab("Year") +
+  .THEME + theme(legend.position = c(0.3, 0.85))
+
+#plot_dynB0(M[mod_scen]) #**FIX**
 ggsave(paste0(.FIGS, "dyn_Bzero.png"), width = 8.5, height = 5, unit = "in")
 # not currently being output in .rep file - made Jim aware of this I need to talk to him again about this.
 #.get_dynB0_df(M)
@@ -461,7 +508,7 @@ ggsave(paste0(.FIGS, "dyn_Bzero.png"), width = 8.5, height = 5, unit = "in")
 Parameter <- NULL
 Estimate <- NULL
 Model <- NULL
-Mname <- c("last yr", "Ref","fixR" ,"nopot")
+Mname <- c("last yr", "Ref","M_0.21" ,"M_0.26")
 #c("model 16.0 (2019)", "model 16.0 (2020)", "model 20.1 (no pot )") 
 for (ii in 2:4)
 {
@@ -470,9 +517,9 @@ for (ii in 2:4)
          grep("theta", x$names),
          grep("survey_q", x$names),
          grep("log_fbar", x$names),
-         grep("log_slx_pars", x$names))
-  #grep("sd_fofl", x$names),
-  #grep("sd_ofl", x$names) )
+         grep("log_slx_pars", x$names)) #,
+         #grep("sd_fofl", x$names),
+         #grep("sd_ofl", x$names) )
   Parameter <- c(Parameter, x$names[i])
   Estimate <- c(Estimate, x$est[i])
   Model <- c(Model, rep(Mname[ii], length(i)))
@@ -487,29 +534,29 @@ Parameter_ref <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$"
                "log Stage-1 NMFS trawl selectivity","log Stage-2 NMFS trawl selectivity",
                "log Stage-1 ADF\\&G pot selectivity","log Stage-2 ADF\\&G pot selectivity")
 #"$F_\\text{OFL}$","OFL")
-Parameter_nopot <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
-                "$\\log (\\bar{R})$","$\\log (n^0_1)$","$\\log (n^0_2)$","$\\log (n^0_3)$",
-                "$\\log (\\bar{F}^\\text{df})$","$\\log (\\bar{F}^\\text{tb})$","$\\log (\\bar{F}^\\text{fb})$",
-                "log Stage-1 directed pot selectivity 1978-2008","log Stage-2 directed pot selectivity 1978-2008",
-                "log Stage-1 directed pot selectivity 2009-2017","log Stage-2 directed pot selectivity 2009-2017",
-                "log Stage-1 NMFS trawl selectivity","log Stage-2 NMFS trawl selectivity")
-Parameter <- c(Parameter_ref, Parameter_ref, Parameter_nopot) #, Parameter, Parameter, ParameterQ) 
+#Parameter_nopot <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
+#                "$\\log (\\bar{R})$","$\\log (n^0_1)$","$\\log (n^0_2)$","$\\log (n^0_3)$",
+#                "$\\log (\\bar{F}^\\text{df})$","$\\log (\\bar{F}^\\text{tb})$","$\\log (\\bar{F}^\\text{fb})$",
+#                "log Stage-1 directed pot selectivity 1978-2008","log Stage-2 directed pot selectivity 1978-2008",
+#                "log Stage-1 directed pot selectivity 2009-2017","log Stage-2 directed pot selectivity 2009-2017",
+#                "log Stage-1 NMFS trawl selectivity","log Stage-2 NMFS trawl selectivity")
+Parameter <- c(Parameter_ref, Parameter_ref, Parameter_ref) #, Parameter, Parameter, ParameterQ) 
 df1 <- data.frame(Model, Parameter, Estimate)
 #Mname <- c("last yr", "Ref","VAST","addCVpot", "addCVboth", "qBlock")
-ref_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1/figure/ofl_calc.csv"))
-fixR_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1_rfix_TPL/figure/ofl_calc.csv"))
-nopot_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_2/figure/ofl_calc.csv"))
+#ref_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1/figure/ofl_calc.csv"))
+#fixR_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1_rfix_TPL/figure/ofl_calc.csv"))
+#nopot_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_2/figure/ofl_calc.csv"))
 
-df2 <- data.frame(Model = c("Ref", "Ref", "fixR", "fixR", "nopot", "nopot"),
+df2 <- data.frame(Model = c("Ref", "Ref", "M_0.21" ,"M_0.21" ,"M_0.26", "M_0.26"),
                   Parameter = c("$F_\\text{OFL}$","OFL", "$F_\\text{OFL}$","OFL", 
                                 "$F_\\text{OFL}$","OFL"), 
-                  Estimate = c(M[[rec_mod]]$sd_fofl[1], ref_ofl$OFL_2020, #M[[rec_mod]]$spr_cofl,
-                               M[[3]]$sd_fofl[1], fixR_ofl$OFL_2020, #M[[3]]$spr_cofl, 
-                               M[[4]]$sd_fofl[1], nopot_ofl$OFL_2020))#M[[4]]$spr_cofl))
+                  Estimate = c(M[[rec_mod]]$sd_fofl[1], M[[rec_mod]]$spr_cofl,
+                               M[[3]]$sd_fofl[1], M[[3]]$spr_cofl, 
+                               M[[4]]$sd_fofl[1], M[[4]]$spr_cofl))
 df1 %>% 
   bind_rows(df2) -> df
 df3 <- tidyr::spread(df, Model, Estimate) %>% 
-  dplyr::select(Parameter, Ref, fixR, nopot)
+  dplyr::select(Parameter, Ref, M_0.21, M_0.26)
 # **FIX ** reorder these to match other tables - currently done manually
 write.csv(df3, paste0(here::here(), '/SMBKC/', folder,'/doc/safe_tables/all_parms.csv'), 
           row.names = FALSE)
