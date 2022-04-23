@@ -569,7 +569,7 @@ $F_\mathit{OFL}$, OFL, ABC, and MMB in 2019 for all scenarios are summarized in 
 is 75% of the OFL (ABC buffer = 25%).
 
 ```{r management-quants, results = "asis"}
-Mname2 <- c("Ref", "M_0.21" ,"M_0.26")
+Mname2 <- c("Ref", "M0.21" ,"M0.26")
 df <- NULL
 for (ii in 2:4)
  {

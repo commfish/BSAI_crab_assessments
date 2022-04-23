@@ -56,8 +56,8 @@ fn       <- paste0(.MODELDIR, "gmacs")
 M        <- lapply(fn, read_admb)
 names(M) <- mod_names
 
-#nmult_1 <- 1e+06
-#nmult_2 <- 0.0004535923 * 1e+6
+nmult_1 <- 1e+06
+nmult_2 <- 0.0004535923 * 1e+6
 #fn <- paste0(.MODELDIR[1], "gmacs")
 #Mmatch <- lapply(fn, read_admb)
 #names(Mmatch) <- c("SMBKC")
@@ -66,10 +66,10 @@ fn <- paste0(.MODELDIR[2], "gmacs")
 Mbase <- lapply(fn, read_admb)
 names(Mbase) <- c("SMBKC")
 
-#rinline <- function(code){
-#  html <- '<code  class="r">``` `CODE` ```</code>'
-#  sub("CODE", code, html)
-#}
+rinline <- function(code){
+  html <- '<code  class="r">``` `CODE` ```</code>'
+  sub("CODE", code, html)
+}
 
 #alt_mod <- 5 # alt reference time frame
 ref_mod <- 1 # base 2020
@@ -568,10 +568,10 @@ write.csv(df3, paste0(here::here(), '/SMBKC/', folder,'/doc/safe_tables/all_parm
 # updated to work for draft - need to figure out how to get Francis weightings and 
 #   lamdas
 # shorten names for tables
-Mname2 <- c("Ref", "fixR","nopot")
+Mname2 <- c("Ref", "M_21","M_26")
 
 df <- NULL
-for (ii in 2:3)
+for (ii in 2:4)
 {
   x       <- M[[ii]]
   SDNR    <- c(x$sdnr_MAR_cpue[,1], 
@@ -588,38 +588,38 @@ for (ii in 2:3)
   df      <- cbind(df, v)
 }
 df_ref        <- data.frame(rownames(df), df, row.names = NULL)
-names(df_ref) <- c("Component", "Ref", "fixR") #mod_names[mod_scen])
+names(df_ref) <- c("Component", "Ref", "M_21","M_26") #mod_names[mod_scen])
 
-df <- NULL
-for (ii in 4)
-{
-  x       <- M[[ii]]
-  SDNR    <- c(x$sdnr_MAR_cpue[1], 
-               x$sdnr_MAR_lf[,1]); names(SDNR) <- c("SDNR NMFS trawl survey",
-                                                    "SDNR directed pot LF",
-                                                    "SDNR NMFS trawl survey LF")
-  MAR     <- c(x$sdnr_MAR_cpue[2], x$sdnr_MAR_lf[,2]); names(MAR) <- c("MAR NMFS trawl survey",
-                                                                       "MAR directed pot LF",
-                                                                       "MAR NMFS trawl survey LF")
-  #Francis <- x$Francis_weights; names(Francis) <- c("Fancis weight for directed pot LF","Francis weight for NMFS trawl survey LF","Francis weight for ADF\\&G pot survey LF")
-  wt_cpue <- c(ifelse(ii == 3, 1,1)); names(wt_cpue) <- 
-                                            c("NMFS trawl survey weight")
-  wt_lf   <- c(1,1); names(wt_lf) <- c("Directed pot LF weight","NMFS trawl survey LF weight")
-  v       <- c(wt_cpue, wt_lf, SDNR, MAR)
-  df      <- cbind(df, v)
-}
-df_nopot        <- data.frame(rownames(df), df, row.names = NULL)
-names(df_nopot) <- c("Component", "nopot") #mod_names[mod_scen])
+#df <- NULL
+#for (ii in 4)
+#{
+#  x       <- M[[ii]]
+#  SDNR    <- c(x$sdnr_MAR_cpue[1], 
+#               x$sdnr_MAR_lf[,1]); names(SDNR) <- c("SDNR NMFS trawl survey",
+#                                                    "SDNR directed pot LF",
+#                                                    "SDNR NMFS trawl survey LF")
+#  MAR     <- c(x$sdnr_MAR_cpue[2], x$sdnr_MAR_lf[,2]); names(MAR) <- c("MAR NMFS trawl survey",
+#                                                                       "MAR directed pot LF",
+#                                                                       "MAR NMFS trawl survey LF")
+#  #Francis <- x$Francis_weights; names(Francis) <- c("Fancis weight for directed pot LF","Francis weight for NMFS trawl survey LF","Francis weight for ADF\\&G pot survey LF")
+#  wt_cpue <- c(ifelse(ii == 3, 1,1)); names(wt_cpue) <- 
+#                                            c("NMFS trawl survey weight")
+#  wt_lf   <- c(1,1); names(wt_lf) <- c("Directed pot LF weight","NMFS trawl survey LF weight")
+#  v       <- c(wt_cpue, wt_lf, SDNR, MAR)
+#  df      <- cbind(df, v)
+#}
+#df_nopot        <- data.frame(rownames(df), df, row.names = NULL)
+#names(df_nopot) <- c("Component", "nopot") #mod_names[mod_scen])
 
-df_ref %>% 
-  left_join(df_nopot) -> df
+#df_ref %>% 
+#  left_join(df_nopot) -> df
 
-write.csv(df, paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/data_weighting.csv'), 
+write.csv(df_ref, paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/data_weighting.csv'), 
           row.names = FALSE)
 
 # !!Likelihood components -----------------
 #```{r likelihood_components, results = "asis"}
-Mname2 <- c("Ref", "fixR", "nopot")
+Mname2 <- c("Ref", "M_21","M_26")
 df <- NULL
 for (ii in mod_scen)
 {
@@ -655,6 +655,11 @@ write.csv(df, paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/neg_log_
 
 ### !!population abundance last years model -----------------------
 #```{r pop-abundance-2019, results = "asis"}
+# need ssb or mmb and CV from last years model - here 1
+#ssb1 <- get_ssb_out(mod_names[1], raw_data)
+ssb_last <- get_ssb_last(M[1]) %>% select(-par)
+
+
 A         <- M[[1]]
 i         <- grep("sd_log_ssb", A$fit$names) #does not have proj value in here
 SD        <- A$fit$std[i]
@@ -662,12 +667,12 @@ tl        <- length(A$mod_yrs)
 
 # ssb current year uncertainty
 #un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_18a/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
-un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
-
+#un_ssb2 <- read.csv(here::here("./SMBKC/smbkc_19/model_1/projections/proj_1/d/uncertainty_ssb_2019.csv"))
+# USE ssb_last for now **FIX**
 
 years = c(as.integer(A$mod_yrs[1:tl]), A$mod_yrs[tl]+1)
 ssb = c(A$ssb, A$spr_bmsy*A$spr_depl)
-ssb_cv = c((exp(SD[1:tl])-1), (exp(un_ssb2$CV_ssb)-1))
+ssb_cv = c((exp(SD[1:tl])-1), (ssb_last$sd/ssb_last$ssb))
 
 df        <- data.frame(years, A$N_males[ ,1], A$N_males[ ,2], 
                         A$N_males[ ,3], ssb, ssb_cv)
@@ -684,12 +689,12 @@ SD        <- A$fit$std[i]
 tl        <- length(A$mod_yrs)
 
 # ssb current year uncertainty
-un_ssb <- read.csv(here::here("./SMBKC/smbkc_20/model_1/projections/proj_1/d/uncertainty_ssb_2020.csv"))
-
+#un_ssb <- read.csv(here::here("./SMBKC/smbkc_20/model_1/projections/proj_1/d/uncertainty_ssb_2020.csv"))
+ssb_last <- get_ssb_last(M[2]) %>% select(-par)
 
 years = c(as.integer(A$mod_yrs[1:tl]), A$mod_yrs[tl]+1)
 ssb = c(A$ssb, A$spr_bmsy*A$spr_depl)
-ssb_cv = c((exp(SD[1:tl])-1), (exp(un_ssb$CV_ssb)-1))
+ssb_cv = c((exp(SD[1:tl])-1), (ssb_last$sd/ssb_last$ssb))
 
 df        <- data.frame(years, A$N_males[ ,1], A$N_males[ ,2], 
                         A$N_males[ ,3], ssb, ssb_cv)
