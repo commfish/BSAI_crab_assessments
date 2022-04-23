@@ -621,6 +621,23 @@ get_rec_out <- function(model_names, raw_data, M)
   return(mdf)
 }
 
+get_Db0_out <- function(model_names, raw_data, M)
+{
+  n <- length(model_names)
+  mdf <- NULL
+  for (i in 1:n)
+  {
+    model <- model_names[i]
+    df <- subset(raw_data, Model == model_names[i])
+    df <- subset(df, par == "Db0(f)")
+    #df$year <- A$mod_yrs[-1]
+    df$ssb  <- exp(df$log_par)
+    df$lb   <- exp(df$log_par - 1.96*df$log_sd)
+    df$ub   <- exp(df$log_par + 1.96*df$log_sd)
+    mdf     <- rbind(mdf, df)
+  }
+  return(mdf)
+}
 # under development ------------
 
 # Fishing mortality plot adjusted-----------------
