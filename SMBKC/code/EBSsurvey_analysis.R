@@ -146,6 +146,15 @@ write.csv(proportion_by_group, paste0(here::here(), '/SMBKC/smbkc_22/data/propor
 ## sample size for length comps??? ----------------
 head(haul_bkc) # how to determine which ones are st.matt's???
 
+# 2021 sampled
+haul_bkc %>% 
+  filter(AKFIN_SURVEY_YEAR == 2021 & MID_LATITUDE > 58.5) %>% 
+  dplyr::select(AKFIN_SURVEY_YEAR, GIS_STATION, AREA_SWEPT, SPECIES_NAME, SEX, LENGTH, SAMPLING_FACTOR) %>% 
+  filter(SEX == 1 & LENGTH >= 90) %>% 
+  group_by(GIS_STATION) %>% 
+  summarise(numbers = sum(SAMPLING_FACTOR))%>% 
+  mutate(total = sum(numbers))
+
 # 2019 sampled
 haul_bkc %>% 
   filter(AKFIN_SURVEY_YEAR == 2019 & MID_LATITUDE > 58.5) %>% 
