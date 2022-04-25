@@ -143,6 +143,21 @@ size_group %>%
 
 write.csv(proportion_by_group, paste0(here::here(), '/SMBKC/smbkc_22/data/proportion_size_class.csv'), 
           row.names = FALSE)
+
+## corner station removal -------
+corner_station <- read.csv(paste0(here::here(), '/SMBKC/smbkc_22/model_1_corner/data/bk_stmatt_abundance_sizegroup.csv'))
+corner_station %>% 
+  filter(SURVEY_YEAR >= 1978) %>% 
+  select(SURVEY_YEAR, NUM_MALE_90TO104, NUM_MALE_105TO119, NUM_MALE_GE120, NUM_MALE_GE90) %>% 
+  #mutate(all_males = NUM_MALE_90TO104 + NUM_MALE_105TO119 + NUM_MALE_GE120)
+  mutate(prop_PR = NUM_MALE_90TO104/NUM_MALE_GE90, 
+         prop_R = NUM_MALE_105TO119/NUM_MALE_GE90, 
+         prop_PoR = NUM_MALE_GE120/NUM_MALE_GE90) -> prop_length_wo_corner_station
+write.csv(prop_length_wo_corner_station, paste0(here::here(), '/SMBKC/smbkc_22/model_1_corner/data/proportion_size_class_wo_C.csv'), 
+          row.names = FALSE)
+
+## sample size for length comps??? --------------
+
 ## sample size for length comps??? ----------------
 head(haul_bkc) # how to determine which ones are st.matt's???
 
