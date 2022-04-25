@@ -10,9 +10,9 @@ Models housed in smbkc_22
 
 Model             | Model in Doc  | Description
 ---------- ---    | ------------- | -------------
-model_1_base20    |   16.0_b      | - Basecase (last year's selected model 1) - no data updates due to off year cycle
+model_1_base20    |   16.0 (2020  | - Basecase (last year's selected model 1) - no data updates due to off year cycle
 model_1_22        |   16.0        | - Basecase updated with 2021 survey data, gf bycatch 2021,
-model_1_22a       |   16.0a       | - model_1_22 with updated ADF&G pot survey data
+model_1_22a       |   sept 2022    | - model_1_22 with updated ADF&G pot survey data
 model_2a          |   22.0a       | - Increased M ,0.21
 model_2b          |   22.0b       | - Increased M, 0.26
 model_1_corner    |  not in doc   | - part of corner station analysis
