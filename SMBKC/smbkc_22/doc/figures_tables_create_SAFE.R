@@ -498,6 +498,13 @@ db0 %>%
 
 #plot_dynB0(M[mod_scen]) #**FIX**
 ggsave(paste0(.FIGS, "dyn_Bzero.png"), width = 8.5, height = 5, unit = "in")
+
+# line 150 dynamic b0 base model 
+dynb0 <- get_Db0_out(mod_names[2], raw_data, M[2])
+
+dynb0 %>% transmute(round(100*ssb,0)) %>% slice(n())
+
+get_Db0_out(mod_names[2], raw_data, M[2]) %>% transmute(round(100*ssb,0)) %>% slice(n())
 # not currently being output in .rep file - made Jim aware of this I need to talk to him again about this.
 #.get_dynB0_df(M)
 
@@ -508,7 +515,7 @@ ggsave(paste0(.FIGS, "dyn_Bzero.png"), width = 8.5, height = 5, unit = "in")
 Parameter <- NULL
 Estimate <- NULL
 Model <- NULL
-Mname <- c("last yr", "Ref","M_0.21" ,"M_0.26")
+Mname <- c("last yr", "Ref","M0.21" ,"M0.26")
 #c("model 16.0 (2019)", "model 16.0 (2020)", "model 20.1 (no pot )") 
 for (ii in 2:4)
 {
@@ -547,7 +554,7 @@ df1 <- data.frame(Model, Parameter, Estimate)
 #fixR_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1_rfix_TPL/figure/ofl_calc.csv"))
 #nopot_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_2/figure/ofl_calc.csv"))
 
-df2 <- data.frame(Model = c("Ref", "Ref", "M_0.21" ,"M_0.21" ,"M_0.26", "M_0.26"),
+df2 <- data.frame(Model = c("Ref", "Ref", "M0.21" ,"M0.21" ,"M0.26", "M0.26"),
                   Parameter = c("$F_\\text{OFL}$","OFL", "$F_\\text{OFL}$","OFL", 
                                 "$F_\\text{OFL}$","OFL"), 
                   Estimate = c(M[[rec_mod]]$sd_fofl[1], M[[rec_mod]]$spr_cofl,
@@ -556,7 +563,7 @@ df2 <- data.frame(Model = c("Ref", "Ref", "M_0.21" ,"M_0.21" ,"M_0.26", "M_0.26"
 df1 %>% 
   bind_rows(df2) -> df
 df3 <- tidyr::spread(df, Model, Estimate) %>% 
-  dplyr::select(Parameter, Ref, M_0.21, M_0.26)
+  dplyr::select(Parameter, Ref, M0.21, M0.26)
 # **FIX ** reorder these to match other tables - currently done manually
 write.csv(df3, paste0(here::here(), '/SMBKC/', folder,'/doc/safe_tables/all_parms.csv'), 
           row.names = FALSE)
