@@ -534,10 +534,10 @@ However, completion of a retrospective analysis, for the base model, will be com
 
 ### f. Uncertainty and sensitivity analyses.{-}
 Estimated standard deviations of parameters and selected management measures for the models are summarized for each individual model in
-Tables \@ref(tab:est-pars-ref), \@ref(tab:est-pars-fixR), \@ref(tab:est-pars-4), and 
-compiled in Table \@ref(tab:est-pars-all). Model estimates of mature male biomass and OFL in 2020 are presented in Section F.
+Tables \@ref(tab:est-pars-ref), \@ref(tab:est-pars-M21), \@ref(tab:est-pars-4), and 
+compiled in Table \@ref(tab:est-pars-all). Model estimates of mature male biomass and OFL in 2022 are presented in Section F.
 
-Uncertainty surrounding the lack of a 2020 trawl survey data point was examined using two approaches and the results are contained in Appendix C. Overall, the authors did not find much additional uncertainty for the base model due to the lack of a 2020 data point. The current trajectory of the stock (MMB and recruitment) suggests a low status (below $B_{MSY}$) that would not change even with the addition of hypothetical 2020 data point (Approach 3, Appendix C).  Appendix C goes into more detail for these analyses and a more thourough discussion of the authors recommendations. 
+ 
 
 ### g. Comparison of alternative model scenarios.{-}
 The estimates of mature male biomass (Figure \@ref(fig:mmb)) for the **no pot** model differs from the base model (16.0) due to the removal of the pot survey abundance and size composition data. This abundance time series contrasts with the NMFS trawl survey and when present tends to lower the scale of the population estimate. 
