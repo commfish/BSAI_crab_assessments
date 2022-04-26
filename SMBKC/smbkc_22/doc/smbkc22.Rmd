@@ -443,12 +443,12 @@ provided greater flexibility and opportunity to evaluate model assumptions more 
 ## Assessment Methodology {-}
 
 This assessment model again uses the modeling framework GMACS and is detailed in Appendix A.
+An updated version of GMACS (version 2.01.F, 2022-04-16) was used.
 
 ## Model Selection and Evaluation {-}
 
-Two models are presented with the reference model being the same configuration as approved last year (Palof et al. 2019), 
-one sensitivity is considered which excludes the ADF&G pot survey data. In addition to this sensitivty, we evaluated
-the impacts of adding new data (here just groundfish bycatch) to the reference model. 
+The base model is presented here as the last accepted model in 2020, and an updated model to include data from the 2021 crab year (fishery, survey, etc.). 
+In addition, three other models explore the model sensitivity to natural mortality estimates. 
 In summary, the following lists the models presented and the naming convention used: 
 
 1. **16.0 - 2020 Model**: 2020 accepted model
@@ -458,6 +458,8 @@ In summary, the following lists the models presented and the naming convention u
 3. **22.0a - 2022 Base Model with fixed M = 0.21**: natural mortality is increased to a base of 0.21 instead of 0.18
 
 4. **22.0b - 2022 Base Model with fixed M = 0.26**: natural mortality is increased to a base of 0.26 instead of 0.18
+
+5. **22.0c - 2022 Base Model, fixed M = 0.18 for all years**: natural mortality is fixed for all years at 0.18, no time blocks
 
 Note the change in naming convention (per SSC comments). The base model is model 16.0 since that was the year of model development and acceptance. 
 
