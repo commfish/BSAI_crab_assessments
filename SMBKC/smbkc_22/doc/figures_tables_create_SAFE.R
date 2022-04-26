@@ -1,5 +1,5 @@
 # k.palof
-# 4-26-2020 / 8-16-2020 / 4-16-22
+# 4-26-2020 / 8-16-2020 / 4-26-22
 # Figures and Tables needed for May 2022 SAFE SMBKC
 
 # Should be able to just run this file if model results are updated prior to creating
@@ -34,12 +34,13 @@ cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2",
 #scale_colour_manual(values=cbPalette)
 
 # update model names and file locations
-mod_names <- c("model 16.0 (2020)", "model 16.0 (2022)", "model 22.0a (M=0.21)", "model 22.0b (M=0.26)")
+mod_names <- c("16.0 (2020)", "16.0 (2022)", "22.0a (M=0.21)", "22.0b (M=0.26)", "22.0c (M=0.18all)")
 #mod_names <- c("16.0 (2019)", "16.0 (2020)", "16.0a (fix R ter)", "20.1 (no pot)")
 .MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_22/model_1_base20/"),
               paste0(here::here(), "/SMBKC/smbkc_22/model_1_22/"), 
               paste0(here::here(), "/SMBKC/smbkc_22/model_2a/"),
-              paste0(here::here(), "/SMBKC/smbkc_22/model_2b/")) #need to update these model options
+              paste0(here::here(), "/SMBKC/smbkc_22/model_2b/"), 
+              paste0(here::here(), "/SMBKC/smbkc_22/model_2c/")) #need to update these model options
 .THEME    = list(theme_bw(base_size = 12, base_family = ""), scale_fill_manual(values=cbPalette), 
   scale_colour_manual(values=cbPalette))
 .OVERLAY  = TRUE
@@ -74,12 +75,12 @@ rinline <- function(code){
 #alt_mod <- 5 # alt reference time frame
 ref_mod <- 1 # base 2020
 rec_mod <- 2 # base
-mod_scen<- 2:4 #scenarios you want graphed together
+mod_scen<- 2:5 #scenarios you want graphed together
 
 ww <- 6
 hh <- 5
 
-raw_data <- data_out(mod_names[1:4], .MODELDIR[1:4]) # data pulled from .csv created from gmacsall.out - done manually
+raw_data <- data_out(mod_names[1:5], .MODELDIR[1:5]) # data pulled from .csv created from gmacsall.out - done manually
 
 
 ### Executive summary stats ===========
@@ -150,7 +151,7 @@ ggsave(paste0(.FIGS, "cpue_ref_both.png"), width = ww*2.5, height = hh)
 
 
 ### Sensitivity of new data in 2018 on estimated recruitment ; 1978-2018
-## !!recruit - ref to base ----------------------------
+## SKIP !!recruit - ref to base ----------------------------
 ## !!! doesn't work with new GMACS version with gmacs.std file. Need to bring in from gmacsall.out
 A <- M
 for (i in c(2)) {
@@ -171,8 +172,10 @@ plot_F(Mbase)
 plot_F2(M[2])
 ggsave(paste0(.FIGS, "fishing_mortality.png"), width = ww*1.25, height = hh)
 
+plot_F2(M[2:5])
+
 ## ssb -----------
-#"Sensitivity of new data in 2020 on estimated mature male biomass (MMB); 1978-2019. \\label{fig:ssb1}"}
+#SKIP "Sensitivity of new data in 2020 on estimated mature male biomass (MMB); 1978-2019. \\label{fig:ssb1}"}
 ssb <- .get_ssb_dfKP(M[1:2])
 ssb %>% 
   ggplot(aes(year, ssb, col = Model)) +
@@ -212,7 +215,7 @@ ssb %>%
 
 #!!ssb current year uncertainty --------
 
-raw_data <- data_out(mod_names[1:4], .MODELDIR[1:4])
+raw_data <- data_out(mod_names[1:5], .MODELDIR[1:5])
 
 ssb1 <- get_ssb_out(mod_names[1:2], raw_data)
 ssb_last <- get_ssb_last(M[1:2]) %>% select(-par, -sd)
@@ -244,8 +247,8 @@ ggsave(paste0(.FIGS, "PRESENTATION_lastyr_reference_ssb_wprojected_yr.png"), wid
 # !!SSB model scenarios-----------
 #raw_data <- data_out(mod_names[2:4], .MODELDIR[2:4]) # see line 212
 #  !! FIX!! need to pull this data from all models to create output file 'ssb_rec_out.csv'
-ssb1 <- get_ssb_out(mod_names[2:4], raw_data)
-ssb_last <- get_ssb_last(M[2:4]) %>% select(-par, -sd)
+ssb1 <- get_ssb_out(mod_names[2:5], raw_data)
+ssb_last <- get_ssb_last(M[2:5]) %>% select(-par, -sd)
 
 ssb1 %>% 
   select(Model, ssb, year, lb, ub) %>% 
@@ -330,7 +333,7 @@ rec %>%
 
 
 ## !!recruitment mod scen ----------------
-rec <- get_rec_out(mod_names[2:4], raw_data, M[2:4])
+rec <- get_rec_out(mod_names[2:5], raw_data, M[2:5])
   
   #rec <- .get_recruitment_df(M[1:2])
 head(rec)
@@ -408,7 +411,7 @@ ggsave(paste0(.FIGS, "PRESENTATION_recruitment_mod_scen_ribbons.png"), width = 1
 
 ## !!selectivity ----------
 #"Comparisons of the estimated stage-1 and stage-2 selectivities for the different model scenarios (the stage-3 selectivities are all fixed at 1). Estimated selectivities are shown for the directed pot fishery, the trawl bycatch fishery, the fixed bycatch fishery, the NMFS trawl survey, and the ADF&G pot survey. Two selectivity periods are estimated in the directed pot fishery, from 1978-2008 and 2009-2017.\\label{fig:selectivity}", fig.height = 15}
-plot_selectivity(M[2:4]) 
+plot_selectivity(M[2:5]) 
 # Can I change model names here to shorten them????
 #plot_selectivity(M[2])
 ggsave(paste0(.FIGS, "selectivity_mod_scen.png"), width = ww*1.20, height = 1.1*hh)
@@ -423,7 +426,7 @@ ggsave(paste0(.FIGS, "mod_scen_M_t.png"), width = 1.20*ww, height = hh)
 #plot_natural_mortality(M, knots = NULL, slab = "Model")
 
 # survey fit --------
-plot_cpue(M[2:4], c("NMFS Trawl"))
+plot_cpue(M[2:5], c("NMFS Trawl"))
 
 #!! trawl survey -----------
 #{r trawl_survey_biomass, fig.cap = "Comparisons of area-swept estimates of total (90+ mm CL) male survey biomass (tons) and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations.\\label{fig:trawl_survey_biomass}"} 
@@ -439,7 +442,7 @@ ggsave(paste0(.FIGS, "pot_cpue_mod_scen.png"), width = ww*1.10, height = hh)
 plot_catch(M[2])
 ggsave(paste0(.FIGS, "catch.png"), width = ww*1.02, height = hh*1.2)
 
-plot_catch(M[2:4])
+plot_catch(M[2:5])
 ggsave(paste0(.FIGS, "catch_mod_scen.png"), width = ww*1.35, height = hh*1.2)
 #!! trawl_res --------
 #{r bts_resid_nmfs, fig.cap = "Standardized residuals for area-swept estimates of total male survey biomass for the model scenarios. \\label{fig:bts_resid_nmfs}"}
@@ -468,7 +471,7 @@ ggsave(paste0(.FIGS, "lf_1.png"), width = 8.5, height = 5, unit = "in")
 plot_size_comps(M[mod_scen], 2, legend_loc = "right")
 ggsave(paste0(.FIGS, "lf_2.png"), width = 12, height = 7.5, unit = "in")
 
-plot_size_comps(M[2:4], 3, legend_loc = "right") #legend_loc=c(.87,.2))
+plot_size_comps(M[2:5], 3, legend_loc = "right") #legend_loc=c(.87,.2))
 ggsave(paste0(.FIGS, "lf_3.png"), width = 8.5, height = 5, unit = "in")
 
 #!! size comp residuals -------
@@ -483,7 +486,7 @@ ggsave(paste0(.FIGS, "ref_mod_size_comp_residuals.png"), width = ww*1.20, height
 
 # !!dynamic Bzero ----------------------
 #{r Dynamic_Bzero, fig.cap = "Comparisons of mature male biomass relative to the dynamic $B_0$ value, (15 February, 1978-2018) for  each of the model scenarios.\\label{fig:dynB0}"}
-db0 <- get_Db0_out(mod_names[2:4], raw_data, M[2:4])
+db0 <- get_Db0_out(mod_names[2:5], raw_data, M[2:5])
 
 db0 %>% 
   ggplot(aes(x=year, y=ssb, col = Model)) +
