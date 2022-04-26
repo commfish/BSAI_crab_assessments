@@ -15,6 +15,7 @@ model_1_22        |   16.0        | - Basecase updated with 2021 survey data, gf
 model_1_22a       |   sept 2022    | - model_1_22 with updated ADF&G pot survey data
 model_2a          |   22.0a       | - Increased M ,0.21
 model_2b          |   22.0b       | - Increased M, 0.26
+model_2c          |   22.0c       | - Constant M=0.18 no increase in 98/99
 model_1_corner    |  not in doc   | - part of corner station analysis
 model_3           |  ??         | - time block q for NMFS trawl survey? 1978 to 2004, 2005 to 2017, back to first one 2018?
 
