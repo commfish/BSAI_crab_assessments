@@ -454,13 +454,13 @@ In summary, the following lists the models presented and the naming convention u
 
 1. **16.0 - 2020 Model**: 2020 accepted model
 
-2. **16.0 - 2022 Base Model**: updated with 2020/21 groundfish bycatch & 2021 NMFS trawl data
+2. **16.0 - 2022 base model**: updated with 2020/21 groundfish bycatch & 2021 NMFS trawl data
 
-3. **22.0a - 2022 Base Model with fixed M = 0.21**: natural mortality is increased to a base of 0.21 instead of 0.18
+3. **22.0a - 2022 base model with fixed M = 0.21**: natural mortality is increased to a base of 0.21 instead of 0.18
 
-4. **22.0b - 2022 Base Model with fixed M = 0.26**: natural mortality is increased to a base of 0.26 instead of 0.18
+4. **22.0b - 2022 base model with fixed M = 0.26**: natural mortality is increased to a base of 0.26 instead of 0.18
 
-5. **22.0c - 2022 Base Model, fixed M = 0.18 for all years**: natural mortality is fixed for all years at 0.18, no time blocks
+5. **22.0c - 2022 base model, fixed M = 0.18 for all years**: natural mortality is fixed for all years at 0.18, no time blocks
 
 Note the change in naming convention (per SSC comments). The base model is model 16.0 since that was the year of model development and acceptance. 
 
@@ -540,14 +540,13 @@ compiled in Table \@ref(tab:est-pars-all). Model estimates of mature male biomas
  
 
 ### g. Comparison of alternative model scenarios.{-}
-The estimates of mature male biomass (Figure \@ref(fig:mmb)) for the **no pot** model differs from the base model (16.0) due to the removal of the pot survey abundance and size composition data. This abundance time series contrasts with the NMFS trawl survey and when present tends to lower the scale of the population estimate. 
-This difference is greatest in the last 10 years, recognizing the contrast between these abundance time series and the influence of the ADF&G pot survey on the current population status. 
+The model scenarios presented here explore the sensitivity of the base model to assumptions of level of natural mortality for this stock. With the exception of model 22.0c, the rest of the model suite produces a similar mature male biomass trajectory, with similar terminal year estimates of ssb (Figure \@ref(fig:mmb)). 
+Removing the mortality time block in 1998 (model 22.0c) produces a similar mature male biomass trend for the last 20 years, however it allows other parameters in the model (such as recruitment and length composition fit) to change to accommodate the large drop in biomass from 1998 to 1999. As the length composition fits illustrate these changes are not supported by the data. 
 
-In summary, the **no pot** model scenario was provided to explore the sensitivity of this model. Currently, the base model is still the most appropriate model for settting reference points and model specifications. 
-Research on alternative model specifications that may address the disparities between the trawl and pot survey data are ongoing, as is proposed spatial analyses of these data sets. 
+In summary, the suite of model scenarios were provided to explore the sensitivity of this model. Currently, the base model is still the most appropriate model for setting reference points and model specifications. 
+Research on alternative model specifications that may address the disparities between the trawl and pot survey data are ongoing, and a preliminary spatial overview is presented in Appendix C.  
 Additionally, the overfished status of this stock lends itself to maintaining the status quo base model until an appropriate resolution is found to deal with the trawl and pot survey data fit issues.
-The two base models presented here, 16.0 and 16.0a, only differ in the estimation of 2019 recruitment. 
-Model 16.0a fixes the 2019 recruitment to be the average of the last seven years of the model, effectively limiting the model's ability to estimate unreasonably high recruitment in the lack of a 2020 data point. However, fixing terminal year recruitment has a minimal effect on the status of the stock, projected MMB, or the resulting OFL for 2020 (Table \@ref(tab:management-quants)). The recommended model for 2020 would be the base model (16.0) to maintain consistency for this stock during the rebuilding time frame and with the lack of a 2020 data point for the trawl survey. 
+The recommended model for fall 2022 would be the base model (16.0) to maintain consistency for this stock during the rebuilding time frame.
 
 # F. Calculation of the OFL and ABC{-}
 The overfishing level (OFL) is the total catch associated with the $F_\mathit{OFL}$ fishing mortality. The SMBKC stock is currently managed as Tier 4, and only a Tier 4 analysis is presented here. Thus, given stock estimates or suitable proxy values of $B_\mathit{MSY}$ and $F_\mathit{MSY}$, along with two additional parameters $\alpha$ and $\beta$, $F_\mathit{OFL}$ is determined by the control rule
@@ -574,9 +573,9 @@ $F_\mathit{OFL}$, OFL, ABC, and MMB in 2019 for all scenarios are summarized in 
 is 75% of the OFL (ABC buffer = 25%).
 
 ```{r management-quants, results = "asis"}
-Mname2 <- c("Ref", "M0.21" ,"M0.26")
+Mname2 <- c("Ref", "M0.21" ,"M0.26", "Mall")
 df <- NULL
-for (ii in 2:4)
+for (ii in 2:5)
  {
   x      <- M[[ii]]
   mmb    <- x$ssb[length(x$ssb)]; names(mmb) <- paste0("$\\text{MMB}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")
@@ -636,7 +635,7 @@ normal with an absence of a "cold pool" in the region. This could have detriment
 should be carefully monitored. 
 Relative to the impact of historical fishing, we again conducted a "dynamic-$B_0$" analysis. 
 This procedure simply projects the population based on estimated recruitment but removes the effect of fishing. For the reference case,
-this suggests that the impact of fishing has reduced the stock to about `r #.get_dynB0_df(Mbase) %>% transmute(round(100*ssb,0)) %>% slice(n())`% of what it would have been in the absence of fishing (Figure \@ref(fig:dynamic-bzero), supporting the hypothesis that fishing pressure is not the sole contributer to the decline of this stock in recent years.
+this suggests that the impact of fishing has reduced the stock to about `r get_Db0_out(mod_names[2], raw_data, M[2]) %>% transmute(round(100*ssb,0)) %>% slice(n())`% of what it would have been in the absence of fishing (Figure \@ref(fig:dynamic-bzero), supporting the hypothesis that fishing pressure is not the sole contributor to the decline of this stock in recent years.
 The other non-fishing contributors to the observed depleted stock trend (ignoring stock-recruit relationship) may reflect variable  survival rates due to environmental conditions and also range shifts. 
  
 
