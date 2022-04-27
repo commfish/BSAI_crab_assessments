@@ -478,11 +478,14 @@ ggsave(paste0(.FIGS, "lf_3.png"), width = 8.5, height = 5, unit = "in")
 plot_size_comps_res(M[rec_mod])
 ggsave(paste0(.FIGS, "ref_mod_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
 
-#plot_size_comps_res(M[3])
-#ggsave(paste0(.FIGS, "ref_fixed_R_ter_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
+plot_size_comps_res(M[3])
+ggsave(paste0(.FIGS, "M21_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
 
-#plot_size_comps_res(M[4])
-#ggsave(paste0(.FIGS, "no_ADF&G_pot_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
+plot_size_comps_res(M[4])
+ggsave(paste0(.FIGS, "M26_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
+
+plot_size_comps_res(M[5])
+ggsave(paste0(.FIGS, "constant_M_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
 
 # !!dynamic Bzero ----------------------
 #{r Dynamic_Bzero, fig.cap = "Comparisons of mature male biomass relative to the dynamic $B_0$ value, (15 February, 1978-2018) for  each of the model scenarios.\\label{fig:dynB0}"}
