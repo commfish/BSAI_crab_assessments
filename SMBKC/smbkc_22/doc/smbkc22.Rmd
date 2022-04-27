@@ -32,11 +32,12 @@ cur_yr <- 2022
 folder <- "smbkc_22"
 cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 
-mod_names <- c("model 16.0 (2020)", "model 16.0 (2022)", "model 22.0a (M=0.21)", "model 22.0b (M=0.26)")
+mod_names <- c("16.0 (2020)", "16.0 (2022)", "22.0a (M=0.21)", "22.0b (M=0.26)", "22.0c (M=0.18all)")
 .MODELDIR = c(paste0(here::here(), "/SMBKC/smbkc_22/model_1_base20/"),
               paste0(here::here(), "/SMBKC/smbkc_22/model_1_22/"), 
               paste0(here::here(), "/SMBKC/smbkc_22/model_2a/"),
-              paste0(here::here(), "/SMBKC/smbkc_22/model_2b/")) #need to update these model options
+              paste0(here::here(), "/SMBKC/smbkc_22/model_2b/"), 
+              paste0(here::here(), "/SMBKC/smbkc_22/model_2c/"))#need to update these model options
 .THEME    = list(theme_bw(base_size = 12, base_family = ""), scale_fill_manual(values=cbPalette), 
   scale_colour_manual(values=cbPalette))
 .OVERLAY  = TRUE
@@ -69,9 +70,9 @@ rinline <- function(code){
 #alt_mod <- 5 # alt reference time frame
 ref_mod <- 1 # 2020 model
 rec_mod <- 2 # base
-mod_scen<- 2:4 #scenarios you want graphed together
+mod_scen<- 2:5 #scenarios you want graphed together
 
-raw_data <- data_out(mod_names[1:4], .MODELDIR[1:4]) # data pulled from .csv created from gmacsall.out - done manually
+raw_data <- data_out(mod_names[1:5], .MODELDIR[1:5]) # data pulled from .csv created from gmacsall.out - done manually
 
 ```
 
@@ -466,9 +467,9 @@ Note the change in naming convention (per SSC comments). The base model is model
 ## Results {-}
 
 ### a. Sensitivity to new data {-}
-There is no new survey data for the September 2020 model runs, the only additional data is groundfish bycatch data for the 2019/20 crab season. Additionally, the groundfish bycatch data was updated for past years due to some changes in the weights used to estimate crab bycatch in the groundfish fisheries (per. comm. NMFS AKRO). The 2020 reference model is compared here to the 2019 accepted model, which is shown in Figures \@ref(fig:surv1) and \@ref(fig:surv2) with recruitment and spawning biomass shown in 
+The last accepted model for SMBKC was in Sept. 2020, new data added to the current 2022 model here includes both groundfish bycatch data for the 2020/21 crab season and NMFS trawl survey data - biomass and length compostions - from the 2021 summer survey. Additionally, the groundfish bycatch data was updated for past years due to some changes in the weights used to estimate crab bycatch in the groundfish fisheries (per. comm. NMFS AKRO). The 2022 reference model is compared here to the 2020 accepted model, which is shown in Figures \@ref(fig:surv1) and \@ref(fig:surv2) with recruitment and spawning biomass shown in 
 Figures \@ref(fig:recruitment2) and \@ref(fig:ssb1), respectively. 
-The 2019 accepted model and the 2020 base model have identical fits to the survey data, as well as identical estimates of SSB and recruitment. This is expected since there are no new influential data in the 2020 model. 
+The 2020 accepted model and the 2022 base model have identical fits to the survey data, as well as nearly identical estimates of SSB and recruitment. This is expected since there is only one new survey data point between these models. 
 As has been noted in the past, the reference model still does not capture the recent survey declines in
 the ADF&G pot survey, or fit post 2005 trawl survey data points well. 
 
@@ -476,7 +477,7 @@ the ADF&G pot survey, or fit post 2005 trawl survey data points well.
 Observed and estimated effective sample sizes are compared in Table \@ref(tab:effn). 
 Data weighting factors, standard deviation of normalized residuals (SDNRs), and median absolute residual (MAR) are 
 presented in Table \@ref(tab:data-weighting). 
-Currently the SDNR and MAR are not outputting correctly for the survey data in GMACS.  This is on the list to address at the Januaury 2021 modeling workshop.
+Currently the SDNR and MAR are not outputting correctly for the survey data in GMACS.  This is on the list to address at the next modeling workshop.
 In Sept. 2019 the SDNR for the trawl survey
 was acceptable at 1.66 in the base model. Francis (2011) weighting was applied in 2017 but given the relatively few size bins in this assessment, this application was suspended for this assessment.  
 
@@ -488,44 +489,41 @@ as specified, noting that down-weighting these data would effectively
 exclude the signal from this series. 
 The MAR values for the trawl and pot surveys showed the same pattern among each of the
 scenarios as the SDNR. The MAR values for the trawl survey and pot survey size compositions were adequate,
-ranging from 0.60 to 0.68 for the reference case.
+ranging from 0.61 to 0.69 for the reference case.
 The SDNRs for the directed pot fishery and other size compositions were similar to previous estimates.
 
 ### c. Parameter estimates {-}
-Model parameter estimates for each of the GMACS scenarios are summarized in Tables \@ref(tab:est-pars-ref), \@ref(tab:est-pars-fixR), and \@ref(tab:est-pars-4). These parameter
+Model parameter estimates for each of the GMACS scenarios are summarized in Tables \@ref(tab:est-pars-ref), \@ref(tab:est-pars-M21), \@ref(tab:est-pars-4) and \@ref(tab:est-pars-4). These parameter
 estimates are compared in Table \@ref(tab:est-pars-all). Negative log-likelihood values and management measures for each
 of the model configurations are compared in Tables \@ref(tab:management-quants) and \@ref(tab:likelihood-components).
 
 There are differences in parameter estimates among models as 
 reflected in the log-likelihood components and the management quantities. 
-The parameter estimates in the "no pot" scenario differ greatly from the base model, as expected, due to the removal of recent ADF&G pot survey data points that pulled the MMB trend downward (Table \@ref(tab:est-pars-all)). 
-Also, the size composition residuals are smaller for the trawl survey in the **nopot** model, presumably because 
-they are allowed to fit these size compositions better due to the removal of the size composition data from the ADF&G pot survey.  
+The most drastic of these differences comes in Model 22.0c which has a fixed natural mortality for the entire time series (Table \@ref(tab:est-pars-all)). 
+Removing the period of higher natural mortality in 1998 forces the model to accommidate the large drop in survey biomass by increases in recruitment and overall changes in mature male biomass in the late 90s.   
 
-Selectivity estimates for the directed fishery show some variability between models (Figure \@ref(fig:selectivity)). 
-Estimated recruitment is similar in both models until the mid-2000s when the **no pot** model (20.1) has consistently higher recruitment, contributing to higher MMB for this model in recent years (Figure \@ref(fig:recruitment)). 
-Estimated mature male biomass on 15 February also is considerably higher in the **no pot** model (Figure \@ref(fig:mmb)). 
-The **no pot** model has a better fit to recent years of the NMFS trawl survey data, fitting most of the post-2010 data ranges (fit line encompasses the error bars), compared to the reference model that only fits three of the last 10 years. The improved fit of the trawl survey corresponds to increased MMB estimates in the last 10 years. Not surprisingly this time frame also corresponds to sharp declines in the ADF&G pot survey abundance estimates that started in the post-2010 data. 
-
+Selectivity estimates for the directed fishery show some variability between the base models and model 22.0c, these differences accommodate the changes to the survey biomass estimates without increased natural mortality in 1998 (Figure \@ref(fig:selectivity)). 
+Estimated recruitment changes in magnitude with range of natural mortality levels in the models, with the largest differences being in the early part of the time series. Estimates of recruitment post-2000 are similar in all model runs, with the recent 10 years being the most similar regardless of the natural mortality assumed (Figure \@ref(fig:recruitment)). 
+Estimated mature male biomass on 15 February is similar among the models (Figure \@ref(fig:mmb)). Only model 22.0c (fixed M = 0.18 with no time blocks) as a different trajectory for mmb during the late 90s leading up to the large decline in 1998. 
+Fits to the NMFS trawl survey data are similar among the model, once again with only model 22.0c having a lower trend in the 90s to fit the large drop in survey biomass from 1998 to 1999. 
 
 Estimated natural mortality in each year ($M_t$) is presented in Figure \@ref(fig:M-t), 
-showing the mortality event in the late 90s.
+showing the mortality event in the late 90s for all models except model 22.0c.
 Estimates of fishing morality, from the base model (16.0), are shown to assist with the rebuilding and reference point time frame discussions (Figure \@ref(fig:fishing-mort)). Fishing mortality can not be ruled out as being an influential factor in the current stock status.
 
 ### d. Evaluation of the fit to the data.{-}
-The base model fit to total male ($\ge$ 90 mm CL) trawl survey biomass tends to miss the recent peak around 2010 and fits recent survey data points on the lower end of their error bars (Figures \@ref(fig:trawl-survey-biomass)). 
-These fits are most likely being pulled down by the recent decline in the ADF&G pot survey data points, since the **no pot** model captures more of the error bars for these data points when the NMFS trawl survey data is the only abundance index in the model. 
+The base model (model 16.0) fit to total male ($\ge$ 90 mm CL) trawl survey biomass tends to miss the recent peak around 2010 and fits recent survey data points on the lower end of their error bars (Figures \@ref(fig:trawl-survey-biomass)). 
+These fits are most likely being pulled down by the recent decline in the ADF&G pot survey data points, since the **no pot** model that was run in the 2020 final SAFE captures more of the error bars for these data points when the NMFS trawl survey data is the only abundance index in the model. 
 However, this model, similar to the additional CV models presenting in May 2020, tend to overfit the recent trawl survey data points (Figure \@ref(fig:trawl-survey-biomass)).
-
 
 The base model fit to the pot survey CPUE is similar to past reference models, fitting the overall trends in the data but not capturing some of the high and low points (Figure \@ref(fig:pot-survey-cpue)). 
 
-For the trawl survey the standardized residuals are more balanced in model 20.1 (**no pot**), without the ADF&G pot survey data, especially in recent years. The base model has a clear residual pattern in the last 15 years, continually under predicting the observed data points (Figure \@ref(fig:bts-resid-nmfs)). The standardized residuals for the ADF&G pot survey have similar patterns to past reference model iterations (Figure \@ref(fig:bts-resid-adfg)).
+For the trawl survey the standardized residuals for all model scenarios have a positive residual pattern in the last 15 years, continually under predicting the observed data points (Figure \@ref(fig:bts-resid-nmfs)). The standardized residuals for the ADF&G pot survey have similar patterns to past reference model iterations (Figure \@ref(fig:bts-resid-adfg)).
 
 Fits to the size compositions for trawl survey, pot survey, and commercial observer data are reasonable but miss the largest
 size category in some years (Figures \@ref(fig:sc-pot), \@ref(fig:sc-pot-discarded), and \@ref(fig:sc-trawl-discarded)) 
-for both scenarios. 
-Representative residual plots of the composition data generally have a poor fit to the three composition data sources (Figures \@ref(fig:sc-res-ref), \@ref(fig:sc-res-fixR) and \@ref(fig:sc-res-nopot)).
+for most of the scenarios. Size composition fits in 1998 and 1999 for model 22.0c, the model that removed the 1998 time block increase in M, are very poor in these years for all three data sets. 
+Representative residual plots of the composition data generally have a similar fit to the three composition data sources for the model scenarios with decreased fit for model 22.0c (Figures \@ref(fig:sc-res-ref), \@ref(fig:sc-res-M3), \@ref(fig:sc-res-M4), and \@ref(fig:sc-res-M5)).
 The model fits to different types of retained and discarded catch values performed as expected given the assumed levels
 of uncertainty on the input data (Figure \@ref(fig:fit-to-catch)).
 
@@ -1068,6 +1066,42 @@ tab <- xtable(df, caption = "Model parameter estimates, selected derived quantit
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
 ```
 
+```{r est-pars-5, results = "asis"}
+x <- M[[5]]$fit
+i <- c(grep("m_dev", x$names)[1],
+       grep("theta", x$names),
+       grep("survey_q", x$names),
+       grep("log_fbar", x$names),
+       grep("log_slx_pars", x$names)
+       #grep("sd_fofl", x$names),
+       #grep("spr_cofl", x$names)
+)
+Parameter <- x$names[i]
+Estimate <- x$est[i]
+SD <- x$std[i]
+j <- grep("survey_q", Parameter)
+Estimate[j] <- Estimate[j] * 1000
+SD[j] <- SD[j] * 1000
+Parameter <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
+               "$\\log (\\bar{R})$","$\\log (n^0_1)$","$\\log (n^0_2)$","$\\log (n^0_3)$",
+               "$q_{pot}$", "$\\log (\\bar{F}^\\text{df})$","$\\log (\\bar{F}^\\text{tb})$","$\\log (\\bar{F}^\\text{fb})$",
+               "log Stage-1 directed pot selectivity 1978-2008","log Stage-2 directed pot selectivity 1978-2008",
+               "log Stage-1 directed pot selectivity 2009-2017","log Stage-2 directed pot selectivity 2009-2017",
+               "log Stage-1 NMFS trawl selectivity","log Stage-2 NMFS trawl selectivity",
+               "log Stage-1 ADF\\&G pot selectivity","log Stage-2 ADF\\&G pot selectivity")
+               #"$F_\\text{OFL}$","OFL")
+df1 <- data.frame(Parameter, Estimate, SD)
+#nopot_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_2/figure/ofl_calc.csv"))
+
+df2 <- data.frame(Parameter = c("$F_\\text{OFL}$","OFL"), 
+                  Estimate = c(M[[5]]$sd_fofl[1], M[[5]]$spr_cofl), #M[[3]]$spr_cofl)
+                  SD = c(0.00000, 0.2521899))#(.28051*(nopot_ofl$OFL_2020/1.2040)))) # directly from 'gmacsall.out' file **FIX**
+df1 %>% 
+  bind_rows(df2) -> df
+tab <- xtable(df, caption = "Model parameter estimates, selected derived quantities, and their standard deviations (SD) for Model 22.0c constant M =0.18 without 1998 time block.", label = "tab:est-pars-5", digits = 3)
+print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
+```
+
 
 ```{r est-pars-all, results = "asis"}
 df <- read.csv(paste0(here::here(), "/SMBKC/", folder, "/doc/safe_tables/all_parms.csv"))
@@ -1228,14 +1262,17 @@ knitr::include_graphics("safe_figure/lf_3.png", dpi = 450)
 knitr::include_graphics("safe_figure/ref_mod_size_comp_residuals.png", dpi = 100)
 ```
 
-```{r sc-res-fixR, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (NMFS trawl survey, and the directed pot fishery) for SMBKC in the 'fixR' model (16.0a)."}
-#knitr::include_graphics("safe_figure/ref_fixed_R_ter_size_comp_residuals.png", dpi = 100)
+```{r sc-res-M3, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (NMFS trawl survey, and the directed pot fishery) for SMBKC in the M 0.21 model (22.0a)."}
+knitr::include_graphics("safe_figure/M21_size_comp_residuals.png", dpi = 100)
 ```
 
-```{r sc-res-nopot, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (NMFS trawl survey, and the directed pot fishery) for SMBKC in the 'no pot' model (20.1)."}
-#knitr::include_graphics("safe_figure/no_ADF&G_pot_size_comp_residuals.png", dpi = 100)
+```{r sc-res-M4, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (NMFS trawl survey, and the directed pot fishery) for SMBKC in the M 0.26 model (22.0b)."}
+knitr::include_graphics("safe_figure/M26_size_comp_residuals.png", dpi = 100)
 ```
 
+```{r sc-res-M5, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (NMFS trawl survey, and the directed pot fishery) for SMBKC in model (22.0c) which removes the increased M time block in 1998 and has a fixed M of 0.18."}
+knitr::include_graphics("safe_figure/constant_M_size_comp_residuals.png", dpi = 100)
+```
 
 
 ```{r fit-to-catch, fig.cap = "Comparison of observed and model predicted retained catch and bycatches in each of the GMACS models. Note that difference in units between each of the panels, some panels are expressed in numbers of crab, some as biomass (tons).", fig.height =12}
