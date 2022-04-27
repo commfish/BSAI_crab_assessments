@@ -518,9 +518,9 @@ get_Db0_out(mod_names[2], raw_data, M[2]) %>% transmute(round(100*ssb,0)) %>% sl
 Parameter <- NULL
 Estimate <- NULL
 Model <- NULL
-Mname <- c("last yr", "Ref","M0.21" ,"M0.26")
+Mname <- c("last yr", "Ref","M0.21" ,"M0.26" ,"Mall")
 #c("model 16.0 (2019)", "model 16.0 (2020)", "model 20.1 (no pot )") 
-for (ii in 2:4)
+for (ii in 2:5)
 {
   x <- M[[ii]]$fit
   i <- c(grep("m_dev", x$names)[1],
@@ -544,29 +544,31 @@ Parameter_ref <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$"
                "log Stage-1 NMFS trawl selectivity","log Stage-2 NMFS trawl selectivity",
                "log Stage-1 ADF\\&G pot selectivity","log Stage-2 ADF\\&G pot selectivity")
 #"$F_\\text{OFL}$","OFL")
-#Parameter_nopot <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
-#                "$\\log (\\bar{R})$","$\\log (n^0_1)$","$\\log (n^0_2)$","$\\log (n^0_3)$",
-#                "$\\log (\\bar{F}^\\text{df})$","$\\log (\\bar{F}^\\text{tb})$","$\\log (\\bar{F}^\\text{fb})$",
-#                "log Stage-1 directed pot selectivity 1978-2008","log Stage-2 directed pot selectivity 1978-2008",
-#                "log Stage-1 directed pot selectivity 2009-2017","log Stage-2 directed pot selectivity 2009-2017",
-#                "log Stage-1 NMFS trawl selectivity","log Stage-2 NMFS trawl selectivity")
-Parameter <- c(Parameter_ref, Parameter_ref, Parameter_ref) #, Parameter, Parameter, ParameterQ) 
+#Parameter_no_M <- c(#"Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
+#                   "$\\log (\\bar{R})$","$\\log (n^0_1)$","$\\log (n^0_2)$","$\\log (n^0_3)$",
+#                   "$q_{pot}$", "$\\log (\\bar{F}^\\text{df})$","$\\log (\\bar{F}^\\text{tb})$","$\\log (\\bar{F}^\\text{fb})$",
+#                   "log Stage-1 directed pot selectivity 1978-2008","log Stage-2 directed pot selectivity 1978-2008",
+#                   "log Stage-1 directed pot selectivity 2009-2017","log Stage-2 directed pot selectivity 2009-2017",
+#                   "log Stage-1 NMFS trawl selectivity","log Stage-2 NMFS trawl selectivity",
+#                   "log Stage-1 ADF\\&G pot selectivity","log Stage-2 ADF\\&G pot selectivity")
+Parameter <- c(Parameter_ref, Parameter_ref, Parameter_ref, Parameter_ref) #, Parameter, Parameter, ParameterQ) 
 df1 <- data.frame(Model, Parameter, Estimate)
 #Mname <- c("last yr", "Ref","VAST","addCVpot", "addCVboth", "qBlock")
 #ref_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1/figure/ofl_calc.csv"))
 #fixR_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1_rfix_TPL/figure/ofl_calc.csv"))
 #nopot_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_2/figure/ofl_calc.csv"))
 
-df2 <- data.frame(Model = c("Ref", "Ref", "M0.21" ,"M0.21" ,"M0.26", "M0.26"),
+df2 <- data.frame(Model = c("Ref", "Ref", "M0.21" ,"M0.21" ,"M0.26", "M0.26", "Mall", "Mall"),
                   Parameter = c("$F_\\text{OFL}$","OFL", "$F_\\text{OFL}$","OFL", 
-                                "$F_\\text{OFL}$","OFL"), 
+                                "$F_\\text{OFL}$","OFL", "$F_\\text{OFL}$","OFL"), 
                   Estimate = c(M[[rec_mod]]$sd_fofl[1], M[[rec_mod]]$spr_cofl,
                                M[[3]]$sd_fofl[1], M[[3]]$spr_cofl, 
-                               M[[4]]$sd_fofl[1], M[[4]]$spr_cofl))
+                               M[[4]]$sd_fofl[1], M[[4]]$spr_cofl, 
+                               M[[5]]$sd_fofl[1], M[[5]]$spr_cofl))
 df1 %>% 
   bind_rows(df2) -> df
 df3 <- tidyr::spread(df, Model, Estimate) %>% 
-  dplyr::select(Parameter, Ref, M0.21, M0.26)
+  dplyr::select(Parameter, Ref, M0.21, M0.26, Mall)
 # **FIX ** reorder these to match other tables - currently done manually
 write.csv(df3, paste0(here::here(), '/SMBKC/', folder,'/doc/safe_tables/all_parms.csv'), 
           row.names = FALSE)
@@ -578,10 +580,10 @@ write.csv(df3, paste0(here::here(), '/SMBKC/', folder,'/doc/safe_tables/all_parm
 # updated to work for draft - need to figure out how to get Francis weightings and 
 #   lamdas
 # shorten names for tables
-Mname2 <- c("Ref", "M_21","M_26")
+Mname2 <- c("Ref", "M_21","M_26", "Mall")
 
 df <- NULL
-for (ii in 2:4)
+for (ii in 2:5)
 {
   x       <- M[[ii]]
   SDNR    <- c(x$sdnr_MAR_cpue[,1], 
@@ -598,7 +600,7 @@ for (ii in 2:4)
   df      <- cbind(df, v)
 }
 df_ref        <- data.frame(rownames(df), df, row.names = NULL)
-names(df_ref) <- c("Component", "Ref", "M_21","M_26") #mod_names[mod_scen])
+names(df_ref) <- c("Component", "Ref", "M_21","M_26", "Mall") #mod_names[mod_scen])
 
 #df <- NULL
 #for (ii in 4)
@@ -629,7 +631,7 @@ write.csv(df_ref, paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/data
 
 # !!Likelihood components -----------------
 #```{r likelihood_components, results = "asis"}
-Mname2 <- c("Ref", "M_21","M_26")
+Mname2 <- c("Ref", "M_21","M_26", "Mall")
 df <- NULL
 for (ii in mod_scen)
 {
@@ -723,7 +725,7 @@ for (ii in mod_scen)
   OFL    <- x$spr_cofl; names(OFL)           <- paste0("$\\text{OFL}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")
   Bmsy   <- x$spr_bmsy; names(Bmsy)          <- "$B_\\text{MSY}$"
   B_Bmsy <- x$spr_depl; names(B_Bmsy)          <- "$MMB/B_\\text{MSY}$"
-  ABC    <- OFL * 0.8; names(ABC)            <- paste0("$\\text{ABC}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")
+  ABC    <- OFL * 0.75; names(ABC)            <- paste0("$\\text{ABC}_{", (x$mod_yrs[length(x$mod_yrs)]+ 1), "}$")
   v      <- c(mmb, Bmsy, fofl, OFL, ABC)
   df     <- cbind(df, v)
 }
