@@ -23,41 +23,56 @@ options(xtable.comment = FALSE)
 
 
 # Introduction{-}
-There are two index surveys included in the St. Matthew blue king crab (SMBKC) stock assessment model. The EBS NMFS Trawl survey has surveyed this stock annually (with the exception of 2020) since 1978 using the standard trawl grid around St. Matthew Island (Otto et al. 1978, XX). 
-In 1995 ADF&G initiated a triennial pot survey of the area with the goal of surveying the same population and also to survey nearshore areas where females and juveniles were believed to be in higher numbers. The pot survey has 11 years of data, with more concentrated data in the mid-2010s when it was a annual survey from 2015 to 2018. There has not been a pot survey since 2018, but it is currently planned for fall of 2022. While both share the goal of providing an index of the SMBKC stock, the two surveys cover different geographic regions, and in some years they have encountered proportionally large numbers of male blue king crab in areas that are not covered by the other survey (map of survey areas).
+There are two abundance index surveys included in the St. Matthew blue king crab (SMBKC) stock assessment model - the National Marine Fisheries Service (NMFS) trawl survey and the Alaska Department of Fish and Game (ADF&G) pot survey. The EBS NMFS trawl survey has surveyed this stock annually (with the exception of 2020) since 1978 using the standard trawl grid around St. Matthew Island (Otto et al. 1978, Land et al. 2018, Zacher et al. 2021). 
+In 1995 ADF&G initiated a triennial pot survey of the area with the goal of surveying the same population and also to survey nearshore areas where females and juveniles were believed to be in higher numbers. The pot survey has 11 years of data, with more concentrated data in the mid-2010s when it was a annual survey from 2015 to 2018. There has not been a pot survey since 2018, but it is currently planned for fall of 2022. While both share the goal of providing an index of the SMBKC stock, the two surveys cover different geographic regions, and in some years they have encountered proportionally large numbers of male blue king crab in areas that are not covered by the other survey (\@ref(fig:map)).
 
-In the last few years, the two surveys have presenting conflict trajectories for the spawning stock biomass (males) in the assessment model (Figure \@ref(fig:models2020)). Model runs in 2019 and 2020 attempting to explore this relationship further by looking at: model runs with only the NMFS trawl data (Figure \@ref(fig:models2020)), model runs with additional CVs (on both or one of the surveys), model runs with time blocks for q for the ADF&G pot survey, and just general model explorations of how these two surveys interact in the larger assessment model. 
-In 2020, the year of the last full assessment, both the CPT and SSC suggested some explorations into the raw data from these surveys. The explorations presented here begin these explorations with the goal of determining the best path forward to advise on the assessment model structure.
+In the last few years, the two surveys have presenting conflict trajectories for the spawning stock biomass (males) in the assessment model (Figure \@ref(fig:cpue)). Model runs in 2019 and 2020 attempting to explore this relationship further by looking at: model runs with only the NMFS trawl data - **no pot** (Figure \@ref(fig:models2020)), model runs with additional CVs (on both or one of the surveys), model runs with time blocks for q for the ADF&G pot survey, and just general model explorations of how these two surveys interact in the larger assessment model. 
+In 2020, the year of the last full assessment, both the CPT and SSC suggested some explorations into the raw data from these surveys. The explorations presented are a preliminary look at these explorations with the goal of determining the best path forward to advise on the assessment model structure.
 
 ## Spatial overlap {-}
-Both surveys sample the area surrounding St.Matthew Island, however the spatial coverage and density of each differs. Figure \@ref(fig:map) visually displays the area of overlap between the two surveys (blue area), as well as the area occupied by each survey that does not overlap (grey and white). While the pot survey overlaps most of the area around St.Matthew's only the light blue area - the core 96 stations - are sampled in each year and therefore used in the assessment. The north east coast of the island contains the NMFS station R-24 which was been a "hot spot" in past survey years. However, the ADF&G survey data from this area is inconsistent and therefore not used in the assessment. 
-In addition
+Both surveys sample the area surrounding St.Matthew Island, however the spatial coverage and density of each differs. Figure \@ref(fig:map) visually displays the area of overlap between the two surveys (blue area), as well as the area occupied by each survey that does not overlap (grey and white). In this figure the large rectangles and large circles represent the NMFS trawl stations that are used to determine the abundance estimates for SMBKC, while the small circles (black and clear) represent ADF&G pot survey stations. While the pot survey overlaps most of the area around St.Matthew's only the light blue area - the core 96 stations (black circles on figure) - are sampled in each year and therefore used in the assessment. The north east coast of the island contains the NMFS station R-24 which was been a "hot spot" in past survey years (Figure \@ref(fig:mapr24)). However, the ADF&G survey data from this area is inconsistent and therefore not used in the assessment. 
+Additionally, the density of samples within the survey area differs between the two surveys. The ADF&G pot survey has sample locations at each of the small black circles on Figure \@ref(fig:map) in every year, and data for some of the years in the white circles. This sampling design is more more spatially intensive than the NMFS trawl design which samples one tow in each of the grid rectangles or circles in each year (Zacher et al. 2021). 
 
 ## Pot survey {-}
-The ADF&G pot survey was also initiated to survey areas around St.Matthew Island that have rocky bottom conditions where legal male and mature female crab are at high densities (Pengilly and Vanek 2014). 
+In addition to surveying nearshore areas, the ADF&G pot survey was also initiated to survey areas around St.Matthew Island that have rocky bottom conditions where legal male and mature female crab are at high densities (Pengilly and Vanek 2014). The untrawlable bottom around the island contributes to the high amount of variablity and uncertainty in the estimates of crab out of the trawl survey. One of the objectives of the pot survey was to provide a consistent estimate of biomass in these areas that are not accessbile to trawl gear. Other objectives include, but are not limited to, improving knowledge of the juvenile and female aspects of the population that are not found in the trawl survey area. More details on the ADF&G pot survey can be found in the most recent survey plan (Vanek and Nault 2018).
 
 ## Objectives {-}
 
-    1. Explore the spatial difference between the NMFS trawl survey and the ADF&G pot survey for SMBKC
+  1. Explore the spatial difference between the NMFS trawl survey and the ADF&G pot survey for SMBKC
 
-        a. How does the mature male biomass compare when using the same spatial footprint?
-        b. What is the contribution of R-24 to the NMFS trawl survey data set?
-        c. What are the potential model parameterization options?
+      a. How does the mature male biomass compare when using the same spatial footprint?
+      b. What is the contribution of R-24 to the NMFS trawl survey data set?
+      c. What are the potential model parameterization options?
 
 
 # Approaches and Findings {-}
+## Spatially in-common {-}
+The first step in exploring these two surveys was to examine the male (greater than 90mm) biomass from the NMFS trawl survey present in the 96 in-common ADF&G stations. Figure \@ref(fig:common96) graphs the proportion of the NMFS biomass that is found within this in-common area. One observation from this figure is that the proportion remained at or above 50% between 1979 and 2006. Starting in 2007 the proportion of the biomass within the in-common area started to decreasing, falling to a low level (<25%) in 2015. The time period between 2010 and 2017 corresponds to the time period in the assessment model where the ADF&G pot survey data presented a more precipitous decline in biomass than the more highly variable trawl survey data suggested. The decrease in both the pot survey time series and the proportion of the trawl survey biomass within the in-common area suggests the potential for crab to be moving outside the ADF&G pot survey footprint during this time. Future work will include determining the ADF&G pot survey data that is available for this time period outside the in-common stations to see if potential change spatial distributions contributed to the decline in the CPUE of the pot survey.
 
+## Influence of R-24 {-}
+The influence of station R-24 in the NMFS trawl survey data has been documented in previous SAFE reports for this stock, and is visually represented in Figure \@ref(fig:mapr24) by the large catch in 2012, 2014, and 2015. There are some hypotheses that these hot spot catches could be related to environmental conditions in these years, specifically environmental warming, but they could also be a product of nature of the sampling design and geographic area. Regardless of the mechanisms behind the increase in catch in this station Figure \@ref(fig:propR24) graphically depicts the increase of the proportion of the NMFS biomass found in this station from the mid-2000s to the mid-2010s. While the proportion of the biomass caught in R-24 was variable during this time, there was a general increase in the amount of crab at this station compared to the earlier part of the time series. 
+Based on this observation of increased catch in R-24 we also choose to compare the proportion of catch found within the in-common pot survey area with the proportion of NMFS catch found in all grids excluding R-24. The hypothesis behind this comparison was that if the majority of crab were not in the in-common survey area they potentially could be found in R-24. Figure \@ref(fig:propR24) displays this comparison. In the early part of the time series, prior to 2005, crab caught outside of the in-common spatial area were not found in R-24, however starting in 2005 this changed with a greater portion of crab found in station R-24. Specifically in 2015 and 2016 it appears that crab were caught either in the in-common survey grid or in R-24. Both of these figures suggest a shift in the spatial distribution of blue king crab around 2005.  
 
-
-# Results {-}
-Retrospective analysis of the base model show a retrospective pattern that tends to overestimate mature male biomass (MMB) in the terminal year (Figure \@ref(fig:retrospective) and \@ref(fig:retrospective2)). Using a peel of the last 5 years estimates of MMB the estimated Mohn's $\rho$ is -0.346, which suggests a retrospective pattern in the MMB estimates for the base model. Since 2018 the MMB estimates have been relatively stable, however, they are the lowest in the model history and reflect a time of overfished declaration for the stock. 
-
-
+## Index comparison {-}
+The NMFS trawl survey data and ADF&G pot survey data are collected using vastly different sampling designs and therefore can only be compared in a scaled environment. Figure \@ref(fig:compareALL) attempts to compare these abundance indices over time by scaling them (normal approximation). This figure displays both the ADF&G pot survey index and the NMFS biomass index as well as a data set that represents the NMFS data using the spatial footprint that overlaps the pot survey (core pot survey 96 in-common stations). 
 
 # Recommendations  {-}
+No additional model runs were included in May 2022 to accommodate these explorations, however they do suggest possible explorations for future work. 
+These may include a model scenarios that include the following:
+
+  - using the NMFS trawl survey data with the same spatial footprint as the pot survey (purple trend line compared to green in Figure \@ref(fig:compareALL))
+
+  - time blocks for Q in the NMFS data set to accommodate the changes observed from 2005 to 2017
+
+  - inclusion of additional pot survey data outside the 96 in-common stations, with accommodating "availability" parameters in these years
+
+Future work on the spatial comparison is needed, specifically to include the data from the ADF&G pot survey for those years where data was collected outside the 96 in-common stations. 
 
 
+# References {-}
+Vanek, V., and A. Nault. 2018. Project operational plan for the 2018 St. Matthew Island blue king crab survey. Alaska Department of Fish and Game, Division of Commercial Fisheries, Regional Operational Plan ROP.CF.4K.2018.04, Kodiak.
 
+Zacher LS, Richar JI, and MA Litzow. 2021. The 2021 Eastern Bering Sea Continental Shelf Trawl Survey: Results for Commericial Crab Species. NOAA Technical Memorandum DRAFT, NMFS-AFSC.
 
 \pagebreak 
 
@@ -67,41 +82,39 @@ Retrospective analysis of the base model show a retrospective pattern that tends
 knitr::include_graphics(paste0(here::here(), "/SMBKC/figures/pot_and_trawl_stations_map.png"), dpi = 125)
 ```
 
+```{r cpue, fig.cap = "Survey data included in the assessment model (males) for the ADFG pot survey. "}
+knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_22/doc/safe_figure/pot_cpue_ref.png"), dpi = 100)
+```
+
+```{r cpue2, fig.cap = "Survey data included in the assesment model (males) for both the NMFS trawl survey. "}
+knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_22/doc/safe_figure/trawl_cpue_ref.png"), dpi = 100)
+```
+
 
 ```{r models2020, fig.cap = "Model scenarios from 2020 SAFE document, which included a *no pot* exploration. "}
 knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_22/doc/safe_figure/2020mod_scen_ssb_wprojected_yr.png"), dpi = 125)
 ```
 
-```{r cpue, fig.cap = "Survey data for both the ADF&G pot survey (CPUE) and the NMFS trawl survey (design based area swept). "}
-knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_22/doc/safe_figure/cpue.png"), dpi = 125)
+```{r mapr24, fig.cap = "NMFS survey data by station for the last nine years. Large densities of crab near the northwest corner of St. Matt's in years such as 2015 represent the spotty spikes in catch from station R-24. "}
+knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_22/doc/safe_figure/CrabN_Station.png"), dpi = 400)
 ```
 
+```{r common96, fig.cap = "Proportion of the NMFS male biomass (>90mm) in each year that is found in the RACE grid overlapping the 96 in-common stations in the ADFG pot survey. Refere to the earlier map for the light blue overlapping grids. "}
+knitr::include_graphics(paste0(here::here(), "/SMBKC/figures/prop_tot_biomass_in_96incommon_foot.png"), dpi = 125)
+```
+
+```{r propR24, fig.cap = "Proportion of the NMFS male biomass (>90mm) in each year that sampled from grid station R-24 northwest of St.Matthew Island. "}
+knitr::include_graphics(paste0(here::here(), "/SMBKC/figures/prop_tot_biomass_in_r24.png"), dpi = 125)
+```
+
+
+```{r propR24b, fig.cap = "Proportion of the NMFS male biomass (>90mm) in each year that is found in the RACE grid overlapping the 96 in-common stations in the ADFG pot survey (yellow) compared to the proportion of the NMFS biomass that is found outside of station R-24. "}
+knitr::include_graphics(paste0(here::here(), "/SMBKC/figures/prop_tot_biomass_in_adfg_or_not_r24.png"), dpi = 125)
+```
+
+```{r compareALL, fig.cap = "Scaled comparison of three indexes of male crab included in the assessment model (>90). ADFG represents the CPUE from the pot survey, while the RACE biomass estimates (NMFS) are shown for all grids sampled (green) and only those grids within the same spatial footprint as the pot survey (purple). "}
+knitr::include_graphics(paste0(here::here(), "/SMBKC/figures/survey_ts_comparison.png"), dpi = 125)
+```
 
 
 \pagebreak 
-# Tables {-}
-
-```{r diff-compare, results = "asis"}
-df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/stats_summary_compare_table2.csv"))
-
-names(df) <- c("Year","AvgR","Bmsy", "Terminal MMB", "Status", "Fofl", "OFL")
-tab <- xtable(df, caption = "Comparisons of the percent difference in parameter estimates for the retrospective models with and without the terminal year of survey data.", label = "tab:diff-compare", digits = 3)
-print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, NA.string = "-")
-```
-
-```{r diff-cv, results = "asis"}
-df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/CV_summary_compare_table.csv"))
-
-names(df) <- c("Type","CV-Bmsy","CV-OFL", "CV-status", "CV-terminal-SSB")
-tab <- xtable(df, caption = "Average CV over all years (2010-2019) for normal retrospective runs and those missing the terminal year of survey data. ", label = "tab:diff-cv", digits = 2)
-print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, NA.string = "-")
-```
-
-
-```{r app3-results, results = "asis"}
-df <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/retrospective_model_1/figures/stats_summary_app3_table.csv"))
-
-names(df) <- c("Variable","Diff-Ltobase","Diff-Htobase")
-tab <- xtable(df, caption = "Comparisons of the percent difference in parameter estimates for the low and high models in approach 3 compared to the 2020 base model (16.0).", label = "tab:app3-results", digits = 3)
-print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, NA.string = "-")
-```
