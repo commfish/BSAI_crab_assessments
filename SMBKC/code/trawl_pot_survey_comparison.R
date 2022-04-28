@@ -223,6 +223,7 @@ race_prop_incommon96 %>%
   geom_point(aes(x = year, y = prop))+
   geom_line(aes(x = year, y = prop))+
   labs(x = NULL, y = "Prop Total NMFS Biomass", color = NULL)+
+  expand_limits(y=0) + scale_y_continuous(expand = c(0,0)) +
   theme_bw() -> x
 ##  !!TJ fraction of race within ADF&G? correct?
 ggsave("./SMBKC/figures/prop_tot_biomass_in_96incommon_foot.png", plot = x, height = 3, width = 6, units = "in")  
@@ -245,6 +246,7 @@ race_station_cpue %>%
   geom_point(aes(x = year, y = prop))+
   geom_line(aes(x = year, y = prop))+
   labs(x = NULL, y = "Prop Total NMFS Biomass in R24", color = NULL)+
+  expand_limits(y=0) + #scale_y_continuous(expand = c(0,0)) +
   theme_bw() -> x
 
 ggsave("./SMBKC/figures/prop_tot_biomass_in_r24.png", plot = x, height = 3, width = 6, units = "in")  
@@ -279,6 +281,7 @@ race_prop_incommon96 %>%
   labs(x = NULL, y = "Proportion of Total Biomass", color = NULL)+
   scale_color_viridis_d(direction = 1)+
   theme_bw()+
+  expand_limits(y=0) + #scale_y_continuous(expand = c(0,0)) +
   theme(legend.position = "bottom") -> x
 
 ggsave("./SMBKC/figures/prop_tot_biomass_in_adfg_or_not_r24.png", plot = x, height = 3, width = 6, units = "in") 
@@ -346,6 +349,7 @@ race_biomass_ts_in_adfg_incommon %>%
   scale_color_viridis_d(direction = -1)+
   labs(x = NULL, y = "Scaled Index", color = NULL)+
   theme_bw()+
+  #expand_limits(y=0) + #scale_y_continuous(expand = c(0,0)) +
   #theme(legend.position = "bottom") -> x
   theme(legend.position = c(1, 1), legend.justification = c(1, 1),
         legend.background = element_blank(), legend.key = element_blank()) -> x
