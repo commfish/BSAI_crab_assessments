@@ -253,7 +253,7 @@ Details of this implementation and other model details are provided in Appendix 
 Both surveys indicate a decline over the past few years. The "reference" model is that which was selected for use in 2020, the year of the last full assessment.
 The base model presented here is the reference model with updated groundfish bycatch data for the 2020/21 crab season and updated survey data - biomass and size composition - from the 2021 NMFS trawl survey (model 16.0 2022). 
 
-In addition to the reference/base model other models are presented here for sensitivity of life history constants. Here two models are presented that raise the natural mortality from the accepted fixed value of 0.18 for king crab. Model 22.0a has a M = 0.21 and Model 22.0b has a M = 0.26. These values were taken from methods of Hoenig (ref?) and Then et al. (ref) using a maximum age of 25 or 30 years. Assuming a maximum age of less than 25 years produced a high estimate of natural mortality using Then et al. methods.
+In addition to the reference/base model other models are presented here for sensitivity of life history constants. Here two models are presented that raise the natural mortality from the accepted fixed value of 0.18 for king crab. Model 22.0a has a M = 0.21 and Model 22.0b has a M = 0.26. These values were taken from methods of Then et al. 2015 using a maximum age of 25 or 30 years. Assuming a maximum age of less than 25 years produced a high estimate of natural mortality using Then et al. methods.
 
 
 # B. Responses to SSC and CPT  {-}
@@ -692,6 +692,10 @@ Paul, J.M., A. J. Paul, R.S. Otto, and R.A. MacIntosh. 1991. Spermatophore prese
 Pengilly, D. and D. Schmidt. 1995. Harvest Strategy for Kodiak and Bristol Bay red king crab and St. Matthew Island and Pribilof blue king crab. Alaska Department of Fish and Game, Commercial Fisheries Management and Development Division, Special Publication Number 7, Juneau.
 
 Somerton, D.A., and R.A. MacIntosh. 1983. The size at sexual maturity of blue king crab, Paralithodes platypus, in Alaska. Fishery Bulletin 81: 621-828.
+
+Then, A. Y., Hoenig, J. M., Hall, N. G., and Hewitt, D. A. 2015. Evaluating the predictive performance of
+empirical estimators of natural mortality rate using information on over 200 fish species. ICES Journal of
+Marine Science, 72: 82–92. 
 
 Thorson, J.T., and L.A.K. Barnett. 2017. Comparing estimates of abundance trends and distribution shifts using single- and multispecies models of fishes and biogenic habitat. ICES Journal of Marine Science 75:1311-1321.
 
