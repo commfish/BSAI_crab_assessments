@@ -1165,14 +1165,14 @@ knitr::include_graphics("safe_figure/Fig2.png", dpi = 150)
 ```
 
 ```{r data-extent, fig.cap = "Data extent for the SMBKC assessment."}
-knitr::include_graphics("safe_figure/data_extent_manual.png", dpi = 150)
+knitr::include_graphics("safe_figure/data_extent_manual.png", dpi = 250)
 ```
 
 ```{r stations, fig.cap = "Trawl and pot-survey stations used in the SMBKC stock assessment."}
 knitr::include_graphics("safe_figure/Fig3.png", dpi = 125)
 ```
 
-```{r catch181, fig.cap = "Catches (in numbers) of male blue king crab > 90mm CL from the 2011-2019 NMFS trawl-survey at the 56 stations used to assess the SMBKC stock."}
+```{r catch181, fig.cap = "Catches (in numbers) of male blue king crab > 90mm CL from the 2012-2021 NMFS trawl-survey at the 56 stations used to assess the SMBKC stock."}
 knitr::include_graphics("safe_figure/CrabN_Station.png", dpi = 400)
 ```
 
@@ -1201,20 +1201,20 @@ knitr::include_graphics("safe_figure/lastyr_reference_ssb_wprojected_yr.png", dp
 # bring in from doc_figures_test.R to have current year projection and error associated.
 ```
 
-```{r selectivity, fig.cap = "Comparisons of the estimated stage-1 and stage-2 selectivities for the different model scenarios (the stage-3 selectivities are all fixed at 1). Estimated selectivities are shown for the directed pot fishery, the trawl bycatch fishery, the fixed bycatch fishery, the NMFS trawl survey, and the ADFG pot survey. Two selectivity periods are estimated in the directed pot fishery, from 1978-2008 and 2009-2020."}
+```{r selectivity, fig.cap = "Comparisons of the estimated stage-1 and stage-2 selectivities for the different model scenarios (the stage-3 selectivities are all fixed at 1). Estimated selectivities are shown for the directed pot fishery, the trawl bycatch fishery, the fixed bycatch fishery, the NMFS trawl survey, and the ADFG pot survey. Two selectivity periods are estimated in the directed pot fishery, from 1978-2008 and 2009-2021."}
 knitr::include_graphics("safe_figure/selectivity_mod_scen.png", dpi = 150)
 ```
 
 
 ```{r recruitment, fig.cap = "Estimated recruitment 1979-2020 comparing model alternatives. The solid horizontal lines in the background represent the estimate of the average recruitment parameter ($\\bar{R}$) in each model scenario. Note the high uncertainty in recruitment in the terminal year."}
-knitr::include_graphics("safe_figure/recruitment_mod_scen_ribbons.png", dpi = 100)
+knitr::include_graphics("safe_figure/recruitment_mod_scen_ribbons.png", dpi = 250)
 ```
 
 
 
 ```{r mmb, fig.cap = "Comparisons of estimated mature male biomass (MMB) time series on 15 February during 1978-2021 for each of the model scenarios."}
 #plot_ssb(M[mod_scen], ylab = "Mature male biomass (tons) on 15 February")
-knitr::include_graphics("safe_figure/mod_scen_ssb_wprojected_yr.png", dpi = 100)
+knitr::include_graphics("safe_figure/mod_scen_ssb_wprojected_yr.png", dpi = 250)
 ```
 
 
