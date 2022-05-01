@@ -223,7 +223,7 @@ race_prop_incommon96 %>%
   geom_point(aes(x = year, y = prop))+
   geom_line(aes(x = year, y = prop))+
   labs(x = NULL, y = "Prop Total NMFS Biomass", color = NULL)+
-  expand_limits(y=0) + scale_y_continuous(expand = c(0,0)) +
+  expand_limits(y=0) + #scale_y_continuous(expand = c(0,0)) +
   theme_bw() -> x
 ##  !!TJ fraction of race within ADF&G? correct?
 ggsave("./SMBKC/figures/prop_tot_biomass_in_96incommon_foot.png", plot = x, height = 3, width = 6, units = "in")  
