@@ -228,7 +228,7 @@ There are no new changes in management of the fishery.
 
 Data used in this assessment have been updated to include the most recently
 available fishery data. 
-This assessment includes one new survey data points of the 2021 NMFS trawl-survey, which is included here since this assessment is now on a biennial cycle.  
+This assessment includes one new survey data points from the 2021 NMFS trawl-survey, which is included here since this assessment is now on a biennial cycle.
 The triennial ADF&G pot surveys were last conducted in 2018, and are back on a semi-triennial cycle, with the next survey planned for 2022.
 There is new size composition data from the trawl survey. 
 The assessment was updated with 2010-2020 groundfish trawl and
@@ -253,7 +253,7 @@ Details of this implementation and other model details are provided in Appendix 
 Both surveys indicate a decline over the past few years. The "reference" model is that which was selected for use in 2020, the year of the last full assessment.
 The base model presented here is the reference model with updated groundfish bycatch data for the 2020/21 crab season and updated survey data - biomass and size composition - from the 2021 NMFS trawl survey (model 16.0 2022). 
 
-In addition to the reference/base model other models are presented here for sensitivity of life history constants. Here two models are presented that raise the natural mortality from the accepted fixed value of 0.18 for king crab. Model 22.0a has a M = 0.21 and Model 22.0b has a M = 0.26. These values were taken from methods of Then et al. 2015 using a maximum age of 25 or 30 years. Assuming a maximum age of less than 25 years produced a high estimate of natural mortality using Then et al. methods.
+In addition to the reference/base model other models are presented here for sensitivity of life history constants. Here two models are presented that raise the natural mortality from the accepted fixed value of 0.18 for king crab. Model 22.0a has a M = 0.21 and Model 22.0b has a M = 0.26. These values were taken from methods of Then et al. (2015) using a maximum age of 25 or 30 years. Assuming a maximum age of less than 25 years produced a high estimate of natural mortality using Then et al. methods.
 
 
 # B. Responses to SSC and CPT  {-}
@@ -267,7 +267,8 @@ Comment: *Regarding general code development, the SSC and CPT outstanding reques
   
      We continued with the iterative re-weighting for composition data (Table \@ref(tab:data-weighting)). We did not address models without the natural mortality spike. These have been considered previously. 
   
-  2. *retrospective analyses*
+  2. *Retrospective analyses*
+     
      These were provided in the Sept. 2020 SAFE document and will be provided again in the Sept. 2022 final SAFE.
 
 Comment: *Explore potential explanations for the discrepancy in the time trends of the two types of survey data, including movement hypotheses using spatial models (not necessarily VAST)*
@@ -280,7 +281,7 @@ Comment: *Explore VAST estimates compared to design based, and ones that combine
 
 Comment:  *Random walk or exploration of catchability*
     
-   The initial model of time blocks for Q did not show much potential for this in May 2020, therefore time blocks were not a focus for May 2022. More coding work is needed to make a true random walk for catchability GMACS and this will be added to GMACS model development. 
+   The initial model of time blocks for Q did not show much potential for this in May 2020, therefore time blocks were not a focus for May 2022. More coding work is needed to make a true random walk for catchability in GMACS and this will be added to model development. 
      
 Comment: *Consider increasing the number of size bins so that cohorts might be more easily tracked and growth better estimated*
    
@@ -456,11 +457,11 @@ In summary, the following lists the models presented and the naming convention u
 
 2. **16.0 - 2022 base model**: updated with 2020/21 groundfish bycatch & 2021 NMFS trawl data
 
-3. **22.0a - 2022 base model with fixed M = 0.21**: natural mortality is increased to a base of 0.21 instead of 0.18
+3. **22.0a - 2022 base model with fixed M = 0.21**: natural mortality is increased to  0.21 instead of 0.18
 
-4. **22.0b - 2022 base model with fixed M = 0.26**: natural mortality is increased to a base of 0.26 instead of 0.18
+4. **22.0b - 2022 base model with fixed M = 0.26**: natural mortality is increased to 0.26 instead of 0.18
 
-5. **22.0c - 2022 base model, fixed M = 0.18 for all years**: natural mortality is fixed for all years at 0.18, no time blocks
+5. **22.0c - 2022 base model, without M time blocks**: natural mortality is fixed for all years at 0.18, no time blocks
 
 Note the change in naming convention (per SSC comments). The base model is model 16.0 since that was the year of model development and acceptance. 
 
@@ -504,7 +505,7 @@ Removing the period of higher natural mortality in 1998 forces the model to acco
 
 Selectivity estimates for the directed fishery show some variability between the base models and model 22.0c, these differences accommodate the changes to the survey biomass estimates without increased natural mortality in 1998 (Figure \@ref(fig:selectivity)). 
 Estimated recruitment changes in magnitude with range of natural mortality levels in the models, with the largest differences being in the early part of the time series. Estimates of recruitment post-2000 are similar in all model runs, with the recent 10 years being the most similar regardless of the natural mortality assumed (Figure \@ref(fig:recruitment)). 
-Estimated mature male biomass on 15 February is similar among the models (Figure \@ref(fig:mmb)). Only model 22.0c (fixed M = 0.18 with no time blocks) as a different trajectory for mmb during the late 90s leading up to the large decline in 1998. 
+Estimated mature male biomass on 15 February is similar among the models (Figure \@ref(fig:mmb)). Only model 22.0c (fixed M = 0.18 with no time blocks) has a different trajectory for MMB during the late 90s leading up to the large decline in 1998. 
 Fits to the NMFS trawl survey data are similar among the model, once again with only model 22.0c having a lower trend in the 90s to fit the large drop in survey biomass from 1998 to 1999. 
 
 Estimated natural mortality in each year ($M_t$) is presented in Figure \@ref(fig:M-t), 
@@ -530,7 +531,7 @@ of uncertainty on the input data (Figure \@ref(fig:fit-to-catch)).
 
 ### e. Retrospective and historical analyses {-}
 This is the fourth year GMACS has been used for this stock. As such, retrospective patterns and historical analyses of GMACS assessments are limited. 
-However, completion of a retrospective analysis, for the base model, will be completed in Sept. (Figure \@ref(fig:retrospective)) and is presented in detail in an Appendix.
+However, completion of a retrospective analysis, for the base model, will be completed in Sept.
 
 ### f. Uncertainty and sensitivity analyses.{-}
 Estimated standard deviations of parameters and selected management measures for the models are summarized for each individual model in
@@ -540,7 +541,7 @@ compiled in Table \@ref(tab:est-pars-all). Model estimates of mature male biomas
  
 
 ### g. Comparison of alternative model scenarios.{-}
-The model scenarios presented here explore the sensitivity of the base model to assumptions of level of natural mortality for this stock. With the exception of model 22.0c, the rest of the model suite produces a similar mature male biomass trajectory, with similar terminal year estimates of ssb (Figure \@ref(fig:mmb)). 
+The model scenarios presented here explore the sensitivity of the base model to assumptions of level of natural mortality for this stock. With the exception of model 22.0c, the rest of the model suite produces a similar mature male biomass trajectory, with similar terminal year estimates of SSB (Figure \@ref(fig:mmb)). 
 Removing the mortality time block in 1998 (model 22.0c) produces a similar mature male biomass trend for the last 20 years, however it allows other parameters in the model (such as recruitment and length composition fit) to change to accommodate the large drop in biomass from 1998 to 1999. As the length composition fits illustrate these changes are not supported by the data. 
 
 In summary, the suite of model scenarios were provided to explore the sensitivity of this model. Currently, the base model is still the most appropriate model for setting reference points and model specifications. 
@@ -810,7 +811,7 @@ print(tab, caption.placement = "top", include.rownames = FALSE)
 
 \begin{table}[ht]
 \centering
-\caption{NMFS EBS trawl-survey area-swept estimates of male crab abundance ($10^6$ crab) and male ($\ge90$ mm CL) biomass ($10^6$ lbs). Total number of captured male crab $\ge$ 90 mm CL is also given. Source: R. Foy, NMFS. The "+" refer to plus group.} 
+\caption{NMFS EBS trawl-survey area-swept estimates of male crab abundance ($10^6$ crab) and male ($\ge90$ mm CL) biomass ($10^6$ lbs). Total number of captured male crab $\ge$ 90 mm CL is also given. Source: J.Richar, NMFS. The "+" refer to plus group.} 
 \label{tab:stage-cpue-nmfs}
 \begin{tabular}{lccccccccc}
   \hline

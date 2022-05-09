@@ -7,7 +7,7 @@ output:
 ---
 # Appendix C. Explorations of survey coverage for St. Matthew blue king crab (SMBKC) {-}
 
-### Tyler Jackson and Katie Palof {-}
+### Katie Palof and Tyler Jackson {-}
 
 ```{r global_options, include=FALSE, echo = FALSE, message = FALSE, warning=FALSE}
 library(knitr)
@@ -27,7 +27,7 @@ options(xtable.comment = FALSE)
 There are two abundance index surveys included in the St. Matthew blue king crab (SMBKC) stock assessment model - the National Marine Fisheries Service (NMFS) trawl survey and the Alaska Department of Fish and Game (ADF&G) pot survey. The EBS NMFS trawl survey has surveyed this stock annually (with the exception of 2020) since 1978 using the standard trawl grid around St. Matthew Island (Otto et al. 1978, Land et al. 2018, Zacher et al. 2021). 
 In 1995 ADF&G initiated a triennial pot survey of the area with the goal of surveying the same population and also to survey nearshore areas where females and juveniles were believed to be in higher numbers. The pot survey has 11 years of data, with more concentrated data in the mid-2010s when it was a annual survey from 2015 to 2018. There has not been a pot survey since 2018, but it is currently planned for fall of 2022. While both share the goal of providing an index of the SMBKC stock, the two surveys cover different geographic regions, and in some years they have encountered proportionally large numbers of male blue king crab in areas that are not covered by the other survey (Figure \@ref(fig:map)).
 
-In the last few years, the two surveys have presenting conflict trajectories for the spawning stock biomass (males) in the assessment model (Figure \@ref(fig:cpue)). Model runs in 2019 and 2020 attempting to explore this relationship further by looking at: model runs with only the NMFS trawl data - **no pot** (Figure \@ref(fig:models2020)), model runs with additional CVs (on both or one of the surveys), model runs with time blocks for q for the ADF&G pot survey, and just general model explorations of how these two surveys interact in the larger assessment model. 
+In the last few years, the two surveys have presented conflicting trajectories for the spawning stock biomass (SSB, males) in the assessment model (Figure \@ref(fig:cpue)). Model runs in 2019 and 2020 attempted to explore this relationship further by looking at: model runs with only the NMFS trawl data - **no pot** (Figure \@ref(fig:models2020)), model runs with additional CVs (on both or one of the surveys), model runs with time blocks for Q for the ADF&G pot survey, and just general model explorations of how these two surveys interact in the larger assessment model. 
 In 2020, the year of the last full assessment, both the CPT and SSC suggested some explorations into the raw data from these surveys. The explorations presented are a preliminary look at these explorations with the goal of determining the best path forward to advise on the assessment model structure.
 
 ## Spatial overlap {-}
@@ -63,12 +63,12 @@ The NMFS trawl survey data and ADF&G pot survey data are collected using vastly 
 No additional model runs were included in May 2022 to accommodate these explorations, however they do suggest possible explorations for future work. 
 These may include a model scenarios that include the following:
 
-  - using the NMFS trawl survey data with the same spatial footprint as the pot survey (purple trend line compared to green in Figure \@ref(fig:compareALL))
+  - time blocks for Q in the NMFS data set to accommodate the changes observed from 2005 to 2017  
 
-  - time blocks for Q in the NMFS data set to accommodate the changes observed from 2005 to 2017
-
-  - inclusion of additional pot survey data outside the 96 in-common stations, with accommodating "availability" parameters in these years
-
+  - inclusion of additional pot survey data outside the 96 in-common stations, with accommodating "availability" parameters in these years  
+  
+  - using the NMFS trawl survey data with the same spatial footprint as the pot survey (purple trend line compared to green in Figure \@ref(fig:compareALL))  
+  
 Future work on the spatial comparison is needed, specifically to include the data from the ADF&G pot survey for those years where data was collected outside the 96 in-common stations. 
 
 
