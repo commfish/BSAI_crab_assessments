@@ -16,7 +16,7 @@ output:
 
 ```{r global_options, include=FALSE, echo = FALSE, message = FALSE, warning=FALSE}
 library(knitr)
-opts_chunk$set(fig.width = 12, fig.height = 7, echo = FALSE, warning = FALSE, message = FALSE,  dpi=300)
+opts_chunk$set(fig.width = 12, fig.height = 7, fig.align = "left", echo = FALSE, warning = FALSE, message = FALSE,  dpi=300)
 #\pagenumbering{gobble}
 ```
 
@@ -165,7 +165,7 @@ Computations which indicate the relative impact of fishing
   2016/17 & 1.97 & 2.23 & 0.00 & 0.00 & 0.001 & 0.14 & 0.11 \\
   2017/18 & 1.85 & 2.05 & 0.00 & 0.00 & 0.003 & 0.12 & 0.10 \\
   2018/19 & 1.74 & 1.15 & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
-  2019/20 & 1.67 & 1.07 & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
+  2019/20 & 1.67 & 1.06 & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
   2020/21 & `r msst_2021 ` & `r mmb_2021 ` & 0.00 & 0.00 & 0.001 & 0.05 & 0.04 \\
   2021/22 &      & `r mmb_2122 ` &  &  &  & `r ofl_2122 ` & `r abc_2122 ` \\
   \hline
@@ -391,7 +391,7 @@ The data used in each of the new models is shown in Figure \@ref(fig:data-extent
 Major data sources used in this assessment include annual directed-fishery retained-catch statistics from fish tickets
 (1978/79-1998/99, 2009/10-2012/13, and 2014/15-2015/16; Table \@ref(tab:smbkc-fishery)); results from the annual NMFS
 eastern Bering Sea trawl survey (1978-2021; Table \@ref(tab:stage-cpue-nmfs)); results from the ADF&G SMBKC pot
-survey (every third year during 1995-2013, then 2015-2018; Table \@ref(tab:stage-cpue));
+survey (every third year during 1995-2013, then every year during 2015-2018; Table \@ref(tab:stage-cpue));
 mean somatic mass given length category by year (Table \@ref(tab:length-weight)); 
 size-frequency information from ADF&G crab-observer pot-lift sampling (1990/91-1998/99, 2009/10-2012/13, and
 2014/15-2016/17; Table \@ref(tab:stage-cpue-1)); and the NMFS groundfish-observer bycatch biomass estimates (1992/93-2020/21;
@@ -453,11 +453,11 @@ The base model is presented here as the last accepted model in 2020, and an upda
 In addition, three other models explore the model sensitivity to natural mortality estimates. 
 In summary, the following lists the models presented and the naming convention used: 
 
-1. **16.0 - 2020 Model**: 2020 accepted model
+1. **16.0 - 2020 Model**: 2020 accepted model, fixed M = 0.18 all years except 1998 time block where M is estimated
 
 2. **16.0 - 2022 base model**: updated with 2020/21 groundfish bycatch & 2021 NMFS trawl data
 
-3. **22.0a - 2022 base model with fixed M = 0.21**: natural mortality is increased to  0.21 instead of 0.18
+3. **22.0a - 2022 base model with fixed M = 0.21**: natural mortality is increased to 0.21 instead of 0.18
 
 4. **22.0b - 2022 base model with fixed M = 0.26**: natural mortality is increased to 0.26 instead of 0.18
 
@@ -468,10 +468,10 @@ Note the change in naming convention (per SSC comments). The base model is model
 ## Results {-}
 
 ### a. Sensitivity to new data {-}
-The last accepted model for SMBKC was in Sept. 2020, new data added to the current 2022 model here includes both groundfish bycatch data for the 2020/21 crab season and NMFS trawl survey data - biomass and length compostions - from the 2021 summer survey. Additionally, the groundfish bycatch data was updated for past years due to some changes in the weights used to estimate crab bycatch in the groundfish fisheries (per. comm. NMFS AKRO). The 2022 reference model is compared here to the 2020 accepted model, which is shown in Figures \@ref(fig:surv1) and \@ref(fig:surv2) with recruitment and spawning biomass shown in 
+The last accepted model for SMBKC was in Sept. 2020, new data added to the current 2022 model here includes both groundfish bycatch data for the 2020/21 crab season and NMFS trawl survey data - biomass and length compostions - from the 2021 summer survey. Additionally, the groundfish bycatch data was updated for past years due to some changes in the weights used to estimate crab bycatch in the groundfish fisheries (per. comm. NMFS AKRO). The 2022 reference model is compared here to the 2020 accepted model (both model 16.0), which is shown in Figures \@ref(fig:surv1) and \@ref(fig:surv2) with recruitment and spawning biomass shown in 
 Figures \@ref(fig:recruitment2) and \@ref(fig:ssb1), respectively. 
 The 2020 accepted model and the 2022 base model have identical fits to the survey data, as well as nearly identical estimates of SSB and recruitment. This is expected since there is only one new survey data point between these models. 
-As has been noted in the past, the reference model still does not capture the recent survey declines in
+As has been noted in the past, the reference model (16.0) still does not capture the recent survey declines in
 the ADF&G pot survey, or fit post 2005 trawl survey data points well. 
 
 ### b. Effective sample sizes and weighting factors {-}
@@ -501,19 +501,19 @@ of the model configurations are compared in Tables \@ref(tab:management-quants) 
 There are differences in parameter estimates among models as 
 reflected in the log-likelihood components and the management quantities. 
 The most drastic of these differences comes in Model 22.0c which has a fixed natural mortality for the entire time series (Table \@ref(tab:est-pars-all)). 
-Removing the period of higher natural mortality in 1998 forces the model to accommidate the large drop in survey biomass by increases in recruitment and overall changes in mature male biomass in the late 90s.   
+Removing the period of higher natural mortality in 1998 forces the model to accommodate the large drop in survey biomass by increases in recruitment and overall changes in mature male biomass in the late 90s.   
 
-Selectivity estimates for the directed fishery show some variability between the base models and model 22.0c, these differences accommodate the changes to the survey biomass estimates without increased natural mortality in 1998 (Figure \@ref(fig:selectivity)). 
+Selectivity estimates for the directed fishery show some variability between the base model and model 22.0c, these differences accommodate the changes to the survey biomass estimates without increased natural mortality in 1998 (Figure \@ref(fig:selectivity)). 
 Estimated recruitment changes in magnitude with range of natural mortality levels in the models, with the largest differences being in the early part of the time series. Estimates of recruitment post-2000 are similar in all model runs, with the recent 10 years being the most similar regardless of the natural mortality assumed (Figure \@ref(fig:recruitment)). 
-Estimated mature male biomass on 15 February is similar among the models (Figure \@ref(fig:mmb)). Only model 22.0c (fixed M = 0.18 with no time blocks) has a different trajectory for MMB during the late 90s leading up to the large decline in 1998. 
-Fits to the NMFS trawl survey data are similar among the model, once again with only model 22.0c having a lower trend in the 90s to fit the large drop in survey biomass from 1998 to 1999. 
+Estimated mature male biomass (MMB) on 15 February is similar among the models (Figure \@ref(fig:mmb)). Only model 22.0c (fixed M = 0.18 with no time blocks) has a different trajectory for MMB during the late 90s leading up to the large decline in 1998. 
+Fits to the NMFS trawl survey data are similar among the models, once again with only model 22.0c having a lower trend in the 90s to fit the large drop in survey biomass from 1998 to 1999. 
 
 Estimated natural mortality in each year ($M_t$) is presented in Figure \@ref(fig:M-t), 
 showing the mortality event in the late 90s for all models except model 22.0c.
-Estimates of fishing morality, from the base model (16.0), are shown to assist with the rebuilding and reference point time frame discussions (Figure \@ref(fig:fishing-mort)). Fishing mortality can not be ruled out as being an influential factor in the current stock status.
+Estimates of fishing mortality, from the base model (16.0), are shown to assist with the rebuilding and reference point time frame discussions (Figure \@ref(fig:fishing-mort)). Fishing mortality can not be ruled out as being an influential factor in the current low stock status.
 
 ### d. Evaluation of the fit to the data.{-}
-The base model (model 16.0) fit to total male ($\ge$ 90 mm CL) trawl survey biomass tends to miss the recent peak around 2010 and fits recent survey data points on the lower end of their error bars (Figures \@ref(fig:trawl-survey-biomass)). 
+The base model (model 16.0) fit to total male ($\ge$ 90 mm CL) NMFS trawl survey biomass tends to miss the recent peak around 2010 and fits recent survey data points on the lower end of their error bars (Figures \@ref(fig:trawl-survey-biomass)). 
 These fits are most likely being pulled down by the recent decline in the ADF&G pot survey data points, since the **no pot** model that was run in the 2020 final SAFE captures more of the error bars for these data points when the NMFS trawl survey data is the only abundance index in the model. 
 However, this model, similar to the additional CV models presenting in May 2020, tend to overfit the recent trawl survey data points (Figure \@ref(fig:trawl-survey-biomass)).
 
@@ -541,7 +541,7 @@ compiled in Table \@ref(tab:est-pars-all). Model estimates of mature male biomas
  
 
 ### g. Comparison of alternative model scenarios.{-}
-The model scenarios presented here explore the sensitivity of the base model to assumptions of level of natural mortality for this stock. With the exception of model 22.0c, the rest of the model suite produces a similar mature male biomass trajectory, with similar terminal year estimates of SSB (Figure \@ref(fig:mmb)). 
+The model scenarios presented here explore the sensitivity of the base model (16.0) to assumptions of level of natural mortality for this stock. With the exception of model 22.0c, the rest of the model suite produces a similar mature male biomass trajectory, with similar terminal year estimates of MMB (Figure \@ref(fig:mmb)). 
 Removing the mortality time block in 1998 (model 22.0c) produces a similar mature male biomass trend for the last 20 years, however it allows other parameters in the model (such as recruitment and length composition fit) to change to accommodate the large drop in biomass from 1998 to 1999. As the length composition fits illustrate these changes are not supported by the data. 
 
 In summary, the suite of model scenarios were provided to explore the sensitivity of this model. Currently, the base model is still the most appropriate model for setting reference points and model specifications. 
@@ -574,7 +574,7 @@ $F_\mathit{OFL}$, OFL, ABC, and MMB in 2019 for all scenarios are summarized in 
 is 75% of the OFL (ABC buffer = 25%).
 
 ```{r management-quants, results = "asis"}
-Mname2 <- c("Ref", "M0.21" ,"M0.26", "Mall")
+Mname2 <- c("Ref", "M0.21" ,"M0.26", "Notimeblock")
 df <- NULL
 for (ii in 2:5)
  {
@@ -1120,7 +1120,7 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 # updated to work for draft - need to figure out how to get Francis weightings and 
 #   lamdas
 df <- read.csv(paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/data_weighting.csv'))
-Mname2 <- c("Ref", "fixR", "nopot")
+Mname2 <- c("Ref", "M0.21" ,"M0.26", "Notimeblock")
 names(df) <- c("Component", Mname2)
 tab       <- xtable(df, caption = "Comparisons of data weights, SDNR and MAR (standard deviation of normalized residuals and median absolute residual) values for the model scenarios.", label = "tab:data-weighting")
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,5,10,nrow(tab)))
@@ -1130,7 +1130,7 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 ```{r likelihood-components, results = "asis"}
 df <- read.csv(paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/neg_log_like.csv'))
 #names(df) <- c("Component",mod_names[mod_scen])
-names(df) <- c("Component", "Ref", "fixR", "nopot")
+names(df) <- c("Component", "Ref", "M0.21" ,"M0.26", "Notimeblock")
 tab <- xtable(df, caption = "Comparisons of negative log-likelihood values for the selected model scenarios. It is important to note that comparisons among models may be limited since the number of parameters between models changes (e.g., {\\bf nopot} model).", label = "tab:likelihood-components")
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
 ```
@@ -1157,7 +1157,7 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 # Figures {-}
 \newpage
 
-```{r distribution, fig.cap = "Distribution of blue king crab (Paralithodes platypus) in the Gulf of Alaska, Bering Sea, and Aleutian Islands waters (shown in blue)."}
+```{r distribution, fig.cap = "Distribution of blue king crab (\\textit{Paralithodes platypus}) in the Gulf of Alaska, Bering Sea, and Aleutian Islands waters (shown in blue)."}
 knitr::include_graphics("safe_figure/Fig1.png", dpi = 125)
 ```
 
@@ -1165,8 +1165,8 @@ knitr::include_graphics("safe_figure/Fig1.png", dpi = 125)
 knitr::include_graphics("safe_figure/Fig2.png", dpi = 150)
 ```
 
-```{r data-extent, fig.cap = "Data extent for the SMBKC assessment."}
-knitr::include_graphics("safe_figure/data_extent_manual.png", dpi = 250)
+```{r data-extent, fig.align = "left", fig.cap = "Data extent for the SMBKC assessment."}
+knitr::include_graphics("safe_figure/data_extent_manual.png", dpi = 200)
 ```
 
 ```{r stations, fig.cap = "Trawl and pot-survey stations used in the SMBKC stock assessment."}
