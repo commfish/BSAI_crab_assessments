@@ -1,0 +1,41 @@
+* $ Included From file rkm.cmn ----------------------------------
+*
+* maximum array dimensions:
+      parameter (maxlen=14,maxyear=60,minnos=0)
+*
+      integer nl,ny,ns,iyear1,ilen1,nr,ngl,ngu,inm,y,a,il,iy,idy,idl,id
+      integer nos,iby,mo,nyd,iys
+      real  c,pn,po,pni,opn,opo,o,v,pg,r,rr,sl,sy,g,gl,gy,slf,lenint,
+     +      bc,mr,wei,byr,ebc,bys,hr
+      real  opnl,opol,a1,b1,a2,b2,a3,b3,a1x,b1x,a2x,b2x,a3x,b3x
+      real  betal,betalx,alphar,alrx,betar,betarx,alphas,alsx,sc,
+     +      betas,betasx,pnix,rrx,slx,syx,T,glx,gyx,slfx,pl,plo,pm
+      real*8 seed,rann
+*
+      common /arrays/nl,ny,ns,iyear1,ilen1,nr,ngl(maxlen),ngu(maxlen),
+     +  nyd,iys(maxyear),
+     +  inm,idl(maxlen),idy(maxyear),il,iy,id(7),nos,iby,lenint,mr,sc,
+     +  byr,T(maxyear),g(maxlen),c(maxlen,maxyear),opn(maxlen,maxyear),
+     +  opo(maxlen,maxyear),opnl(maxlen,maxyear),opol(maxlen,maxyear),
+     +  pn(maxlen,maxyear),po(maxlen,maxyear),bc(maxlen,maxyear),
+     +  ebc(maxlen,maxyear),wei(maxyear),bys(maxlen),hr(maxyear),
+     +  o(maxlen,maxyear),v(maxlen),pg(maxlen,maxlen+10),r(maxlen)
+      common /pars/betal,betalx(2),alphar,alrx(2),betar,betarx(2),
+     +      alphas,alsx(2),betas,betasx(2),pni,pnix(2),rr(maxyear),
+     +      rrx(2,maxyear),pl(maxlen),plo(maxlen),pm(maxlen),
+     +      sl(maxlen),slx(2,maxlen),sy(maxyear),syx(2,maxyear),
+     +      gl(13),glx(2,13),gy(8),gyx(2,8),slf(4),slfx(2,4),
+     +      a1,b1,a2,b2,a3,b3,a1x(2),b1x(2),a2x(2),b2x(2),a3x(2),b3x(2),
+     +      mo(maxyear)
+      common /bt00/ibm,ib,obetal,oalphar,obetar,oa1,ob1,oa2,ob2,oa3,ob3,
+     +       orr(maxyear),opni,ogy(8),oslf(4),fv(2*maxlen,maxyear),
+     +       pnb(maxlen,maxyear),pob(maxlen,maxyear),wbetal(2000),
+     +       walphar(2000),wbetar(2000),wa1(2000),wb1(2000),wa2(2000),
+     +       wb2(2000),wa3(2000),wb3(2000),wrr(maxyear),wpni(2000),
+     +       wgy(2000,4),wpnm(maxlen,maxyear),
+     +       wpom(maxlen,maxyear),wpnom(maxlen,maxyear),
+     +       wpns(maxlen,maxyear),wpos(maxlen,maxyear),
+     +       wpnos(maxlen,maxyear),wp11(maxyear),wp20(maxyear),
+     +       wp35(maxyear),wptot(maxyear),seed
+c          wslf(2000,4)
+*--------------------------end of crabb.cmn $ include file----------
