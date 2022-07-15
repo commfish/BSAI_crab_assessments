@@ -1,0 +1,33 @@
+* $ Included From file crabbf.cmn ----------------------------------
+*
+* maximum array dimensions:
+      parameter (maxlen=11,maxyear=60)
+*
+      integer nl,ny,ns,iyear1,ilen1,nr,ngl,ngu,inm,y,a,il,iy,idy,idl,id
+      integer iby,nyd,iys
+      real  pn,pni,opn,v,pg,r,rr,sl,sy,g,gl,gy,slf,lenint,mr,opnl
+      real  betal,betalx,alphar,alrx,betar,betarx,alphas,alsx,sc,wei,
+     +      betas,betasx,pnix,rrx,slx,syx,glx,gyx,slfx,pl,plo,pm,T,
+     +      hr,bc,ebc,byr,bys
+      real*8 seed,rann
+*
+      common /arrays/nl,ny,ns,iyear1,ilen1,nr,ngl(maxlen),ngu(maxlen),
+     +  nyd,iys(maxyear),
+     +  inm,idl(maxlen),idy(maxyear),il,iy,id(7),iby,lenint,mr,sc,byr,
+     +  g(maxlen),opn(maxlen,maxyear),opnl(maxlen,maxyear),
+     +  pn(maxlen,maxyear),wei(maxyear),T(maxyear),hr(maxyear),
+     +  bc(maxlen,maxyear),ebc(maxlen,maxyear),
+     +  v(maxlen),pg(maxlen,maxlen+10),r(maxlen),bys(maxlen)
+      common /pars/betal,betalx(2),alphar,alrx(2),betar,betarx(2),
+     +      alphas,alsx(2),betas,betasx(2),pni,pnix(2),rr(maxyear),
+     +      rrx(2,maxyear),pl(maxlen),plo(maxlen),
+     +      sl(maxlen),slx(2,maxlen),sy(maxyear),syx(2,maxyear),
+     +      gl(13),glx(2,13),gy(8),gyx(2,8),slf(4),slfx(2,4)
+      common /bt00/ibm,ib,obetal,oalphar,obetar,
+     +       orr(maxyear),opni,ogy(8),oslf(4),fv(maxlen,maxyear),
+     +       pnb(maxlen,maxyear),wbetal(1000),wpns(maxlen,maxyear),
+     +       walphar(2000),wbetar(2000),wrr(maxyear),wpni(2000),
+     +       wgy(2000,4),wpnm(maxlen,maxyear),
+     +       wp90(maxyear),wp95(maxyear),seed,w98
+c     wslf(300,4),
+*--------------------------end of crabbf.cmn $ include file----------
