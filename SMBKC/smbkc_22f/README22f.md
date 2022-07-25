@@ -1,25 +1,22 @@
-modified 2-14-22
-# St. Matthews Blue King Crab 2022 - model options for May 2022
-prep for May 2022 meeting
+modified 7-25-22
+# St. Matthews Blue King Crab 2022 - final SAFE Sept. 2022
+Sept CPT meeting final SAFE 
 
 SMBKC moved to a bi-annual assessment, full assessment in 2022 (even years)
 
-Models housed in smbkc_22 
+Models housed in smbkc_22f
 
 ## Alternatives
+- see notes in 'smbkc_22' readme for other options consider in May 2022 
+- due to taking on BBRKC and only run base model - compared to last accepted model for model changes
 
 Model             | Model in Doc  | Description
 ---------- ---    | ------------- | -------------
-model_1_base20    |   16.0 (2020  | - Basecase (last year's selected model 1) - no data updates due to off year cycle
-model_1_22        |   16.0        | - Basecase updated with 2021 survey data, gf bycatch 2021,
-model_1_22a       |   sept 2022    | - model_1_22 with updated ADF&G pot survey data
-model_2a          |   22.0a       | - Increased M ,0.21
-model_2b          |   22.0b       | - Increased M, 0.26
-model_2c          |   22.0c       | - Constant M=0.18 no increase in 98/99
-model_1_corner    |  not in doc   | - part of corner station analysis
-model_3           |  ??         | - time block q for NMFS trawl survey? 1978 to 2004, 2005 to 2017, back to first one 2018?
+model_1_base20    |   16.0 (2020)  | - Basecase (last year's selected model 1) - no data updates due to off year cycle
+                                  | - no need to run again, take this from 'smbck_22' folder 
 
-Note: potential models with varying q? look at survey data compared.
+model_1_22        |   16.0        | - Basecase updated with 2021, 22 survey data, gf bycatch 2021, 22
+
 
 Notice the use of a single .dat file for all of the different model runs. 
 The .dat file sits in assessment root, 
@@ -37,8 +34,15 @@ Update annually -
 
 update gmacs.dat with correct file names for .dat, .ctl, .prj
 
-## data 
+## data updates ----
 SMBKC_GE90_BIOMASS.csv - file from J. Richar using VAST to produce estimates from trawl survey
+
+#### bycatch ---
+see 'SMBKC/code/bycatch_groundfish.R'
+
+#### survey data ----
+see 'SMBKC/code/EBSsurvey_analysis.R'
+
 
 # Run the model
 1) Using ADMB shell navigate to the folder for model_1
