@@ -11,6 +11,16 @@ katie.palof@alaska.gov
 2) change the 'XX.prj' files to bbrkc.prj for that model run
 3) update 'gmacs.dat' to reflect the model run files
 
+## general model run -----
+See instructions under SMBKC
+Instructions:
+gmacs.dat and gmacs.exe need to be in same folder. Navigate to this folder in CMD (I have to used the CMD linked to ADMB because I don't have ADMB installed via admin)
+In the folder type - 'gmacs'
+Model should run if input files are read in correctly.
+
+'gmacs.dat' in each folder has files used for each model run and other instructions - jitter, retrospective, etc.
+
+
 
 ## Model options ------
 Three models recommended from May 2022:
@@ -32,3 +42,18 @@ Current models are using same version as May models - gmacs.exe taken from 'BBKR
 ## organization -----
 Description of models: found in this readme.md
 files used for model: found in the gmacs.dat file in each folder, also have a file labeled gmacsXXX.dat with XX being model number
+
+
+
+
+
+## model runs - initial to compare to Jie's ------
+### Model 21.1b - run 7-25-22; see gmacs.dat - no additional output/jitter/or anything, just basic model run
+Time for run:
+Compare results to Jie's - gmacsall.out 
+Notes: 
+
+### Model 22.0 
+
+
+
