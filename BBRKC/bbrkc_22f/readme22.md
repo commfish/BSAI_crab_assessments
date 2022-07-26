@@ -49,11 +49,20 @@ files used for model: found in the gmacs.dat file in each folder, also have a fi
 
 ## model runs - initial to compare to Jie's ------
 ### Model 21.1b - run 7-25-22; see gmacs.dat - no additional output/jitter/or anything, just basic model run
-Time for run:
+Time for run: Runtime: 0 hours, 28 minutes, 23 seconds
 Compare results to Jie's - gmacsall.out 
 Notes: 
+- first and last line of 'gmacsall.out' match - dig deeper later
 
 ### Model 22.0 
+Time for run: Runtime: 0 hours, 25 minutes, 12 seconds
+Compare results to Jie's - gmacsall.out 
+Notes: 
+- first and last line of 'gmacsall.out' match - dig deeper later
 
-
+### Model 22.0a 
+Time for run: Runtime: 0 hours, 25 minutes, 42 seconds
+Compare results to Jie's - gmacsall.out 
+Notes: 
+- first and last line of 'gmacsall.out' match - dig deeper later
 
