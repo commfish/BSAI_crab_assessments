@@ -21,7 +21,7 @@ theme_set(theme_bw(base_size=12,base_family='Times New Roman')+
 #years <- as.character(c(1972:2022))
 #out[nrow(out)+1, ] <- years
 
-lba_out <- read.csv("./BBRKC/LBA/rk22/rk22_r_input.csv")
+lba_out <- read.csv("./BBRKC/LBA_state/rk22/rk22_r_input.csv")
 head(lba_out)
 
 ## male figure ------------
