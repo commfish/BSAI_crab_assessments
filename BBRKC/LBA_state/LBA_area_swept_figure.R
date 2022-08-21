@@ -44,7 +44,7 @@ lba_out %>%
         axis.title=element_text(size=14,face="bold"), 
         axis.text.x = element_text(angle = 45, hjust = 1)) +
   theme(plot.title = element_text(hjust =0.5)) -> males 
-ggsave('./BBRKC/LBA/rk22/mature_males.png', males, dpi = 800, width = 7.5, height = 5.5)
+ggsave('./BBRKC/LBA_state/rk22/mature_males.png', males, dpi = 800, width = 7.5, height = 5.5)
   
 
 
@@ -68,4 +68,4 @@ lba_out %>%
         axis.title=element_text(size=14,face="bold"), 
         axis.text.x = element_text(angle = 45, hjust = 1)) +
   theme(plot.title = element_text(hjust =0.5)) -> females 
-  ggsave('./BBRKC/LBA/rk22/mature_females.png', females, dpi = 800, width = 7.5, height = 5.5)
+  ggsave('./BBRKC/LBA_state/rk22/mature_females.png', females, dpi = 800, width = 7.5, height = 5.5)
