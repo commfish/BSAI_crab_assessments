@@ -1,54 +1,239 @@
 # k.palof katie.palof@alaska.gov
-# date updated: 8-15-19 / 4-12-22
+# date updated: 8-16-2022
 
-# Data manipulation for EBS trawl survey results to put into SMBKC model
+# Data manipulation for EBS trawl survey results to put into BBRKC model
 
 # data obtained from AKFIN: provide instructions
 # by_weight - 
 # "Crab Data" - tab
-# "EBS Crab Survey" - "Summary Reports" - "Abundance/BIomass, Size Group Matrix" - 
-# drop down menu - 1975 to current year (2019) - Blue King Crab  - District - "STMATT"
+# "EBS Trawl Survey" - "Summary Reports" - "Abundance/BIomass, Size Group Matrix" - 
+# drop down menu - 1975 to current year (2019) - red King Crab  - District - "BB"
 # click "export" Data - csv , add current year to file name
 # for "by_weight"
-# save to 'SMBKC/data/trawl_survey/'
+# save to 'BBRKC/data/trawl_survey/'
 
 # size_group 
-# "EBS Crab Survey" - "Large Data Download" - "Abundance/BIomass, Large Data Download" - 
-# drop down menu - SIZE_GROUP - Blue King Crab - STMATT
+# "EBS Trawl Survey" - "Large Data Download" - "Abundance/BIomass, Large Data Download" - 
+# drop down menu - size_1mm - red King Crab - BB
 # click "export" Data - csv 
 
 # haul data 
 # "EBS Crab Survey" - "Large Data Download" - "Haul Data, Large Data Download" - 
-# drop down menu - Blue King Crab
+# drop down menu - Red King Crab
+
+## effective sample size data
+# "Crab Data" 
 
 # load -----
 source("./SMBKC/code/packages.R")
-cur_yr = 2021 # Current survey data 
+library(ggplot2)
+library(dplyr)
+library(reshape)
+library(ggridges)
+
+cur_yr = 2022 # Current survey data 
 
 # data -----
 # data files from AKFIN are saved as a different type of .csv open files and resave as csv general
-by_weight <- read.csv(paste0(here::here(), '/SMBKC/data/trawl_survey/EBSCrab_AB_Sizegroup_', cur_yr, '.csv'))
+by_weight <- read.csv(paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/EBSCrab_AB_Sizegroup_', cur_yr, '.csv'))
 # need to ignore first 5 rows here 
-haul_bkc <- read.csv(paste0(here::here(), '/SMBKC/data/trawl_survey/EBSCrab_Haul_', cur_yr, '.csv'))
+haul_rkc <- read.csv(paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/EBSCrab_Haul_', cur_yr, '.csv'))
 #haul_bkc <- read.csv("C:/Users/kjpalof/Documents/SMBKC/DATA_SMBKC/EBSCrab_Haul_bkc_7519.csv")
 # size group file comes out with first 7 rows as identifiers. remove these, manually for now, automate later
 #size_group <- read.csv("C:/Users/kjpalof/Documents/SMBKC/DATA_SMBKC/EBSCrab_Abundance_Biomass_2019.csv")
-size_group <- read.csv(paste0(here::here(), '/SMBKC/data/trawl_survey/EBSCrab_Abundance_Biomass_', cur_yr, '.csv'))
+size_group <- read.csv(paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/EBSCrab_Abundance_Biomass_', cur_yr, '.csv'))
 
 # survey biomass cleanup/results ---------
 head(by_weight)
 by_weight %>% 
-  filter(DISTRICT_CODE == "STMATT") %>% 
-  filter(SEX == "MALE") -> smbkc_area_swept
+  filter(DISTRICT_CODE == "BB") -> bbrkc_area_swept
+  #filter(SEX == "MALE") -> smbkc_area_swept
 
-smbkc_area_swept %>% 
-  filter(SIZE_GROUP == "MALE_GE90") %>% 
+
+bbrkc_area_swept %>% 
+  filter(SIZE_GROUP == "MALE_GE65"| SIZE_GROUP == "FEMALE_GE65" | SIZE_GROUP == "MALE_FEMALE_GE65") %>% 
   dplyr::select(SURVEY_YEAR, SPECIES_NAME, SIZE_GROUP, ABUNDANCE, ABUNDANCE_CV,  
          BIOMASS_LBS, BIOMASS_LBS_CV ,BIOMASS_MT, BIOMASS_MT_CV, BIOMASS_MT_CI) -> biomass_mt 
-write.csv(biomass_mt, paste0(here::here(), '/SMBKC/smbkc_22/data/survey_biomass_mt2.csv'), 
+biomass_mt %>% 
+  filter(SURVEY_YEAR >= cur_yr-4)
+write.csv(biomass_mt, paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/survey_biomass_mt2.csv'), 
             row.names = FALSE)
 
+## Length comps - survey -------------
+head(size_group)
 
+head(haul_rkc)
+#unique(size_group$SIZE_GROUP)
+unique(haul_rkc$LENGTH_1MM)
+
+## see Tyler's code here ---- update
+
+## sample size for length comps??? ----------------
+head(haul_rkc) # how to determine which ones are bb???
+## See Jie's notes
+720*.25 # from prelim numbers from Jon
+
+# 2021 sampled
+haul_rkc %>% 
+  filter(AKFIN_SURVEY_YEAR == 2021 & MID_LATITUDE > 54.6) %>% 
+  filter(MID_LATITUDE < 58.65 & MID_LONGITUDE < -168) %>% 
+  dplyr::select(AKFIN_SURVEY_YEAR, GIS_STATION, AREA_SWEPT, SPECIES_NAME, SEX, LENGTH, SAMPLING_FACTOR) %>% 
+  filter(LENGTH >= 65) %>% 
+  group_by(GIS_STATION) %>% 
+  summarise(numbers = sum(SAMPLING_FACTOR))%>% 
+  mutate(total = sum(numbers))
+
+## LBA length comps -------
+# females 90 to 140 
+head(size_group)
+unique(size_group$SIZE_CLASS_MM)
+
+size_group %>% 
+  filter(SURVEY_YEAR >= cur_yr-1) %>% 
+  filter(SEX == "FEMALE") %>% 
+  filter(SIZE_CLASS_MM > 89) %>% 
+  mutate(size_bin = ifelse(SIZE_CLASS_MM >140, 140, floor(SIZE_CLASS_MM/5)*5)) %>% 
+  group_by(SURVEY_YEAR, size_bin) %>% 
+  summarise(bin_abun = sum(ABUNDANCE)) %>% 
+  as.data.frame()
+## this is input for the LBA model for 'surveyf.dat'
+
+
+### length frequency info surey ----------
+# from Cody --
+#=======================================
+# this file is from AKFIN with the Abundance/Biomass Large Data Download tab
+# need to select by size_1mm
+#=======================================
+head(size_group)
+#kod_dat<-read.csv("data/survey/EBSCrab_Abundance_Biomass.csv",header=T,skip=7)
+#kod_dat_1<-filter(size_group,SEX=='FEMALE')
+
+## females 5mm size bins ---------------------------
+size_group %>% 
+  filter(SEX == 'FEMALE') %>% 
+  group_by(SURVEY_YEAR,SIZE_CLASS_MM) %>%
+  summarize(abund=sum(ABUNDANCE)) -> kod_dat_f
+
+### ggridges 5mm bins 
+kod_dat_f %>% 
+  mutate(size_bin = ifelse(SIZE_CLASS_MM > 190, 190, floor(SIZE_CLASS_MM/5)* 5)) %>% 
+  group_by(SURVEY_YEAR, size_bin) %>% 
+  summarize(abund = sum(abund)) -> kod_dat_f_5mm
+
+p <- ggplot(dat=kod_dat_f_5mm) 
+#p <- 
+p <- p + geom_density_ridges(aes(x=size_bin, y=SURVEY_YEAR, height = abund,
+                                 group = SURVEY_YEAR, 
+                                 fill=stat(y),alpha=.9999), stat = "identity",scale=15) +
+  scale_fill_viridis_c()+
+  theme_bw() +
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
+  theme(legend.position = "none",
+        axis.text.x = element_text(angle = 90)) +
+  labs(x="Carapace width (mm)") +
+  xlim(25,190)
+png(paste0(here::here(), "/BBRKC/bbrkc_22f/figures/size_bins_comp_Kodiak_f_5mm.png"),height=9,width=6,res=400,units='in')
+print(p)
+dev.off()
+
+
+## males 5mm size bins -----------------
+size_group %>% 
+  filter(SEX == 'MALE') %>% 
+  group_by(SURVEY_YEAR,SIZE_CLASS_MM) %>%
+  summarize(abund=sum(ABUNDANCE)) -> kod_dat_m
+
+### ggridges 5mm bins ----------
+kod_dat_m %>% 
+  mutate(size_bin = ifelse(SIZE_CLASS_MM > 190, 190, floor(SIZE_CLASS_MM/5)* 5)) %>% 
+  group_by(SURVEY_YEAR, size_bin) %>% 
+  summarize(abund = sum(abund)) -> kod_dat_m_5mm
+
+p <- ggplot(dat=kod_dat_m_5mm) 
+#p <- 
+p <- p + geom_density_ridges(aes(x=size_bin, y=SURVEY_YEAR, height = abund,
+                            group = SURVEY_YEAR, 
+                            fill=stat(y),alpha=.9999), stat = "identity",scale=15) +
+  scale_fill_viridis_c()+
+  theme_bw() +
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
+  theme(legend.position = "none",
+        axis.text.x = element_text(angle = 90)) +
+  labs(x="Carapace width (mm)") +
+  xlim(25,190)
+png(paste0(here::here(), "/BBRKC/bbrkc_22f/figures/size_bins_comp_Kodiak_m_5mm.png"),height=9,width=6,res=400,units='in')
+print(p)
+dev.off()
+
+### ggridges raw 1mm data 
+p <- ggplot(dat=kod_dat_m) 
+#p <- 
+  p + geom_density_ridges(aes(x=SIZE_CLASS_MM, y=SURVEY_YEAR, height = abund,
+                                 group = SURVEY_YEAR, 
+                                 fill=stat(y),alpha=.9999), stat = "identity",scale=15) +
+  scale_fill_viridis_c()+
+  theme_bw() +
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
+  theme(legend.position = "none",
+        axis.text.x = element_text(angle = 90)) +
+  labs(x="Carapace width (mm)") +
+  xlim(25,200)
+#png("plots/size_bins_comp_Kodiak_f.png",height=9,width=6,res=400,units='in')
+#print(p)
+#dev.off()
+
+
+kod_dat_m %>% 
+  ggplot(aes(x = SIZE_CLASS_MM, y = SURVEY_YEAR, group = SURVEY_YEAR), fill = SURVEY_YEAR, height = abund) +
+    geom_density_ridges(aes(height = abund), alpha= 0.25, 
+                            scale = 5)
+
+
+############### nothing below this line is being used --------------------
+# male size comps
+haul_rkc %>% 
+  filter(AKFIN_SURVEY_YEAR >= cur_yr-2) %>% 
+  select(AKFIN_SURVEY_YEAR, SPECIES_NAME, SEX, LENGTH_1MM, SAMPLING_FACTOR) %>% 
+  filter(SEX == 1, 
+         LENGTH_1MM >= 65) %>% 
+  mutate(#total = rowSums(.[7:ncol(.)]), 
+         size_bin = ifelse(LENGTH_1MM > 160, 160, floor(LENGTH_1MM/5)* 5)) %>% 
+  group_by(AKFIN_SURVEY_YEAR, SEX, size_bin, .drop = F) %>% 
+  summarise(Ncount = n()) %>% 
+  mutate(total_samp = sum(Ncount), # this needs to be for both males and females
+         Nprop = round(Ncount/total_samp, 4)) %>% 
+  select(AKFIN_SURVEY_YEAR, total_samp, size_bin, Nprop) %>% 
+  as.data.frame() %>% 
+  spread(size_bin, Nprop) 
+ 
+
+
+# sample size by year
+haul_rkc %>% 
+  filter(AKFIN_SURVEY_YEAR >= cur_yr-2) %>% 
+  select(AKFIN_SURVEY_YEAR, SPECIES_NAME, SEX, LENGTH_1MM, SAMPLING_FACTOR) %>% 
+  filter(#SEX == 1, 
+    LENGTH_1MM >= 65) %>% 
+  group_by(AKFIN_SURVEY_YEAR) %>% 
+  summarise(total_samp = n()) -> samp_by_year
+  
+
+## sample size for length comps??? ----------------
+
+
+
+
+
+#######OLD _-------------
+
+
+
+
+# old smbkc --- not sure if I need this.
 ## table 8 in SAFE - table of abundance by size group and total biomass ------
 Model_size <- c("MALE_90TO104", "MALE_105TO119", "MALE_GE120")
 smbkc_area_swept %>% 
