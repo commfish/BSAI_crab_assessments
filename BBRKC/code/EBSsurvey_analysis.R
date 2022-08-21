@@ -138,6 +138,25 @@ png(paste0(here::here(), "/BBRKC/bbrkc_22f/figures/size_bins_comp_Kodiak_f_5mm.p
 print(p)
 dev.off()
 
+# last 5 years of data 5mm females -----
+kod_dat_f_5mm %>% 
+  filter(SURVEY_YEAR >= (cur_yr-6)) -> kod_dat_f_5mm_2
+p <- ggplot(dat=kod_dat_f_5mm_2) 
+#p <- 
+p <- p + geom_density_ridges(aes(x=size_bin, y=SURVEY_YEAR, height = abund,
+                                 group = SURVEY_YEAR, 
+                                 fill=stat(y),alpha=.9999), stat = "identity",scale=2) +
+  scale_fill_viridis_c()+
+  theme_bw() +
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
+  theme(legend.position = "none",
+        axis.text.x = element_text(angle = 90)) +
+  labs(x="Carapace width (mm)") +
+  xlim(25,190)
+png(paste0(here::here(), "/BBRKC/bbrkc_22f/figures/size_bins_comp_Kodiak_f_5mm_LAST5.png"),height=9,width=6,res=400,units='in')
+print(p)
+dev.off()
 
 ## males 5mm size bins -----------------
 size_group %>% 
@@ -165,6 +184,27 @@ p <- p + geom_density_ridges(aes(x=size_bin, y=SURVEY_YEAR, height = abund,
   labs(x="Carapace width (mm)") +
   xlim(25,190)
 png(paste0(here::here(), "/BBRKC/bbrkc_22f/figures/size_bins_comp_Kodiak_m_5mm.png"),height=9,width=6,res=400,units='in')
+print(p)
+dev.off()
+
+### last 5 years males -------
+
+kod_dat_m_5mm %>% 
+  filter(SURVEY_YEAR >= (cur_yr-6)) -> kod_dat_m_5mm_2
+p <- ggplot(dat=kod_dat_m_5mm_2) 
+#p <- 
+p <- p + geom_density_ridges(aes(x=size_bin, y=SURVEY_YEAR, height = abund,
+                                 group = SURVEY_YEAR, 
+                                 fill=stat(y),alpha=.9999), stat = "identity",scale=2) +
+  scale_fill_viridis_c()+
+  theme_bw() +
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
+  theme(legend.position = "none",
+        axis.text.x = element_text(angle = 90)) +
+  labs(x="Carapace width (mm)") +
+  xlim(25,190)
+png(paste0(here::here(), "/BBRKC/bbrkc_22f/figures/size_bins_comp_Kodiak_m_5mm_LAST5.png"),height=9,width=6,res=400,units='in')
 print(p)
 dev.off()
 

@@ -47,7 +47,7 @@ mod_names <- c("21.1b (2021)", "21.1b (2022)", "22.0 (1985)", "22.0a (1985estM)"
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male", "Female")
 .FLEET    = c("Pot","Trawl bycatch", "Tanner bycatch", "Fixed bycatch","NMFS Trawl","BSFRF survey")
-.TYPE     = c("Total", "Retained","Discarded")
+.TYPE     = c("Retained","Discarded", "Total")
 .SHELL    = c("Aggregate","New", "Old")
 .MATURITY = c("Aggregate")
 .SEAS     = c("1","2","3","4","5")
@@ -181,7 +181,8 @@ ggsave(paste0(.FIGS, "recruit_ref.png"), width = ww*1.08, height = hh)
 
 ## !!fishing mortality ------
 #plot_F(M[2]) **FIX** bring in this from model 1 for now.
-#plot_F(M[mod_scen])
+plot_F(M[mod_scen])
+ggsave(paste0(.FIGS, "fishing_mortality_mod_scen.png"), width = ww*1.25, height = hh)
 plot_F(Mbase)
 #plot_F2(M[2])
 ggsave(paste0(.FIGS, "fishing_mortality.png"), width = ww*1.25, height = hh)
