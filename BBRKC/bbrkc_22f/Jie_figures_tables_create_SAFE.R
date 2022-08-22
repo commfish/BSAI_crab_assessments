@@ -48,17 +48,19 @@ D <- read_rep("./BBRKC/bbrkc_22f/model_22a/gmacs.rep")
 # molting probability - see 'Jie_cmn_files.R', Jie's script molt-prob.cmn, molt-prob2.cmn
 # !!Figure 10 ------
 # area swept trawl survey, BSFRF fit, created with gmr - see figures folder
-## ** Figure 10e length comps for BSFRF
-# !!Figure 11 --
+# !!Figure 10c BSFRF selectivities, sel-bsfrf.cmn
+## !!Figure 10e -----
+# length comps for BSFRF, used gmr
+# !!Figure 11 -----
 #  Estimated MMB - from gmr output - "mod_scen_ssb....png'
-# ** Figure 12a -------
+# !!Figure 12a -------
 # recruitment - Jie's code 'rec3.cmn'
-# ** Figures 12b -----
+# !!Figures 12b -----
 # recruitment length distributions 'r-range.cmn'
 # ** Figure 13 a, b, c -----
 # Fishing mortality comparison by year - Jie's code 'rkf.cmn, rksr.cmn, rksrp.cmn, rkf85.cmn'
-### !!Figure 13d ----
-# Natural mortality and directed pot fishing mortality 
+### !!Figure 13d ------
+# Natural mortality and directed pot fishing mortality , mortality.cmn
 # ** Figure 14 -------
 # recruit vs. mmb Jie's code 'rksr.cmn, rksrp.cmn'
 # **Figure 15 -----

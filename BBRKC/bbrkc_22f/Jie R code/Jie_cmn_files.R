@@ -1,60 +1,3 @@
-## rec 3 ----------------
-n1<-3
-n2<-1
-n3<-A$nyr-A$syr+1
-n4<-B$nyr-B$syr+1
-d1m<-(A$recruits[1,]+A$recruits[2,])/1000000
-#d2m<-(B$recruits[1,]+B$recruits[2,])/1000000
-#d3m<-(J$recruits[1,]+J$recruits[2,])/1000000
-d1f<-mean(d1m[9:(n3-1)])
-#d2f<-mean(d2m[1:(n4-1)])
-#d3f<-mean(d3m[9:(n3-1)])
-
-par(oma=c(3.50,4.0,1.0,1.0),tck=-0.01,xaxs="i",yaxs="i",font=1,lwd=0.75)
-par(mgp=c(1.2,0.7,0),mar=c(0,0,0,0),mfcol=c(n1,n2),xpd=FALSE)
-xat<-c(2,7,12,17,22,27,32,37,42,47)-0.5
-xatv<-c("1977","1982","1987","1992","1997","2002","2007","2012","2017","2020")
-yat<-c(10,40,70,100,130,160,190,220)
-xm<-0
-xx<-n3
-ym<-0
-up<-0.87
-year<-c(1:n3)
-
-yx<-255
-plot(year,d1m[1:n3],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
-par(new=T,xaxs="i",yaxs="i")
-barplot(d1m[1:n3],space=0,density=-1,col="red",axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),names.arg=" ")
-lines(c(9,(n3-1))-0.5,c(d1f,d1f),lty=1,lwd=2.5,col=1)
-# legend("topright",inset=0.02,c("Recruits","1984-2018 mean"),lwd=c(2.5,2.5),lty=c(1,2),col=c(1,2))
-text(0.4*xx,yx*up,"Model 21.1b",cex=1.5)
-axis(2,at=yat,labels=yat,outer=T,cex=1.5)
-box()
-
-plot(year,d3m[1:n3],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
-par(new=T,xaxs="i",yaxs="i")
-barplot(d3m[1:n3],space=0,density=-1,col="red",axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),names.arg=" ")
-lines(c(9,(n3-1))-0.5,c(d3f,d3f),lty=1,lwd=2.5,col=1)
-# legend("topright",inset=0.02,c("Recruits","1984-2018 mean"),lwd=c(2.5,2.5),lty=c(1,2),col=c(1,2))
-text(0.4*xx,yx*up,"Model 22.1",cex=1.5)
-axis(2,at=yat,labels=yat,outer=T,cex=1.5)
-box()
-#yx = 75.0
-#yat<-c(30,60,90,120,150)
-plot(year,d2m[1:n3],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
-par(new=T,xaxs="i",yaxs="i")
-barplot(c(0,0,0,0,0,0,0,0,0,0,d2m[1:n4]),space=0,density=-1,col="red",axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),names.arg=" ")
-lines(c(9,(n3-1))-0.5,c(d2f,d2f),lty=1,lwd=2.5,col=1)
-# legend("topright",inset=0.02,c("Recruits","1984-2018 mean"),lwd=c(2.5,2.5),lty=c(1,2),col=c(1,2))
-text(0.4*xx,yx*up,"Model 22.0",cex=1.5)
-axis(2,at=yat,labels=yat,outer=T,cex=1.5)
-par(mgp=c(2.5,0.65,0))
-axis(1,at=xat,labels=xatv,outer=T,cex=1.5)
-box()
-yt<-c('Estimated total recruits (million crab)')
-mtext(yt,2,2.5,outer=T,cex=1.0)
-mtext('Year',1,1.8,outer=T,cex=1.0)
-par(mfrow=c(1,1))
 
 ### mmb 5 ------------
 n1<-1
@@ -325,3 +268,301 @@ yt<-c('Molting probabilities')
 mtext(yt,2,2.3,outer=T,cex=1.2)
 mtext('Length (mm)',1,2.0,outer=T,cex=1.2)
 par(mfrow=c(1,1))
+
+
+
+# trawl survey fit seperate out males and females ------
+plot_cpue_kjp <- function(M, subsetby = "", psex = "", xlab = "Year", ylab = "CPUE", slab = "Sex", ShowEstErr = FALSE, logy = FALSE)
+{
+  mdf <- .get_cpue_df(M)
+  if (subsetby != "") mdf <- subset(mdf, fleet == subsetby)
+  if (psex != "") mdf <- subset(mdf, sex == psex)
+  
+  if (logy) {
+    mdf$cpue <- log(mdf$cpue)
+    mdf$lb <- log(mdf$lb)
+    mdf$ub <- log(mdf$ub)
+    mdf$lbe <- log(mdf$lbe)
+    mdf$ube <- log(mdf$ube)
+    mdf$pred <- log(mdf$pred)
+    ylab <- paste0("log(", ylab, ")")
+  }
+  
+  xlab <- paste0("\n", xlab)
+  ylab <- paste0(ylab, "\n")
+  
+  p  <- ggplot(mdf, aes(year, cpue)) +
+    expand_limits(y = 0) +
+    geom_pointrange(aes(year, cpue, ymax = ub, ymin = lb), col = "black")
+  
+  if (ShowEstErr) {
+    if (length(M) == 1 && length(unique(mdf$sex)) == 1) {
+      p  <- p + geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe), color = "red", shape = 1, linetype = "dotted", position = position_dodge(width = 1))
+    } else if (length(M) != 1 && length(unique(mdf$sex)) == 1) {
+      p  <- p + geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe, col = Model), shape = 1, linetype = "dotted", position = position_dodge(width = 1))
+    } else if (length(M) == 1 && length(unique(mdf$sex)) != 1) {
+      p  <- p + geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe, col = sex), shape = 1, linetype = "dotted", position = position_dodge(width = 1))
+    } else {
+      p  <- p + geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe, col = Model), shape = 1, linetype = "dotted", position = position_dodge(width = 1))
+    }
+  }
+  
+  if (.OVERLAY) {
+    if (length(M) == 1 && length(unique(mdf$sex)) == 1) {
+      p <- p + geom_line(data = mdf, aes(year, pred)) +
+        facet_wrap(~fleet, scales = "free_y")
+    } else if (length(M) != 1 && length(unique(mdf$sex)) == 1) {
+      p <- p + geom_line(data = mdf, aes(year, pred, color = Model, linetype = Model)) +
+        facet_wrap(~fleet, scales = "free_y")
+    } else if (length(M) == 1 && length(unique(mdf$sex)) != 1) {
+      p <- p + geom_line(data = mdf, aes(year, pred, color = sex)) + labs(col = slab) +
+        facet_wrap(~fleet + sex, scales = "free_y")
+    } else {
+      p <- p + geom_line(data = mdf, aes(year, pred, color = Model, linetype = Model)) +
+        facet_wrap(~fleet + sex, scales = "free_y")
+    }
+  } else {
+    p  <- p + geom_line(data = mdf, aes(year, pred))
+    p  <- p + facet_wrap(~fleet + sex + Model, scales = "free_y")
+  }
+  
+  p  <- p + labs(x = xlab, y = ylab)
+  print(p + .THEME + theme(legend.position=c(.7,.85)))
+}
+
+
+# BSFRF selectivity ----------
+n3<-20
+tt1<-1
+tt2<-1
+tt3<-1
+#tt4<-1
+d1m<-B$selectivity[6,4:23]*tt1 
+d2m<-C$selectivity[6,4:23]*tt2
+d3m<-D$selectivity[6,4:23]*tt3
+#d4m<-D$selectivity[6,4:23]*tt4
+xat<-c(70,80,90,100,110,120,130,140,150,160)
+yat<-c(0.1,0.3,0.5,0.7,0.9)
+yatv<-c("0.1","0.3","0.5","0.7","0.9")
+xm<-67
+xx<-163
+ym<-0
+up<-0.9
+
+par(mgp=c(5.0,0.7,0))
+yx = 1.1
+plot(A$mid_points,d1m[1:n3],ylim=c(ym,yx),xlim=c(xm,xx),xlab="Length (mm)",type="n",lwd=1)
+lines(A$mid_points,d1m[1:n3],lty=1,lwd=2.5,col=1)
+lines(A$mid_points,d2m[1:n3],lty=2,lwd=2.5,col=2)
+lines(A$mid_points,d3m[1:n3],lty=3,lwd=2.5,col=3)
+#lines(A$mid_points,d4m[1:n3],lty=4,lwd=2.5,col=4)
+legend("bottomright",inset=0.02,c("21.1b","22.0","22.0a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.6,0.6,0.6)) 
+axis(2,at=yat,labels=yatv,outer=T,cex=1.5)
+axis(1,at=xat,labels=xat,outer=T,cex=1.5)
+box()
+yt<-c('BSFRF survey selectivities')
+mtext(yt,2,2.3,outer=T,cex=1.2)
+mtext('Length (mm)',1,2.0,outer=T,cex=1.2)
+par(mfrow=c(1,1))
+
+
+## rec 3 ----------------
+n1<-3
+n2<-1
+n3<-B$nyr-B$syr+1
+n4<-C$nyr-C$syr+1
+d1m<-(B$recruits[1,]+B$recruits[2,])/1000000
+d2m<-(C$recruits[1,]+C$recruits[2,])/1000000
+d3m<-(D$recruits[1,]+D$recruits[2,])/1000000
+d1f<-mean(d1m[9:(n3-1)])
+d2f<-mean(d2m[1:(n4-1)])
+d3f<-mean(d3m[1:(n4-1)])
+
+par(oma=c(3.50,4.0,1.0,1.0),tck=-0.01,xaxs="i",yaxs="i",font=1,lwd=0.75)
+par(mgp=c(1.2,0.7,0),mar=c(0,0,0,0),mfcol=c(n1,n2),xpd=FALSE)
+xat<-c(2,7,12,17,22,27,32,37,42,47)-0.5
+xatv<-c("1977","1982","1987","1992","1997","2002","2007","2012","2017","2022")
+yat<-c(10,40,70,100,130,160,190,220)
+xm<-0
+xx<-n3
+ym<-0
+up<-0.87
+year<-c(1:n3)
+
+yx<-255
+plot(year,d1m[1:n3],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
+par(new=T,xaxs="i",yaxs="i")
+barplot(d1m[1:n3],space=0,density=-1,col="red",axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),names.arg=" ")
+lines(c(9,(n3-1))-0.5,c(d1f,d1f),lty=1,lwd=2.5,col=1)
+# legend("topright",inset=0.02,c("Recruits","1984-2018 mean"),lwd=c(2.5,2.5),lty=c(1,2),col=c(1,2))
+text(0.4*xx,yx*up,"Model 21.1b",cex=1.5)
+axis(2,at=yat,labels=yat,outer=T,cex=1.5)
+box()
+
+#plot(year,d3m[1:n3],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
+#par(new=T,xaxs="i",yaxs="i")
+#barplot(d3m[1:n3],space=0,density=-1,col="red",axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),names.arg=" ")
+#lines(c(9,(n3-1))-0.5,c(d3f,d3f),lty=1,lwd=2.5,col=1)
+# legend("topright",inset=0.02,c("Recruits","1984-2018 mean"),lwd=c(2.5,2.5),lty=c(1,2),col=c(1,2))
+#text(0.4*xx,yx*up,"Model 22.1",cex=1.5)
+#axis(2,at=yat,labels=yat,outer=T,cex=1.5)
+#box()
+#yx = 75.0
+#yat<-c(30,60,90,120,150)
+plot(year,d2m[1:n3],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
+par(new=T,xaxs="i",yaxs="i")
+barplot(c(0,0,0,0,0,0,0,0,0,0,d2m[1:n4]),space=0,density=-1,col="red",axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),names.arg=" ")
+lines(c(9,(n3-1))-0.5,c(d2f,d2f),lty=1,lwd=2.5,col=1)
+# legend("topright",inset=0.02,c("Recruits","1984-2018 mean"),lwd=c(2.5,2.5),lty=c(1,2),col=c(1,2))
+text(0.4*xx,yx*up,"Model 22.0",cex=1.5)
+axis(2,at=yat,labels=yat,outer=T,cex=1.5)
+box()
+
+plot(year,d3m[1:n3],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
+par(new=T,xaxs="i",yaxs="i")
+barplot(c(0,0,0,0,0,0,0,0,0,0,d2m[1:n4]),space=0,density=-1,col="red",axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),names.arg=" ")
+lines(c(9,(n3-1))-0.5,c(d3f,d3f),lty=1,lwd=2.5,col=1)
+# legend("topright",inset=0.02,c("Recruits","1984-2018 mean"),lwd=c(2.5,2.5),lty=c(1,2),col=c(1,2))
+text(0.4*xx,yx*up,"Model 22.0a",cex=1.5)
+axis(2,at=yat,labels=yat,outer=T,cex=1.5)
+par(mgp=c(2.5,0.65,0))
+axis(1,at=xat,labels=xatv,outer=T,cex=1.5)
+box()
+yt<-c('Estimated total recruits (million crab)')
+mtext(yt,2,2.5,outer=T,cex=1.0)
+mtext('Year',1,1.8,outer=T,cex=1.0)
+par(mfrow=c(1,1))
+
+
+## r-range -------
+# recruitment length distributions
+n1<-3
+n2<-1
+d1m<-B$rec_sdd[1,1:8] #B is model 21.1b
+d3m<-B$rec_sdd[2,1:8]
+d4m<-C$rec_sdd[1,1:8] # C is model 22.0
+d5m<-C$rec_sdd[2,1:8]
+d6m<-D$rec_sdd[1,1:8] # D is model 22.0a
+d7m<-D$rec_sdd[2,1:8]
+d1m<-c(0,d1m)
+d3m<-c(0,d3m)
+d4m<-c(0,d4m)
+d5m<-c(0,d5m)
+d6m<-c(0,d6m)
+d7m<-c(0,d7m)
+
+par(oma=c(3.50,4.0,1.0,1.0),tck=-0.01,xaxs="i",yaxs="i",font=1,lwd=0.75)
+par(mgp=c(1.2,1.0,0),mar=c(0,0,0,0),mfcol=c(n1,n2),xpd=FALSE)
+xat<-c(1:9)
+xatv=c("62.5","67.5","72.5","77.5","82.5","87.5","92.5","97.5","102.5")
+yat<-c(0.1,0.2,0.3,0.4)
+yatv<-c("0.1","0.2","0.3","0.4")
+xm<-1
+xx<-9
+ym<-0
+
+yx<-0.45
+plot(xat,d3m,axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
+#  par(new=T,xaxs="i",yaxs="i")
+lines(xat,d1m,lty=1,lwd=2.5,col=1)
+lines(xat,d3m,lty=2,lwd=2.5,col=2)
+legend("topright",inset=0.02,cex = 0.8, c("Model 21.1b: males","Model 21.1b: females"),lwd=c(2.5,2.5),lty=c(1,2),col=c(1,2))
+axis(2,at=yat,labels=yatv,outer=T,cex=1.4)
+box()
+plot(xat,d5m,axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
+lines(xat,d4m,lty=1,lwd=2.5,col=1)
+lines(xat,d5m,lty=2,lwd=2.5,col=2)
+legend("topright",inset=0.02,cex = 0.8, c("Model 22.0: males","Model 22.0: females"),lwd=c(2.5,2.5),lty=c(1,2),col=c(1,2))
+axis(2,at=yat,labels=yatv,outer=T,cex=1.4)
+par(mgp=c(3.0,0.75,0))
+axis(1,at=xat,labels=xatv,outer=T,cex=1.5)
+box()
+plot(xat,d7m,axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
+lines(xat,d6m,lty=1,lwd=2.5,col=1)
+lines(xat,d7m,lty=2,lwd=2.5,col=2)
+legend("topright",inset=0.02,cex = 0.8, c("Model 22.0a: males","Model 22.0a: females"),lwd=c(2.5,2.5),lty=c(1,2),col=c(1,2))
+axis(2,at=yat,labels=yatv,outer=T,cex=1.4)
+par(mgp=c(3.0,0.75,0))
+axis(1,at=xat,labels=xatv,outer=T,cex=1.5)
+box()
+yt<-c('Recruitment length distribution (proportion)')
+mtext(yt,2,2.8,outer=T,cex=1.0)
+mtext('Length (mm)',1,2.10,outer=T,cex=1.0)
+par(mfrow=c(1,1))
+
+#### mortality  -----
+n1<-2
+n2<-1
+n3<-B$nyr-B$syr+1 # model 21.1b
+d1m<-B$M[1:n3,1]
+d3m<-B$M[(n3+1):(n3+n3),1]
+d3f0<-B$ft
+
+n4<-C$nyr-C$syr+1 # model 22.0
+d4m<-C$M[1:n4,1]
+d5m<-C$M[(n4+1):(n4+n4),1]
+d4f0<-C$ft
+
+d8m<-D$M[1:n4,1] #model 22.0a
+d9m<-D$M[(n4+1):(n4+n4),1]
+d6f0<-D$ft
+#d6m<-K$M[1:n3,1]
+#d7m<-K$M[(n3+1):(n3+n3),1]
+#d5f0<-K$ft
+d3f<-c(1:n3)
+d4f<-c(1:n4)
+#d5f<-c(1:n4)
+d6f<-c(1:n4)
+d3f<-d3f0[(1:n3),3]
+d4f<-d4f0[(1:n4),3]
+#d5f<-d5f0[(1:n3),3]
+d6f<-d6f0[(1:n4),3]
+par(oma=c(3.50,4.0,1.0,1.0),tck=-0.01,xaxs="i",yaxs="i",font=1,lwd=0.75)
+par(mgp=c(1.2,1.0,0),mar=c(0,0,0,0),mfcol=c(n1,n2),xpd=FALSE)
+xat<-c(1975:(A$nyr))
+yat<-c(0.1,0.3,0.5,0.7,0.9,1.1)
+yatv<-c("0.1","0.3","0.5","0.7","0.9","1.1")
+#yatv<-c(paste(t2),paste(t3))
+xm<-B$syr
+xx<-B$nyr
+ym<-0
+up<-0.40
+year<-c(B$syr:(B$nyr))
+
+yx<-1.3
+#  plot(year,d2m[1:n3],axes=F,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
+plot(year,d3m[1:n3],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
+#  par(new=T,xaxs="i",yaxs="i")
+lines(year,d1m[1:n3],lty=1,lwd=2.5,col=1)
+lines(year,d3m[1:n3],lty=2,lwd=2.5,col=2)
+lines(year[11:n3],d4m[1:n4],lty=3,lwd=2.5,col=3)
+lines(year[11:n3],d5m[1:n4],lty=4,lwd=2.5,col=4)
+lines(year[11:n3],d8m[1:n4],lty=5,lwd=2.5,col=5)
+lines(year[11:n3],d9m[1:n4],lty=6,lwd=2.5,col=6)
+#lines(year,d6m[1:n3],lty=7,lwd=2.5,col=7)
+#lines(year,d7m[1:n3],lty=8,lwd=2.5,col=8)
+legend("topright",inset=0.02,cex = 0.55, c("Model 21.1b: males","Model 21.1b: females","Model 22.0: males","Model 22.0: females","Model 22.0a: males","Model 22.0a: females"),lwd=c(2.5,2.5,2.5,2.5,2.5,2.5),lty=c(1,2,3,4,5,6),col=c(1,2,3,4,5,6))
+text(1995,yx*up,"Natural mortality",cex=1.3)
+axis(2,at=yat,labels=yatv,outer=T,cex=1.4)
+box()
+yx = 2.5
+yat<-c(0.1,0.5,0.9,1.3,1.7,2.1)
+yatv<-c("0.1","0.5","0.9","1.3","1.7","2.1")
+plot(year,d3f[1:n3],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
+lines(year,d3f[1:n3],lty=1,lwd=2.5,col=1)
+lines(year[11:n3],d4f[1:n4],lty=3,lwd=2.5,col=3)
+lines(year[11:n3],d6f[1:n4],lty=5,lwd=2.5,col=5)
+#lines(year,d5f[1:n3],lty=7,lwd=2.5,col=7)
+legend("topright",inset=0.02,cex = 0.6, c("Model 21.1b","Model 22.0","Model 22.0a"),lwd=c(2.5,2.5,2.5),lty=c(1,3,5),col=c(1,3,5))
+text(2000,yx*up,"Directed pot fishing mortality",cex=1.3)
+axis(2,at=yat,labels=yatv,outer=T,cex=1.4)
+par(mgp=c(3.0,0.75,0))
+#  axis(1,at=xat,labels=xat,outer=T,cex=1.0,las=3)
+axis(1,at=xat,labels=xat,outer=T,cex=1.5)
+box()
+yt<-c('Mortality')
+mtext(yt,2,2.8,outer=T,cex=1.0)
+mtext('Year',1,2.10,outer=T,cex=1.0)
+par(mfrow=c(1,1))
+
+## 

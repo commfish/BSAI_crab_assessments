@@ -230,7 +230,7 @@ ssb %>%
   ylab("Mature male biomass (t) on 15th February") + xlab("Year") +
   .THEME
 ggsave(paste0(.FIGS, "mod_scen_ssb_wprojected_yr_tall.png"), width = ww*1.3, height = hh*1.25)
-
+ggsave(paste0(.FIGS, "mod_scen_ssb_wprojected_yr.png"), width = ww*1.1, height = hh*1.1)
 
 ## ssb mod_scen limited years ------------
 ssb <- .get_ssb_dfKP(M[2:4])
