@@ -85,10 +85,12 @@ D <- read_rep("./BBRKC/bbrkc_22f/model_22a/gmacs.rep")
 # groundfish FIXED gear length frequencies - males and females
 # ** Figure 24c ------
 # tanner crab length frequencies - males and females
-# Figure 25 a, b -------------
+# !!Figure 25 a, b -------------
 # length frequencies residuals for model runs, males NMFS
-# Figure 26 a, b -------------
-# length frequencies residuals for model runs, females NMFS
+# see bubbleplot-m.r (FIX move to master file for functions and figure calls eventually)
+# !!Figure 26 a, b -------------
+# length frequencies residuals for model runs, females NMFS 
+#  see figure 25 
 # Figure 27a, b
 # retrospective of MMB --- look for my code for this????????
 # Figure 28 a, b, c --------
