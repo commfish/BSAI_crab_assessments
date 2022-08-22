@@ -1,11 +1,12 @@
 # BSAI_crab_assessments
-Bering Sea Aleutian Island crab assessments performed by ADF&amp;G staff. 
-As of March 2020 the following stock assessments are here:
+Bering Sea Aleutian Island crab assessments performed by ADF&G staff. 
+As of Sept. 2022 the following stock assessments are here:
      
 SMBKC - Tier 4 assessment using GMACS
 
 PIGKC - Tier 5 assessment using average historical catch.
 
+BBRKC - Tier 3 assessment using GMCAS
 
 Goal would be for all BSAI_crab_asessments that use GMACS to live here on github 
 
