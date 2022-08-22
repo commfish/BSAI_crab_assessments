@@ -69,3 +69,36 @@ Compare results to Jie's - gmacsall.out
 Notes: 
 - first and last line of 'gmacsall.out' match - dig deeper later
 
+
+
+###Run mcmc for projections
+Test mcmc run
+
+'gmacs -mcmc 10 -mcsave 3' make sure .psv file is created (model 21.1b this takes - )
+
+SMBKC  ::: 'gmacs -mcmc 1000000 -mcsave 1000' - started at 11:19am 8-19-19, ended 12:44 pm
+BBRKC 21 :::: # Run mcmc for projections
+Test mcmc run
+
+gmacs -mcmc 500000 -mcsave 1000 -nox
+
+
+# for projections
+Need to run mcmc above to get .psv file for projections
+After completion, then run:
+
+1) Update .prj file with the projection that you're running (see .prj file)
+check Jie's prj file from 2021 - see what his parameters are here
+
+2) 'gmacs -mceval'
+
+There are five files generated from this run:
+mcount.rep
+mcountPROJ.rep
+mcountREC.rep
+mcountREF.rep
+mcountSSB.rep
+gmacs.hst
+
+
+
