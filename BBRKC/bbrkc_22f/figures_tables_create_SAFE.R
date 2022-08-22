@@ -116,21 +116,23 @@ hh <- 5
 
 # Tables 1 to 3 calcs -------
 ## table 1 ------
-round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_2021
-round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_2021
-round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2122
-round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2122
-round(M[[rec_mod]]$spr_cofl/1000*0.80, 2) -> abc_2122
+round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_2122
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_2122
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2223
+round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2223
+round(M[[rec_mod]]$spr_cofl/1000*0.80, 2) -> abc_2223
+table1specs_t <- c(msst_2122, mmb_2122, mmb_2223, ofl_2223, abc_2223)
 #rec_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1/figure/ofl_calc.csv"))
 #round(rec_ofl$OFL_2020/1000, 2) -> ofl_2021
 #round(ofl_2021*0.8, 2) -> abc_2021
 
 # table 2 ----------
-round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_2021_lb
-round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]* 2204.62/1e6, 2) -> mmb_2021_lb
-round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_2122_lb
-round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 3) -> ofl_2122_lb
-round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.80, 2) -> abc_2122_lb
+round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_2122_lb
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]* 2204.62/1e6, 2) -> mmb_2122_lb
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_2223_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 3) -> ofl_2223_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.80, 2) -> abc_2223_lb
+table1specs_lb <- c(msst_2122_lb, mmb_2122_lb, mmb_2223_lb, ofl_2223_lb, abc_2223_lb)
 #round(rec_ofl$OFL_2020* 2204.62/1e6, 3) -> ofl_2021_lb
 #round(ofl_2021_lb*0.8, 2) -> abc_2021_lb
 
@@ -139,8 +141,9 @@ round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.80, 2) -> abc_2122_lb
 round(M[[rec_mod]]$spr_bmsy/1000, 2) -> bmsy_cur
 round(M[[rec_mod]]$spr_depl, 2) -> ratio_bmsy
 round(M[[rec_mod]]$sd_fofl[1], 3) -> fofl
+table3specs_t <- c(bmsy_cur, mmb_2223, ratio_bmsy, fofl)
 
-
+table3specs_lb <- c(bmsy_cur*(2204.62/1e3), mmb_2223*(2204.62/1e3), ratio_bmsy, fofl)
 ## FIGURES ===================================
 ## data extent -----------
 # USE jie's plot this isn't picking up all the fleets / indexes
@@ -478,10 +481,25 @@ plot_cpue(M[c(mod_scen)], "NMFS Trawl", ylab = "NMFS survey biomass (t)")
 ggsave(paste0(.FIGS, "trawl_biomass_mod_scen.png"), width = ww*1.90, height = hh)
 ggsave(paste0(.FIGS, "trawl_biomass_mod_scen2.png"), width = ww*1.30, height = hh)
 
-#!! pot survey -------
+# see updated function in 'Jie_cmn_files.R'
+plot_cpue_kjp(M[c(mod_scen)], subsetby = "NMFS Trawl", psex = "Male", ylab = "NMFS MALE survey biomass (t)")
+ggsave(paste0(.FIGS, "trawl_biomass_MALES_mod_scen.png"), width = ww*1.30, height = hh)
+
+plot_cpue_kjp(M[c(mod_scen)], subsetby = "NMFS Trawl", psex = "Female", ylab = "NMFS FEMALE survey biomass (t)")
+ggsave(paste0(.FIGS, "trawl_biomass_FEMALES_mod_scen.png"), width = ww*1.30, height = hh)
+
+#!! BSFRF survey -------
 #{r pot_survey_cpue, fig.cap = "Comparisons of total (90+ mm CL) male pot survey CPUEs and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations.\\label{fig:pot_survey_cpue}"}
-plot_cpue(M[c(mod_scen)],  "BSFRF survey", ylab = "survey biomass (t)")
+# need extra error here 
+plot_cpue(M[c(mod_scen)],  "BSFRF survey", ylab = "survey biomass (t)", ShowEstErr = TRUE)
 ggsave(paste0(.FIGS, "BSFRF_mod_scen.png"), width = ww*1.10, height = hh)
+
+# males 
+plot_cpue_kjp(M[c(mod_scen)],  "BSFRF survey", psex = "Male", ylab = "MALE survey biomass (t)", ShowEstErr = TRUE)
+ggsave(paste0(.FIGS, "BSFRF_mod_scen_MALES.png"), width = ww*1.10, height = hh)
+# females 
+plot_cpue_kjp(M[c(mod_scen)],  "BSFRF survey", psex = "Female", ylab = "FEMALE survey biomass (t)", ShowEstErr = TRUE)
+ggsave(paste0(.FIGS, "BSFRF_mod_scen_FEMALES.png"), width = ww*1.10, height = hh)
 
 ##catch --------
 plot_catch(M[2]) # not working

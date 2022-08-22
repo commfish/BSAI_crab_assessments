@@ -33,21 +33,20 @@ D <- read_rep("./BBRKC/bbrkc_22f/model_22a/gmacs.rep")
 ### !!Figure 2 -----------
 # data range
 # run code in data-range.R - with B as the letter - got 'data_range.png"
-# ***Figure 3 ------ 
+### !!Figure 3 ------ 
 #  see "RKC_SAFE21_kjp.xlsx' - catchbio tab **FIX update and put into R **
-# ***Figure 4 
+### !!Figure 4 
 #  see "RKC_SAFE21_kjp.xlsx' - cpue tab **FIX update and put into R **
 ### !!Figure 5 ----------
 # Survey abundance size comps, get Cody's code for these, size_bins_com_Kodiak_m or f_5mm.png
 ### !!Figure 6 --------
 # CUT no VAST
 ### !!Figure 7 - static NO update
-# ***Figure 8 -------
-# selectivities - trawl selectivity - where are these?
-
-# **Fiure 9 --
-# molting probability - Jie's script molt-prob.cmn, molt-prob2.cmn
-# !!Figure 10 ---
+# !!Figure 8 -------
+# selectivities - trawl selectivity - where are these? see 'Jie_cmn_files.R',sel-nmfs-one.cmn, sel-nmfs-one6.cmn, sel-bsfrf.cmn, sel-directedpot.cmn.
+# !!Fiure 9 ------
+# molting probability - see 'Jie_cmn_files.R', Jie's script molt-prob.cmn, molt-prob2.cmn
+# !!Figure 10 ------
 # area swept trawl survey, BSFRF fit, created with gmr - see figures folder
 ## ** Figure 10e length comps for BSFRF
 # !!Figure 11 --
