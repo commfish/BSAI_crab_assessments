@@ -45,7 +45,8 @@ files used for model: found in the gmacs.dat file in each folder, also have a fi
 
 
 # figures and tables ------
-
+'figures_tables_create_SAFE.R' in bbrkc22f has figures created with 'gmr'
+'Jie_figures_tables_create_SAFE.R' in bbrkc 22f has notes on each figure and what is used to create it, if it's Jie code see "Jie_cmn_files.R"
 
 
 
