@@ -61,7 +61,7 @@ D <- read_rep("./BBRKC/bbrkc_22f/model_22a/gmacs.rep")
 # Fishing mortality comparison by year - Jie's code 'rkf.cmn, rksr.cmn, rksrp.cmn, rkf85.cmn'
 ### !!Figure 13d ------
 # Natural mortality and directed pot fishing mortality , mortality.cmn
-# ** Figure 14 -------
+# !!Figure 14 -------
 # recruit vs. mmb Jie's code 'rksr.cmn, rksrp.cmn'
 # **Figure 15 -----
 # clutchfullness and empty clutches ??? maybe see if Tyler can help with this?

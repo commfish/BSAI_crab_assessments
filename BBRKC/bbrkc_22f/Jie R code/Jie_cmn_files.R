@@ -490,6 +490,103 @@ mtext(yt,2,2.8,outer=T,cex=1.0)
 mtext('Length (mm)',1,2.10,outer=T,cex=1.0)
 par(mfrow=c(1,1))
 
+
+## rkf -------------
+# Figure 13a
+plot.new()
+d11<-B$ssb/1000.0 # model 21.1b 2022
+dtot<-B$ft
+b35 <- B$spr_bmsy/1000.0
+f35<- B$sd_fmsy[1]
+k <- 0
+n<-length(d11)
+d1<-d11[1:n]
+d2<-dtot[(1:n),3]
+d3<-cbind(c(0,0.25*b35, 0.25*b35, b35, 100), c(0,0,0.15*f35/0.9,f35,f35))
+par(oma=c(3.5,3.5,1.0,1.0),tck=-0.01,xaxs="i",yaxs="i",font=1,lwd=0.75)
+par(mgp=c(1.0,0.5,0),mar=c(0,0,0,0),xpd=FALSE)
+tem<-c('75','76','77','78','79','80','81','82','83','84','85','86','87','88','89','90','91','92','93','94','95','96','97','98','99','00','01','02','03','04','05','06','07',
+       '08','09','10','11','12','13','14','15','16','17','18','19','20', ' ')
+tem1<-c('Mature male biomass (1000 t) on Feb. 15')
+plot(d3[,1],d3[,2],xlim=c(0,125),ylim=c(-0.03,0.8),xlab=tem1,ylab='Fishing mortality at fishing time',axes=FALSE,type="n",las=1,cex=1.0)
+text(d1,d2,tem,cex=0.9)
+text(d1[n],d2[n],'21',cex=1.2,font=2, col=2)
+lines(d3[,1],d3[,2],lty=1,lwd=2.5)
+text(107,f35,'F35%',cex=1.0)
+#text(105,0.25,'F40%',cex=1.0)
+xat<-c(0,15,30,45,60,75,90,105,120)
+yat<-c(0.00,0.1,0.20,0.3,0.4,0.5,0.60,0.7,0.8,0.9,1.0,1.1,1.2, 1.3,1.4,1.5)
+yln<-c('0.0','0.1','0.2','0.3','0.4','0.5','0.6','0.7','0.8','0.9','1.0','1.1','1.2','1.3','1.4','1.5')
+axis(2,at=yat,labels=yln,outer=T,cex=1.0)
+par(mgp=c(2.9,0.4,0))
+axis(1,at=xat,labels=xat,outer=T,cex=1.0)
+box()
+mtext(tem1,1,1.7,outer=T,cex=1.0)
+mtext('Fishing mortality at fishing time',2,2.0,outer=T,cex=1.0)
+
+### rkf85 ---------
+# Figure 13b
+d11<-D$ssb/1000.0 # model 22.0a 2022
+dtot<-D$ft
+b35 <- D$spr_bmsy/1000.0
+f35<- D$sd_fmsy[1]
+k <- 0
+n<-length(d11)
+d1<-d11[1:n]
+d2<-dtot[(1:n),3]
+d3<-cbind(c(0,0.25*b35, 0.25*b35, b35, 100), c(0,0,0.15*f35/0.9,f35,f35))
+par(oma=c(3.5,3.5,1.0,1.0),tck=-0.01,xaxs="i",yaxs="i",font=1,lwd=0.75)
+par(mgp=c(1.0,0.5,0),mar=c(0,0,0,0),xpd=FALSE)
+tem<-c('85','86','87','88','89','90','91','92','93','94','95','96','97','98','99','00','01','02','03','04','05','06','07','08','09','10','11',
+       '12','13','14','15','16','17','18','19','20',' ') #update a year here
+tem1<-c('Mature male biomass (1000 t) on Feb. 15')
+plot(d3[,1],d3[,2],xlim=c(0,41),ylim=c(-0.03,0.7),xlab=tem1,ylab='Fishing mortality at fishing time',axes=FALSE,type="n",las=1,cex=1.0)
+text(d1,d2,tem,cex=0.9)
+text(d1[n],d2[n],'21',cex=1.2,font=2, col=2) # update year to highlight here - last years's fishery
+lines(d3[,1],d3[,2],lty=1,lwd=2.5)
+text(107,f35,'F35%',cex=1.0)
+#text(105,0.25,'F40%',cex=1.0)
+xat<-c(0,5,10,15,20,25,30,35,40)
+yat<-c(0.00,0.1,0.20,0.3,0.4,0.5,0.60,0.7,0.8,0.9,1.0,1.1,1.2, 1.3,1.4,1.5)
+yln<-c('0.0','0.1','0.2','0.3','0.4','0.5','0.6','0.7','0.8','0.9','1.0','1.1','1.2','1.3','1.4','1.5')
+axis(2,at=yat,labels=yln,outer=T,cex=1.0)
+par(mgp=c(2.9,0.4,0))
+axis(1,at=xat,labels=xat,outer=T,cex=1.0)
+box()
+mtext(tem1,1,1.7,outer=T,cex=1.0)
+mtext('Fishing mortality at fishing time',2,2.0,outer=T,cex=1.0)
+
+# Figure 13c
+d11<-C$ssb/1000.0 # model 22.0 2022
+dtot<-C$ft
+b35 <- C$spr_bmsy/1000.0
+f35<- C$sd_fmsy[1]
+k <- 0
+n<-length(d11)
+d1<-d11[1:n]
+d2<-dtot[(1:n),3]
+d3<-cbind(c(0,0.25*b35, 0.25*b35, b35, 100), c(0,0,0.15*f35/0.9,f35,f35))
+par(oma=c(3.5,3.5,1.0,1.0),tck=-0.01,xaxs="i",yaxs="i",font=1,lwd=0.75)
+par(mgp=c(1.0,0.5,0),mar=c(0,0,0,0),xpd=FALSE)
+tem<-c('85','86','87','88','89','90','91','92','93','94','95','96','97','98','99','00','01','02','03','04','05','06','07','08','09','10','11',
+       '12','13','14','15','16','17','18','19','20',' ') #update a year here
+tem1<-c('Mature male biomass (1000 t) on Feb. 15')
+plot(d3[,1],d3[,2],xlim=c(0,41),ylim=c(-0.03,0.7),xlab=tem1,ylab='Fishing mortality at fishing time',axes=FALSE,type="n",las=1,cex=1.0)
+text(d1,d2,tem,cex=0.9)
+text(d1[n],d2[n],'21',cex=1.2,font=2, col=2) # update year to highlight here - last years's fishery
+lines(d3[,1],d3[,2],lty=1,lwd=2.5)
+text(107,f35,'F35%',cex=1.0)
+#text(105,0.25,'F40%',cex=1.0)
+xat<-c(0,5,10,15,20,25,30,35,40)
+yat<-c(0.00,0.1,0.20,0.3,0.4,0.5,0.60,0.7,0.8,0.9,1.0,1.1,1.2, 1.3,1.4,1.5)
+yln<-c('0.0','0.1','0.2','0.3','0.4','0.5','0.6','0.7','0.8','0.9','1.0','1.1','1.2','1.3','1.4','1.5')
+axis(2,at=yat,labels=yln,outer=T,cex=1.0)
+par(mgp=c(2.9,0.4,0))
+axis(1,at=xat,labels=xat,outer=T,cex=1.0)
+box()
+mtext(tem1,1,1.7,outer=T,cex=1.0)
+mtext('Fishing mortality at fishing time',2,2.0,outer=T,cex=1.0)
+
 #### mortality  -----
 n1<-2
 n2<-1
@@ -565,5 +662,72 @@ mtext(yt,2,2.8,outer=T,cex=1.0)
 mtext('Year',1,2.10,outer=T,cex=1.0)
 par(mfrow=c(1,1))
 
-## nest -----
+## rksr -----
+# Figure 14a
+plot.new()
+c1<-B$ssb/1000.0 # model 21.1b 2022
+n<-length(c1)
+c2<-(B$recruits[1,]+B$recruits[2,])/1000000
+b35<- B$spr_bmsy/1000.0
+nn<- n-6#40 # n -6 
+
+par(oma=c(3.2,3.5,0.7,1.0),tck=-0.01,xaxs="i",yaxs="i",font=1,lwd=1.00)
+par(mgp=c(1.0,0.5,0),mar=c(0,0,0,0),xpd=FALSE)
+tem<-c(0,2,4,6,8,10,12,14,17,20,23,26,29,32,35,38,41,44,48,52,57,62,68,74,79,80)
+tem1<-c('Mature male biomass on 2/15 (1000 t)')
+tem2<-c('75','76','77','78','79','80','81','82','83','84','85','86','87','88','89','90','91','92','93','94','95','96','97','98','99','00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15')
+plot(c1[1:nn],c2[6:(n-1)],xlim=c(0,125),ylim=c(-2.0,260),xlab=tem1,ylab='Total Recruits (millions)',axes=FALSE,type="n",las=1,cex=1.0)
+text(c1[1:3],c2[6:8],tem2[1:3],cex=1.0)
+text(c1[4:(n-6)],c2[9:(n-6)],tem2[4:(n-5)],cex=1.0, col=2)
+#lines(tem,tem**2.1595*exp(-2.1297-0.0581*tem),lty=1,lwd=1.5,col=3)
+#lines(tem,tem*exp(0.3010-0.0212*tem),lty=4,lwd=1.5,col=2)
+lines(c(b35, b35),c(0.0,160),lty=2,lwd=3.0,col=1)
+text(b35,168,'B35%',cex=1.0)
+#text(52.882,205,'Bmsy?',cex=1.0)
+#text(134.108,205,'Bmsy?',cex=1.0)
+xat<-c(0,15,30,45,60,75,90,105,130,145,160,175,190,205,220,235)
+yat<-c(0,20,40,60,80,100,120,140,160,180,200,220,240,260,280,300)
+axis(2,at=yat,labels=yat,outer=T,cex=1.0)
+par(mgp=c(2.9,0.4,0))
+axis(1,at=xat,labels=xat,outer=T,cex=1.0)
+box()
+mtext(tem1,1,1.6,outer=T,cex=1.0)
+mtext('Total Recruits (millions)',2,1.7,outer=T,cex=1.0)
+
+#dev.off()
+## rksrp ----------------
+# Figure 14b
+plot.new()
+n<-length(B$ssb) # model 21.1b 2022
+c1<-matrix(rep(0,(n-5-1)*2),ncol=2)
+c1[,1]<-B$ssb[1:(n-5-1)]/1000.0
+c1[,2]<-(B$recruits[1,(6:(n-1))]+B$recruits[2,(6:(n-1))])/1000000/c1[,1]
+c2<-c1[4:(n-5-1),]
+mmb<-c1[4:(n-5-1),1]
+rmmb<-c1[4:(n-5-1),2]
+c2<-data.frame(mmb,rmmb)
+c3<-lm(rmmb~mmb,data=c2)
+par(oma=c(3.2,3.5,0.7,1.0),tck=-0.01,xaxs="i",yaxs="i",font=1,lwd=1.00)
+par(mgp=c(1.0,0.5,0),mar=c(0,0,0,0),xpd=FALSE)
+tem<-c(0,2,4,6,8,10,12,14,17,20,23,26,29,32,35,38,41,44,48,52,57,62,68,74,79,80)
+tem1<-c('Mature male biomass on 2/15 (1000 t)')
+tem2<-c('75','76','77','78','79','80','81','82','83','84','85','86','87','88','89','90','91','92','93','94','95','96','97','98','99','00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15')
+plot(c1[,1],c1[,2],xlim=c(0,130),ylim=c(-1.0,4.2),xlab=tem1,ylab=' ',axes=FALSE,type="n",las=1,cex=1.0)
+text(c1[1:3,1],c1[1:3,2],tem2[1:3],cex=1.0,col=1)
+text(c2[,1],c2[,2],tem2[4:(n-5-1)],cex=1.0,col=2)
+abline(c3,lty=1,lwd=3.0,col=2)
+#lines(tem,tem**2.1595*exp(-2.1297-0.0581*tem),lty=1,lwd=1.5,col=3)
+#lines(tem,tem*exp(0.3010-0.0212*tem),lty=4,lwd=1.5,col=2)
+# lines(c(5.0,98.0),c(-0.579509,-0.889338),lty=1,lwd=3.0,col=3)
+xat<-c(0,10,20,30,40,50,60,70,80,90,100,110,120)
+yat<-c('-0.5','0.0','0.5','1.0','1.5','2.0','2.5','3.0','3.5','4.0')
+yatt<-c(-0.5,0.0,0.5,1.0,1.5,2.0,2.5,3,3.5,4)
+axis(2,at=yatt,labels=yat,outer=T,cex=1.0)
+par(mgp=c(2.9,0.4,0))
+axis(1,at=xat,labels=xat,outer=T,cex=1.0)
+box()
+mtext(tem1,1,1.6,outer=T,cex=1.0)
+mtext('Log(Total Recruits/MMB)',2,1.7,outer=T,cex=1.0)
+
+## next -----
 
