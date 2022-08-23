@@ -942,6 +942,7 @@ mtext('Year',1,2.10,outer=T,cex=1.0)
 par(mfrow=c(1,1))
 
 ### length comps -----
+# not updating well. I want to use gmr... having issues with pot fishery due to being same "fleet" as tanner bycatch
 #lfplot1<-function(t1,t2,t3,n1,n2,d1,d2) {
 t1<-0
 t2<-0.05
@@ -1091,4 +1092,177 @@ mtext(yt,2,2.50,outer=T,cex=1.0)
 mtext('Carapace length group (mm)',1,3.0,outer=T,cex=1.0)
 par(mfrow=c(1,1))
 
-### next ------
+### length comp gmr updates ------
+
+mdf2 <- .get_sizeComps_df_kjp(M[2])
+plot_size_comps_kjp(M[mod_scen], 2, legend_loc = "right")
+
+plot_size_comps_kjp <- 
+function(M, which_plots = "all", xlab = "Mid-point of size-class (mm)", ylab = "Proportion",
+         slab = "Sex", mlab = "Model", tlab = "Fleet", res = FALSE,legend_loc=c(1,1))
+{
+  ylab <- paste0(ylab, "\n")
+  
+  mdf <- .get_sizeComps_df_kjp(M)
+  ix <- pretty(1:length(M[[1]]$mid_points))
+  
+  p <- ggplot(data = mdf[[1]])
+  
+  if (res)
+  {
+    xlab <- paste0(xlab, "\n")
+    p <- p + geom_point(aes(factor(year), variable, col = factor(sign(resd)), size = abs(resd)), alpha = 0.6)
+    p <- p + scale_size_area(max_size = 10)
+    p <- p + labs(x = "\nYear", y = xlab, col = "Sign", size = "Residual")
+    #p <- p + scale_x_discrete(breaks = pretty(mdf[[1]]$mod_yrs))
+    #p <- p + scale_y_discrete(breaks = pretty(mdf[[1]]$mid_points))
+    if (length(unique(do.call(rbind.data.frame, mdf)$model)) != 1)
+    {
+      p <- p + facet_wrap(~model)
+    }
+    p <- p + .THEME + theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
+  } else {
+    xlab <- paste0("\n", xlab)
+    p <- p + geom_bar(aes(variable, value), stat = "identity", position = "dodge", alpha = 0.5, fill = "grey")
+    if (length(unique(do.call(rbind.data.frame, mdf)$model)) == 1)
+    {
+      p <- p + geom_line(aes(as.numeric(variable), pred), alpha = 0.85)
+    } else {
+      p <- p + geom_line(aes(as.numeric(variable), pred, col = model), alpha = 0.85)
+    }
+    p <- p + scale_x_discrete(breaks=M[[1]]$mid_points[ix]) 
+    p <- p + labs(x = xlab, y = ylab, col = mlab, fill = slab, linetype = tlab)
+    p <- p + ggtitle("title")
+    p <- p + facet_wrap(~year) + .THEME #+ ylim(0,0.3)
+    p <- p + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, size = 10),
+                   strip.text.x = element_text(margin= margin(1,0,1,0)),
+                   panel.grid.major = element_blank(), 
+                   panel.grid.minor = element_blank(),
+                   legend.position=legend_loc,
+                   panel.border = element_blank(),
+                   strip.background = element_rect(color="white",fill="white"))
+    p <- p + geom_text(aes(label = paste0("N = ", nsamp)), x = -Inf, y = Inf, hjust = -0.2, vjust = 1.5)
+  }
+  #print(p)
+  fun <- function(x, p)
+  {
+    if (length(unique(do.call(rbind.data.frame, mdf)$fleet)) == 1 && length(unique(do.call(rbind.data.frame, mdf)$sex)) == 1 && length(unique(do.call(rbind.data.frame, mdf)$seas)) == 1)
+    {
+      p$labels$title <- ""
+    } else if (length(unique(do.call(rbind.data.frame, mdf)$fleet)) != 1 && length(unique(do.call(rbind.data.frame, mdf)$sex)) == 1 && length(unique(do.call(rbind.data.frame, mdf)$seas)) == 1) {
+      p$labels$title <- paste("Gear =", unique(x$fleet))
+    } else if (length(unique(do.call(rbind.data.frame, mdf)$fleet)) == 1 && length(unique(do.call(rbind.data.frame, mdf)$sex)) != 1 && length(unique(do.call(rbind.data.frame, mdf)$seas)) == 1) {
+      p$labels$title <- paste("Sex =", unique(x$sex))
+    } else if (length(unique(do.call(rbind.data.frame, mdf)$fleet)) == 1 && length(unique(do.call(rbind.data.frame, mdf)$sex)) == 1 && length(unique(do.call(rbind.data.frame, mdf)$seas)) != 1) {
+      p$labels$title <- paste("Season =", unique(x$seas))
+    } else if (length(unique(do.call(rbind.data.frame, mdf)$fleet)) != 1 && length(unique(do.call(rbind.data.frame, mdf)$sex)) != 1 && length(unique(do.call(rbind.data.frame, mdf)$seas)) == 1) {
+      p$labels$title <- paste("Gear =", unique(x$fleet), ", Sex =", unique(x$sex))
+    } else if (length(unique(do.call(rbind.data.frame, mdf)$fleet)) != 1 && length(unique(do.call(rbind.data.frame, mdf)$sex)) == 1 && length(unique(do.call(rbind.data.frame, mdf)$seas)) != 1) {
+      p$labels$title <- paste("Gear =", unique(x$fleet), ", Season =", unique(x$seas))
+    } else if (length(unique(do.call(rbind.data.frame, mdf)$fleet)) == 1 && length(unique(do.call(rbind.data.frame, mdf)$sex)) != 1 && length(unique(do.call(rbind.data.frame, mdf)$seas)) != 1) {
+      p$labels$title <- paste("Sex =", unique(x$sex), ", Season =", unique(x$seas))
+    } else {
+      p$labels$title <- paste("Gear =", unique(x$fleet), ", Sex =", unique(x$sex), ", Season =", unique(x$seas))
+    }
+    p %+% x
+  }
+  
+  plist <- lapply(mdf, fun, p = p)
+  
+  if (which_plots == "all")
+  {
+    print(plist)
+  } else {
+    print(plist[[which_plots]])
+  }
+}
+
+
+
+.get_sizeComps_df_kjp <- function(M)  
+{
+  n <- length(M)
+  ldf <- list()
+  mdf <- mpf <- mrf <- NULL
+  for (i in 1:n)
+  {
+    A <- M[[i]]
+    df <- data.frame(Model = names(M)[i], cbind(A$d3_SizeComps[,1:8], A$d3_obs_size_comps_out))
+    pf <- data.frame(Model = names(M)[i], cbind(A$d3_SizeComps[,1:8], A$d3_pre_size_comps_out))
+    rf <- data.frame(Model = names(M)[i], cbind(A$d3_SizeComps[,1:8], A$d3_res_size_comps_out))
+    
+    colnames(df) <- tolower(c("Model", "Year", "Seas", "Fleet", "Sex", "Type", "Shell", "Maturity", "Nsamp", as.character(A$mid_points)))
+    colnames(pf) <- colnames(rf) <- colnames(df)
+    
+    df$fleet    <- pf$fleet    <- rf$fleet    <- .FLEET[df$fleet]
+    df$sex      <- pf$sex      <- rf$sex      <- .SEX[df$sex+1]
+    df$shell    <- pf$shell    <- rf$shell    <- .SHELL[df$shell+1]
+    df$maturity <- pf$maturity <- rf$maturity <- .MATURITY[df$maturity+1]
+    df$type     <- pf$type     <- rf$type     <- .TYPE[df$type+1]
+    df$seas     <- pf$seas     <- rf$seas     <- .SEAS[df$seas]
+    
+    mdf <- rbind(mdf, df)
+    mpf <- rbind(mpf, pf)
+    mrf <- rbind(mrf, rf)
+  }
+  
+  mdf <- reshape2::melt(mdf, id.var = 1:9)
+  mpf <- reshape2::melt(mpf, id.var = 1:9)
+  mrf <- reshape2::melt(mrf, id.var = 1:9)
+  
+  for(i in 1:n)
+  {
+    j  <- 1
+    for(k in unique(df$fleet))
+    {
+      for(h in unique(df$sex))
+      {
+        for(t in unique(df$type))
+        {
+          for(s in unique(df$shell))
+          {
+            for(u in unique(df$seas))
+            {
+              tdf <- mdf %>% filter(fleet==k) %>% filter(sex==h) %>% filter(type==t) %>% filter(shell==s) %>% filter(seas==u)
+              tpf <- mpf %>% filter(fleet==k) %>% filter(sex==h) %>% filter(type==t) %>% filter(shell==s) %>% filter(seas==u)
+              trf <- mrf %>% filter(fleet==k) %>% filter(sex==h) %>% filter(type==t) %>% filter(shell==s) %>% filter(seas==u)
+              if(dim(tdf)[1]!=0)
+              {
+              # deterimin row & column.
+              # fyr = unique(tdf$year)
+              # syr = min(fyr); nyr = max(fyr)
+              # nn  = (nyr-syr+1)
+              # nc  = ceiling(nn/sqrt(nn))
+              # irow = icol = rep(1,length=nn)
+              
+              # ii = ic = ir = 1
+              # for(iyr in fyr)
+              # {
+              # 	icol[ii] <- ic
+              # 	irow[ii] <- ir
+              
+              # 	ic = ic + 1
+              # 	ii = ii + 1
+              
+              # 	if(ic > nc)
+              # 	{
+              # 		ic = 1
+              # 		ir = ir + 1	
+              # 	} 
+              # }
+              # tdf$irow = irow[tdf$year-syr+1]
+              # tdf$icol = icol[tdf$year-syr+1]
+              # cat(" n = ",nn,"\n")
+              # print(tdf$year - syr + 1)
+              ldf[[j]] <- cbind(tdf, pred = tpf$value, resd = trf$value)
+              j <- j + 1
+            }
+          }
+        }
+      }
+    }
+  }   
+}  
+  return(ldf)
+}
+

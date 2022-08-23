@@ -20,6 +20,7 @@ source("./SMBKC/code/functions.R")
 source("./SMBKC/code/helper.R") 
 source("./SMBKC/code/packages.R")
 source("./SMBKC/code/gmr_functions2020.R") 
+source("./BBRKC/code/bbrkc_functions.R")
 #source("./BBRKC/bbrkc_22f/Jie R code/read_rep.R")
 
 # ALL Model setup  -------------------------
@@ -47,7 +48,8 @@ mod_names <- c("21.1b (2021)", "21.1b (2022)", "22.0 (1985)", "22.0a (1985estM)"
 .OVERLAY  = TRUE
 .SEX      = c("Aggregate","Male", "Female")
 .FLEET    = c("Pot","Trawl bycatch", "Tanner bycatch", "Fixed bycatch","NMFS Trawl","BSFRF survey")
-.TYPE     = c("Retained","Discarded", "Total")
+#.TYPE     = c("Retained","Discarded", "Total")
+.TYPE     = c("Total", "Retained","Discarded", "Total")
 .SHELL    = c("Aggregate","New", "Old")
 .MATURITY = c("Aggregate")
 .SEAS     = c("1","2","3","4","5")
@@ -530,14 +532,30 @@ ggsave(paste0(.FIGS, "BSFRF survey_mod_scen_residuals.png"), width = ww*1.20, he
 plot_size_comps(M[mod_scen], 1, legend_loc = "right")#legend_loc=c(.87,.01))
 ggsave(paste0(.FIGS, "lf_1_retained_pot.png"), width = 8.5, height = 5, unit = "in")
 
-plot_size_comps(M[mod_scen], 2, legend_loc = "right")
-ggsave(paste0(.FIGS, "lf_2.png"), width = 12, height = 7.5, unit = "in")
+## new function to sort these by season see bbrkc_functions.R -----------
+plot_size_comps_kjp(M[mod_scen], 2, legend_loc = "right")
+#plot_size_comps(M[mod_scen], 2, legend_loc = "right") # not working
+ggsave(paste0(.FIGS, "lf_pot_total_M.png"), width = 12, height = 7.5, unit = "in")
 
-plot_size_comps(M[mod_scen], 3, legend_loc = "right")
+# tanner crab fishery length comps seems to be combining with total obs for directed fishery...one is season 5 and one3
+# tanner is season 5, fleet 1
+# pot fishery season 3, fleet 1
+#plot_size_comps(M[mod_scen], 3, legend_loc = "right")
+plot_size_comps_kjp(M[mod_scen], 3, legend_loc = "right")
+ggsave(paste0(.FIGS, "lf_tanner_males.png"), width = 12, height = 7.5, unit = "in")
+plot_size_comps_kjp(M[mod_scen], 4, legend_loc = "right")
+ggsave(paste0(.FIGS, "lf_pot_Females.png"), width = 12, height = 7.5, unit = "in")
+plot_size_comps_kjp(M[mod_scen], 5, legend_loc = "right")
+ggsave(paste0(.FIGS, "lf_tanner_females.png"), width = 12, height = 7.5, unit = "in")
+
 plot_size_comps(M[mod_scen], 4, legend_loc = "right")
+ggsave(paste0(.FIGS, "lf_trawl_bycatch_m.png"), width = 12, height = 7.5, unit = "in")
 plot_size_comps(M[mod_scen], 5, legend_loc = "right")
+ggsave(paste0(.FIGS, "lf_trawl_bycatch_F.png"), width = 12, height = 7.5, unit = "in")
 plot_size_comps(M[mod_scen], 6, legend_loc = "right")
+ggsave(paste0(.FIGS, "lf_fixed_bycatch_M.png"), width = 12, height = 7.5, unit = "in")
 plot_size_comps(M[mod_scen], 7, legend_loc = "right")
+ggsave(paste0(.FIGS, "lf_fixed_bycatch_F.png"), width = 12, height = 7.5, unit = "in")
 plot_size_comps(M[mod_scen], 8, legend_loc = "right")
 ggsave(paste0(.FIGS, "lf_NMFS_m.png"), width = 12, height = 7.5, unit = "in")
 plot_size_comps(M[mod_scen], 9, legend_loc = "right")
