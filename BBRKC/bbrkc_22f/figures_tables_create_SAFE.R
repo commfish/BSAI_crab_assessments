@@ -533,6 +533,7 @@ ggsave(paste0(.FIGS, "lf_1_retained_pot.png"), width = 8.5, height = 5, unit = "
 plot_size_comps(M[mod_scen], 2, legend_loc = "right")
 ggsave(paste0(.FIGS, "lf_2.png"), width = 12, height = 7.5, unit = "in")
 
+plot_size_comps(M[mod_scen], 3, legend_loc = "right")
 plot_size_comps(M[mod_scen], 4, legend_loc = "right")
 plot_size_comps(M[mod_scen], 5, legend_loc = "right")
 plot_size_comps(M[mod_scen], 6, legend_loc = "right")

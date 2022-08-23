@@ -57,15 +57,15 @@ D <- read_rep("./BBRKC/bbrkc_22f/model_22a/gmacs.rep")
 # recruitment - Jie's code 'rec3.cmn'
 # !!Figures 12b -----
 # recruitment length distributions 'r-range.cmn'
-# ** Figure 13 a, b, c -----
-# Fishing mortality comparison by year - Jie's code 'rkf.cmn, rksr.cmn, rksrp.cmn, rkf85.cmn'
+# !!Figure 13 a, b, c -----
+# Fishing mortality comparison by year - Jie's code 'rkf.cmn, rkf85.cmn'
 ### !!Figure 13d ------
 # Natural mortality and directed pot fishing mortality , mortality.cmn
 # !!Figure 14 -------
 # recruit vs. mmb Jie's code 'rksr.cmn, rksrp.cmn'
 # **Figure 15 -----
 # clutchfullness and empty clutches ??? maybe see if Tyler can help with this?
-# ** Figure 16a,b------
+# !! Figure 16a,b------
 ## catch predicted - gmr not working due to type =0 issues. Jie's code 'c-direct.cmn, c-discard.cmn'
 ### !!Figure 17 -----
 ## trawl biomass mod scen residuals.png - from gmr

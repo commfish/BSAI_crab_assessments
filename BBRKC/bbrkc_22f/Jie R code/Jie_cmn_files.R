@@ -729,5 +729,366 @@ box()
 mtext(tem1,1,1.6,outer=T,cex=1.0)
 mtext('Log(Total Recruits/MMB)',2,1.7,outer=T,cex=1.0)
 
-## next -----
+## c-direct -----
+n1<-3
+n2<-1
+n3<-B$nyr-B$syr + 1 # base model 21.1b
+n4<-B$nyr-1990 + 1
+n5<-C$nyr-C$syr + 1
+d1d<-B$pre_catch[1,]/1000.0
+d1m<-B$pre_catch[2,]/1000.0
+d1f<-B$pre_catch[3,]/1000.0
+d3d<-C$pre_catch[1,]/1000.0
+d3m<-C$pre_catch[2,]/1000.0
+d3f<-C$pre_catch[3,]/1000.0
+d4d<-D$pre_catch[1,]/1000.0
+d4m<-C$pre_catch[2,]/1000.0
+d4f<-C$pre_catch[3,]/1000.0
+#d5d<-G$pre_catch[1,]/1000.0
+#d5m<-G$pre_catch[2,]/1000.0
+#d5f<-G$pre_catch[3,]/1000.0
+#d6d<-J$pre_catch[1,]/1000.0
+#d6m<-J$pre_catch[2,]/1000.0
+#d6f<-J$pre_catch[3,]/1000.0
+#d7d<-K$pre_catch[1,]/1000.0
+#d7m<-K$pre_catch[2,]/1000.0
+#d7f<-K$pre_catch[3,]/1000.0
+d2d<-B$obs_catch[1,]/1000.0
+d2m<-B$obs_catch[2,]/1000.0
+d2f<-B$obs_catch[3,]/1000.0
+par(oma=c(3.50,4.0,1.0,1.0),tck=-0.01,xaxs="i",yaxs="i",font=1,lwd=1.0)
+par(mgp=c(1.2,1.0,0),mar=c(0,0,0,0),mfcol=c(n1,n2),xpd=FALSE)
+nc<-ncol(d1m)
+nr<-nrow(d1m)
+xat<-c(1975,1980,1985,1990,1995,2000,2005,2010,2015,2020,2025)
+yat<-c(10,25,40,55)
+#yatv<-c(paste(t2),paste(t3))
+xm<-B$syr-1
+xx<-B$nyr+1
+ym<-0
+up<-0.87
+year<-c(B$syr:B$nyr)
 
+yx<-61.0
+#  plot(xat,d2f[i,1:nc],axes=F,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
+plot(year,d2d[1:n3],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),lwd=1.5, pch=19,cex=2)
+#  par(new=T,xaxs="i",yaxs="i")
+lines(year,d1d[1:n3],lty=1,lwd=2.5,col=1)
+lines(year[11:n3],d3d[1:n5],lty=2,lwd=2.5,col=2)
+lines(year[11:n3],d4d[1:n5],lty=3,lwd=2.5,col=3)
+#lines(year[11:n3],d5d[1:n5],lty=4,lwd=2.5,col=4)
+#lines(year,d6d[1:n3],lty=5,lwd=2.5,col=5)
+#lines(year,d7d[1:n3],lty=6,lwd=2.5,col=6)
+legend("topright",inset=0.02,c("Model 21.1b","Model 22.0","Model 22.0a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.8,0.8,0.8))
+#   legend("topright",inset=0.02,c("19.3d","19.3e","19.3g","21.0"),lwd=c(2.5,2.5,2.5,2.5),lty=c(1,2,3,4),col=c(1,2,3,4))
+# legend("topright",inset=0.02,c("19.3","19.3d"),lwd=c(2.5,2.5),lty=c(1,2),col=c(1,2))
+text(0.99*xx,yx*up,"Pot retained catch",cex=1.5)
+axis(2,at=yat,labels=yat,outer=T,cex=1.5)
+box()
+year1<-c(1990:(B$nyr))
+yx <- 61.0
+#  yat<-c(10,25,40,55,70)
+#   yatv<-c("1.0","2.5","4.0","5.5")
+plot(year1,d2m[1:n4],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),lwd=1.5, pch=19,cex=2)
+#   par(new=T,xaxs="i",yaxs="i")
+lines(year1,d1m[1:n4],lty=1,lwd=2.5,col=1)
+lines(year1,d3m[1:n4],lty=2,lwd=2.5,col=2)
+lines(year1,d4m[1:n4],lty=3,lwd=2.5,col=3)
+#lines(year1,d5m[1:n4],lty=4,lwd=2.5,col=4)
+#lines(year1,d6m[1:n4],lty=5,lwd=2.5,col=5)
+#lines(year1,d7m[1:n4],lty=6,lwd=2.5,col=6)
+legend("topright",inset=0.02,c("Model 21.1b","Model 22.0","Model 22.0a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.8,0.8,0.8))   
+#  legend("topright",inset=0.02,c("19.3d","19.3e","19.3g","21.0"),lwd=c(2.5,2.5,2.5,2.5),lty=c(1,2,3,4),col=c(1,2,3,4))
+#  legend("topright",inset=0.02,c("19.0a","19.4","19.4a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3))
+# legend("topright",inset=0.02,c("19.3","19.3d"),lwd=c(2.5,2.5),lty=c(1,2),col=c(1,2))
+text(0.99*xx,yx*up,"Pot total male",cex=1.5)
+axis(2,at=yat,labels=yat,outer=T,cex=1.5)
+box()
+yx <- 4.2
+yat<-c(1,2,3,4)
+#  yatv<-c("0.5","1.0","1.5","2.0","2.5","3.0")
+plot(year1,d2f[1:n4],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),lwd=1.5, pch=19,cex=2)
+#  par(new=T,xaxs="i",yaxs="i")
+lines(year1,d1f[1:n4],lty=1,lwd=2.5,col=1)
+lines(year1,d3f[1:n4],lty=2,lwd=2.5,col=2)
+lines(year1,d4f[1:n4],lty=3,lwd=2.5,col=3)
+#lines(year1,d5f[1:n4],lty=4,lwd=2.5,col=4)
+#lines(year1,d6f[1:n4],lty=5,lwd=2.5,col=5)
+#lines(year1,d7f[1:n4],lty=6,lwd=2.5,col=6)
+legend("topright",inset=0.02,c("Model 21.1b","Model 22.0","Model 22.0a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.8,0.8,0.8)) 
+#  legend("topright",inset=0.02,c("19.3d","19.3e","19.3g","21.0"),lwd=c(2.5,2.5,2.5,2.5),lty=c(1,2,3,4),col=c(1,2,3,4))
+#   legend("topright",inset=0.02,c("19.0a","19.4","19.4a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3))
+# legend("topright",inset=0.02,c("19.3","19.3d"),lwd=c(2.5,2.5),lty=c(1,2),col=c(1,2))
+text(0.99*xx,yx*up,"Pot disc. female",cex=1.5)
+axis(2,at=yat,labels=yat,outer=T,cex=1.5)
+par(mgp=c(3.0,0.75,0))
+#  axis(1,at=xat,labels=xat,outer=T,cex=1.0,las=3)
+axis(1,at=xat,labels=xat,outer=T,cex=1.5)
+box()
+yt<-c('Directed fishery retained, total and discarded catch biomass (1000 t)')
+mtext(yt,2,2.8,outer=T,cex=1.0)
+mtext('Year',1,2.10,outer=T,cex=1.0)
+par(mfrow=c(1,1))
+
+### c-discard -----
+n1<-3
+n2<-1
+n3<-B$nyr-B$syr + 1
+n4<-B$nyr-1996 + 1
+n5<-C$nyr-C$syr + 1
+d1d<-B$pre_catch[4,]/1000.0
+d1m<-B$pre_catch[7,]/1000.0
+d1f0<-(B$pre_catch[5,]/1000.0+B$pre_catch[6,]/1000.0)
+d1f<-c(d1f0[1:14],0,0,d1f0[15:18],0,0,0,0,0,0,0,0,0,0,0,d1f0[19:22],0,0,0,d1f0[23:25],0,0,0,0,0,0)
+d3d<-C$pre_catch[4,]/1000.0
+d3m<-C$pre_catch[7,]/1000.0
+d3f0<-(C$pre_catch[5,]/1000.0+C$pre_catch[6,]/1000.0)
+d3f<-c(d3f0[1:4],0,0,d3f0[5:8],0,0,0,0,0,0,0,0,0,0,0,d3f0[9:12],0,0,0,d3f0[13:15],0,0,0,0,0,0)
+d4d<-D$pre_catch[4,]/1000.0
+d4m<-D$pre_catch[7,]/1000.0
+d4f0<-(D$pre_catch[5,]/1000.0+D$pre_catch[6,]/1000.0)
+d4f<-c(d4f0[1:4],0,0,d4f0[5:8],0,0,0,0,0,0,0,0,0,0,0,d4f0[9:12],0,0,0,d4f0[13:15],0,0,0,0,0,0)
+#d5d<-G$pre_catch[4,]/1000.0
+#d5m<-G$pre_catch[7,]/1000.0
+#d5f0<-(G$pre_catch[5,]/1000.0+G$pre_catch[6,]/1000.0)
+#d5f<-c(d5f0[1:4],0,0,d5f0[5:8],0,0,0,0,0,0,0,0,0,0,0,d5f0[9:12],0,0,0,d5f0[13:15],0,0,0,0)
+#d6d<-J$pre_catch[4,]/1000.0
+#d6m<-J$pre_catch[7,]/1000.0
+#d6f0<-(J$pre_catch[5,]/1000.0+J$pre_catch[6,]/1000.0)
+#d6f<-c(d6f0[1:14],0,0,d6f0[15:18],0,0,0,0,0,0,0,0,0,0,0,d6f0[19:22],0,0,0,d6f0[23:25],0,0,0,0)
+#d7d<-K$pre_catch[4,]/1000.0
+#d7m<-K$pre_catch[7,]/1000.0
+#d7f0<-(K$pre_catch[5,]/1000.0+K$pre_catch[6,]/1000.0)
+#d7f<-c(d7f0[1:14],0,0,d7f0[15:18],0,0,0,0,0,0,0,0,0,0,0,d7f0[19:22],0,0,0,d7f0[23:25],0,0,0,0)
+d2d<-B$obs_catch[4,]/1000.0
+d2m<-B$obs_catch[7,]/1000.0
+d2f<-(B$obs_catch[5,]/1000.0+B$obs_catch[6,]/1000.0)
+d2f<-c(d2f[1:14],0,0,d2f[15:18],0,0,0,0,0,0,0,0,0,0,0,d2f[19:22],0,0,0,d2f[23:25],0,0,0,0)
+par(oma=c(3.50,4.0,1.0,1.0),tck=-0.01,xaxs="i",yaxs="i",font=1,lwd=0.75)
+par(mgp=c(1.2,1.0,0),mar=c(0,0,0,0),mfcol=c(n1,n2),xpd=FALSE)
+xat<-c(1975,1980,1985,1990,1995,2000,2005,2010,2015,2020)
+yat<-c(0.2,0.7,1.2,1.7)
+yatv<-c("0.2","0.7","1.2","1.7")
+xm<-B$syr-1
+xx<-B$nyr + 1
+ym<-0
+up<-0.87
+year<-c(B$syr:(B$nyr))
+year2<-c((B$syr+1):(B$nyr))
+
+yx<-1.8
+plot(year,c(0,d2d[1:(n3-1)]),axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),lwd=1.5, pch=19,cex=2)
+#  par(new=T,xaxs="i",yaxs="i")
+lines(year,c(0,d1d[1:(n3-1)]),lty=1,lwd=2.5,col=1)
+lines(year[11:n3],d3d[1:n5],lty=2,lwd=2.5,col=2)
+lines(year[11:n3],d4d[1:n5],lty=3,lwd=2.5,col=3)
+#lines(year[11:n3],d5d[1:n5],lty=4,lwd=2.5,col=4)
+#lines(year,c(0,d6d[1:(n3-1)]),lty=5,lwd=2.5,col=5)
+#lines(year,c(0,d7d[1:(n3-1)]),lty=6,lwd=2.5,col=6)
+legend("topright",inset=0.02,c("Model 21.1b","Model 22.0","Model 22.0a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.8,0.8,0.8))   
+# legend("topright",inset=0.02,c("19.3d","19.3e","19.3g","21.0"),lwd=c(2.5,2.5,2.5,2.5),lty=c(1,2,3,4),col=c(1,2,3,4))
+# legend("topright",inset=0.02,c("19.0a","19.4","19.4a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3))
+# legend("topright",inset=0.02,c("19.3","19.3d"),lwd=c(2.5,2.5),lty=c(1,2),col=c(1,2))
+text(0.99*xx,yx*up,"GF trawl bycatch",cex=1.5)
+axis(2,at=yat,labels=yat,outer=T,cex=1.5)
+box()
+year1<-c(1996:(B$nyr))
+yx = 0.5
+yat<-c(0.1,0.2,0.3,0.4)
+yatv<-c("0.1","0.2","0.3","0.4")
+plot(year1,d2m[1:n4],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),lwd=1.5, pch=19,cex=2)
+#   par(new=T,xaxs="i",yaxs="i")
+lines(year1,d1m[1:n4],lty=1,lwd=2.5,col=1)
+lines(year1,d3m[1:n4],lty=2,lwd=2.5,col=2)
+lines(year1,d4m[1:n4],lty=3,lwd=2.5,col=3)
+#lines(year1,d5m[1:n4],lty=4,lwd=2.5,col=4)
+#lines(year1,d6m[1:n4],lty=5,lwd=2.5,col=5)
+#lines(year1,d7m[1:n4],lty=6,lwd=2.5,col=6)
+legend("topleft",inset=0.02,c("Model 21.1b","Model 22.0","Model 22.0a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.8,0.8,0.8))    
+# legend("topright",inset=0.02,c("19.3d","19.3e","19.3g","21.0"),lwd=c(2.5,2.5,2.5,2.5),lty=c(1,2,3,4),col=c(1,2,3,4))
+#  legend("topright",inset=0.02,c("19.0a","19.4","19.4a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3))
+# legend("topright",inset=0.02,c("19.3","19.3d"),lwd=c(2.5,2.5),lty=c(1,2),col=c(1,2))
+text(0.99*xx,yx*up,"GF fixed gear bycatch",cex=1.5)
+axis(2,at=yat,labels=yatv,outer=T,cex=1.5)
+box()
+#  year1<-c(1991:(A$nyr))
+year2 <-c(1991:(B$nyr))
+#  n3 <-27
+yx = 9.0
+yat<-c(2.0,4.0,6.0,8.0)
+yatv<-c("2.0","4.0","6.0","8.0")
+plot(year2,d2f[17:n3],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),lwd=1.5, pch=19,cex=2)
+#  plot(year[16:n3],d2f[16:n3],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),lwd=1.5, pch=19,cex=2)
+#  par(new=T,xaxs="i",yaxs="i")
+lines(year,d1f[1:n3],lty=1,lwd=2.5,col=1)
+lines(year[11:n3],d3f[1:n5],lty=2,lwd=2.5,col=2)
+lines(year[11:n3],d4f[1:n5],lty=3,lwd=2.5,col=3)
+#lines(year[11:n3],d5f[1:n5],lty=4,lwd=2.5,col=4)
+#lines(year,d6f[1:n3],lty=5,lwd=2.5,col=5)
+#lines(year,d7f[1:n3],lty=6,lwd=2.5,col=6)
+legend("topright",inset=0.02,c("Model 21.1b","Model 22.0","Model 22.0a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.8,0.8,0.8))    
+# legend("topright",inset=0.02,c("19.3d","19.3e","19.3g","21.0"),lwd=c(2.5,2.5,2.5,2.5),lty=c(1,2,3,4),col=c(1,2,3,4))
+#  legend("topright",inset=0.02,c("19.0a","19.4","19.4a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3))
+# legend("topright",inset=0.02,c("19.3","19.3d"),lwd=c(2.5,2.5),lty=c(1,2),col=c(1,2))
+text(0.99*xx,yx*up,"Tanner fishery bycatch",cex=1.5)
+axis(2,at=yat,labels=yatv,outer=T,cex=1.5)
+par(mgp=c(3.0,0.75,0))
+#  axis(1,at=xat,labels=xat,outer=T,cex=1.0,las=3)
+axis(1,at=xat,labels=xat,outer=T,cex=1.5)
+box()
+yt<-c('Trawl, fixed gear and Tanner fisheries discarded catch biomass (1000 t)')
+mtext(yt,2,2.8,outer=T,cex=1.0)
+mtext('Year',1,2.10,outer=T,cex=1.0)
+par(mfrow=c(1,1))
+
+### length comps -----
+#lfplot1<-function(t1,t2,t3,n1,n2,d1,d2) {
+t1<-0
+t2<-0.05
+t3<-0.10
+n1<-12
+n2<-4
+d1<-B$d3_pre_size_comps_7[,1:20] # model 21.1b 
+d2<-B$d3_obs_size_comps_7[,1:20]
+d3<-C$d3_pre_size_comps_7[,1:20]
+d4<-D$d3_pre_size_comps_7[,1:20]
+#d5<-J$d3_pre_size_comps_7[,1:20]
+par(oma=c(4.40,4.0,1.0,1.0),tck=-0.01,xaxs="i",yaxs="i",font=1,lwd=0.75)
+par(mgp=c(1.5,0.4,0),mar=c(0,0,0,0),mfcol=c(n1,n2),xpd=FALSE)
+yat<-c(t2,t3)
+yatv<-c(paste(t2),paste(t3))
+nc<-ncol(d1)
+nr<-nrow(d1)
+xat<-c(1:nc)-0.5
+#xatv<-c('67.5','72.5','77.5','82.5','87.5','92.5','97.5','102.5','107.5','112.5','117.5','122.5', '127.5','132.5','137.5','142.5','147.5','152.5','157.5','162.5+')
+xatv<-c('67.5','','77.5','','87.5','','97.5','','107.5','','117.5','', '127.5','','137.5','','147.5','','157.5','')
+xm<-0.0
+xx<-nc
+ym<-0.0
+up<-0.87
+year<-c(c(1975:2019),2021,2022)
+yx<-0.12
+for (i in 1:(n1-1))
+{
+  j <- i-10
+  plot(xat,d1[i,1:nc],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
+  par(new=T,xaxs="i",yaxs="i")
+  barplot(d2[i,1:nc],space=0,density=-1,col="white",ylim=c(ym,yx),xlim=c(xm,xx),axes=FALSE,names.arg=" ")
+  lines(xat,d1[i,1:nc],lty=1,lwd=1.5)
+  if (i>10) 
+  {
+    lines(xat,d3[j,1:nc],lty=2,lwd=1.5,col=2)
+    lines(xat,d4[j,1:nc],lty=3,lwd=1.5,col=3)
+  } 
+  #lines(xat,d5[i,1:nc],lty=4,lwd=1.5,col=4)
+  text(0.8*xx,yx*up,paste(year[i]),cex=1.0)
+  axis(2,at=yat,labels=yatv,outer=T,cex=0.7,las=2)
+  box()
+  i1<-i
+}
+plot(xat,d1[i1+1,1:nc],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
+par(new=T,xaxs="i",yaxs="i")
+barplot(d2[i1+1,1:nc],space=0,density=-1,col="white",ylim=c(ym,yx),xlim=c(xm,xx),axes=FALSE,names.arg=" ")
+lines(xat,d1[i1+1,1:nc],lty=1,lwd=1.5)
+lines(xat,d3[i1-9,1:nc],lty=2,lwd=1.5,col=2)
+lines(xat,d4[i1-9,1:nc],lty=3,lwd=1.5,col=3)
+#lines(xat,d5[i1+1,1:nc],lty=4,lwd=1.5,col=4)
+text(0.8*xx,yx*up,paste(year[i1+1]),cex=1.0)
+axis(2,at=yat,labels=yatv,outer=T,cex=0.7,las=2)
+
+plot(xat,d1[i1+2,1:nc],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
+par(new=T,xaxs="i",yaxs="i")
+barplot(d2[i1+2,1:nc],space=0,density=-1,col="white",ylim=c(ym,yx),xlim=c(xm,xx),axes=FALSE,names.arg=" ")
+lines(xat,d1[i1+2,1:nc],lty=1,lwd=1.5)
+lines(xat,d3[i1-8,1:nc],lty=2,lwd=1.5,col=2)
+lines(xat,d4[i1-8,1:nc],lty=3,lwd=1.5,col=3)
+#lines(xat,d5[i1+1,1:nc],lty=4,lwd=1.5,col=4)
+text(0.8*xx,yx*up,paste(year[i1+2]),cex=1.0)
+axis(2,at=yat,labels=yatv,outer=T,cex=0.7,las=2)
+
+par(mgp=c(3.0,0.75,0))
+axis(1,at=xat,labels=xatv,outer=T,cex=0.7,las=3)
+box()
+for (i in (n1+1):(n1+n1-1))
+{
+  j <- i-10
+  plot(xat,d1[i,1:nc],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
+  par(new=T,xaxs="i",yaxs="i")
+  barplot(d2[i,1:nc],space=0,density=-1,col="white",ylim=c(ym,yx),xlim=c(xm,xx),axes=FALSE,names.arg=" ")
+  lines(xat,d1[i,1:nc],lty=1,lwd=1.5)
+  lines(xat,d3[j,1:nc],lty=2,lwd=1.5,col=2)
+  lines(xat,d4[j,1:nc],lty=3,lwd=1.5,col=3)
+  #lines(xat,d5[i,1:nc],lty=4,lwd=1.5,col=4)
+  text(0.8*xx,yx*up,paste(year[i]),cex=1.0)
+  box()
+  i1<-i
+}
+{
+  plot(xat,d1[i1+1,1:nc],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
+  par(new=T,xaxs="i",yaxs="i")
+  barplot(d2[i1+1,1:nc],space=0,density=-1,col="white",ylim=c(ym,yx),xlim=c(xm,xx),axes=FALSE,names.arg=" ")
+  lines(xat,d1[i1+1,1:nc],lty=1,lwd=1.5)
+  lines(xat,d3[i1-9,1:nc],lty=2,lwd=1.5,col=2)
+  lines(xat,d4[i1-9,1:nc],lty=3,lwd=1.5,col=3)
+  #lines(xat,d5[i1+1,1:nc],lty=4,lwd=1.5,col=4)
+  text(0.8*xx,yx*up,paste(year[i1+1]),cex=1.0)
+  axis(1,at=xat,labels=xatv,outer=T,cex=0.7,las=3)
+  box()
+}
+for (i in (n1+n1+1):(n1+n1+n1-1))
+{
+  j <- i-10
+  plot(xat,d1[i,1:nc],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
+  par(new=T,xaxs="i",yaxs="i")
+  barplot(d2[i,1:nc],space=0,density=-1,col="white",ylim=c(ym,yx),xlim=c(xm,xx),axes=FALSE,names.arg=" ")
+  lines(xat,d1[i,1:nc],lty=1,lwd=1.5)
+  lines(xat,d3[j,1:nc],lty=2,lwd=1.5,col=2)
+  lines(xat,d4[j,1:nc],lty=3,lwd=1.5,col=3)
+  #lines(xat,d5[i,1:nc],lty=4,lwd=1.5,col=4)
+  text(0.8*xx,yx*up,paste(year[i]),cex=1.0)
+  box()
+  i1<-i
+}
+plot(xat,d1[i1+1,1:nc],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
+par(new=T,xaxs="i",yaxs="i")
+barplot(d2[i1+1,1:nc],space=0,density=-1,col="white",ylim=c(ym,yx),xlim=c(xm,xx),axes=FALSE,names.arg=" ")
+lines(xat,d1[i1+1,1:nc],lty=1,lwd=1.5)
+lines(xat,d3[i1-9,1:nc],lty=2,lwd=1.5,col=2)
+lines(xat,d4[i1-9,1:nc],lty=3,lwd=1.5,col=3)
+#lines(xat,d5[i1+1,1:nc],lty=4,lwd=1.5,col=4)
+text(0.8*xx,yx*up,paste(year[i1+1]),cex=1.0)
+axis(1,at=xat,labels=xatv,outer=T,cex=0.7,las=3)
+box()
+for (i in (n1+n1+n1+1):(n1+n1+n1+n1-3))
+{
+  j <- i-10 
+  plot(xat,d1[i,1:nc],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
+  par(new=T,xaxs="i",yaxs="i")
+  barplot(d2[i,1:nc],space=0,density=-1,col="white",ylim=c(ym,yx),xlim=c(xm,xx),axes=FALSE,names.arg=" ")
+  lines(xat,d1[i,1:nc],lty=1,lwd=1.5)
+  lines(xat,d3[j,1:nc],lty=2,lwd=1.5,col=2)
+  lines(xat,d4[j,1:nc],lty=3,lwd=1.5,col=3)
+  #lines(xat,d5[i,1:nc],lty=4,lwd=1.5,col=4)
+  text(0.8*xx,yx*up,paste(year[i]),cex=1.0)
+  box()
+  i1<-i
+}
+plot(xat,d1[i1+1,1:nc],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
+par(new=T,xaxs="i",yaxs="i")
+barplot(d2[i1+1,1:nc],space=0,density=-1,col="white",ylim=c(ym,yx),xlim=c(xm,xx),axes=FALSE,names.arg=" ")
+lines(xat,d1[i1+1,1:nc],lty=1,lwd=1.5)
+lines(xat,d3[i1-9,1:nc],lty=2,lwd=1.5,col=2)
+lines(xat,d4[i1-9,1:nc],lty=3,lwd=1.5,col=3)
+#lines(xat,d5[i1+1,1:nc],lty=4,lwd=1.5,col=4)
+text(0.8*xx,yx*up,paste(year[i1+1]),cex=1.0)
+legend("topleft",inset=0.02,c("21.1b","22.0","22.0a"),lwd=c(1.5,1.5,1.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.7,0.7,0.7))
+# legend("topleft",inset=0.010,c("19.3d","19.3e","19.3g","21.0"),lwd=c(1.5,1.5,1.5,1.5),lty=c(1,2,3,4),col=c(1,2,3,4),cex=c(0.5,0.5,0.5,0.5))
+#  legend("topleft",inset=0.010,c("19.3","19.3c","19.3d"),lwd=c(1.5,1.5,1.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.5,0.5,0.5))
+axis(1,at=xat,labels=xatv,outer=T,cex=0.7,las=3)
+box()
+yt<-c('Length compositions of male red king crab')
+mtext(yt,2,2.50,outer=T,cex=1.0)
+mtext('Carapace length group (mm)',1,3.0,outer=T,cex=1.0)
+par(mfrow=c(1,1))
+
+### next ------
