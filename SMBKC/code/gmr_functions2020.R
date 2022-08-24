@@ -516,6 +516,21 @@ plot_cpue_VAST <-
   return(mdf)
 }
 
+.get_ssb_dfKP_retro <- function(M)
+{
+  n <- length(M)
+  mdf <- NULL
+  for (i in 1:n)
+  {
+    A <- M[[i]]
+    df <- data.frame(Model = names(M)[i],
+                     ssb = A$ssb)
+    df$year <- c(A$mod_yrs)
+    mdf     <- rbind(mdf, df)
+  }
+  return(mdf)
+}
+
 
 .get_ssb_dfKP_2 <-function(M)
 {
@@ -538,6 +553,24 @@ plot_cpue_VAST <-
   return(mdf)
 }
 
+.get_recruits_retro_kjp <- function(M)
+{
+  n <- length(M)
+  mdf <- NULL
+  for (i in 1:n)
+  {
+    A <- M[[i]]
+    temp <- as.data.frame(A$recruits)
+    df <- data.frame(Model = names(M)[i],
+                     recruit_m = temp[1,], 
+                     recruit_f = temp[2,])
+    df$year <- c(A$mod_yrs)
+    mdf     <- rbind(mdf, df)
+  }
+  return(mdf)
+}
+
+.get_recruits_retro_kjp(M[[2]])
 
 ## ssb and rec functions ---------------
 data_out <- function(model_names, direct)
