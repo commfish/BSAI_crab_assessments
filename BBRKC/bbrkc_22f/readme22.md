@@ -74,11 +74,12 @@ Notes:
 ###Run mcmc for projections
 Test mcmc run
 
-'gmacs -mcmc 10 -mcsave 3' make sure .psv file is created (model 21.1b this takes - )
+'gmacs -mcmc 10 -mcsave 3' make sure .psv file is created (model 21.1b this takes - 42 mins.)
 
-SMBKC  ::: 'gmacs -mcmc 1000000 -mcsave 1000' - started at 11:19am 8-19-19, ended 12:44 pm
+(SMBKC  ::: 'gmacs -mcmc 1000000 -mcsave 1000' - started at 11:19am 8-19-19, ended 12:44 pm)
+
 BBRKC 21 :::: # Run mcmc for projections
-Test mcmc run
+Test mcmc run (see above)
 
 gmacs -mcmc 500000 -mcsave 1000 -nox
 
