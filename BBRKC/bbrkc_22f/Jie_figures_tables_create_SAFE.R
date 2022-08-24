@@ -27,7 +27,9 @@ A <- read_rep("./BBRKC/bbrkc_22f/model_211b_spring/gmacs.rep")
 B <- read_rep("./BBRKC/bbrkc_22f/model_211b/gmacs.rep")
 C <- read_rep("./BBRKC/bbrkc_22f/model_22/gmacs.rep")
 D <- read_rep("./BBRKC/bbrkc_22f/model_22a/gmacs.rep")
+# these need to be run before any code in 'Jie_cmn_files.R' is run
 
+## FIGURES ----------------
 # run code in data-range.R - with B as the letter - got 'data_range.png"
 ### !!Figure 1 ---- static in doc
 ### !!Figure 2 -----------
@@ -99,6 +101,8 @@ D <- read_rep("./BBRKC/bbrkc_22f/model_22a/gmacs.rep")
 # base model old models NOT retro? code for this??? data for this?
 # Figures 30 a, b, c, d, e, f, 
 # MCMC output - see figures for which 
+# hist-mmb.cmn, probability.cmn, proj-mmb.cmn, 
+
 # Figures 31  to 33 ------
 # projections of status for approaching overfishing 
 # !!Figure 34 -----
@@ -109,7 +113,22 @@ D <- read_rep("./BBRKC/bbrkc_22f/model_22a/gmacs.rep")
 # comparison of BB vs red crab north of BB --- where is this????
 
 
-
-
 ## ssb ----
+
+### TABLES ----------------
+# Table 1 - see Excel file "RKC_SAFE22_kjp."
+# Table 3a - look at Tyler's observer summary files and survey data/groundfish sample sizes
+# Table 4 ------
+# effective sample sizes and harmonic means, see im-ess.cmn
+# now in Jie_cmn_files.R
+
+# Table 7 ----
+# see figures_tables_create_SAFE.R
+# Table 8 & 9 --
+# B$N_males - see which sizes classes to assign to legal, mature etc.
+# B$N_females (>90mm mature)
+# B$recruits
+# effective spawning biomass (lba.cmn)
+  # number of females * selectivity * Q * 
+
 

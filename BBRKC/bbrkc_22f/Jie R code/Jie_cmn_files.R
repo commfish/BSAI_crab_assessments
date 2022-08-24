@@ -1266,3 +1266,97 @@ function(M, which_plots = "all", xlab = "Mid-point of size-class (mm)", ylab = "
   return(ldf)
 }
 
+### TABLES ------------
+# table 4, im-ess ---------------
+#Z<-B # model 21.1b is B
+#Z<-C # model 22
+Z<-D # model 22a
+d1m<-Z$d3_pre_size_comps_1[,1:20]
+d1mo<-Z$d3_obs_size_comps_1[,1:20]
+d2m<-Z$d3_pre_size_comps_2[,1:20]
+d2mo<-Z$d3_obs_size_comps_2[,1:20]
+d3f<-Z$d3_pre_size_comps_3[,1:16]
+d3fo<-Z$d3_obs_size_comps_3[,1:16]
+d4m<-Z$d3_pre_size_comps_4[,1:20]
+d4mo<-Z$d3_obs_size_comps_4[,1:20]
+d4f<-Z$d3_pre_size_comps_4[,21:36]
+d4fo<-Z$d3_obs_size_comps_4[,21:36]
+d5m<-Z$d3_pre_size_comps_5[,1:20]
+d5mo<-Z$d3_obs_size_comps_5[,1:20]
+d5f<-Z$d3_pre_size_comps_5[,21:36]
+d5fo<-Z$d3_obs_size_comps_5[,21:36]
+d6m<-Z$d3_pre_size_comps_6[,1:20]
+d6mo<-Z$d3_obs_size_comps_6[,1:20]
+d6f<-Z$d3_pre_size_comps_6[,21:36]
+d6fo<-Z$d3_obs_size_comps_6[,21:36]
+d7m<-Z$d3_pre_size_comps_7[,1:20]
+d7mo<-Z$d3_obs_size_comps_7[,1:20]
+d7f<-Z$d3_pre_size_comps_7[,21:36]
+d7fo<-Z$d3_obs_size_comps_7[,21:36]
+d8m<-Z$d3_pre_size_comps_8[,1:20]
+d8mo<-Z$d3_obs_size_comps_8[,1:20]
+d8f<-Z$d3_pre_size_comps_8[,21:36]
+d8fo<-Z$d3_obs_size_comps_8[,21:36]
+
+n1<-nrow(d1m)
+d1<-c(rep(0,n1))
+for (i in 1:n1)
+  d1[i]<-sum(d1m[i,]*(1-d1m[i,]))/sum((d1m[i,]-d1mo[i,])*(d1m[i,]-d1mo[i,]))
+n2<-nrow(d2m)
+d2<-c(rep(0,n2))
+for (i in 1:n2)
+  d2[i]<-sum(d2m[i,]*(1-d2m[i,]))/sum((d2m[i,]-d2mo[i,])*(d2m[i,]-d2mo[i,]))
+d3<-c(rep(0,n2))
+for (i in 1:n2)
+  d3[i]<-sum(d3f[i,]*(1-d3f[i,]))/sum((d3f[i,]-d3fo[i,])*(d3f[i,]-d3fo[i,]))
+n4<-nrow(d4m)
+d4<-c(rep(0,n4))
+for (i in 1:n4)
+  d4[i]<-(sum(d4m[i,]*(1-d4m[i,]))+sum(d4f[i,]*(1-d4f[i,])))/(sum((d4m[i,]-d4mo[i,])*(d4m[i,]-d4mo[i,]))+sum((d4f[i,]-d4fo[i,])*(d4f[i,]-d4fo[i,])))
+n5<-nrow(d5m)
+d5<-c(rep(0,n5))
+for (i in 1:n5)
+  d5[i]<-(sum(d5m[i,]*(1-d5m[i,]))+sum(d5f[i,]*(1-d5f[i,])))/(sum((d5m[i,]-d5mo[i,])*(d5m[i,]-d5mo[i,]))+sum((d5f[i,]-d5fo[i,])*(d5f[i,]-d5fo[i,])))
+n6<-nrow(d6m)
+d6<-c(rep(0,n6))
+for (i in 1:n6)
+  d6[i]<-(sum(d6m[i,]*(1-d6m[i,]))+sum(d6f[i,]*(1-d6f[i,])))/(sum((d6m[i,]-d6mo[i,])*(d6m[i,]-d6mo[i,]))+sum((d6f[i,]-d6fo[i,])*(d6f[i,]-d6fo[i,])))
+n7<-nrow(d7m)
+d7<-c(rep(0,n7))
+for (i in 1:n7)
+  d7[i]<-(sum(d7m[i,]*(1-d7m[i,]))+sum(d7f[i,]*(1-d7f[i,])))/(sum((d7m[i,]-d7mo[i,])*(d7m[i,]-d7mo[i,]))+sum((d7f[i,]-d7fo[i,])*(d7f[i,]-d7fo[i,])))
+n8<-nrow(d8m)
+d8<-c(rep(0,n8))
+for (i in 1:n8)
+  d8[i]<-(sum(d8m[i,]*(1-d8m[i,]))+sum(d8f[i,]*(1-d8f[i,])))/(sum((d8m[i,]-d8mo[i,])*(d8m[i,]-d8mo[i,]))+sum((d8f[i,]-d8fo[i,])*(d8f[i,]-d8fo[i,])))
+
+d10<-n1/sum(1.0/d1)
+d20<-n2/sum(1.0/d2)
+d30<-n2/sum(1.0/d3)
+d40<-n4/sum(1.0/d4)
+d50<-n5/sum(1.0/d5)
+d60<-n6/sum(1.0/d6)
+d70<-n7/sum(1.0/d7)
+d80<-n8/sum(1.0/d8)
+
+
+# change model letter at top for each summary file
+# model 21.1b 
+ess211b <- data.frame(Type = c("Retained catch", "Pot total males", "Pot total females", "Trawl bycatch", "Tanner fishery bycatch", 
+                               "Fixed gear bycatch", "NMFS survey", "BSFRF survey"), 
+                      Harm.mean_211b = c(d10,d20,d30,d40,d50,d60,d70,d80))
+
+ess22 <- data.frame(Type = c("Retained catch", "Pot total males", "Pot total females", "Trawl bycatch", "Tanner fishery bycatch", 
+                             "Fixed gear bycatch", "NMFS survey", "BSFRF survey"), 
+                    Harm.mean_22 = c(d10,d20,d30,d40,d50,d60,d70,d80))
+
+ess22a <- data.frame(Type = c("Retained catch", "Pot total males", "Pot total females", "Trawl bycatch", "Tanner fishery bycatch", 
+                              "Fixed gear bycatch", "NMFS survey", "BSFRF survey"), 
+                     Harm.mean_22a = c(d10,d20,d30,d40,d50,d60,d70,d80))
+
+ess211b %>% 
+  cbind(ess22, ess22a) -> ess_all
+write.table(ess_all, "./BBRKC/bbrkc_22f/doc/safe_tables/ess_all.out")
+#write.table(c(d10,d20,d30,d40,d50,d60,d70,d80),"./BBRKC/bbrkc_22f/doc/safe_tables/ess221b.out")
+
+### next --------

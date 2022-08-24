@@ -579,7 +579,7 @@ plot_size_comps_res(M[4])
 ggsave(paste0(.FIGS, "model22a_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
 
 
-# !!dynamic Bzero ----------------------
+# **FIX** dynamic Bzero ----------------------
 #{r Dynamic_Bzero, fig.cap = "Comparisons of mature male biomass relative to the dynamic $B_0$ value, (15 February, 1978-2018) for  each of the model scenarios.\\label{fig:dynB0}"}
 db0 <- get_Db0_out(mod_names[2:5], raw_data, M[2:5])
 
@@ -607,6 +607,13 @@ get_Db0_out(mod_names[2], raw_data, M[2]) %>% transmute(round(100*ssb,0)) %>% sl
 #.get_dynB0_df(M)
 
 ## TABLES ====================================
+
+# Table 7 ----
+nat_mort <- .get_M_df_kjp(M[mod_scen]) # bbrkc_functions.R
+
+nat_mort %>% 
+  distinct(Model, Sex, M) -> natural_mort_all
+write.csv(natural_mort_all, "./BBRKC/bbrkc_22f/doc/safe_tables/M_out.csv")
 
 ## !!table of all parameter output -------
 #```{r est_pars_all, results = "asis"}
