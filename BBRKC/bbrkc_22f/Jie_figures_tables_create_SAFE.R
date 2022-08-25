@@ -131,4 +131,18 @@ D <- read_rep("./BBRKC/bbrkc_22f/model_22a/gmacs.rep")
 # effective spawning biomass (lba.cmn)
   # number of females * selectivity * Q * 
 
+# mature females?
+f_temp <- B$N_females_mature
+head(f_temp)
+
+f_temp %>% 
+  as.data.frame() %>% 
+  mutate(total_mature = rowSums(across(where(is.numeric)))/1000000, # this doesn't match what Jie has for mature females....
+         totalGE90 = (V6+ V7 + V8 + V9 + V10 + V11 +V12 +V13 +V14 +V15 +V16)/1000000) # this doesn't match what Jie has for mature females....
+  
+f_temp2 <- B$N_females
+
+f_temp2 %>%    
+  as.data.frame() %>% 
+  mutate(totalGE90 = (V6+ V7 + V8 + V9 + V10 + V11 +V12 +V13 +V14 +V15 +V16)/1000000) -> f_temp2_sum
 
