@@ -92,9 +92,15 @@ ssb2 %>%
   xlab("Year (Feb. 15, year+1)") +
   #ylim(c(0,11500)) +
   theme_bw(base_size = 12, base_family = "") +
-  scale_colour_discrete(name  ="Model end year")
+  scale_colour_discrete(name  ="Model end year") +
+  scale_x_continuous(breaks = seq(min(1975),max(max(recruits_all2$year) + 1), by = 5)) +
+  theme(legend.position = c(0.8, 0.7), 
+        text = element_text(size = 13), 
+        axis.text = element_text(size = 13), 
+        axis.title = element_text(size = 13)) +
+  geom_text(x = 1993, y = 100, label = "Mohn's rho: 0.373", size = 6) # add in Mohn's rho - currently calculated in excel - see retro_out_2022
 
-ggsave(paste0(.FIGS, "ssb_retrospective_model211b.png"), width = 1.25*6, height = 5)
+ggsave(paste0(.FIGS, "ssb_retrospective_model211b.png"), width = 1.35*6, height = 9)
 
 ## Mohn's rho ssb------
 ssb2 %>% 
@@ -121,7 +127,7 @@ write.csv(retro_out, paste0(.FILES, paste0("retro_out_", cur_yr, ".csv")), row.n
 
 
 ## rec -----
-#
+# calcs function not workin -------
 rec1 <- data.frame(Model = names(M)[1], 
                    recruit_m = M[[1]]$recruits[1, ], 
                    recruit_f = M[[1]]$recruits[2, ])
@@ -151,10 +157,101 @@ rec6 <- data.frame(Model = names(M)[6],
                    recruit_m = M[[6]]$recruits[1, ], 
                    recruit_f = M[[6]]$recruits[2, ])
 rec6$year <- c(M[[6]]$mod_yrs)
-
+#
+rec7 <- data.frame(Model = names(M)[7], 
+                   recruit_m = M[[7]]$recruits[1, ], 
+                   recruit_f = M[[7]]$recruits[2, ])
+rec7$year <- c(M[[7]]$mod_yrs)
+#
+rec8 <- data.frame(Model = names(M)[8], 
+                   recruit_m = M[[8]]$recruits[1, ], 
+                   recruit_f = M[[8]]$recruits[2, ])
+rec8$year <- c(M[[8]]$mod_yrs)
+#
+rec9 <- data.frame(Model = names(M)[9], 
+                   recruit_m = M[[9]]$recruits[1, ], 
+                   recruit_f = M[[9]]$recruits[2, ])
+rec9$year <- c(M[[9]]$mod_yrs)
+#
+rec10 <- data.frame(Model = names(M)[10], 
+                   recruit_m = M[[10]]$recruits[1, ], 
+                   recruit_f = M[[10]]$recruits[2, ])
+rec10$year <- c(M[[10]]$mod_yrs)
+#
+rec11 <- data.frame(Model = names(M)[11], 
+                    recruit_m = M[[11]]$recruits[1, ], 
+                    recruit_f = M[[11]]$recruits[2, ])
+rec11$year <- c(M[[11]]$mod_yrs)
 
 rec1 %>% 
-  rbind(rec2) -> recruits_all
+  rbind(rec2, rec3, rec4, rec5, rec6, rec7, rec8, rec9, rec10, rec11) -> recruits_all
+
+recruits_all %>% 
+  mutate(recruit_m = recruit_m/1000000, recruit_f = recruit_f/1000000, 
+         recruits_total = (recruit_m + recruit_f)) %>% 
+  mutate(year = year+1) -> recruits_all2 # according to Jie's notes recruitment estimates start in 1976 
+
+# output to calculate in Excel like Jie-----
+recruits_all2 %>%
+  select(Model, year, recruits_total) %>% 
+  spread(year, recruits_total) -> retro_R_out
+
+write.csv(retro_R_out, paste0(.FILES, paste0("recruitment_retro_out_", cur_yr, ".csv")), row.names = FALSE)
+
+# plot recruitment retro -----
+recruits_all2 %>% 
+  ggplot(aes(year, recruits_total, group = Model)) +
+  geom_line(aes(group = Model, colour = Model), lwd = 0.75) +
+  ylab("Total recruitment (million)") +
+  xlab("Year") +
+  #ylim(c(0,11500)) +
+  theme_bw(base_size = 12, base_family = "") +
+  scale_colour_discrete(name  ="Model") +
+  scale_x_continuous(breaks = seq(min(1975),max(max(recruits_all2$year) + 1), by = 5)) +
+  theme(legend.position = c(0.8, 0.6), 
+        text = element_text(size = 13), 
+        axis.text = element_text(size = 13), 
+        axis.title = element_text(size = 13)) +
+  geom_text(x = 1995, y = 150, label = "Mohn's rho: 1.02", size = 7) # add in Mohn's rho - currently calculated in excel - see retro_out_2022
+
+ggsave(paste0(.FIGS, "recruitment_retrospective_model211b.png"), width = 1.35*6, height = 9)
+
+## ratio of recruitment to this this years model ---------
+# Figure 28b
+ratioR <- read_excel(paste0(here::here(), "/BBRKC/bbrkc_22f/model_211b/retrospective/retro_out_2022.xlsx"), sheet = "rec_rinput")
+
+ratioR %>% 
+  pivot_longer(-num.yrs.est) %>% 
+  ggplot(aes(num.yrs.est, value, group = name)) +
+  geom_line(aes(group = name, colour = name), lwd = 1.2) +
+  xlab("Number of years estimated in the model") +
+  ylab("Ratios of estimated retro recruits  \n to terminal estimates in 2022") +
+  theme_bw(base_size = 14, base_family = "") +
+  scale_colour_discrete(name  = "Recruitment year") +
+  scale_x_continuous(breaks = seq(1, 11, 1)) +
+  theme(legend.position = c(0.8, 0.59), 
+        text = element_text(size = 13), 
+        axis.text = element_text(size = 13), 
+        axis.title = element_text(size = 13))
+ggsave(paste0(.FIGS, "ratio_to_terminal_yr_model211b.png"), width = 1.1*6, height = 4.2)
+
+## Figure 28c ------------
+ratioR %>% 
+  pivot_longer(-num.yrs.est) %>% 
+  group_by(num.yrs.est) %>% 
+  summarise(avg = mean(value, na.rm = TRUE), 
+            sd = sd(value, na.rm = TRUE)) %>% 
+  ggplot() +
+     geom_bar(aes(x = num.yrs.est, y = avg), stat = "identity", fill = "darkturquoise", width = 0.5) +
+     geom_line(aes(x = num.yrs.est, y = sd), stat = "identity", lwd = 1.3, color = "red") +
+  expand_limits(y=0) +
+  theme_bw(base_size = 14, base_family = "") +
+  scale_x_continuous(breaks = seq(1, 11, 1)) +
+  scale_y_continuous(expand = c(0,0), limits = c(0, 2.5)) +
+  #ylim(0, 2.5) +
+  xlab("Number of years estimated in the model") +
+  ylab("Mean ratios and standard deviation of ratios")
+ggsave(paste0(.FIGS, "Recruitment_Mean_sd_ratio_model211b.png"), width = 1.1*6, height = 4.0)
 #### ------------------
 
 #write.csv(ssb, paste0(.FILES, paste0("ssb_", cur_yr, ".csv")), row.names = FALSE)
