@@ -1,4 +1,4 @@
-# katie.palof@alaska.gov  9-5-19 / 4-22-22
+# katie.palof@alaska.gov  9-5-19 / 4-22-22/ 8-25-22
 # map creation for SMBKC trawl survey samples from recent years
 
 # WIP   
@@ -9,15 +9,18 @@ library(PBSmapping)
 library(tidyverse)
 library(mapproj)
 data("nepacLLhigh")
-
+cur_yr = "2022"
+folder = "smbkc_22f"
+  
 ### data ---
 # haul data from st.matt area NOAA trawl survey
 # AKFIN data - crab data - EBS trawl survey - CPUE by Haul Downloads - "bkc st.matt's"
 #C:\Users\kjpalof\Documents\BSAI_crab_assessments\SMBKC\data\trawl_survey\ebs-crab-cpue-69323-stmatt\2021
-smbkc_haul_cpue <-data.frame(read.csv(paste0(here::here(), "/SMBKC/data/trawl_survey/ebs-crab-cpue-69323-stmatt/2021/ebs-crab-cpue-69323-stmatt-6.csv"),
+smbkc_haul_cpue <-data.frame(read.csv(paste0(here::here(), "/SMBKC/data/trawl_survey/ebs-crab-cpue-69323-stmatt/", 
+                                             cur_yr, "/ebs-crab-cpue-69323-stmatt-6.csv"),
                                       header=T, as.is = TRUE))
 smbkc_haul_cpue %>% 
-  filter(SURVEY_YEAR >= 2012, SIZE_GROUP == "MALE_GE90") -> m.df  
+  filter(SURVEY_YEAR >= 2013, SIZE_GROUP == "MALE_GE90") -> m.df  
 
 glimpse(m.df)
 
@@ -40,5 +43,5 @@ ggplot() +
   scale_size_area() +
   #FNGr::theme_sleek()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1.0))
-ggsave(here::here("SMBKC/smbkc_22/doc/safe_figure/CrabN_Station.png"),dpi=300, 
+ggsave(paste0(here::here("SMBKC/", folder, "/doc/safe_figure/CrabN_Station.png")),dpi=300, 
        width=8, height=8,units="in")
