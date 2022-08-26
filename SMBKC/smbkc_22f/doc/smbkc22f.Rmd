@@ -69,9 +69,10 @@ rinline <- function(code){
 #alt_mod <- 5 # alt reference time frame
 ref_mod <- 1 # 2020 model
 rec_mod <- 2 # base
+mod_scen <- 1:2
 #mod_scen<- 2:5 #scenarios you want graphed together
 
-raw_data <- data_out(mod_names[1:5], .MODELDIR[1:5]) # data pulled from .csv created from gmacsall.out - done manually
+raw_data <- data_out(mod_names[1:2], .MODELDIR[1:2]) # data pulled from .csv created from gmacsall.out - done manually
 
 ```
 
@@ -86,18 +87,18 @@ raw_data <- data_out(mod_names[1:5], .MODELDIR[1:5]) # data pulled from .csv cre
 
 
 ## table 1 ------
-round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_2021
-round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_2021
-round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2122
-round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2122
-round(M[[rec_mod]]$spr_cofl/1000*0.75, 2) -> abc_2122 # 25 % buffer
+round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_2122
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_2122
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2223
+round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2223
+round(M[[rec_mod]]$spr_cofl/1000*0.75, 2) -> abc_2223 # 25 % buffer
 
 # table 2 ----------
-round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_2021_lb
-round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]* 2204.62/1e6, 2) -> mmb_2021_lb
-round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_2122_lb
-round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 3) -> ofl_2122_lb
-round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.75, 2) -> abc_2122_lb # 25 % buffer
+round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_2122_lb
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]* 2204.62/1e6, 2) -> mmb_2122_lb
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_2223_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 3) -> ofl_2223_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.75, 2) -> abc_2223_lb # 25 % buffer
 
 # ofl and abc basis -------- table 3
 # ofl and abc basis -------- table 3
@@ -123,23 +124,23 @@ The directed fishery resumed again in 2014/15 with a TAC of 300 t (0.655 million
 relatively poor with a retained catch of 140 t (0.309 million pounds). 
 The retained catch in 2015/16 was even lower at 48 t (0.105 million pounds) and the fishery has remained closed since 2016/17.
 
-3. **Stock biomass**:  The 1978-2021 NMFS trawl survey mean biomass is 5,605 t with the 2021 value being the
-9th lowest (1,929 t; the seventh lowest since 2000). 
+3. **Stock biomass**:  The 1978-2022 NMFS trawl survey mean biomass is 5,448 t with the 2022 value being the
+13th lowest (2,366 t; the tenth lowest since 2000). 
 This 2022 biomass of $\ge$ 90 mm carapace length (CL) male crab is 
 43% of the long term mean  at 5.22 million pounds (with a CV of 50%), and an 23% increase from the 2021 biomass.
 
 The most recent 3-year average of the NMFS survey is 46% of the mean value, indicating a decline in biomass compared to
 historical survey estimates, notably in 2010 and 2011 that were over four times the current average.
-However, the 2022 value increased from 2021. (more here?) 
+However, the 2022 value increased from 2021, similar to the increase observed in the 2019 survey data. 
 The ADFG pot survey last occurred in 2018, when the relative biomass index was the lowest
-in the time series (12% of the mean from the 11 surveys conducted since 1995). This survey is scheduled for 2022 but will not be completed until after the 2022 assessment cycle.
+in the time series (12% of the mean from the 11 surveys conducted since 1995). This survey is scheduled for 2022 but will not be completed until after the 2022 assessment cycle. Data will be included in the 2024 assessment.
 The assessment model estimates temper this increase and suggest that the stock (in survey biomass units) is presently at about
 `r bio_lt_percent `% 
-of the long term model-predicted survey biomass average, similar to the last three years. 
+of the long term model-predicted survey biomass average, up some from the last three years. 
 The trend from these values suggests a steady state in the last few years, which does not fit the 2019 observed survey data point well.
 
 4. **Recruitment**: Recruitment is based on estimated number of male crab within the 90-104 mm CL size class
-in each year. The 2022 trawl-survey area-swept estimate of 0.617 million male SMBKC in this size class is ranked 20th in abou the middle of the 44 years since 1978 and increased some from the last 5 years of survey data. 
+in each year. The 2022 trawl-survey area-swept estimate of 0.617 million male SMBKC in this size class is ranked 20th, about the middle of the 44 years since 1978 and increased some from the last 5 years of survey data. 
 The recent six-year (2016 - 2022) average recruitment is only 37% of the long-term mean. 
 In the pot-survey, the abundance of this size group in 2017 was also the second-lowest in the time series (22% of the mean for the 
 available pot-survey data) whereas in 2018 the value was the lowest observed at only 10% of the mean value.
@@ -164,8 +165,9 @@ Computations which indicate the relative impact of fishing
   2017/18 & 1.85 & 2.05 & 0.00 & 0.00 & 0.003 & 0.12 & 0.10 \\
   2018/19 & 1.74 & 1.15 & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
   2019/20 & 1.67 & 1.06 & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
-  2020/21 & `r msst_2021 ` & `r mmb_2021 ` & 0.00 & 0.00 & 0.001 & 0.05 & 0.04 \\
-  2021/22 &      & `r mmb_2122 ` &  &  &  & `r ofl_2122 ` & `r abc_2122 ` \\
+  2020/21 & 1.65 & 1.14 & 0.00 & 0.00 & 0.001 & 0.05 & 0.04 \\
+  2021/22 & `r msst_2122 ` & `r mmb_2122` & 0.00 & 0.00 & 0.001 & 0.05 & 0.04 \\
+  2022/23 &      & `r mmb_2223 ` &  &  &  & `r ofl_2223 ` & `r abc_2223 ` \\
   \hline
 \end{tabular}
 \end{table}
@@ -183,8 +185,9 @@ Computations which indicate the relative impact of fishing
   2017/18 & 4.1 & 2.85 & 0.000 & 0.000 & 0.007  & 0.27 & 0.22 \\ 
   2018/19 & 3.84 & 2.54 & 0.000 & 0.000 & 0.002 & 0.08 & 0.07 \\
   2019/20 & 3.68 & 2.34 & 0.000 & 0.000 & 0.002 & 0.096 & 0.08 \\
-  2020/21 & `r msst_2021_lb `  & `r mmb_2021_lb` & 0.000 & 0.000 & 0.002 & 0.112 & 0.08  \\
-  2021/22 &       & `r mmb_2122_lb` &  &  &  & `r ofl_2122_lb` & `r abc_2122_lb`  \\
+  2020/21 & 3.64 & 2.52 & 0.000 & 0.000 & 0.002 & 0.112 & 0.08  \\
+  2021/22 & `r msst_2122_lb `  & `r mmb_2122_lb` & 0.000 & 0.000 & 0.002 & 0.112 & 0.08   \\
+  2022/23 &       & `r mmb_2223_lb` &  &  &  & `r ofl_2223_lb` & `r abc_2223_lb`  \\
   \hline
 \end{tabular}
 \end{table}
@@ -192,7 +195,7 @@ Computations which indicate the relative impact of fishing
 
 6. **Basis for the OFL**: Estimated mature-male biomass (MMB) on 15 February is used as the measure of 
  biomass for this Tier 4 stock, with males measuring $\ge$ 105 mm CL considered mature. 
- The $B_\mathit{MSY}$ proxy is obtained by averaging estimated MMB over a specific reference period, and current CPT/SSC guidance recommends using the full assessment time frame (1978 - 2019) as the default reference period. 
+ The $B_\mathit{MSY}$ proxy is obtained by averaging estimated MMB over a specific reference period, and current CPT/SSC guidance recommends using the full assessment time frame (1978 - 2021) as the default reference period. 
 
 \begin{table}[ht]
 \centering
@@ -207,9 +210,10 @@ Computations which indicate the relative impact of fishing
   2017/18 & 4b & 3.86 & 2.05 & 0.53 & 0.08 & 1 & 1978-2017 & 0.18 \\
   2018/19 & 4b & 3.7  & 1.15 & 0.35 & 0.043 & 1 & 1978-2017 & 0.18 \\
   2019/20 & 4b & 3.48 & 1.06 & 0.31 & 0.042 & 1 & 1978-2018 & 0.18 \\ 
-  2020/21 & 4b & 3.34 &  `r mmb_2021` &  0.32 & 0.047 & 1 & 1978-2019 & 0.18 \\
-  2021/22 & 4b  & `r bmsy_cur` &  `r mmb_2122` &  `r ratio_bmsy` & `r fofl `
-   & 1 & 1978-2019 & 0.18 \\
+  2020/21 & 4b & 3.34 & 1.14 & 0.32 & 0.047 & 1 & 1978-2019 & 0.18 \\
+  2021/22 & 4b  & 3.30 &  `r mmb_2122` &  0.34 & 0.048 & 1 & 1978-2020 & 0.18 \\
+  2022/23 & 4b  & `r bmsy_cur` &  `r mmb_2223` &  `r ratio_bmsy` & `r fofl `
+   & 1 & 1978-2021 & 0.18 \\
   \hline
 \end{tabular}
 \end{table}
@@ -225,17 +229,17 @@ There are no new changes in management of the fishery.
 ## Changes to the Input Data {-}
 
 Data used in this assessment have been updated to include the most recently
-available fishery data. 
-This assessment includes one new survey data points from the 2021 NMFS trawl-survey, which is included here since this assessment is now on a biennial cycle.
-The triennial ADF&G pot surveys were last conducted in 2018, and are back on a semi-triennial cycle, with the next survey planned for 2022.
+available fishery data and survey data. 
+This assessment includes two new survey data points from the 2021 & 2022 NMFS trawl-survey, which is included here since this assessment is now on a biennial cycle.
+The triennial ADF&G pot surveys were last conducted in 2018, and are back on a semi-triennial cycle, with the next survey planned for fall 2022, but will not be available for this assessment.
 There is new size composition data from the trawl survey. 
-The assessment was updated with 2010-2020 groundfish trawl and
+The assessment was updated with 2010-2021 groundfish trawl and
 fixed gear bycatch estimates based on NMFS Alaska Regional Office (AKRO) data. 
 The directed fishery has been closed since 2016/17, so no recent fishery data are available.
 
 ## Changes in Assessment Methodology {-}
 
-This assessment uses the General Model for Alaska Crab Stocks (GMACS) framework. The
+This assessment uses the General Model for Alaska Crab Stocks (GMACS) framework, and has since 2016. The
 model is configured to track three stages of length categories and was 
 first presented in May 2011 by W.Gaeuman, ADF&G, and accepted by the CPT in May 2012. 
 A difference from the original approach and that used here is that natural and fishing mortalities are
@@ -248,10 +252,10 @@ Details of this implementation and other model details are provided in Appendix 
 
 ## Changes in Assessment Results {-}
 
-Both surveys indicate a decline over the past few years. The "reference" model is that which was selected for use in 2020, the year of the last full assessment.
-The base model presented here is the reference model with updated groundfish bycatch data for the 2020/21 crab season and updated survey data - biomass and size composition - from the 2021 NMFS trawl survey (model 16.0 2022). 
+Both surveys indicate a low population over the past few years, with a declining trend from 2015 to 2020. Recent survey results, in 2019 and 2022, suggst some potential for growth in this stock. The "reference" model (model 16.0) is that which was selected for use in 2020, the year of the last full assessment.
+The base model presented here is the reference model with updated groundfish bycatch data for the 2020/21 and 2021/22 crab season and updated survey data - biomass and size composition - from the 2021 and 2022 NMFS trawl survey (model 16.0 2022). 
 
-In addition to the reference/base model other models are presented here for sensitivity of life history constants. Here two models are presented that raise the natural mortality from the accepted fixed value of 0.18 for king crab. Model 22.0a has a M = 0.21 and Model 22.0b has a M = 0.26. These values were taken from methods of Then et al. (2015) using a maximum age of 25 or 30 years. Assuming a maximum age of less than 25 years produced a high estimate of natural mortality using Then et al. methods.
+Alternative models were considered in May 2022 but none were deemed canidates for fall 2022 specfications, therefore the "reference" model is the only one presented here.
 
 
 # B. Responses to SSC and CPT  {-}
@@ -267,11 +271,11 @@ Comment: *Regarding general code development, the SSC and CPT outstanding reques
   
   2. *Retrospective analyses*
      
-     These were provided in the Sept. 2020 SAFE document and will be provided again in the Sept. 2022 final SAFE.
+     These were provided in the Sept. 2020 SAFE document and are provided again in the Sept. 2022 final SAFE.
 
 Comment: *Explore potential explanations for the discrepancy in the time trends of the two types of survey data, including movement hypotheses using spatial models (not necessarily VAST)*
   
-  Exploration of the spatial extent and density differences between the surveys was done on all male crab included in the model (Appendix C). The authors plan to use this and further analyses to better characterize catchability/availability for the pot survey. 
+  Exploration of the spatial extent and density differences between the surveys was done on all male crab included in the model for May 2022 (May 2022 documentation Appendix C). The authors plan to use this and further analyses to better characterize catchability/availability for the pot survey. 
 
 Comment: *Explore VAST estimates compared to design based, and ones that combine the two surveys*
 
@@ -287,7 +291,7 @@ Comment: *Consider increasing the number of size bins so that cohorts might be m
 
 Comment: *Explore the assumed and estimated life history parameters (e.g., natural mortality, growth, and maturity) to ensure the best available science is being used to assess this stock.*
    
-   Specific research on St.Matthew blue king crab life history parameters is not available and therefore these are borrowed from other stocks/species. At this time only sensitivities of the model to increased natural mortality (M) were looked at here (Models 22.0a and 22.0b). Sensitivities to the model assumptions on growth and maturity will be explored at a later date. 
+   Specific research on St.Matthew blue king crab life history parameters is not available and therefore these are borrowed from other stocks/species. At this time only sensitivities of the model to increased natural mortality (M) were looked at in May 2022. Sensitivities to the model assumptions on growth and maturity will be explored at a later date. 
 
 # C. Introduction {-}
 
