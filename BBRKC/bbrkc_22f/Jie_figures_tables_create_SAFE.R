@@ -132,6 +132,7 @@ D <- read_rep("./BBRKC/bbrkc_22f/model_22a/gmacs.rep")
   # number of females * selectivity * Q * 
 
 # mature females?
+# model 21.1b mature females --------------
 f_temp <- B$N_females_mature
 head(f_temp)
 
@@ -145,4 +146,40 @@ f_temp2 <- B$N_females
 f_temp2 %>%    
   as.data.frame() %>% 
   mutate(totalGE90 = (V6+ V7 + V8 + V9 + V10 + V11 +V12 +V13 +V14 +V15 +V16)/1000000) -> f_temp2_sum
+tail(f_temp2_sum)
 
+# model 22.0 mature females --------------
+f_temp <- C$N_females_mature
+head(f_temp)
+tail(f_temp)
+
+f_temp %>% 
+  as.data.frame() %>% 
+  mutate(total_mature = rowSums(across(where(is.numeric)))/1000000, # this doesn't match what Jie has for mature females....
+         totalGE90 = (V6+ V7 + V8 + V9 + V10 + V11 +V12 +V13 +V14 +V15 +V16)/1000000) # this doesn't match what Jie has for mature females....
+
+f_temp2 <- C$N_females
+
+f_temp2 %>%    
+  as.data.frame() %>% 
+  mutate(totalGE90 = (V6+ V7 + V8 + V9 + V10 + V11 +V12 +V13 +V14 +V15 +V16)/1000000) -> f_temp2_sum
+tail(f_temp2_sum)
+
+# model 22.0a mature females --------------
+f_temp <- D$N_females_mature
+head(f_temp)
+tail(f_temp)
+
+f_temp %>% 
+  as.data.frame() %>% 
+  mutate(total_mature = rowSums(across(where(is.numeric)))/1000000, # this doesn't match what Jie has for mature females....
+         totalGE90 = (V6+ V7 + V8 + V9 + V10 + V11 +V12 +V13 +V14 +V15 +V16)/1000000) # this doesn't match what Jie has for mature females....
+
+f_temp2 <- D$N_females
+
+f_temp2 %>%    
+  as.data.frame() %>% 
+  mutate(totalGE90 = (V6+ V7 + V8 + V9 + V10 + V11 +V12 +V13 +V14 +V15 +V16)/1000000) -> f_temp2_sum
+tail(f_temp2_sum)
+# tables for parameters -------
+# see Jie's cmn sum-table

@@ -1359,4 +1359,183 @@ ess211b %>%
 write.table(ess_all, "./BBRKC/bbrkc_22f/doc/safe_tables/ess_all.out")
 #write.table(c(d10,d20,d30,d40,d50,d60,d70,d80),"./BBRKC/bbrkc_22f/doc/safe_tables/ess221b.out")
 
-### next --------
+### Table 6 --------
+## model 21.1b --------
+n4<-192 # what is this value?
+Z<-read.table("./BBRKC/bbrkc_22f/model_211b/gmacs.std", header = TRUE, sep = "", quote = "", colClasses = c("numeric","character","numeric","numeric"), nrows = -1, skip = 0, check.names = TRUE)
+#library(xlsx)
+W<-B # output for this model as letter
+n10<-2000 # same here?
+#n10<-796
+n1<-12
+n2<-6
+n3<-W$nyr-W$syr+2
+year<-c(W$syr:(W$nyr+1))
+d1m0<-W$N_males/1000000.0
+d1f0<-W$N_females/1000000.0
+d1m<-c(1:n3)
+d1f<-c(1:n3)
+d1l<-c(1:n3)
+for (i in 1:n3)
+{
+  d1m[i]<-sum(d1m0[i,n1:20])
+  d1l[i]<-sum(d1m0[i,(n1+3):20])
+  d1f[i]<-sum(d1f0[i,n2:16])
+}
+d2r0<-(W$recruits[1,1:(n3-1)]+W$recruits[2,1:(n3-1)])/1000000.0
+d2r<-c(0,d2r0)
+d2b<-(W$obs_cpue[1:(n3-1)]+W$obs_cpue[(0+n3):(n3+n3-2)])/1000.0 # needs to be adjusted for no 2020 data, this why it's n3-1, plus BSFRF is last 12 entries
+d2m<-(W$pre_cpue[1:(n3-1)]+W$pre_cpue[(0+n3):(n3+n3-2)])/1000.0
+d2b<-c(d2b,0) # check 
+d2m<-c(d2m,0) # check
+d3m0<-W$ssb/1000.0
+d3m<-c(d3m0,W$spr_bmsy*W$spr_depl/1000.0)
+n5<-0
+for (i in 1:n10)
+{
+  if(Z[i,2] == "sd_last_ssb")
+  {
+    d3b0 <- Z[Z[(i-n3+1):(i-1),1],4]
+    n6 <- Z[i,4]/1000.0
+    break
+  }
+}
+for (i in 1:(n3-1)) d3b0[i] <- d3m[i]*(exp(d3b0[i]^2)-1)^0.5
+d3b<-c(d3b0,n6)
+d4m<-cbind(year,d1m,d1l,d3m,d3b,d1f,d2r,d2m,d2b)
+write.csv(d4m,"./BBRKC/bbrkc_22f/doc/gmacs-sum_model211b.csv") # results go in Table 9
+# column names: Mature males, Legal males, MMB, sd MMB, Mature Females, Total Recruits, Survey biomass model est.(>64), area-swept(>64)
+# these results are in order but last two columns skip 2020 so you need to accomidate that in table - basically insert 0, 0 for 2020 and move
+#     observations down
+d5<-Z[1:n4,1:4]
+d6<-Z[1:n4,1:4]
+d5[1:46,]<-Z[1:46,]
+d6[1:46,]<-Z[47:92,]
+d5[47:96,]<-Z[93:142,]
+d6[47:96,]<-Z[143:192,]
+d5[97:146,]<-Z[193:242,]
+d6[97:146,]<-Z[243:292,]
+d5[147:n4,]<-Z[293:(293+n4-147),]
+d6[147:n4,]<-Z[(293+n4-146):(n4+n4),]
+d7<-cbind(d5,d6)
+write.csv(d7,"./BBRKC/bbrkc_22f/doc/gmacs-para_model211b.csv")
+
+# table 6&9, model 22 ----------
+n4<-192 # what is this value?
+Z<-read.table("./BBRKC/bbrkc_22f/model_22/gmacs.std", header = TRUE, sep = "", quote = "", colClasses = c("numeric","character","numeric","numeric"), nrows = -1, skip = 0, check.names = TRUE)
+#library(xlsx)
+W<-C # output for this model as letter
+n10<-2000 # same here?
+#n10<-796
+n1<-12
+n2<-6
+n3<-W$nyr-W$syr+2
+year<-c(W$syr:(W$nyr+1))
+d1m0<-W$N_males/1000000.0
+d1f0<-W$N_females/1000000.0
+d1m<-c(1:n3)
+d1f<-c(1:n3)
+d1l<-c(1:n3)
+for (i in 1:n3)
+{
+  d1m[i]<-sum(d1m0[i,n1:20])
+  d1l[i]<-sum(d1m0[i,(n1+3):20])
+  d1f[i]<-sum(d1f0[i,n2:16])
+}
+d2r0<-(W$recruits[1,1:(n3-1)]+W$recruits[2,1:(n3-1)])/1000000.0
+d2r<-c(0,d2r0)
+d2b<-(W$obs_cpue[1:(n3-1)]+W$obs_cpue[(0+n3):(n3+n3-2)])/1000.0 # needs to be adjusted for no 2020 data, this why it's n3-1, plus BSFRF is last 12 entries
+d2m<-(W$pre_cpue[1:(n3-1)]+W$pre_cpue[(0+n3):(n3+n3-2)])/1000.0
+d2b<-c(d2b,0) # check 
+d2m<-c(d2m,0) # check
+d3m0<-W$ssb/1000.0
+d3m<-c(d3m0,W$spr_bmsy*W$spr_depl/1000.0)
+n5<-0
+for (i in 1:n10)
+{
+  if(Z[i,2] == "sd_last_ssb")
+  {
+    d3b0 <- Z[Z[(i-n3+1):(i-1),1],4]
+    n6 <- Z[i,4]/1000.0
+    break
+  }
+}
+for (i in 1:(n3-1)) d3b0[i] <- d3m[i]*(exp(d3b0[i]^2)-1)^0.5
+d3b<-c(d3b0,n6)
+d4m<-cbind(year,d1m,d1l,d3m,d3b,d1f,d2r,d2m,d2b)
+write.csv(d4m,"./BBRKC/bbrkc_22f/doc/gmacs-sum_model22.csv") # results go in Table 9
+# column names: Mature males, Legal males, MMB, sd MMB, Mature Females, Total Recruits, Survey biomass model est.(>64), area-swept(>64)
+# these results are in order but last two columns skip 2020 so you need to accomidate that in table - basically insert 0, 0 for 2020 and move
+#     observations down
+d5<-Z[1:n4,1:4]
+d6<-Z[1:n4,1:4]
+d5[1:46,]<-Z[1:46,]
+d6[1:46,]<-Z[47:92,]
+d5[47:96,]<-Z[93:142,]
+d6[47:96,]<-Z[143:192,]
+d5[97:146,]<-Z[193:242,]
+d6[97:146,]<-Z[243:292,]
+d5[147:n4,]<-Z[293:(293+n4-147),]
+d6[147:n4,]<-Z[(293+n4-146):(n4+n4),]
+d7<-cbind(d5,d6)
+write.csv(d7,"./BBRKC/bbrkc_22f/doc/gmacs-para_model22.csv")
+
+# table 6&9, model 22.0a ----------
+n4<-192 # what is this value?
+Z<-read.table("./BBRKC/bbrkc_22f/model_22a/gmacs.std", header = TRUE, sep = "", quote = "", colClasses = c("numeric","character","numeric","numeric"), nrows = -1, skip = 0, check.names = TRUE)
+#library(xlsx)
+W<-D # output for this model as letter **CHANGE**
+n10<-2000 # same here?
+#n10<-796
+n1<-12
+n2<-6
+n3<-W$nyr-W$syr+2
+year<-c(W$syr:(W$nyr+1))
+d1m0<-W$N_males/1000000.0
+d1f0<-W$N_females/1000000.0
+d1m<-c(1:n3)
+d1f<-c(1:n3)
+d1l<-c(1:n3)
+for (i in 1:n3)
+{
+  d1m[i]<-sum(d1m0[i,n1:20])
+  d1l[i]<-sum(d1m0[i,(n1+3):20])
+  d1f[i]<-sum(d1f0[i,n2:16])
+}
+d2r0<-(W$recruits[1,1:(n3-1)]+W$recruits[2,1:(n3-1)])/1000000.0
+d2r<-c(0,d2r0)
+d2b<-(W$obs_cpue[1:(n3-1)]+W$obs_cpue[(0+n3):(n3+n3-2)])/1000.0 # needs to be adjusted for no 2020 data, this why it's n3-1, plus BSFRF is last 12 entries
+d2m<-(W$pre_cpue[1:(n3-1)]+W$pre_cpue[(0+n3):(n3+n3-2)])/1000.0
+d2b<-c(d2b,0) # check 
+d2m<-c(d2m,0) # check
+d3m0<-W$ssb/1000.0
+d3m<-c(d3m0,W$spr_bmsy*W$spr_depl/1000.0)
+n5<-0
+for (i in 1:n10)
+{
+  if(Z[i,2] == "sd_last_ssb")
+  {
+    d3b0 <- Z[Z[(i-n3+1):(i-1),1],4]
+    n6 <- Z[i,4]/1000.0
+    break
+  }
+}
+for (i in 1:(n3-1)) d3b0[i] <- d3m[i]*(exp(d3b0[i]^2)-1)^0.5
+d3b<-c(d3b0,n6)
+d4m<-cbind(year,d1m,d1l,d3m,d3b,d1f,d2r,d2m,d2b)
+write.csv(d4m,"./BBRKC/bbrkc_22f/doc/gmacs-sum_model22a.csv") # results go in Table 9
+# column names: Mature males, Legal males, MMB, sd MMB, Mature Females, Total Recruits, Survey biomass model est.(>64), area-swept(>64)
+# these results are in order but last two columns skip 2020 so you need to accomidate that in table - basically insert 0, 0 for 2020 and move
+#     observations down
+d5<-Z[1:n4,1:4]
+d6<-Z[1:n4,1:4]
+d5[1:46,]<-Z[1:46,]
+d6[1:46,]<-Z[47:92,]
+d5[47:96,]<-Z[93:142,]
+d6[47:96,]<-Z[143:192,]
+d5[97:146,]<-Z[193:242,]
+d6[97:146,]<-Z[243:292,]
+d5[147:n4,]<-Z[293:(293+n4-147),]
+d6[147:n4,]<-Z[(293+n4-146):(n4+n4),]
+d7<-cbind(d5,d6)
+write.csv(d7,"./BBRKC/bbrkc_22f/doc/gmacs-para_model22a.csv")
