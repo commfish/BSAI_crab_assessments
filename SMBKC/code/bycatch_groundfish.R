@@ -1,5 +1,5 @@
 # k.palof katie.palof@alaska.gov
-# date updated: 8-12-19 / 4-14-22
+# date updated: 8-12-19 / 4-14-22 / 8-25-22
 
 # Data manipulation for bycatch in Groundfish fisheries for SMBKC
 
@@ -16,8 +16,8 @@
 #   
 # load -----
 source("./SMBKC/code/packages.R")
-model_yr = "smbkc_22"
-cur_yr = 2021
+model_yr = "smbkc_22f"
+cur_yr = 2022
 
 # data -----
 #gf_bycatch <- read.csv("C:/Users/kjpalof/Documents/SMBKC/DATA_SMBKC/Crab Bycatch Estimates.csv") # old location
@@ -41,7 +41,7 @@ gf_bycatch %>%
 write.csv(gf_by_nums, paste0(here::here(), '/SMBKC/', model_yr, '/data/gf_bycatch_numbers.csv'), 
           row.names = FALSE)
 
-# weight -
+# weight -------
 gf_bycatch %>% 
   group_by(Crab.Year, Agency.Gear.Code) %>% 
   summarise(sum = sum(Estimate.Wt..kg.crab.)) %>% 
@@ -55,6 +55,11 @@ gf_bycatch %>%
 # combine trawl and fixed, divide by 2 - MALE only
 # from SAFE intro  -1000 t to million lb [/0.453592]
 # ignore 2019, this is just the beginning of this season, data up until 2018
+
+# use trawl_thou and fixed_thou for .dat file 
+gf_by_weight %>% 
+  select(Crab.Year, trawl_thou, fixed_thou) 
+  
 
 write.csv(gf_by_weight, paste0(here::here(), '/SMBKC/', model_yr, '/data/gf_bycatch_weight.csv'), 
           row.names = FALSE)
