@@ -24,7 +24,7 @@
 # load -----
 source("./SMBKC/code/packages.R")
 cur_yr = 2022 # Current survey data 
-
+folder = "smbkc_22f"
 # data -----
 # data files from AKFIN are saved as a different type of .csv open files and resave as csv general
 by_weight <- read.csv(paste0(here::here(), '/SMBKC/data/trawl_survey/EBSCrab_AB_Sizegroup_', cur_yr, '.csv'))
@@ -117,7 +117,7 @@ recruit90to104 %>%
   summarise(mean_6yr = mean(ABUNDANCE)) %>% 
   mutate(mean_6yr/1012456) # need to change this value to the lt_mean ? I think (was 1026493)
 
-write.csv(recruit90to104, paste0(here::here(), '/SMBKC/smbkc_22/data/recruit90to104_biomass.csv'), 
+write.csv(recruit90to104, paste0(here::here(), '/SMBKC/', folder, '/data/recruit90to104_biomass.csv'), 
           row.names = FALSE)
 
 # 6 year average recruitment % of LT mean 
@@ -141,11 +141,11 @@ size_group %>%
          pct.total105 = MALE_105TO119/total, pct.total120 = MALE_GE120/total) %>% 
   as.data.frame() -> proportion_by_group
 
-write.csv(proportion_by_group, paste0(here::here(), '/SMBKC/smbkc_22/data/proportion_size_class.csv'), 
+write.csv(proportion_by_group, paste0(here::here(), '/SMBKC/', folder, '/data/proportion_size_class.csv'), 
           row.names = FALSE)
 
-## corner station removal -------
-corner_station <- read.csv(paste0(here::here(), '/SMBKC/smbkc_22/model_1_corner/data/bk_stmatt_abundance_sizegroup.csv'))
+## NOT USED here corner station removal -------
+corner_station <- read.csv(paste0(here::here(), '/SMBKC/', folder, '/model_1_corner/data/bk_stmatt_abundance_sizegroup.csv'))
 corner_station %>% 
   filter(SURVEY_YEAR >= 1978) %>% 
   select(SURVEY_YEAR, NUM_MALE_90TO104, NUM_MALE_105TO119, NUM_MALE_GE120, NUM_MALE_GE90) %>% 
@@ -160,6 +160,15 @@ write.csv(prop_length_wo_corner_station, paste0(here::here(), '/SMBKC/smbkc_22/m
 
 ## sample size for length comps??? ----------------
 head(haul_bkc) # how to determine which ones are st.matt's???
+
+# 2022 sampled
+haul_bkc %>% 
+  filter(AKFIN_SURVEY_YEAR == 2022 & MID_LATITUDE > 58.5) %>% 
+  dplyr::select(AKFIN_SURVEY_YEAR, GIS_STATION, AREA_SWEPT, SPECIES_NAME, SEX, LENGTH, SAMPLING_FACTOR) %>% 
+  filter(SEX == 1 & LENGTH >= 90) %>% 
+  group_by(GIS_STATION) %>% 
+  summarise(numbers = sum(SAMPLING_FACTOR))%>% 
+  mutate(total = sum(numbers))
 
 # 2021 sampled
 haul_bkc %>% 
@@ -189,3 +198,7 @@ haul_bkc %>%
   group_by(GIS_STATION) %>% 
   summarise(numbers = sum(SAMPLING_FACTOR)) %>% 
   mutate(total = sum(numbers)) # 2018 .dat file has 31 as input, 62 as actual, I got 55 actual?????
+
+#Effective sample size = min(0.25*n , N) for trawl surveys where N max = 50
+0.50*59
+
