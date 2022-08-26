@@ -82,7 +82,7 @@ BBRKC 21 :::: # Run mcmc for projections
 Test mcmc run (see above)
 
 gmacs -mcmc 500000 -mcsave 1000 -nox
-
+(see below for time)
 
 # for projections
 Need to run mcmc above to get .psv file for projections
@@ -102,4 +102,12 @@ mcountSSB.rep
 gmacs.hst
 
 
+## mcmc model 21.1b ---
+-------------------------------------------
+--Start time: Mon Aug 22 01:28:13 2022
 
+--Finish time: Thu Aug 25 19:55:46 2022
+
+--Runtime: 90 hours, 27 minutes, 33 seconds
+--Number of function evaluations: 506463
+*******************************************
