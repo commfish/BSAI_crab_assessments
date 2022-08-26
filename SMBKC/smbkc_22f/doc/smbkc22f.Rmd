@@ -139,9 +139,8 @@ of the long term model-predicted survey biomass average, similar to the last thr
 The trend from these values suggests a steady state in the last few years, which does not fit the 2019 observed survey data point well.
 
 4. **Recruitment**: Recruitment is based on estimated number of male crab within the 90-104 mm CL size class
-in each year. The 2021 trawl-survey area-swept estimate of 0.423 million male SMBKC in this size class is the 15th lowest in 
-the 43 years since 1978 and follows two of the lowest previously observed values in 2017 and 2018. 
-The recent six-year (2015 - 2021) average recruitment is only 43% of the long-term mean. 
+in each year. The 2022 trawl-survey area-swept estimate of 0.617 million male SMBKC in this size class is ranked 20th in abou the middle of the 44 years since 1978 and increased some from the last 5 years of survey data. 
+The recent six-year (2016 - 2022) average recruitment is only 37% of the long-term mean. 
 In the pot-survey, the abundance of this size group in 2017 was also the second-lowest in the time series (22% of the mean for the 
 available pot-survey data) whereas in 2018 the value was the lowest observed at only 10% of the mean value.
 
