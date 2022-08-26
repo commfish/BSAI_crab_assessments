@@ -1,0 +1,18 @@
+# Appendix B. Data files for the reference model (16.0) {-}
+## The reference model (16.0) data file for 2022 {-}
+
+\fontsize{7}{9}
+```{r data, eval = TRUE, include=TRUE,echo=FALSE, comment=NA }
+library(knitr)
+opts_chunk$set(fig.width = 12, fig.height = 8, echo = FALSE, warning = FALSE, message = FALSE)
+ts <- readLines(here::here("SMBKC/smbkc_22/data/sm22.dat"))
+for (i in 1:length(ts)) cat(ts[i], "\n")
+```
+## The reference model (16.0) control file for 2022{-}
+```{r control, eval = TRUE, include=TRUE,echo=FALSE, comment=NA}
+opts_chunk$set(fig.width = 12, fig.height = 8, echo = FALSE, warning = FALSE, message = FALSE)
+ts <- readLines(here::here("SMBKC/smbkc_22/model_1_22/sm22.ctl"))
+for (i in 1:length(ts)) cat(ts[i], "\n")
+```
+
+
