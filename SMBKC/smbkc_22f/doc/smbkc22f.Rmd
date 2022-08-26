@@ -493,14 +493,7 @@ ranging from 0.61 to 0.69 for the reference case.
 The SDNRs for the directed pot fishery and other size compositions were similar to previous estimates.
 
 ### c. Parameter estimates {-}
-Model parameter estimates for each of the GMACS scenarios are summarized in Tables \@ref(tab:est-pars-ref), \@ref(tab:est-pars-M21), \@ref(tab:est-pars-4) and \@ref(tab:est-pars-4). These parameter
-estimates are compared in Table \@ref(tab:est-pars-all). Negative log-likelihood values and management measures for each
-of the model configurations are compared in Tables \@ref(tab:management-quants) and \@ref(tab:likelihood-components).
-
-There are differences in parameter estimates among models as 
-reflected in the log-likelihood components and the management quantities. 
-The most drastic of these differences comes in Model 22.0c which has a fixed natural mortality for the entire time series (Table \@ref(tab:est-pars-all)). 
-Removing the period of higher natural mortality in 1998 forces the model to accommodate the large drop in survey biomass by increases in recruitment and overall changes in mature male biomass in the late 90s.   
+Model parameter estimates for the GMACS reference model are summarized in Tables \@ref(tab:est-pars-ref). Negative log-likelihood values and management measures for the reference model are provided in Tables \@ref(tab:management-quants) and \@ref(tab:likelihood-components).
 
 Selectivity estimates for the directed fishery show some variability between the base model and model 22.0c, these differences accommodate the changes to the survey biomass estimates without increased natural mortality in 1998 (Figure \@ref(fig:selectivity)). 
 Estimated recruitment changes in magnitude with range of natural mortality levels in the models, with the largest differences being in the early part of the time series. Estimates of recruitment post-2000 are similar in all model runs, with the recent 10 years being the most similar regardless of the natural mortality assumed (Figure \@ref(fig:recruitment)). 
