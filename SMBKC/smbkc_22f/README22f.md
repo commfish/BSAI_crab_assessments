@@ -12,10 +12,10 @@ Models housed in smbkc_22f
 
 Model             | Model in Doc  | Description
 ---------- ---    | ------------- | -------------
-model_1_base20    |   16.0 (2020)  | - Basecase (last year's selected model 1) - no data updates due to off year cycle
+model_1_22        |   16.0 (2021   )  | - Basecase (last year's selected model 1) - no data updates due to off year cycle
                                   | - no need to run again, take this from 'smbck_22' folder 
 
-model_1_22        |   16.0        | - Basecase updated with 2021, 22 survey data, gf bycatch 2021, 22
+model_1_22f       |   16.0        | - Basecase updated with 2021, 22 survey data, gf bycatch 2021, 22
 
 
 Notice the use of a single .dat file for all of the different model runs. 
@@ -46,7 +46,7 @@ see 'SMBKC/code/EBSsurvey_analysis.R'
 
 # Run the model
 1) Using ADMB shell navigate to the folder for model_1
-    ' cd Documents\BSAI_crab_assessments\SMBKC\smbkc_22\model_1'
+    ' cd Documents\BSAI_crab_assessments\SMBKC\smbkc_22f\model_1_22f'
     
 2) type 'gmacs'
 
