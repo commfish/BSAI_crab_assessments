@@ -570,7 +570,7 @@ plot_cpue_VAST <-
   return(mdf)
 }
 
-.get_recruits_retro_kjp(M[[2]])
+#.get_recruits_retro_kjp(M[[2]])
 
 ## ssb and rec functions ---------------
 data_out <- function(model_names, direct)
