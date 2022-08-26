@@ -382,9 +382,9 @@ also occurred in the eastern Bering Sea groundfish fisheries (Table \@ref(tab:sm
 ## Summary of New Information {-}
 
 Data used in this assessment were updated to include the most recently available fishery and survey estimates. 
-Since this stock is now on a biennial assessment cycle, the new data for these models includes updated bycatch estimates and 2021 NMFS trawl survey 
+Since this stock is now on a biennial assessment cycle, the new data for these models includes updated bycatch estimates and 2021 & 2022 NMFS trawl survey 
 biomass and size composition data. 
-The assessment uses updated 1993-2020 groundfish and fixed gear bycatch estimates based on NMFS AKRO data.
+The assessment uses updated 1993-2021 groundfish and fixed gear bycatch estimates based on NMFS AKRO data.
 The directed fishery has been closed since the 2016/17 season, and therefore no directed fishery catch data are available. 
 The data used in each of the new models is shown in Figure \@ref(fig:data-extent).
 
@@ -392,11 +392,11 @@ The data used in each of the new models is shown in Figure \@ref(fig:data-extent
 
 Major data sources used in this assessment include annual directed-fishery retained-catch statistics from fish tickets
 (1978/79-1998/99, 2009/10-2012/13, and 2014/15-2015/16; Table \@ref(tab:smbkc-fishery)); results from the annual NMFS
-eastern Bering Sea trawl survey (1978-2021; Table \@ref(tab:stage-cpue-nmfs)); results from the ADF&G SMBKC pot
+eastern Bering Sea trawl survey (1978-2022; Table \@ref(tab:stage-cpue-nmfs)); results from the ADF&G SMBKC pot
 survey (every third year during 1995-2013, then every year during 2015-2018; Table \@ref(tab:stage-cpue));
 mean somatic mass given length category by year (Table \@ref(tab:length-weight)); 
 size-frequency information from ADF&G crab-observer pot-lift sampling (1990/91-1998/99, 2009/10-2012/13, and
-2014/15-2016/17; Table \@ref(tab:stage-cpue-1)); and the NMFS groundfish-observer bycatch biomass estimates (1992/93-2020/21;
+2014/15-2016/17; Table \@ref(tab:stage-cpue-1)); and the NMFS groundfish-observer bycatch biomass estimates (1992/93-2021/22;
 Table \@ref(tab:smbkc-groundfish-bycatch)).
 
 Figure \@ref(fig:stations) maps stations from which SMBKC trawl-survey and pot-survey data were obtained. 
@@ -451,28 +451,25 @@ An updated version of GMACS (version 2.01.F, 2022-04-16) was used.
 
 ## Model Selection and Evaluation {-}
 
-The base model is presented here as the last accepted model in 2020, and an updated model to include data from the 2021 crab year (fishery, survey, etc.). 
-In addition, three other models explore the model sensitivity to natural mortality estimates. 
+The base model is presented here as the last accepted model in 2020, with updated data from the 2020 crab year (fishery, survey, etc.) and 2021 survey, which was presented in May 2022. The current year's base model  includes updated data from the 2021 crab year (fishery, survey, etc.) and 2022 survey data. 
+ 
 In summary, the following lists the models presented and the naming convention used: 
 
-1. **16.0 - 2020 Model**: 2020 accepted model, fixed M = 0.18 all years except 1998 time block where M is estimated
+1. **16.0 - 2021 **: 2020 accepted model, fixed M = 0.18 all years except 1998 time block where M is estimated
+                      updated with 2020/21 groundfish bycatch & 2021 NMFS trawl survey data
 
-2. **16.0 - 2022 base model**: updated with 2020/21 groundfish bycatch & 2021 NMFS trawl data
-
-3. **22.0a - 2022 base model with fixed M = 0.21**: natural mortality is increased to 0.21 instead of 0.18
-
-4. **22.0b - 2022 base model with fixed M = 0.26**: natural mortality is increased to 0.26 instead of 0.18
-
-5. **22.0c - 2022 base model, without M time blocks**: natural mortality is fixed for all years at 0.18, no time blocks
+2. **16.0 - 2022 **: updated with 2021/22 groundfish bycatch & 2022 NMFS trawl data
 
 Note the change in naming convention (per SSC comments). The base model is model 16.0 since that was the year of model development and acceptance. 
 
 ## Results {-}
 
 ### a. Sensitivity to new data {-}
-The last accepted model for SMBKC was in Sept. 2020, new data added to the current 2022 model here includes both groundfish bycatch data for the 2020/21 crab season and NMFS trawl survey data - biomass and length compostions - from the 2021 summer survey. Additionally, the groundfish bycatch data was updated for past years due to some changes in the weights used to estimate crab bycatch in the groundfish fisheries (per. comm. NMFS AKRO). The 2022 reference model is compared here to the 2020 accepted model (both model 16.0), which is shown in Figures \@ref(fig:surv1) and \@ref(fig:surv2) with recruitment and spawning biomass shown in 
+The last accepted model for SMBKC was in Sept. 2020, new data added to the model listed here as "2021" includes both groundfish bycatch data for the 2020/21 crab season and NMFS trawl survey data - biomass and length compostions - from the 2021 summer survey. Additionally, the groundfish bycatch data was updated for past years due to some changes in the weights used to estimate crab bycatch in the groundfish fisheries (per. comm. NMFS AKRO). 
+The 2022 reference model is compared here to the 2021 version of accepted model (both model 16.0) which was presented in May 2022 documentation. Comparison of the 2021 base model vs the current year (2022) is shown in Figures \@ref(fig:surv1) and \@ref(fig:surv2) with recruitment and spawning biomass shown in 
 Figures \@ref(fig:recruitment2) and \@ref(fig:ssb1), respectively. 
-The 2020 accepted model and the 2022 base model have identical fits to the survey data, as well as nearly identical estimates of SSB and recruitment. This is expected since there is only one new survey data point between these models. 
+The 2021 and the 2022 base model have identical fits to the survey data, which is expected since there is only one new survey data point between these models. 
+Historic estimates of SSB and recruitment are nearly identical also, but current year trends differ due to increased abundance in the 2022 survey data. 
 As has been noted in the past, the reference model (16.0) still does not capture the recent survey declines in
 the ADF&G pot survey, or fit post 2005 trawl survey data points well. 
 
