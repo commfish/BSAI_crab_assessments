@@ -216,7 +216,7 @@ NMFS_Trawl ADFG_Pot
 # AEPAEP
 1 1
 ##  Number  of  rows  in  each  index, need to update when survey data is added
-54
+55
 # Survey data (abundance indices, units are mt for trawl survey and crab/potlift for pot survey)
 #	Index, Year,	Seas,	Fleet,	Sex,	Maturity,	Abundance,	CV	 abundance units	 timing						
 1	      1978	    1	    4	      1	    0	      6832.819	 0.394	        1	         0						
@@ -242,7 +242,7 @@ NMFS_Trawl ADFG_Pot
 1	1998	1	4	1	0	7976.839	0.355	1 0 							
 1	1999	1	4	1	0	1594.546	0.182	1 0 							
 1	2000	1	4	1	0	2096.795	0.31	1 0  							
-1	2001	1	4	1	0	2831.44	0.245	1 0  							
+1	2001	1	4	1	0	2831.44	  0.245	1 0  							
 1	2002	1	4	1	0	1732.599	0.32	1 0  							
 1	2003	1	4	1	0	1566.675	0.336	1 0 							
 1	2004	1	4	1	0	1523.869	0.305	1 0 							
@@ -250,18 +250,19 @@ NMFS_Trawl ADFG_Pot
 1	2006	1	4	1	0	3893.875	0.334	1 0 							
 1	2007	1	4	1	0	6470.773	0.385	1 0 							
 1	2008	1	4	1	0	4654.473	0.284	1 0 							
-1	2009	1	4	1	0	6301.47	0.256	1 0  							
+1	2009	1	4	1	0	6301.47	  0.256	1 0  							
 1	2010	1	4	1	0	11130.898	0.466	1 0  							
 1	2011	1	4	1	0	10931.232	0.558	1 0  							
 1	2012	1	4	1	0	6200.219	0.339	1 0 							
 1	2013	1	4	1	0	2287.557	0.217	1 0 							
-1	2014	1	4	1	0	6029.22	0.449	1 0  							
+1	2014	1	4	1	0	6029.22	  0.449	1 0  							
 1	2015	1	4	1	0	5877.433	0.77	1 0  							
 1	2016	1	4	1	0	3485.909	0.393	1 0 							
-1	2017	1	4	1	0	1793.76	0.599	1 0  							
+1	2017	1	4	1	0	1793.76	  0.599	1 0  							
 1	2018	1	4	1	0	1730.742	0.281	1 0 							
 1	2019	1	4	1	0	3170.467	0.337	1	 0  #	(updated	-	EBSsurvey_analysis.R)		
 1 2021  1 4 1 0 1929.298  0.427 1  0	# updated 4-14-22
+1 2022  1 4 1 0 2365.760  0.497 1  0  # updated 8-25-22
 2	1995	1	5	1	0	12042	0.13	2 0 						
 2	1998	1	5	1	0	12531	0.06	2 0 						
 2	2001	1	5	1	0	8477	0.08	2 0    							
@@ -273,10 +274,11 @@ NMFS_Trawl ADFG_Pot
 2	2016	1	5	1	0	2378	0.186	2 0 						
 2	2017	1	5	1	0	1689	0.25	2 0 							
 2	2018	1	5	1	0	745	0.14	2	 0 #	no	smbkc	pot	survey	in	2019, 2020, 2021
+#2 2022 1 5 1 0 # will be 2022 survey but not until after assessment
 ##  Number  of  length  frequency matrices
 3
 ##  Number  of  rows  in  each  matrix
-15  43  11 # (updated 4-14-22)
+15  44  11 # (updated 8-25-22)
 ##  Number  of  bins  in  each  matrix  (columns  of  size  data)
 3  3  3
 ##  SIZE  COMPOSITION DATA  FOR ALL FLEETS
@@ -344,9 +346,10 @@ NMFS_Trawl ADFG_Pot
   2015  1 4 1 0 0 0 50  0.2340  0.2994  0.4666
   2016  1 4 1 0 0 0 50  0.2255  0.2780  0.4965
   2017  1 4 1 0 0 0 21  0.0849  0.2994  0.6157
-  2018  1 4 1 0 0 0 31  0.1475  0.2219  0.6306
-  2019  1 4 1 0 0 0 50  0.1961  0.2346  0.5692 # no survey so not updated
-  2021  1 4 1 0 0 0 50  0.3323  0.1320  0.5357 # updated 4-14-22
+  2018  1 4 1 0 0 0 31  0.1475  0.2219  0.6306 #55
+  2019  1 4 1 0 0 0 50  0.1961  0.2346  0.5692 #105 no survey so not updated
+  2021  1 4 1 0 0 0 50  0.3323  0.1320  0.5357 #59  updated 4-14-22
+  2022  1 4 1 0 0 0 50  0.3531  0.2121  0.4348 #75 updated 8-25-22
   ##length  proportions of  pot survey
   ##Year, Seas, Fleet,  Sex,  Type, Shell,  Maturity, Nsamp,  DataVec
   1995  1 5 1 0 0 0 100 0.1594  0.2656  0.5751
