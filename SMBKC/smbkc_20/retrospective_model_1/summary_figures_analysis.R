@@ -115,6 +115,7 @@ mohn(out2)
 mohn(out2, peels = 5, details = FALSE, plot = TRUE)
 mohn(out2, peels = 7, details = FALSE, plot = TRUE)
 mohn(out2, peels = 9, details = FALSE, plot = TRUE)
+mohn(out2, peels = 1, details = TRUE, plot = TRUE)
 
 
 # comparison btn retro and leave out terminal yr survey -----------------
