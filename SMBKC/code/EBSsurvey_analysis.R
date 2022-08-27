@@ -80,7 +80,7 @@ biomass_mt %>%
   dplyr::select(SURVEY_YEAR, BIOMASS_MT) %>% 
   mutate(rank = rank(BIOMASS_MT), avg = mean(BIOMASS_MT))
   
-# 1978 - 2021 mean survey biomass
+# 1978 - 2022 mean survey biomass
 biomass_mt %>%  # all using biomass_mt metric tons
   filter(SURVEY_YEAR >= 1978) %>% 
   mutate(LT_MEAN = mean(BIOMASS_MT), pct.LT_MEAN = BIOMASS_MT/LT_MEAN) -> biomass_mt_mean
