@@ -53,7 +53,7 @@ write.csv(biomass_mt, paste0(here::here(), '/SMBKC/smbkc_22/data/survey_biomass_
 Model_size <- c("MALE_90TO104", "MALE_105TO119", "MALE_GE120")
 smbkc_area_swept %>% 
   filter(SIZE_GROUP %in% Model_size) %>% 
-  filter(SURVEY_YEAR >= 2015) %>% 
+  filter(SURVEY_YEAR >= 2019) %>% 
   group_by(SURVEY_YEAR, SIZE_GROUP) %>% 
   summarise(numbers = sum(ABUNDANCE)/1000000)
 
