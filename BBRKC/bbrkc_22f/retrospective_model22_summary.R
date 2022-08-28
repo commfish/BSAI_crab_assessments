@@ -100,7 +100,7 @@ ssb2 %>%
         text = element_text(size = 13), 
         axis.text = element_text(size = 13), 
         axis.title = element_text(size = 13)) +
-  geom_text(x = 1993, y = 100, label = "Mohn's rho: 0.453", size = 6) # add in Mohn's rho - currently calculated in excel - see retro_out_2022
+  geom_text(x = 1993, y = 40, label = "Mohn's rho: 0.453", size = 6) # add in Mohn's rho - currently calculated in excel - see retro_out_2022
 
 ggsave(paste0(.FIGS, "ssb_retrospective_model_22.png"), width = 1.35*6, height = 8)
 
