@@ -1539,3 +1539,5 @@ d5[147:n4,]<-Z[293:(293+n4-147),]
 d6[147:n4,]<-Z[(293+n4-146):(n4+n4),]
 d7<-cbind(d5,d6)
 write.csv(d7,"./BBRKC/bbrkc_22f/doc/gmacs-para_model22a.csv")
+
+## next --------------
