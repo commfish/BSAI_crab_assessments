@@ -124,6 +124,7 @@ round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2223
 round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2223
 round(M[[rec_mod]]$spr_cofl/1000*0.80, 2) -> abc_2223
 table1specs_t <- c(msst_2122, mmb_2122, mmb_2223, ofl_2223, abc_2223)
+table1specs_t
 #rec_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1/figure/ofl_calc.csv"))
 #round(rec_ofl$OFL_2020/1000, 2) -> ofl_2021
 #round(ofl_2021*0.8, 2) -> abc_2021
@@ -135,6 +136,7 @@ round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_2223_lb
 round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 3) -> ofl_2223_lb
 round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.80, 2) -> abc_2223_lb
 table1specs_lb <- c(msst_2122_lb, mmb_2122_lb, mmb_2223_lb, ofl_2223_lb, abc_2223_lb)
+table1specs_lb
 #round(rec_ofl$OFL_2020* 2204.62/1e6, 3) -> ofl_2021_lb
 #round(ofl_2021_lb*0.8, 2) -> abc_2021_lb
 

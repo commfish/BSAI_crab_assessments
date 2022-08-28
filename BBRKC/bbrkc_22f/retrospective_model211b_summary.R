@@ -93,7 +93,7 @@ ssb2 %>%
   #ylim(c(0,11500)) +
   theme_bw(base_size = 12, base_family = "") +
   scale_colour_discrete(name  ="Model end year") +
-  scale_x_continuous(breaks = seq(min(1975),max(max(recruits_all2$year) + 1), by = 5)) +
+  scale_x_continuous(breaks = seq(min(1975),max(max(ssb2$year) + 1), by = 5)) +
   theme(legend.position = c(0.8, 0.7), 
         text = element_text(size = 13), 
         axis.text = element_text(size = 13), 
@@ -105,12 +105,16 @@ ggsave(paste0(.FIGS, "ssb_retrospective_model211b.png"), width = 1.35*6, height 
 ## Mohn's rho ssb------
 ssb2 %>% 
   mutate(ssb = ssb/1000) %>% 
-  mutate(model.end.yr = ifelse(Model == '21.1b (2022)', '2021', as.numeric(Model)-1)) %>% 
+  mutate(model.end.yr = ifelse(Model == '21.1b (2022)', 2021, as.integer(Model)-1)) %>% 
   select(model.end.yr, year, ssb) %>% 
   spread(model.end.yr, ssb) %>% 
+  mutate(year = as.integer(year)) %>% 
   #needs to be in descending order for code to work
-  select(year, `2021`, `2020`, `2019`, `2018`, `2017`, `2016`, `2015`, `2014`, `2013`, `2012`, `2011`) -> out3
+  select(`2021`, `2020`, `2019`, `2018`, `2017`, `2016`, `2015`, `2014`, `2013`, `2012`, `2011`) -> out3
 # issue because year model names as column names don't match estimates
+
+row.names(out3) <- 1975:2021 # only works if rownames are years and retrospective estimates are in columns
+
 
 mohn(out3)
 mohn(out3, peels = 5, details = FALSE, plot = TRUE)
