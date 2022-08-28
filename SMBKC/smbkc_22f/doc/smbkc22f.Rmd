@@ -1284,8 +1284,8 @@ knitr::include_graphics("safe_figure/dyn_Bzero.png", dpi = 375)
 knitr::include_graphics("safe_figure/ssb_retrospective_model_1.png", dpi = 375)
 ```
 
-```{r project, fig.cap = "Mature male biomass (MMB) projections for the near future using mean recent recruitment (1996 - 2019) and average bycatch levels from the last 5 years. No directed fishering mortality was projected due to the low stock status and overfished declaration.", fig.height =12}
-#knitr::include_graphics(paste0(here::here(), "/SMBKC/smbkc_20/model_1/projections/safe_proj20.png"), dpi = 375)
+```{r project, fig.cap = "Mature male biomass (MMB) projections for the next ten years using mean recruitment (1978 - 2021) and average bycatch levels from the last 5 years.", fig.height =12}
+knitr::include_graphics("safe_figure/proj_ssb_model_1.png", dpi = 375)
 ```
                 
                 
