@@ -1158,7 +1158,7 @@ knitr::include_graphics("safe_figure/data_extent_manual.png", dpi = 200)
 knitr::include_graphics("safe_figure/Fig3.png", dpi = 125)
 ```
 
-```{r catch181, fig.cap = "Catches (in numbers) of male blue king crab > 90mm CL from the 2012-2021 NMFS trawl-survey at the 56 stations used to assess the SMBKC stock."}
+```{r catch181, fig.cap = "Catches (in numbers) of male blue king crab > 90mm CL from the 2013-2022 NMFS trawl-survey at the 56 stations used to assess the SMBKC stock."}
 knitr::include_graphics("safe_figure/CrabN_Station.png", dpi = 400)
 ```
 
