@@ -160,7 +160,6 @@ Computations which indicate the relative impact of fishing
   & & Biomass & & Retained & Total & & \\
   Year & MSST & ($\mathit{MMB}_\text{mating}$) & TAC & catch & male catch & OFL & ABC \\
   \hline
-  2017/18 & 1.85 & 2.05 & 0.00 & 0.00 & 0.003 & 0.12 & 0.10 \\
   2018/19 & 1.74 & 1.15 & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
   2019/20 & 1.67 & 1.06 & 0.00 & 0.00 & 0.001 & 0.04 & 0.03 \\
   2020/21 & 1.65 & 1.14 & 0.00 & 0.00 & 0.001 & 0.05 & 0.04 \\
@@ -179,7 +178,6 @@ Computations which indicate the relative impact of fishing
   & & Biomass & & Retained & Total & & \\
   Year & MSST & ($\mathit{MMB}_\text{mating}$) & TAC & catch & male catch & OFL & ABC \\
   \hline
-  2017/18 & 4.1 & 2.85 & 0.000 & 0.000 & 0.007  & 0.27 & 0.22 \\ 
   2018/19 & 3.84 & 2.54 & 0.000 & 0.000 & 0.002 & 0.08 & 0.07 \\
   2019/20 & 3.68 & 2.34 & 0.000 & 0.000 & 0.002 & 0.096 & 0.08 \\
   2020/21 & 3.64 & 2.52 & 0.000 & 0.000 & 0.002 & 0.112 & 0.08  \\
@@ -203,7 +201,6 @@ Computations which indicate the relative impact of fishing
   & & & Biomass & & & & & Natural \\ 
   Year & Tier & $B_\mathit{MSY}$ & ($\mathit{MMB}_\text{mating}$) & $B/B_\mathit{MSY}$ & $F_\mathit{OFL}$ & $\gamma$ & Basis for $B_\mathit{MSY}$ & mortality \\ 
   \hline
-  2017/18 & 4b & 3.86 & 2.05 & 0.53 & 0.08 & 1 & 1978-2017 & 0.18 \\
   2018/19 & 4b & 3.7  & 1.15 & 0.35 & 0.043 & 1 & 1978-2017 & 0.18 \\
   2019/20 & 4b & 3.48 & 1.06 & 0.31 & 0.042 & 1 & 1978-2018 & 0.18 \\ 
   2020/21 & 4b & 3.34 & 1.14 & 0.32 & 0.047 & 1 & 1978-2019 & 0.18 \\
@@ -519,7 +516,7 @@ of uncertainty on the input data (Figure \@ref(fig:fit-to-catch)).
 
 ### e. Retrospective and historical analyses {-}
 This is the fifth year GMACS has been used for this stock. As such, retrospective patterns and historical analyses of GMACS assessments are limited. 
-Retrospective analysis was completed and presented here (). 
+Retrospective analysis was completed and presented here for both the entire recruitment time series (Figure \@ref(fig:project)) and a more recent "low" recruitment period (Figure \@ref(fig:project2)). 
 
 ### f. Uncertainty and sensitivity analyses.{-}
 Estimated standard deviations of parameters and selected management measures for the models are summarized for each individual model in
@@ -1287,7 +1284,10 @@ knitr::include_graphics("safe_figure/ssb_retrospective_model_1.png", dpi = 375)
 ```{r project, fig.cap = "Mature male biomass (MMB) projections for the next ten years using mean recruitment (1978 - 2021) and average bycatch levels from the last 5 years.", fig.height =12}
 knitr::include_graphics("safe_figure/proj_ssb_model_1.png", dpi = 375)
 ```
-                
+
+```{r project2, fig.cap = "Mature male biomass (MMB) projections for the next ten years using recent recruitment draws (1996 - 2021) and average bycatch levels from the last 5 years.", fig.height =12}
+knitr::include_graphics("safe_figure/proj_ssb_model_1_recent_rec.png", dpi = 375)
+```              
                 
 \pagebreak 
 \newpage\clearpage
