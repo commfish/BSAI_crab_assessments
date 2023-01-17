@@ -1,0 +1,127 @@
+---
+title: "Appendix B: Pribilof Islands Golden King Crab Alternative Tier 4/5 Assessment"
+author: |
+  | Tyler Jackson and Ben Daly
+  | Alaska Department of Fish and Game, tyler.jackson@alaska.gov
+date: "`r format(Sys.time(), '%B %Y')`"
+output:
+  bookdown::pdf_document2:
+    toc: no
+header-includes:
+   - \usepackage{float}
+   - \usepackage{hanging}
+---
+```{r, echo = F, message = F, warning = F}
+library(tidyverse)
+library(xtable)
+
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, fig.pos='H')
+
+# load survey data
+survey <- read_csv("../../../PIGKC/output/survey_timeseries_surveyarea_pi_district.csv")
+## survey estimate table
+### total biomass 
+filter(survey, group == "male_mature") %>%
+  transmute(survey_year = as.character(survey_year), mmb = biomass / 1000) -> mmb_tab
+## average mmb
+mmb_avg <- mean(mmb_tab$mmb)
+
+```
+
+# Purpose {-}
+
+This appendix offers alternative harvest specifications in response to the following comment in the 2020 June SSC report:  
+
+"\textit{For the next full assessment, the SSC requests the authors provide...A Tier 5 methodology that uses Tier 4 methods for calculating the OFL/ABC. This approach would use the historical EBS slope survey estimates (based on a reference period) and use F=M for OFL calculation (or perhaps a different F value). An example of this approach was used for spiny dogfish (see October 2010 SSC report).}"
+
+# Data {-} 
+
+Area swept estimates of mature male biomass (MMB) from the 2002, 2004, 2008, 2010, 2012, and 2016 NMFS-AFSC Eastern Bering sea slope survey were used to calculate management quantities (\ref{}). Details of survey methodology and biomass computations can be found in Appendix A, as well as Hoff and Britt (2003; 2005; 2009,; 2011) and Hoff (2013; 2016).
+
+# Calculation of Reference Points {-}
+
+The 2010 Gulf of Alaska spiny dogfish ($Squalus$ $suckleyi$) assessment used groundfish tier 5 calculations in which OFL is computed as $\text{OFL} = M \times B$ where $F_{OFL} = M$ (NPFMC 2010) and authors used a model based $M$ Tribuzio and Kruse (2011). For Pribilof District golden king crab, we computed OFL specifications using both $M$ = 0.18 yr^$^{-1}$ (NPFMC 2007) and $M$ = 0.21 yr^$^{-1}$ (Siddeek et al., 2018). In the absence of an updated survey MMB estimate, we computed biomass $B$ as the average MMB for 2002-2016 surveys ($B =$ `r round(mmb_avg, 1)` t) to capture the range of potential productivity of the stock. MMB estimates for 2002 and 2004 were estimated from the ratio of MMB to total biomass in 2008-2016 (see Appendix A for more details). We felt that inclusion of 2002 and 2004 was appropriate since the trend in total biomass throughout the time series indicated lower biomass, and thus lower productivity, in those years. ABC was computed a $\text{ABC} = (1-0.25)\text{OFL}$, consistent with tier 4 calculations for EBS crab stocks (NPFMC 2007).
+
+<!-- $OFL$ was computed using $B$ projected to the mean time of mating (February 15) using $B_{proj} = Be^{-0.625M}$ -->
+
+# Tables {-}
+
+\begin{table}[H]
+\centering
+\caption{Mature male biomass estimates base on areas swept calculations for the NMFS-AFSC EBS slope survey within the Pribilof District Management Area. MMB estimates for 2002 and 2004 are proxies based on total biomass, and he ratio of MMB to total biomass in other survey years (Appendix A).}
+\label{table:surveymmb}
+\begin{tabular}{llc}
+Survey & MMB (t) \\
+\hline
+```{r surveymmb, results='asis', eval = T}
+# print table
+print(xtable(mmb_tab, align="llc", digits=c(0, 0, 1)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\caption{Comparisons of alternative tier 4 OFL specifications using $M$ = 0.18 or $M$ = 0.21, and $B$ equal to the average survey MMB from 2002 - 2016.}
+\label{table:spectab}
+\begin{tabular}{llccc}
+$M$ & $B$ (t) & OFL (t) & ABC (t)\\
+\hline
+```{r spectab, results='asis', eval = T}
+# print table
+tibble(M = c(0.18, 0.21),
+       B = mmb_avg, 
+       OFL = B * M,
+       ABC = (1 - 0.25) * OFL) -> x
+
+print(xtable(x, align="llccc", digits=c(2, 2, 1, 1, 1)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+# Literature Cited {-}
+
+\begin{hangparas}{.25in}{1}
+
+Hoff, G. R. 2013. Results of the 2012 eastern Bering Sea upper continental slope survey of groundfish and invertebrate resources. U.S. Dep. Commer., NOAA Tech. Memo. NMFS-AFSC-258.  
+
+Hoff, G. R. 2016. Results of the 2016 eastern Bering Sea upper continental slope survey of groundfish and invertebrate resources. U.S. Dep. Commer., NOAA Tech. Memo. NMFS-AFSC-339.  
+
+Hoff, G. R., and L. Britt. 2003. Results of the 2002 eastern Bering Sea upper continental slope survey of groundfish and invertebrate resources. U.S. Dep. Commer., NOAA Tech. Memo. NMFS-AFSC-141.  
+
+Hoff, G .R., and L. Britt. 2005. Results of the 2004 eastern Bering Sea upper continental slope survey of groundfish and invertebrate resources. U.S. Dep. Commer., NOAA Tech. Memo. NMFS-AFSC-156.  
+
+Hoff, G. R., and L. Britt. 2009. Results of the 2008 eastern Bering Sea upper continental slope survey of groundfish and invertebrate resources. U.S. Dep. Commer., NOAA Tech. Memo. NMFS-AFSC-197.  
+
+Hoff, G. R., and L. Britt. 2011. Results of the 2010 eastern Bering Sea upper continental slope survey of groundfish and invertebrate resources. U.S. Dep. Commer., NOAA Tech. Memo. NMFS-AFSC-224. 
+
+North Pacific Fishery Management Council (NPFMC). 2007. Public Review Draft: Environmental Assessment for proposed Amendment 24 to the Fishery Management Plan for Bering Sea and Aleutian Islands King and Tanner Crabs to Revise Overfishing Definitions. 14 November 2007. North Pacific Fishery Management Council, Anchorage.  
+
+Siddeek, M.S.M., J. Zheng, C. Siddon, B. Daly, J. Runnebaum, and M.J. Westphal. 2018. Aleutian Islands golden king crab model-based stock assessment. North Pacific Fishery Management Council, Anchorage, Alaska.
+
+Tribuzio, C.A., K. Echave, C. Rodgveller, J. Heifetz, and K.J. Goldman. 2010. Chapter 18b: Assessment of the sharks in the Gulf of Alaska. NPFMC Gulf of Alaska SAFE. North Pacific Fishery Management Council, Anchorage, Alaska.
+
+Tribuzio, C.A., G.H. Kruse. 2011. Demographic and risk analyses of spiny dogfish
+($Squalus$ $suckleyi$) in the Gulf of Alaska using ageand stage-based population models. Marine and Freshwater Research 62: 1395–1406.
+
+\end{hangparas}
+
+

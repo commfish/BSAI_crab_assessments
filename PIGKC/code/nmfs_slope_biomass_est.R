@@ -4,21 +4,64 @@
 ## 'design based' abundance and biomass estimates for random effects model input
 ## author: Tyler Jackson
 ## tyler.jackson@alaska.gov
-## last updated: 2020/4/14
+## last updated: 2022/11/3
 
 # load ----
 
 library(tidyverse)
 library(magrittr)
-library(FNGr); theme_set(theme_sleek())
+# graphic options
+theme_sleek <- function(base_size = 12, base_family = "Times") {
+  
+  windowsFonts(Times=windowsFont("TT Times New Roman"))
+  
+  half_line <- base_size/2
+  
+  theme_light(base_size = base_size, base_family = base_family) +
+    theme(
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      axis.ticks.length = unit(half_line / 2.2, "pt"),
+      strip.background = element_rect(fill = NA, colour = NA),
+      strip.text.x = element_text(colour = "black"),
+      strip.text.y = element_text(colour = "black"),
+      #axis.text = element_text(colour = "grey30"),
+      #axis.title = element_text(colour = "grey30"),
+      #legend.title = element_text(colour = "grey30"),#, size = rel(0.9)
+      panel.border = element_rect(fill = NA),#, colour = "grey70", size = 1),
+      legend.key.size = unit(0.9, "lines"),
+      #legend.text = element_text(size = rel(0.7)),#, colour = "grey30"),
+      legend.key = element_rect(colour = NA, fill = NA),
+      legend.background = element_rect(colour = NA, fill = NA)#,
+      #plot.title = element_text(colour = "grey30"),#, size = rel(1)
+      #plot.subtitle = element_text(colour = "grey30")#, size = rel(.85)
+    )
+  
+}
+theme_set(theme_sleek())
+
+# Depends on dplyr
+tickr <- function(
+    data, # dataframe
+    var, # column of interest
+    to # break point definition
+) {
+  
+  VAR <- enquo(var) # makes VAR a dynamic variable
+  
+  data %>%
+    dplyr::filter(!is.na(!!VAR)) %>%
+    distinct(!!VAR) %>%
+    mutate(labels = ifelse(!!VAR %in% seq(to * round(min(!!VAR) / to), max(!!VAR), to),
+                           !!VAR, "")) %>%
+    dplyr::select(breaks = UQ(VAR), labels)
+}
 
 ## source R scripts
-source("./PIGKC/code/clean_nmfs_specimen_data.R")
-source("./PIGKC/code/adfg_map_functions.R")
+source("PIGKC/code/clean_nmfs_specimen_data.R")
+source("PIGKC/code/adfg_map_functions.R")
 
 ## global options
-### assessment year
-YEAR <- 2020
 ### custom color/fill pallete
 cb_palette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", 
                 "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
@@ -26,16 +69,16 @@ cb_palette <- c("#999999", "#E69F00", "#56B4E9", "#009E73",
 # data ----
 
 ## haul data (2002, 2004, 2008, 2010, 2012, 2016)
-haul <- read_csv("./PIGKC/data/nmfs_slope_haul_2002_2016.csv")
+haul <- read_csv("./PIGKC/data/slope_survey/nmfs_slope_haul_2002_2016.csv")
 
 ## stratum
-strata <- read_csv("./PIGKC/data/strata_area_prib_district.csv")
+strata <- read_csv("./PIGKC/data/slope_survey/strata_area_prib_district.csv")
 
 ## specimen data (from clean_nmfs_specimen_data.R)
 str(spec_0416)
 
 ## 2002 - 2016 catch data from tech memos
-read_csv("./PIGKC/data/nmfs_slope_gkc_catch_2002_2016.csv") %>%
+read_csv("./PIGKC/data/slope_survey/nmfs_slope_gkc_catch_2002_2016.csv") %>%
   replace_na(list(wt_kg = 0)) -> catch
 
 ## map data
@@ -176,7 +219,7 @@ spec_0416 %>%
     geom_histogram(aes(x = length, weight = sampling_factor), 
                    binwidth = 5, color = "grey20", fill = cb_palette[3])+
     facet_grid(rows = vars(stratum_depth), cols = vars(survey_year), drop = T)+
-    labs(x = "Carapace length (mm)", y = "Number of crab") -> x
+    labs(x = "Carapace length (mm)", y = "Number of crab")-> x
   ggsave("./PIGKC/figures/size_comps_male_only.png", 
          plot = x, height = 6, width = 7, units = "in")
 
@@ -516,42 +559,6 @@ pi_est %>%
 
 
 
-
-## export random effects model input data file
-### extract data
-#### model years
-pi_est %>%
-  filter(group == "male_mature") %>%
-  pull(survey_year) -> yrs
-#### starting year
-start <- min(yrs)
-#### ending year
-end <- 2022
-#### number of estimates
-n <- nrow(filter(pi_est, group == "male_mature"))
-#### biomass estimates (in metric tons)
-pi_est %>%
-  filter(group == "male_mature") %>%
-  pull(biomass) / 1000 -> biomass
-#### cv of biomass estimates
-pi_est %>%
-  filter(group == "male_mature") %>%
-  pull(cv_biomass) -> cv
-
-### compile input file
-rbind(c(start, "#Start year of model", rep("", n - 2)),
-      c(end, "#End year of model", rep("", n - 2)),
-      c(n, "#number of survey estimates", rep("", n - 2)),
-      c("#Years of survey", rep("", n - 1)),
-      c(yrs),
-      c("#biomass estimates mature males, subareas 2 - 4, sample withn stratum only, 2002 and 2004 based on mean mmb:total ratio", rep("", n - 1)),
-      c(round(biomass, 2)),
-      c("#Coefficients of variation for biomass estimates", rep("", n - 1)),
-      c(round(cv, 2))) %>%
-  write.table(., paste0("./PIGKC/model/", YEAR,"/2020f/re.dat"), 
-              quote = F, row.names = F, col.names = F)
-
-
 # abundance and biomass estimates, mmb 2002 -2016 surveyarea in PI district ----
 ## MMB 2002 - 2016, survey area within PI district, compute biomass within stratum only
 ## MMB in 2002 and 2004 calculated from ratio in 2008 - 2016
@@ -600,11 +607,22 @@ stratum_est %>%
             biomass = sum(biomass),
             var_biomass = sum(var_biomass),
             cv_biomass = sqrt(var_biomass) / biomass) -> survey_est
+# compute total and bind to survey_est
+survey_est %>%
+  filter(group != "male_legal") %>%
+  group_by(survey_year) %>%
+  summarise(group = "total", 
+            n_stations = sum(n_stations),
+            abundance = sum(abundance), var_abundance = sum(var_abundance), cv_abund = sqrt(var_abundance) / abundance,
+            biomass = sum(biomass), var_biomass = sum(var_biomass), cv_biomass = sqrt(var_biomass) / biomass) %>%
+  bind_rows(survey_est) -> survey_est
+# write survey estimates to table
+write_csv(survey_est, "./PIGKC/output/survey__biomass_surveyarea_pi_district.csv")
 
 ## compute the ratio of mature males to total catch in weight
 survey_est %>%
   # remove legal males so that sum is total
-  filter(group != "male_legal") %>%
+  filter(!(group %in% c("male_legal", "total"))) %>%
   # compute ratio per year
   group_by(survey_year) %>%
   summarise(ratio = sum(biomass[group == "male_mature"]) / sum(biomass)) -> ratio
@@ -612,7 +630,7 @@ survey_est %>%
 ## compute total catch for 2002 and 2004
 catch %>%
   filter(survey_year %in% 2002:2004) %>%
-  # joiningg to satifactory hauls
+  # joining to satisfactory hauls
   left_join(haul %>%
               filter(haul_type == 3, performance == 0) %>%
               # add lon (x) and lat (y) of stations
@@ -648,33 +666,26 @@ catch %>%
   # extrapolate to the stratum area
   mutate(tot_biomass = mean_density * stratum_area_pi,
          var_tot_biomass = var_density * stratum_area_pi^2 / n_stations) %>%
+  
   # estimate mmb using ratio, variance as product of ind rv
   mutate(mmb = tot_biomass * mean(ratio$ratio),
-         var_mmb = (tot_biomass^2 * (var(ratio$ratio) / nrow(ratio))) + (mean(ratio$ratio)^2 * var_tot_biomass) + (var_tot_biomass * (var(ratio$ratio) / nrow(ratio)))) %>%
-  dplyr::select(survey_year, stratum, mmb, var_mmb) %>%
-  rename(biomass = mmb,
-         var_biomass = var_mmb) %>%
+         var_mmb = (tot_biomass^2 * (var(ratio$ratio) / nrow(ratio))) + (mean(ratio$ratio)^2 * var_tot_biomass) + (var_tot_biomass * (var(ratio$ratio) / nrow(ratio)))) %>% 
   # sum within a year
   group_by(survey_year) %>%
-  summarise(biomass = sum(biomass),
-            var_biomass = sum(var_biomass)) %>%
-  # add group
-  mutate(group = "male_mature") -> mmb_0204
-
-## extract re-model inputs from 2008 - 2016
-survey_est %>%
-  # bind to mmb for 2002 and 2004
-  bind_rows(mmb_0204) %>%
-  dplyr::select(survey_year, group, biomass, var_biomass) %>%
-  mutate(se_biomass = sqrt(var_biomass),
-         cv_biomass = se_biomass / biomass) %>%
-  arrange(survey_year) -> pi_est
-
-
-## output survey mmb estimates
-pi_est %>%
-  filter(group == "male_mature") %>%
-  write_csv("./PIGKC/output/survey_mmb_timeseries_surveyarea_pi_district.csv")
+  summarise(mmb = sum(mmb),
+            var_mmb = sum(var_mmb),
+            tot_biomass = sum(tot_biomass),
+            var_tot_biomass = sum(var_tot_biomass)) %>%
+  # pivot to long format
+  unite(mmb, var_mmb, col = "male_mature") %>%
+  unite(tot_biomass, var_tot_biomass, col = "total") %>%
+  pivot_longer(c(male_mature, total), names_to = "group", values_to = "est") %>%
+  separate(est, sep = "_", into = c("biomass", "var_biomass")) %>% mutate_at(3:4, as.numeric) %>%
+  # add cv
+  mutate(cv_biomass = sqrt(var_biomass) / biomass) %>%
+  # join to full survey estimates 
+  bind_rows(survey_est) %>%
+  write_csv("./PIGKC/output/survey_timeseries_surveyarea_pi_district.csv")
 
 
 

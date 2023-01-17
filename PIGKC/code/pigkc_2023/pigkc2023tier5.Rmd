@@ -1,0 +1,1391 @@
+---
+title: "Pribilof Islands Golden King Crab Stock Assesssment 2023 DRAFT"
+author: |
+  | Tyler Jackson and Ben Daly
+  | Alaska Department of Fish and Game, tyler.jackson@alaska.gov
+date: "`r format(Sys.time(), '%B %Y')`"
+output:
+  bookdown::pdf_document2:
+    toc: no
+header-includes:
+   - \usepackage{float}
+   - \usepackage{hanging}
+---
+
+```{r, echo = F, message = F, warning = F}
+library(tidyverse)
+library(xtable)
+
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, fig.pos='H')
+
+source("./pigkc2023_tier5.R")
+```
+```{r, echo = F, message = F, warning = F}
+
+
+
+# function to change table text for confidential fisheries data, based on a code
+f_cf_text <- function(x, cf, digits = 1, no_effort_return) {
+  
+  if(cf == 0) {return(prettyNum(round(x, digits), ","))} # not conf
+  if(cf == 1) {return("CF")} # conf
+  if(cf == 2 & missing(no_effort_return)) {return("NE")} # no effort
+  if(cf == 2 & !missing(no_effort_return)) {return(no_effort_return)} # no effort, return specified string
+  if(cf == 3) {return("ND")} # no data
+  if(cf == 4) {return("Closed")} # fishery closed
+  
+}
+
+# load directed fisheries stats data
+rt <- read_csv("../../data/retained_catch.csv")
+rt_pre <- read_csv("../../data/retained_catch_pre_1993.csv")
+ghl_cf_check <- read_csv("../../data/pigkc_ghl_cf_check.csv")
+
+# compute fish stats
+rt_pre %>%
+  mutate(cpue = retained_n / pot_lifts,
+         avg_wt_kg = retained_t / retained_n * 1000,
+         avg_wt_lb = retained_lb / retained_n) %>%
+  bind_rows(rt) %>%
+  right_join(ghl_cf_check %>%
+              mutate(opening_year = as.numeric(substring(season, 1, 4)))) %>%
+  mutate(cpue = ifelse(vessels == 0, NA, cpue),
+         avg_wt_kg = ifelse(vessels == 0, NA, avg_wt_kg),
+         avg_wt_lb = ifelse(vessels == 0, NA, avg_wt_lb)) -> fishery_stats
+
+```
+# Executive Summary {-}
+\begin{enumerate}
+
+\item \textbf{Stock}: Golden king crab, $Lithodes$ $aequispinus$, Pribilof Islands (Pribilof District), Alaska.
+
+\item \textbf{Catch}: Commercial fishing for golden king crab in the Pribilof District has been concentrated in the Pribilof Canyon. The domestic fishery developed in 1982/83, although some limited fishing occurred at least as early as 1981/82. Peak retained catch occurred in 1983/84 at 856,475 lb (388 t). The fishing season for this stock has been defined as a calendar year (as opposed to 1-July to 30-June crab fishing year) after 1983/84. Since then, participation in the fishery has been sporadic and annually retained catch has been variable: from there being none in the ten years that no vessels participated (1984, 1986, 1990–1992, 2006–2009, 2015, and 2016) to 341,908 lb (155 t) in 1995, when seven vessels made landings. The fishery is not rationalized and there is no state harvest strategy in regulation. A guideline harvest level (GHL) was first established for the fishery in 1999 at 200,000 lb (91 t). The GHL was reduced to 150,000 lb (68 t) for 2000–2014 and reduced to 130,000 lb (59 t) in 2015. No vessels participated in the directed fishery and no landings were made during 2006–2009 or 2015-2016. Catch data from 2003–2005, 2010–2014, and 2017-2019 cannot be reported here under the confidentiality requirements of State of Alaska (SOA) statute Sec. 16.05.815. The 2003 and 2004 fisheries were closed by emergency order to manage the retained catch towards the GHL; the 2005 and 2010–2014, 2017-2019 fisheries were not closed by emergency order. Four vessels participated in both 2020 and 2021, harvesting 107,679 lb (48.8 t) and 34,216 lb (15.5 t), respectively.
+
+```{r discardsum, echo = F, message = F, warning = F}
+
+source("../gf_bycatch.R")
+
+# snow crab fishery bycatch
+read_csv("../../data/snow_crab_fishery_bycatch.csv") %>%
+  group_by(opening_year) %>% summarise(qo_mort = sum(bycatch_t, na.rm = T) * 0.5) %>%
+  mutate(opening_year = opening_year + 1) %>%
+  # groovy crab bycatch
+  full_join(read_csv("../../data/grooved_crab_fishery_bycatch.csv") %>%
+            group_by(opening_year) %>% summarise(qg_mort = sum(bycatch_t, na.rm = T) * 0.5)) %>%
+  # directed fishery mortality 
+  full_join(read_csv("../../data/directed_fishery_tot_catch_and_discard.csv") %>%
+              filter(opening_year >= 2001) %>%
+              mutate(discard_t = ifelse(discard_t < 0, 0, discard_t)) %>%
+              group_by(opening_year) %>% summarise(qb_mort = sum(discard_t, na.rm =T) * 0.2)) %>%
+  # crab non directed fisheries confidential check
+  right_join(read_csv("../../data/nondir_cf_check.csv") %>%
+              mutate(opening_year = as.numeric(substring(season, 1, 4)))) %>%
+  # groundfish bycatch
+  right_join(gf_bycatch %>% mutate(opening_year = as.numeric(substring(year, 1, 4))),
+             by = "opening_year") %>% 
+  dplyr::select(-season, -year) %>%
+  replace(is.na(.), 0) -> mort_all
+
+# range nondir crab mort
+mort_all %>%
+  filter(opening_year >= 2001) %>%
+  mutate(crab_mort = qo_mort + qg_mort + qb_mort) %>%
+  pull(crab_mort) %>% 
+  range -> crab_mort_range_t
+crab_mort_range_lb <- crab_mort_range_t / 0.000453592
+
+# mean nondir crab mort
+mort_all %>%
+  filter(opening_year >= 2001) %>%
+  mutate(crab_mort = qo_mort + qg_mort + qb_mort) %>%
+  pull(crab_mort) %>% 
+  mean -> crab_mort_mean_t
+crab_mort_mean_lb <- crab_mort_mean_t / 0.000453592
+
+# gf mort range
+mort_all %>%
+  filter(opening_year >= 1991) %>%
+  pull(total_mortality) %>%
+  range -> gf_range_t
+gf_range_lb <- gf_range_t / 0.000453592
+
+# gf mort mean
+mort_all %>%
+  filter(opening_year >= 1991) %>%
+  pull(total_mortality) %>%
+  mean -> gf_mean_t
+gf_mean_lb <- gf_mean_t / 0.000453592
+
+# gf mort recent
+mort_all %>%
+  filter(opening_year >= 2020) %>%
+  pull(total_mortality) -> gf_recent_t
+gf_recent_lb <- gf_recent_t / 0.000453592
+```
+
+Discarded (non-retained) catch has occurred in the directed golden king crab fishery, the eastern Bering Sea snow crab fishery, the Bering Sea grooved Tanner crab fishery, and in Bering Sea groundfish fisheries.
+
+Estimates of annual discard mortality during 2001–2021 due to crab fisheries range from `r prettyNum(round(crab_mort_range_lb[1], 0), big.mark = ",")` lb (`r prettyNum(round(crab_mort_range_t[1], 1), big.mark = ",")` t) to `r prettyNum(round(crab_mort_range_lb[2], 0), big.mark = ",")` lb (`r prettyNum(round(crab_mort_range_t[2], 1), big.mark = ",")` t), with an average of `r prettyNum(round(crab_mort_mean_lb, 0), big.mark = ",")` lb (`r prettyNum(round(crab_mort_mean_t, 1), big.mark = ",")` t). Estimates of annual fishery mortality during 1991/92–2019 due to groundfish fisheries range from `r prettyNum(round(gf_range_lb[1], 0), big.mark = ",")` lb (`r prettyNum(round(gf_range_t[1], 1), big.mark = ",")` t) to `r prettyNum(round(gf_range_lb[2], 0), big.mark = ",")` lb (`r prettyNum(round(gf_range_t[2], 1), big.mark = ",")` t), with an average of `r prettyNum(round(gf_mean_lb, 0), big.mark = ",")` lb (`r prettyNum(round(gf_mean_t, 1), big.mark = ",")` t) (estimates of annually discarded catch during Bering Sea groundfish fisheries are reported for crab fishing years from 1991 to 2008, and by calendar years from 2009 to 2021). 
+
+\item \textbf{Stock biomass}: Stock biomass (all sizes, both sexes) of golden king crab have been estimated for the Pribilof Canyon area using the area-swept technique applied to data obtained from the biennial eastern Bering Sea upper continental slope trawl survey performed by NMFS-AFSC in 2002, 2004, 2008, 2010, 2012, and 2016 (Hoff and Britt 2003, 2005, 2009, 2011; Hoff 2013, 2016). See Appendix A1 for summaries of the slope survey as they pertain to data on and estimates of Pribilof Island golden king crab stock biomass. Complete data on size-sex composition of survey catch are available only from the 2008–2016 biennial surveys (J. Hoff, NMFS-AFSC, Kodiak). Biomass estimates by sex and size class from the 2008, 2010, 2012, and 2016 surveys were presented in May 2017 (Pengilly and Daly 2017).
+
+\item \textbf{Recruitment}: Estimated from size-sex composition data from the eastern Bering Sea upper continental slope trawl survey, mature male biomass in the entire survey area increased slightly from 1,790,154 lb (812 t) in 2012 to 1,916,329 lb (869 t) in 2016, and from 564,383 lb (256 t) in 2012 to 1,021,602 lb (463 t in 2016 in the Pribilof canyon.
+
+\item \textbf{Management performance}: No overfished determination (i.e., MSST) has been made for this stock, although approaches to using data from the biennial NMFS-AFSC eastern Bering Sea upper continental slope surveys have been presented to, and considered by, the Crab Plan Team (Gaeuman 2013a, 2013b; Pengilly 2015, Pengilly and Daly 2017; Appendix B). Four vessels participated in both 2020 and 2021, harvesting 107,679 lb (48.8 t) and 34,216 lb (15.5 t), respectively. Bycatch mortality in groundfish fisheries during 2020-2022 was `r prettyNum(round(gf_recent_lb[1], 0), big.mark = ",")` (`r prettyNum(round(gf_recent_t[1], 0), big.mark = ",")` t), `r prettyNum(round(gf_recent_lb[2], 0), big.mark = ",")`(`r prettyNum(round(gf_recent_t[2], 0), big.mark = ",")` t), `r prettyNum(round(gf_recent_lb[3], 0), big.mark = ",")` (`r prettyNum(round(gf_recent_t[3], 0), big.mark = ",")` t), respectively. Overfishing did not occur in 2020, 2021, 2022. The GHL for the 2020-2022 seasons was 59 t. The 2024, 20252, and 2026 OFL and ABC in the table below are the author’s recommendations, which follow previous determinations.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lccccccc}
+\multicolumn{8}{l}{Management Performance (values in t)}\\
+\hline
+Fishery Year & MSST & Biomass (MMB) & GHL$^{a}$ & Retained Catch & Total Catch$^{b}$ & OFL & ABC\\
+\hline
+```{r mgmperftexsum, results='asis', eval = T}
+# total fishing mortality
+## directed fishery bycatch
+read_csv("../../data/directed_fishery_tot_catch_and_discard.csv") %>%
+  mutate(discard_t = ifelse(discard_t < 0, 0, discard_t)) %>%
+  filter(opening_year %in% 2016:2026, sex %in% 1:2) %>%
+  group_by(opening_year) %>%
+  summarise(dir_mort = sum(discard_t, na.rm = T) * 0.2) -> dir_mort
+## non directed crab fishery bycatch
+## use data from tier 5 ofl R script, lines 45 - 52
+snow %>%
+  group_by(opening_year) %>%
+  summarise(qo = sum(bycatch_t, na.rm = T)) %>%
+  full_join(groovy %>%
+              group_by(opening_year) %>%
+              summarise(qg = sum(bycatch_t, na.rm = T))) %>%
+  replace_na(list(qo = 0, qg = 0)) %>%
+  transmute(opening_year = opening_year, nondir_mort = (qo + qg) * 0.5) %>%
+  filter(opening_year %in% 2016:2026) -> nondir_mort
+## gf fisheries mortality
+gf_bycatch %>%
+  transmute(opening_year = as.numeric(substring(year, 1, 4)),
+            gf_mort = total_mortality) %>%
+  filter(opening_year %in% 2016:2026) -> gf_mort
+
+
+# compile table
+fishery_stats %>% 
+  dplyr::select(opening_year, ghl, retained_t, cf) %>%
+  # join to seasons
+  right_join(tibble(opening_year = 2016:2026)) %>%
+  replace_na(list(ghl = 59, cf = 0)) %>%
+  mutate(msst = "N/A", 
+         biomass = "N/A",
+         ofl = c(91, rep(93, 7), rep(round(OFL, 1), 3)),
+         abc = c(68, rep(70, 7), rep(round(ABC, 1), 3)),
+         ghl = ifelse(ghl > 100000, ghl * 0.000453592, ifelse(opening_year >= 2023, NA, ghl))) %>%
+  # total fishing mortality
+  left_join(dir_mort) %>% left_join(nondir_mort) %>% left_join(gf_mort) %>%
+  replace_na(list(dir_mort = 0, nondir_mort = 0, gf_mort = 0)) %>%
+  mutate(total_catch = retained_t + dir_mort + nondir_mort + gf_mort) %>%
+  # order columns
+  dplyr::select(opening_year, msst, biomass, ghl, retained_t, total_catch, ofl, abc, cf) %>%
+  # replace confidential numbers
+  mutate(opening_year = as.character(opening_year),
+         retained_t = purrr::map2_chr(retained_t, cf, f_cf_text, digits = 1, no_effort_return = "0"),
+         retained_t = ifelse(retained_t == "NA", NA, retained_t),
+         total_catch = purrr::map2_chr(total_catch, cf, f_cf_text, digits = 1, no_effort_return = "0"),
+         total_catch = ifelse(total_catch == "NA", NA, total_catch)) %>% dplyr::select(-cf) -> x
+
+  # print table
+  print(xtable(x, align="lcccccccc", digits=c(0, 0, 0, 0, 0, 1, 1, 1, 1)),
+			      only.contents=TRUE,
+			      include.rownames=FALSE,
+			      floating=FALSE,
+			      include.colnames=FALSE,
+			      hline.after=NULL,
+			      format.args = list(big.mark = ","))
+
+
+			
+```
+\hline
+\multicolumn{8}{l}{$^{a}$ Guideline harvest level established in lb and converted to t.}\\
+\multicolumn{8}{l}{$^{b}$ Total retained catch plus estimated bycatch mortality of discarded catch during crab fisheries}\\
+\multicolumn{8}{l}{and bycatch mortality due to groundfish fisheries are included here, but not for 2017-2019 because}\\
+\multicolumn{8}{l}{the directed fishery is confidential.}\\
+\end{tabular}
+\end{table}
+
+\item \textbf{Basic for the OFL and ABC}: The values for 2021-2023 are the author's recommendation.
+
+\begin{table}[ht]
+\centering
+
+\begin{tabular}{lcccc}
+\hline
+Fishery Year & Tier & Reference Years & Natural Mortality & Buffer\\
+\hline
+2016 & 5 & 1993-1998$^{a}$ & 0.18 yr$^{-1}$ & 25$\%$\\
+2017 & 5 & 1993-1998$^{a}$ & 0.18 yr$^{-1}$ & 25$\%$\\
+2018 & 5 & 1993-1998$^{a}$ & 0.18 yr$^{-1}$ & 25$\%$\\
+2019 & 5 & 1993-1998$^{a}$ & 0.18 yr$^{-1}$ & 25$\%$\\
+2020 & 5 & 1993-1998$^{a}$ & 0.18 yr$^{-1}$ & 25$\%$\\
+2021 & 5 & 1993-1998$^{a}$ & 0.18 yr$^{-1}$ & 25$\%$\\
+2022 & 5 & 1993-1998$^{a}$ & 0.18 yr$^{-1}$ & 25$\%$\\
+2023 & 5 & 1993-1998$^{a}$ & 0.18 yr$^{-1}$ & 25$\%$\\
+2024 & 5 & 1993-1998$^{a}$ & 0.18 yr$^{-1}$ & 25$\%$\\
+2025 & 5 & 1993-1998$^{a}$ & 0.18 yr$^{-1}$ & 25$\%$\\
+2026 & 5 & 1993-1998$^{a}$ & 0.18 yr$^{-1}$ & 25$\%$\\
+\hline
+\multicolumn{5}{l}{$^{a}$ OFL was for total catch and was determined by the average of}\\
+\multicolumn{5}{l}{the annual retained catch these years multiplied by a factor of 1.052}\\
+\multicolumn{5}{l}{to account for the estimated bycatch mortalityoccurring in the}\\
+\multicolumn{5}{l}{directed fishery plus an estimate of the average annual bycatch}\\
+\multicolumn{5}{l}{mortality due to non-directed crab fisheries and groundfish fisheries}\\
+\multicolumn{5}{l}{for the period.}\\
+\multicolumn{5}{l}{$^{b}$ Assumed value for FMP king crab in NPFMC (2007); does not enter}\\
+\multicolumn{5}{l}{into OFL estimation for Tier 5 stocks.}\\
+\end{tabular}
+\end{table}
+
+\item \textbf{PDF of the OFL}: Sampling distribution of the recommended Tier 5 OFL was estimated by bootstrapping. The standard deviation of the estimated sampling distribution of the recommended OFL (Alternative 1) is `r round(boot_mean, 1)` t (CV = `r round(boot_cv, 1)`; section G).
+
+\item \textbf{Basis for the ABC recommendation}: A 25$\%$ buffer on the OFL, the default; i.e., ABC = (1-0.25)$\cdot$OFL. This is a data-poor stock.
+
+\item \textbf{A summary of the results of any rebuilding analyses}: Not applicable; stock is not under a rebuilding plan.
+
+\end{enumerate}
+# A. Summary of Major Changes {-}
+
+## Changes in management of the fishery {-}
+Fishery continues to be managed under authority of an ADF\&G commissioner’s permit; guideline harvest level (GHL) was reduced from 68 t (150,000 lb) to 59 t (130,000 lb) in 2015 to account for bycatch mortality in the directed fishery, non-directed crab fisheries, and groundfish fisheries, and to avoid exceeding the ABC. The GHL remained at 59 t (130,000 lb) from 2016 to 2023.
+
+## Changes to the input data {-}
+\begin{itemize}
+\item Retained catch and discarded catch data in the directed fishery have been updated through the 2021 season.
+
+\item Bycatch estimates from non-directed crab fisheries have been updated through the 2022 season. time series estimates have been updated using reproducible methods consistent with other Bering Seas crab stocks.
+
+\item Bycatch estimates from groundfish fisheries have been updated through the 2022 season.
+\end{itemize}
+
+## Changes to the assessment methodology {-}
+This assessment follows the methodology recommended by the CPT since May 2012 and the SSC since June 2012.
+
+## Changes to the assessment results {-}
+The computation of OFL in this assessment follows the methodology recommended by the CPT in May 2012 and the SSC in June 2012 applied to the same data and estimates with the same assumptions that were used for estimating the 2013–2023 Tier 5 OFLs; computations resulted in minor changes due to updates made to discard and bycatch time series.
+
+# B. Responses to SSC and CPT Comments {-}
+## SSC June 2020 {-}
+\textbf{Comment}: "\textit{For the next full assessment, the SSC requests the authors provide three assessment alternatives:}
+\begin{itemize}
+\item \textit{The current Tier 5 assessment methodology}.
+\item \textit{A Tier 4 assessment. A key issue with the Tier 4 approach will be selecting an appropriate BMSY proxy and determining whether the estimates of biomass are sufficiently reliable to warrant a Tier 4 status for the stock. The SSC notes that estimates of MMB from the slope survey may only be sporadically available in the future, which complicates status determination under Tier 4 (i.e., stock status relative to MSST).}
+\item \textit{A Tier 5 methodology that uses Tier 4 methods for calculating the OFL/ABC. This approach would use the historical EBS slope survey estimates (based on a reference period) and use F=M for OFL calculation (or perhaps a different F value). An example of this approach was used for spiny dogfish (see October 2010 SSC report)."}
+\end{itemize}
+
+\textbf{Response}: We present all three options in this document and appendices.
+\noindent\rule{\textwidth}{0.4pt}
+
+
+\textbf{Comment}: "\textit{The SSC notes that assessing trends in catch is not currently possible because of confidential data. The SSC recommends that the authors consider rescaling catch across years (e.g., min/max or z-score) such that relative catch trends could potentially be displayed without violating confidentiality rules.}"
+
+\textbf{Response}: We were advised by ADF&G staff not to do so as catch numbers could be reasonably approximated given the trend and known values of non-confidential seasons.  
+\noindent\rule{\textwidth}{0.4pt}
+
+
+\textbf{Comment}: "\textit{For the assessment alternatives using a survey reference period, the SSC recommends the authors and CPT provide a rationale for the preferred reference period, and clearly specify the objective associated with the chosen period (e.g., target the current productivity regime or the range of potential productivity).}"
+
+\textbf{Response}: For tier 4 calculations in Appendix A, we chose to use all of the survey years available for two reasons: 1) survey data is limited to only 4-6 years over a 14 year time period, and 2) this is the best available fishery independent data to capture the range of potential productivity of the stock.
+
+\noindent\rule{\textwidth}{0.4pt}
+
+
+\textbf{Comment}: "\textit{The SSC supports the CPT recommendation to evaluate EBS slope survey variance for the early survey years (2002 and 2004) and to continue investigating whether additional length and sex composition data are available for 2004.}"
+
+\textbf{Response}: We were unable to recover additional biological data for 2002 and 2004, but variance in MMB proxies are now computed as suggested by the CPT.
+\noindent\rule{\textwidth}{0.4pt}
+
+
+\textbf{Comment}: "\textit{The SSC supports continued efforts by ADF\&G to coordinate with industry to conduct a pot survey, and reiterates its past recommendation to explore VAST model fits to the EBS slope survey data, recognizing that this method may not be successful given the spatial characteristics of the survey.}"
+
+\textbf{Response}: We were unable to explore VAST model fits during this reporting period.
+\noindent\rule{\textwidth}{0.4pt}
+
+
+\textbf{Comment}: "\textit{The SSC recommends the authors and CPT consider whether the Aleutians Islands estimate of M (0.21) is appropriate for the PIGKC stock (M=0.18).}"
+
+\textbf{Response}: Authors ackowledge that a species specific estimate of natural mortality is likely appropriate and both values of $M$ are considered in Tier 4 calculations (Appendix A).
+\noindent\rule{\textwidth}{0.4pt}
+
+## CPT May 2020 {-}
+
+\textbf{Comment}: "\textit{Continue to explore the existence of 2004 survey size composition data.}"
+
+\textbf{Response}: We were unable to recover new 2004 survey data.
+\noindent\rule{\textwidth}{0.4pt}
+
+
+\textbf{Comment}: "\textit{Improve CV calculations for 2002 and 2004 MMB estimates.}"
+
+\textbf{Response}: CVs were computed using variance of the division of two random variables.
+\noindent\rule{\textwidth}{0.4pt}
+
+
+\textbf{Comment}: "\textit{Explore a simplified GMACS model.}"
+
+\textbf{Response}: We were unable to explore a GMACS model during this reporting period, but are gathering data for future efforts.
+\noindent\rule{\textwidth}{0.4pt}
+
+## SSC October 2019 {-}
+
+\textbf{Comment}: "\textit{The SSC encourages further efforts to move this analysis to Tier 4 and encourages the CPT to also consider VAST models in addition to RE modelling…\textbf{The SSC strongly supports continued efforts to provide a fishery independent index of abundance for crab and groundfish species on the Bering Sea continental slope.} The SSC supports the development of a collaborative industry-based survey to provide data in the absence of the NMFS slope survey.}"
+
+\textbf{Response}: We further explored RE modelling. An industry-cooperative survey is in development.
+\noindent\rule{\textwidth}{0.4pt}
+
+\textbf{Comment}: \textit{Continue the work using the random effects model by incorporating 2004 NMFS slope survey data point and possibly the 2002 data point in model runs. If needed, consider setting a lower bound on process error, although it was noted that this approach did not work for Pribilof Islands red king crab.}
+
+\textbf{Response}:Included 2002 and 2004 estimates in Tier 4 scenario 2. Did not change process error lower bound, as model appeared to converge.
+\noindent\rule{\textwidth}{0.4pt}
+
+## CPT October 2019 {-}
+\textbf{Comment}: \textit{Explore the feasibility of a simplified Gmacs model to assess the stock.}
+
+\textbf{Response}: Work started; data is being compiled.
+\noindent\rule{\textwidth}{0.4pt}
+
+\textbf{Comment}: \textit{Consider initiating an industry cooperative survey to assess abundance trends.}
+
+\textbf{Response}: In the works.
+\noindent\rule{\textwidth}{0.4pt}
+
+## SSC June 2017 {-}
+
+\textbf{Comment}: \textit{Following up on a SSC request, requests for waivers from harvesters were obtained. However, discussions are still in progress regarding processor waivers. The SSC hopes that these discussions will be fruitful.}
+
+\textbf{Response}: Inquired. No progress in obtaining confidentiality waivers from processors.
+\noindent\rule{\textwidth}{0.4pt}
+
+\textbf{Comment}: \textit{The SSC would appreciate additional insights from the assessment author into the performance of the random effects model.}
+
+\textbf{Response}: We further explored the random effects model performance and provide details in Appendix A.
+\noindent\rule{\textwidth}{0.4pt}
+
+## CPT May 2017 {-}
+
+\textbf{Comment}: \textit{Investigate whether size frequency data is available for the 2002 and 2004 surveys, so that biomass estimates for mature and legal males could be estimated and included in the model simulations.}
+
+\textbf{Response}: Crab specimen data collection not part of 2002 survey protocol. Crab specimen data does exist for 2004 survey (in its original form) but we have not been able to acquire it. As a work around, we calculated the ratio of MMB:Total biomass for 2008-2016 surveys, and applied the average to total biomass to obtain MMB for 2002 and 2004.
+\noindent\rule{\textwidth}{0.4pt}
+
+\textbf{Comment}: \textit{Investigate the sex ratios in 2008, 2012, 2012, and 2016 data. If the sex ratios are reasonably stable in each of those years, then mature and legal biomass estimates could be made in 2002 and 2004 using the sex ratios from the known survey years (i.e., use 2002 and 2004 raw survey data to get size compositions to extend time series backwards via scaling).}
+
+\textbf{Response}: See previous comment.
+\noindent\rule{\textwidth}{0.4pt}
+
+\textbf{Comment}: \textit{Put bounds on the process error and rerun the model.}
+
+\textbf{Response}: After investigating the model performance in the .par file, it appears the model did converge (maximum gradient component is <0.0001).
+
+# C. Introduction {-}
+
+\begin{enumerate}
+
+\item \textbf{Scientific name}: \textit{Lithodes aequispinus} J. E. Benedict, 1895.
+
+\item \textbf{Description of general distribution}: General distribution of golden king crab:
+
+\begin{quote}
+Golden king crab, also called brown king crab, range from Japan to British Columbia. In the BSAI, golden king crab are found at depths from 200 m to 1,000 m, generally in high-relief habitat such as inter-island passes (NMFS 2004).
+
+Golden, or brown, king crab occur from the Japan Sea to the northern Bering Sea (approximately 61$^{\circ}$ N latitude), around the Aleutian Islands, on various sea mounts, and as far south as northern British Columbia (Alice Arm) (Jewett et al. 1985). They are typically found on the continental slope at depths of 300–1,000 m on extremely rough bottom, and are frequently found on coral (NMFS 2004, pages 3–43).
+\end{quote}
+
+The Pribilof District is part of king crab Registration Area Q (Figure \ref{fig:areaq}). Leon et al. (2017) define those boundaries:
+
+\begin{quote}
+The Bering Sea king crab Registration Area Q southern boundary is a line from 54$^{\circ}$ 36'N lat, 168$^{\circ}$W long, to 54$^{\circ}$ 36'N lat, 171$^{\circ}$W long, to 55$^{\circ}$ 30'N lat, 171$^{\circ}$W long, to 55$^{\circ}$ 30'N lat, 173$^{\circ}$ 30'E long. The northern boundary is the latitude of Point Hope (68$^{\circ}$ 21'N lat). The eastern boundary is a line from 54$^{\circ}$ 36'N lat, 168$^{\circ}$W long, to 58$^{\circ}$ 39'N lat, 168$^{\circ}$W long, to Cape Newenham (58$^{\circ}$ 39'N lat). The western boundary is the United States-Russia Maritime Boundary Line of 1990 (Figure 2-4). Area Q is divided into 2 districts: the Pribilof District, which includes waters south of Cape Newenham; and the Northern District, which includes all waters north of Cape Newenham.
+\end{quote}
+
+The NMFS-AFSC conducted an eastern Bering Sea continental slope trawl survey on a  biennial schedule during 2002–2016 (the 2014 survey was cancelled). Results of this survey from 2002–2016 show that the biomass, number, and density (in number per area and in weight per area) of golden king crab on the eastern Bering Sea continental slope are higher in the southern areas than in the northern areas (Gaeuman 2013a, 2013b; Haaga et al. 2009; Hoff 2013, 2016; Hoff and Britt 2003, 2005, 2009, 2011; Pengilly 2015; Pengilly and Daly 2017). Of the six survey subareas (see Figure 1 in Hoff 2016), biomass and abundance of golden king crab were estimated through 2016 to be highest in the Pribilof Canyon area (survey subarea 2), and most of the commercial fishery catches for golden king crab have occurred there (Neufeld and Barnard 2003; Barnard and Burt 2004, 2006; Burt and Barnard 2005, 2006; Leon et al. 2017).
+
+Results of the 2002–2016 biennial NMFS-AFSC eastern Bering Sea continental slope trawl surveys showed that a majority of golden king crab on the eastern Bering Sea continental slope occurred in the 200–400 m and 400–600 m depth ranges (Hoff and Britt 2003, 2005, 2009, 2011; Haaga et al. 2009; Hoff 2013, 2016). Commercial fishing for golden king crab in the Bering Sea typically occurs at depths of 100–300 fathoms (183–549 m; Barnard and Burt 2004, 2006; Burt and Barnard 2005, 2006; Gaeuman 2011, 2013c, 2014; Neufeld and Barnard 2003); average depth of pots fished in the most recent Pribilof District golden king crab fishery (2021) was 189 fathoms (346 m), based on observer data.  
+
+\item \textbf{Evidence of stock structure}: Although highest densities of golden king crab are found in the deep canyons of the eastern Bering Sea continental slope, golden king crab occur sporadically on the surveyed slope at locations between those canyons in the eastern Bering Sea (Hoff and Britt 2003, 2005, 2009, 2011; Gaeuman 2013b, 2014; Hoff 2013, 2016). Stock structure within the Pribilof District has not been evaluated. Fishery and slope survey data suggest that areas at the northern and southern border of the Pribilof District are largely devoid of golden king crab (Pengilly 2015, Pengilly and Daly 2017; Appendix A1), but the stock relationship between golden king crab within and outside of the Pribilof District has not been evaluated.
+
+\item \textbf{Description of life history characteristics relevant to stock assessments (e.g., special features of reproductive biology)}: The following review of molt timing and reproductive cycle of golden king crab is adapted from Watson et al. (2002):
+
+\begin{quote}
+Unlike red king crab, golden king crab may have an asynchronous molting cycle (McBride et al. 1982; Otto and Cummiskey 1985; Sloan 1985; Blau and Pengilly 1994). In a sample of male golden king crab 95–155-mm CL and female golden king crab 104–157-mm CL collected from Prince William Sound and held in seawater tanks, Paul and Paul (2000) observed molting in every month of the year, although the highest frequency of molting occurred during May–October. Watson et al. (2002) estimated that only 50$\%$ of 139-mm CL male golden king crab in the eastern Aleutian Islands molt annually and that the intermolt period for males $\geq$150-mm CL averages $>$1 year.  
+
+
+Female lithodids molt before copulation and egg extrusion (Nyblade 1987). From observations on embryo development in golden king crab, Otto and Cummiskey (1985) suggested that time between successive ovipositions was roughly twice that of embryo development and that spawning and molting of mature females occurs approximately every two years. Sloan (1985) also suggested a reproductive cycle $>$1 year with a protracted barren phase for female golden king crab. Data from tagging studies on female golden king crab in the Aleutian Islands are generally consistent with a molt period for mature females of two years or less and that females carry embryos for less than two years with a prolonged period in which they remain in barren condition (Watson et al. 2002). From laboratory studies of golden king crab collected from Prince William Sound, Paul and Paul (2001b) estimated a 20-month reproductive cycle with a 12-month clutch brooding period.
+
+
+Numerous observations on clutch and embryo condition of mature female golden king crab captured during surveys have been consistent with asynchronous, aseasonal reproduction (Otto and Cummiskey 1985; Hiramoto 1985; Sloan 1985; Somerton and Otto 1986; Blau and Pengilly 1994; Blau et al. 1998; Watson et al. 2002). Based on data from Japan (Hiramoto and Sato 1970), McBride et al. (1982) suggested that spawning of golden king crab in the Bering Sea and Aleutian Islands occurs predominately during the summer and fall.
+
+\end{quote}
+
+The success of asynchronous and aseasonal spawning of golden king crab may be facilitated by fully lecithoatrophic larval development (i.e., the larvae can develop successfully to juvenile crab without eating; Shirley and Zhou 1997). Current knowledge of reproductive biology and maturity of male and female golden king crab was reviewed by Webb (2014).  
+
+Note that asynchronous, aseasonal molting and the prolonged intermolt period (>1 year) of mature female and the larger mature male golden king crab likely makes scoring shell conditions very difficult and especially difficult to relate to “time post-molt,” posing problems for inclusion of shell condition data into assessment models.
+
+\item \textbf{Brief summary of management history}: A complete summary of the management history through 2015 is provided in Leon et al. (2017).
+
+The first domestic harvest of golden king crab in the Pribilof District was in 1981/82 when two vessels fished. Peak retained catch and participation occurred in 1983/84 at a retained catch of 388 t (856,475 lb) landed by 50 vessels (Tables \ref{table:fishstatslb} - \ref{table:fishstatst}). Since 1984; the fishery has been managed with a calendar-year fishing season under authority of a commissioner’s permit and landings and participation have been low and sporadic. Retained catch since 1984 has ranged from 0 lb (0 t) to 341,908 lb (155 t), and the number of vessels participating annually has ranged from 0 to 8, but 1-2 on average since rationalization of other Bering Sea crab fisheries (2005).
+
+The fishery is not rationalized and has been managed inseason to a guideline harvest level (GHL) since 1999. The GHL for 1999 was 200,000 lb (91 t), whereas the GHL for 2000–2014 was 150,000 lb (68 t). Following the reduction of ABC from 82 t for 2014 to 68 t for 2015, the GHL was reduced in 2015 to 130,000 lb (59 t).
+
+Despite confidentiality requirements under SOA statute Sec. 16.05.815, it can be noted, that the 2003 and 2004 fisheries were closed by emergency order to manage the fishery retained catch towards the GHL, whereas the 2005 and 2010–2014 fisheries were not closed by emergency order. With regard to 2004, “Catch rates during the 2004 fishery were among the highest on record, and the fishery was the shortest ever at approximately three weeks in duration” (Bowers et al. 2005).
+
+A summary of relevant fishery regulations and management actions pertaining to the Pribilof District golden king crab fishery is provided below.
+
+Only males of a minimum legal size may be retained. By State of Alaska regulation (5 AAC 34.920 (a)), the minimum legal size limit for Pribilof District golden king crab is 5.5-inches (140 mm) carapace width (CW), including spines. A carapace length (CL) $\geq$124 mm is used to identify legal-size males when CW measurements are not available (Table 3-5 in NPFMC 2007). Golden king crab may be commercially fished only with king crab pots (as defined in 5 AAC 34.050); pots used to take golden king crab in Registration Area Q (Bering Sea) may be longlined (5 AAC 34.925(f)). Pots used to fish for golden king crab in the Pribilof District must have at least four escape rings of no less than five and one-half inches inside diameter installed on the vertical plane or at least one-third of one vertical surface of the pot composed of not less than nine-inch stretched mesh webbing to permit escapement of undersized golden king crab (5 AAC 34.925 (c)). The sidewall “…must contain an opening equal to or exceeding 18 inches in length... The opening must be laced, sewn, or secured together by a single length of untreated, 100 percent cotton twine, no larger than 30 thread.” (5 AAC 39.145(1)). There is a pot limit of 40 pots for vessels $\leq$125-feet LOA and of 50 pots for vessels $>$125-feet LOA (5 AAC 34.925 (e)(1)(B)). Golden king crab can be harvested from 1 January through 31 December only under conditions of a permit issued by the commissioner of ADF$\&$G (5 AAC 34.910 (b)(3)). Since 2001, those conditions have included the carrying of a fisheries observer.
+
+\end{enumerate}
+
+# D. Data {-}
+
+## Summary of new information {-}
+Retained catch, directed fishery discards and bycatch during non-directed crab fisheries and groundfish fisheries have been added up through the 2022 season.  
+
+## Data presented as time series {-}
+\begin{enumerate}
+\item The 1981/82-1983/84, 1984-2022 time series of retained catch (number and weight of crab, including deadloss), effort (vessels and pot lifts), CPUE (number of landed crab captured per pot lift), and average weight of landed crab is presented in Tables \ref{table:fishstatslb} - \ref{table:fishstatst}.
+
+\item The 2001-2022 time series of discarded catch and estimated discard mortality during the directed fishery is presented in Tables \ref{table:dirdisclb} - \ref{table:dirdisct}. Observer data on size distributions and estimated catch numbers of discarded catch were used to estimate the weight of discarded catch by applying a weight-at-length estimator (see below). Observers were first deployed to collect discarded catch data during the Pribilof District golden king crab fishery in 2001. Following Siddeek et al. (2014), the bycatch mortality rate of golden king crab captured and discarded during the directed fishery was assumed to be 0.2.
+
+
+\item The 1990-2022 time series of discarded bycatch in non-directed crab fisheries (i.e., Bering Sea snow crab and Bering Sea grooved Tanner crab fisheries) is presented in Tables \ref{table:nondirdisclb} - \ref{table:nondirdisct}. Because the Bering Sea snow crab fishery is largely prosecuted between January and May and the Bering Sea grooved Tanner crab fishery is prosecuted within a calendar-year season, discarded catch in the crab fisheries can be estimated on a calendar-year basis to align with Pribilof District golden king crab seasons. Following Foy (2013), bycatch mortality rate of king crab during the snow crab fishery was assumed to be 0.5. The bycatch mortality rate during the grooved Tanner crab fishery was also assumed to be 0.5.
+
+\item The groundfish fishery discarded catch data are grouped into crab fishery years from 1991/92-2008/09, and by calendar years from 2009-2019. The 1991/92-2019 time series of estimated annual weight of discarded catch and total fishery mortality of golden king crab during federal groundfish fisheries by gear type (combining pot and hook-and-line gear as a single "fixed gear" category and combining non-pelagic and pelagic trawl gear as a single "trawl" category) is provided in Tables \ref{table:gfbycatchlb} -  \ref{table:gfbycatcht}. Following Foy (2013), the bycatch mortality of king crab captured by fixed gear during groundfish fisheries was assumed to be 0.5 and of king crab captured by trawls during groundfish fisheries was assumed to be 0.8. Data from 1991/92-2008/09 are from federal reporting areas 513, 517, and 521, whereas the data from 2009-2019 are from the State statistical areas falling within the Pribilof District.
+
+\item Tables \ref{table:fishstatslb} - \ref{table:gfbycatcht} summarizes the available data on retained catch weight and the available estimates of discarded catch weight.
+
+\item \textbf{Catch-at-length}: Not used in a Tier 5 assessment; none are presented.
+
+\item \textbf{Survey biomass estimates}: Survey biomass estimates are not used in a Tier 5 assessment. However, see Appendix A for biomass estimates of mature male golden king crab using data from the 2002-2016 NMFS-AFSC eastern Bering Sea upper continental slope trawl survey.
+
+\item \textbf{Survey catch at length}: Survey catch at length data are not used in a Tier 5 assessment. However, see Appendix A for size data composition by sex of golden king crab during the 2002-2016 Bering Sea upper continental slope trawl surveys.
+
+\item \textbf{Other data time series}: None.
+
+\end{enumerate}
+
+## Data which may be aggregated over time {-}
+\begin{enumerate}
+\item \textbf{Growth-per-molt; frequency of molting, etc. (by sex and perhaps maturity state)}: The author is not aware of data on growth per molt collected from golden king crab in the Pribilof District. Growth per molt of juvenile golden king crab, 2-35 mm CL, collected from Prince William Sound have been observed in a laboratory setting and equations describing the increase in CL and intermolt period were estimated from those observations (Paul and Paul 2001a); those results are not provided here. Growth per molt has also been estimated from golden king crab with CL $\geq$90 mm that were tagged in the Aleutian Islands and recovered during subsequent commercial fisheries (Watson et al. 2002); those results are not presented here because growth-per-molt information does not enter into a Tier 5 assessment.
+
+See section C for discussion of evidence that mature female and the larger male golden king crab exhibit asynchronous, aseasonal molting and a prolonged intermolt period ($>$1 year).
+
+\item \textbf{Weight-at length or weight-at-age (by sex)}: Parameters (A and B) used for estimating weight (g) from carapace length (CL, mm) of male and female golden king crab according to the equation, $Weight = A*CL^{B}$  are: A = 0.0002712 and B = 3.168 for males (ADF\&G, unpublished data) and A = 0.0014240 and B = 2.781 for females(from Table 3-5, NPFMC 2007).
+
+\item \textbf{Natural mortality rate}: The default natural mortality rate assumed for king crab species by NPFMC (2007) is M=0.18. Note, however, natural mortality was not used for OFL estimation because this stock is classified as Tier 5.
+
+\end{enumerate}
+
+## Information on any data sources that were available, but were excluded from the assessment {-}
+\begin{enumerate}
+
+\item Standardized bottom trawl surveys to assess the groundfish and invertebrate resources of the eastern Bering Sea upper continental slope were performed in 2002, 2004, 2008, 2010, 2012, and 2016 (Hoff and Britt 2003, 2005, 2009, 2011; Haaga et al. 2009, Gaeuman 2013a, 2013b; Hoff 2016). Data and analysed results pertaining to golden king crab from the 2002-2016 EBS upper continental slope surveys are provided in Appendices A and B but are not used in this Tier 5 assessment.
+
+\item Data on the size and sex composition of retained catch and discarded catch of Pribilof District golden king crab during the directed fishery and other crab fisheries are available but are not presented in this Tier 5 assessment.
+
+\end{enumerate}
+
+# E. Analytic Approach {-}
+## History of modeling approaches for this stock {-}
+Gaeuman (2013a, 2013b), Pengilly (2015), and Pengilly and Daly (2017; 2020) presented assessment modelling approaches for this stock to the Crab Plan Team using data from the biennial NMFS EBS continental slope survey. However, this stock continued to be managed as a Tier 5 stock for 2021-2023, as had been recommended by NPFMC (2007) and by the CPT and SSC in 2008-2020.
+
+## Model description: Subsections a–i are not applicable to a Tier 5 sock {-}
+Only an OFL and ABC is estimated for Tier 5 stocks, where "the OFL represent[s] then average retained catch from a time period determined to be representative of the production potential of the stock" (NPFMC 2007). Although NPFMC (2007) defined the OFL in terms of the retained catch, total-catch OFLs may be considered for Tier 5 stocks for which non-target fishery removal data are available (Federal Register/Vol. 73, No. 116, 33926). The CPT (in May 2010) and the SSC (in June 2010) endorsed the use of a total-catch OFL to establish the OFL for this stock. This assessment recommends - and only considers - use of a total-catch OFL for 2024-2026.  
+
+Additionally, NPFMC (2007) states that for estimating the OFL of Tier 5 stocks, "The time period selected for computing the average catch, hence the OFL, should be based on the best scientific information available and provide the required risk aversion for stock conservation and utilization goals." Given that a total-catch OFL is to be used, alternative configurations for the Tier 5 model are limited to: 1) alternative time periods for computing the average total-catch mortality; and 2) alternative approaches for estimating the discarded catch component of the total catch mortality during that period.  
+
+With regard to choosing from alternative time periods for computing average annual catch to compute the OFL, NPFMC (2007) suggested using the average retained catch over the years 1993 to 1999 as the estimated OFL for Pribilof District golden king crab. Years post-1984 were chosen based on an assumed 8-year lag between hatching and growth to legal size after the 1976/77 "regime shift". With regard to excluding data from years 1985 to 1992 and years after 1999, NPFMC (2007) states, "The excluded years are from 1985 to 1992 and from 2000 to 2005 for Pribilof Islands golden king crab when the fishing effort was less than 10% of the average or the GHL was set below the previous average catch." In 2008 the CPT and SSC endorsed the approach of estimating OFL as the average retained catch during 1993-1999 for setting a retained-catch OFL for 2009. However, in May 2009 the CPT set a retained-catch OFL for 2010, but using the average retained catch during 1993-1998; 1999 was excluded because it was the first year that a preseason GHL was established for the fishery. In May 2010, the CPT established a total-catch OFL computed as a function of the average retained catch during 1993-1998, a ratio-based estimate of the bycatch mortality during the directed fishery of that period, and an estimate of the "background" bycatch mortality due to other fisheries. Other time periods, extending into years post-1999, had been considered for computing the average retained catch in the establishment of the 2009, 2010, and 2011 OFLs, but those time periods were rejected by the CPT and the SSC. Hence the period for calculating the retained-catch portion of the Tier 5 total-catch OFL for this stock has been firmly established by the CPT and SSC at 1993–1998 (the CPT said "this freezes the time frame..."). For the 2012 and the 2013 OFLs, the CPT and SSC recommended the period 2001–2010 for calculating the ratio-based estimate of the bycatch mortality during the 1993-1998 directed fishery, the period 1994-1998 for calculating the estimated bycatch mortality due to nondirected crab fisheries during 1993-1998, and the period 1992/93-1998/99 for calculating the estimated bycatch mortality due to groundfish fisheries during 1993–1998.  
+
+Two alternative approaches for determination of the 2013 OFL were presented to the CPT and SSC in May–June 2013. Alternative 1 was the status quo approach (i.e., the approach used to establish the 2012 total-catch OFL). Alternative 2 was the same as Alternative 1 except that it used updated discarded catch data from crab fisheries in 2011. Alternative 2 was presented specifically to allow the CPT and the SSC to clarify whether the 2013 and subsequent OFLs should be computed using data collected after 2010, or if the time periods for data used to calculate the 2013 and subsequent OFLs should be "frozen" at the years used to calculate the 2012 OFL. The CPT and the SSC both recommended Alternative 1, clarifying that Tier 5 OFLs for future years should be computed using only data collected through 2010. Following that recommendation from CPT and the SSC, only one alternative was presented for computing the 2014–2017 Tier 5 OFLs (i.e., the Alternative 1 that was presented in 2013). The 2024-2026 Tier 5 OFL recommended here uses the same approach as used for the 2013–2023 Tier 5 OFLs.
+
+## Model selection and evaluation {-}
+### \textit{Description of alternative model configurations} {-}
+The recommended OFL is set as a total-catch OFL using 1993-1998 to compute average annual retained catch, an estimate of the ratio of bycatch mortality to retained catch during the directed fishery, an estimate of the average annual bycatch mortality due to the non-directed crab fisheries during 1994–1998, and an estimate of average annual bycatch mortality due to the groundfish fisheries during 1992/93-1998/99; i.e.,
+
+\begin{equation}
+\text{OFL}_{2024-2026} = (1 + R_{2001-2010})RET_{1993-1998}+BM_{NC,1994-1998}+BM_{GF,92/93-98/99}
+\end{equation}
+
+where,
+
+\begin{itemize}
+\item $R_{2001-2010}$ = average of the estimated ratio of bycatch mortality to retained catch in the directed fishery during 2001-2010.
+\item $RET_{1993-1998}$ = average retained catch in the directed crab fishery during 1993-1998.
+\item $BM_{NC,1994-1998}$ = estimated average bycatch mortality in non-directed crab fisheries during 1994–1998.
+\item $BM_{GF,92/93-98/99}$ = estimated average bycatch mortality in groundfish fisheries during 1992/93-1998/99.
+\end{itemize}
+
+The average of the estimated annual ratio of bycatch mortality to retained catch in the directed fishery during 2001-2010 is used as a factor to estimate bycatch mortality in the directed fishery during 1993-1998 because, whereas there are no data on discarded catch for the directed fishery during 1993-1998, there are such data from the directed fishery during 2001-2010 (excluding 2006-2009, when there was no fishery effort).
+
+There are no discarded catch data available for the non-directed fisheries during 1993, thus 1994-1998 is used to estimate average annual bycatch mortality in non-directed fisheries.
+
+The estimated average annual bycatch mortality in groundfish fisheries during 1992/93-1998/99 is used to estimate the average annual bycatch mortality in groundfish fisheries during 1993-1998 because 1992/93-1998/99 is the shortest time period of crab fishery years that encompasses calendar years 1993-1998.
+
+Statistics on the data and estimates used to calculate $RET_{1993-1998}$, $R_{2001-2010}$, $BM_{NC,1994-1998}$, and $BM_{GF,92/93-98/99}$ are provided in Table \ref{table:tier5inputt}; the column means in Table \ref{table:tier5inputt} are the calculated values of $RET_{1993-1998}$, $R_{2001-2010}$, $BM_{NC,1994-1998}$, and $BM_{GF,92/93-98/99}$. Using the calculated values of $RET_{1993-1998}$, $R_{2001-2010}$, $BM_{NC,1994-1998}$, and $BM_{GF,92/93-98/99}$, the calculated value of OFL$_{2018}$ is,
+
+\begin{equation}
+\text{OFL}_{2021-2023} = (1 + `r R`) `r RET` \text{ t}+ `r BMNC`\text{ t}+ `r BMGF`\text{ t} = `r round(OFL, 1)` \text{ t }(`r prettyNum(round(OFL/0.000453592), ",")` \text{ lbs})
+\end{equation}
+
+
+### \textit{Show a progression of results from the previous assessment to the preferred base model by adding each new data source and each model modification in turn to enable the impacts of these changes to be assessed} {-}
+
+See the table, below.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{llcc}
+\hline
+& Retained- vs. & &\\
+Model & Total-catch & Time Period & Resulting OFL (t)\\
+\hline
+status quo & Total-catch & 1993-1998 & 93\\
+recommended/updated crab bycatch & Total-catch & 1993-1998 & `r round(OFL, 1)`\\
+\hline
+\end{tabular}
+\end{table}
+
+The recommended approach uses the same time period and uses the sample calculation as supported by the CPT and SSC since 2013. Updating the time series of bycatch in non-directed crab fisheries (above) resulted in a slightly higher OFL.
+
+### \textit{Evidence of search for balance between realistic (but possibly over-parameterized) and simpler (but not realistic) models} {-}
+See Section E, above.
+
+### \textit{Convergence status and convergence criteria for the base-case model (or proposed base-case model)} {-}
+Not applicable.
+
+### \textit{Table (or plot) of the sample sizes assumed for the compositional data} {-}
+Not applicable.
+
+### \textit{Do parameter estimates for all models make sense, are they credible?} {-}
+The time period used for determining the OFL was established by the SSC in June 2012. Retained catch data come from fish tickets and annual retained catch is considered a known (not estimated) value. Establishment of consistent and reproducible methods for estimating bycatch in crab fisheries has improved credibility of the existing time series, but may have greater uncertainty due to the nature of the low-effort directed fishery. Estimates of bycatch mortality are estimates of discarded catch times an assumed bycatch mortality rate. The assumed bycatch mortality rates (i.e., 0.2 for crab fisheries, 0.5 for fixed-gear groundfish fisheries, and 0.8 for trawl groundfish fisheries) have not been estimated from data.  
+
+### \textit{Description of criteria used to evaluate the model or to choose among alternative models, including the role (if any) of uncertainty} {-}
+See section E, above.
+
+### \textit{Residual analysis (e.g. residual plots, time series plots of observed and predicted values or other approach)} {-}
+Not applicable.
+
+### \textit{Evaluation of the model, if only one model is presented; or evaluation of alternative models and selection of final model, if more than one model is presented} {-}
+See section E, above.
+
+
+
+## Results (best models) {-}
+### \textit{List of effective sample sizes, the weighting factors applied when fitting the indices, and the weighting factors applied to any penalties} {-}
+Not applicable for Tier 5 stock.
+
+### \textit{Tables of estimates (all quantities should be accompanied by confidence intervals or other statistical measures of uncertainty, unless infeasible; include estimates from previous SAFEs for retrospective comparisons)} {-}
+See Table \ref{table:tier5inputt}.
+
+### \textit{Graphs of estimates (all quantities should be accompanied by confidence intervals or other statistical measures of uncertainty, unless infeasible)} {-}
+Not applicable for Tier 5 stock.
+
+### \textit{Evaluation of the fit to the data} {-}
+Not applicable for Tier 5 stock.
+
+### \textit{Retrospective and historic analyses (retrospective analyses involve taking the “best” model and truncating the time-series of data on which the assessment is based; a historic analysis involves plotting the results from previous assessments)} {-}
+Not applicable for Tier 5 stock.
+
+### \textit{Uncertainty and sensitivity analyses (this section should highlight unresolved problems andmajor uncertainties, along with any special issues that complicate scientific assessment, including questions about the best model, etc.)} {-}
+For this assessment, the major uncertainties are:
+\begin{itemize}
+
+\item Whether the time period is "representative of the production potential of the stock" and if it serves to "provide the required risk aversion for stock conservation and utilization goals", or whether any such time period exists.
+
+\begin{itemize}
+\item Only a period of 6 years is used to compute the OFL, 1993-1998. The SSC has noted its uneasiness with that situation ("6 years of data are very few years upon which to base these catch specifications." June 2011 SSC minutes).
+\end{itemize}
+
+\item No data on discarded catch due to the directed fishery are available from the period used to compute the OFL.
+
+\begin{itemize}
+\item Estimation of the OFL rests on the assumption that data on the ratio of discarded catch to retained catch from post-2000 can be used to accurately estimate that ratio in 1993-1998.
+\end{itemize}
+
+\item The bycatch mortality rates used in estimation of total catch.
+
+\begin{itemize}
+\item Bycatch mortality is unknown and no data that could be used to estimate the bycatch mortality of this stock are known to the author. Hence, only the values that are assumed for other BSAI king crab stock assessments are considered in this assessment. 
+
+The estimated OFL increases (or decreases) relative to the bycatch mortality rates assumed: doubling the assumed bycatch mortality rates increases the OFL estimate by a factor of `r round(double_mort_factor, 2)`; halving the assumed bycatch mortality rates decreases the OFL estimate by a factor of `r round(halve_mort_factor, 2)`.
+
+
+\end{itemize}
+
+\end{itemize}
+
+
+
+# F. Calculation of the OFL {-}
+## Specification of the Tier level and stock status level for computing the OFL {-}
+\begin{itemize}
+\item Recommended as Tier 5, total-catch OFL estimated by estimated average total catch over a specified period.
+\item Recommended time period for computing retained-catch OFL: 1993-1998.
+\begin{itemize}
+\item This is the same time period that was used to establish OFL for 2010-2023. The time period 1993-1998 provides the longest continuous time period through 2019 during which vessels participated in the fishery, retained-catch data can be retrieved that are not confidential, and the retained catch was not constrained by a GHL. Data on discarded catch contemporaneous with 1993-1998 to the extent possible are used to calculate the total-catch OFL.
+\end{itemize}
+\end{itemize}
+
+## List of parameter and stock size estimates (or best available proxies thereof) required by limit and target control rules specified in the fishery management plan {-}
+Not applicable for Tier 5 stock.
+
+## Specification of the total-catch OFL {-}
+### \textit{Provide the equations (from Amendment 24) on which the OFL is to be based} {-}
+From Federal Register / Vol. 73, No. 116, page 33926, "For stocks in Tier 5, the overfishing level is specified in terms of an average catch value over an historical time period, unless the Scientific and Statistical Committee recommends an alternative value based on the best available scientific information." Additionally, "For stocks where nontarget fishery removal data are available, catch includes all fishery removals, including retained catch and discard losses. Discard losses will be determined by multiplying the appropriate handling mortality rate by observer estimates of bycatch discards. For stocks where only retained catch information is available, the overfishing level is set for and compared to the retained catch" (FR/Vol. 73, No. 116, 33926). That compares with the specification of NPFMC (2007) that the OFL "represent[s] the average retained catch from a time period determined to be representative of the production potential of the stock."
+
+### \textit{Basis for projecting MMB to the time of mating} {-}
+Not applicable for Tier 5 stock.
+
+### \textit{Specification of F$_{\text{OFL}}$, OFL, and other applicable measures (if any) relevant to determining whether the stock is overfished or if overfishing is occurring} {-}
+See table below. Because less than three vessels participated in the 2017, 2018, and 2019 directed fisheries, catch numbers are not reported here under the confidentiality requirements of State of Alaska (SOA) statute Sec. 16.05.815. Although fishery mortality occurred during groundfish fisheries in 2017, 2018, and 2019, this and the fishery mortality in the directed fisheries did not exceed the corresponding OFL. As such, overfishing did not occur in 2017, 2018, and 2019. Fishery statistics from 2020 - 2021 were not confidential, and overfishing did not occur. Values for the 2024-2026 OFL and ABC are the author’s recommendations.
+
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lccccccc}
+\multicolumn{8}{l}{Management Performance (values in t)}\\
+\hline
+Fishery Year & MSST & Biomass (MMB) & GHL$^{a}$ & Retained Catch & Total Catch$^{b}$ & OFL & ABC\\
+\hline
+```{r mgmperft, results='asis', eval = T}
+# total fishing mortality
+## directed fishery bycatch
+read_csv("../../data/directed_fishery_tot_catch_and_discard.csv") %>%
+  mutate(discard_t = ifelse(discard_t < 0, 0, discard_t)) %>%
+  filter(opening_year %in% 2016:2026, sex %in% 1:2) %>%
+  group_by(opening_year) %>%
+  summarise(dir_mort = sum(discard_t, na.rm = T) * 0.2) -> dir_mort
+## non directed crab fishery bycatch
+## use data from tier 5 ofl R script, lines 45 - 52
+snow %>%
+  group_by(opening_year) %>%
+  summarise(qo = sum(bycatch_t, na.rm = T)) %>%
+  full_join(groovy %>%
+              group_by(opening_year) %>%
+              summarise(qg = sum(bycatch_t, na.rm = T))) %>%
+  replace_na(list(qo = 0, qg = 0)) %>%
+  transmute(opening_year = opening_year, nondir_mort = (qo + qg) * 0.5) %>%
+  filter(opening_year %in% 2016:2026) -> nondir_mort
+## gf fisheries mortality
+gf_bycatch %>%
+  transmute(opening_year = as.numeric(substring(year, 1, 4)),
+            gf_mort = total_mortality) %>%
+  filter(opening_year %in% 2016:2026) -> gf_mort
+
+
+# compile table
+fishery_stats %>% 
+  dplyr::select(opening_year, ghl, retained_t, cf) %>%
+  # join to seasons
+  right_join(tibble(opening_year = 2016:2026)) %>%
+  replace_na(list(ghl = 59, cf = 0)) %>%
+  mutate(msst = "N/A", 
+         biomass = "N/A",
+         ofl = c(91, rep(93, 7), rep(round(OFL, 1), 3)),
+         abc = c(68, rep(70, 7), rep(round(ABC, 1), 3)),
+         ghl = ifelse(ghl > 100000, ghl * 0.000453592, ifelse(opening_year >= 2023, NA, ghl))) %>%
+  # total fishing mortality
+  left_join(dir_mort) %>% left_join(nondir_mort) %>% left_join(gf_mort) %>%
+  replace_na(list(dir_mort = 0, nondir_mort = 0, gf_mort = 0)) %>%
+  mutate(total_catch = retained_t + dir_mort + nondir_mort + gf_mort) %>%
+  # order columns
+  dplyr::select(opening_year, msst, biomass, ghl, retained_t, total_catch, ofl, abc, cf) %>%
+  # replace confidential numbers
+  mutate(opening_year = as.character(opening_year),
+         retained_t = purrr::map2_chr(retained_t, cf, f_cf_text, digits = 1, no_effort_return = "0"),
+         retained_t = ifelse(retained_t == "NA", NA, retained_t),
+         total_catch = purrr::map2_chr(total_catch, cf, f_cf_text, digits = 1, no_effort_return = "0"),
+         total_catch = ifelse(total_catch == "NA", NA, total_catch)) %>% dplyr::select(-cf) -> x
+
+  # print table
+  print(xtable(x, align="lcccccccc", digits=c(0, 0, 0, 0, 0, 1, 1, 1, 1)),
+			      only.contents=TRUE,
+			      include.rownames=FALSE,
+			      floating=FALSE,
+			      include.colnames=FALSE,
+			      hline.after=NULL,
+			      format.args = list(big.mark = ","))
+
+
+			
+```
+\hline
+\multicolumn{8}{l}{$^{a}$ Guideline harvest level established in lb and converted to t.}\\
+\multicolumn{8}{l}{$^{b}$ Total retained catch plus estimated bycatch mortality of discarded catch during crab fisheries}\\
+\multicolumn{8}{l}{and bycatch mortality due to groundfish fisheries are included here, but not for 2017-2019 because}\\
+\multicolumn{8}{l}{the directed fishery is confidential.}\\
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lccccccc}
+\multicolumn{8}{l}{Management Performance (values in lb)}\\
+\hline
+Fishery Year & MSST & Biomass (MMB) & GHL & Retained Catch & Total Catch$^{a}$ & OFL & ABC\\
+\hline
+```{r mgmperflb, results='asis', eval = T}
+# compile table
+fishery_stats %>% 
+  dplyr::select(opening_year, ghl, retained_lb, cf) %>%
+  # join to seasons
+  right_join(tibble(opening_year = 2016:2026)) %>%
+  replace_na(list(ghl = 130000, cf = 0)) %>%
+  mutate(msst = "N/A", 
+         biomass = "N/A",
+         ofl = c(91, rep(93, 7), rep(round(OFL, 1), 3)) / 0.000453592,
+         abc = c(68, rep(70, 7), rep(round(ABC, 1), 3)) / 0.000453592,
+         ghl = ifelse(opening_year >= 2023, NA, ghl)) %>%
+  # total fishing mortality
+  left_join(dir_mort) %>% left_join(nondir_mort) %>% left_join(gf_mort) %>%
+  replace_na(list(dir_mort = 0, nondir_mort = 0, gf_mort = 0)) %>%
+  mutate(total_catch = retained_lb + (dir_mort + nondir_mort + gf_mort) / 0.000453592) %>%
+  # order columns
+  dplyr::select(opening_year, msst, biomass, ghl, retained_lb, total_catch, ofl, abc, cf) %>%
+  # replace confidential numbers
+  mutate(opening_year = as.character(opening_year),
+         retained_lb = purrr::map2_chr(retained_lb, cf, f_cf_text, digits = 1, no_effort_return = "0"),
+         retained_lb = ifelse(retained_lb == "NA", NA, retained_lb),
+         total_catch = purrr::map2_chr(total_catch, cf, f_cf_text, digits = 1, no_effort_return = "0"),
+         total_catch = ifelse(total_catch == "NA", NA, total_catch)) %>% dplyr::select(-cf) -> x
+
+  # print table
+  print(xtable(x, align="lcccccccc", digits = 0),
+			      only.contents=TRUE,
+			      include.rownames=FALSE,
+			      floating=FALSE,
+			      include.colnames=FALSE,
+			      hline.after=NULL,
+			      format.args = list(big.mark = ","))
+
+
+			
+```
+\hline
+\multicolumn{8}{l}{$^{a}$ Total retained catch plus estimated bycatch mortality of discarded catch during crab fisheries}\\
+\multicolumn{8}{l}{and bycatch mortality due to groundfish fisheries are included here, but not for 2017-2019 because}\\
+\multicolumn{8}{l}{the directed fishery is confidential.}\\
+\end{tabular}
+\end{table}
+
+### \textit{Specification of the retained-catch portion of the total-catch OFL} {-}
+Retained-catch portion is the average retained catch during 1993-1998 (`r round(RET)` t). Note that a retained catch of `r round(RET)` t would exceed the author’s recommended ABC for 2024, 2025, and 2026 (`r round(ABC, 1)` t); see G.4, below.
+
+### \textit{Recommended F$_{\text{OFL}}$, OFL total catch and the retained portion for the coming year} {-}
+See above; no F$_{\text{OFL}}$ is recommended for a Tier 5 stock.
+
+
+
+
+
+# G. Calculation of ABC {-}
+
+## PDF of OFL  {-}
+A bootstrap estimate of the sampling distribution (assuming no error in estimation of discarded catch) of the status quo Alternative 1 OFL is shown in Figure \ref{fig:oflboot} (1,000 samples drawn with replacement independently from each of the four columns of values in Table \ref{table:tier5inputt} to calculate R$_{2001-2010}$, RET$_{1993-1998}$, BM$_{NC,1994-1998}$, BM$_{GF,92/93-98/99}$, and OFL$_{2023}$). The mean and CV computed from the 1,000 replicates are `r round(boot_mean, 1)` t and `r round(boot_cv, 2)`, respectively. Note that generated sampling distribution and computed standard deviation are meaningful as measures in the uncertainty of the OFL only if assumptions on the choice of years used to compute the Tier 5 OFL are true (see Sections E.2 and E.4.f).
+
+## List of variables related to scientific uncertainty {-}
+\begin{itemize}
+\item Bycatch mortality rate in each fishery that discarded catch occurs. Note that for Tier 5 stocks, an increase in an assumed bycatch mortality rate will increase the OFL (and hence the ABC) but has no effect on the retained-catch portion of the OFL or the retained-catch portion of the ABC.
+\item Estimated discarded catch and bycatch mortality for each fishery that discarded catch occurred in during 1993-1998.
+\item The time period to compute the average catch under the assumption of representing “a time period determined to be representative of the production potential of the stock.”
+\item Stock size in 2023 is unknown.
+\end{itemize}
+
+## List of additional uncertainties for alternative sigma-b  {-}
+Not applicable to this Tier 5 assessment.
+
+## Author recommended ABC {-}
+25$\%$ buffer on OFL; i.e., ABC = (1-0.25)(`r round(OFL, 1)` t) = `r round(ABC, 1)` t (`r round(ABC / 0.000453592, 0)` lb).
+
+
+# H. Rebuilding Analyses {-}
+Not applicable; this stock has not been declared overfished.
+
+# I. Data Gaps and Research Priorities {-}
+Data from the 2008-2016 biennial NMFS-AFSC eastern Bering Sea upper continental slope trawl surveys have been examined for their utility in determining overfishing levels and stock status by Gaeuman (2103a, 2013b), Pengilly and Daly (2017), and Appendix A of this assessment. Cancellation of the survey that was scheduled for 2018 and 2020 raised uncertainties on the prospects for obtaining fishery-independent survey data on this stock in the future. However, ADF$\&$G is currently exploring the feasibility of initiating in industry-cooperative survey as a means to acquire biological data for future assessments.
+
+# J. Literature Cited {-}
+
+
+\begin{hangparas}{.25in}{1}
+
+Barnard, D. R., and R. Burt. 2004. Alaska Department of Fish and Game summary of the 2002 mandatory shellfish observer program database for the general and CDQ crab fisheries. Alaska Department of Fish and Game, Regional Information Report No. 4K04-27, Kodiak.
+
+Barnard, D. R., and R. Burt. 2006. Alaska Department of Fish and Game summary of the 2005 mandatory shellfish observer program database for the non-rationalized crab fisheries. Alaska Department of Fish and Game, Fishery Data Series No. 06-36, Anchorage.
+
+Blau, S. F., and D. Pengilly. 1994. Findings from the 1991 Aleutian Islands golden king crab survey in the Dutch Harbor and Adak management areas including analysis of recovered tagged crabs. Alaska Department of Fish and Game, Commercial Fisheries Management and Development Division, Regional Information Report 4K94-35, Kodiak.
+
+Blau, S. F., L. J. Watson, and I. Vining. 1998. The 1997 Aleutian Islands golden king crab survey. Alaska Department of Fish and Game, Commercial Fisheries Management and Development Division, Regional Information Report 4K98-30, Kodiak.
+
+Bowers, F.B., B. Failor-Rounds, and M.E. Cavin. 2005. Annual management report for the commercial shellfish fisheries of the Bering Sea, 2004. Pages 71-186 in Bowers, F.R., K.L. Bush, M. Schwenzfeier, J. Barnhart, M. Bon, M.E. Cavin, S. Coleman, B. Failor-Rounds, K. Milani, and M. Salmon. 2005. Annual management report for the commercial and subsistence shellfish fisheries of the Aleutian Islands, Bering Sea and the Westward Region’s Shellfish Observer Program, 2004. Alaska Department of Fish and Game, Fishery Management Report No. 05-51, Anchorage.
+
+Burt, R., and D. R. Barnard. 2005. Alaska Department of Fish and Game summary of the 2003 mandatory shellfish observer program database for the general and CDQ fisheries. Alaska Department of Fish and Game, Fishery Data Series No. 05-05, Anchorage.
+
+Burt, R., and D. R. Barnard. 2006. Alaska Department of Fish and Game summary of the 2004 mandatory shellfish observer program database for the general and CDQ fisheries. Alaska Department of Fish and Game, Fishery Data Series No. 06-03, Anchorage.
+
+Byrne, L. C., and D. Pengilly. 1998. Evaluation of CPUE estimates for the 1995 crab fisheries of the Bering Sea and Aleutian Islands based on observer data. Pages 61-74 $in$: Fishery stock assessment models, edited by F. Funk, T.J. Quinn II, J. Heifetz, J.N. Iannelli, J.E. Powers, J.F. Schweigert, P.J. Sullivan, and C.-I Zhang, Alaska Sea Grant College Program Report No. AK-SG-98-01, University of Alaska Fairbanks, 1998.
+
+Foy, R. J., 2013. 2013 Stock Assessment and Fishery Evaluation Report for the Pribilof Islands Red King Crab Fisheries of the Bering Sea and Aleutian Islands Regions. $in$: Stock Assessment and fishery Evaluation report for the King and Tanner Crab Fisheries of the Bering Sea and Aleutian Islands Regions: 2013 Crab SAFE. NPFMC, Anchorage, September 2013.
+
+Gaeuman, W. B. 2011. Summary of the 2010/2011 Mandatory Crab Observer Program Database for the Bering Sea/Aleutian Islands commercial crab fisheries. Alaska Department of Fish and Game, Fishery Data Series No. 11-73, Anchorage.
+
+Gaeuman, W. B. 2013a. Pribilof Islands golden king crab Tier 4 stock assessment considerations. Report to the North Pacific Fishery Management Council Bering Sea-Aleutian Island Crab Plan Team, 30 April - 3 May 2013 meeting, Anchorage, AK.
+
+Gaeuman, W. B. 2013b. Alternative Pribilof Islands golden king crab stock assessment strategy. Report to the North Pacific Fishery Management Council Bering Sea-Aleutian Island Crab Plan Team, 17-20 September 2013 meeting, Seattle, WA.
+
+Gaeuman, W. B. 2013c. Summary of the 2011/2012 Mandatory Crab Observer Program Database for the Bering Sea/Aleutian Islands commercial crab fisheries. Alaska Department of Fish and Game, Fishery Data Series No. 13-21, Anchorage.
+
+Gaeuman, W. B. 2014. Summary of the 2013/14 Mandatory Crab Observer Program Database for the Bering Sea/Aleutian Islands commercial crab fisheries. Alaska Department of Fish and Game, Fishery Data Series No. 14-49, Anchorage.
+
+Haaga, J. A., S. Van Sant, and G. R. Hoff. 2009. Crab abundance and depth distribution along the continental slope of the eastern Bering Sea. Poster presented at the 25th Lowell Wakefield Fisheries Symposium (Biology and Management of Exploited Crab Populations under Climate Change), Anchorage, AK, March 2009. Available online at: $ftp://ftp.afsc.noaa.gov/posters/pJHaaga01_ebs-crab.pdf$
+
+Hiramoto, K. 1985. Overview of the golden king crab, Lithodes aequispina, fishery and its fishery biology in the Pacific waters of Central Japan. in: Proc. Intl. King Crab Symp., University of Alaska Sea Grant Rpt. 85-12, Fairbanks.
+
+Hiramoto, K., and S. Sato. 1970. Biological and fisheries survey on an anomuran crab, $Lithodes$ $aequispina$ Benedict, off Boso Peninsula and Sagami Bay, central Japan. Jpn. J. Ecol. 20:165-170. In Japanese with English summary.
+
+Hoff, G. R. 2013. Results of the 2012 eastern Bering Sea upper continental slope survey of groundfish and invertebrate resources. U.S. Dep. Commer., NOAA Tech. Memo. NMFSAFSC-258.
+
+Hoff, G. R. 2016. Results of the 2016 eastern Bering Sea upper continental slope survey of groundfish and invertebrate resources. U.S. Dep. Commer., NOAA Tech. Memo. NMFSAFSC-339.
+
+Hoff, G. R., and L. Britt. 2003. Results of the 2002 eastern Bering Sea upper continental slope survey of groundfish and invertebrate resources. U.S. Dep. Commer., NOAA Tech. Memo. NMFS-AFSC-141.
+
+Hoff, G .R., and L. Britt. 2005. Results of the 2004 eastern Bering Sea upper continental slope survey of groundfish and invertebrate resources. U.S. Dep. Commer., NOAA Tech. Memo. NMFS-AFSC-156.
+
+Hoff, G. R., and L. Britt. 2009. Results of the 2008 eastern Bering Sea upper continental slope survey of groundfish and invertebrate resources. U.S. Dep. Commer., NOAA Tech. Memo. NMFS-AFSC-197.
+
+Hoff, G. R., and L. Britt. 2011. Results of the 2010 eastern Bering Sea upper continental slope survey of groundfish and invertebrate resources. U.S. Dep. Commer., NOAA Tech. Memo. NMFS-AFSC-224.
+
+Jewett, S. C., Sloan, N. A., and Somerton, D. A. 1985. Size at sexual maturity and fecundity of the fjord-dwelling golden king crab $Lithodes$ $aequispina$ Benedict from northern British Columbia. Journal of Crustacean Biology 5(3):377-385.
+
+Leon, J. M., J. Shaishnikoff, E. Nichols, and M. Westphal. 2017. Annual management report for shellfish fisheries of the Bering Sea–Aleutian Islands management area, 2015/16. Alaska Department of Fish and Game, Fishery Management Report No. 17-10, Anchorage.
+
+McBride, J., D. Fraser, and J. Reeves. 1982. Information on the distribution and biology of the golden (brown) king crab in the Bering Sea and Aleutian Islands area. NOAA, NWAFC Proc. Rpt. 92-02.
+
+National Marine Fisheries Service (NMFS). 2004. Bering Sea Aleutian Islands Crab Fisheries Final Environmental Impact Statement. DOC, NOAA, National Marine Fisheries Service, AK Region, P.O. Box 21668, Juneau, AK 99802-1668, August 2004.
+
+Neufeld, G., and D. R. Barnard. 2003. Alaska Department of Fish and Game summary of the 2001 mandatory shellfish observer program database for the general and CDQ fisheries. Alaska Department of Fish and Game, Division of Commercial Fisheries, Regional Information Report No. 4K03-2, Kodiak.
+
+North Pacific Fishery Management Council (NPFMC). 2007. Public Review Draft: Environmental Assessment for proposed Amendment 24 to the Fishery Management Plan for Bering Sea and Aleutian Islands King and Tanner Crabs to Revise Overfishing Definitions. 14 November 2007. North Pacific Fishery Management Council, Anchorage.
+Nyblade, C.F. 1987. Phylum or subphylum Crustacea, class Malacostraca, order Decopoda, Anomura. in: M.F. Strathman (ed.), Reproduction and development of marine invertebrates on the northern Pacific Coast. Univ. Wash. Press, Seattle, pp.441-450.
+Otto, R. S., and P. A. Cummiskey. 1985. Observations on the reproductive biology of golden king crab (Lithodes aequispina) in the Bering Sea and Aleutian Islands. Pages 123–136 in Proceedings of the International King Crab Symposium. University of Alaska Sea Grant Report No. 85-12, Fairbanks.
+
+Paul, A. J., and J. M. Paul. 2000. Changes in chela heights and carapace lengths in male and female golden king crabs Lithodes aequispinus after molting in the laboratory. Alaska Fishery Research Bulletin 6:70-77.
+
+Paul, A. J., and J. M. Paul. 2001a. Growth of juvenile golden king crabs Lithodes aequispinus in the laboratory. Alaska Fishery Research Bulletin 8: 135-138.
+
+Paul, A. J., and J. M. Paul. 2001b. The reproductive cycle of golden king crab $Lithodes$ $aequispinus$ (Anomura: Lithodidae). Journal of Shellfish Research 20:369-371.
+
+Pengilly, D. 2015. Discussion paper for September 2015 Crab Plan Team meeting: Random effects approach to modelling NMFS EBS slope survey area-swept estimates for Pribilof Islands golden king crab. Report to the North Pacific Fishery Management Council Bering Sea Aleutian Island Crab Plan Team, 14-17 September 2015 meeting, Seattle, WA.
+
+Pengilly, D. and B. Daly. 2017. Updated discussion paper for May 2017 Crab Plan Team meeting: Random effects approach to modelling NMFS EBS slope survey area-swept estimates for Pribilof Islands golden king crab. Report to the North Pacific Fishery Management Council Bering Sea-Aleutian Island Crab Plan Team, 2-5 May 2017 meeting, Juneau, AK.
+
+Shirley, T. C., and S. Zhou. 1997. Lecithotrophic development of the golden king crab $Lithodes$ $aequispinus$ (Anomura: Lithodidae). Journal of Crustacean Biology 17:207–216.
+
+Siddeek, M. S. M., J. Zheng, and D. Pengilly. 2014. Aleutian Islands golden king crab ($Lithodes$ $aequispinus$) model-based stock assessment in spring 2015. http://www.npfmc.org/wpcontent/PDFdocuments/membership/ PlanTeam/Crab/May2015/AIGKC.pdf
+
+Sloan, N.A. 1985. Life history characteristics of fjord-dwelling golden king crabs $Lithodes$ $aequispina$. Mar. Ecol. Prog. Ser. 22:219-228.
+
+Somerton, D. A., and R.S. Otto. 1986. Distribution and reproductive biology of the golden king crab, $Lithodes$ $aequispina$, in the eastern Bering Sea. Fish. Bull. 84:571-584.
+
+Watson, L. J., D. Pengilly, and S. F. Blau. 2002. Growth and molting probability of golden king crabs ($Lithodes$ $aequispinus$) in the eastern Aleutian Islands, Alaska. Pages 169-187 $in$ 2002. A. J. Paul, E. G. Elner, G. S. Jamieson, G. H. Kruse, R. S. Otto, B. Sainte-Marie, T. C. Shirley, and D. Woodby (eds.). Crabs in coldwater regions: Biology, Management, and Economics. University of Alaska Sea Grant, AK-SG-02-01, Fairbanks.
+
+Webb. J. 2014. Reproductive ecology of commercially important Lithodid crabs. Pages 285-314 in B.G. Stevens (ed.): King Crabs of the World: Biology and Fisheries Management. CRC Press, Taylor $\&$ Francis Group, New York.
+
+\end{hangparas}
+
+# K. Tables {-}
+
+
+
+\begin{table}[H]
+\centering
+\caption{Commercial fishery history for the Pribilof District golden king crab fishery: number of guideline harvest level (GHL; lb), vessels, weight of retained catch (lb), number of retained crab, pot lifts, fishery catch per unit effort (CPUE; retained crab per pot lift), and average weight (lb) of landed crab.'CF' denotes confidential fishery data.}
+\label{table:fishstatslb}
+\begin{tabular}{lcccccccc}
+Season & GHL & Vessels & Retained (lb)$^{a}$ & Retained (crab)$^{a}$ & Pot lifts & CPUE & Avg. wt.\\
+\hline
+```{r fishstatslb, results='asis', eval = T}
+
+fishery_stats %>% 
+  dplyr::select(season, ghl, vessels, retained_lb, retained_n, pot_lifts, cpue, avg_wt_lb, cf) %>%
+  replace_na(list(retained_lb = 0, retained_n = 0, pot_lifts = 0)) %>%
+  mutate(retained_lb = purrr::map2_chr(retained_lb, cf, f_cf_text, no_effort_return = "0"),
+         retained_n = purrr::map2_chr(retained_n, cf, f_cf_text, digits = 0, no_effort_return = "0"),
+         pot_lifts = purrr::map2_chr(pot_lifts, cf, f_cf_text, digits = 0, no_effort_return = "0"),
+         cpue = purrr::map2_chr(cpue, cf, f_cf_text, digits = 2, no_effort_return = NA),
+         avg_wt_lb = purrr::map2_chr(avg_wt_lb, cf, f_cf_text, no_effort_return = NA)) %>%
+  dplyr::select(-cf) -> x
+  # print table
+  print(xtable(x, align="lcccccccc", digits=c(0, 0, 0, 0, 1, 0, 0, 2, 1)),
+			      only.contents=TRUE,
+			      include.rownames=FALSE,
+			      floating=FALSE,
+			      include.colnames=FALSE,
+			      hline.after=NULL,
+			      format.args = list(big.mark = ","))
+
+```
+\hline
+\multicolumn{5}{l}{$^{a}$Deadloss included.}\\
+\multicolumn{5}{l}{CF = Confidential}\\
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Commercial fishery history for the Pribilof District golden king crab fishery: number of guideline harvest level (GHL; t), vessels, weight of retained catch (t), number of retained crab, pot lifts, fishery catch per unit effort (CPUE; retained crab per pot lift), and average weight (kg) of landed crab.'CF' denotes confidential fishery data.}
+\label{table:fishstatst}
+\begin{tabular}{lcccccccc}
+Season & GHL & Vessels & Retained (t)$^{a}$ & Retained (crab)$^{a}$ & Pot lifts & CPUE & Avg. wt.\\
+\hline
+```{r fishstatst, results='asis', eval = T}
+
+fishery_stats %>% 
+  dplyr::select(season, ghl, vessels, retained_t, retained_n, pot_lifts, cpue, avg_wt_kg, cf) %>%
+  replace_na(list(retained_t = 0, retained_n = 0, pot_lifts = 0)) %>%
+  mutate(ghl = ghl * 0.000453592,
+         retained_t = purrr::map2_chr(retained_t, cf, f_cf_text, no_effort_return = "0"),
+         retained_n = purrr::map2_chr(retained_n, cf, f_cf_text, digits = 0, no_effort_return = "0"),
+         pot_lifts = purrr::map2_chr(pot_lifts, cf, f_cf_text, digits = 0, no_effort_return = "0"),
+         cpue = purrr::map2_chr(cpue, cf, f_cf_text, digits = 2, no_effort_return = NA),
+         avg_wt_kg = purrr::map2_chr(avg_wt_kg, cf, f_cf_text, no_effort_return = NA)) %>%
+  dplyr::select(-cf) -> x
+  # print table
+  print(xtable(x, align="lcccccccc", digits=c(0, 0, 0, 0, 1, 0, 0, 2, 1)),
+			      only.contents=TRUE,
+			      include.rownames=FALSE,
+			      floating=FALSE,
+			      include.colnames=FALSE,
+			      hline.after=NULL,
+			      format.args = list(big.mark = ","))
+
+
+			
+```
+\hline
+\multicolumn{5}{l}{$^{a}$Deadloss included.}\\
+\multicolumn{5}{l}{CF = Confidential}\\
+\end{tabular}
+\end{table}
+
+
+
+
+
+
+
+
+\begin{table}[H] 
+\centering
+\caption{Weight (lb) of estimated discarded catch of Pribilof District golden king crab (PIGKC) during the PIGKC directed fishery, 1993-2021, with total fishery mortality (lb) estimated by applying a bycatch mortality rate of 0.2 to the discarded catch.}
+
+\label{table:dirdisclb}
+\begin{tabular}{lccccc}
+& \multicolumn{2}{c}{Males} & \multicolumn{2}{c}{Females} \\
+Season & Discards (lb) & Mortality & Discards (lb) & Mortality \\
+\hline
+
+```{r dirdisclb, results='asis', eval = T, message = F}
+# directed fishery bycatch
+read_csv("../../data/directed_fishery_tot_catch_and_discard.csv") %>%
+  dplyr::select(opening_year, group, discard_lb) %>%
+  pivot_wider(names_from = "group", values_from = "discard_lb") %>%
+  mutate(male = sublegal + ifelse(tot_legal < 0, 0, tot_legal),
+         female_mort =female * 0.2, 
+         male_mort = male * 0.2) %>%
+  dplyr::select(opening_year, male, male_mort, female, female_mort) %>%
+  right_join(ghl_cf_check %>% mutate(opening_year = as.numeric(substring(season, 1, 4)))) %>%
+  mutate(male = purrr::map2_chr(male, cf, f_cf_text, digits = 1),
+         male_mort = purrr::map2_chr(male_mort, cf, f_cf_text, digits = 1),
+         female = purrr::map2_chr(female, cf, f_cf_text, digits = 1),
+         female_mort = purrr::map2_chr(female_mort, cf, f_cf_text, digits = 1)) %>%
+  dplyr::select(season, male, male_mort, female, female_mort) %>%
+  arrange(season) %>%
+  filter(as.numeric(substring(season, 1, 4)) >= 2001) -> bycatch_lb
+  
+  # print table
+  print(xtable(bycatch_lb, align="lccccc", digits=c(0, 1, 1, 1, 1, 1)),
+			      only.contents=TRUE,
+			      include.rownames=FALSE,
+			      floating=FALSE,
+			      include.colnames=FALSE,
+			      hline.after=NULL,
+			      format.args = list(big.mark = ","))
+```
+\hline
+\multicolumn{5}{l}{NE = No Effort}\\
+\multicolumn{5}{l}{CF = Confidential}\\
+\end{tabular}
+\end{table}
+
+
+\begin{table}[H] 
+\centering
+\caption{Weight (t) of estimated discarded catch of Pribilof District golden king crab (PIGKC) during the PIGKC directed fishery, 1993-2021, with total fishery mortality (t) estimated by applying a bycatch mortality rate of 0.2 to the discarded catch.}
+
+\label{table:dirdisct}
+\begin{tabular}{lccccc}
+& \multicolumn{2}{c}{Males} & \multicolumn{2}{c}{Females} \\
+Season & Discards (t) & Mortality & Discards (t) & Mortality \\
+\hline
+
+```{r dirdisct, results='asis', eval = T, message = F}
+# directed fishery bycatch
+read_csv("../../data/directed_fishery_tot_catch_and_discard.csv") %>%
+  dplyr::select(opening_year, group, discard_t) %>%
+  pivot_wider(names_from = "group", values_from = "discard_t") %>%
+  mutate(male = sublegal + ifelse(tot_legal < 0, 0, tot_legal),
+         female_mort =female * 0.2, 
+         male_mort = male * 0.2) %>%
+  dplyr::select(opening_year, male, male_mort, female, female_mort) %>%
+  right_join(ghl_cf_check %>% mutate(opening_year = as.numeric(substring(season, 1, 4)))) %>%
+  mutate(male = purrr::map2_chr(male, cf, f_cf_text, digits = 2),
+         male_mort = purrr::map2_chr(male_mort, cf, f_cf_text, digits = 2),
+         female = purrr::map2_chr(female, cf, f_cf_text, digits = 2),
+         female_mort = purrr::map2_chr(female_mort, cf, f_cf_text, digits = 2)) %>%
+  dplyr::select(season, male, male_mort, female, female_mort) %>%
+  arrange(season) %>%
+  filter(as.numeric(substring(season, 1, 4)) >= 2001) -> bycatch_t
+  
+  # print table
+  print(xtable(bycatch_t, align="lccccc", digits=c(0, 2, 2, 2, 2, 2)),
+			      only.contents=TRUE,
+			      include.rownames=FALSE,
+			      floating=FALSE,
+			      include.colnames=FALSE,
+			      hline.after=NULL,
+			      format.args = list(big.mark = ","))
+```
+\hline
+\multicolumn{5}{l}{NE = No Effort}\\
+\multicolumn{5}{l}{CF = Confidential}\\
+\end{tabular}
+\end{table}
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{table}[H] 
+\centering
+\caption{Weight (lb) of estimated discarded bycatch of Pribilof golden king crab (PIGKC) during non-directed crab fisheries (i.e. Bering Sea snow and grooved Tanner crab) from 1990 - 2021 with total fishery mortality (lb) estimated by applying a bycatch mortality rate of 0.5 to the discarded catch.}
+
+\label{table:nondirbycatchlb}
+\begin{tabular}{lccccccc}
+& \multicolumn{2}{c}{Snow Crab} & \multicolumn{2}{c}{Grooved Tanner crab} & \multicolumn{2}{c}{Total} \\
+Season & Bycatch & Mortality & Bycatch & Mortality & Bycatch & Mortality\\
+\hline
+
+```{r nondirbycatchlb, results='asis', eval = T, message = F}
+
+# load confidentiality check for snow and groovy crab
+# 0 = non-confidential, 1 = confidential, 2 = no effort, 3 = no data, 4 = closed
+nondir_cf <- read_csv("../../data/nondir_cf_check.csv") 
+
+# snow crab fishery bycatch
+read_csv("../../data/snow_crab_fishery_bycatch.csv") %>%
+  dplyr::select(opening_year, group, bycatch_lb) %>%
+  pivot_wider(names_from = "group", values_from = "bycatch_lb") %>%
+  mutate(qo_wt = sublegal + ifelse(tot_legal < 0, 0, tot_legal) + female,
+         qo_mort = qo_wt * 0.5, 
+         # adjust opening year so it aligns with calendar year fisher for gkc
+         opening_year = opening_year + 1) %>%
+  dplyr::select(opening_year, qo_wt, qo_mort) %>% 
+  # groovy crab bycatch
+  full_join(read_csv("../../data/grooved_crab_fishery_bycatch.csv") %>%
+            dplyr::select(opening_year, group, bycatch_lb) %>%
+            pivot_wider(names_from = "group", values_from = "bycatch_lb") %>%
+            mutate(qg_wt = sublegal + ifelse(tot_legal < 0, 0, tot_legal) + female,
+                   qg_mort = qg_wt * 0.5) %>%
+            dplyr::select(opening_year, qg_wt, qg_mort)) %>%
+  right_join(read_csv("../../data/nondir_cf_check.csv") %>%
+              mutate(opening_year = as.numeric(substring(season, 1, 4)),
+                     qo = lag(qo))) %>%
+  replace(is.na(.), 0) %>%
+  # total weight
+  mutate(total_wt = qo_wt + qg_wt,
+         total_mort = total_wt * 0.5) %>%
+  # insert confidentiality text
+  # snow crab
+  mutate(qo_wt = purrr::map2_chr(qo_wt, qo, f_cf_text),
+         qo_mort = purrr::map2_chr(qo_mort, qo, f_cf_text)) %>%
+  # groovy crab
+  mutate(qg_wt = purrr::map2_chr(qg_wt, qg, f_cf_text),
+         qg_mort = purrr::map2_chr(qg_mort, qg, f_cf_text)) %>%
+  # total
+  mutate(tot = ifelse(qo == 1 | qg == 1, 1, 0),
+         total_wt = purrr::map2_chr(total_wt, tot, f_cf_text),
+         total_mort = purrr::map2_chr(total_mort, tot, f_cf_text)) %>%
+  ## arrange columns and rows
+  dplyr::select(season, qo_wt, qo_mort, qg_wt, qg_mort, total_wt, total_mort) %>%
+  arrange(season) %>%
+  filter(as.numeric(substring(season, 1, 4)) >= 1993) -> bycatch_lb
+  
+  # print table
+  print(xtable(bycatch_lb, align="lccccccc", digits=c(0, 1, 1, 1, 1, 1, 1, 1)),
+			      only.contents=TRUE,
+			      include.rownames=FALSE,
+			      floating=FALSE,
+			      include.colnames=FALSE,
+			      hline.after=NULL,
+			      format.args = list(big.mark = ","))
+
+```
+\hline
+\multicolumn{5}{l}{ND = No Data}\\
+\multicolumn{5}{l}{NE = No Effort}\\
+\multicolumn{5}{l}{CF = Confidential}\\
+\end{tabular}
+\end{table}
+
+
+\begin{table}[H] 
+\centering
+\caption{Weight (t) of estimated discarded bycatch of Pribilof golden king crab (PIGKC) during non-directed crab fisheries (i.e. Bering Sea snow and grooved Tanner crab) from 1990 - 2021 with total fishery mortality (t) estimated by applying a bycatch mortality rate of 0.5 to the discarded catch.}
+
+\label{table:nondirbycatcht}
+\begin{tabular}{lccccccc}
+& \multicolumn{2}{c}{Snow Crab} & \multicolumn{2}{c}{Grooved Tanner crab} & \multicolumn{2}{c}{Total} \\
+Season & Bycatch & Mortality & Bycatch & Mortality & Bycatch & Mortality\\
+\hline
+
+```{r nondirbycatcht, results='asis', eval = T, message = F}
+
+# load confidentiality check for snow and groovy crab
+# 0 = non-confidential, 1 = confidential, 2 = no effort, 3 = no data, 4 = closed
+nondir_cf <- read_csv("../../data/nondir_cf_check.csv") 
+
+# snow crab fishery bycatch
+read_csv("../../data/snow_crab_fishery_bycatch.csv") %>%
+  dplyr::select(opening_year, group, bycatch_t) %>%
+  pivot_wider(names_from = "group", values_from = "bycatch_t") %>%
+  mutate(qo_wt = sublegal + ifelse(tot_legal < 0, 0, tot_legal) + female,
+         qo_mort = qo_wt * 0.5, 
+         # adjust opening year so it aligns with calendar year fisher for gkc
+         opening_year = opening_year + 1) %>%
+  dplyr::select(opening_year, qo_wt, qo_mort) %>% 
+  # groovy crab bycatch
+  full_join(read_csv("../../data/grooved_crab_fishery_bycatch.csv") %>%
+            dplyr::select(opening_year, group, bycatch_t) %>%
+            pivot_wider(names_from = "group", values_from = "bycatch_t") %>%
+            mutate(qg_wt = sublegal + ifelse(tot_legal < 0, 0, tot_legal) + female,
+                   qg_mort = qg_wt * 0.5) %>%
+            dplyr::select(opening_year, qg_wt, qg_mort)) %>%
+  right_join(read_csv("../../data/nondir_cf_check.csv") %>%
+              mutate(opening_year = as.numeric(substring(season, 1, 4)),
+                     qo = lag(qo))) %>%
+  replace(is.na(.), 0) %>%
+  # total weight
+  mutate(total_wt = qo_wt + qg_wt,
+         total_mort = total_wt * 0.5) %>%
+  # insert confidentiality text
+  # snow crab
+  mutate(qo_wt = purrr::map2_chr(qo_wt, qo, f_cf_text, digits = 2),
+         qo_mort = purrr::map2_chr(qo_mort, qo, f_cf_text, digits = 2)) %>%
+  # groovy crab
+  mutate(qg_wt = purrr::map2_chr(qg_wt, qg, f_cf_text, digits = 2),
+         qg_mort = purrr::map2_chr(qg_mort, qg, f_cf_text, digits = 2)) %>%
+  # total
+  mutate(tot = ifelse(qo == 1 | qg == 1, 1, 0),
+         total_wt = purrr::map2_chr(total_wt, tot, f_cf_text, digits = 2),
+         total_mort = purrr::map2_chr(total_mort, tot, f_cf_text, digits = 2)) %>%
+  ## arrange columns and rows
+  dplyr::select(season, qo_wt, qo_mort, qg_wt, qg_mort, total_wt, total_mort) %>%
+  arrange(season) %>%
+  filter(as.numeric(substring(season, 1, 4)) >= 1993) -> bycatch_t
+  
+  # print table
+  print(xtable(bycatch_t, align="lccccccc", digits=c(0, 1, 1, 1, 1, 1, 1, 1)),
+			      only.contents=TRUE,
+			      include.rownames=FALSE,
+			      floating=FALSE,
+			      include.colnames=FALSE,
+			      hline.after=NULL,
+			      format.args = list(big.mark = ","))
+
+```
+\hline
+\multicolumn{5}{l}{ND = No Data}\\
+\multicolumn{5}{l}{NE = No Effort}\\
+\multicolumn{5}{l}{CF = Confidential}\\
+\end{tabular}
+\end{table}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{table}[H]
+\centering
+\caption{Estimated annual weight (lb) of discarded catch of Pribilof golden king crab (all sizes, males and females) during federal groundfish fisheries by gear type (fixed or trawl) with total bycatch mortality (lb) estimated by assuming bycatch mortality rate = 0.5 for fixedgear fisheries and bycatch mortality rate = 0.8 for trawl fisheries. 1991/92-2008/09 is listed by crab fishery year, while 2009-2022 are listed by calendar year.}
+
+\label{table:gfbycatchlb}
+\begin{tabular}{lccccc}
+& \multicolumn{3}{c}{Bycatch in groundfish fisheries} & \\
+& \multicolumn{3}{c}{(no mortality rate applied)} & \\
+Fishery Year & Fixed & Trawl & Total & Total Mortality\\
+\hline
+```{r midgfdiscardlb, results='asis', eval = T}
+source("../gf_bycatch.R")
+
+print(xtable(gf_bycatch[-nrow(gf_bycatch),] %>%
+               mutate_at(2:5, function(x){x/0.000453592}), align="lccccc", digits=c(0, 1, 1, 1, 1, 1)),
+			      only.contents=TRUE,
+			      include.rownames=FALSE,
+			      floating=FALSE,
+			      include.colnames=FALSE,
+			      hline.after=NULL,
+			      format.args = list(big.mark = ","))
+			
+```
+\hline
+```{r midgfdiscardavglb, results='asis', eval = T}
+print(xtable(gf_bycatch[nrow(gf_bycatch),] %>%
+               mutate_at(2:5, function(x){x/0.000453592}), align="lccccc", digits=c(0, 1, 1, 1, 1, 1)),
+			      only.contents=TRUE,
+			      include.rownames=FALSE,
+			      floating=FALSE,
+			      include.colnames=FALSE,
+			      hline.after=NULL,
+			      format.args = list(big.mark = ","))
+			
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\caption{Estimated annual weight (t) of discarded catch of Pribilof golden king crab (all sizes, males and females) during federal groundfish fisheries by gear type (fixed or trawl) with total bycatch mortality (t) estimated by assuming bycatch mortality rate = 0.5 for fixedgear fisheries and bycatch mortality rate = 0.8 for trawl fisheries. 1991/92-2008/09 is listed by crab fishery year, while 2009-2022 are listed by calendar year.}
+
+\label{table:gfbycatcht}
+\begin{tabular}{lccccc}
+& \multicolumn{3}{c}{Bycatch in groundfish fisheries} & \\
+& \multicolumn{3}{c}{(no mortality rate applied)} & \\
+Fishery Year & Fixed & Trawl & Total & Total Mortality\\
+\hline
+```{r midgfdiscardt, results='asis', eval = T}
+print(xtable(gf_bycatch[-nrow(gf_bycatch),], align="lccccc", digits=c(0, 2, 2, 2, 2, 2)),
+			      only.contents=TRUE,
+			      include.rownames=FALSE,
+			      floating=FALSE,
+			      include.colnames=FALSE,
+			      hline.after=NULL,
+			      format.args = list(big.mark = ","))
+			
+```
+\hline
+```{r midgfdiscardavgt, results='asis', eval = T}
+print(xtable(gf_bycatch[nrow(gf_bycatch),], align="lccccc", digits=c(0, 2, 2, 2, 2, 2)),
+			      only.contents=TRUE,
+			      include.rownames=FALSE,
+			      floating=FALSE,
+			      include.colnames=FALSE,
+			      hline.after=NULL,
+			      format.args = list(big.mark = ","))
+			
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+
+
+
+
+
+
+
+
+
+\begin{table}[ht]
+\centering
+\caption{Data for calculation of RET$_{1993-1998}$ (t) and estimates used in calculation of R$_{2001-2010}$ (ratio, t:t), BM$_{\text{NC},1994-1998}$ (t), and BM$_{\text{GF},92/93-98/99}$ (t) for calculation of the recommended (status quo Alternative 1) Pribilof Islands golden king crab Tier 5 2021-2023 OFL (t); values under RET$_{1993-1998}$ are from Table \ref{table:fishstatst}, values under R$_{2001-2010}$ were computed from the retained catch data and the directed fishery discarded catch estimates in Tables \ref{table:fishstatst} and \ref{table:dirdisct} (assumed bycatch mortality rate = 0.2), values under BM$_{\text{NC},1994-1998}$ were computed from the nondirected crab fishery discarded catch estimates in Table \ref{table:nondirbycatcht} (assumed bycatch mortality rate = 0.5) and values under BM$_{\text{GF},92/93-98/99}$ are from Table \ref{table:gfbycatcht}.}
+
+\label{table:tier5inputt}
+\begin{tabular}{llccccc}
+Year & Crab Season & RET$_{1993-1998}$ & R$_{2001-2010}$ & BM$_{\text{NC},1994-1998}$ & BM$_{\text{GF},92/93-98/99}$\\
+\hline
+```{r midtier5inputt, results='asis', eval = T}
+# replace confidential data
+left_join(tier5_input, read_csv("../../data/pigkc_ghl_cf_check.csv") %>% mutate(year = as.numeric(substring(season, 1, 4))), by = "year") %>%
+  left_join(read_csv("../../data/nondir_cf_check.csv") %>% mutate(year = as.numeric(substring(season, 1, 4))), by = "year") %>%
+  mutate(RET = ifelse(!is.na(RET), purrr::map2_chr(RET, cf, f_cf_text, digits = 2), NA),
+         R = ifelse(!is.na(R), purrr::map2_chr(R, cf, f_cf_text, digits = 3), NA),
+         year = as.character(year)) %>%
+  dplyr::select(year, season.x, RET, R, BMNC, BMGF) -> x
+
+
+print(xtable(x, align="llccccc", digits=c(0, 0, 2, 2, 3, 2, 2)),
+			      only.contents=TRUE,
+			      include.rownames=FALSE,
+			      floating=FALSE,
+			      include.colnames=FALSE,
+			      hline.after=NULL,
+			      format.args = list(big.mark = ","))
+
+```
+\hline
+```{r midtier5inputsumt, results='asis', eval = T}
+print(xtable(tier5_input_sum[1,], align="llccccc", digits=c(0, 0, 0, 0, 0, 0, 0)),
+			      only.contents=TRUE,
+			      include.rownames=FALSE,
+			      floating=FALSE,
+			      include.colnames=FALSE,
+			      hline.after=NULL,
+			      format.args = list(big.mark = ","))
+
+print(xtable(tier5_input_sum[2:3,], align="llccccc", digits=c(0, 0, 2, 2, 3, 2, 2)),
+			      only.contents=TRUE,
+			      include.rownames=FALSE,
+			      floating=FALSE,
+			      include.colnames=FALSE,
+			      hline.after=NULL,
+			      format.args = list(big.mark = ","))
+
+print(xtable(tier5_input_sum[4,], align="llccccc", digits=c(0, 0, 2, 2, 2, 2, 2)),
+			      only.contents=TRUE,
+			      include.rownames=FALSE,
+			      floating=FALSE,
+			      include.colnames=FALSE,
+			      hline.after=NULL,
+			      format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+
+
+# J. Figures {-}
+
+```{r areaq, fig.align = 'center', fig.cap = "King crab Registration Area Q (Bering Sea), showing borders of the Pribilof District.", eval = T}
+knitr::include_graphics("../../figures/king_crab_area_Q.jpg")
+```
+
+```{r oflboot, fig.align = 'center', fig.cap = "Bootstrap estimates of the sampling distribution of the 2024-2026 Alternative 1 Tier 5 OFL (total catch, t) for the Pribilof Islands golden king crab stock; histogram on left, quantile plot on right.", fig.height = 3, fig.width = 6, eval = T}
+hist + cdf
+```
+

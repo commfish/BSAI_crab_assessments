@@ -15,13 +15,13 @@ library(tidyverse)
 
 ## raw data source: Jerry Hoff (AFSC), Ben Daly (ADF&G)
 ### 2004
-spec_04 <- read_csv("./PIGKC/data/nmfs_slope_gkc_specimen_2004.csv")
+spec_04 <- read_csv("./PIGKC/data/slope_survey/nmfs_slope_gkc_specimen_2004.csv")
 ### 2008 - 2012
-spec_08 <- read_csv("./PIGKC/data/nmfs_slope_gkc_specimen_2008.csv")
-spec_10 <- read_csv("./PIGKC/data/nmfs_slope_gkc_specimen_2010.csv")
-spec_12 <- read_csv("./PIGKC/data/nmfs_slope_gkc_specimen_2012.csv")
+spec_08 <- read_csv("./PIGKC/data/slope_survey/nmfs_slope_gkc_specimen_2008.csv")
+spec_10 <- read_csv("./PIGKC/data/slope_survey/nmfs_slope_gkc_specimen_2010.csv")
+spec_12 <- read_csv("./PIGKC/data/slope_survey/nmfs_slope_gkc_specimen_2012.csv")
 ### 2016 
-spec_16 <- read_csv("./PIGKC/data/nmfs_slope_gkc_specimen_2016.csv")
+spec_16 <- read_csv("./PIGKC/data/slope_survey/nmfs_slope_gkc_specimen_2016.csv")
 
 # clean and join ----
 
