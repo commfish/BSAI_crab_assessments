@@ -31,6 +31,7 @@ Three models recommended from May 2022:
 23.0a - "base" with estimated M for males, prior??? see Jie's 22.0a 
 23.0b - M for males fixed at maximum likelihood profile value - 0.31
 
+23.1a - increase CV on prior on NMFS, double it to 0.06
 23.1 - "Q" work. relax prior on Q 
 23.2 - explore contribution of retow data - run model excluding all retow data in years with retow.
 
@@ -61,7 +62,7 @@ Compare to Fall 2022 model 21.1b - no new data just new GMACS version - see if d
 
 
 ### Model 22.0 
-
+updated .dat and .ctl files to reflect new GMACS version. 
 
 ### Model 23.1a
 change line 405 in .ctl file p2 is 0.06
