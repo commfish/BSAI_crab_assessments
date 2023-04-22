@@ -2,7 +2,8 @@
 # Functions created for BBRKC figures see Jie_cmn_files.R for more context
 
 ## bubbleplot of residualts ----------
-# see bubleplot-m.r 
+## !!!! old inherited base code ---
+# see bubleplot-m.r  
 bubbleplot_resid <- function(letter_m, sex, ltitle = "Model")
 {
   if(sex == "male"){
@@ -134,7 +135,7 @@ plot_size_comps_kjp <-
     }
   }
 
-
+#  get size comps --------------
 .get_sizeComps_df_kjp <- function(M)  
 {
   n <- length(M)
@@ -222,7 +223,7 @@ plot_size_comps_kjp <-
   return(ldf)
 }
 
-# natural mortality output
+# natural mortality output ------------
 .get_M_df_kjp <- function(M)
 {
   n <- length(M)

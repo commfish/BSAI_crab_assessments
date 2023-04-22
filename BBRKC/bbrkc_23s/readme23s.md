@@ -6,7 +6,7 @@ katie.palof@alaska.gov
 
 
 ## Running model
-1) Update gmacs.exe with updated version via github. Make sure to update .dat and .ctl files to reflect changes in the program and input files
+1) Update gmacs.exe with updated version via github. Make sure to update .dat and .ctl files to reflect changes in the program and input files - see "C:\Users\kjpalof\Documents\Rprojects\GMACS-project\GMACS_Assessment_code\GMACS_versions\Latest_Version" for latest version of GMACS. Make sure to "pull" this project first before following "katie" R script in R script file to compile
 2) change the 'XX.prj' files to bbrkc.prj for that model run
 3) update 'gmacs.dat' to reflect the model run files
 
@@ -52,23 +52,16 @@ files used for model: found in the gmacs.dat file in each folder, also have a fi
 
 
 ## model runs - initial to compare to Jie's ------
-### Model 21.1b - run 7-25-22; see gmacs.dat - no additional output/jitter/or anything, just basic model run
-Time for run: Runtime: 0 hours, 28 minutes, 23 seconds
-Compare results to Jie's - gmacsall.out 
-Notes: 
-- first and last line of 'gmacsall.out' match - dig deeper later
+### Model 21.1b - run 4-14-23; see gmacs.dat -
+Runtime: 0 hours, 47 minutes, 59 seconds
+Compare to Fall 2022 model 21.1b - no new data just new GMACS version - see if differences in output
+
 
 ### Model 22.0 
-Time for run: Runtime: 0 hours, 25 minutes, 12 seconds
-Compare results to Jie's - gmacsall.out 
-Notes: 
-- first and last line of 'gmacsall.out' match - dig deeper later
 
-### Model 22.0a 
-Time for run: Runtime: 0 hours, 25 minutes, 42 seconds
-Compare results to Jie's - gmacsall.out 
-Notes: 
-- first and last line of 'gmacsall.out' match - dig deeper later
+
+### Model 23.1a
+change line 405 in .ctl file p2 is 0.06
 
 
 
