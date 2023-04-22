@@ -27,7 +27,10 @@ Three models recommended from May 2022:
 21.1b - updated "base" model, new bycatch data and updated GMACS version (2.01 E)
 22.0 - "base" starting from 1985 - should have different control file
      - also has different .dat and .prj file (see folder in bbrkc_22f)
-23.0 - "base" with estimated M for males, prior??? see Jie's 22.0a model
+23.0 - M for males fixed at Then et al. 2015 value M = 0.257
+23.0a - "base" with estimated M for males, prior??? see Jie's 22.0a 
+23.0b - M for males fixed at maximum likelihood profile value - 0.31
+
 23.1 - "Q" work. relax prior on Q 
 23.2 - explore contribution of retow data - run model excluding all retow data in years with retow.
 
