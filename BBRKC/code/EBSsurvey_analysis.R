@@ -67,6 +67,7 @@ head(haul_rkc)
 unique(haul_rkc$LENGTH_1MM)
 
 ## see Tyler's code here ---- update
+# size comps in "female_race_size_comp.txt" - from Tyler - where is he calculating this???
 
 ## sample size for length comps??? ----------------
 head(haul_rkc) # how to determine which ones are bb???
