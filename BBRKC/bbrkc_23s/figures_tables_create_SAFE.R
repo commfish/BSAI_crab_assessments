@@ -527,6 +527,40 @@ get_Db0_out(mod_names[2], raw_data, M[2]) %>% transmute(round(100*ssb,0)) %>% sl
 
 ## TABLES ====================================
 
+# Tables 1 to 3 calcs -------
+# need summary of models for may 2023
+## table 1 -
+round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_2122
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_2122
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2223
+round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2223
+round(M[[rec_mod]]$spr_cofl/1000*0.80, 2) -> abc_2223
+table1specs_t <- c(msst_2122, mmb_2122, mmb_2223, ofl_2223, abc_2223)
+table1specs_t
+#rec_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1/figure/ofl_calc.csv"))
+#round(rec_ofl$OFL_2020/1000, 2) -> ofl_2021
+#round(ofl_2021*0.8, 2) -> abc_2021
+
+# table 2 --
+round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_2122_lb
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]* 2204.62/1e6, 2) -> mmb_2122_lb
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_2223_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 3) -> ofl_2223_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.80, 2) -> abc_2223_lb
+table1specs_lb <- c(msst_2122_lb, mmb_2122_lb, mmb_2223_lb, ofl_2223_lb, abc_2223_lb)
+table1specs_lb
+#round(rec_ofl$OFL_2020* 2204.62/1e6, 3) -> ofl_2021_lb
+#round(ofl_2021_lb*0.8, 2) -> abc_2021_lb
+
+# ofl and abc basis -------- table 3
+# ofl and abc basis -------- table 3
+round(M[[rec_mod]]$spr_bmsy/1000, 2) -> bmsy_cur
+round(M[[rec_mod]]$spr_depl, 2) -> ratio_bmsy
+round(M[[rec_mod]]$sd_fofl[1], 3) -> fofl
+table3specs_t <- c(bmsy_cur, mmb_2223, ratio_bmsy, fofl)
+
+table3specs_lb <- c(bmsy_cur*(2204.62/1e3), mmb_2223*(2204.62/1e3), ratio_bmsy, fofl)
+
 # Table 7 nat mort----
 nat_mort <- .get_M_df_kjp(M[mod_scen]) # bbrkc_functions.R
 
