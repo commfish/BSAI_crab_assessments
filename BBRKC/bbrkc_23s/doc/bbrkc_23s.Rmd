@@ -22,7 +22,9 @@ opts_chunk$set(fig.width = 12, fig.height = 7, fig.align = "left", echo = FALSE,
 
 
 # Summary {-}
-The model explorations presented here include those suggested by CPT and SSC comments in addition to GMACS updates. 
+The model explorations presented here include those suggested by CPT and SSC comments in addition to GMACS updates. The model explorations can be divided into three areas of exploration: 1) starting the base model in 1985, which has been considering in prior years, 2) models to explore the base level of natural mortality for males, and 3) models to begin an exploration of q estimation for the NMFS trawl survey. The models presented here are the beginning of work to explore these topics and the author acknowledges that further exploration is warranted. Additionally, an updated version of GMACS was used for these model exploration and model fit was similar with slight differences in reference point calculations with these updates. 
+
+The results of these model explorations are presented in this document in secton C. Background on the Bristol Bay red king crab modeling approach, modeling framework (GMACS), and history of the stock and fisheries can be found in the last completed SAFE  and will not be repeated here. 
 
 Historic fishery and survey data information can be found in the last full SAFE published on the NPFMC website (link here: [BBRKC 2022 SAFE](https://meetings.npfmc.org/CommentReview/DownloadFile?p=b98b90b2-88ab-43c2-9487-c12cdb4e0a25.pdf&fileName=BBRKC%20SAFE%202022%20Final.pdf)) 
 
@@ -145,15 +147,20 @@ Response: We also support improvement of VAST estimates and are willing to provi
 ## Assessment Methodology {-}
 
 This assessment model again uses the modeling framework GMACS and is detailed in Appendix A.
-An updated version of GMACS (version 2.01.F, 2022-04-16) was used.
+An updated version of GMACS (version 2.01.M.01, 2023-03-13) was used. The fall 2022 assessment used version 2.01.F (2022-04-16).
 
 ## Model explorations{-}
 Model explored in this document:
 
-  21.1b: base model, used in Fall 2022
-  22.0: "base" model with data after 1985 instead of 19
-  23.1a: Double CV on NMFS Q prior
-  
+  21.1b: base model, accepted for specifications in Fall 2022
+  21.1b (update): base model + updated GMACS version
+  22.0: 21.1b model with data after 1985 instead of 1975
+  23.0: 21.1b + "base" M value for males fixed at M=0.257 (based on Then et al. 2015)
+  23.0a: 21.1b + "base" M value for males estimated in the model (prior information)
+  23.0b: 21.1b + "base" M value for males fixed at M=0.31 (best estimate based on 2020 likelihood profile work)
+  23.1a: Double CV on NMFS q prior
+  23.2: 21.1b with no retow data for females from the NMFS trawl survey
+  23.3: 23.1a (base M for males estimated) + 23.1a (double CV on NMFS q prior)
 
 ### Reasoning for model explorations and other explorations not in this document {-}
 
@@ -181,13 +188,8 @@ general results and conclusions
 # F. Calculation of the OFL and ABC{-}
 
 
-# G. Rebuilding Analysis {-}
 
 
-# H. Data Gaps and Research Priorities {-}
-
-
-# I. Projections and outlook {-}
 
 # J. Acknowledgements {-}
 
