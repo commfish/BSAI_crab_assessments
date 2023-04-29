@@ -22,6 +22,9 @@ opts_chunk$set(fig.width = 12, fig.height = 7, fig.align = "left", echo = FALSE,
 
 
 # Summary {-}
+The model explorations presented here include those suggested by CPT and SSC comments in addition to GMACS updates. 
+
+Historic fishery and survey data information can be found in the last full SAFE published on the NPFMC website (link here: [BBRKC 2022 SAFE](https://meetings.npfmc.org/CommentReview/DownloadFile?p=b98b90b2-88ab-43c2-9487-c12cdb4e0a25.pdf&fileName=BBRKC%20SAFE%202022%20Final.pdf)) 
 
 \pagebreak
 
@@ -29,7 +32,7 @@ opts_chunk$set(fig.width = 12, fig.height = 7, fig.align = "left", echo = FALSE,
 # B. Responses to SSC and CPT  {-}
 
 ## CPT and SSC Comments on Assessments in General {-}
-**Response to SSC Comments (June 2022, Oct 2022, Feb 2023):**
+**Response to SSC Comments (June 2022, Oct 2022):**
 "The SSC recommends that the RKC authors work together to complete a stock structure template for June 2023."
 
 Response: A draft stock structure template for RKC in the Bering Sea will be presented at the May 2023 CPT meeting. 
@@ -72,6 +75,9 @@ Response: Models 22.0, 22.0a, 22.0b, 22.0c and 22.0d with starting year of 1985 
 “Consider a model in which the data starts in 1985 (as suggested by the CIE reviewers).”
 
 Response: Models 22.0, 22.0a, 22.0b, 22.0c, 22.0d, and 22.0e in May 2022 start in 1985. These models are used to examine M, BSFRF survey data, and retrospective bias.
+
+**Response to CPT Comments (from May 2022):** 
+
 
 **Response to SSC Comments specific to this assessment (from June 2021):**
 
@@ -124,12 +130,16 @@ Response: Figuring out the exact causes of high mortality in the early 1980s is 
 
 Response: We also support improvement of VAST estimates and are willing to provide feedback to Jon for further improvement. Hopefully, we will be able to use the VAST results in the models soon.
 
-**Response to SSC Comments specific to this assessment (from May 2022):**
+**Response to SSC Comments specific to this assessment (from June 2022):**
+"The SSC recommends exploring how to estimate both catchabilities (NMFS trawl survey and BSFRF survey), but with a linked prior to influence them to scale together (i.e., assume some approximate value of how much higher q is for that survey)."
+
+**respond**
+
 **Response to SSC Comments specific to this assessment (from October 2022):**
+"The SSC recommends that a high priority be placed on trying to isolate factors that reduce the retrospective bias in mature male biomass."
 
-# E. Analytic Approach {-}
 
-## History of Modeling Approaches for this Stock {-}
+# C. Modeling Approaches and Explorations for spring 2023{-}
 
 
 ## Assessment Methodology {-}
@@ -137,7 +147,7 @@ Response: We also support improvement of VAST estimates and are willing to provi
 This assessment model again uses the modeling framework GMACS and is detailed in Appendix A.
 An updated version of GMACS (version 2.01.F, 2022-04-16) was used.
 
-## Model Selection and Evaluation {-}
+## Model explorations{-}
 Model explored in this document:
 
   21.1b: base model, used in Fall 2022
@@ -145,9 +155,15 @@ Model explored in this document:
   23.1a: Double CV on NMFS Q prior
   
 
+### Reasoning for model explorations and other explorations not in this document {-}
+
+
 ## Results {-}
 
-### a. Sensitivity to new data {-}
+general results and conclusions
+- visualization of those
+
+### a. Sensitivity to new GMACS versions {-}
 
 
 ### b. Effective sample sizes and weighting factors {-}
