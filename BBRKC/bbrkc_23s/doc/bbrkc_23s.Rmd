@@ -212,11 +212,51 @@ The projections are subject to many uncertainties. Constant population parameter
 # Figures {-}
 \newpage
 
-```{r distribution, fig.cap = "Distribution of blue king crab (\\textit{Paralithodes platypus}) in the Gulf of Alaska, Bering Sea, and Aleutian Islands waters (shown in blue)."}
-#knitr::include_graphics("safe_figure/Fig1.png", dpi = 125)
+```{r surv1, fig.cap = "Comparisons of area-swept estimates of total MALE NMFS survey biomass and model prediction for model estimates in 2022 under models 21.1b, 23.0, 23.0a, 23.0b, and 23.1a. The error bars are plus and minus 2 standard deviations of model 21.1b."} 
+knitr::include_graphics("figures/trawl_biomass_MALES_mod_scen.png", dpi = 200)
+```
+
+```{r surv1b, fig.cap = "Comparisons of area-swept estimates of total FEMALE NMFS survey biomass and model prediction for model estimates in 2022 under models 21.1b, 23.0, 23.0a, 23.0b, and 23.1a. The error bars are plus and minus 2 standard deviations of model 21.1b."} 
+knitr::include_graphics("figures/trawl_biomass_FEMALES_mod_scen.png", dpi = 200)
 ```
 
 
+```{r surv1c, fig.cap = "Comparisons of area-swept estimates of total MALE NMFS survey biomass and model prediction for model estimates in 2022 under models 21.1b, 22.0, 23.1a, and 23.3. The error bars are plus and minus 2 standard deviations of model 21.1b."} 
+knitr::include_graphics("figures/trawl_biomass_MALES_mod_scen_Q.png", dpi = 200)
+```
+
+```{r surv1d, fig.cap = "Comparisons of area-swept estimates of total FEMALE NMFS survey biomass and model prediction for model estimates in 2022 under models 21.1b, 22.0, 23.1a, and 23.3. The error bars are plus and minus 2 standard deviations of model 21.1b."} 
+knitr::include_graphics("figures/trawl_biomass_FEMALES_mod_scen_Q.png", dpi = 200)
+```
+
+```{r surv2, fig.cap = "Comparisons of survey biomass estimates for MALES from the BSFRF survey and model prediction for model estimates in 2022 (models 21.1b, 23.0, 23.0a, 23.0b, and 23.1a). The error bars are plus and minus 2 standard deviations of model 21.1b. The BSFRF survey catchability is assumed to be 1.0 for all models."} 
+knitr::include_graphics("figures/BSFRF_mod_scen_MALES.png", dpi = 200)
+```
+
+```{r surv2b, fig.cap = "Comparisons of survey biomass estimates for FEMALES from the BSFRF survey and model prediction for model estimates in 2022 (models 21.1b, 23.0, 23.0a, 23.0b, and 23.1a). The error bars are plus and minus 2 standard deviations of model 21.1b. The BSFRF survey catchability is assumed to be 1.0 for all models."} 
+knitr::include_graphics("figures/BSFRF_mod_scen_FEMALES.png", dpi = 200)
+```
+
+```{r surv2c, fig.cap = "Comparisons of survey biomass estimates for MALES from the BSFRF survey and model prediction for model estimates in 2022 (models 21.1b, 22.0, 23.1a, and 23.3). The error bars are plus and minus 2 standard deviations of model 21.1b. The BSFRF survey catchability is assumed to be 1.0 for all models."} 
+knitr::include_graphics("figures/BSFRF_mod_Q_MALES.png", dpi = 200)
+```
+
+```{r surv2d, fig.cap = "Comparisons of survey biomass estimates for FEMALES from the BSFRF survey and model prediction for model estimates in 2022 (models 21.1b, 22.0, 23.1a, and 23.3). The error bars are plus and minus 2 standard deviations of model 21.1b. The BSFRF survey catchability is assumed to be 1.0 for all models."} 
+knitr::include_graphics("figures/BSFRF_mod_Q_FEMALES.png", dpi = 200)
+```
+
+
+```{r rec1, fig.cap = "Estimated recruitment time series during 1976-2021 with models 21.1b, 22.0, 23.0, 23.0a, 23.0b, and 23.1a. Mean male recruits during 1984-2021 was used to estimate B35%. Recruitment estimates in the terminal year (2022) are unreliable."}
+knitr::include_graphics("figures/recruitment_mod_scen.png", dpi = 100)
+```
+
+```{r rec2, fig.cap = "Estimated recruitment time series during 1976-2021 with models 21.1b, 22.0, 23.1a, and 23.3 (those models that capture changes in q for the NMFS survey). Mean male recruits during 1984-2021 was used to estimate B35%. Recruitment estimates in the terminal year (2022) are unreliable."}
+knitr::include_graphics("figures/recruitment_mod_Q.png", dpi = 100)
+```
+
+```{r rec3, fig.cap = "Estimated recruitment time series during 1976-2021 with models 21.1b, 22.0, and 23.0b (base compared to high base M for males). Mean male recruits during 1984-2021 was used to estimate B35%. Recruitment estimates in the terminal year (2022) are unreliable."}
+knitr::include_graphics("figures/recruitment_base_highM.png", dpi = 100)
+```
 
 \clearpage
 \pagebreak
