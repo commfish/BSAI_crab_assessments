@@ -1,18 +1,87 @@
+## Jie's code ------
+A <- read_rep("./BBRKC/bbrkc_22f/model_211b_spring/gmacs.rep")
+B <- read_rep("./BBRKC/bbrkc_22f/model_211b/gmacs.rep")
+C <- read_rep("./BBRKC/bbrkc_22f/model_22/gmacs.rep")
+D <- read_rep("./BBRKC/bbrkc_22f/model_22a/gmacs.rep")
+# these need to be run before any code in 'Jie_cmn_files.R' is run
+
+### mmb 7 -----------------
+n1<-1
+n2<-1
+n3<-B$nyr-B$syr+2
+n4<-C$nyr-C$syr+2
+d0m0<-A$ssb/1000.0
+d1m0<-B$ssb/1000.0
+d2m0<-C$ssb/1000.0
+d3m0<-D$ssb/1000.0
+#d4m0<-E$ssb/1000.0
+#d5m0<-F$ssb/1000.0
+#d6m0<-G$ssb/1000.0
+#d7m0<-H$ssb/1000.0
+d0m<-c(d0m0,A$spr_bmsy*A$spr_depl/1000.0)
+d1m<-c(d1m0,B$spr_bmsy*B$spr_depl/1000.0)
+d2m<-c(d2m0,C$spr_bmsy*C$spr_depl/1000.0)
+d3m<-c(d3m0,D$spr_bmsy*D$spr_depl/1000.0)
+#d4m<-c(d4m0,E$spr_bmsy*E$spr_depl/1000.0)
+#d5m<-c(d5m0,F$spr_bmsy*F$spr_depl/1000.0)
+#d6m<-c(d6m0,G$spr_bmsy*F$spr_depl/1000.0)
+#d4bm<-c(d4bm0,G$spr_bmsy*G$spr_depl/1000.0)
+#d5m<-c(d5m0,H$spr_bmsy*H$spr_depl/1000.0)
+
+par(oma=c(3.50,4.0,1.0,1.0),tck=-0.01,xaxs="i",yaxs="i",font=1,lwd=0.75)
+par(mgp=c(1.2,1.0,0),mar=c(0,0,0,0),mfcol=c(n1,n2),xpd=FALSE)
+xat<-c(1975,1978,1981,1984,1987,1990,1993,1996,1999,2002,2005,2008,2011,2014,2017,2020,2023)
+yat<-c(0,10,20,30,40,50,60,70,80,90,100,110,120,130)
+xm<-B$syr-1
+xx<-B$nyr+2
+ym<-0
+up<-0.87
+year<-c(B$syr:(B$nyr+1))
+year1<-c(C$syr:(C$nyr+1))
+
+yx<-130.0
+plot(year,d0m[1:n3],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
+lines(year,d0m[1:n3],lty=1,lwd=2.5,col=1)
+lines(year,d1m[1:n4],lty=2,lwd=2.5,col=2)
+lines(year1,d2m[1:n4],lty=3,lwd=2.5,col=3)
+lines(year1,d3m[1:n4],lty=4,lwd=2.5,col=4)
+#lines(year1,d4m[1:n4],lty=5,lwd=2.5,col=5)
+#lines(year1,d5m[1:n4],lty=6,lwd=2.5,col=6)
+#lines(year1,d6m[1:n4],lty=7,lwd=2.5,col=7)
+#   lines(year,d5m[1:n3],lty=8,lwd=2.5,col=8)
+legend("topright",inset=0.02,c("21.1b","22.0","22.0a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3),
+       cex=c(0.8,0.8,0.8))
+#   legend("topright",inset=0.02,c("19.3d","19.3e","19.3g","21.0"),lwd=c(2.5,2.5,2.5,2.5),lty=c(1,2,3,4),col=c(1,2,3,4),cex=c(0.8,0.8,0.8,0.8))
+#   legend("topright",inset=0.02,c("19.3d","19.3e","19.3f","19.3g","19.3i","19.6"),lwd=c(2.5,2.5,2.5,2.5,2.5,2.5),lty=c(1,2,3,4,5,6),col=c(1,2,3,4,5,6),cex=c(0.8,0.8,0.8,0.8,0.8,0.8))
+#  legend("topright",inset=0.02,c("19.0a","19.3","19.3a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.8,0.8,0.8))
+axis(2,at=yat,labels=yat,outer=T,cex=1.5)
+par(mgp=c(3.0,0.75,0))
+axis(1,at=xat,labels=xat,outer=T,cex=1.5)
+box()
+yt<-c('Estimated mature male biomass (1000 t)')
+mtext(yt,2,2.8,outer=T,cex=1.0)
+mtext('Year',1,2.10,outer=T,cex=1.0)
+par(mfrow=c(1,1))
+
+
+
+
+
 
 ### mmb 5 ------------
 n1<-1
 n2<-1
-n3<-A$nyr-A$syr+2
-d0m0<-A$ssb/1000.0
-#d1m0<-I$ssb/1000.0
+n3<-B$nyr-B$syr+2
+d0m0<-B$ssb/1000.0
+#d1m0<-D$ssb/1000.0
 #d2m0<-A$ssb/1000.0
 #d3m0<-J$ssb/1000.0
 #d4m0<-K$ssb/1000.0
 #d5m0<-F$ssb/1000.0
 #d4bm0<-G$ssb/1000.0
 #d5m0<-H$ssb/1000.0
-d0m<-c(d0m0,A$spr_bmsy*A$spr_depl/1000.0)
-#d1m<-c(d1m0,B$spr_bmsy*B$spr_depl/1000.0)
+d0m<-c(d0m0,B$spr_bmsy*B$spr_depl/1000.0)
+#d1m<-c(d1m0,D$spr_bmsy*D$spr_depl/1000.0)
 #d2m<-c(d2m0,C$spr_bmsy*C$spr_depl/1000.0)
 #d3m<-c(d3m0,D$spr_bmsy*D$spr_depl/1000.0)
 #d4m<-c(d4m0,E$spr_bmsy*E$spr_depl/1000.0)
@@ -24,25 +93,25 @@ d6f<-c(rep(0,n3))
 
 par(oma=c(3.50,4.0,1.0,1.0),tck=-0.01,xaxs="i",yaxs="i",font=1,lwd=0.75)
 par(mgp=c(1.2,1.0,0),mar=c(0,0,0,0),mfcol=c(n1,n2),xpd=FALSE)
-xat<-c(1975,1978,1981,1984,1987,1990,1993,1996,1999,2002,2005,2008,2011,2014,2017,2020)
+xat<-c(1975,1978,1981,1984,1987,1990,1993,1996,1999,2002,2005,2008,2011,2014,2017,2020, 2023)
 yat<-c(0,10,20,30,40,50,60,70,80,90,100,110,120,130)
-xm<-A$syr-1
-xx<-A$nyr+2
+xm<-B$syr-1
+xx<-B$nyr+2
 ym<-0
 up<-0.87
-year<-c(A$syr:(A$nyr+1))
+year<-c(B$syr:(B$nyr+1))
 
 yx<-130.0
 plot(year,d0m[1:n3],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
 lines(year,d0m[1:n3],lty=1,lwd=2.5,col=1)
 lines(year,d1m[1:n3],lty=2,lwd=2.5,col=2)
-lines(year,d2m[1:n3],lty=3,lwd=2.5,col=3)
-lines(year,d3m[1:n3],lty=4,lwd=2.5,col=4)
-lines(year,d4m[1:n3],lty=5,lwd=2.5,col=5)
+#lines(year,d2m[1:n3],lty=3,lwd=2.5,col=3)
+#lines(year,d3m[1:n3],lty=4,lwd=2.5,col=4)
+#lines(year,d4m[1:n3],lty=5,lwd=2.5,col=5)
 #   lines(year,d5m[1:n3],lty=6,lwd=2.5,col=6)
 #   lines(year,d4bm[1:n3],lty=7,lwd=2.5,col=7)
 #   lines(year,d5m[1:n3],lty=8,lwd=2.5,col=8)
-legend("topright",inset=0.02,c("21.1","21.1a","21.1b","22.1","22.1a"),lwd=c(2.5,2.5,2.5,2.5,2.5),lty=c(1,2,3,4,5),col=c(1,2,3,4,5),cex=c(0.8,0.8,source("0.8,0.8,0.8")))
+legend("topright",inset=0.02,c("21.1b","22.1","22.1a"),lwd=c(2.5,2.5,2.5,2.5,2.5),lty=c(1,2,3,4,5),col=c(1,2,3,4,5),cex=c(0.8,0.8,source("0.8,0.8,0.8")))
 
 #   legend("topright",inset=0.02,c("19.3d","19.3e","19.3g","21.0"),lwd=c(2.5,2.5,2.5,2.5),lty=c(1,2,3,4),col=c(1,2,3,4),cex=c(0.8,0.8,0.8,0.8))
 #   legend("topright",inset=0.02,c("19.3d","19.3e","19.3f","19.3g","19.3i","19.6"),lwd=c(2.5,2.5,2.5,2.5,2.5,2.5),lty=c(1,2,3,4,5,6),col=c(1,2,3,4,5,6),cex=c(0.8,0.8,0.8,0.8,0.8,0.8))
@@ -1360,7 +1429,7 @@ write.table(ess_all, "./BBRKC/bbrkc_22f/doc/safe_tables/ess_all.out")
 #write.table(c(d10,d20,d30,d40,d50,d60,d70,d80),"./BBRKC/bbrkc_22f/doc/safe_tables/ess221b.out")
 
 ### Table 6 --------
-## model 21.1b --------
+## Table 9, model 21.1b --------
 n4<-192 # what is this value?
 Z<-read.table("./BBRKC/bbrkc_22f/model_211b/gmacs.std", header = TRUE, sep = "", quote = "", colClasses = c("numeric","character","numeric","numeric"), nrows = -1, skip = 0, check.names = TRUE)
 #library(xlsx)
@@ -1539,5 +1608,9 @@ d5[147:n4,]<-Z[293:(293+n4-147),]
 d6[147:n4,]<-Z[(293+n4-146):(n4+n4),]
 d7<-cbind(d5,d6)
 write.csv(d7,"./BBRKC/bbrkc_22f/doc/gmacs-para_model22a.csv")
+
+### surveybio ---------
+
+
 
 ## next --------------
