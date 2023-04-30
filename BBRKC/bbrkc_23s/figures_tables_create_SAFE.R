@@ -37,7 +37,7 @@ cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#D55E00", "#0072B2",
 
 # update model names and file locations
 mod_names <- c("21.1b (2022)", "21.1b (2022-update)", "23.0 M=0.257", "23.0a Mest", "23.0b M=0.31", 
-               "23.1a inc CV_q", "22.0 1985")#
+               "23.1a inc CV_q", "22.0 1985", "23.3 Mest_incCV")#
 #mod_names <- c("16.0 (2019)", "16.0 (2020)", "16.0a (fix R ter)", "20.1 (no pot)")
 .MODELDIR = c(paste0(here::here(), "/BBRKC/bbrkc_22f/model_211b/"),
               paste0(here::here(), "/BBRKC/bbrkc_23s/model_211b/"),#, 
@@ -45,7 +45,8 @@ mod_names <- c("21.1b (2022)", "21.1b (2022-update)", "23.0 M=0.257", "23.0a Mes
               paste0(here::here(), "/BBRKC/bbrkc_23s/model_23_0a/"), 
               paste0(here::here(), "/BBRKC/bbrkc_23s/model_23_0b/"), 
               paste0(here::here(), "/BBRKC/bbrkc_23s/model_231a/"), 
-              paste0(here::here(), "/BBRKC/bbrkc_23s/model_22/")) #need to update these model options
+              paste0(here::here(), "/BBRKC/bbrkc_23s/model_22/"), 
+              paste0(here::here(), "/BBRKC/bbrkc_23s/model_23_3/")) #need to update these model options
 .THEME    = list(theme_bw(base_size = 12, base_family = ""), scale_fill_manual(values=cbPalette), 
                  scale_colour_manual(values=cbPalette), 
                  update_geom_defaults("line", list(size = 1.75)))
@@ -84,7 +85,7 @@ ref_mod <- 1 # base 2020
 rec_mod <- 2 # base
 mod_scen<- 2:6 #scenarios you want graphed together
 
-mod_q <- c(2,6)
+mod_q <- c(2,6,8)
 mod_yr <- c(2,7)
 
 ww <- 6
@@ -142,6 +143,9 @@ ggsave(paste0(.FIGS, "selectivity_23s_trawl.png"), width = ww*1.50, height = 0.8
 plot_selectivity_kjp(M[2:6], "BSFRF survey")
 ggsave(paste0(.FIGS, "selectivity_23s_BSFRF.png"), width = ww*1.50, height = 0.85*hh)
 
+# selectivity mod -q
+plot_selectivity_kjp(M[mod_q], "NMFS Trawl")
+ggsave(paste0(.FIGS, "selectivity_23s_trawl_MOD_Q.png"), width = ww*1.50, height = 0.85*hh)
 # !!!moliting probability -------
 plot_molt_prob(M[2:6])
 ggsave(paste0(.FIGS, "molt_prob_mod_scen.png"), width = ww*1.5, height = hh*1.5)
@@ -187,6 +191,13 @@ ggsave(paste0(.FIGS, "BSFRF_mod_scen_MALES.png"), width = ww*1.10, height = hh)
 plot_cpue_kjp(M[c(mod_scen)],  "BSFRF survey", psex = "Female", ylab = "FEMALE survey biomass (t)", ShowEstErr = TRUE)
 ggsave(paste0(.FIGS, "BSFRF_mod_scen_FEMALES.png"), width = ww*1.10, height = hh)
 
+# males 
+plot_cpue_kjp(M[c(mod_q)],  "BSFRF survey", psex = "Male", ylab = "MALE survey biomass (t)", ShowEstErr = TRUE)
+ggsave(paste0(.FIGS, "BSFRF_mod_Q_MALES.png"), width = ww*1.10, height = hh)
+# females 
+plot_cpue_kjp(M[c(mod_q)],  "BSFRF survey", psex = "Female", ylab = "FEMALE survey biomass (t)", ShowEstErr = TRUE)
+ggsave(paste0(.FIGS, "BSFRF_mod_Q_FEMALES.png"), width = ww*1.10, height = hh)
+
 ## !!size comps ---------------
 ## !!!!!!!!!!!!! load my functions file here
 #source("./SMBKC/code/functions.R") # moved to top
@@ -228,6 +239,12 @@ ggsave(paste0(.FIGS, "lf_BSFRF_m.png"), width = 12, height = 7.5, unit = "in")
 plot_size_comps(M[mod_scen], 11, legend_loc = "right")
 ggsave(paste0(.FIGS, "lf_BSFRF_f.png"), width = 12, height = 7.5, unit = "in")
 
+
+# mod -q just for trawl survey 
+plot_size_comps(M[mod_q], 8, legend_loc = "right")
+ggsave(paste0(.FIGS, "lf_NMFS_m_MOD_Q.png"), width = 12, height = 7.5, unit = "in")
+plot_size_comps(M[mod_q], 9, legend_loc = "right")
+ggsave(paste0(.FIGS, "lf_NMFS_f_MOD_Q.png"), width = 12, height = 7.5, unit = "in")
 #plot_size_comps(M[2:4], 3, legend_loc = "right") #legend_loc=c(.87,.2))
 #ggsave(paste0(.FIGS, "lf_3.png"), width = 8.5, height = 5, unit = "in")
 
@@ -268,7 +285,7 @@ ssb %>%
 ggsave(paste0(.FIGS, "1985mod_scen_ssb_wprojected_yr.png"), width = ww*1.3, height = hh*.85)
 
 ### !! ssb mod q ---------
-ssb <- .get_ssb_dfKP(M[c(2,6,7)])
+ssb <- .get_ssb_dfKP(M[c(2,6,7,8)])
 ssb %>% 
   ggplot(aes(year, ssb, col = Model)) +
   geom_line() +
@@ -292,7 +309,7 @@ ggsave(paste0(.FIGS, "recruitment_mod_scen.png"), width = 1.18*ww, height = hh)
 plot_rec_bb_kjp(M[c(2,5,7)]) # this is found in 'bbrkc_functions.R'
 ggsave(paste0(.FIGS, "recruitment_base_highM.png"), width = 1.18*ww, height = hh)
 
-plot_rec_bb_kjp(M[c(2,6,7)]) # this is found in 'bbrkc_functions.R'
+plot_rec_bb_kjp(M[c(2,6,7,8)]) # this is found in 'bbrkc_functions.R'
 ggsave(paste0(.FIGS, "recruitment_mod_Q.png"), width = 1.18*ww, height = hh)
 
 ##!!natural_mortality -------------
@@ -304,7 +321,7 @@ plot_natural_mortality2(M[2:3])
 plot_natural_mortality2(M[mod_scen], knots = NULL, slab = "Model")
 ggsave(paste0(.FIGS, "mod_scen_M_t.png"), width = 1.20*ww, height = hh)
 #plot_natural_mortality(M, knots = NULL, slab = "Model")
-plot_natural_mortality2(M[c(2,6,7)])
+plot_natural_mortality2(M[c(2,6,8)])
 ggsave(paste0(.FIGS, "mod_q_M_t.png"), width = 1.20*ww, height = hh)
 
 plot_natural_mortality2(M[c(2:5)])
@@ -313,23 +330,31 @@ ggsave(paste0(.FIGS, "mod_nat_mort_M_t.png"), width = 1.20*ww, height = hh)
 ## TABLES ====================================
 
 # Table 7 nat mort----
-nat_mort <- .get_M_df_kjp(M[2:7]) # bbrkc_functions.R
+nat_mort <- .get_M_df_kjp(M[2:8]) # bbrkc_functions.R
 
 nat_mort %>% 
   distinct(Model, Sex, M) -> natural_mort_all
 write.csv(natural_mort_all, paste0(.TABS, "M_out.csv"))
 
-##### !! STOP HERE may 2023 -----------------
 
 #!! size comp residuals -------
-plot_size_comps_res(M[rec_mod])
-ggsave(paste0(.FIGS, "ref_mod_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
+plot_size_comps_res_kjp(M[rec_mod], "NMFS Trawl")
+ggsave(paste0(.FIGS, "ref_mod_size_comp_residuals_trawl.png"), width = ww*1.20, height = 1.1*hh)
 
-plot_size_comps_res(M[3])
-ggsave(paste0(.FIGS, "model22_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
+plot_size_comps_res_kjp(M[5], "NMFS Trawl")
+ggsave(paste0(.FIGS, "m.31_size_comp_residuals_trawl.png"), width = ww*1.20, height = 1.1*hh)
 
-plot_size_comps_res(M[4])
-ggsave(paste0(.FIGS, "model22a_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
+#plot_size_comps_res(M[rec_mod])
+#ggsave(paste0(.FIGS, "ref_mod_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
+
+#plot_size_comps_res(M[3])
+#ggsave(paste0(.FIGS, "model22_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
+
+#plot_size_comps_res(M[4])
+#ggsave(paste0(.FIGS, "model22a_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
+
+##### !! STOP HERE may 2023 -----------------
+
 
 
 
@@ -568,121 +593,6 @@ nat_mort %>%
   distinct(Model, Sex, M) -> natural_mort_all
 write.csv(natural_mort_all, paste0(.TABS, "M_out.csv"))
 
-## !!table of all parameter output -------
-#```{r est_pars_all, results = "asis"}
-Parameter <- NULL
-Estimate <- NULL
-Model <- NULL
-Mname <- c("last yr", "Ref","M0.21" ,"M0.26" ,"Mall")
-#c("model 16.0 (2019)", "model 16.0 (2020)", "model 20.1 (no pot )") 
-for (ii in 2:5)
-{
-  x <- M[[ii]]$fit
-  i <- c(grep("m_dev", x$names)[1],
-         grep("theta", x$names),
-         grep("survey_q", x$names),
-         grep("log_fbar", x$names),
-         grep("log_slx_pars", x$names)) #,
-  #grep("sd_fofl", x$names),
-  #grep("sd_ofl", x$names) )
-  Parameter <- c(Parameter, x$names[i])
-  Estimate <- c(Estimate, x$est[i])
-  Model <- c(Model, rep(Mname[ii], length(i)))
-}
-j <- grep("survey_q", Parameter)
-Estimate[j] <- Estimate[j] * 1000
-Parameter_ref <- c("Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
-                   "$\\log (\\bar{R})$","$\\log (n^0_1)$","$\\log (n^0_2)$","$\\log (n^0_3)$",
-                   "$q_{pot}$", "$\\log (\\bar{F}^\\text{df})$","$\\log (\\bar{F}^\\text{tb})$","$\\log (\\bar{F}^\\text{fb})$",
-                   "log Stage-1 directed pot selectivity 1978-2008","log Stage-2 directed pot selectivity 1978-2008",
-                   "log Stage-1 directed pot selectivity 2009-2017","log Stage-2 directed pot selectivity 2009-2017",
-                   "log Stage-1 NMFS trawl selectivity","log Stage-2 NMFS trawl selectivity",
-                   "log Stage-1 ADF\\&G pot selectivity","log Stage-2 ADF\\&G pot selectivity")
-#"$F_\\text{OFL}$","OFL")
-#Parameter_no_M <- c(#"Natural mortality deviation in 1998/99 ($\\delta^M_{1998})$",
-#                   "$\\log (\\bar{R})$","$\\log (n^0_1)$","$\\log (n^0_2)$","$\\log (n^0_3)$",
-#                   "$q_{pot}$", "$\\log (\\bar{F}^\\text{df})$","$\\log (\\bar{F}^\\text{tb})$","$\\log (\\bar{F}^\\text{fb})$",
-#                   "log Stage-1 directed pot selectivity 1978-2008","log Stage-2 directed pot selectivity 1978-2008",
-#                   "log Stage-1 directed pot selectivity 2009-2017","log Stage-2 directed pot selectivity 2009-2017",
-#                   "log Stage-1 NMFS trawl selectivity","log Stage-2 NMFS trawl selectivity",
-#                   "log Stage-1 ADF\\&G pot selectivity","log Stage-2 ADF\\&G pot selectivity")
-Parameter <- c(Parameter_ref, Parameter_ref, Parameter_ref, Parameter_ref) #, Parameter, Parameter, ParameterQ) 
-df1 <- data.frame(Model, Parameter, Estimate)
-#Mname <- c("last yr", "Ref","VAST","addCVpot", "addCVboth", "qBlock")
-#ref_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1/figure/ofl_calc.csv"))
-#fixR_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1_rfix_TPL/figure/ofl_calc.csv"))
-#nopot_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_2/figure/ofl_calc.csv"))
-
-df2 <- data.frame(Model = c("Ref", "Ref", "M0.21" ,"M0.21" ,"M0.26", "M0.26", "Mall", "Mall"),
-                  Parameter = c("$F_\\text{OFL}$","OFL", "$F_\\text{OFL}$","OFL", 
-                                "$F_\\text{OFL}$","OFL", "$F_\\text{OFL}$","OFL"), 
-                  Estimate = c(M[[rec_mod]]$sd_fofl[1], M[[rec_mod]]$spr_cofl,
-                               M[[3]]$sd_fofl[1], M[[3]]$spr_cofl, 
-                               M[[4]]$sd_fofl[1], M[[4]]$spr_cofl, 
-                               M[[5]]$sd_fofl[1], M[[5]]$spr_cofl))
-df1 %>% 
-  bind_rows(df2) -> df
-df3 <- tidyr::spread(df, Model, Estimate) %>% 
-  dplyr::select(Parameter, Ref, M0.21, M0.26, Mall)
-# **FIX ** reorder these to match other tables - currently done manually
-write.csv(df3, paste0(here::here(), '/SMBKC/', folder,'/doc/safe_tables/all_parms.csv'), 
-          row.names = FALSE)
-### see chunk in .rmd to bring this file in
-
-
-## !!data weighting ---------------------
-#```{r data_weighting, results = "asis"}
-# updated to work for draft - need to figure out how to get Francis weightings and 
-#   lamdas
-# shorten names for tables
-Mname2 <- c("Ref", "M_21","M_26", "Mall")
-
-df <- NULL
-for (ii in 2:5)
-{
-  x       <- M[[ii]]
-  SDNR    <- c(x$sdnr_MAR_cpue[,1], 
-               x$sdnr_MAR_lf[,1]); names(SDNR) <- c("SDNR NMFS trawl survey",
-                                                    "SDNR ADF\\&G pot survey",
-                                                    "SDNR directed pot LF",
-                                                    "SDNR NMFS trawl survey LF",
-                                                    "SDNR ADF\\&G pot survey LF")
-  MAR     <- c(x$sdnr_MAR_cpue[,2], x$sdnr_MAR_lf[,2]); names(MAR) <- c("MAR NMFS trawl survey","MAR ADF\\&G pot survey","MAR directed pot LF","MAR NMFS trawl survey LF","MAR ADF\\&G pot survey LF")
-  #Francis <- x$Francis_weights; names(Francis) <- c("Fancis weight for directed pot LF","Francis weight for NMFS trawl survey LF","Francis weight for ADF\\&G pot survey LF")
-  wt_cpue <- c(ifelse(ii == 3, 1,1), ifelse(ii == 3, 1 ,1)); names(wt_cpue) <- c("NMFS trawl survey weight","ADF\\&G pot survey weight")
-  wt_lf   <- c(1,1,1); names(wt_lf) <- c("Directed pot LF weight","NMFS trawl survey LF weight","ADF\\&G pot survey LF weight")
-  v       <- c(wt_cpue, wt_lf, SDNR, MAR)
-  df      <- cbind(df, v)
-}
-df_ref        <- data.frame(rownames(df), df, row.names = NULL)
-names(df_ref) <- c("Component", "Ref", "M_21","M_26", "Mall") #mod_names[mod_scen])
-
-#df <- NULL
-#for (ii in 4)
-#{
-#  x       <- M[[ii]]
-#  SDNR    <- c(x$sdnr_MAR_cpue[1], 
-#               x$sdnr_MAR_lf[,1]); names(SDNR) <- c("SDNR NMFS trawl survey",
-#                                                    "SDNR directed pot LF",
-#                                                    "SDNR NMFS trawl survey LF")
-#  MAR     <- c(x$sdnr_MAR_cpue[2], x$sdnr_MAR_lf[,2]); names(MAR) <- c("MAR NMFS trawl survey",
-#                                                                       "MAR directed pot LF",
-#                                                                       "MAR NMFS trawl survey LF")
-#  #Francis <- x$Francis_weights; names(Francis) <- c("Fancis weight for directed pot LF","Francis weight for NMFS trawl survey LF","Francis weight for ADF\\&G pot survey LF")
-#  wt_cpue <- c(ifelse(ii == 3, 1,1)); names(wt_cpue) <- 
-#                                            c("NMFS trawl survey weight")
-#  wt_lf   <- c(1,1); names(wt_lf) <- c("Directed pot LF weight","NMFS trawl survey LF weight")
-#  v       <- c(wt_cpue, wt_lf, SDNR, MAR)
-#  df      <- cbind(df, v)
-#}
-#df_nopot        <- data.frame(rownames(df), df, row.names = NULL)
-#names(df_nopot) <- c("Component", "nopot") #mod_names[mod_scen])
-
-#df_ref %>% 
-#  left_join(df_nopot) -> df
-
-write.csv(df_ref, paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/data_weighting.csv'), 
-          row.names = FALSE)
 
 # !!Likelihood components -----------------
 #```{r likelihood_components, results = "asis"}

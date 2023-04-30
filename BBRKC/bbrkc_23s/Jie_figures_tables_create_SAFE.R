@@ -208,3 +208,4 @@ f_temp2 %>%
 tail(f_temp2_sum)
 # tables for parameters -------
 # see Jie's cmn sum-table
+# found in "Jie_cmn_files.R"
