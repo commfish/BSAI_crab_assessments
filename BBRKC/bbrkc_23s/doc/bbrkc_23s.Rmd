@@ -35,110 +35,112 @@ Historic fishery and survey data information can be found in the last full SAFE 
 
 ## CPT and SSC Comments on Assessments in General {-}
 **Response to SSC Comments (June 2022, Oct 2022):**
-"The SSC recommends that the RKC authors work together to complete a stock structure template for June 2023."
+*"The SSC recommends that the RKC authors work together to complete a stock structure template for June 2023."*
 
 Response: A draft stock structure template for RKC in the Bering Sea will be presented at the May 2023 CPT meeting. 
 
-"The SSC suggests that the CPT develop guidelines for when to change model start dates"
+*"The SSC suggests that the CPT develop guidelines for when to change model start dates"*
 
-Response: This topic was taken up at the Jan 2023 CPT meeting, with some basic guidelines presented in those minutes that included keeping data unless there was a strong reason (environmental, poor data quality, model instability) to exclude the data and data exclusion did not lead to drastic model output changes.
+Response: This topic was taken up at the Jan 2023 CPT meeting, with some basic guidelines presented in those minutes that included keeping data unless there was a strong reason (environmental, poor data quality, model instability) to exclude the data and data exclusion did not lead to drastic model output changes. Model 22.0, where data starts in 1985 vs 1975, is presented in this document.
 
 **Response to SSC Comments (from February 2022):**
 
-“The SSC supports the CPT general recommendations that all stock assessments include results from the currently accepted model with new data (base model) so that changes in model performance can be assessed. Values for management-related quantities for all models that may be recommended by the CPT or SSC should also be available.” 
+*“The SSC supports the CPT general recommendations that all stock assessments include results from the currently accepted model with new data (base model) so that changes in model performance can be assessed. Values for management-related quantities for all models that may be recommended by the CPT or SSC should also be available.”* 
 
 Response: We have followed these recommendations.  
 
 ## CPT and SSC Comments on BBRKC assessment {-}
 **Response to CPT Comments (from May 2021):** 
 
-“The CPT was concerned that the ‘information’ content of the data with respect to natural mortality could be related to strong assumptions elsewhere in the model, and recommended further exploration of natural mortality after September and suggested attending the June 2021 CAPAM workshop on natural mortality, which may provide some insights into best practices. A large increase in estimated natural mortality would likely increase fishing mortality reference points, with management implications.”
+*“The CPT was concerned that the ‘information’ content of the data with respect to natural mortality could be related to strong assumptions elsewhere in the model, and recommended further exploration of natural mortality after September and suggested attending the June 2021 CAPAM workshop on natural mortality, which may provide some insights into best practices. A large increase in estimated natural mortality would likely increase fishing mortality reference points, with management implications.”*
 
-Response: We continue to examine M in May 2022. Estimated M values in the length-based crab models tend to have higher values than the other approaches, and confounding among estimated M, survey selectivity/catchability, and recruitment in a length-based model makes it difficult to accurately estimate M in the model. Among the eleven models in May 2022, seven were somewhat related to M change from the previous base model 21.1. 
+Response: Model runs in May 2022 addressed some variations on M. Estimated M values in the length-based crab models tend to have higher values than the other approaches, and confounding among estimated M, survey selectivity/catchability, and recruitment in a length-based model makes it difficult to accurately estimate M in the model. Among the models presented here four address variations in M for males, including higher fixed M values and estimated M for males.
 
-“The CPT was interested in more exploration of the retrospective patterns, which seem to have increased since the last assessment despite no new data being added. Reported Mohn’s rhos were starting to reach concerning magnitudes in the proposed models?”
+*“The CPT was interested in more exploration of the retrospective patterns, which seem to have increased since the last assessment despite no new data being added. Reported Mohn’s rhos were starting to reach concerning magnitudes in the proposed models?”*
 
-Response: The catch and bycatch updates in May 2022 made the retrospective patterns slightly worse than before. Higher than expected BSFRF survey biomass during 2007-2008 and 2013-2016 and NMFS survey biomass in 2014 likely caused these biases. Also, much lower than expected NMFS survey biomass during 2018-2019 and 2021-2022 results in lower biomass estimates in recent years. The biases for total abundance are much smaller than mature male biomass. **ADD**
+Response: The catch and bycatch updates in May 2022 made the retrospective patterns slightly worse than before. Higher than expected BSFRF survey biomass during 2007-2008 and 2013-2016 and NMFS survey biomass in 2014 likely caused these biases. Also, much lower than expected NMFS survey biomass during 2018-2019 and 2021-2022 results in lower biomass estimates in recent years. The biases for total abundance are much smaller than mature male biomass. Explorations further, since May 2022, on retrospective patterns are underway but not presented here. 
  
 **Response to CPT Comments (from September 2021):** 
 
-“When projecting the stock to determine whether it is approaching an overfished condition, identify the uncertainties included and ignored in the projection. It is particularly important to distinguish those that are captured in the projection (i.e. those associated with the model) and the additional uncertainties that form the basis for the ABC buffer.”
+*“When projecting the stock to determine whether it is approaching an overfished condition, identify the uncertainties included and ignored in the projection. It is particularly important to distinguish those that are captured in the projection (i.e. those associated with the model) and the additional uncertainties that form the basis for the ABC buffer.”*
 
-Response: we list uncertainties in the projection section in the draft SAFE report in May 2022.
+Response: Uncertainties are discussed in the projection section here and will be included in the final SAFE in Sept. 2023.
 
-“When projecting MMB, label figures with the date to which it is projected (e.g., Feb. 15, 2022), not just the year (which can lead to confusion).”
+*“When projecting MMB, label figures with the date to which it is projected (e.g., Feb. 15, 2022), not just the year (which can lead to confusion).”*
 
 Response: We followed this recommendation.
 
-“Consider a model with constant M, but estimated separately for males and females (i.e., similar to Model 21.0, but with sex-specific M’s) for May 2022.”
+*“Consider a model in which the data starts in 1985 (as suggested by the CIE reviewers).”*
 
-Response: Models 22.0, 22.0a, 22.0b, 22.0c and 22.0d with starting year of 1985 in May 2022 are constant M and estimated separately for males and females.
-
-“Consider a model in which the data starts in 1985 (as suggested by the CIE reviewers).”
-
-Response: Models 22.0, 22.0a, 22.0b, 22.0c, 22.0d, and 22.0e in May 2022 start in 1985. These models are used to examine M, BSFRF survey data, and retrospective bias.
+Response: Model 22.0 start in 1985, and was presented in May 2022, Sept 2023, and in this document. After discussions during the Jan/Feb council cycle the author is uncertain whether removing the early part of the time series is appropriate. However, this model is presented here as an option.
 
 **Response to CPT Comments (from May 2022):** 
+*"The CPT recommended examining how the initial conditions of abundance are treated as a future analysis"*
 
+Response: This has not yet been address, but is on the list for future work.
 
 **Response to SSC Comments specific to this assessment (from June 2021):**
 
-“The SSC supports exploring more modern methods for estimating natural mortality, but notes that this method still relies strongly on the maximum age for BBRKC. The SSC recommends continued research to validate the ages for this stock.”
+*“The SSC supports exploring more modern methods for estimating natural mortality, but notes that this method still relies strongly on the maximum age for BBRKC. The SSC recommends continued research to validate the ages for this stock.”*
 
 Response: We agree with this suggestion. The maximum age was determined by old tagging data, and due to funding and personnel constraint, age validation for BBRKC is more like a long-term goal than a short-term project.
 
-“The likelihood profile suggests that the values of M for male and female might be similar and that the current difference may be because of the constraint of base M to a low value. When M is misspecified, it can be the cause of a strong positive retrospective pattern, which BBRKC has. The SSC would have liked to have seen compositional fits and a retrospective analysis for model 19.6 or some model with a higher M value, particularly to see if it fits the plus group better. Despite the increase in F35%, there was not a commensurate increase in OFL. An exploration of the underlying reasons for this outcome is needed.”
+*“The likelihood profile suggests that the values of M for male and female might be similar and that the current difference may be because of the constraint of base M to a low value. When M is misspecified, it can be the cause of a strong positive retrospective pattern, which BBRKC has. The SSC would have liked to have seen compositional fits and a retrospective analysis for model 19.6 or some model with a higher M value, particularly to see if it fits the plus group better. Despite the increase in F35%, there was not a commensurate increase in OFL. An exploration of the underlying reasons for this outcome is needed.”*
 
 Response: Based on our past modelling experience, when M values for males and females are estimated separately, estimated M values tended to be always higher for females than for males. The likelihood profile was created through fixing M values for males and estimating M values for females, and when the fixed M values for males were very high, estimated M values for females tended to be similar to M values for males. The increase in F35% but not a commensurate increase in OFL is due to reduction of mature male biomass caused by the high M. 
 
 As a reference, we copied the likelihood profile computed in May 2020 below. Model 19.6 uses male base M of 0.257 estimated by Then et al. (2015), and the likelihood profile of base M from 0.1 to 0.4 is as follow:
-**insert figure**
+
+```{r Mprofile, fig.cap = "Distribution of blue king crab (\\textit{Paralithodes platypus}) in the Gulf of Alaska, Bering Sea, and Aleutian Islands waters (shown in blue)."}
+knitr::include_graphics("figures/likelihood profile M_2020.png", dpi = 125)
+```
 
 It appears that the maximum likelihood value is achieved with a base M of 0.31 for males and 0.321 for females.
 
-In May 2022, instead of continuing to examine model 19.6, we examine new models starting in 1985 with constant M over time: models 22.0, 22.0a, 22.0b, 22.0c, and 22.0d. Model 22.0a with model estimated M of 0.226 for males and 0.261 for females is close to model 19.6. Bubble plots are illustrated for models 22.0, 22.0a, and 22.0d in Figures 25c, 25d, 25e, 26c, 26d, and 26e. Higher base M values do improve the plus group fittings somewhat for model 22.0a.  
+In May 2023, models 23.0, 23.0a, 23.0b, and 23.3 all involve variations of higher base M values for males. Higher base M values do not appear to improve the plus group fittings.  
 
-“In addition to the CPT recommended models (19.3d, 19.3e, and 19.3g), the SSC recommends a simplified version of model 19.3d that estimates one natural mortality parameter across sex and time, and one shared catchability and selectivity curve for the NMFS trawl survey to help make several selectivity parameters better defined.”
+*“In addition to the CPT recommended models (19.3d, 19.3e, and 19.3g), the SSC recommends a simplified version of model 19.3d that estimates one natural mortality parameter across sex and time, and one shared catchability and selectivity curve for the NMFS trawl survey to help make several selectivity parameters better defined.”*
 
 Response: We named this as model 21.0 and included it in the September 2021 assessment.
 
-“The SSC requests that the current crab management zones be included in the maps of VAST model-derived spatial distributions of BBRKC.”
+*“The SSC requests that the current crab management zones be included in the maps of VAST model-derived spatial distributions of BBRKC.”*
 
 Response: We will ask Dr. Jon Richar to add the current crab management zones to the VAST spatial plots.
 
-“The SSC also looks forward to the summary report from the March 2021 CIE Review for this stock.”
+*“The SSC also looks forward to the summary report from the March 2021 CIE Review for this stock.”*
 
-Response: The summary report of the 2021 CIE review is included in Appendix D.
+Response: The summary report of the 2021 CIE review is included in Appendix D of the last full SAFE (see link in summary above).
 
 **Response to SSC Comments specific to this assessment (from October 2021):**
 
-“The SSC requests that in addition to temperature effects on the timing of the molt-mate cycle, the authors explore other potential drivers (e.g., prey quality or quantity) that could underlie the incomplete molt-mate cycle observed in 2021. Based on NMFS trawl survey female biomass estimates, the State of Alaska closed the BBRKC fishery. Next year’s assessment should estimate the probability that the stock is currently in the overfished condition.”
+*“The SSC requests that in addition to temperature effects on the timing of the molt-mate cycle, the authors explore other potential drivers (e.g., prey quality or quantity) that could underlie the incomplete molt-mate cycle observed in 2021. Based on NMFS trawl survey female biomass estimates, the State of Alaska closed the BBRKC fishery. Next year’s assessment should estimate the probability that the stock is currently in the overfished condition.”*
 
-Response: NMFS staff is doing evaluation of re-tow survey protocol. Probabilities in the overfished condition for some models were estimated in September 2021 and are estimated in the draft SAFE report for five models in May 2022.   
+Response: NMFS staff did an evaluation of re-tow survey protocol in Spring 2022, no changes were adopted at that time. Probabilities in the overfished condition for some models were estimated in September 2021, May 2022, and for the base model in September 2022. Model 23.2 in presented here, in May 2023, was an exploration of the base model (21.1b) without the retow data for females. This model does not drastically affect the federal harvest control rules, but does estimate a lower biomass for females which would directly affect the State harvest strategy.   
 
-“The SSC recommends that authors should carefully consider assessment implications of the stock boundaries given the evidence of crabs outside of the managed area. The SSC suggests that the authors should still be able to use data from outside stock boundaries, even if not used in the input survey abundance estimates. For example, the abundance seen outside stock boundaries could be treated as covariate informing catchability within the model. This analysis seems particularly important for females that are increasingly outside of the current stock boundaries and are at low abundance, triggering the State closure. The SSC recommends that the authors formulate separate survey abundance time series inside and outside of the defined area that could prove useful in the assessment model (e.g., informing catchability). If this is not an option in the stock assessment, then it highlights the need for ESRs or ESPs to track movement of these crabs both through survey results and developing indices from local knowledge.” 
+*“The SSC recommends that authors should carefully consider assessment implications of the stock boundaries given the evidence of crabs outside of the managed area. The SSC suggests that the authors should still be able to use data from outside stock boundaries, even if not used in the input survey abundance estimates. For example, the abundance seen outside stock boundaries could be treated as covariate informing catchability within the model. This analysis seems particularly important for females that are increasingly outside of the current stock boundaries and are at low abundance, triggering the State closure. The SSC recommends that the authors formulate separate survey abundance time series inside and outside of the defined area that could prove useful in the assessment model (e.g., informing catchability). If this is not an option in the stock assessment, then it highlights the need for ESRs or ESPs to track movement of these crabs both through survey results and developing indices from local knowledge.”* 
 
-Response: The current version of GMACS seems not to be able to use the Northern RKC survey index to inform BBRKC survey catchability. We tried to add a model to include both BBRKC and Northern RKC data, but the groundfish fisheries bycatch is not currently available in the Northern area. We plot more proportional data of the Northern RKC in Figures 35a and 35b. Overall, the proportions of different size groups of the Northern RKC during a recent dozen years are higher than in the past and do not trend higher except for mature females in 2021. The high survey mature female abundance in the Northern area in 2021 was primarily from three tows and one of them is more than 50% of total mature females. The survey abundance of the Northern RKC will continue to be plotted in the SAFE report in the future. After migration patterns between BBRKC and the Northern RKC are fully understood, we will model them in the stock assessment.    
+Response: The current version of GMACS seems not to be able to use the Northern RKC survey index to inform BBRKC survey catchability. We tried to add a model to include both BBRKC and Northern RKC data, but the groundfish fisheries bycatch is not currently available in the Northern area. IN the last full SAFE - September 2022 - we plotted more proportional data of the Northern RKC in Figures 35a and 35b. Overall, the proportions of different size groups of the Northern RKC during a recent dozen years are higher than in the past and do not trend higher except for mature females in 2021. The high survey mature female abundance in the Northern area in 2021 was primarily from three tows and one of them is more than 50% of total mature females. The survey abundance of the Northern RKC will continue to be plotted in the SAFE report in the future. After migration patterns between BBRKC and the Northern RKC are fully understood, we will model them in the stock assessment.    
 
-“The SSC supports the BSFRF collaborative work with ADF&G and NMFS to tag BBRKC.”
+*“The SSC supports the BSFRF collaborative work with ADF&G and NMFS to tag BBRKC.”*
 
-Response: We agree and have urged tagging studies for a few years.
+Response: We fully support tagging efforts, especially those to understand seasonal movement and the flow of individuals in or out of the Bristol Bay management area.
 
-“It would be useful to investigate if there is a mechanism for higher natural mortality or fishing mortality for females only during that early time period while following the CPT recommendation of looking at model 21.0 with constant but separate Ms by sex. Since Model 21.0 estimates a very high level of fishing mortality, but does seem to account for the decline in large females, there may be a fishery selectivity issue in that period. If the modelers choose not to continue to use historic data prior to 1985, this suggestion may not be useful.”
+*“It would be useful to investigate if there is a mechanism for higher natural mortality or fishing mortality for females only during that early time period while following the CPT recommendation of looking at model 21.0 with constant but separate Ms by sex. Since Model 21.0 estimates a very high level of fishing mortality, but does seem to account for the decline in large females, there may be a fishery selectivity issue in that period. If the modelers choose not to continue to use historic data prior to 1985, this suggestion may not be useful.”*
 
-Response: Figuring out the exact causes of high mortality in the early 1980s is always difficult and we summarize the potential causes in Appendix A, section C-vi, “Potential Reasons for High Mortality during the Early 1980s”. The directed fishery does not catch many large females and small crab, so it is difficult to remove these crab from the fishery. We prefer to start the model in 1985, which has two advantages: avoiding the early 1980s period so that a constant M over time can be used, and the same NMFS survey gear throughout the whole model time period.     
+Response: Figuring out the exact causes of high mortality in the early 1980s is always difficult and we summarize the potential causes in Appendix A of the last full SAFE, section C-vi, “Potential Reasons for High Mortality during the Early 1980s”. The directed fishery does not catch many large females and small crab, so it is difficult to remove these crab from the fishery. If this period of high natural mortality was a concern, it would be preferred to start the model in 1985, which has two advantages: avoiding the early 1980s period so that a constant M over time can be used, and the same NMFS survey gear throughout the whole model time period.     
 
-“The SSC supports continued exploration of the use of VAST estimates for this assessment, particularly if their use will inform mechanisms underlying shifting distributions outside of the current management area.”
+*“The SSC supports continued exploration of the use of VAST estimates for this assessment, particularly if their use will inform mechanisms underlying shifting distributions outside of the current management area.”*
 
-Response: We also support improvement of VAST estimates and are willing to provide feedback to Jon for further improvement. Hopefully, we will be able to use the VAST results in the models soon.
+Response: We also support improvement of VAST estimates and are willing to provide feedback to Jon for further improvement. In general the CPT has not prioritized using VAST output in crab models, we hope to revist this soon.
 
 **Response to SSC Comments specific to this assessment (from June 2022):**
-"The SSC recommends exploring how to estimate both catchabilities (NMFS trawl survey and BSFRF survey), but with a linked prior to influence them to scale together (i.e., assume some approximate value of how much higher q is for that survey)."
+*"The SSC recommends exploring how to estimate both catchabilities (NMFS trawl survey and BSFRF survey), but with a linked prior to influence them to scale together (i.e., assume some approximate value of how much higher q is for that survey)."*
 
-**respond**
+Response: This is on the authors list of future work to be addressed with explorations of catchability for both surveys, but has not yet been explored in this document.
 
 **Response to SSC Comments specific to this assessment (from October 2022):**
-"The SSC recommends that a high priority be placed on trying to isolate factors that reduce the retrospective bias in mature male biomass."
+*"The SSC recommends that a high priority be placed on trying to isolate factors that reduce the retrospective bias in mature male biomass."*
+Response: The author agrees that this should be a high priority, however current explorations are still ongoing.  
 
 
 # C. Modeling Approaches and Explorations for spring 2023{-}
@@ -173,22 +175,25 @@ general results and conclusions
 ### a. Sensitivity to new GMACS versions {-}
 
 
-### b. Effective sample sizes and weighting factors {-}
+### b. Parameter estimates {-}
 
-### c. Parameter estimates {-}
+### c. Evaluation of the fit to the data.{-}
 
-### d. Evaluation of the fit to the data.{-}
+### d. Retrospective and historical analyses {-}
 
-### e. Retrospective and historical analyses {-}
+### e. Uncertainty and sensitivity analyses.{-}
 
-### f. Uncertainty and sensitivity analyses.{-}
+### f. Comparison of alternative model scenarios.{-}
 
-### g. Comparison of alternative model scenarios.{-}
+### g. 
 
-# F. Calculation of the OFL and ABC{-}
+# D. Calculation of the OFL and ABC{-}
 
 
+# E. Projections and Future Outlook
+Projections into the future will be perfromed in the Sept. 2023 assessment with the models selected from this document.
 
+The projections are subject to many uncertainties. Constant population parameters estimated in the models used for the projections include M, growth, and fishery selectivities. The uncertainty of abundance and biomass estimates in the terminal year also affects the projections. Uncertainties of the projections caused by these constant parameters and abundance estimates in the terminal year would be reduced by the 20% ABC buffer.  However, if an extreme event occurs, like a sharp increase of M during the projection period, the ABC buffer would be inadequate, and the projections might underestimate uncertainties. The largest uncertainty is likely from recruitment used for the projections. Higher or lower assumed recruitment would cause too optimistic or too pessimistic projections. Overall, recruitment and M used for projections are main factors for projection uncertainties. 
 
 
 # J. Acknowledgements {-}
