@@ -10,7 +10,9 @@
 ## Folders here:
 code: code for processing data etc. things that aren't related to specific model years. Maybe figure/tables code should live here?
 
-data: data foldered by year. Updates from surey, observer data, catch data, groundfish bycatch
+data: data foldered by year. Updates from survey, observer data, catch data, groundfish bycatch
+- survey data updated from - EBSsurvey_analysis.R
+
 
 readme: files from Jie, background files, Excel summary files I inherited from Jie
 
