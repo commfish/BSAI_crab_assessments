@@ -199,37 +199,52 @@ Models 21.1b and 21.1b(update) reflect sensitivities of the model to updates in 
 - Harmonic means of implied sample sizes and maximum caps of effective sample sizes for models 21.1b, 22.0, !!fix are summarized in Table 4.
 
 ### b. Tables of estimates {-}
-- Negative log-likelihood values and parameter estimates are summarized in Tables 5 and 6 for all models.
+- Negative log-likelihood values are summarized in Tables 5 for all models, while parameter estimates are summarized in Tables 6 for a few respesentative models.
 - Natural mortality estimates are shown in Table \@ref(tab:Natmort).
 - Abundance and biomass, and recruitment time series? 
 
 ### c. Evaluation of the fit to the data and model estimates.{-}
-- Selectivities by length
+- Selectivities by length (Figures \@ref(fig:sel1), \@ref(fig:sel2), and \@ref(fig:sel3))
 
-One of the most important results is estimated trawl survey selectivity (Figures 8a and 8b). Survey selectivity affects not only the fitting of the data but also the absolute abundance estimates. These estimated survey selectivities are generally smaller than the capture probabilities in Figure A1 because survey selectivities include capture probabilities and crab availability. The NMFS survey catchability is estimated to be 0.896 from the trawl experiment. The reliability of estimated survey selectivities will greatly affect the application of the model to fisheries management. Under- or over-estimates of survey selectivities will cause a systematic upward or downward bias of abundance estimates, respectively. Information about crab availability in the survey area at survey times will help estimate the survey selectivities. Higher estimated natural mortalities generally result in lower NMFS survey selectivities, while the estimated survey selectivities after 1981 are similar among the models. 
+One of the most important results is estimated trawl survey selectivity. Survey selectivity affects not only the fitting of the data but also the absolute abundance estimates. These estimated survey selectivities are generally smaller than the capture probabilities in Figure A1 (refer to last full SAFE draft) because survey selectivities include capture probabilities and crab availability. The NMFS survey catchability is estimated to be 0.896 from the trawl experiment. The reliability of estimated survey selectivities will greatly affect the application of the model to fisheries management. Under- or over-estimates of survey selectivities will cause a systematic upward or downward bias of abundance estimates, respectively. Information about crab availability in the survey area at survey times will help estimate the survey selectivities. Higher estimated natural mortalities generally result in lower NMFS survey selectivities, while the estimated survey selectivities after 1981 are similar among the models. Those models with a higher CV on the prior distribution of *Q* for the NMFS survey both estimated a value above 1.
 
-- Molting probability by length
+- Molting probability by length (Figures \@ref(fig:molt1), \@ref(fig:molt2), and \@ref(fig:molt3))
 
-For all models, estimated molting probabilities during 1975-2021 (Figures 9a, 9b, and 9c) are generally lower than those estimated from the 1954-1961 and 1966-1969 tagging data (Balsiger 1974). Lower molting probabilities mean more oldshell crab, possibly due to changes in molting probabilities over time or shell aging errors. Overestimates or underestimates of oldshell crab will result in lower or higher estimates of male molting probabilities.
+For all models, estimated molting probabilities during 1975-2022 are generally lower than those estimated from the 1954-1961 and 1966-1969 tagging data (Balsiger 1974). Lower molting probabilities mean more oldshell crab, possibly due to changes in molting probabilities over time or shell aging errors. Overestimates or underestimates of oldshell crab will result in lower or higher estimates of male molting probabilities.
 
-- NMFS trawl survey biomass and BSFRF surveys, figures \@ref(fig:surv1), \@ref(fig:surv1b), \@ref(fig:surv1c), \@ref(fig:surv1d), \@ref(fig:surv2), \@ref(fig:surv2b), \@ref(fig:surv2c), \@ref(fig:surv2d).
+- NMFS trawl survey biomass and BSFRF surveys (Figures \@ref(fig:surv1), \@ref(fig:surv1b), \@ref(fig:surv1c), \@ref(fig:surv1d), \@ref(fig:surv2), \@ref(fig:surv2b), \@ref(fig:surv2c), \@ref(fig:surv2d)).
 
-The survey male biomass estimates in 2021 are slightly higher than those in 2018 and 2019, but the survey female biomass estimates are lower. Estimated population biomass increased dramatically in the mid-1970s then decreased precipitously in the early 1980s. Estimated biomass had increased during 1985-2003 for males and during 1985-2007 for females, then declined, and have steadily declined since the late 2000s (Figures 10a-10c, 11a, and 11b). Absolute mature male biomasses for all models except for models 22.0e and 22.1a have a similar trend over time (Figures 11a and 11b). Among the eleven models, model estimated relative NMFS survey biomasses are similar for five models 21.1, 21.1a, 21.1b, 22.0, and 22.1. Models 22.0a, 22.0b, and 22.0c estimate a constant M for males, resulting in slightly higher NMFS survey biomass estimates from the early 2000s and lower in recent years than the above five models.  Models 22.0e and 22.1a, having a time block of high M during 2015-2018, amplify the above differences and fit the NMFS trawl survey biomass better than the other nine models. Absolute mature male biomass estimates are higher for models 22.0e and 22.1a during the early 2000s-mid-2010s and lower during 2017-2020 than the other nine models. All eleven models fit the catch and bycatch biomasses very well. 
-The fit to BSFRF survey data and estimated survey selectivities are illustrated in Figures 10c-10e. Model 22.0b, estimating a catchability >1.0 for the BSFRF survey, fits the BSFRF survey biomass much better than the other models.   
-Like the results of previous models, the terminal year recruitment analysis with model 21.1b suggests the estimated recruitment in the last year should not be used for estimating B~35%~.   
+The survey male biomass estimates in 2022 are slightly higher than those in 2018, 2019, and 2021, but the survey female biomass estimates are lower than 2018 and 2019, and up slightly from 2021. Estimated population biomass increased dramatically in the mid-1970s then decreased precipitously in the early 1980s. Estimated biomass had increased during 1985-2003 for males and during 1985-2007 for females, then declined, and have steadily declined since the late 2000s.  
+Among the model scenarios, model estimated relative NMFS survey biomasses are similar, with some changed in scale due to changes in M and *Q* which is expected. All models fit the catch and bycatch biomasses very well and similarly so they are not presented in this document. 
 
-- Recruitment
+The fit to BSFRF survey data are similar among the models, with some variability in scale due to changes in M and trawl survey *Q*, however these are expected due to the large additional CV placed on these data.
+
+- Recruitment (Figures \@ref(fig:rec1), \@ref(fig:rec2), and \@ref(fig:rec3))
+
+Recruitment time series are plotted for all model scenarios, and also in groups of like models. Recruitment is estimated at the end of year in GMACS and is moved up one year for the beginning of next year. Estimated recruitment time series are generally similar in trends for all models, with those models with higher M values having generally higher recruitment. Like the results of previous models, the terminal year recruitment analysis with model 21.1b suggests the estimated recruitment in the last year should not be used for estimating B~35%~.  
+
 - fishing mortality rates
+
+The average of estimated male recruits from 1984 to 2020 for models starting in 1975 and from 1986 to 2020 for models starting in 1985 (Figure 12a) and mature male biomass per recruit are used to estimate B35%. The full fishing mortalities for the directed pot fishery at the time of fishing are plotted against mature male biomass on Feb. 15 (Figures 13a, 13.b and 13c). Estimated fishing mortalities in most years before the current harvest strategy was adopted in 1996 were above F35% (Figures 13a and 13b). Under the current harvest strategy, estimated fishing mortalities were at or above the F35% limits in 1998-1999, 2005, 2007-2010, and 2014-2019 for models 21.1b and 22.1, but below the F35% limits in the other post-1995 years. 
+For model 21.1b, estimated full pot fishing mortalities ranged from 0.00 to 2.27 during 1975-2020, with estimated values over 0.40 during 1975-1982, 1984-1987, 1990-1991, 1993, 1998 and 2007-2009 (Table 6a, Figure 13a). For model 22.1, estimated full pot fishing mortalities ranged from 0.00 to 2.37 during 1975-2020, with estimated values over 0.40 in the same years as model 21.1b. Estimated fishing mortalities for pot female and groundfish fisheries bycatches are generally small and less than 0.07. 
+For model 21.1b, estimated M values are 0.89 during 1980-1984 and 0.18 for the other years for males, and 1.18 during 1980-1984 and 0.24 for the other years for females, with estimated female M values equaling to 1.325 times male M values (Figure 13c). For model 22.1, estimated M values are 0.88 during 1980-1984 and 0.18 for the other years for males, and 1.17 during 1980-1984 and 0.24 for the other years for females, with estimated female M values equaling to 1.327 times male M values. Biologically, females mature earlier than males and likely have higher M values. M values for nine models are listed in Table 7.  
+
 - mmb
+Absolute mature male biomasses for all models have a similar trend over time (Figures 11a and 11b).
+
 - size comps - bubble plots and size comp figures
 trawl survey figures, size comps, bubble plot
+
+All models fit the fishery biomass data well and the survey biomass reasonably well (Figures 10 and 16). Because the model estimates annual fishing mortality for directed pot male catch, pot female bycatch, and trawl and fixed gear bycatch, the deviations of observed and predicted (estimated) fishery biomass are mainly due to size composition differences. Models 21.1, 21.1a, and 21.1b fit the NMFS area-swept biomass data almost identically (Figure 10a), and models 22.0e and 22.1a with a time block of high M during 2015-2018 fit the NMFS area-swept biomass data better than the other models.
+All models also fit the length composition data well (Figures 18-24). Modal progressions are tracked well in the trawl survey data, particularly beginning in mid-1990s (Figures 18 and 19). Cohorts first seen in the trawl survey data in 1975, 1986, 1990, 1995, 1999, 2002 and 2005 can be tracked over time. Some cohorts can be tracked over time in the pot bycatch as well (Figure 21), but the bycatch data did not track the cohorts as well as the survey data. Groundfish bycatch data provide little information to track modal progression (Figures 23 and 24).
+Residuals of survey biomasses and proportions of length are plotted to examine their patterns. Residuals were calculated as observed minus predicted and standardized by the estimated standard deviation. Residuals of survey biomasses did not show any consistent patterns for all models (Figures 17a-17f), although models 22.0e and 22.1a with a time block of high M during 2015-2018 have small absolute residuals during recent years.   Generally, residuals of proportions of survey males and females appear to be random over length and year for all models (Figures 25a-25e and 26a-26e). Models with higher base M values like models 22.0a and 22.0c improve the plus group fittings slightly.   
 
 ### d. Retrospective and historical analyses {-}
 Retrospective analysis was performed for a selection of models - 21.1b, 22.0, 23.3.
 
 ### e. Uncertainty and sensitivity analyses.{-}
 Table 6 a-g
-- The last completed SAFE document in 2022 details uncertainty estimates in the current base model parameterization in futher detail. 
+- The last completed SAFE document in 2022 details uncertainty estimates in the current base model parameterization in further detail. 
 
 
 ### f. Comparison of alternative model scenarios.{-}
@@ -239,9 +254,18 @@ similarities and differences
 - M models
 - q models
 
+In this report (May 2022), eleven models are compared. For negative likelihood value comparisons (Tables 5b and 5c), models 22.0c with high base M values and 22.1a with a time block of high M during 2015-2018 have the highest total likelihood values for models starting in 1985 and 1975, respectively, without the BSFRF survey data. High base M values estimated inside the models or additional time block of high M during 2015-2018 generally result in significantly higher total likelihood values. 
+
+The first three models, 21.1, 21.1a, and 21.1b, have very close results. Model 21.1, the base model in 2021, was run with the updated GMACS version 2.01.E (finalized on Feb. 6, 2022), resulting in model 21.1a. The groundfish bycatch was updated when the AKFIN database was updated recently, resulting in model 21.1b.  The GMACS update and the groundfish fisheries bycatch update have hardly affected the results. Model 21.1b was used to compare the other eight new model scenarios. 
+Among the new eight models, six models start in 1985 and were used to evaluate model starting year, BSFRF survey data, and one extra level of M during 2015-2018. Model 22.0 is the short data version of model 21.1b and the overall results are similar. The notable differences are smaller B35% (22,14 1 t vs 24,325 t) and NMFS survey catchability (0.93 vs 0.96), and higher MMB in the terminal year (2021) (15,507 t vs 15,118 t) and higher OFL (2,718 t vs 2,298 t) for model 22.0. These differences are probably caused by a high recruitment in 1984 (associated with the very M) being used for B35% computation for model 21.1b and more influence of BSFRF survey data for model 22.0. Estimating a base M for males for model 22.0a significantly increases likelihood values, slightly increases annual mature male biomass, and results in an estimated B35% about 10% lower than model 22.0.  A high M also results in higher F35% and OFL for model 22.0a. Contrasting with assuming catchability being 1.0 for the BSFRF survey, model 22.0b estimates it in the model. As expected, the results of model 22.0b are similar to model 22.0a because the extra variance in the model has greatly reduced the influence of BSFF survey catchability, even though the estimated catchability is 1.36. Model 22.0c drops the BSFRF survey data and results in better fits to the other data. The retrospective bias is greatly reduced with model 22.0c over model 22.0 (Mohn’s rho values from 0.376 to 0.235). The results of models 22.0b and 22.0c may indicate the problem of assuming catchability to be 1.0 for the BSFRF survey. With M=0.18 for males and without the BSFRF survey data, model 22.0d has very similar results with model 22.0, but with a smaller Mohn’s rho value (0.329 vs 0.376). Model 22.0e uses a similar approach to Model 21.2 in 2021 to address the survey abundance decline during recent years through adding a time block of M (2015-2018) and to reduce the retrospective bias. Mohn’s rho declines from 0.376 for model 22.0 to 0.135 for model 22.0e, and model 22.0e also fits the NMFS survey biomass much better during recent years. Model 22.0e results in overall higher mature male biomass estimates over time, higher B35% estimate, and lower mature male biomass estimate in the terminal year (2021).  
+Relative to model 21.1b, model 22.1 drops the BSFRF data and model 22.1a adds a time block of M (2015-2018), similar to model 22.0e. Like the results of models starting in 1985, dropping the BSFRF data improve fits to the other data and reduces the retrospective bias. Combining no BSFRF data and a time block of M during 2015-2018 greatly reduces retrospective bias from Mohn’s rho of 0.347 for model 21.1b to 0.135 for model 22.1a.  
+Based on the model results, it appears that the choice of preferred models depends on two factors: assumption of BSFRF survey catchability and estimation of M. The BSFRF survey uses small mesh sizes, the net footrope goes into mud, and the camera records the net footrope touching and leaving the sea bottom. Therefore, theoretically, it is reasonable to assume its catchability to be 1.0.   However, its small net opening and going into sea bottom could potentially cause herding effects, especially for long leg animals like red king crab. Parts of the lower bridles of survey nets could touch or close to sea bottom and herd or push crab into the net path. We talked to Scott Goodman about the herding effects of the BSFRF trawl survey a few years ago and it appears that the effects have not been evaluated. Model 22.0c estimated the catchability as 1.36, much higher than 1.0 assumed to the other models. Dropping the BSFRF data from the models does hardly impact the model results and reduces the model retrospective bias. Furthermore, if the BSFRF survey catchability is larger than 1.0 we assumed for the models, it could cause conservation concern. We suggest BSFRF evaluate the herding effects of the BSFRF trawl survey in the future if possible and eliminate the models that use the BSFRF survey data for time being. 
+Considerations of M estimation are whether to estimate a base M for males for the whole time series or to add a time block during 2015-2018. Either of these two approaches reduces the retrospective bias considerably. Concern of estimating a base M for males for the whole time series is potential confounding with estimating trawl survey catchability. It is also hard to find good reasons to add a time block during 2015-2018 other than very old crab due to low recruitment for over a decade. Very old crab tend to have a higher M.     
+Based on the above considerations, we recommend model 22.0d as the base model for overfishing definition determination in September 2022 due to a simple approach: a fixed base M of 0.18 for males, less confounding between estimating M and survey catchability, avoiding dramatic abundance decline during the early 1980s, no recruitment associated with an extremely high M being used for estimating B35%, and acceptable data fittings. Model 22.1 is a strong run-up and is a viable alternative. If estimating a base M value for males in the model is acceptable, then model 22.0c is also a good alternative, which fits the data well and greatly reduces retrospective bias from model 22.0. Values for management-related quantities for all models are summarized in likelihood Tables 5b, 5c, 5d, and 5e. 
+
 
 # D. Calculation of the OFL and ABC{-}
-
+Version of the spec table here
 
 # E. Projections and Future Outlook
 Projections into the future will be perfromed in the Sept. 2023 assessment with the models selected from this document.
@@ -250,6 +274,7 @@ The projections are subject to many uncertainties. Constant population parameter
 
 
 # J. Acknowledgements {-}
+Drs. Andre Punt, James Ianelli, and D’Arcy Webber first applied BBRKC data to GMACS for stock assessments and our GMACS model mainly comes from their work. 
 
 # K. References {-}
 References can be found in the last full SAFE published on the NPFMC website and will not be repeated here.
@@ -287,7 +312,12 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 #print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
 ```
 
-
+```{r data, eval = TRUE, include=TRUE,echo=FALSE, comment=NA }
+library(knitr)
+opts_chunk$set(fig.width = 12, fig.height = 8, echo = FALSE, warning = FALSE, message = FALSE)
+ts <- readLines(here::here("BBRKC/bbrkc_22f/doc/gmacs-para_model211b.txt"))
+for (i in 1:length(ts)) cat(ts[i], "\n")
+```
 
 
 \clearpage
