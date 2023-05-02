@@ -212,10 +212,10 @@ One of the most important results is estimated trawl survey selectivity. Survey 
 
 For all models, estimated molting probabilities during 1975-2022 are generally lower than those estimated from the 1954-1961 and 1966-1969 tagging data (Balsiger 1974). Lower molting probabilities mean more oldshell crab, possibly due to changes in molting probabilities over time or shell aging errors. Overestimates or underestimates of oldshell crab will result in lower or higher estimates of male molting probabilities.
 
-- NMFS trawl survey biomass and BSFRF surveys (Figures \@ref(fig:surv1), \@ref(fig:surv1b), \@ref(fig:surv1c), \@ref(fig:surv1d), \@ref(fig:surv2), \@ref(fig:surv2b), \@ref(fig:surv2c), \@ref(fig:surv2d)).
+- NMFS trawl survey biomass and BSFRF surveys (Figures \@ref(fig:surv1), \@ref(fig:surv1b), \@ref(fig:surv1c), \@ref(fig:surv1d), \@red(fig:surv1-res), \@red(fig:surv1-resM), \@ref(fig:surv2), \@ref(fig:surv2b), \@ref(fig:surv2c), \@ref(fig:surv2d)).
 
 The survey male biomass estimates in 2022 are slightly higher than those in 2018, 2019, and 2021, but the survey female biomass estimates are lower than 2018 and 2019, and up slightly from 2021. Estimated population biomass increased dramatically in the mid-1970s then decreased precipitously in the early 1980s. Estimated biomass had increased during 1985-2003 for males and during 1985-2007 for females, then declined, and have steadily declined since the late 2000s.  
-Among the model scenarios, model estimated relative NMFS survey biomasses are similar, with some changed in scale due to changes in M and *Q* which is expected. All models fit the catch and bycatch biomasses very well and similarly so they are not presented in this document. 
+Among the model scenarios, model estimated relative NMFS survey biomasses are similar, with some changed in scale due to changes in M and *Q* which is expected. All models fit the catch and bycatch biomasses very well and similarly so they are not presented in this document. Residuals of survey biomasses did not show any consistent patterns for all models (Figures \@red(fig:surv1-res) and \@red(fig:surv1-resM)).   
 
 The fit to BSFRF survey data are similar among the models, with some variability in scale due to changes in M and trawl survey *Q*, however these are expected due to the large additional CV placed on these data.
 
@@ -223,27 +223,27 @@ The fit to BSFRF survey data are similar among the models, with some variability
 
 Recruitment time series are plotted for all model scenarios, and also in groups of like models. Recruitment is estimated at the end of year in GMACS and is moved up one year for the beginning of next year. Estimated recruitment time series are generally similar in trends for all models, with those models with higher M values having generally higher recruitment. Like the results of previous models, the terminal year recruitment analysis with model 21.1b suggests the estimated recruitment in the last year should not be used for estimating B~35%~.  
 
-- fishing mortality rates
+- Fishing mortality (Figure \@ref(fig:fmort))
 
-The average of estimated male recruits from 1984 to 2020 for models starting in 1975 and from 1986 to 2020 for models starting in 1985 (Figure 12a) and mature male biomass per recruit are used to estimate B35%. The full fishing mortalities for the directed pot fishery at the time of fishing are plotted against mature male biomass on Feb. 15 (Figures 13a, 13.b and 13c). Estimated fishing mortalities in most years before the current harvest strategy was adopted in 1996 were above F35% (Figures 13a and 13b). Under the current harvest strategy, estimated fishing mortalities were at or above the F35% limits in 1998-1999, 2005, 2007-2010, and 2014-2019 for models 21.1b and 22.1, but below the F35% limits in the other post-1995 years. 
-For model 21.1b, estimated full pot fishing mortalities ranged from 0.00 to 2.27 during 1975-2020, with estimated values over 0.40 during 1975-1982, 1984-1987, 1990-1991, 1993, 1998 and 2007-2009 (Table 6a, Figure 13a). For model 22.1, estimated full pot fishing mortalities ranged from 0.00 to 2.37 during 1975-2020, with estimated values over 0.40 in the same years as model 21.1b. Estimated fishing mortalities for pot female and groundfish fisheries bycatches are generally small and less than 0.07. 
-For model 21.1b, estimated M values are 0.89 during 1980-1984 and 0.18 for the other years for males, and 1.18 during 1980-1984 and 0.24 for the other years for females, with estimated female M values equaling to 1.325 times male M values (Figure 13c). For model 22.1, estimated M values are 0.88 during 1980-1984 and 0.18 for the other years for males, and 1.17 during 1980-1984 and 0.24 for the other years for females, with estimated female M values equaling to 1.327 times male M values. Biologically, females mature earlier than males and likely have higher M values. M values for nine models are listed in Table 7.  
+The average of estimated male recruits from 1984 to 2021 for models starting in 1975 and from 1986 to 2021 for models starting in 1985 (Figure 12a) and mature male biomass per recruit are used to estimate B35%. The full fishing mortalities for the directed pot fishery at the time of fishing are plotted against mature male biomass on Feb. 15 in the last full SAFE (See BBRKC 2022 SAFE link and Figures 13a, 13.b and 13c). Estimated fishing mortalities in most years before the current harvest strategy was adopted in 1996 were above F35%. Under the current harvest strategy, estimated fishing mortalities were at or above the F35% limits in 1998-1999, 2005, 2007-2010, and 2014-2019 for models 21.1b, but below the F35% limits in the other post-1995 years. 
+For model 21.1b, estimated full pot fishing mortalities ranged from 0.00 to 2.27 during 1975-2020, with estimated values over 0.40 during 1975-1982, 1984-1987, 1990-1991, 1993, 1998 and 2007-2009 (Figure \@ref(fig:fmort)). 
+Estimated fishing mortalities for pot female and groundfish fisheries bycatches are generally small and less than 0.07. 
 
-- mmb
-Absolute mature male biomasses for all models have a similar trend over time (Figures 11a and 11b).
+- Estimated mature male biomsss (Figures \@ref(fig:mmb1), \@ref(fig:mmb2), and \@ref(fig:mmb3))
 
-- size comps - bubble plots and size comp figures
-trawl survey figures, size comps, bubble plot
+Estimated mature male biomass for all models have a similar trend over time, however the scaling of the biomass is highly dependent, as expected, on estimates of natural mortality (M) and *Q* in the model. Overall, higher estimates of M for males produce larger estimates of mature male biomass for most of the time series. Recent mature male biomass, in the last five years or so, was relatively similar for all models except model 23.1 with the increase in estimated NMFS *Q*. Model 23.3, which estimates M for males and has a larger CV on the *Q* prior, produced similar results to the base model, with the except of the last five years (Figure \@red(fig:mmb2)). All models were compared to model 22.0 in Figure \@ref(fig:mmb3), which allows for a closer look at the more recent time frame since this plot starts in 1985.
 
-All models fit the fishery biomass data well and the survey biomass reasonably well (Figures 10 and 16). Because the model estimates annual fishing mortality for directed pot male catch, pot female bycatch, and trawl and fixed gear bycatch, the deviations of observed and predicted (estimated) fishery biomass are mainly due to size composition differences. Models 21.1, 21.1a, and 21.1b fit the NMFS area-swept biomass data almost identically (Figure 10a), and models 22.0e and 22.1a with a time block of high M during 2015-2018 fit the NMFS area-swept biomass data better than the other models.
-All models also fit the length composition data well (Figures 18-24). Modal progressions are tracked well in the trawl survey data, particularly beginning in mid-1990s (Figures 18 and 19). Cohorts first seen in the trawl survey data in 1975, 1986, 1990, 1995, 1999, 2002 and 2005 can be tracked over time. Some cohorts can be tracked over time in the pot bycatch as well (Figure 21), but the bycatch data did not track the cohorts as well as the survey data. Groundfish bycatch data provide little information to track modal progression (Figures 23 and 24).
-Residuals of survey biomasses and proportions of length are plotted to examine their patterns. Residuals were calculated as observed minus predicted and standardized by the estimated standard deviation. Residuals of survey biomasses did not show any consistent patterns for all models (Figures 17a-17f), although models 22.0e and 22.1a with a time block of high M during 2015-2018 have small absolute residuals during recent years.   Generally, residuals of proportions of survey males and females appear to be random over length and year for all models (Figures 25a-25e and 26a-26e). Models with higher base M values like models 22.0a and 22.0c improve the plus group fittings slightly.   
+- Size composition fits by length and residual bubble plots (Figures  \@ref(fig:sc-pot), \@ref(fig:sc-trawl1), \@ref(fig:sc-trawl2), \@ref(fig:sc-trawl1F), \@ref(fig:sc-trawl2F), \@ref(fig:sc-bsfrfM), \@ref(fig:sc-bsfrfF), \@ref(fig:sc-pot), \@ref(fig:sc-res-ref-M), \@ref(fig:sc-res-M3), and \@ref(fig:sc-res-M4)).
+
+All models fit the length composition data similarily and well. Modal progressions are tracked well in the trawl survey data, particularly beginning in mid-1990s. Cohorts first seen in the trawl survey data in 1975, 1986, 1990, 1995, 1999, 2002 and 2005 can be tracked over time. Bycatch size compostion data provide little information to track modal progression and is not displayed graphically.
+Residuals of proportions of length are plotted to examine their patterns. Residuals were calculated as observed minus predicted and standardized by the estimated standard deviation. Generally, residuals of proportions of survey males and females appear to be random over length and year for all models, however models with higher base M values like models 23.0 and 23.0b improve the plus group fittings slightly.   
 
 ### d. Retrospective and historical analyses {-}
-Retrospective analysis was performed for a selection of models - 21.1b, 22.0, 23.3.
+Retrospective analysis was performed for a selection of models - 21.1b, 22.0, 23.3 - to represent the base model and determine if the retrospective pattern is reduced by estimating M (model 23.3). Retrospective analysis were performed using the GMACS retrospective feature which runs the current years model (2022) and sequentially excludes one year of data to evaluate current model performance in hindcast.
 
 ### e. Uncertainty and sensitivity analyses.{-}
-Table 6 a-g
+- Estimated standard deviation of parameters are summarized in Table X for models X.
+
 - The last completed SAFE document in 2022 details uncertainty estimates in the current base model parameterization in further detail. 
 
 
@@ -265,7 +265,16 @@ Based on the above considerations, we recommend model 22.0d as the base model fo
 
 
 # D. Calculation of the OFL and ABC{-}
-Version of the spec table here
+Tier 3 control rules and methology behind these calcualtions are explained in detail in the last full SAFE report published on the NPFMC website (see summary section for link). 
+
+```{r specs2, results = "asis"}
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/specs_all_mods_detailed.csv'))
+names(df) <- c("Model", "Current MMB", "B35", "$MMB/B_\\text{MSY}$", "F35", "$F_\\text{OFL}$", "OFL", "avg rec", "maleM")
+tab       <- xtable(df, caption = "Changes in management quantities for each scenario explored. REport quantities are derived from maximum likelihood estimates. Average recruitment is males and females combined in millions of animals.", label = "tab:specs")
+print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,nrow(tab)))
+```
+
+
 
 # E. Projections and Future Outlook
 Projections into the future will be perfromed in the Sept. 2023 assessment with the models selected from this document.
@@ -288,7 +297,7 @@ References can be found in the last full SAFE published on the NPFMC website and
 
 ```{r specs, results = "asis"}
 df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/specs_all_mods.csv'))
-names(df) <- c("Model", "MMB", "B35", "F35", "Fofl", "OFL", "avg rec")
+names(df) <- c("Model", "Current MMB", "B35", "F35", "Fofl", "OFL", "avg rec")
 tab       <- xtable(df, caption = "Changes in management quantities for each scenario explored. REport quantities are derived from maximum likelihood estimates. Average recruitment is males and females combined in millions of animals.", label = "tab:specs")
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,nrow(tab)))
 ```
@@ -359,6 +368,13 @@ knitr::include_graphics("figures/BSFRF_mod_Q_MALES.png", dpi = 200)
 knitr::include_graphics("figures/BSFRF_mod_Q_FEMALES.png", dpi = 200)
 ```
 
+```{r surv1-res, out.width="100%", fig.cap = "Standardized residuals of NMFS survey biomass under models 21.1b, 23.0, and 23.0b, those models that increase CV on survey Q."} 
+knitr::include_graphics("figures/trawl_biomass_mod_scen_Q_residuals.png", dpi = 200)
+```
+
+```{r surv1-resM, out.width="100%", fig.cap = "Standardized residuals of NMFS survey biomass under models 21.1b, 23.0, and 23.0b, those models that have a higher base value for M for males."} 
+knitr::include_graphics("figures/trawl_biomass_mod_scen_M_residuals.png", dpi = 200)
+```
 
 ```{r rec1, out.width="100%", fig.cap = "Estimated recruitment time series during 1976-2021 with models 21.1b, 22.0, 23.0, 23.0a, 23.0b, and 23.1a. Mean male recruits during 1984-2021 was used to estimate B35%. Recruitment estimates in the terminal year (2022) are unreliable."}
 knitr::include_graphics("figures/recruitment_mod_scen.png", dpi = 200)
@@ -432,8 +448,16 @@ knitr::include_graphics("figures/lf_pot_total_M.png", dpi = 450)
 knitr::include_graphics("figures/lf_NMFS_m.png", dpi = 450)
 ```
 
+```{r sc-trawl2, out.width="100%", fig.cap = "Comparison of area-swept and model estimated NMFS survey length frequencies of Bristol Bay male red king crab by year for model scenarios that include changes in the prior on Q."}
+knitr::include_graphics("figures/lf_NMFS_m_MOD_Q.png", dpi = 450)
+```
+
 ```{r sc-trawl1F, out.width="100%", fig.cap = "Comparison of area-swept and model estimated NMFS survey length frequencies of Bristol Bay FEMALE red king crab by year for most model scenarios."}
 knitr::include_graphics("figures/lf_NMFS_f.png", dpi = 450)
+```
+
+```{r sc-trawl2F, out.width="100%", fig.cap = "Comparison of area-swept and model estimated NMFS survey length frequencies of Bristol Bay female red king crab by year for model scenarios that include changes in the prior on Q."}
+knitr::include_graphics("figures/lf_NMFS_f_MOD_Q.png", dpi = 450)
 ```
 
 ```{r sc-bsfrfM, out.width="100%", fig.cap = "Comparisons of length compositions by the BSFRF survey and the model estimates during 2007-2008 and 2013-2016 for most model scenarios."}
