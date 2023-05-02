@@ -543,11 +543,20 @@ plot_cpue_VAST <-
                      par = A$fit$names,
                      log_ssb = A$fit$est,
                      log_sd = A$fit$std)
-    df      <- subset(df, par == c("sd_log_ssb", "sd_last_ssb"))
+    #df      <- subset(df, par == c("sd_log_ssb", "sd_last_ssb"))
+    df1      <- subset(df, par == "sd_log_ssb") #| par == "sd_last_ssb") # last ssb NOT on log scale
+    #df$year <- c(A$mod_yrs, (max(A$mod_yrs)+1))
+    df1$ssb  <- exp(df1$log_ssb)
+    df1$lb   <- exp(df1$log_ssb - 1.96*df1$log_sd)
+    df1$ub   <- exp(df1$log_ssb + 1.96*df1$log_sd)
+    
+    df2     <- subset(df, par == "sd_last_ssb")
+    df2$ssb  <- df2$log_ssb
+    df2$lb   <- (df2$log_ssb - 1.96*df2$log_sd)
+    df2$ub   <- (df2$log_ssb + 1.96*df2$log_sd)
+    
+    df      <- rbind(df1, df2)
     df$year <- c(A$mod_yrs, (max(A$mod_yrs)+1))
-    df$ssb  <- exp(df$log_ssb)
-    df$lb   <- exp(df$log_ssb - 1.96*df$log_sd)
-    df$ub   <- exp(df$log_ssb + 1.96*df$log_sd)
     mdf     <- rbind(mdf, df)
   }
   return(mdf)
