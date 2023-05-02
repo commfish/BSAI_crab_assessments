@@ -394,8 +394,8 @@ plot_cpue_kjp <- function(M, subsetby = "", psex = "", xlab = "Year", ylab = "CP
 }
 
 # selectivity seperate out fleets ------
-plot_selectivity_kjp <- function (M, subsetby = "", xlab = "Mid-point of size class (mm)", ylab = "Selectivity", 
-          tlab = "Type", ilab = "Period year", nrow = NULL, 
+plot_selectivity_kjp <- function (M, subsetby = "", ctype = "", xlab = "Mid-point of size class (mm)", ylab = "Selectivity", 
+                                   tlab = "Type", ilab = "Period year", nrow = NULL, 
           ncol = NULL, legend_loc = c(1.05, 0.05)) 
 {
   xlab <- paste0("\n", xlab)
@@ -403,14 +403,21 @@ plot_selectivity_kjp <- function (M, subsetby = "", xlab = "Mid-point of size cl
   mdf <- .get_selectivity_df(M)
   mdf <- mdf[!mdf$sex %in% "Aggregate", ]
   if (subsetby != "") mdf <- subset(mdf, fleet == subsetby)
+  if (ctype != "") mdf <- subset(mdf, type == subsetby)
   
   ncol <- length(unique(mdf$fleet))
   nrow <- length(unique(mdf$Model))
   nrow_sex <- length(unique(mdf$sex))
   p <- ggplot(mdf) + expand_limits(y = c(0, 1))
   if (.OVERLAY) {
-    p <- p + geom_line(aes(variable, value, col = factor(year), 
+    if(ctype != "") {
+      p <- p + geom_line(aes(variable, value, col = factor(year), 
+                             linetype = Model))
+    }
+    else {
+      p <- p + geom_line(aes(variable, value, col = factor(year), 
                            linetype = type))
+    }
     if (length(M) == 1 && length(unique(mdf$sex)) == 1) {
       p <- p + facet_wrap(~fleet, nrow = nrow, ncol = ncol)
     }
@@ -424,8 +431,16 @@ plot_selectivity_kjp <- function (M, subsetby = "", xlab = "Mid-point of size cl
       p <- p + facet_wrap(~fleet + sex, ncol = nrow_sex, 
                           nrow = ncol)
     }
-    else {
+    else if (ctype != ""){
+      p <- p + facet_grid(sex ~ fleet, margins = FALSE)
+    }
+    else { 
+      #if (ctype == 'Capture'){
+     #   p <- p + facet_grid(sex ~ fleet, margins = FALSE)
+     # }
+     # else {
       p <- p + facet_grid(sex + fleet ~ Model, margins = FALSE)
+     # }
     }
   }
   else {
@@ -466,4 +481,33 @@ plot_size_comps_res_kjp <- function (M, subsetby = "", ncol = 1, xlab = "Year", 
                                               facet_wrap(sex ~ fleet, scales = "free_x", ncol = ncol) + .THEME + 
     theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
   print(p)
+}
+
+
+# molt prob male only -------------
+plot_molt_prob_sex <- function (M, subsetby = "", xlab = "Mid-point of size class (mm)", ylab = "Probability of molting") 
+{
+  xlab <- paste0("\n", xlab)
+  ylab <- paste0(ylab, "\n")
+  mdf <- .get_molt_prob_df(M)
+  if (subsetby != "") mdf <- subset(mdf, Sex == subsetby)
+  
+  p <- ggplot(mdf, aes(x = Length, y = MP)) + expand_limits(y = c(0, 
+                                                                  1)) + labs(x = xlab, y = ylab)
+  if (length(M) == 1 && length(unique(mdf$Sex)) == 1) {
+    p <- p + geom_line() + geom_point()
+  }
+  else if (length(M) != 1 && length(unique(mdf$Sex)) == 1) {
+    p <- p + geom_line(aes(col = Model, linetype = Year)) + 
+      geom_point(aes(col = Model, shape = Year))
+  }
+  else if (length(M) == 1 && length(unique(mdf$Sex)) != 1) {
+    p <- p + geom_line(aes(linetype = Sex, col = Year)) + 
+      geom_point(aes(col = Year, shape = Sex))
+  }
+  else {
+    p <- p + geom_line(aes(linetype = Model, col = Year)) + 
+      geom_point(aes(linetype = Model, col = Year)) + facet_wrap(~Sex)
+  }
+  print(p + .THEME)
 }
