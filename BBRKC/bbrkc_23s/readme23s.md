@@ -34,6 +34,7 @@ Three models recommended from May 2022:
 23.1a - increase CV on prior on NMFS, double it to 0.06
 23.1 - "Q" work. relax prior on Q 
 23.2 - explore contribution of retow data - run model excluding all retow data in years with retow.
+23.3 - models 23.0a and 23.1a combined - estimating both Q and M but with tight priors
 
 ## GMACS versions ----
 Last Sept models used version from May 2022 models - gmacs.exe taken from 'BBKRC/src_bbrkc_040622'
@@ -53,6 +54,9 @@ files used for model: found in the gmacs.dat file in each folder, also have a fi
 'figures_tables_create_SAFE.R' in bbrkc22f has figures created with 'gmr'
 'Jie_figures_tables_create_SAFE.R' in bbrkc 22f has notes on each figure and what is used to create it, if it's Jie code see "Jie_cmn_files.R"
 
+# retrospective run -------------
+Thinking this should be done for a few models to compare with base?
+Try with '-nohess' added to avoid error I'm getting in the resent version of GMACS.
 
 
 ## model runs - initial to compare to Jie's ------
