@@ -37,7 +37,7 @@ cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#D55E00", "#0072B2",
 
 # update model names and file locations
 mod_names <- c("21.1b (2022)", "21.1b (2022-update)", "23.0 M=0.257", "23.0a Mest", "23.0b M=0.31", 
-               "23.1a inc CV_q", "22.0 1985", "23.3 Mest_incCV")#
+               "23.1a inc CV q", "22.0 1985", "23.3 Mest incCV")#
 #mod_names <- c("16.0 (2019)", "16.0 (2020)", "16.0a (fix R ter)", "20.1 (no pot)")
 .MODELDIR = c(paste0(here::here(), "/BBRKC/bbrkc_22f/model_211b/"),
               paste0(here::here(), "/BBRKC/bbrkc_23s/model_211b/"),#, 
@@ -91,8 +91,6 @@ mod_yr <- c(2,7)
 ww <- 6
 hh <- 5
 update_geom_defaults("line", list(size = 1.75))
-#raw_data <- data_out(mod_names[1:5], .MODELDIR[1:5]) # data pulled from .csv created from gmacsall.out - done manually
-
 
 # FIGURES -------------------------------------
 ## data extent -----------
@@ -120,6 +118,27 @@ plot_recruitment(M[2])
 #plot_recruitment(M[1])
 ggsave(paste0(.FIGS, "recruit_ref.png"), width = ww*1.08, height = hh)
 
+### !!!ssb ref_new GMACS ---------
+ssb <- .get_ssb_dfKP(M[1:2])
+ssb %>% 
+  ggplot(aes(year, ssb, col = Model)) +
+  geom_line() +
+  #geom_ribbon(aes(x=year, ymax = ub, ymin = lb), alpha = 0.2) +
+  expand_limits(y=0) +
+  scale_y_continuous(expand = c(0,0)) +
+  #geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
+  #           lty = c("solid", "dashed"))+
+  #geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
+  #          hjust = -0.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
+  ggtitle("Model scenarios") +
+  ylab("Mature male biomass (t) on 15th February") + xlab("Year") +
+  .THEME
+ggsave(paste0(.FIGS, "ref_ssb_wprojected_yr_tall.png"), width = ww*1.3, height = hh*1.25)
+ggsave(paste0(.FIGS, "ref_ssb_wprojected_yr.png"), width = ww*1.1, height = hh*1.1)
+
+ssb <- .get_ssb_dfKP(M[1:2])
+ssb2 <- .get_ssb_dfKP_2(M[2]) # gets ssb with sd_last_ssb from std file
+
 ## !!fishing mortality ------
 #plot_F(M[2]) **FIX** bring in this from model 1 for now.
 plot_F(M[mod_scen])
@@ -146,7 +165,27 @@ ggsave(paste0(.FIGS, "selectivity_23s_BSFRF.png"), width = ww*1.50, height = 0.8
 # selectivity mod -q
 plot_selectivity_kjp(M[mod_q], "NMFS Trawl")
 ggsave(paste0(.FIGS, "selectivity_23s_trawl_MOD_Q.png"), width = ww*1.50, height = 0.85*hh)
+
+plot_selectivity_kjp(M[mod_q], "BSFRF survey")
+ggsave(paste0(.FIGS, "selectivity_23s_BSFRF_MOD_Q.png"), width = ww*1.50, height = 0.85*hh)
+
+# selectivity mod_yr
+plot_selectivity_kjp(M[mod_yr], "NMFS Trawl")
+ggsave(paste0(.FIGS, "selectivity_23s_trawl_MOD_year.png"), width = ww*1.50, height = 0.85*hh)
+
+
+# experiment 
+plot_selectivity_kjp(M[2:3], "NMFS Trawl", ctype = "Capture", tlab = "Model")
+mdf <- .get_selectivity_df(M[2:3])
+
+mdf <- subset(mdf, fleet == "NMFS Trawl")
+mdf <- subset(mdf, type == "Capture")
+
+
+
+
 # !!!moliting probability -------
+#plot_molt_prob_sex(M[2:6], "Male") # didn't quite do what i wanted
 plot_molt_prob(M[2:6])
 ggsave(paste0(.FIGS, "molt_prob_mod_scen.png"), width = ww*1.5, height = hh*1.5)
 
@@ -171,10 +210,10 @@ plot_cpue_kjp(M[c(mod_scen)], subsetby = "NMFS Trawl", psex = "Female", ylab = "
 ggsave(paste0(.FIGS, "trawl_biomass_FEMALES_mod_scen.png"), width = ww*1.30, height = hh)
 
 # q changes ---
-plot_cpue_kjp(M[mod_q], subsetby = "NMFS Trawl", psex = "Male", ylab = "NMFS MALE survey biomass (t)")
+plot_cpue_kjp(M[c(2,6,7,8)], subsetby = "NMFS Trawl", psex = "Male", ylab = "NMFS MALE survey biomass (t)")
 ggsave(paste0(.FIGS, "trawl_biomass_MALES_mod_scen_Q.png"), width = ww*1.30, height = hh)
 
-plot_cpue_kjp(M[mod_q], subsetby = "NMFS Trawl", psex = "Female", ylab = "NMFS FEMALE survey biomass (t)")
+plot_cpue_kjp(M[c(2,6,7,8)], subsetby = "NMFS Trawl", psex = "Female", ylab = "NMFS FEMALE survey biomass (t)")
 ggsave(paste0(.FIGS, "trawl_biomass_FEMALES_mod_scen_Q.png"), width = ww*1.30, height = hh)
 
 
@@ -192,10 +231,10 @@ plot_cpue_kjp(M[c(mod_scen)],  "BSFRF survey", psex = "Female", ylab = "FEMALE s
 ggsave(paste0(.FIGS, "BSFRF_mod_scen_FEMALES.png"), width = ww*1.10, height = hh)
 
 # males 
-plot_cpue_kjp(M[c(mod_q)],  "BSFRF survey", psex = "Male", ylab = "MALE survey biomass (t)", ShowEstErr = TRUE)
+plot_cpue_kjp(M[c(2,6,7,8)],  "BSFRF survey", psex = "Male", ylab = "MALE survey biomass (t)", ShowEstErr = TRUE)
 ggsave(paste0(.FIGS, "BSFRF_mod_Q_MALES.png"), width = ww*1.10, height = hh)
 # females 
-plot_cpue_kjp(M[c(mod_q)],  "BSFRF survey", psex = "Female", ylab = "FEMALE survey biomass (t)", ShowEstErr = TRUE)
+plot_cpue_kjp(M[c(2,6,7,8)],  "BSFRF survey", psex = "Female", ylab = "FEMALE survey biomass (t)", ShowEstErr = TRUE)
 ggsave(paste0(.FIGS, "BSFRF_mod_Q_FEMALES.png"), width = ww*1.10, height = hh)
 
 ## !!size comps ---------------
@@ -328,13 +367,112 @@ plot_natural_mortality2(M[c(2:5)])
 ggsave(paste0(.FIGS, "mod_nat_mort_M_t.png"), width = 1.20*ww, height = hh)
 
 ## TABLES ====================================
+# Tables 1 to 3 calcs -------
+## table 1 ------
+round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_2122
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_2122
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2223
+round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2223
+round(M[[rec_mod]]$spr_cofl/1000*0.80, 2) -> abc_2223
+table1specs_t <- c(msst_2122, mmb_2122, mmb_2223, ofl_2223, abc_2223)
+table1specs_t
+#rec_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1/figure/ofl_calc.csv"))
+#round(rec_ofl$OFL_2020/1000, 2) -> ofl_2021
+#round(ofl_2021*0.8, 2) -> abc_2021
+
+# table 2 ----------
+round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_2122_lb
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]* 2204.62/1e6, 2) -> mmb_2122_lb
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_2223_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 3) -> ofl_2223_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.80, 2) -> abc_2223_lb
+table1specs_lb <- c(msst_2122_lb, mmb_2122_lb, mmb_2223_lb, ofl_2223_lb, abc_2223_lb)
+table1specs_lb
+#round(rec_ofl$OFL_2020* 2204.62/1e6, 3) -> ofl_2021_lb
+#round(ofl_2021_lb*0.8, 2) -> abc_2021_lb
+
+# ofl and abc basis -------- table 3
+# ofl and abc basis -------- table 3
+round(M[[rec_mod]]$spr_bmsy/1000, 2) -> bmsy_cur
+round(M[[rec_mod]]$spr_depl, 2) -> ratio_bmsy
+round(M[[rec_mod]]$sd_fofl[1], 3) -> fofl
+table3specs_t <- c(bmsy_cur, mmb_2223, ratio_bmsy, fofl)
+
+table3specs_lb <- c(bmsy_cur*(2204.62/1e3), mmb_2223*(2204.62/1e3), ratio_bmsy, fofl)
+
+# need summary of models for may 2023
+## table 1 -
+round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_2122
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_2122
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2223
+round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2223
+round(M[[rec_mod]]$spr_cofl/1000*0.80, 2) -> abc_2223
+table1specs_t <- c(msst_2122, mmb_2122, mmb_2223, ofl_2223, abc_2223)
+table1specs_t
+#rec_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1/figure/ofl_calc.csv"))
+#round(rec_ofl$OFL_2020/1000, 2) -> ofl_2021
+#round(ofl_2021*0.8, 2) -> abc_2021
+
+# table 2 --
+round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_2122_lb
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]* 2204.62/1e6, 2) -> mmb_2122_lb
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_2223_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 3) -> ofl_2223_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.80, 2) -> abc_2223_lb
+table1specs_lb <- c(msst_2122_lb, mmb_2122_lb, mmb_2223_lb, ofl_2223_lb, abc_2223_lb)
+table1specs_lb
+#round(rec_ofl$OFL_2020* 2204.62/1e6, 3) -> ofl_2021_lb
+#round(ofl_2021_lb*0.8, 2) -> abc_2021_lb
+
+# ofl and abc basis -------- table 3
+# ofl and abc basis -------- table 3
+round(M[[rec_mod]]$spr_bmsy/1000, 2) -> bmsy_cur
+round(M[[rec_mod]]$spr_depl, 2) -> ratio_bmsy
+round(M[[rec_mod]]$sd_fofl[1], 3) -> fofl
+table3specs_t <- c(bmsy_cur, mmb_2223, ratio_bmsy, fofl)
+
+table3specs_lb <- c(bmsy_cur*(2204.62/1e3), mmb_2223*(2204.62/1e3), ratio_bmsy, fofl)
+
+# specs table --------
+# only for model 21.1b see function below to pull them all out
+round(M[[2]]$spr_bmsy*M[[2]]$spr_depl/1000, 2) -> mmb_2223
+round(M[[2]]$spr_bmsy/1000, 2) -> b_35 # also B35%
+round(M[[2]]$sd_fmsy[1], 2) -> f_35 # F35%
+round(M[[2]]$sd_fofl[1], 2) -> f_ofl # Fofl
+round(M[[2]]$spr_cofl/1000, 2) -> ofl_2223
+round(M[[2]]$spr_cofl/1000*0.80, 2) -> abc_2223
+round((M[[2]]$spr_rbar[1] + M[[2]]$spr_rbar[2])/1000000, 2) -> avg_rec
+
+specs <- c(mmb_2223, b_35, f_35, f_ofl, ofl_2223, avg_rec)
+#dfnames <- c("MMB", "B35%", "F35%", "Fofl", "OFL", "avg_rec")
+
+temp <- save_specs_out(M[1:8])
+# go from long to wide 
+temp %>% 
+  spread(cnames, specs) %>% 
+  select(Model, MMB, `B35%`, `F35%`, Fofl, OFL, avg_rec) -> specs_temp
+
+write.csv(specs_temp, paste0(.TABS, "specs_all_mods.csv"), row.names = FALSE)
+
 
 # Table 7 nat mort----
 nat_mort <- .get_M_df_kjp(M[2:8]) # bbrkc_functions.R
 
 nat_mort %>% 
-  distinct(Model, Sex, M) -> natural_mort_all
-write.csv(natural_mort_all, paste0(.TABS, "M_out.csv"))
+  distinct(Model, Sex, M) %>% 
+  mutate(year = c("base", "1980-84", "base", "1980-84", 
+                  "base", "1980-84", "base", "1980-84", 
+                  "base", "1980-84", "base", "1980-84", 
+                  "base", "1980-84", "base", "1980-84", 
+                  "base", "1980-84", "base", "1980-84", 
+                  "1985-22", "1985-22", 
+                  "base", "1980-84", "base", "1980-84"))-> natural_mort_all
+# want to seperate out the year ranges
+natural_mort_all %>% 
+  spread(year, M)  %>% 
+  select(Model, Sex, base, `1980-84`, `1985-22`) -> natural_mort_all2
+
+write.csv(natural_mort_all2, paste0(.TABS, "M_out.csv"), row.names = FALSE)
 
 
 #!! size comp residuals -------
@@ -344,6 +482,9 @@ ggsave(paste0(.FIGS, "ref_mod_size_comp_residuals_trawl.png"), width = ww*1.20, 
 plot_size_comps_res_kjp(M[5], "NMFS Trawl")
 ggsave(paste0(.FIGS, "m.31_size_comp_residuals_trawl.png"), width = ww*1.20, height = 1.1*hh)
 
+# These are hard to read, look at Jie's bubbleplot code - found in bubleplot-m.r
+
+
 #plot_size_comps_res(M[rec_mod])
 #ggsave(paste0(.FIGS, "ref_mod_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
 
@@ -352,6 +493,27 @@ ggsave(paste0(.FIGS, "m.31_size_comp_residuals_trawl.png"), width = ww*1.20, hei
 
 #plot_size_comps_res(M[4])
 #ggsave(paste0(.FIGS, "model22a_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
+
+##!! trawl_res --------
+  #{r bts_resid_nmfs, fig.cap = "Standardized residuals for area-swept estimates of total male survey biomass for the model scenarios. \\label{fig:bts_resid_nmfs}"}
+  #A <- M[mod_scen];
+  #plot_cpue_res(A, "NMFS Trawl")
+plot_cpue_res(M[mod_scen], "NMFS Trawl")
+ggsave(paste0(.FIGS, "trawl_biomass_mod_scen_residuals.png"), width = ww*1.30, height = 1.1*hh)
+
+plot_cpue_res(M[mod_q], "NMFS Trawl")
+ggsave(paste0(.FIGS, "trawl_biomass_mod_scen_Q_residuals.png"), width = ww*1.30, height = 1.1*hh)
+
+plot_cpue_res(M[mod_yr], "NMFS Trawl")
+ggsave(paste0(.FIGS, "trawl_biomass_mod_scen_YR_residuals.png"), width = ww*1.30, height = 1.1*hh)
+
+plot_cpue_res(M[c(2,3,5)], "NMFS Trawl") # larger M models
+ggsave(paste0(.FIGS, "trawl_biomass_mod_scen_M_residuals.png"), width = ww*1.30, height = 1.1*hh)
+
+#!! bsfrf_res  --------
+#{r bts_resid_adfg, fig.cap = "Standardized residuals for total male pot survey CPUEs for each of the Gmacs model scenarios.\\label{fig:bts_resid_adfg}"}
+plot_cpue_res(M[mod_scen], "BSFRF survey")
+ggsave(paste0(.FIGS, "BSFRF survey_mod_scen_residuals.png"), width = ww*1.20, height = 1.1*hh)
 
 ##### !! STOP HERE may 2023 -----------------
 
@@ -364,18 +526,7 @@ ggsave(paste0(.FIGS, "catch.png"), width = ww*1.02, height = hh*1.2)
 
 plot_catch(M[mod_scen])
 ggsave(paste0(.FIGS, "catch_mod_scen.png"), width = ww*1.35, height = hh*1.2)
-#!! trawl_res --------
-#{r bts_resid_nmfs, fig.cap = "Standardized residuals for area-swept estimates of total male survey biomass for the model scenarios. \\label{fig:bts_resid_nmfs}"}
-#A <- M[mod_scen];
-#plot_cpue_res(A, "NMFS Trawl")
-plot_cpue_res(M[mod_scen], "NMFS Trawl")
-ggsave(paste0(.FIGS, "trawl_biomass_mod_scen_residuals.png"), width = ww*1.30, height = 1.1*hh)
-
-#!! bsfrf_res  --------
-#{r bts_resid_adfg, fig.cap = "Standardized residuals for total male pot survey CPUEs for each of the Gmacs model scenarios.\\label{fig:bts_resid_adfg}"}
-plot_cpue_res(M[mod_scen], "BSFRF survey")
-ggsave(paste0(.FIGS, "BSFRF survey_mod_scen_residuals.png"), width = ww*1.20, height = 1.1*hh)
-
+#
 #plot_cpue_res(Mbase, "ADF&G Pot")
 #ggsave(paste0(.FIGS, "pot_cpue_REF_residuals.png"), width = ww*1.20, height = 1.1*hh)
 
@@ -551,47 +702,6 @@ get_Db0_out(mod_names[2], raw_data, M[2]) %>% transmute(round(100*ssb,0)) %>% sl
 #.get_dynB0_df(M)
 
 ## TABLES ====================================
-
-# Tables 1 to 3 calcs -------
-# need summary of models for may 2023
-## table 1 -
-round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_2122
-round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_2122
-round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2223
-round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2223
-round(M[[rec_mod]]$spr_cofl/1000*0.80, 2) -> abc_2223
-table1specs_t <- c(msst_2122, mmb_2122, mmb_2223, ofl_2223, abc_2223)
-table1specs_t
-#rec_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1/figure/ofl_calc.csv"))
-#round(rec_ofl$OFL_2020/1000, 2) -> ofl_2021
-#round(ofl_2021*0.8, 2) -> abc_2021
-
-# table 2 --
-round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_2122_lb
-round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]* 2204.62/1e6, 2) -> mmb_2122_lb
-round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_2223_lb
-round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 3) -> ofl_2223_lb
-round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.80, 2) -> abc_2223_lb
-table1specs_lb <- c(msst_2122_lb, mmb_2122_lb, mmb_2223_lb, ofl_2223_lb, abc_2223_lb)
-table1specs_lb
-#round(rec_ofl$OFL_2020* 2204.62/1e6, 3) -> ofl_2021_lb
-#round(ofl_2021_lb*0.8, 2) -> abc_2021_lb
-
-# ofl and abc basis -------- table 3
-# ofl and abc basis -------- table 3
-round(M[[rec_mod]]$spr_bmsy/1000, 2) -> bmsy_cur
-round(M[[rec_mod]]$spr_depl, 2) -> ratio_bmsy
-round(M[[rec_mod]]$sd_fofl[1], 3) -> fofl
-table3specs_t <- c(bmsy_cur, mmb_2223, ratio_bmsy, fofl)
-
-table3specs_lb <- c(bmsy_cur*(2204.62/1e3), mmb_2223*(2204.62/1e3), ratio_bmsy, fofl)
-
-# Table 7 nat mort----
-nat_mort <- .get_M_df_kjp(M[mod_scen]) # bbrkc_functions.R
-
-nat_mort %>% 
-  distinct(Model, Sex, M) -> natural_mort_all
-write.csv(natural_mort_all, paste0(.TABS, "M_out.csv"))
 
 
 # !!Likelihood components -----------------
