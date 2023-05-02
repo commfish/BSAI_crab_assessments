@@ -22,11 +22,10 @@ opts_chunk$set(fig.width = 12, fig.height = 7, fig.align = "left", echo = FALSE,
 
 
 # Summary {-}
-The model explorations presented here include those suggested by CPT and SSC comments in addition to GMACS updates. The model explorations can be divided into three areas of exploration: 1) starting the base model in 1985, which has been considering in prior years, 2) models to explore the base level of natural mortality for males, and 3) models to begin an exploration of q estimation for the NMFS trawl survey. The models presented here are the beginning of work to explore these topics and the author acknowledges that further exploration is warranted. Additionally, an updated version of GMACS was used for these model exploration and model fit was similar with slight differences in reference point calculations with these updates. 
+The model explorations presented here include those suggested by CPT and SSC comments in addition to GMACS updates. The model explorations can be divided into four areas of exploration: 1) starting the base model in 1985, which has been considering in prior years, 2) models to explore the base level of natural mortality for males, and 3) models to begin an exploration of q estimation for the NMFS trawl survey, and 4) exploration of model output without including the survey retow data for females in years where a retows were performed (99,00, 06 - 12, 17, and 21).The models presented here are the beginning of work to explore these topics and the author acknowledges that further exploration is warranted. Additionally, an updated version of GMACS was used for these model exploration and model fit was similar with slight differences in reference point calculations with these updates. 
 
-The results of these model explorations are presented in this document in secton C. Background on the Bristol Bay red king crab modeling approach, modeling framework (GMACS), and history of the stock and fisheries can be found in the last completed SAFE  and will not be repeated here. 
-
-Historic fishery and survey data information can be found in the last full SAFE published on the NPFMC website (link here: [BBRKC 2022 SAFE](https://meetings.npfmc.org/CommentReview/DownloadFile?p=b98b90b2-88ab-43c2-9487-c12cdb4e0a25.pdf&fileName=BBRKC%20SAFE%202022%20Final.pdf)) 
+The results of these model explorations are presented in this document in section C. Background on the Bristol Bay red king crab modeling approach, modeling framework (GMACS), and history of the stock and fisheries can be found in the last full SAFE published on the NPFMC website and will not be repeated here.
+(link here: [BBRKC 2022 SAFE](https://meetings.npfmc.org/CommentReview/DownloadFile?p=b98b90b2-88ab-43c2-9487-c12cdb4e0a25.pdf&fileName=BBRKC%20SAFE%202022%20Final.pdf)) 
 
 \pagebreak
 
@@ -165,6 +164,15 @@ Model explored in this document:
   23.3: 23.1a (base M for males estimated) + 23.1a (double CV on NMFS q prior)
 
 ### Reasoning for model explorations and other explorations not in this document {-}
+Nine model scenarios are presented in this report. The first two models have very close results and were compared to determine the sensitivity of the base model to GMACS updates (version 2.01E vs version 2.01.M.01). Small difference in the reference points are present with this update but overall model fit is nearly identical, including the MLE.
+
+The rest of the model scenarios can be divided into three areas of exploration: 1) starting the base model in 1985, which has been considering in prior years, 2) models to explore the base level of natural mortality for males, and 3) models to begin an exploration of q estimation for the NMFS trawl survey, and 4) exploration of model output without including the survey retow data for females in years where a retows were performed (99,00, 06 - 12, 17, and 21).
+
+Address model start date
+
+Address natural mortality assumptions and sensitivity
+
+Address some exploration of q estimation for NMFS trawl survey
 
 
 ## Results {-}
@@ -173,19 +181,52 @@ general results and conclusions
 - visualization of those
 
 ### a. Sensitivity to new GMACS versions {-}
+Models 21.1b and 21.1b(update) reflect sensitivities of the model to updates in GMACS. The likelihoods for these two models are identical (ref Table). However, there are slight differences in terminal year MMB, MMB35%, and resulting Fofl and specifications. The estimated F35% is the same for both models.
+(Compare N matrix)
 
+### b. Effective sample sizes and weighting factors {-}
+- CVs are assumed to be 0.03 for retained catch biomass, 0.04 for total male biomass, 0.07 for pot bycatch biomasses, 0.10 for groundfish bycatch biomasses, and 0.23 for recruitment sex ratio. Models also estimate sigmaR for recruitment variation and have a penalty on M variation and many prior-densities.     
+- Initial trawl survey catchability (Q) is estimated to be 0.896 with a standard deviation of 0.025 (CV about 0.03) based on the double-bag experiment results (Weinberg et al. 2004). These values are used to set a prior for estimating Q in all models, except models 23.1a and 23.3 which use a CV of 0.06.
+- Harmonic means of implied sample sizes and maximum caps of effective sample sizes for models 21.1b, 22.0, !!fix are summarized in Table 4.
 
-### b. Parameter estimates {-}
+### b. Tables of estimates {-}
+- Negative log-likelihood values and parameter estimates are summarized in Tables 5 and 6 for all models.
+- Natural mortality estimates are shown in Table 7.
+- Abundance and biomass, and recruitment time series? 
 
-### c. Evaluation of the fit to the data.{-}
+### c. Evaluation of the fit to the data and model estimates.{-}
+- Selectivities by length
+One of the most important results is estimated trawl survey selectivity (Figures 8a and 8b). Survey selectivity affects not only the fitting of the data but also the absolute abundance estimates. These estimated survey selectivities are generally smaller than the capture probabilities in Figure A1 because survey selectivities include capture probabilities and crab availability. The NMFS survey catchability is estimated to be 0.896 from the trawl experiment. The reliability of estimated survey selectivities will greatly affect the application of the model to fisheries management. Under- or over-estimates of survey selectivities will cause a systematic upward or downward bias of abundance estimates, respectively. Information about crab availability in the survey area at survey times will help estimate the survey selectivities. Higher estimated natural mortalities generally result in lower NMFS survey selectivities, while the estimated survey selectivities after 1981 are similar among the models. 
+
+- Molting probability by length, 
+For all models, estimated molting probabilities during 1975-2021 (Figures 9a, 9b, and 9c) are generally lower than those estimated from the 1954-1961 and 1966-1969 tagging data (Balsiger 1974). Lower molting probabilities mean more oldshell crab, possibly due to changes in molting probabilities over time or shell aging errors. Overestimates or underestimates of oldshell crab will result in lower or higher estimates of male molting probabilities.
+
+- NMFS trawl survey biomass and BSFRF surveys, figures \@ref(fig:surv1), \@ref(fig:surv1b), \@ref(fig:surv1c), \@ref(fig:surv1d), \@ref(fig:surv2), \@ref(fig:surv2b), \@ref(fig:surv2c), \@ref(fig:surv2d). 
+The survey male biomass estimates in 2021 are slightly higher than those in 2018 and 2019, but the survey female biomass estimates are lower. Estimated population biomass increased dramatically in the mid-1970s then decreased precipitously in the early 1980s. Estimated biomass had increased during 1985-2003 for males and during 1985-2007 for females, then declined, and have steadily declined since the late 2000s (Figures 10a-10c, 11a, and 11b). Absolute mature male biomasses for all models except for models 22.0e and 22.1a have a similar trend over time (Figures 11a and 11b). Among the eleven models, model estimated relative NMFS survey biomasses are similar for five models 21.1, 21.1a, 21.1b, 22.0, and 22.1. Models 22.0a, 22.0b, and 22.0c estimate a constant M for males, resulting in slightly higher NMFS survey biomass estimates from the early 2000s and lower in recent years than the above five models.  Models 22.0e and 22.1a, having a time block of high M during 2015-2018, amplify the above differences and fit the NMFS trawl survey biomass better than the other nine models. Absolute mature male biomass estimates are higher for models 22.0e and 22.1a during the early 2000s-mid-2010s and lower during 2017-2020 than the other nine models. All eleven models fit the catch and bycatch biomasses very well. 
+The fit to BSFRF survey data and estimated survey selectivities are illustrated in Figures 10c-10e. Model 22.0b, estimating a catchability >1.0 for the BSFRF survey, fits the BSFRF survey biomass much better than the other models.   
+Like the results of previous models, the terminal year recruitment analysis with model 21.1b suggests the estimated recruitment in the last year should not be used for estimating $B_{35%}$.   
+
+- Recruitment
+- fishing mortality rates
+- mmb
+- size comps - bubble plots and size comp figures
+trawl survey figures, size comps, bubble plot
 
 ### d. Retrospective and historical analyses {-}
+Retrospective analysis was performed for a selection of models - 21.1b, 22.0, 23.3.
 
 ### e. Uncertainty and sensitivity analyses.{-}
+Table 6 a-g
+- The last completed SAFE document in 2022 details uncertainty estimates in the current base model parameterization in futher detail. 
+
 
 ### f. Comparison of alternative model scenarios.{-}
 
-### g. 
+Table 5a with likelihoods
+similarities and differences 
+- M models
+- q models
+
 
 # D. Calculation of the OFL and ABC{-}
 
@@ -199,6 +240,9 @@ The projections are subject to many uncertainties. Constant population parameter
 # J. Acknowledgements {-}
 
 # K. References {-}
+References can be found in the last full SAFE published on the NPFMC website and will not be repeated here.
+(link here: [BBRKC 2022 SAFE](https://meetings.npfmc.org/CommentReview/DownloadFile?p=b98b90b2-88ab-43c2-9487-c12cdb4e0a25.pdf&fileName=BBRKC%20SAFE%202022%20Final.pdf)) 
+
 
 \pagebreak 
 \newpage\clearpage
@@ -247,15 +291,47 @@ knitr::include_graphics("figures/BSFRF_mod_Q_FEMALES.png", dpi = 200)
 
 
 ```{r rec1, fig.cap = "Estimated recruitment time series during 1976-2021 with models 21.1b, 22.0, 23.0, 23.0a, 23.0b, and 23.1a. Mean male recruits during 1984-2021 was used to estimate B35%. Recruitment estimates in the terminal year (2022) are unreliable."}
-knitr::include_graphics("figures/recruitment_mod_scen.png", dpi = 100)
+knitr::include_graphics("figures/recruitment_mod_scen.png", dpi = 200)
 ```
 
-```{r rec2, fig.cap = "Estimated recruitment time series during 1976-2021 with models 21.1b, 22.0, 23.1a, and 23.3 (those models that capture changes in q for the NMFS survey). Mean male recruits during 1984-2021 was used to estimate B35%. Recruitment estimates in the terminal year (2022) are unreliable."}
-knitr::include_graphics("figures/recruitment_mod_Q.png", dpi = 100)
+```{r rec2, fig.cap = "Estimated recruitment time series during 1976-2021 with models 21.1b, 22.0, 23.1a, and 23.3 (those models that capture changes in the CV for q for the NMFS survey). Mean male recruits during 1984-2021 was used to estimate B35%. Recruitment estimates in the terminal year (2022) are unreliable."}
+knitr::include_graphics("figures/recruitment_mod_Q.png", dpi = 200)
 ```
 
 ```{r rec3, fig.cap = "Estimated recruitment time series during 1976-2021 with models 21.1b, 22.0, and 23.0b (base compared to high base M for males). Mean male recruits during 1984-2021 was used to estimate B35%. Recruitment estimates in the terminal year (2022) are unreliable."}
-knitr::include_graphics("figures/recruitment_base_highM.png", dpi = 100)
+knitr::include_graphics("figures/recruitment_base_highM.png", dpi = 200)
+```
+
+```{r sel1, fig.cap = "Estimated NMFS trawl survey selectivities under models 21.1b, 23.0, 23.0a, 23.0b, and 23.1a."}
+knitr::include_graphics("figures/selectivity_23s_trawl.png", dpi = 200)
+```
+
+```{r sel2, fig.cap = "Estimated NMFS trawl survey selectivities under models 21.1b, 23.1a, and 23.3."}
+knitr::include_graphics("figures/selectivity_23s_trawl_MOD_Q.png", dpi = 200)
+```
+
+```{r sel3, fig.cap = "Estimated NMFS trawl survey selectivities under models 21.1b and 22.0."}
+knitr::include_graphics("figures/selectivity_23s_trawl_MOD_year.png", dpi = 200)
+```
+
+```{r molt1, fig.cap = "Comparison of estimated probabilities of molting of female and male red king crab in Bristol Bay for two periods - 1975-1979 and 1980-2022 - for models 21.1b, 23.0, 23.0a, 23.0b, and 23.1."}
+knitr::include_graphics("figures/molt_prob_mod_scen.png", dpi = 200)
+```
+
+```{r molt2, fig.cap = "Comparison of estimated probabilities of molting of female and male red king crab in Bristol Bay for two periods - 1975-1979 and 1980-2022 - for models 21.1b, 23.1a, and 23.3 which compare the base model with those that have a larger CV for q estimation for the NMFS trawl survey."}
+knitr::include_graphics("figures/molt_prob_mod_scen_q.png", dpi = 200)
+```
+
+```{r molt3, fig.cap = "Comparison of estimated probabilities of molting of female and male red king crab in Bristol Bay for two periods - 1975-1979 and 1980-2022 - for models 21.1b and 23.0b which reflect changes due to a larger M value for males. "}
+knitr::include_graphics("figures/molt_prob_base_M0.31.png", dpi = 200)
+```
+
+```{r fmort, fig.cap = "Comparison of estimated fishing mortality for models 21.1b, 23.0, 23.0a, 23.0b, and 23.1. "}
+knitr::include_graphics("figures/fishing_mortality_mod_scen.png", dpi = 200)
+```
+
+```{r mmb1, fig.cap = "Comparison of estimated fishing mortality for models 21.1b, 23.0, 23.0a, 23.0b, and 23.1. "}
+knitr::include_graphics("figures/mod_scen_ssb_eprojected_yr_tall.png", dpi = 200)
 ```
 
 \clearpage
