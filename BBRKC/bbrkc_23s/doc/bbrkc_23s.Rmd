@@ -288,143 +288,145 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 ```
 
 
+
+
 \clearpage
 \pagebreak 
 
 # Figures {-}
 \newpage
 
-```{r surv1, fig.cap = "Comparisons of area-swept estimates of total MALE NMFS survey biomass and model prediction for model estimates in 2022 under models 21.1b, 23.0, 23.0a, 23.0b, and 23.1a. The error bars are plus and minus 2 standard deviations of model 21.1b."} 
+```{r surv1, out.width="100%", fig.cap = "Comparisons of area-swept estimates of total MALE NMFS survey biomass and model prediction for model estimates in 2022 under models 21.1b, 23.0, 23.0a, 23.0b, and 23.1a. The error bars are plus and minus 2 standard deviations of model 21.1b."} 
 knitr::include_graphics("figures/trawl_biomass_MALES_mod_scen.png", dpi = 200)
 ```
 
-```{r surv1b, fig.cap = "Comparisons of area-swept estimates of total FEMALE NMFS survey biomass and model prediction for model estimates in 2022 under models 21.1b, 23.0, 23.0a, 23.0b, and 23.1a. The error bars are plus and minus 2 standard deviations of model 21.1b."} 
+```{r surv1b, out.width="100%", fig.cap = "Comparisons of area-swept estimates of total FEMALE NMFS survey biomass and model prediction for model estimates in 2022 under models 21.1b, 23.0, 23.0a, 23.0b, and 23.1a. The error bars are plus and minus 2 standard deviations of model 21.1b."} 
 knitr::include_graphics("figures/trawl_biomass_FEMALES_mod_scen.png", dpi = 200)
 ```
 
 
-```{r surv1c, fig.cap = "Comparisons of area-swept estimates of total MALE NMFS survey biomass and model prediction for model estimates in 2022 under models 21.1b, 22.0, 23.1a, and 23.3. The error bars are plus and minus 2 standard deviations of model 21.1b."} 
+```{r surv1c, out.width="100%",fig.cap = "Comparisons of area-swept estimates of total MALE NMFS survey biomass and model prediction for model estimates in 2022 under models 21.1b, 22.0, 23.1a, and 23.3. The error bars are plus and minus 2 standard deviations of model 21.1b."} 
 knitr::include_graphics("figures/trawl_biomass_MALES_mod_scen_Q.png", dpi = 200)
 ```
 
-```{r surv1d, fig.cap = "Comparisons of area-swept estimates of total FEMALE NMFS survey biomass and model prediction for model estimates in 2022 under models 21.1b, 22.0, 23.1a, and 23.3. The error bars are plus and minus 2 standard deviations of model 21.1b."} 
+```{r surv1d, out.width="100%",fig.cap = "Comparisons of area-swept estimates of total FEMALE NMFS survey biomass and model prediction for model estimates in 2022 under models 21.1b, 22.0, 23.1a, and 23.3. The error bars are plus and minus 2 standard deviations of model 21.1b."} 
 knitr::include_graphics("figures/trawl_biomass_FEMALES_mod_scen_Q.png", dpi = 200)
 ```
 
-```{r surv2, fig.cap = "Comparisons of survey biomass estimates for MALES from the BSFRF survey and model prediction for model estimates in 2022 (models 21.1b, 23.0, 23.0a, 23.0b, and 23.1a). The error bars are plus and minus 2 standard deviations of model 21.1b. The BSFRF survey catchability is assumed to be 1.0 for all models."} 
+```{r surv2, out.width="100%", fig.cap = "Comparisons of survey biomass estimates for MALES from the BSFRF survey and model prediction for model estimates in 2022 (models 21.1b, 23.0, 23.0a, 23.0b, and 23.1a). The error bars are plus and minus 2 standard deviations of model 21.1b. The BSFRF survey catchability is assumed to be 1.0 for all models."} 
 knitr::include_graphics("figures/BSFRF_mod_scen_MALES.png", dpi = 200)
 ```
 
-```{r surv2b, fig.cap = "Comparisons of survey biomass estimates for FEMALES from the BSFRF survey and model prediction for model estimates in 2022 (models 21.1b, 23.0, 23.0a, 23.0b, and 23.1a). The error bars are plus and minus 2 standard deviations of model 21.1b. The BSFRF survey catchability is assumed to be 1.0 for all models."} 
+```{r surv2b, out.width="100%", fig.cap = "Comparisons of survey biomass estimates for FEMALES from the BSFRF survey and model prediction for model estimates in 2022 (models 21.1b, 23.0, 23.0a, 23.0b, and 23.1a). The error bars are plus and minus 2 standard deviations of model 21.1b. The BSFRF survey catchability is assumed to be 1.0 for all models."} 
 knitr::include_graphics("figures/BSFRF_mod_scen_FEMALES.png", dpi = 200)
 ```
 
-```{r surv2c, fig.cap = "Comparisons of survey biomass estimates for MALES from the BSFRF survey and model prediction for model estimates in 2022 (models 21.1b, 22.0, 23.1a, and 23.3). The error bars are plus and minus 2 standard deviations of model 21.1b. The BSFRF survey catchability is assumed to be 1.0 for all models."} 
+```{r surv2c, out.width="100%", fig.cap = "Comparisons of survey biomass estimates for MALES from the BSFRF survey and model prediction for model estimates in 2022 (models 21.1b, 22.0, 23.1a, and 23.3). The error bars are plus and minus 2 standard deviations of model 21.1b. The BSFRF survey catchability is assumed to be 1.0 for all models."} 
 knitr::include_graphics("figures/BSFRF_mod_Q_MALES.png", dpi = 200)
 ```
 
-```{r surv2d, fig.cap = "Comparisons of survey biomass estimates for FEMALES from the BSFRF survey and model prediction for model estimates in 2022 (models 21.1b, 22.0, 23.1a, and 23.3). The error bars are plus and minus 2 standard deviations of model 21.1b. The BSFRF survey catchability is assumed to be 1.0 for all models."} 
+```{r surv2d, out.width="100%", fig.cap = "Comparisons of survey biomass estimates for FEMALES from the BSFRF survey and model prediction for model estimates in 2022 (models 21.1b, 22.0, 23.1a, and 23.3). The error bars are plus and minus 2 standard deviations of model 21.1b. The BSFRF survey catchability is assumed to be 1.0 for all models."} 
 knitr::include_graphics("figures/BSFRF_mod_Q_FEMALES.png", dpi = 200)
 ```
 
 
-```{r rec1, fig.cap = "Estimated recruitment time series during 1976-2021 with models 21.1b, 22.0, 23.0, 23.0a, 23.0b, and 23.1a. Mean male recruits during 1984-2021 was used to estimate B35%. Recruitment estimates in the terminal year (2022) are unreliable."}
+```{r rec1, out.width="100%", fig.cap = "Estimated recruitment time series during 1976-2021 with models 21.1b, 22.0, 23.0, 23.0a, 23.0b, and 23.1a. Mean male recruits during 1984-2021 was used to estimate B35%. Recruitment estimates in the terminal year (2022) are unreliable."}
 knitr::include_graphics("figures/recruitment_mod_scen.png", dpi = 200)
 ```
 
-```{r rec2, fig.cap = "Estimated recruitment time series during 1976-2021 with models 21.1b, 22.0, 23.1a, and 23.3 (those models that capture changes in the CV for q for the NMFS survey). Mean male recruits during 1984-2021 was used to estimate B35%. Recruitment estimates in the terminal year (2022) are unreliable."}
+```{r rec2, out.width="100%", fig.cap = "Estimated recruitment time series during 1976-2021 with models 21.1b, 22.0, 23.1a, and 23.3 (those models that capture changes in the CV for q for the NMFS survey). Mean male recruits during 1984-2021 was used to estimate B35%. Recruitment estimates in the terminal year (2022) are unreliable."}
 knitr::include_graphics("figures/recruitment_mod_Q.png", dpi = 200)
 ```
 
-```{r rec3, fig.cap = "Estimated recruitment time series during 1976-2021 with models 21.1b, 22.0, and 23.0b (base compared to high base M for males). Mean male recruits during 1984-2021 was used to estimate B35%. Recruitment estimates in the terminal year (2022) are unreliable."}
+```{r rec3, out.width="100%", fig.cap = "Estimated recruitment time series during 1976-2021 with models 21.1b, 22.0, and 23.0b (base compared to high base M for males). Mean male recruits during 1984-2021 was used to estimate B35%. Recruitment estimates in the terminal year (2022) are unreliable."}
 knitr::include_graphics("figures/recruitment_base_highM.png", dpi = 200)
 ```
 
-```{r sel1, fig.cap = "Estimated NMFS trawl survey selectivities under models 21.1b, 23.0, 23.0a, 23.0b, and 23.1a."}
+```{r sel1, out.width="100%", fig.cap = "Estimated NMFS trawl survey selectivities under models 21.1b, 23.0, 23.0a, 23.0b, and 23.1a."}
 knitr::include_graphics("figures/selectivity_23s_trawl.png", dpi = 200)
 ```
 
-```{r sel2, fig.cap = "Estimated NMFS trawl survey selectivities under models 21.1b, 23.1a, and 23.3."}
+```{r sel2, out.width="100%", fig.cap = "Estimated NMFS trawl survey selectivities under models 21.1b, 23.1a, and 23.3."}
 knitr::include_graphics("figures/selectivity_23s_trawl_MOD_Q.png", dpi = 200)
 ```
 
-```{r sel3, fig.cap = "Estimated NMFS trawl survey selectivities under models 21.1b and 22.0."}
+```{r sel3, out.width="100%", fig.cap = "Estimated NMFS trawl survey selectivities under models 21.1b and 22.0."}
 knitr::include_graphics("figures/selectivity_23s_trawl_MOD_year.png", dpi = 200)
 ```
 
-```{r molt1, fig.cap = "Comparison of estimated probabilities of molting of female and male red king crab in Bristol Bay for two periods - 1975-1979 and 1980-2022 - for models 21.1b, 23.0, 23.0a, 23.0b, and 23.1."}
+```{r molt1, out.width="100%", fig.cap = "Comparison of estimated probabilities of molting of female and male red king crab in Bristol Bay for two periods - 1975-1979 and 1980-2022 - for models 21.1b, 23.0, 23.0a, 23.0b, and 23.1."}
 knitr::include_graphics("figures/molt_prob_mod_scen.png", dpi = 200)
 ```
 
-```{r molt2, fig.cap = "Comparison of estimated probabilities of molting of female and male red king crab in Bristol Bay for two periods - 1975-1979 and 1980-2022 - for models 21.1b, 23.1a, and 23.3 which compare the base model with those that have a larger CV for q estimation for the NMFS trawl survey."}
+```{r molt2, out.width="100%", fig.cap = "Comparison of estimated probabilities of molting of female and male red king crab in Bristol Bay for two periods - 1975-1979 and 1980-2022 - for models 21.1b, 23.1a, and 23.3 which compare the base model with those that have a larger CV for q estimation for the NMFS trawl survey."}
 knitr::include_graphics("figures/molt_prob_mod_scen_q.png", dpi = 200)
 ```
 
-```{r molt3, fig.cap = "Comparison of estimated probabilities of molting of female and male red king crab in Bristol Bay for two periods - 1975-1979 and 1980-2022 - for models 21.1b and 23.0b which reflect changes due to a larger M value for males. "}
+```{r molt3, out.width="100%", fig.cap = "Comparison of estimated probabilities of molting of female and male red king crab in Bristol Bay for two periods - 1975-1979 and 1980-2022 - for models 21.1b and 23.0b which reflect changes due to a larger M value for males. "}
 knitr::include_graphics("figures/molt_prob_base_M0.31.png", dpi = 200)
 ```
 
-```{r Nmort, fig.cap = "Comparison of natural mortality - either estimated or fixed depending on the model - for models 21.1b, 23.0, 23.0a, 23.0b, and 23.1. "}
+```{r Nmort, out.width="90%", fig.cap = "Comparison of natural mortality - either estimated or fixed depending on the model - for models 21.1b, 23.0, 23.0a, 23.0b, and 23.1. "}
 knitr::include_graphics("figures/mod_scen_M_t.png", dpi = 200)
 ```
 
-```{r Nmort2, fig.cap = "Comparison of natural mortality - either estimated or fixed depending on the model - for models 21.1b, 23.1. and 23.3. "}
+```{r Nmort2, out.width="100%", fig.cap = "Comparison of natural mortality - either estimated or fixed depending on the model - for models 21.1b, 23.1. and 23.3. "}
 knitr::include_graphics("figures/mod_q_M_t.png", dpi = 200)
 ```
 
-```{r Nmort3, fig.cap = "Comparison of natural mortality - either estimated or fixed depending on the model - for models 21.1b, 23.0, 23.0a, and 23.0b. "}
+```{r Nmort3, out.width="100%", fig.cap = "Comparison of natural mortality - either estimated or fixed depending on the model - for models 21.1b, 23.0, 23.0a, and 23.0b. "}
 knitr::include_graphics("figures/mod_nat_mort_M_t.png", dpi = 200)
 ```
 
-```{r fmort, fig.cap = "Comparison of estimated fishing mortality for models 21.1b, 23.0, 23.0a, 23.0b, and 23.1. "}
+```{r fmort, out.width="100%", fig.cap = "Comparison of estimated fishing mortality for models 21.1b, 23.0, 23.0a, 23.0b, and 23.1. "}
 knitr::include_graphics("figures/fishing_mortality_mod_scen.png", dpi = 200)
 ```
 
-```{r mmb1, fig.cap = "Estimated absolute mature male biomasses during 1975-2022 for models models 21.1b, 23.0, 23.0a, 23.0b, and 23.1. Mature male biomass is estimated on Feb. 15, year+1."}
+```{r mmb1, out.width="100%", fig.cap = "Estimated absolute mature male biomasses during 1975-2022 for models models 21.1b, 23.0, 23.0a, 23.0b, and 23.1. Mature male biomass is estimated on Feb. 15, year+1."}
 knitr::include_graphics("figures/mod_scen_ssb_wprojected_yr_tall.png", dpi = 200)
 ```
 
-```{r mmb2, fig.cap = "Estimated absolute mature male biomasses during 1975-2022 for models models 21.1b, 22.0, 23.1, and 23.3. Mature male biomass is estimated on Feb. 15, year+1."}
+```{r mmb2, out.width="100%", fig.cap = "Estimated absolute mature male biomasses during 1975-2022 for models models 21.1b, 22.0, 23.1, and 23.3. Mature male biomass is estimated on Feb. 15, year+1."}
 knitr::include_graphics("figures/mod_Q_ssb_wprojected_yr_tall.png", dpi = 200)
 ```
 
-```{r mmb3, fig.cap = "Estimated absolute mature male biomasses during 1985-2022 for models models 21.1b, 22.0, 23.0, 23.0a, 23.0b, and 23.1. Mature male biomass is estimated on Feb. 15, year+1."}
+```{r mmb3, out.width="100%", fig.cap = "Estimated absolute mature male biomasses during 1985-2022 for models models 21.1b, 22.0, 23.0, 23.0a, 23.0b, and 23.1. Mature male biomass is estimated on Feb. 15, year+1."}
 knitr::include_graphics("figures/1985mod_scen_ssb_wprojected_yr.png", dpi = 200)
 ```
 
-```{r sc-pot, fig.cap = "Observed and model estimated retained legnth-frequencies of male BBRKC by year retained in the directed pot fishery for the model scenarios."}
+```{r sc-pot, out.width="100%", fig.cap = "Observed and model estimated retained legnth-frequencies of male BBRKC by year retained in the directed pot fishery for the model scenarios."}
 knitr::include_graphics("figures/lf_pot_total_M.png", dpi = 450)
 ```
 
-```{r sc-trawl1, fig.cap = "Comparison of area-swept and model estimated NMFS survey length frequencies of Bristol Bay male red king crab by year for most model scenarios."}
+```{r sc-trawl1, out.width="100%", fig.cap = "Comparison of area-swept and model estimated NMFS survey length frequencies of Bristol Bay male red king crab by year for most model scenarios."}
 knitr::include_graphics("figures/lf_NMFS_m.png", dpi = 450)
 ```
 
-```{r sc-trawl1F, fig.cap = "Comparison of area-swept and model estimated NMFS survey length frequencies of Bristol Bay FEMALE red king crab by year for most model scenarios."}
+```{r sc-trawl1F, out.width="100%", fig.cap = "Comparison of area-swept and model estimated NMFS survey length frequencies of Bristol Bay FEMALE red king crab by year for most model scenarios."}
 knitr::include_graphics("figures/lf_NMFS_f.png", dpi = 450)
 ```
 
-```{r sc-bsfrfM, fig.cap = "Comparisons of length compositions by the BSFRF survey and the model estimates during 2007-2008 and 2013-2016 for most model scenarios."}
+```{r sc-bsfrfM, out.width="100%", fig.cap = "Comparisons of length compositions by the BSFRF survey and the model estimates during 2007-2008 and 2013-2016 for most model scenarios."}
 knitr::include_graphics("figures/lf_BSFRF_m.png", dpi = 450)
 ```
 
-```{r sc-bsfrfF, fig.cap = "Comparisons of length compositions by the BSFRF survey and the model estimates during 2007-2008 and 2013-2016 for most model scenarios."}
+```{r sc-bsfrfF, out.width="100%", fig.cap = "Comparisons of length compositions by the BSFRF survey and the model estimates during 2007-2008 and 2013-2016 for most model scenarios."}
 knitr::include_graphics("figures/lf_BSFRF_f.png", dpi = 450)
 ```
 
-```{r sc-res-ref-M, fig.cap = "Bubble plots of residuals for MALES by size and year for the NMFS trawl survey size composition data sets for BBRKC in the 'base' model (21.1b) 2022  update."}
+```{r sc-res-ref-M, out.width="100%", fig.cap = "Bubble plots of residuals for MALES by size and year for the NMFS trawl survey size composition data sets for BBRKC in the 'base' model (21.1b) 2022  update."}
 knitr::include_graphics("figures/length_resid_211b_males.png", dpi = 100)
 ```
 
-```{r sc-res-M3, fig.cap = "Bubble plots of residuals for MALES by size and year for the NMFS trawl survey size composition data sets for BBRKC in the 'high M' model 23.0b."}
+```{r sc-res-M3, out.width="100%", fig.cap = "Bubble plots of residuals for MALES by size and year for the NMFS trawl survey size composition data sets for BBRKC in the 'high M' model 23.0b."}
 knitr::include_graphics("figures/length_resid_23_0b_males.png", dpi = 100)
 ```
 
-```{r sc-res-M4, fig.cap = "Bubble plots of residuals for MALES by size and year for the NMFS trawl survey size composition data sets for BBRKC in the 'estimate M and inc CV on q' model 23.3."}
+```{r sc-res-M4, out.width="100%", fig.cap = "Bubble plots of residuals for MALES by size and year for the NMFS trawl survey size composition data sets for BBRKC in the 'estimate M and inc CV on q' model 23.3."}
 knitr::include_graphics("figures/length_resid_23_3_males.png", dpi = 100)
 ```
 
-```{r sc-res-M5, fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (NMFS trawl survey, and the directed pot fishery) for SMBKC in model (22.0c) which removes the increased M time block in 1998 and has a fixed M of 0.18."}
+```{r sc-res-M5, out.width="100%", fig.cap = "Bubble plots of residuals by stage and year for the all the size composition data sets (NMFS trawl survey, and the directed pot fishery) for SMBKC in model (22.0c) which removes the increased M time block in 1998 and has a fixed M of 0.18."}
 #knitr::include_graphics("safe_figure/constant_M_size_comp_residuals.png", dpi = 100)
 ```
 
