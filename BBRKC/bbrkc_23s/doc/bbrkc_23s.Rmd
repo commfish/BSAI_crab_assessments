@@ -22,6 +22,7 @@ opts_chunk$set(fig.width = 12, fig.height = 7, fig.align = "left", echo = FALSE,
 ```{r, load_packages, echo = FALSE, include = FALSE}
 library(gmr)
 library(xtable)
+library(tidyverse)
 #source(paste0(here::here(), "./SMBKC/code/gmr_functions2020.R"))
 options(xtable.comment = FALSE)
 ## before running update model specs here and in doc_figures_test.R
@@ -212,16 +213,16 @@ One of the most important results is estimated trawl survey selectivity. Survey 
 
 For all models, estimated molting probabilities during 1975-2022 are generally lower than those estimated from the 1954-1961 and 1966-1969 tagging data (Balsiger 1974). Lower molting probabilities mean more oldshell crab, possibly due to changes in molting probabilities over time or shell aging errors. Overestimates or underestimates of oldshell crab will result in lower or higher estimates of male molting probabilities.
 
-- NMFS trawl survey biomass and BSFRF surveys (Figures \@ref(fig:surv1), \@ref(fig:surv1b), \@ref(fig:surv1c), \@ref(fig:surv1d), \@red(fig:surv1-res), \@red(fig:surv1-resM), \@ref(fig:surv2), \@ref(fig:surv2b), \@ref(fig:surv2c), \@ref(fig:surv2d)).
+- NMFS trawl survey biomass and BSFRF surveys (Figures \@ref(fig:surv1), \@ref(fig:surv1b), \@ref(fig:surv1c), \@ref(fig:surv1d), \@ref(fig:surv1-res), \@ref(fig:surv1-resM), \@ref(fig:surv2), \@ref(fig:surv2b), \@ref(fig:surv2c), \@ref(fig:surv2d)).
 
 The survey male biomass estimates in 2022 are slightly higher than those in 2018, 2019, and 2021, but the survey female biomass estimates are lower than 2018 and 2019, and up slightly from 2021. Estimated population biomass increased dramatically in the mid-1970s then decreased precipitously in the early 1980s. Estimated biomass had increased during 1985-2003 for males and during 1985-2007 for females, then declined, and have steadily declined since the late 2000s.  
 Among the model scenarios, model estimated relative NMFS survey biomasses are similar, with some changed in scale due to changes in M and *Q* which is expected. All models fit the catch and bycatch biomasses very well and similarly so they are not presented in this document. Residuals of survey biomasses did not show any consistent patterns for all models (Figures \@red(fig:surv1-res) and \@red(fig:surv1-resM)).   
 
 The fit to BSFRF survey data are similar among the models, with some variability in scale due to changes in M and trawl survey *Q*, however these are expected due to the large additional CV placed on these data.
 
-- Recruitment (Figures \@ref(fig:rec1), \@ref(fig:rec2), and \@ref(fig:rec3))
+- Recruitment (Figures \@ref(fig:rect1), \@ref(fig:rect2), and \@ref(fig:rect3))
 
-Recruitment time series are plotted for all model scenarios, and also in groups of like models. Recruitment is estimated at the end of year in GMACS and is moved up one year for the beginning of next year. Estimated recruitment time series are generally similar in trends for all models, with those models with higher M values having generally higher recruitment. Like the results of previous models, the terminal year recruitment analysis with model 21.1b suggests the estimated recruitment in the last year should not be used for estimating B~35%~.  
+Recruitment time series are plotted for all model scenarios (Figure \@ref(fig:rect1)), and also in groups of like models. Recruitment is estimated at the end of year in GMACS and is moved up one year for the beginning of next year. Estimated recruitment time series are generally similar in trends for all models, with those models with higher M values having generally higher recruitment. Like the results of previous models, the terminal year recruitment analysis with model 21.1b suggests the estimated recruitment in the last year should not be used for estimating B~35%~.  
 
 - Fishing mortality (Figure \@ref(fig:fmort))
 
@@ -297,7 +298,7 @@ References can be found in the last full SAFE published on the NPFMC website and
 
 ```{r specs, results = "asis"}
 df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/specs_all_mods.csv'))
-names(df) <- c("Model", "Current MMB", "B35", "F35", "Fofl", "OFL", "avg rec")
+names(df) <- c("Model", "Current MMB", "B35", "F35", "$F_\\text{OFL}$", "OFL", "avg rec")
 tab       <- xtable(df, caption = "Changes in management quantities for each scenario explored. REport quantities are derived from maximum likelihood estimates. Average recruitment is males and females combined in millions of animals.", label = "tab:specs")
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,nrow(tab)))
 ```
@@ -314,18 +315,26 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 
 
 ```{r likelihood-components, results = "asis"}
-#df <- read.csv(paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/neg_log_like.csv'))
-#names(df) <- c("Component",mod_names[mod_scen])
-#names(df) <- c("Component", "Ref") #, "M0.21" ,"M0.26", "Notimeblock")
-#tab <- xtable(df, caption = "Comparisons of negative log-likelihood values for the selected model scenarios.", label = "tab:likelihood-components")
-#print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x})
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/likelihood_edited.csv')) # table 5a in Jie_cmn_files.R
+df %>% select(-m22) -> df
+names(df) <- c("Component", "Ref22", "Ref23s", "m23.0", "m23.0a", "m23.0b", "m23.1a", "m23.3") #, "M0.21" ,"M0.26", "Notimeblock")
+tab <- xtable(df, caption = "Comparisons of negative log-likelihood values and some parameters for all model scenarios.", label = "tab:likelihood-components")
+print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,27,nrow(tab)))
+```
+
+```{r likelihood-components2, results = "asis"}
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/likelihood_edited.csv')) # table 5a in Jie_cmn_files.R
+df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
+names(df) <- c("Component", "Ref22", "Ref23s", "m22.0", "m23.1a","m23.3" ) #, "M0.21" ,"M0.26", "Notimeblock")
+tab <- xtable(df, caption = "Comparisons of negative log-likelihood values and some parameters for year and Q model scenarios.", label = "tab:likelihood-components")
+print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,27, nrow(tab)))
 ```
 
 ```{r data, eval = TRUE, include=TRUE,echo=FALSE, comment=NA }
-library(knitr)
-opts_chunk$set(fig.width = 12, fig.height = 8, echo = FALSE, warning = FALSE, message = FALSE)
-ts <- readLines(here::here("BBRKC/bbrkc_22f/doc/gmacs-para_model211b.txt"))
-for (i in 1:length(ts)) cat(ts[i], "\n")
+#library(knitr)
+#opts_chunk$set(fig.width = 12, fig.height = 8, echo = FALSE, warning = FALSE, message = FALSE)
+#ts <- readLines(here::here("BBRKC/bbrkc_22f/doc/gmacs-para_model211b.txt"))
+#for (i in 1:length(ts)) cat(ts[i], "\n")
 ```
 
 
@@ -376,15 +385,16 @@ knitr::include_graphics("figures/trawl_biomass_mod_scen_Q_residuals.png", dpi = 
 knitr::include_graphics("figures/trawl_biomass_mod_scen_M_residuals.png", dpi = 200)
 ```
 
-```{r rec1, out.width="100%", fig.cap = "Estimated recruitment time series during 1976-2021 with models 21.1b, 22.0, 23.0, 23.0a, 23.0b, and 23.1a. Mean male recruits during 1984-2021 was used to estimate B35%. Recruitment estimates in the terminal year (2022) are unreliable."}
+
+```{r rect1, out.width="100%", fig.cap = "Estimated recruitment time series during 1976-2021 with models 21.1b, 22.0, 23.0, 23.0a, 23.0b, and 23.1a. Mean male recruits during 1984-2021 was used to estimate B35. Recruitment estimates in the terminal year (2022) are unreliable."}
 knitr::include_graphics("figures/recruitment_mod_scen.png", dpi = 200)
 ```
 
-```{r rec2, out.width="100%", fig.cap = "Estimated recruitment time series during 1976-2021 with models 21.1b, 22.0, 23.1a, and 23.3 (those models that capture changes in the CV for q for the NMFS survey). Mean male recruits during 1984-2021 was used to estimate B35%. Recruitment estimates in the terminal year (2022) are unreliable."}
+```{r rect2, out.width="100%", fig.cap = "Estimated recruitment time series during 1976-2021 with models 21.1b, 22.0, 23.1a, and 23.3 (those models that capture changes in the CV for q for the NMFS survey). Mean male recruits during 1984-2021 was used to estimate B35. Recruitment estimates in the terminal year (2022) are unreliable."}
 knitr::include_graphics("figures/recruitment_mod_Q.png", dpi = 200)
 ```
 
-```{r rec3, out.width="100%", fig.cap = "Estimated recruitment time series during 1976-2021 with models 21.1b, 22.0, and 23.0b (base compared to high base M for males). Mean male recruits during 1984-2021 was used to estimate B35%. Recruitment estimates in the terminal year (2022) are unreliable."}
+```{r rect3, out.width="100%", fig.cap = "Estimated recruitment time series during 1976-2021 with models 21.1b, 22.0, and 23.0b (base compared to high base M for males). Mean male recruits during 1984-2021 was used to estimate B35. Recruitment estimates in the terminal year (2022) are unreliable."}
 knitr::include_graphics("figures/recruitment_base_highM.png", dpi = 200)
 ```
 
