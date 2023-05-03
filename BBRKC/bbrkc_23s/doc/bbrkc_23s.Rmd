@@ -175,7 +175,7 @@ Model explored in this document:
   - 23.3: 23.1a (base M for males estimated) + 23.1a (double CV on NMFS q prior)
 
 ### Reasoning for model explorations and other explorations not in this document {-}
-Nine model scenarios are presented in this report. The first two models have very close results and were compared to determine the sensitivity of the base model to GMACS updates (version 2.01E vs version 2.01.M.01). Small difference in the reference points are present with this update but overall model fit is nearly identical, including the MLE and likelihood components (Table \@ref(tab:likeli)).
+Nine model scenarios are presented in this report. The first two models have very close results and were compared to determine the sensitivity of the base model to GMACS updates (version 2.01E vs version 2.01.M.01). Small difference in the reference points are present with this update but overall model fit is nearly identical, including the MLE and likelihood components (Table \@ref(tab:likelihood-components) and \@ref(tab:likelihood-components2)).
 
 The rest of the model scenarios can be divided into four areas of exploration: 1) starting the base model in 1985, which has been considering in prior years (model 22.0), 2) models to explore the base level of natural mortality for males (models 23.0, 23.0a, 23.0b, and 23.3), and 3) models to begin an exploration of q estimation for the NMFS trawl survey (23.1a and 23.3), and 4) exploration of a model (model 23.2) without including the survey retow data for females in years where a retows were performed (1999, 2000, 2006 to 2012, 2017, and 2021).
 
@@ -191,7 +191,7 @@ The last model scenario explored in this document is one to determine the sensit
 
 
 ### a. Sensitivity to new GMACS versions {-}
-Models 21.1b and 21.1b(update) reflect sensitivities of the model to updates in GMACS. The likelihoods for these two models are identical (Table \@ref(tab:likeli)). However, there are slight differences in terminal year MMB, B~35%~, and resulting F~ofl~ and specifications (Table \@ref(tab:specs)). The estimated F~35%~ is the same for both models.
+Models 21.1b and 21.1b(update) reflect sensitivities of the model to updates in GMACS. The likelihoods for these two models are identical (Table \@ref(tab:likelihood-components)). However, there are slight differences in terminal year MMB, B~35%~, and resulting F~ofl~ and specifications (Table \@ref(tab:specs)). The estimated F~35%~ is the same for both models.
 (Compare N matrix)
 
 ### b. Effective sample sizes and weighting factors {-}
@@ -200,7 +200,7 @@ Models 21.1b and 21.1b(update) reflect sensitivities of the model to updates in 
 - Harmonic means of implied sample sizes and maximum caps of effective sample sizes for models 21.1b, 22.0, !!fix are summarized in Table 4.
 
 ### b. Tables of estimates {-}
-- Negative log-likelihood values are summarized in Tables 5 for all models, while parameter estimates are summarized in Tables 6 for a few respesentative models.
+- Negative log-likelihood values are summarized in Tables \@ref(tab:likelihood-components) and \@ref(tab:likelihood-components2) for all models, while parameter estimates are summarized in Tables \@ref(tab:parm-std211b), \@ref(tab:parm-std230a)\@ref(tab:parm-std233), \@ref(tab:parm-std22)  for a few respesentative models.
 - Natural mortality estimates are shown in Table \@ref(tab:Natmort).
 - Abundance and biomass, and recruitment time series? 
 
@@ -264,6 +264,8 @@ Based on the model results, it appears that the choice of preferred models depen
 Considerations of M estimation are whether to estimate a base M for males for the whole time series or to add a time block during 2015-2018. Either of these two approaches reduces the retrospective bias considerably. Concern of estimating a base M for males for the whole time series is potential confounding with estimating trawl survey catchability. It is also hard to find good reasons to add a time block during 2015-2018 other than very old crab due to low recruitment for over a decade. Very old crab tend to have a higher M.     
 Based on the above considerations, we recommend model 22.0d as the base model for overfishing definition determination in September 2022 due to a simple approach: a fixed base M of 0.18 for males, less confounding between estimating M and survey catchability, avoiding dramatic abundance decline during the early 1980s, no recruitment associated with an extremely high M being used for estimating B35%, and acceptable data fittings. Model 22.1 is a strong run-up and is a viable alternative. If estimating a base M value for males in the model is acceptable, then model 22.0c is also a good alternative, which fits the data well and greatly reduces retrospective bias from model 22.0. Values for management-related quantities for all models are summarized in likelihood Tables 5b, 5c, 5d, and 5e. 
 
+\pagebreak 
+\newpage\clearpage
 
 # D. Calculation of the OFL and ABC{-}
 Tier 3 control rules and methology behind these calcualtions are explained in detail in the last full SAFE report published on the NPFMC website (see summary section for link). 
@@ -271,13 +273,13 @@ Tier 3 control rules and methology behind these calcualtions are explained in de
 ```{r specs2, results = "asis"}
 df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/specs_all_mods_detailed.csv'))
 names(df) <- c("Model", "Current MMB", "B35", "$MMB/B_\\text{MSY}$", "F35", "$F_\\text{OFL}$", "OFL", "avg rec", "maleM")
-tab       <- xtable(df, caption = "Changes in management quantities for each scenario explored. REport quantities are derived from maximum likelihood estimates. Average recruitment is males and females combined in millions of animals.", label = "tab:specs")
+tab       <- xtable(df, caption = "Changes in management quantities for each scenario explored. REport quantities are derived from maximum likelihood estimates. Average recruitment is males and females combined in millions of animals.", label = "tab:specs2")
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,nrow(tab)))
 ```
 
 
 
-# E. Projections and Future Outlook
+# E. Projections and Future Outlook {-}
 Projections into the future will be perfromed in the Sept. 2023 assessment with the models selected from this document.
 
 The projections are subject to many uncertainties. Constant population parameters estimated in the models used for the projections include M, growth, and fishery selectivities. The uncertainty of abundance and biomass estimates in the terminal year also affects the projections. Uncertainties of the projections caused by these constant parameters and abundance estimates in the terminal year would be reduced by the 20% ABC buffer.  However, if an extreme event occurs, like a sharp increase of M during the projection period, the ABC buffer would be inadequate, and the projections might underestimate uncertainties. The largest uncertainty is likely from recruitment used for the projections. Higher or lower assumed recruitment would cause too optimistic or too pessimistic projections. Overall, recruitment and M used for projections are main factors for projection uncertainties. 
@@ -294,6 +296,7 @@ References can be found in the last full SAFE published on the NPFMC website and
 \pagebreak 
 \newpage\clearpage
 # Tables {-}
+Catch, sample size, and survey results tables are not repeated here but can be found in the last full completed SAFE (link in summary).
 
 
 ```{r specs, results = "asis"}
@@ -315,7 +318,7 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 
 
 ```{r likelihood-components, results = "asis"}
-df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/likelihood_edited.csv')) # table 5a in Jie_cmn_files.R
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/likelihood_edited.csv')) # table 5a in Jie_cmn_files.R edited csv in excel prior to import, see differences between this and the 'likelihood.csv' file
 df %>% select(-m22) -> df
 names(df) <- c("Component", "Ref22", "Ref23s", "m23.0", "m23.0a", "m23.0b", "m23.1a", "m23.3") #, "M0.21" ,"M0.26", "Notimeblock")
 tab <- xtable(df, caption = "Comparisons of negative log-likelihood values and some parameters for all model scenarios.", label = "tab:likelihood-components")
@@ -326,17 +329,98 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/likelihood_edited.csv')) # table 5a in Jie_cmn_files.R
 df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
 names(df) <- c("Component", "Ref22", "Ref23s", "m22.0", "m23.1a","m23.3" ) #, "M0.21" ,"M0.26", "Notimeblock")
-tab <- xtable(df, caption = "Comparisons of negative log-likelihood values and some parameters for year and Q model scenarios.", label = "tab:likelihood-components")
+tab <- xtable(df, caption = "Comparisons of negative log-likelihood values and some parameters for year and Q model scenarios.", label = "tab:likelihood-components2")
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,27, nrow(tab)))
 ```
 
-```{r data, eval = TRUE, include=TRUE,echo=FALSE, comment=NA }
-#library(knitr)
-#opts_chunk$set(fig.width = 12, fig.height = 8, echo = FALSE, warning = FALSE, message = FALSE)
-#ts <- readLines(here::here("BBRKC/bbrkc_22f/doc/gmacs-para_model211b.txt"))
-#for (i in 1:length(ts)) cat(ts[i], "\n")
+\pagebreak 
+\newpage\clearpage
+
+```{r parm-std211b, results = "asis"}
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/gmacs-para_model211b_ed.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
+#df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
+names(df) <- c("Index", "Name", "Value", "StdDev", "index", "name", "value", "stddev" ) #, "M0.21" ,"M0.26", "Notimeblock")
+tab <- xtable(df, caption = "Summary of estimated model parameter values and standard deviations for model 21.1b for Bristol Bay red king crab.", label = "tab:parm-std211b", digits = c(0, 0,0,4,4,0,0,4,4))
+print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, 46, 96, 147,nrow(tab)))
 ```
 
+\pagebreak 
+\newpage\clearpage
+
+```{r parm-std230a, results = "asis"}
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/gmacs-para_model230a_ed.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
+#df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
+names(df) <- c("Index", "Name", "Value", "StdDev", "index", "name", "value", "stddev" ) #, "M0.21" ,"M0.26", "Notimeblock")
+tab <- xtable(df, caption = "Summary of estimated model parameter values and standard deviations for model 23.0a for Bristol Bay red king crab.", label = "tab:parm-std230a", digits = c(0, 0,0,4,4,0,0,4,4))
+print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, 46, 96, 147,nrow(tab)))
+```
+
+
+\pagebreak 
+\newpage\clearpage
+
+```{r parm-std233, results = "asis"}
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/gmacs-para_model233-ed.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
+#df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
+names(df) <- c("Index", "Name", "Value", "StdDev", "index", "name", "value", "stddev" ) #, "M0.21" ,"M0.26", "Notimeblock")
+tab <- xtable(df, caption = "Summary of estimated model parameter values and standard deviations for model 23.3 for Bristol Bay red king crab.", label = "tab:parm-std233", digits = c(0, 0,0,4,4,0,0,4,4))
+print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, 46, 96, 147,nrow(tab)))
+```
+
+\pagebreak 
+\newpage\clearpage
+
+```{r parm-std22, results = "asis"}
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/gmacs-para_model22_ed.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
+#df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
+names(df) <- c("Index", "Name", "Value", "StdDev", "index", "name", "value", "stddev" ) #, "M0.21" ,"M0.26", "Notimeblock")
+tab <- xtable(df, caption = "Summary of estimated model parameter values and standard deviations for model 22.0 for Bristol Bay red king crab.", label = "tab:parm-std22", digits = c(0, 0,0,4,4,0,0,4,4))
+print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, 46, 96, 146,nrow(tab)))
+```
+
+\pagebreak 
+\newpage\clearpage
+
+```{r est-m211b, results = "asis"}
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/gmacs-sum_model211b_ed.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
+#df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
+names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) #, "M0.21" ,"M0.26", "Notimeblock")
+tab <- xtable(df, caption = "Annual abundance estimates (mature >119mm, legal >134mm, mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 21.1b during 1975-2022. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m211b", digits = c(0,0,3,3,3,3,3,3,3,3))
+print(tab, caption.placement = "top", caption.width = , include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,1, nrow(tab)))
+```
+
+\pagebreak 
+\newpage\clearpage
+
+```{r est-m230a, results = "asis"}
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/gmacs-sum_model230a_ed.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
+#df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
+names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) #, "M0.21" ,"M0.26", "Notimeblock")
+tab <- xtable(df, caption = "Annual abundance estimates (mature >119mm, legal >134mm, mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 23.0a during 1975-2022. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m230a", digits = c(0,0,3,3,3,3,3,3,3,3))
+print(tab, caption.placement = "top", caption.width = , include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,1, nrow(tab)))
+```
+
+\pagebreak 
+\newpage\clearpage
+
+```{r est-m233, results = "asis"}
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/gmacs-sum_model233_ed.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
+#df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
+names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) #, "M0.21" ,"M0.26", "Notimeblock")
+tab <- xtable(df, caption = "Annual abundance estimates (mature >119mm, legal >134mm, mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 23.3 during 1975-2022. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m233", digits = c(0,0,3,3,3,3,3,3,3,3))
+print(tab, caption.placement = "top", caption.width = , include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,1, nrow(tab)))
+```
+
+\pagebreak 
+\newpage\clearpage
+
+```{r est-m22, results = "asis"}
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/gmacs-sum_model22_ed.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
+#df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
+names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) #, "M0.21" ,"M0.26", "Notimeblock")
+tab <- xtable(df, caption = "Annual abundance estimates (mature >119mm, legal >134mm, mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 22.0 during 1975-2022. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m22", digits = c(0,0,3,3,3,3,3,3,3,3))
+print(tab, caption.placement = "top", caption.width = , include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,1, nrow(tab)))
+```
 
 \clearpage
 \pagebreak 
