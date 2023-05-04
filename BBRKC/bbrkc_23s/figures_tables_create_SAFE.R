@@ -28,7 +28,7 @@ source("./BBRKC/code/bbrkc_functions.R")
 cur_yr <- 2022 # update annually 
 folder <- "bbrkc_23s" # update annually 
 # The palette with grey:
-cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#D55E00", "#0072B2", "#F0E442" , "#CC79A7")
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#D55E00", "#0072B2", "#CC79A7", "#F0E442")
 
 # To use for fills, add
 #scale_fill_manual(values=cbPalette)
@@ -161,6 +161,9 @@ ggsave(paste0(.FIGS, "selectivity_23s_trawl.png"), width = ww*1.50, height = 0.8
 
 plot_selectivity_kjp(M[2:6], "BSFRF survey")
 ggsave(paste0(.FIGS, "selectivity_23s_BSFRF.png"), width = ww*1.50, height = 0.85*hh)
+
+plot_selectivity_kjp(M[2:6], "Pot")
+ggsave(paste0(.FIGS, "selectivity_23s_pot.png"), width = ww*1.50, height = 0.85*hh)
 
 # selectivity mod -q
 plot_selectivity_kjp(M[mod_q], "NMFS Trawl")
@@ -306,7 +309,7 @@ ggsave(paste0(.FIGS, "mod_scen_ssb_wprojected_yr_tall.png"), width = ww*1.3, hei
 ggsave(paste0(.FIGS, "mod_scen_ssb_wprojected_yr.png"), width = ww*1.1, height = hh*1.1)
 
 ## ssb mod_scen limited years ------------
-ssb <- .get_ssb_dfKP(M[2:7])
+ssb <- .get_ssb_dfKP(M[2:8])
 ssb %>% 
   filter(year >= 1985) %>% 
   ggplot(aes(year, ssb, col = Model)) +
@@ -454,6 +457,15 @@ temp %>%
 
 write.csv(specs_temp, paste0(.TABS, "specs_all_mods.csv"), row.names = FALSE)
 
+# specs table in text more detail --------------
+#round(M[[2]]$spr_depl, 2)
+temp_more <- save_specs_out_more(M[1:8])
+# go from long to wide 
+temp_more %>% 
+  spread(cnames, specs) %>% 
+  select(Model, MMB, `B35%`, `B/Bmsy`, `F35%`, Fofl, OFL, avg_rec, maleM) -> specs_temp_more
+
+write.csv(specs_temp_more, paste0(.TABS, "specs_all_mods_detailed.csv"), row.names = FALSE)
 
 # Table 7 nat mort----
 nat_mort <- .get_M_df_kjp(M[2:8]) # bbrkc_functions.R
