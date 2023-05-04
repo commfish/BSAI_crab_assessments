@@ -101,13 +101,13 @@ update_geom_defaults("line", list(size = 1.75))
 # models 1 and 2, 1 is 2019 model - smbkc_19a/model_1 
 #     and 2 is smbkc_20/model_1 base model
 plot_cpue(M[1:2], "NMFS Trawl", ylab = "Survey biomass (t)")
-ggsave(paste0(.FIGS, "trawl_cpue_ref.png"), width = ww*1.3, height = hh*.9)
+ggsave(paste0(.FIGS, "trawl_cpue_noretow.png"), width = ww*1.3, height = hh*.9)
 
 plot_cpue(M[1:2], "BSFRF survey", ylab = "Survey biomass (t)")
-ggsave(paste0(.FIGS, "BSFRF_survey_ref.png"), width = ww*1.3, height = hh)
+ggsave(paste0(.FIGS, "BSFRF_survey_noreto.png"), width = ww*1.3, height = hh)
 
 plot_cpue(M[1:2])
-ggsave(paste0(.FIGS, "cpue_ref_both.png"), width = ww*2.5, height = hh)
+ggsave(paste0(.FIGS, "cpue_noreto_both.png"), width = ww*2.5, height = hh)
 
 #plot_recruitment(M[2])
 #plot_recruitment(M[1])
@@ -117,8 +117,8 @@ ggsave(paste0(.FIGS, "cpue_ref_both.png"), width = ww*2.5, height = hh)
 #plot_F(M[2]) **FIX** bring in this from model 1 for now.
 plot_F(M[mod_scen])
 ggsave(paste0(.FIGS, "fishing_mortality_mod_scen.png"), width = ww*1.25, height = hh)
-plot_F(Mbase)
-ggsave(paste0(.FIGS, "fishing_mortality.png"), width = ww*1.25, height = hh)
+#plot_F(Mbase)
+#ggsave(paste0(.FIGS, "fishing_mortality.png"), width = ww*1.25, height = hh)
 
 ## !!selectivity ----------
 #"Comparisons of the estimated stage-1 and stage-2 selectivities for the different model scenarios (the stage-3 selectivities are all fixed at 1). Estimated selectivities are shown for the directed pot fishery, the trawl bycatch fishery, the fixed bycatch fishery, the NMFS trawl survey, and the ADF&G pot survey. Two selectivity periods are estimated in the directed pot fishery, from 1978-2008 and 2009-2017.\\label{fig:selectivity}", fig.height = 15}
@@ -159,6 +159,13 @@ ggsave(paste0(.FIGS, "trawl_biomass_MALES_mod_scen.png"), width = ww*1.30, heigh
 
 plot_cpue_kjp(M[c(mod_scen)], subsetby = "NMFS Trawl", psex = "Female", ylab = "NMFS FEMALE survey biomass (t)")
 ggsave(paste0(.FIGS, "trawl_biomass_FEMALES_mod_scen.png"), width = ww*1.30, height = hh)
+
+#females NPFMS survey plotted seperately for models -------
+plot_cpue_kjp(M[1], subsetby = "NMFS Trawl", psex = "Female", ylab = "NMFS FEMALE survey biomass (t)")
+ggsave(paste0(.FIGS, "trawl_biomass_FEMALES_211b.png"), width = ww*1.30, height = 0.7*hh)
+
+plot_cpue_kjp(M[2], subsetby = "NMFS Trawl", psex = "Female", ylab = "NMFS FEMALE survey biomass (t)")
+ggsave(paste0(.FIGS, "trawl_biomass_FEMALES_noretow.png"), width = ww*1.30, height = 0.7*hh)
 
 
 #!! BSFRF survey -------
@@ -237,22 +244,22 @@ ggsave(paste0(.FIGS, "mod_scen_ssb_wprojected_yr_tall.png"), width = ww*1.3, hei
 ggsave(paste0(.FIGS, "mod_scen_ssb_wprojected_yr.png"), width = ww*1.1, height = hh*1.1)
 
 ## ssb mod_scen limited years ------------
-#ssb <- .get_ssb_dfKP(M[2:7])
-#ssb %>% 
-#  filter(year >= 1985) %>% 
-#  ggplot(aes(year, ssb, col = Model)) +
-#  geom_line() +
-#  #geom_ribbon(aes(x=year, ymax = ub, ymin = lb), alpha = 0.2) +
-#   expand_limits(y=0) +
-#   scale_y_continuous(expand = c(0,0)) +
-#   #geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
-#   #           lty = c("solid", "dashed"))+
-#   #geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
-#   #          hjust = -0.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
-#   ggtitle("Model scenarios") +
-#   ylab("Mature male biomass (t) on 15th February") + xlab("Year") +
-#   .THEME
-# ggsave(paste0(.FIGS, "1985mod_scen_ssb_wprojected_yr.png"), width = ww*1.3, height = hh*.85)
+ssb <- .get_ssb_dfKP(M[1:2])
+ssb %>% 
+  filter(year >= 1985) %>% 
+  ggplot(aes(year, ssb, col = Model)) +
+  geom_line() +
+  #geom_ribbon(aes(x=year, ymax = ub, ymin = lb), alpha = 0.2) +
+   expand_limits(y=0) +
+   scale_y_continuous(expand = c(0,0)) +
+   #geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
+   #           lty = c("solid", "dashed"))+
+   #geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
+   #          hjust = -0.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
+   ggtitle("Model scenarios") +
+   ylab("Mature male biomass (t) on 15th February") + xlab("Year") +
+   .THEME
+ ggsave(paste0(.FIGS, "1985mod_scen_ssb_wprojected_yr.png"), width = ww*1.3, height = hh*.85)
 
 ## !!recruitment -------------
 plot_rec_bb_kjp(M[mod_scen]) # this is found in 'bbrkc_functions.R'
@@ -269,28 +276,51 @@ plot_natural_mortality2(M[mod_scen], knots = NULL, slab = "Model")
 ggsave(paste0(.FIGS, "mod_scen_M_t.png"), width = 1.20*ww, height = hh)
 #plot_natural_mortality(M, knots = NULL, slab = "Model")
 # plot_natural_mortality2(M[c(2,6,7)])
+
+#!! size comp residuals -------
+plot_size_comps_res_kjp(M[1], "NMFS Trawl")
+ggsave(paste0(.FIGS, "ref_mod_size_comp_residuals_trawl.png"), width = ww*1.20, height = 1.1*hh)
+
+plot_size_comps_res_kjp(M[2], "NMFS Trawl")
+ggsave(paste0(.FIGS, "noretow_size_comp_residuals_trawl.png"), width = ww*1.20, height = 1.1*hh)
 # ggsave(paste0(.FIGS, "mod_q_M_t.png"), width = 1.20*ww, height = hh)
 
+# female abundance ------
+fem1 <- as.data.frame (M[[1]]$N_females/1000000)
+fem2 <- as.data.frame (M[[2]]$N_females/1000000)
+
+fem1 %>% 
+  mutate(mat_total = (V6 + V7 + V8 + V9 + V10 + V11 + V12 + V13 + V14 + V15 + V16)) %>%
+  mutate(model = "base", year = c(1975:2022)) %>% 
+  select(year, model, mat_total)-> hemp1
+
+fem2 %>% 
+  mutate(mat_total = (V6 + V7 + V8 + V9 + V10 + V11 + V12 + V13 + V14 + V15 + V16)) %>%
+  mutate(model = "no retow", year = c(1975:2022)) %>% 
+  select(year, model, mat_total)-> hemp2
+
+hemp1 %>% 
+  rbind(hemp2) -> mat_fem
+
+# female abundance figure -----
+mat_fem %>% 
+  ggplot(aes(year, mat_total, col = model)) +
+  geom_line() +
+  #geom_ribbon(aes(x=year, ymax = ub, ymin = lb), alpha = 0.2) +
+  expand_limits(y=0) +
+  scale_y_continuous(expand = c(0,0)) +
+  #geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
+  #           lty = c("solid", "dashed"))+
+  #geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
+  #          hjust = -0.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
+  ggtitle("Female Abundance with and without retow data") +
+  ylab("Matue female abundance (million crab)") + xlab("Year") +
+  .THEME
+ggsave(paste0(.FIGS, "mature_female_abundance.png"), width = ww*1.3, height = hh*1.25)
 ## TABLES ====================================
-
-# Table 7 nat mort----
-nat_mort <- .get_M_df_kjp(M[2:7]) # bbrkc_functions.R
-
-nat_mort %>% 
-  distinct(Model, Sex, M) -> natural_mort_all
-write.csv(natural_mort_all, paste0(.TABS, "M_out.csv"))
 
 ##### !! STOP HERE may 2023 -----------------
 
-#!! size comp residuals -------
-plot_size_comps_res(M[rec_mod])
-ggsave(paste0(.FIGS, "ref_mod_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
-
-plot_size_comps_res(M[3])
-ggsave(paste0(.FIGS, "model22_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
-
-plot_size_comps_res(M[4])
-ggsave(paste0(.FIGS, "model22a_size_comp_residuals.png"), width = ww*1.20, height = 1.1*hh)
 
 
 
