@@ -511,3 +511,54 @@ plot_molt_prob_sex <- function (M, subsetby = "", xlab = "Mid-point of size clas
   }
   print(p + .THEME)
 }
+
+
+# save speces for each model -----------------
+save_specs_out <- function (M){
+  n <- length(M)
+  mdf <- NULL
+  for (i in 1:n)
+  {
+    A <- M[[i]]
+    round(A$spr_bmsy*A$spr_depl/1000, 2) -> mmb_2223
+    round(A$spr_bmsy/1000, 2) -> b_35 # also B35%
+    round(A$sd_fmsy[1], 2) -> f_35 # F35%
+    round(A$sd_fofl[1], 2) -> f_ofl # Fofl
+    round(A$spr_cofl/1000, 2) -> ofl_2223
+    round(A$spr_cofl/1000*0.80, 2) -> abc_2223
+    round((A$spr_rbar[1] + A$spr_rbar[2])/1000000, 2) -> avg_rec
+    specs <- c(mmb_2223, b_35, f_35, f_ofl, ofl_2223, avg_rec)
+    cnames <- c("MMB", "B35%", "F35%", "Fofl", "OFL", "avg_rec")
+    df <- data.frame(Model=names(M)[i], cnames, specs)
+    mdf <- rbind(mdf, df)
+  }
+  return(mdf)
+}
+  
+# Detailed save specs for each model -----------------
+save_specs_out_more <- function (M){
+  n <- length(M)
+  mdf <- NULL
+  for (i in 1:n)
+  {
+    A <- M[[i]]
+    round(A$spr_bmsy*A$spr_depl/1000, 2) -> mmb_2223
+    round(A$spr_bmsy/1000, 2) -> b_35 # also B35%
+    round(A$spr_bmsy*A$spr_depl/1000, 2) -> mmb_2223
+    round(A$spr_depl, 2) -> b_bmsy # also B over Bmsy
+    round(A$sd_fmsy[1], 2) -> f_35 # F35%
+    round(A$sd_fofl[1], 2) -> f_ofl # Fofl
+    round(A$spr_cofl/1000, 2) -> ofl_2223
+    round(A$spr_cofl/1000*0.80, 2) -> abc_2223
+    round((A$spr_rbar[1] + A$spr_rbar[2])/1000000, 2) -> avg_rec
+    round((A$M[1]), 2) -> maleM
+    specs <- c(mmb_2223, b_35, b_bmsy, f_35, f_ofl, ofl_2223, avg_rec, maleM)
+    cnames <- c("MMB", "B35%", "B/Bmsy","F35%", "Fofl", "OFL", "avg_rec", "maleM")
+    df <- data.frame(Model=names(M)[i], cnames, specs)
+    mdf <- rbind(mdf, df)
+  }
+  return(mdf)
+}
+  
+  
+  
