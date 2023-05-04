@@ -33,7 +33,7 @@ folder <- "bbrkc_23s"
 ```
 
 # Summary {-}
-The model explorations presented here include those suggested by CPT and SSC, and model sensitivity to GMACS updates. The model explorations can be divided into four areas of exploration: 1) starting the base model in 1985, which has been considering in prior years, 2) models to explore the base level of natural mortality for males, and 3) models to begin an exploration of q estimation for the NMFS trawl survey, and 4) exploration of model output without including the survey retow data for females in years where a retows were performed (1999, 2000, 2006 to 2012, 2017, and 2021).The models presented here are the beginning of work to explore these topics and the author acknowledges that further exploration is warranted. Additionally, an updated version of GMACS was used for these model exploration and model fit was similar with slight differences in reference point calculations with these updates. 
+The model explorations presented here include those suggested by CPT and SSC, and model sensitivity to GMACS updates. The model explorations can be divided into four areas of exploration: 1) starting the base model in 1985, which has been considering in prior years, 2) models to explore the base level of natural mortality for males, and 3) models to begin an exploration of q estimation for the NMFS trawl survey, and 4) exploration of model output without including the survey retow data for females in years where retows were performed (1999, 2000, 2006 to 2012, 2017, and 2021).The models presented here are the beginning of work to explore these topics and the author acknowledges that further exploration is warranted. Additionally, an updated version of GMACS was used for these model exploration and model fit was similar with slight differences in reference point calculations with these updates. 
 
 The results of these model explorations are presented in this document in section C. Background on the Bristol Bay red king crab modeling approach, modeling framework (GMACS), and history of the stock and fisheries can be found in the last full SAFE published on the NPFMC website and will not be repeated here.
 (link here: [BBRKC 2022 SAFE](https://meetings.npfmc.org/CommentReview/DownloadFile?p=b98b90b2-88ab-43c2-9487-c12cdb4e0a25.pdf&fileName=BBRKC%20SAFE%202022%20Final.pdf)) 
@@ -87,7 +87,7 @@ Response: Model 22.0 start in 1985, and was presented in May 2022, Sept 2023, an
 **Response to CPT Comments (from May 2022):** 
 *"The CPT recommended examining how the initial conditions of abundance are treated as a future analysis"*
 
-Response: This has not yet been address, but is on the list for future work.
+Response: This has not yet been addressed, but is on the list for future work.
 
 **Response to SSC Comments specific to this assessment (from June 2021):**
 
@@ -144,12 +144,17 @@ Response: Figuring out the exact causes of high mortality in the early 1980s is 
 Response: We also support improvement of VAST estimates and are willing to provide feedback to Jon for further improvement. In general the CPT has not prioritized using VAST output in crab models, we hope to revist this soon.
 
 **Response to SSC Comments specific to this assessment (from June 2022):**
+*The SSC noted that during preliminary model runs in May, a full docment need not be produced, but one that focuses a summary of model features and runs would be sufficient.*
+
+Response: The May 2023 proposed model run document reflects these changes, focusing on model runs and explorations. Model structure and historical information is linked to via the NPFMC website in the summary section and not repeated in this document. The author welcomes further suggestions on the "proposed model" run documents since the CPT does not formally have a format for these.
+
 *"The SSC recommends exploring how to estimate both catchabilities (NMFS trawl survey and BSFRF survey), but with a linked prior to influence them to scale together (i.e., assume some approximate value of how much higher q is for that survey)."*
 
 Response: This is on the authors list of future work to be addressed with explorations of catchability for both surveys, but has not yet been explored in this document.
 
 **Response to SSC Comments specific to this assessment (from October 2022):**
 *"The SSC recommends that a high priority be placed on trying to isolate factors that reduce the retrospective bias in mature male biomass."*
+
 Response: The author agrees that this should be a high priority, however current explorations are still ongoing.  
 
 
@@ -159,20 +164,20 @@ Response: The author agrees that this should be a high priority, however current
 ## Assessment Methodology {-}
 
 This assessment model again uses the modeling framework GMACS and is detailed in Appendix A of the last full SAFE report (link in the summary section).
-An updated version of GMACS (version 2.01.M.01, 2023-03-13) was used. The fall 2022 assessment used version 2.01.F (2022-04-16). Progress of GMACS development has been documented on the GitHub development site [GMACS GitHub](https://github.com/GMACS-project?view_as=public)).
+An updated version of GMACS (version 2.01.M.01, 2023-03-13) was used. The fall 2022 assessment used version 2.01.F (2022-04-16). Progress of GMACS development has been documented on the GitHub development site ([GMACS GitHub](https://github.com/GMACS-project?view_as=public)).
 
 ## Model explorations{-}
 Model explored in this document:
 
-  - 21.1b: base model, accepted for specifications in Fall 2022
-  - 21.1b (update): base model + updated GMACS version
-  - 22.0: 21.1b model with data after 1985 instead of 1975
-  - 23.0: 21.1b + "base" M value for males fixed at M=0.257 (based on Then et al. 2015)
-  - 23.0a: 21.1b + "base" M value for males estimated in the model (prior information)
-  - 23.0b: 21.1b + "base" M value for males fixed at M=0.31 (best estimate based on 2020 likelihood profile work)
-  - 23.1a: Double CV on NMFS q prior
-  - 23.2: 21.1b with no retow data for females from the NMFS trawl survey
-  - 23.3: 23.1a (base M for males estimated) + 23.1a (double CV on NMFS q prior)
+  - **21.1b**:          base model, accepted for specifications in Fall 2022
+  - **21.1b (update)**: base model + updated GMACS version
+  - **22.0:**           21.1b model with data after 1985 instead of 1975
+  - **23.0**:           21.1b + "base" M value for males fixed at M=0.257 (based on Then et al. 2015)
+  - **23.0a**:          21.1b + "base" M value for males estimated in the model (prior information)
+  - **23.0b**:          21.1b + "base" M value for males fixed at M=0.31 (best estimate based on 2020 likelihood profile work)
+  - **23.1a**:          double CV on NMFS q prior 
+  - **23.2**:           21.1b with no retow data for females from the NMFS trawl survey
+  - **23.3**:           23.1a (base M for males estimated) + 23.1a (double CV on NMFS q prior)
 
 ### Reasoning for model explorations and other explorations not in this document {-}
 Nine model scenarios are presented in this report. The first two models have very close results and were compared to determine the sensitivity of the base model to GMACS updates (version 2.01E vs version 2.01.M.01). Small difference in the reference points are present with this update but overall model fit is nearly identical, including the MLE and likelihood components (Table \@ref(tab:likelihood-components) and \@ref(tab:likelihood-components2)).
@@ -192,17 +197,17 @@ The final model scenario (model 23.2) explored in this document is one to determ
 
 ### a. Sensitivity to new GMACS versions {-}
 Models 21.1b and 21.1b(update) reflect sensitivities of the model to updates in GMACS. The likelihoods for these two models are identical (Table \@ref(tab:likelihood-components)). However, there are slight differences in terminal year MMB, B~35%~, and resulting F~ofl~ and specifications (Table \@ref(tab:specs)). The estimated F~35%~ is the same for both models.
-(Compare N matrix)
+
 
 ### b. Effective sample sizes and weighting factors {-}
 - CVs are assumed to be 0.03 for retained catch biomass, 0.04 for total male biomass, 0.07 for pot bycatch biomasses, 0.10 for groundfish bycatch biomasses, and 0.23 for recruitment sex ratio. Models also estimate sigmaR for recruitment variation and have a penalty on M variation and many prior-densities.     
 - Initial trawl survey catchability (Q) is estimated to be 0.896 with a standard deviation of 0.025 (CV about 0.03) based on the double-bag experiment results (Weinberg et al. 2004). These values are used to set a prior for estimating Q in all models, except models 23.1a and 23.3 which the same distribution with a CV of 0.06.
-- Harmonic means of implied sample sizes and maximum caps of effective sample sizes for models 21.1b, 22.0, !!fix are summarized in Table 4.
+
 
 ### b. Tables of estimates {-}
-- Negative log-likelihood values are summarized in Tables \@ref(tab:likelihood-components), \@ref(tab:likelihood-components2), and \@ref(tab:likelihood-components3) for all models, while parameter estimates are summarized in Tables \@ref(tab:parm-std211b), \@ref(tab:parm-std230a)\@ref(tab:parm-std233), \@ref(tab:parm-std22)  for a few respesentative models.
+- Negative log-likelihood values are summarized in Tables \@ref(tab:likelihood-components), \@ref(tab:likelihood-components2), and \@ref(tab:likelihood-components3) for all models, while parameter estimates are summarized in Tables \@ref(tab:parm-std211b), \@ref(tab:parm-std230a), \@ref(tab:parm-std233), \@ref(tab:parm-std22)  for a few respesentative models.
 - Natural mortality estimates are shown in Table \@ref(tab:Natmort).
-- Abundance and biomass, and recruitment time series? 
+- Abundance, MMB, and recruitment time series for a few representative models are found in Tables \@ref(tab:est-m211b, \@ref(tab:est-m22, \@ref(tab:est-m230a, \@ref(tab:est-m233, and \@ref(tab:est-m232). 
 
 ### c. Evaluation of the fit to the data and model estimates.{-}
 - Selectivities by length (Figures \@ref(fig:sel1), \@ref(fig:sel2), and \@ref(fig:sel3))
@@ -232,7 +237,7 @@ Estimated fishing mortalities for pot female and groundfish fisheries bycatches 
 
 - Estimated mature male biomsss (Figures \@ref(fig:mmb1), \@ref(fig:mmb2), and \@ref(fig:mmb3))
 
-Estimated mature male biomass for all models have a similar trend over time, however the scaling of the biomass is highly dependent, as expected, on estimates of natural mortality (M) and *Q* in the model. Overall, higher estimates of M for males produce larger estimates of mature male biomass for most of the time series. Recent mature male biomass, in the last five years or so, was relatively similar for all models except model 23.1 with the increase in estimated NMFS *Q*. Model 23.3, which estimates M for males and has a larger CV on the *Q* prior, produced similar results to the base model, with the except of the last five years (Figure \@red(fig:mmb2)). All models were compared to model 22.0 in Figure \@ref(fig:mmb3), which allows for a closer look at the more recent time frame since this plot starts in 1985.
+Estimated mature male biomass for all models have a similar trend over time, however the scaling of the biomass is highly dependent, as expected, on estimates of natural mortality (M) and *Q* in the model. Overall, higher estimates of M for males produce larger estimates of mature male biomass for most of the time series. Recent mature male biomass, in the last five years or so, was relatively similar for all models except model 23.1 with the increase in estimated NMFS *Q*. Model 23.3, which estimates M for males and has a larger CV on the *Q* prior, produced similar results to the base model, with the except of the last five years (Figure \@ref(fig:mmb2)). All models were compared to model 22.0 in Figure \@ref(fig:mmb3), which allows for a closer look at the more recent time frame since this plot starts in 1985.
 
 - Size composition fits by length and residual bubble plots (Figures  \@ref(fig:sc-pot), \@ref(fig:sc-trawl1), \@ref(fig:sc-trawl2), \@ref(fig:sc-trawl1F), \@ref(fig:sc-trawl2F), \@ref(fig:sc-bsfrfM), \@ref(fig:sc-bsfrfF), \@ref(fig:sc-pot), \@ref(fig:sc-res-ref-M), \@ref(fig:sc-res-M3), and \@ref(fig:sc-res-M4)).
 
@@ -243,7 +248,7 @@ Residuals of proportions of length are plotted to examine their patterns. Residu
 Retrospective analysis was performed for a selection of models - 21.1b, 22.0, 23.3 - to represent the base model and determine if the retrospective pattern is reduced by estimating M (model 23.3). Retrospective analysis were performed using the GMACS retrospective feature which runs the current years model (2022) and sequentially excludes one year of data to evaluate current model performance in hindcast. (need to compile these figures and results still TBD)
 
 ### e. Uncertainty and sensitivity analyses.{-}
-- Estimated standard deviation of parameters are summarized in Tables \@ref(tab:parm-std211b), \@ref(tab:parm-std230a)\@ref(tab:parm-std233), \@ref(tab:parm-std22)  for a few respesentative models.
+- Estimated standard deviation of parameters are summarized in Tables \@ref(tab:parm-std211b), \@ref(tab:parm-std230a), \@ref(tab:parm-std233), \@ref(tab:parm-std22)  for a few respesentative models.
 
 - The last completed SAFE document in 2022 details uncertainty estimates in the current base model parameterization in further detail. 
 
@@ -251,13 +256,14 @@ Retrospective analysis was performed for a selection of models - 21.1b, 22.0, 23
 ### f. Sensitity to NMFS female data in retow years {-}
 Model fit and overall performance were similar for the base model run with (21.1b) and without (23.2) the retow data, as reflected in the likelihood table (Table \@ref(tab:likelihood-components3). However, the reference points and specifications in this table do reflect the overall differences in mature male biomass and subsequent reductions in OFL without the female retow data. Figures \@ref(fig:surv1N), \@ref(fig:surv1Nm), \@ref(fig:sc-trawl_noretow), \@ref(fig:mmb4), and \@ref(fig:rect4)) are provided to illustrate the differences in the data sets and estimated mature male biomass (MMB). 
 
-Figures \@ref(fig:surv1N) and \@ref(fig:surv1Nm) reflect differences in area-swept biomass estimates and model fit to these data. As expected there are no noticeable differences for males since this data is not resampled, however female fit is reduced overall due to the removal of retow stations (Figure \@ref(fig:surv1N)). Figure \@ref(fig:surv1N) reflects the difference in area-swept and model fit in years with retow data, which are shown with two data points in those years. In the retow years the lower data point reflects the "no retow" data set since leg 1 female biomass in those years is lower than the retow biomass. The lower biomass in the leg 1 survey data for females reflects the females still undergoing their molt-mate cycle and likely being unavailable to the survey sampling area or gear. Years with retow data (99,00,06 to 12,17,21) have differences in survey size compositions and size composition fits (Figure \@ref(fig:sc-trawl_noretow)). These differences reflect the larger sample sizes of females in the retows in those years with retow data and the general rightward shift of size distributions in retow data due to those females having completed the molt-mate cycle. Estimated mature male biomass in the model without retow data (23.2) is lower than the base model, reflecting the effects of having less female biomass in the population dynamics model in retow years (Figure \@ref(fig:mmb4)). 
+Figures \@ref(fig:surv1N) and \@ref(fig:surv1Nm) reflect differences in area-swept biomass estimates and model fit to these data. As expected there are no noticeable differences for males since this data is not resampled, however female fit is reduced overall due to the removal of retow stations (Figure \@ref(fig:surv1N)). Figure \@ref(fig:surv1N) reflects the difference in area-swept and model fit in years with retow data, which are shown with two data points in those years. In the retow years the lower data point reflects the "no retow" data set since leg 1 female biomass in those years is lower than the retow biomass. The lower biomass in the leg 1 survey data for females reflects the females still undergoing their molt-mate cycle and likely being unavailable to the survey sampling area or gear. Years with retow data (99,00,06 to 12,17,21) have differences in survey size compositions and size composition fits (Figure \@ref(fig:sc-trawl-noretow)). These differences reflect the larger sample sizes of females in the retows in those years with retow data and the general rightward shift of size distributions in retow data due to those females having completed the molt-mate cycle. Estimated mature male biomass in the model without retow data (23.2) is lower than the base model, reflecting the effects of having less female biomass in the population dynamics model in retow years (Figure \@ref(fig:mmb4)). 
 
 While the overall dynamics and estimation of males in the model are minimally effected by the lack of female retow data, female abundance, specifically, mature female abundance is reduced in most years (Table \@ref(tab:est-m232), Figure \@ref(fig:matF)). Mature female abundance (and biomass) is a vital part of the State of Alaska harvest strategy which can trigger closures of this fishery when it drops below a threshold, as has occurred in both the 2021/2022 and the 2022/2023 fisheries. The author supports continuation of the retow/resampling protocol in those years where there are sufficient females that haven't completed the molt-mate cycle. Sampling females at the same time in their annual cycle is vital to accurately modeling the population (both abundance and size compositions) and when this is delayed due to climate changes in the sampling timing (retows) are vital to tracking the population. This analysis did not address the appropriateness of the 10% threshold currently in place, but this has been discussed during the Jan and May 2022 CPT meetings. 
 
 
 ### g. Comparison of alternative model scenarios.{-}
 In this report (May 2023), eight models are compared. For negative likelihood value comparisons (Tables \@ref(tab:likelihood-components) and \@ref(tab:likelihood-components2)), none of the model runs improved the total likelihood over the base model (21.1b). The base model was run using the most recent updates to GMACS (version 2.01.M.01) and compared to output from the runs in September 2022. The likelihood components of these runs were identical out to three digits, however reference point differences, although small, do exist (Table \@ref(tab:likelihood-components). The difference were determined to be minimal and this updated version of GMACS was used for the rest of the models runs in this report. The rest of the model scenarios are compared to this updated version of the base model 21.1b (update).
+
 Model 22.0 represents the base model with a start date for the data of 1985 instead of 1975. This model was explored in both May 2022 and September 2022, and is presented here as an option to bring forward in September of 2023 if the reduction in data is appropriate. 
 
 Four models (23.0, 23.0a, 23.0b, 23.3) either had higher base natural mortality (M) estimates for males or estimated M. Of these models the two that estimated male natural mortality had slightly better fits than those with higher fixed values, however none of these models improved fit over the base model (21.1b). All of these models increased natural mortality on both the male and female portions of the population, since female mortality is estimated as on offset of males (Table \@ref(tab:Natmort)). Increases in natural mortality produce models results that increase the scale of recruitment and mature male biomass, but had similar fits to survey data. Larger size class did appear to fit better with higher natural mortality but this was not reflected in the overall fit to size compositions. Increasing natural mortality on males also leads to higher F~35%~ values and therefore larger F~OFL~ values. Based on the likelihood profile performed in 2020 (see CPT/SSC comments section Figure 1) it does appear that male natural mortality should be higher than the assumed 0.18 in the base model, however models explorations here did not reflect this improvement in total likelihood. While the author does acknowledge that natural mortality should be updated, determining the correct value or prior to estimate M is important due to the large ramifications on the references points. Future work on natural mortality could include repeating the likelihood profile from 2020, exploring the sensitivity to estimating M with different prior configurations and exploring the relationship between estimating M and *Q* simutaneously with less informative priors. 
@@ -267,8 +273,7 @@ As discussed at the simpler modeling workshop in March 2023, further work is nee
 
 Based on the above considerations, we recommend model continuing to use the base model (21.1b) for overfishing definition determination in September 2023 due to a simple approach: a fixed base M of 0.18 for males, less confounding between estimating M and survey catchability, and acceptable data fittings. Model 22.0 is also an option, however this reduced data version of the base model has a larger retrospective pattern for mature male biomass, suggesting some caution in transitioning to this version of the base model. We are open to bringing forward variations of models that increase natural mortality but do not have a preferrred model at this time for that improvement. 
 
-\pagebreak 
-\newpage\clearpage
+
 
 # D. Calculation of the OFL and ABC{-}
 Tier 3 control rules and methodology behind these calculations are explained in detail in the last full SAFE report published on the NPFMC website (see summary section for link). 
@@ -289,7 +294,7 @@ The projections are subject to many uncertainties. Constant population parameter
 
 
 # J. Acknowledgements {-}
-Drs. Andre Punt, James Ianelli, and D’Arcy Webber first applied BBRKC data to GMACS for stock assessments and our GMACS model mainly comes from their work. 
+Drs. Andre Punt, James Ianelli, and D’Arcy Webber first applied BBRKC data to GMACS for stock assessments and our GMACS model mainly comes from their work. Thanks to Tyler Jackson (ADF&G) for assistance with data summaries and review of this document.
 
 # K. References {-}
 References can be found in the last full SAFE published on the NPFMC website and will not be repeated here.
