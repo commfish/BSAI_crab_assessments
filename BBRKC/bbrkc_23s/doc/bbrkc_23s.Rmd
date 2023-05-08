@@ -302,7 +302,7 @@ The projections are subject to many uncertainties. Constant population parameter
 
 
 # J. Acknowledgements {-}
-Drs. Andre Punt, James Ianelli, and D’Arcy Webber first applied BBRKC data to GMACS for stock assessments and our GMACS model mainly comes from their work. Thanks to Tyler Jackson (ADF&G) for assistance with data summaries and review of this document.
+Drs. Andre Punt, James Ianelli, and D’Arcy Webber first applied BBRKC data to GMACS for stock assessments and our GMACS model mainly comes from their work. Thanks to Tyler Jackson (ADF&G) for assistance with survey data summaries, REMA modeling code and review of this document.
 
 # K. References {-}
 References can be found in the last full SAFE published on the NPFMC website and will not be repeated here.

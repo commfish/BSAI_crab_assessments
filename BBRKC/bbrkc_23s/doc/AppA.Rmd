@@ -45,7 +45,7 @@ M & MMB > B_{MSY}\\[10pt]
 \end{cases}
 \end{equation}
 
-where MMB is quantified at the mean time of mating date (15 February), $B_{MSY}$ is defined as the average MMB for a specified period, $M$ = 0.18 yr$^{-1}$, and $\alpha$ = 0.1. The Tier 4 OFL (Table @\ref(tab:specs-rema)) was calculated by applying a fishing mortality determined by the harvest control rule (above) to the mature male biomass at the time of mating (B$_{proj}$ or Current B).
+where MMB is quantified at the mean time of mating date (15 February), $B_{MSY}$ is defined as the average MMB for a specified period, $M$ = 0.18 yr$^{-1}$, and $\alpha$ = 0.1. The Tier 4 OFL (Table \@ref(tab:specs-rema)) was calculated by applying a fishing mortality determined by the harvest control rule (above) to the mature male biomass at the time of mating (B$_{proj}$ or Current B).
 
 ```{r specs-rema, results = "asis"}
 
