@@ -177,14 +177,92 @@ plot_selectivity_kjp(M[mod_yr], "NMFS Trawl")
 ggsave(paste0(.FIGS, "selectivity_23s_trawl_MOD_year.png"), width = ww*1.50, height = 0.85*hh)
 
 
-# experiment 
+# experiment --------------
+# these plot are done manually here need to put into function ASAP
 plot_selectivity_kjp(M[2:3], "NMFS Trawl", ctype = "Capture", tlab = "Model")
-mdf <- .get_selectivity_df(M[2:3])
+# mod_scen
+mdf <- .get_selectivity_df(M[2:6])
+# mod_q
+#mdf <- .get_selectivity_df(M[mod_q])
+#mod_yr
+#mdf <- .get_selectivity_df(M[mod_yr])
 
 mdf <- subset(mdf, fleet == "NMFS Trawl")
 mdf <- subset(mdf, type == "Capture")
 
+#plot_selectivity_kjp_capture(M[2:3], "NMFS Trawl", ctype = "Capture")
+xlab = "Mid-point of size class (mm)" 
+ylab = "Selectivity"
+tlab = "Model" 
+ilab = "Period year"
+p <- ggplot(mdf) + expand_limits(y = c(0, 1))
 
+p <- p + geom_line(aes(variable, value, col = factor(year), 
+                       linetype = Model))
+p <- p + facet_grid(fleet + year ~ sex, margins = FALSE)
+
+p <- p + labs(y = ylab, x = xlab, col = ilab, linetype = tlab) + .THEME
+#scale_linetype_manual(values = c("solid", "dashed", 
+#"dotted")) + .THEME
+p <- p + theme(strip.text.x = element_text(margin = margin(1, 
+                                                           0, 1, 0)), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+               panel.border = element_blank(), panel.background = element_blank(), 
+               strip.background = element_rect(color = "white", 
+                                               fill = "white"))
+print(p)
+
+# for models mod_yr
+ggsave(paste0(.FIGS, "selectivity_23s_trawl_MOD_yr_UPDATED.png"), width = ww*1.50, height = 0.85*hh)
+
+# for models mod-q
+ggsave(paste0(.FIGS, "selectivity_23s_trawl_MOD_Q_UPDATED.png"), width = ww*1.50, height = 0.85*hh)
+
+# for models 2:6 save 
+ggsave(paste0(.FIGS, "selectivity_23s_trawl_MOD_scen_UPDATED.png"), width = ww*1.50, height = 0.85*hh)
+
+
+## selectivity just males for presentation ---------
+# mod_scen
+#mdf <- .get_selectivity_df(M[2:6])
+# mod_q
+#mdf <- .get_selectivity_df(M[mod_q])
+#mod_yr
+#mdf <- .get_selectivity_df(M[mod_yr])
+
+mdf <- .get_selectivity_df(M[c(2,6,7,8)])
+mdf <- subset(mdf, fleet == "NMFS Trawl")
+mdf <- subset(mdf, type == "Capture")
+mdf <- subset(mdf, sex == "Male")
+
+#plot_selectivity_kjp_capture(M[2:3], "NMFS Trawl", ctype = "Capture")
+xlab = "Mid-point of size class (mm)" 
+ylab = "Selectivity"
+tlab = "Model" 
+ilab = "Period year"
+p <- ggplot(mdf) + expand_limits(y = c(0, 1))
+
+p <- p + geom_line(aes(variable, value, col = factor(year), 
+                       linetype = Model))
+p <- p + facet_grid(fleet + year ~ sex, margins = FALSE)
+
+p <- p + labs(y = ylab, x = xlab, col = ilab, linetype = tlab) + .THEME
+#scale_linetype_manual(values = c("solid", "dashed", 
+#"dotted")) + .THEME
+p <- p + theme(strip.text.x = element_text(margin = margin(1, 
+                                                           0, 1, 0)), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+               panel.border = element_blank(), panel.background = element_blank(), 
+               strip.background = element_rect(color = "white", 
+                                               fill = "white"))
+print(p)
+
+# for models mod_yr
+#ggsave(paste0(.FIGS, "selectivity_23s_trawl_MOD_yr_UPDATED.png"), width = ww*1.50, height = 0.85*hh)
+
+# for models mod-q
+ggsave(paste0(.FIGS, "selectivity_23s_trawl_MOD_Q_YR_UPDATED_Male.png"), width = ww*0.95, height = 1.1*hh)
+
+# for models 2:6 save 
+#ggsave(paste0(.FIGS, "selectivity_23s_trawl_MOD_scen_UPDATED_Male.png"), width = ww*0.95, height = 1.1*hh)
 
 
 # !!!moliting probability -------
@@ -197,6 +275,15 @@ ggsave(paste0(.FIGS, "molt_prob_mod_scen_q.png"), width = ww*1.5, height = hh*1.
 
 plot_molt_prob(M[c(2,5)])
 ggsave(paste0(.FIGS, "molt_prob_base_M0.31.png"), width = ww*1.5, height = hh*1.5)
+
+plot_molt_prob_sex(M[2:6], subsetby = "Male")
+ggsave(paste0(.FIGS, "molt_prob_MALE_mod_scen.png"), width = ww*1.15, height = hh*1.25)
+
+plot_molt_prob_sex(M[mod_q], subsetby = "Male")
+ggsave(paste0(.FIGS, "molt_prob_MALE_mod_scen_Q.png"), width = ww*1.15, height = hh*1.25)
+
+plot_molt_prob_sex(M[mod_yr], subsetby = "Male")
+ggsave(paste0(.FIGS, "molt_prob_MALE_mod_scen_YR.png"), width = ww*1.15, height = hh*1.25)
 
 #!! trawl survey -----------
 #{r trawl_survey_biomass, fig.cap = "Comparisons of area-swept estimates of total (90+ mm CL) male survey biomass (tons) and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations.\\label{fig:trawl_survey_biomass}"} 
