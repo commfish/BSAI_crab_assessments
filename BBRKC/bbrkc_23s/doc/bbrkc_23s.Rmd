@@ -163,6 +163,17 @@ Response: This is on the authors list of future work to be addressed with explor
 
 Response: The author agrees that this should be a high priority, however current explorations are still ongoing.  
 
+*"The SSC recommends investigation of the highly biased fits to the BSFRF index and suggests that the current approach of inflating the variance to account for lack of fit is inappropriate when obvious bias is present."*
+
+Response: We agree with this recommendation, and are investigating this avenue along with exploring catchability for both surveys.
+
+*"The accumulation of large males and particularly large females in the plus group indicates length bin groups may need to be re-evaluated."*
+
+Response: We acknowledge this observation and have extending the size bins on the list of further work for this model. 
+
+*"The SSC noted that the NMFS and the State determined that the survey re-tows would not be conducted in 2022, despite meeting the threshold to do so. The SSC requests an examination from the assessment author of the potential value of these re-tows, and whether re-tows provide a more or less accurate index of abundance."*
+
+Response: We present model 23.2 in this document as a bookend for the model output without any retow data. If the CPT and SSC wish to see more variations of this model we can provide them, i.e. removing some years and not all as one possibility. While female re-tow data does not highly affect male model outcomes it does affect fishery closures since the State of Alaska harvest strategy uses a mature female threshold for opening.
 
 # C. Modeling Approaches and Explorations for spring 2023{-}
 
@@ -196,7 +207,7 @@ Exploring natural mortality has been a repeated theme in this model, with explor
 
 Both the recent years CPT/SSC comments and the simpler modeling workshop report suggested that further work be done to determine the most appropriate method to estimate catchability (*Q*) for the NMFS trawl survey. Currently, initial trawl survey catchability is estimated to be 0.896 with a standard deviation of 0.025 (CV about 0.03) that is based on double-bag experiment results (Weinberg et al. 2004). However, the appropriateness of this prior and the relationship between NMFS trawl survey *Q* and that assumed for the BSFRF survey should be explored further. The models presented here are just a beginning of this exploration since they assume the same prior distribution mean but increase the variability to a CV of 0.06. 
 
-The final model scenario (model 23.2) explored in this document is one to determine the sensitivity of model output to the female retow data being included in the modeling process. Female BBRKC have been observed to delay the molt and mate cycle in cold temperature years. When this occurs catch of females on leg 1 of the NMFS trawl survey can be low and include many females that have egg conditions that are barren, eyed, or hatching. The historic protocol has been to resample females llater in the summer when the percentage of females that have not completed the molt-mate cycle is greater than 10%. Historically this has occurred in eleven years since 1999. When resampling is performed the "retow" data for females at those stations resampled replaces the original data in the biomass and size composition data sets. The male information from the retows is not used. Model 23.2 is the base model (21.1b) with a new data file which includes the original leg 1 female data. More information on the retow procedure and data can be found in the Jan and May 2022 CPT meeting agendas on the NPFMC website.  
+The final model scenario (model 23.2) explored in this document is one to determine the sensitivity of model output to the female retow data being included in the modeling process. Female BBRKC have been observed to delay the molt and mate cycle in cold temperature years. When this occurs catch of females on leg 1 of the NMFS trawl survey can be low and include many females that have egg conditions that are barren, eyed, or hatching. The historic protocol has been to resample females later in the summer when the percentage of females that have not completed the molt-mate cycle is greater than 10%. Historically this has occurred in eleven years since 1999. When resampling is performed the "retow" data for females at those stations resampled replaces the original data in the biomass and size composition data sets. The male information from the retows is not used. Model 23.2 is the base model (21.1b) with a new data file which includes the original leg 1 female data. More information on the retow procedure and data can be found in the Jan and May 2022 CPT meeting agendas on the NPFMC website.  
 
 ## Results {-}
 
