@@ -58,6 +58,7 @@ files used for model: found in the gmacs.dat file in each folder, also have a fi
 Thinking this should be done for a few models to compare with base?
 Try with '-nohess' added to avoid error I'm getting in the resent version of GMACS.
 
+### retrospective run code is found in bbrkc_23s under each models name
 
 ## model runs - initial to compare to Jie's ------
 ### Model 21.1b - run 4-14-23; see gmacs.dat -
