@@ -1,0 +1,160 @@
+---
+title: "Bristol Bay Red King Crab Stock Assessment 2023"
+author: |
+  | Katie Palof$^1$, 
+  | $^1$Alaska Department of Fish and Game, katie.palof@alaska.gov 
+date: "`r format(Sys.time(), '%B %Y')`"
+output:
+  bookdown::pdf_document2:
+    fig_caption: true
+    includes: null
+    toc: no
+---
+
+\pagenumbering{arabic}
+
+```{r global_options, include=FALSE, echo = FALSE, message = FALSE, warning=FALSE}
+library(knitr)
+opts_chunk$set(fig.width = 12, fig.height = 7, fig.align = "left", echo = FALSE, warning = FALSE, message = FALSE,  dpi=300)
+#\pagenumbering{gobble}
+```
+
+```{r, load_packages, echo = FALSE, include = FALSE}
+library(gmr)
+library(xtable)
+library(tidyverse)
+#source(paste0(here::here(), "./SMBKC/code/gmr_functions2020.R"))
+options(xtable.comment = FALSE)
+## before running update model specs here and in doc_figures_test.R
+## run code in that R file with !! to get table and figure input here
+# the model specs
+cur_yr <- 2023 
+folder <- "bbrkc_23f"
+```
+
+# Executive Summary {-}
+1.	**Stock**: Red king crab (RKC), *Paralithodes camtschaticus*, in Bristol Bay, Alaska.
+
+2.	**Catches**: The domestic RKC fishery began to expand in the late 1960s and peaked in 1980 with a catch of 129.95 million lb (58,943 t). The catch declined dramatically in the early 1980s and remained at low levels during the last three decades. After rationalization, catches were relatively high before the 2010/11 season but have been on a declining trend since 2014. The retained catch in 2020/21 was approximately 2.65 million lb (1,257 t), compared to 4.5 million lb (2,027 t) in 2018/19, following a reduction in total allowable catch (TAC). The magnitude of bycatch from groundfish trawl and fixed gear fisheries has been stable and small relative to stock abundance during the last 10 years. The decline of the directed pot fishery crab/pot lift (CPUE) has been much less than the retained catch decline, with the 2020/21 CPUE having about 12.5% reduction from the average CPUE during the recent 20 years. 
+
+3.	**Stock biomass**: Estimated mature biomass increased dramatically in the mid-1970s, then decreased precipitously in the early 1980s. Estimated mature crab abundances increased during 1985-2007 with mature females being about four times more abundant in 2007 than in 1985 and mature males being about two times more abundant in 2007 than in 1985. Estimated mature abundance has steadily declined since 2007. The projected mature male biomass in 202X is approximately XX% of the estimate mean survey biomass for the entire time series. The estimated mature female biomass has also been very low during the last four years, with the 2022 values begin approximately XX42% of the mean. The estimated mature female abundance was below the state of Alaska harvest strategy threshold of 8.4 million of crab for a fishery opening in XX2022.
+
+
+\pagebreak
+
+# A. Summary of Major Changes {-}
+
+## Changes in Management of the Fishery {-}
+
+There are no new changes in management of the fishery.
+
+## Changes to the Input Data {-}
+
+
+## Changes in Assessment Methodology {-}
+
+
+## Changes in Assessment Results {-}
+
+
+
+
+# B. Responses to SSC and CPT  {-}
+
+## CPT and SSC Comments on Assessments in General {-}
+
+# C. Introduction {-}
+
+## Scientific Name {-}
+
+
+## Distribution {-}
+
+
+## Stock Structure {-}
+
+
+## Life History {-}
+
+
+## Management History {-}
+
+
+
+# D. Data {-}
+
+## Summary of New Information {-}
+
+
+## Major Data Sources {-}
+
+
+## Other Data Sources {-}
+
+
+# E. Analytic Approach {-}
+
+## History of Modeling Approaches for this Stock {-}
+
+
+## Assessment Methodology {-}
+
+This assessment model again uses the modeling framework GMACS and is detailed in Appendix A.
+An updated version of GMACS (version 2.01.F, 2022-04-16) was used.
+
+## Model Selection and Evaluation {-}
+
+
+## Results {-}
+
+### a. Sensitivity to new data {-}
+
+
+### b. Effective sample sizes and weighting factors {-}
+
+### c. Parameter estimates {-}
+
+### d. Evaluation of the fit to the data.{-}
+
+### e. Retrospective and historical analyses {-}
+
+### f. Uncertainty and sensitivity analyses.{-}
+
+### g. Comparison of alternative model scenarios.{-}
+
+# F. Calculation of the OFL and ABC{-}
+
+
+# G. Rebuilding Analysis {-}
+
+
+# H. Data Gaps and Research Priorities {-}
+
+
+# I. Projections and outlook {-}
+
+# J. Acknowledgements {-}
+
+# K. References {-}
+
+\pagebreak 
+\newpage\clearpage
+# Tables {-}
+
+
+
+\clearpage
+\pagebreak 
+
+# Figures {-}
+\newpage
+
+```{r distribution, fig.cap = "Distribution of blue king crab (\\textit{Paralithodes platypus}) in the Gulf of Alaska, Bering Sea, and Aleutian Islands waters (shown in blue)."}
+#knitr::include_graphics("safe_figure/Fig1.png", dpi = 125)
+```
+
+
+
+\clearpage
+\pagebreak
+
