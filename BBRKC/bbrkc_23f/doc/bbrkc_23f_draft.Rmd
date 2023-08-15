@@ -395,8 +395,17 @@ An updated version of GMACS (version 2.01.F, 2022-04-16) was used.
 1. Bristol Bay RKC is currently placed in Tier 3b (NPFMC 2007)
 2.	For Tier 3 stocks, estimated biological reference points include B35% and F35%. Estimated model parameters are used to conduct mature male biomass-per-recruit analysis. 
 3.	Specification of the OFL:
-The Tier 3 control rule formula is as follows:
 
+The Tier 3 OFL is calculated using the $F_{OFL}$ control rule:
+
+\begin{equation}
+F_{OFL} = 
+\begin{cases}
+0_{directed pot} & \frac{B}{B^{*}} \leq \beta\\[10pt]
+F^{*}\frac{(\frac{B}{B^{*}} - \alpha)}{1-\alpha} & \beta < \frac{B}{B^{*}} \leq 1\\[10pt]
+F^{*} & \frac{B}{B^{*}} > 1\\[10pt]
+\end{cases}
+\end{equation}
 
 Where 
 
