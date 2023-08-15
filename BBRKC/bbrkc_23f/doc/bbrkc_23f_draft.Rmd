@@ -76,28 +76,32 @@ NEED A TABLE HERE
 
 # A. Summary of Major Changes {-}
 
-## Changes in Management of the Fishery {-}
+## 1. Changes in Management of the Fishery {-}
 
 There are no new changes in management of the fishery.
 
-## Changes to the Input Data {-}
+## 2. Changes to the Input Data {-}
 a.	Updated groundfish fisheries bycatch data during 1986-2022.
 b.	Updated NMFS survey data for 2023, biomass and length compositions
 c.	Updated length composition data for directed and non-directed fisheries.
 
-## Changes in Assessment Methodology {-}
+## 3. Changes in Assessment Methodology {-}
 Updated version of GMACS (version XX, XX, 2023) is used.
 b. The analyses of terminal years of recruitment are updated. 
 c. Three models are compared in this report (See Section E.3.a for details):
+
       **21.1b**: model 21.1a + updated groundfish fisheries bycatch data. 
+
     	**22.0**: model 21.1b + starting in 1985.
+
     	**23.0a**: model 22.0 + estimating a constant M for males.
+
     These models are designed for evaluating starting the model in 1985 and estimating M for males.  
 
 
-## Changes in Assessment Results {-}
+## 4. Changes in Assessment Results {-}
 
-
+Three model scenarios are compared in this report. 
 
 
 # B. Responses to SSC and CPT  {-}
@@ -236,56 +240,133 @@ Response: We present model 23.2 in this document as a bookend for the model outp
 
 # C. Introduction {-}
 
-## Scientific Name {-}
+## 1. Scientific Name {-}
 Red king crab (RKC), *Paralithodes camtschaticus*, in Bristol Bay, Alaska.
 
-## Distribution {-}
+## 2. Distribution {-}
 Red king crab inhabit intertidal waters to depths >200 m of the North Pacific Ocean from British Columbia, Canada, to the Bering Sea, and south to Hokkaido, Japan, and are found in several areas of the Aleutian Islands, eastern Bering Sea, and the Gulf of Alaska.
 
-## Stock Structure {-}
+## 3. Stock Structure {-}
 The State of Alaska divides the Aleutian Islands and eastern Bering Sea into three management registration areas to manage RKC fisheries: Aleutian Islands, Bristol Bay, and Bering Sea (ADF&G 2012). The Bristol Bay area includes all waters north of the latitude of Cape Sarichef (54°36' N lat.), east of 168°00' W long., and south of the latitude of Cape Newenham (58°39' N lat.) and the fishery for RKC in this area is managed separately from fisheries for RKC outside of this area; i.e., the red king crab in the Bristol Bay area are assumed to be a separate stock from red king crab outside of this area. This report summarizes the stock assessment results for the Bristol Bay RKC stock.
 
-## Life History {-}
+## 4. Life History {-}
 Red king crab have a complex life history. Fecundity is a function of female size, ranging from tens of thousands to hundreds of thousands (Haynes 1968; Swiney et al. 2012). The eggs are extruded by females, fertilized in the spring, and held by females for about 11 months (Powell and Nickerson 1965). Fertilized eggs are hatched in the spring, most during April-June (Weber 1967). Primiparous females are bred a few weeks earlier in the season than multiparous females.
 Larval duration and juvenile crab growth depend on temperature (Stevens 1990; Stevens and Swiney 2007). Male and female RKC mature at 5–12 years old, depending on stock and temperature (Stevens 1990; Loher et al. 2001) and may live >20 years (Matsuura and Takeshita 1990). Males and females attain a maximum size of 227 mm and 195 mm carapace length (CL), respectively (Powell and Nickerson 1965). Female maturity is evaluated by the size at which females are observed to carry egg clutches. Male maturity can be defined by multiple criteria including spermataphore production and size, chelae vs. carapace allometry, and participation in mating in situ (reviewed by Webb 2014). For management purposes, females >89 mm CL and males >119 mm CL are assumed to be mature for Bristol Bay RKC. Juvenile RKC molt multiple times per year until age 3 or 4; thereafter, molting continues annually in females for life and in males until maturity. Male molting frequency declines after attaining functional maturity.
 
-## Fishery {-}
+## 5. Fishery {-}
 The RKC stock in Bristol Bay, Alaska, supports one of the most valuable fisheries in the United States. A review of the history of the Bristol Bay RKC fishery is provided in Fitch et al. (2012) and Otto (1989). The Japanese fleet started the fishery in the early 1930s, stopped fishing from 1940 to 1952, and resumed the fishery from 1953 until 1974. The Russian fleet fished for RKC from 1959 to 1971. The Japanese fleet employed primarily tanglenets with a very small proportion of catch from trawls and pots. The Russian fleet used only tanglenets. United States trawlers started fishing Bristol Bay RKC in 1947, but the effort and catch declined in the 1950s. The domestic RKC pot fishery began to expand in the late 1960s and peaked in 1980 with a catch of 129.95 million lb (58,943 t), worth an estimated $115.3 million ex-vessel value. The catch declined dramatically in the early 1980s and has remained at low levels during the last two decades (Tables 1a and 1b). After the early 1980s stock collapse, the Bristol Bay RKC fishery took place during a short period in the fall (usually lasting about a week) with the catch quota based on the stock assessment conducted the previous summer (Zheng and Kruse 2002). Beginning with the 2005/2006 season, new regulations associated with fishery rationalization resulted in an increase in the duration of the fishing season (October 15 to January 15). With the implementation of crab rationalization, the annual guideline harvest level (GHL) was changed to a total allowable catch (TAC). Before rationalization, the implementation errors were quite high for some years and sum of actual catches from 1980 to 2007 was about 6% less than the sum of GHL/TAC over that period.
 
-## Management History {-}
+## 6. Management History {-}
 King and Tanner crab stocks in the Bering Sea and Aleutian Islands are managed by the State of Alaska through a federal king and Tanner crab fishery management plan (FMP). Under the FMP, management measures are divided into three categories: (1) fixed in the FMP, (2) frameworked in the FMP, and (3) discretion of the State of Alaska. The State of Alaska is responsible for determining and establishing the GHL/TAC under the framework in the FMP.
-Harvest strategies for the Bristol Bay RKC fishery have changed over time. Two major management objectives for the fishery are to maintain a healthy stock that ensures reproductive viability and to provide for sustained levels of harvest over the long term (ADF&G 2012). In attempting to meet these objectives, the GHL/TAC is coupled with size-sex-season restrictions. Only males ≥6.5-in carapace width (equivalent to 135-mm CL) may be harvested and no fishing is allowed during molting and mating periods (ADF&G 2012). Specification of TAC is based on a harvest rate strategy. Before 1990, harvest rates on legal males were based on population size, abundance of prerecruits to the fishery, postrecruit abundance, and rates varied from less than 20% to 60% (Schmidt and Pengilly 1990). In 1990, the harvest strategy was modified, and a 20% mature male harvest rate was applied to the abundance of mature-sized (≥120-mm CL) males with a maximum 60% harvest rate cap of legal (≥135-mm CL) males (Pengilly and Schmidt 1995). In addition, a minimum threshold of 8.4 million mature-sized females (≥90-mm CL) was added to existing management measures to avoid recruitment overfishing (Pengilly and Schmidt 1995). Based on a new assessment model and research findings (Zheng et al. 1995a, 1995b, 1997a, 1997b), the Alaska Board of Fisheries adopted a new harvest strategy in 1996. That strategy had two mature male harvest rates: 10% when effective spawning biomass (ESB) is between 14.5 and 55.0 million lb and 15% when ESB is at or above 55.0 million lb (Zheng et al. 1996). The maximum harvest rate cap of legal males was changed from 60% to 50%. A threshold of 14.5 million lb of ESB was also added. In 1997, a minimum threshold of 4.0 million lb was established as the minimum GHL for opening the fishery and maintaining fishery viability and manageability when the stock abundance is low. The Board modified the current harvest strategy in 2003 by adding a mature harvest rate of 12.5% when the ESB is between 34.75 and 55.0 million lb and in 2012 eliminated the minimum GHL threshold. The current harvest strategy is illustrated in Figure 1.
+Harvest strategies for the Bristol Bay RKC fishery have changed over time. Two major management objectives for the fishery are to maintain a healthy stock that ensures reproductive viability and to provide for sustained levels of harvest over the long term (ADF&G 2012). In attempting to meet these objectives, the GHL/TAC is coupled with size-sex-season restrictions. Only males $\geq$ 6.5in carapace width (equivalent to 135mm CL) may be harvested and no fishing is allowed during molting and mating periods (ADF&G 2012). Specification of TAC is based on a harvest rate strategy. Before 1990, harvest rates on legal males were based on population size, abundance of prerecruits to the fishery, postrecruit abundance, and rates varied from less than 20% to 60% (Schmidt and Pengilly 1990). In 1990, the harvest strategy was modified, and a 20% mature male harvest rate was applied to the abundance of mature-sized ($\geq$ 120mm CL) males with a maximum 60% harvest rate cap of legal ($\geq$ 135mm CL) males (Pengilly and Schmidt 1995). In addition, a minimum threshold of 8.4 million mature-sized females ($\geq$ 90mm CL) was added to existing management measures to avoid recruitment overfishing (Pengilly and Schmidt 1995). Based on a new assessment model and research findings (Zheng et al. 1995a, 1995b, 1997a, 1997b), the Alaska Board of Fisheries adopted a new harvest strategy in 1996. That strategy had two mature male harvest rates: 10% when effective spawning biomass (ESB) is between 14.5 and 55.0 million lb and 15% when ESB is at or above 55.0 million lb (Zheng et al. 1996). The maximum harvest rate cap of legal males was changed from 60% to 50%. A threshold of 14.5 million lb of ESB was also added. In 1997, a minimum threshold of 4.0 million lb was established as the minimum GHL for opening the fishery and maintaining fishery viability and manageability when the stock abundance is low. The Board modified the current harvest strategy in 2003 by adding a mature harvest rate of 12.5% when the ESB is between 34.75 and 55.0 million lb and in 2012 eliminated the minimum GHL threshold. The current harvest strategy is illustrated in Figure 1.
 
 
 # D. Data {-}
 
-## Summary of New Information {-}
+## 1. Summary of New Information {-}
 a.	Updated groundfish fisheries bycatch data during 1986-2022.
 b.	Updated survey data for 2023
 c.	Updated length-frequencies distributions for all data sets for 2022/2023
 Data types and availability periods are illustrated in Figure 2.  
 
 
-## Catch Data {-}
+## 2. Catch Data {-}
 Data on landings of Bristol Bay RKC by length and year and catch per unit effort from 1960 to 1973 were obtained from annual reports of the International North Pacific Fisheries Commission (Hoopes et al. 1972; Jackson 1974; Phinney 1975) and from the Alaska Department of Fish and Game from 1974 to 2020 (Tables 1a and 1b). Bycatch data are available starting from 1990 and were obtained from the ADF&G observer database and reports (Gaeuman 2013) (Table 2). Sample sizes for catch by length and shell condition are summarized in Table 3a. Relatively large samples were taken from the retained catch each year. Sample sizes for trawl bycatch were the annual sums of length frequency samples in the National Marine Fisheries Service (NMFS) database. 
 
-### Catch Biomass {-}
+### a. Catch Biomass {-}
 Retained catch and estimated bycatch biomasses are summarized in Tables 1a and 1bXX and illustrated in Figure 3. Retained catch and estimated bycatch from the directed fishery include the general, open-access fishery (prior to rationalization), or the individual fishery quota (IFQ) fishery (after rationalization), as well as the Community Development Quota (CDQ) fishery and the ADF&G cost-recovery harvest. Starting in 1973, the fishery generally occurred during the late summer and fall. Before 1973, a small portion of retained catch in some years was caught from April to June. The years in Tables 1a and 1b are defined as crab year from July 1 to June 30. Bycatch data for the cost-recovery fishery before 2006 were not available. In this report, pot fisheries include both the directed fishery and RKC bycatch in the Tanner crab pot fishery, and trawl fisheries and fixed gear fisheries are groundfish fisheries. Observers did not separate retained and discarded catch of legal-sized crab after 2017 in the directed pot fishery, so the male discarded biomass from the directed fishery has been estimated by the subtraction method since 2018 (B. Daly, ADF&G, personal communication). 
 
-### Catch Size Composition {-}
+### b. Catch Size Composition {-}
 Retained catches by length and shell condition and bycatches by length, shell condition, and sex were obtained for stock assessments. From 1960 to 1966, only retained catch length compositions from the Japanese fishery were available. Retained catches from the Russian and U.S. fisheries were assumed to have the same length compositions as the Japanese fishery during this period. From 1967 to 1969, the length compositions from the Russian fishery were assumed to be the same as those from the Japanese and U.S. fisheries. After 1969, foreign catch declined sharply and only length compositions from the U.S. fishery were used to distribute catch by length.
 
-### Catch per Unit Effort {-}
+### c. Catch per Unit Effort {-}
 Catch per unit effort (CPUE) is defined as the number of retained crab per tan (a unit fishing effort for tanglenets) for the Japanese and Russian tanglenet fisheries and the number of retained crab per potlift for the U.S. fishery (Table 1bXX). Soak time, while an important factor influencing CPUE, is difficult to standardize. Furthermore, complete historical soak time data from the U.S. fishery are not available. Based on the approach of Balsiger (1974), all fishing effort from Japan, Russia, and U.S. were standardized to the Japanese tanglenet from 1960 to 1971, and the CPUE was standardized as crab per tan. Except for the peak-to-crash years of the late 1970s and early 1980s, the correspondence between U.S. fishery CPUE and area-swept survey abundance is poor (Figure 4XX). Due to the difficulty in estimating commercial fishing catchability and crab availability to the NMFS annual trawl survey data, commercial CPUE data were not used in the model.
 
-## NMFS Survey Data {-}
+## 3. NMFS Survey Data {-}
 The NMFS has conducted annual trawl surveys of the eastern Bering Sea since 1968. Two vessels, each towing an eastern otter trawl with an 83 ft headrope and a 112 ft footrope, conducted this multispecies, crab-groundfish survey during the summer. Stations were sampled in the center of a systematic 20 X 20 nm grid overlaid in an area of approximately 140,000 $nm^2$. Since 1972, the trawl survey has covered the full stock distribution except in nearshore waters. The survey in Bristol Bay occurs primarily during late May and June. Tow-by-tow trawl survey data for Bristol Bay RKC during 1975-2023 were provided by NMFS. Due to survey data quality issue, only survey data after 1974 are used in the assessment models.
 
+Abundance estimates by sex, carapace length, and shell condition were derived from survey data using an area-swept approach (Figures 5aXX and 5bXX). Until the late 1980s, NMFS used a post-stratification approach, but subsequently treated Bristol Bay as a single stratum; the estimates shown for Bristol Bay in Figures 4XX, 5aXX, and 5bXX were made without post-stratification. If multiple tows were made at a single station in a given year, the average of the abundances from all tows within that station was used as the estimate of abundance for that station. The new time series since 2015 discards all “hot spot” tows.  We used the new area-swept estimates provided by NMFS in 2023. The VAST estimated biomasses were not considered in this year’s assessment but may be considered in the future (Figure 6XX).
+
+In addition to the standard surveys conducted in early June (late May to early June in 1999 and 2000), a portion of the distribution of Bristol Bay RKC was resurveyed in 1999, 2000, 2006-2012, and 2021 to better assess mature female abundance. Resurveys performed in late July, about six weeks after the standard survey, included 31 stations (1999), 23 stations (2000), 31 stations (2006, 1 bad tow and 30 valid tows), 32 stations (2007-2009), 23 stations (2010), and 20 stations (2011, 2012, and 2021) with high female densities. The resurveys were necessary because a high proportion of mature females had not yet molted or mated when sampled during the standard survey time. Differences in area-swept estimates of abundance between the standard surveys and resurveys of these same stations are attributed to survey measurement errors or to seasonal changes in distribution between survey and resurvey periods. More large females were observed in the resurveys than during the standard surveys in 1999 and 2000, presumably because most mature females had not molted prior to the standard surveys. As in 2006, area-swept estimates of males >89 mm CL, mature males, and legal males within the 32 resurvey stations in 2007 were not significantly different (P=0.74, 0.74 and 0.95; paired t-test of sample means) between the standard survey and resurvey tows. However, similar to 2006, area-swept estimates of mature females within the 32 resurvey stations in 2007 were significantly different (P=0.03; paired t-test) between the standard survey and resurvey tows. Resurvey stations were close to shore during 2010-2012, and mature and legal male abundance estimates were lower for the re-tow than the standard survey. Following the CPT recommendation, we used the standard survey data for male abundance estimates and only the resurvey data, plus the standard survey data outside the resurveyed stations, to assess female abundances during resurvey years.
+
+## 4. Bering Sea Fisheries Research Foundation Survey Data {-}
+The BSFRF conducted trawl surveys for Bristol Bay RKC in 2007 and 2008 with a small-mesh trawl net and 5-minute tows (S. Goodman, BSFRF, pers. com.). The surveys occurred at similar times as the NMFS standard surveys and covered about 97% of the Bristol Bay survey area. Few Bristol Bay RKC were found outside the BSFRF survey area. Because of the small mesh size, the BSFRF surveys were expected to catch more RKC within the swept area. Crab abundances of different size groups were estimated by the kriging method. Mature male abundances were estimated to be 22.331 million crab (CV = 0.0634) in 2007 and 19.747 million crab (CV = 0.0765) in 2008. BSFRF also conducted a side-by-side survey concurrent with the NMFS trawl survey during 2013-2016 in Bristol Bay. In May 2017, survey biomass and size composition estimates from 2016 BSFRF side-by-side trawl survey data were updated. Ratios of NMFS survey abundances/total NMFS and BSFRF side-by-side trawl survey abundances are illustrated in Figure 7a, and ratios of NMFS survey abundances/BSFRF side-by-side trawl survey abundances are shown in Figures \@ref(fig:bsfrf-compare1) -- \@ref(fig:bsfrf-compare3).  
+
+As a comparison to the estimated NMFS survey catchability (0.896) at 162.5 mm CL by the double-bag experiment, we computed an overall ratio (q=0.891) of NMFS survey abundances/BSFRF side-by-side trawl survey abundances for legal crab ($\geq$ 135mm carapace length) as follow:
+
+$q= \frac {\sum_{y=2013,l=135mm}^{y=2016,l=\infty}{r_{y,l}}n_{y,l}}{\sum_{y=2013,l=135mm}^{y=2016,l=\infty}{n_{y,l}}}$
+
+where $r_{y,l}$ is the ratio of NMFS survey abundance/BSFRF side-by-side trawl survey abundance in year y and length group l, and $n_{y,l}$ is the combined survey abundance of side-by-side surveys in year y and length group l. Due to small catch, all haul data were combined to compute the ratios for each length group and year. 
 
 
 # E. Analytic Approach {-}
 
-## History of Modeling Approaches for this Stock {-}
+## 1. History of Modeling Approaches for this Stock {-}
+To reduce annual measurement errors associated with abundance estimates derived from the area-swept method, ADF&G developed a length-based analysis (LBA) in 1994 that incorporates multiple years of data and multiple data sources in the estimation procedure (Zheng et al. 1995a). Annual abundance estimates of the Bristol Bay RKC stock from the LBA have been used to manage the directed crab fishery and to set crab bycatch limits in the groundfish fisheries since 1995 (Figure 1XX). An alternative length-based model (research model) was developed in 2004 to include small size crab to determine federal overfishing limits. Given that the crab abundance declined sharply during the early 1980s, the LBA estimated natural mortality for different periods of years, whereas the research model estimated additional mortality beyond a base constant natural mortality during 1980-1984. In this report, we present only the research model that was fit to the data from 1975 to 2023.
+
+## 2. Model Description {-}
+The original LBA model was described in detail by Zheng et al. (1995a, 1995b) and Zheng and Kruse (2002). The model combines multiple sources of survey, catch, and bycatch data using a maximum likelihood approach to estimate abundance, recruitment, selectivity, fishing mortality, catch, and bycatch of commercial pot fisheries and groundfish trawl fisheries. Since 2019, GMACS (General Model for Alaska Crab Stocks) has been used for this stock assessment. A full model description is provided in Appendix A. 
+
+### a-f. See Appendix A {-}
+
+### g.	Critical assumptions of the model: {-}
+i.	The base natural mortality is kept constant at 0.18 $yr_1$ for males, shell condition, and length and was estimated assuming a maximum age of 25 and applying the 1% rule (Zheng 2005).
+ii.	Survey and fisheries selectivities are a function of length and were constant over shell condition. Selectivities may or may not be a function of sex except for groundfish fisheries bycatch selectivities, which are the same for both sexes. Two different NMFS survey selectivities were estimated: (1) 1975-1981 and (2) 1982-2021, based on modifications to the trawl gear used in the assessment survey.
+iii.	Growth is a function of length. For females, growth-per-molt increments as a function of length are estimated for three periods (1975-1982, 1983-1993, and 1994-2022) based on sizes at maturity. Once mature, female red king crab have a much smaller growth increment per molt.
+iv.	Molting probabilities are an inverse logistic function of length for males. Females molt annually.
+v.	Annual fishing seasons for the directed fishery are short.
+vi.	The prior mean for NMFS survey catchability (Q) is estimated to be 0.896 with a standard deviation of 0.025 for some models, based on a trawl experiment by Weinberg et al. (2004); Q is assumed to be constant over time and is estimated in the model. The BSFRF survey catchability is assumed to be 1.0. The prior mean of 0.896 for NMFS survey Q (at 162.5 mm carapace length) is also close to the abundance-weighted average ratio of 0.891 for crab $\geq$ 135 mm CL across four years of side-by-side NMFS and BSFRF survey data (Figure 7c).
+vii.	Males mature at sizes $\geq$ 120 mm CL. For convenience, female abundance is summarized at sizes $\geq$ 90 mm CL as an index of mature females.
+viii.	Measurement errors are assumed to be normally distributed for length compositions and are log-normally distributed for biomasses. 
+
+### h.	Changes to the above since previous assessment: see Section A.3 for changes to the assessment methodology. {-}
+i.	Outline of methods used to validate the code used to implement the model and whether the code is available: Assessment results by GMACS have           been compared to the previous assessment models, and the code is online and available from the first author. 
+
+## 3. Model Selection and Evaluation {-}
+a. Alternative model configurations (models):
+
+**21.1b**: the base model for September 2021 with accepted updates May 2023 (12,13). 
+Basic features of this model include:  
+
+(1) An estimated constant M for males during 1980-1984, a constant (base) M of 0.18 for males during the other years, and an estimated constant multiplier being used to multiply male M for female M. That is, M for females is relative to M for males each year. 
+
+(2) Including BSFRF survey data during 2007-2008 and 2013-2016. 
+
+(3) Estimating a constant NMFS survey catchability over time in the model and assuming BSFRF survey catchability to be 1.0.
+
+(4) Assuming the BSFRF survey selectivities as the availability to the NMFS trawl survey because the BSFRF survey gear has very small mesh sizes and has tighter contact to the sea floor. This implies that crab occurring in nearshore areas are not available to trawl survey gears. 
+
+(5) Two levels of molting probabilities for males: one before 1980 and one after 1979, based on survey shell condition data. Each level has two parameters.
+
+(6) Estimating effective sample size from observed sample sizes. Stage-1 effective sample sizes are estimated as min(0.25xn, N) for trawl surveys and min(0.05xn, N) for catch and bycatch, where n is the sum of observed sample sizes for two sexes, and N is the maximum sample size (200 for trawl surveys, 150 for retained catch and total males from the directed pot fishery and 50 for females from the pot fishery and for both males and females from the Tanner crab and groundfish fisheries). There is justification for enforcing a maximum limit to effective sample sizes because the number of length measurements is large (Fournier et al. 1998). 
+
+(7) Standard survey data for males and NMFS survey re-tow data (if available during cold years) for females. 
+
+(8) Estimating initial year length compositions. 
+
+(9) Using total observer male biomass and total observer male length composition data in the directed pot fishery to replace discarded male biomass and discarded male length composition data.
+
+(10) Using total male selectivity and retained proportions in the directed pot fishery to replace retained selectivity and discarded male selectivity; and due to high grading problems in some years since rationalization, estimating two logistic curves for retained proportions: one before rationalization (before 2005) and another after 2004. 
+
+(11) Equal annual effective sample sizes of male and female length compositions for all size composition data sets.
+
+(12) using the recently updated version of GMACS (version 2.01.M.01).
+
+(13) updated groundfish fisheries bycatch data
+
+**22.0**: model 21.1b + starting in 1985
+
+**23.0a**: model 21.1b + estimating a base M for males 
+
+b.	Progression of results: See the new results at the beginning of the report.
+c.	Evidence of search for balance between realistic and simpler models: NA.
+d.	Convergence status/criteria: ADMB default convergence criteria.
+e.	Sample sizes for length composition data: observed sample sizes are summarized in Table 3aXX. 
+f.	Credible parameter estimates:  All estimated parameters seem to be credible and within bounds.
+g.	Model selection criteria: The likelihood values are used to select among alternatives that could be legitimately compared by that criterion. 
+h.	Residual analysis: Residual plots are illustrated in various figures.
+i.	Model evaluation is provided under Results, below.
+j.  Jittering: (XX add here)
 
 
 ## Assessment Methodology {-}
@@ -293,17 +374,14 @@ The NMFS has conducted annual trawl surveys of the eastern Bering Sea since 1968
 This assessment model again uses the modeling framework GMACS and is detailed in Appendix A.
 An updated version of GMACS (version 2.01.F, 2022-04-16) was used.
 
-## Model Selection and Evaluation {-}
 
+## 4. Results {-}
 
-## Results {-}
+### a. Effective sample sizes and weighting factors {-}
 
-### a. Sensitivity to new data {-}
+### b. Parameter estimates and tables {-}
 
-
-### b. Effective sample sizes and weighting factors {-}
-
-### c. Parameter estimates {-}
+### c. Graphs of estimates {-}
 
 ### d. Evaluation of the fit to the data.{-}
 
@@ -314,19 +392,163 @@ An updated version of GMACS (version 2.01.F, 2022-04-16) was used.
 ### g. Comparison of alternative model scenarios.{-}
 
 # F. Calculation of the OFL and ABC{-}
+1. Bristol Bay RKC is currently placed in Tier 3b (NPFMC 2007)
+2.	For Tier 3 stocks, estimated biological reference points include B35% and F35%. Estimated model parameters are used to conduct mature male biomass-per-recruit analysis. 
+3.	Specification of the OFL:
+The Tier 3 control rule formula is as follows:
 
+
+Where 
+
+*B* = a measure of the productive capacity of the stock such as spawning biomass or fertilized egg production. A proxy of $B$ is mature male biomass (MMB) estimated at the time of primiparous female mating (February 15). 
+
+$F^{*}$ = $F_{35}$, a proxy for $F_{{MSY}}$, which is a full selection instantaneous $F$ that will produce MSY at the MSY producing biomass.
+
+$B^{*}$ = $B_{35}$, a proxy for $B_{{MSY}}$, which is the value of biomass at the MSY producing level.
+
+$\beta$ = a parameter with restriction that 0 $\leq$ $\beta$ < 1. A default value of 0.25 is used.
+
+$\alpha$ = a parameter with restriction that 0 $\leq$ $\alpha$ $\leq$ $\beta$. A default value of 0.1 is used.
+
+Because trawl bycatch fishing mortality is not related to pot fishing mortality, average trawl bycatch fishing mortality during 2017 to 2022 is used for the per recruit analysis as well as for projections in the next section. Some discards of legal males occurred after the Individual Fishery Quota (IFQ) fishery started in 2005, but the discard rates were much lower during 2007-2013 than in 2005 after the fishing industry minimized discards of legal males. However, due to high proportions of large oldshell males, the discard rate increased greatly in 2014. The current models estimate two levels of retained proportions before 2005 and after 2004. The retained proportions after 2004 and total male selectivities are used to represent current trends for per recruit analysis and projections. Average molting probabilities during 2016-2022 are used for per recruit analysis and projections. For the models in 2023, the averages are the same since they are constant over time during at least the last 15 years.
+
+Average recruitments during 1984-2022 for models starting in 1975 and during 1986-2022 for models starting in 1985 are used to estimate $B_{35}$ (Figure 12aXX). Estimated $B_{35}$ is compared with historical mature male biomass in Figure 14aXX. The period of 1984-2022 corresponds to the 1976/77 regime shift, and the recruitment period 1984-present has been used since 2011 to set the overfishing limits. Several factors support our recommendation. First, estimated recruitment was lower after 1983 than before 1984, which corresponded to brood years 1978 and later, after the 1976/77 regime shift. Second, high recruitments during the late 1960s and 1970s generally occurred when the spawning stock was primarily located in the southern Bristol Bay, whereas the recent spawning stock has been concentrated in the middle of Bristol Bay. Oceanic current flows favor larvae hatched in the southern Bristol Bay (see the section on Ecosystem Considerations for SAFE reports in 2008 and 2009). Finally, stock productivity (recruitment/mature male biomass) was higher before the 1976/1977 regime shift. 
+
+The control rule is used for stock status determination. If total catch exceeds OFL estimated at B, then “overfishing” occurs. If B equals or declines below 0.5 $B_{{MSY}}$ (i.e., MSST), the stock is “overfished.” If $B/B_{{MSY}}$ or $B/B_{{MSYproxy}}$ equals or declines below $\beta$, then the stock productivity is severely depleted, and the directed fishery is closed. 
+
+The estimated probability distributions of MMB in 2024 are illustrated in Figure 30XX for model 21.1b. Based on SSC suggestions in 2011, $ABC = 0.9*OFL$ and in October 2018, $ABC = 0.8*OFL$. The CPT then recommended $ABC = 0.8*OFL$ in May 2018 (accepted by the SSC), which is used to estimate ABC in this report. Due to the stock being close to an overfished condition and the lack of a 2020 survey, the CPT recommended an additional 5% buffer in September 2020, resulting in $ABC = 0.75*OFL$ for 2020. A 20% buffer was suggested by the CPT for 2021 and 2022.
+
+MCMC runs with 500,000 replicates and 500 draws with model 21.1b are used for estimating the probability of estimated mature male biomass being below the minimum threshold $(0.5*B_{35})$ (Figure 31XX). The probability (converted to a percentage) is estimated to be about 0% for model 21.1b (Figure 31XX).
+
+Tables (see 2022 doc pages 27 and 28)
 
 # G. Rebuilding Analysis {-}
-
+NA
 
 # H. Data Gaps and Research Priorities {-}
+## 1. The following data gaps exist for this stock:{-}
+a.	Information about changes in natural mortality in the early 1980s,
+b.	Un-observed trawl bycatch in the early 1980s,
+c.	Natural mortality,
+d.	Crab availability to the trawl surveys,
+e.	Juvenile crab abundance,
+f.	Female growth per molt as a function of size and maturity,
+g.	Changes in male molting probability over time,
+h.	A better understanding of larval distribution and subsequent recruit distribution.
 
+## 2. Research priorities:{-}
+a.	Estimating natural mortality,
+b.	Estimating crab availability to the trawl surveys,
+c.	Surveying juvenile crab abundance in nearshore,
+d.	Studying environmental factors that affect the survival rates from larvae to recruitment.
 
 # I. Projections and outlook {-}
+## 1. Projections {-}
+Future population projections primarily depend on future recruitment, but crab recruitment is difficult to predict. Therefore, annual recruitment for the projections is a random selection from estimated recruitments during 2013-2022, a low recruitment period. Four levels of fishing mortality for the directed pot fishery are used in the projections: 0, 0.083, 0.167 and 0.25. A fishing mortality of 0.167 is similar to the estimated Fofl of 0.173 in 2021 with model 21.1b. MCMC runs with 500,000 replicates and 500 draws are used for the projection.
+
+As expected, projected mature male biomasses are much higher without the directed fishing mortality than under other positive mortality values. At the end of 10 years, projected mature male biomass is below $B_{35}$ for all models with a fishing mortality of 0.083 or higher due to low recruitments (Figure 32). Due to the poor recruitment in recent years, the projected biomass is expected to decline during the next few years with a fishing mortality of greater than F = 0.167.
+
+Even though the stock is not overfished in 2022/23, there is still a question whether the stock is “approaching an overfished condition”, which is defined as “when it is projected that there is more than a 50 percent chance that the biomass of the stock or stock complex will decline below the MSST within two years” by the National Standards 1 (NS1). If the stock is not fished more than a fishing mortality of 0.167 for the directed pot fishery in the 2023/2024 and 2024/2025 seasons, the projection using the lowest recruitment periods during 2013-2022 would not likely result in “approaching an overfished condition” for model 21.1b (Figure 33XX). With additional low recruitment estimate used to compute $B_{35}$, the estimated MSST would decline further in 2024. 
+
+The projections are subject to many uncertainties. Constant population parameters estimated in the models used for the projections include M, growth, and fishery selectivities. The uncertainty of abundance and biomass estimates in the terminal year also affects the projections. Uncertainties of the projections caused by these constant parameters and abundance estimates in the terminal year would be reduced by the 20% ABC buffer.  However, if an extreme event occurs, like a sharp increase of M during the projection period, the ABC buffer would be inadequate, and the projections might underestimate uncertainties. The largest uncertainty is likely from recruitments used for the projections. Higher or lower assumed recruitments would cause too optimistic or too pessimistic projections. Overall, recruitments and M used for projections are main factors for projection uncertainties.
+
+## 2. Near Future Outlook {-}
+The near future outlook for the Bristol Bay RKC stock is a steady to declining trend. The three recent above-average year classes (hatching years 1990, 1994, and 1997) had entered the legal population by 2006 (Figure 34XX). Most individuals from the 1997-year class will continue to gain weight to offset loss of the legal biomass to fishing and natural mortalities. The above-average year class (hatching year 2000) with lengths centered around 87.5 mm CL for both males and females in 2006 and with lengths centered around 112.5-117.5 mm CL for males and around 107.5 mm CL for females in 2008 has largely entered the mature male population in 2009 and the legal population by 2014 (Figures 5a, bXX). However, no additional strong cohorts were observed in the survey data after this cohort through 2010 (Figure 5a, 5b, and 34XX). A huge tow of juvenile crab of size 45-55 mm in 2011 was not tracked during 2012-2022 surveys and is unlikely to be a strong cohort. The high survey abundances of large males and mature females in 2014 cannot be explained by the survey data during the previous years and were also inconsistent with the 2016-2022 survey results (Figure 34XX). Due to lack of recruitment, mature and legal crab may continue to decline next year in the presence of fishing pressure. 
+However, this past year suggests that lack of a directed fishery and a small increase in recruitment contributed to an increase in abundance. Current crab abundance is still low relative to the late 1970s, and without favorable environmental conditions, recovery to the high levels of the late 1970s is unlikely. 
+
+Although mature crab abundance in Bristol Bay has declined in recent years, mature crab abundance and biomass north of Bristol Bay has been generally stable during last 16 years (Figures 35a and 35bXX). Overall, the proportions of different size groups of the Northern RKC during a recent dozen years are higher than in the past and do not trend higher except for mature females in 2021. The high survey mature female abundance in the Northern area in 2021 was primarily from three tows and one of them is more than 50% of total mature females. The survey abundance of the Northern RKC will continue to be provided in figures in the SAFE report in the future. After migration patterns between BBRKC and the Northern RKC are more fully understood, we will examine their relationships and model them in the stock assessment.    
+
 
 # J. Acknowledgements {-}
+Drs. Andre Punt, James Ianelli, and D’Arcy Webber first applied BBRKC data to GMACS for stock assessments and our GMACS model mainly comes from their work. We thank the Crab Plan Team, Tyler Jackson, and Chris Siddon for reviewing the earlier draft of this manuscript. 
 
-# K. References {-}
+# K. Literature Cited {-}
+Alaska Department of Fish and Game (ADF&G). 2012. Commercial king and Tanner crab fishing regulations, 2012-2013. Alaska Department of Fish and Game, Division of Commercial Fisheries, Juneau. 170 pp.
+
+Balsiger, J.W. 1974. A computer simulation model for the eastern Bering Sea king crab. Ph.D. dissertation, Univ. Washington, Seattle, WA. 198 pp.
+
+Fitch, H., M. Deiman, J. Shaishnikoff, and K. Herring. 2012. Annual management report for the commercial shellfish fisheries of the Bering Sea, 2010/11. In Fitch, H. M. Schwenzfeier, B. Baechler, T. Hartill, M. Salmon, M. Deiman, E. Evans, E. Henry, L. Wald, J. Shaishnikoff, K. Herring, and J. Wilson. 2012. Annual management report for the commercial and subsistence fisheries of the Aleutian Islands, Bering Sea and the Westward Region’s shellfish observer program, 2010/11. Alaska Department of Fish and Game, Fishery Management report No. 12-22, Anchorage.
+
+Fournier, D.A., J. Hampton, and J.R. Sibert. 1998. MULTIFAN-CL: a length-based, age-structured model for fisheries stock assessment, with application to South Pacific albacore, Thunnus alalunga. Can.J.Fish.Aquat. Sci., 55: 2105-2116.
+
+Fournier, D.A., H.J. Skaug, J. Ancheta, J. Ianelli, A. Magnusson, M.N. Maunder, A. Nielsen, and J. Sibert. 2012. AD Model Builder: using automatic differentiation for statistical inference of highly parameterized complex nonlinear models. Optim. Methods Softw. 27: 233-249.
+
+Gaeuman, W.G. 2013. Summary of the 2012/13 mandatory crab observer program database for the Bering Sea/Aleutian Islands commercial crab fisheries. Alaska Department of Fish and Game, Fishery Data Series No. 13-54, Anchorage.
+
+Gray, G.W. 1963. Growth of mature female king crab Paralithodes camtschaticus (Tilesius). Alaska Dept. Fish and Game, Inf. Leafl. 26.
+
+Griffin, K. L., M. F. Eaton, and R. S. Otto. 1983. An observer program to gather in season and post-season on-the-grounds red king crab catch data in the southeastern Bering Sea. Contract 82-2, North Pacific Fishery Management Council, Anchorage.
+
+Haynes, E.B. 1968. Relation of fecundity and egg length to carapace length in the king crab, Paralithodes camtschaticus. Proc. Nat. Shellfish Assoc. 58: 60-62. 
+
+Hoopes, D.T., J.F. Karinen, and M. J. Pelto. 1972. King and Tanner crab research. Int. North Pac. Fish. Comm. Annu. Rep. 1970: 110-120.
+
+Ianelli, J.N., S. Barbeaux, G. Walters, and N. Williamson. 2003. Eastern Bering Sea walleye pollock stock assessment. Pages 39-126 in Stock assessment and fishery evaluation report for the groundfish resources of the Bering Sea/Aleutian Islands regions. North Pacific Fishery Management Council, Anchorage.
+
+Jackson, P.B. 1974. King and Tanner crab fishery of the United States in the Eastern Bering Sea, 1972. Int. North Pac. Fish. Comm. Annu. Rep. 1972: 90-102.
+
+Loher, T., D.A. Armstrong, and B.G. Stevens. 2001. Growth of juvenile red king crab (Paralithodes camtschaticus) in Bristol Bay (Alaska) elucidated from field sampling and analysis of trawl-survey data. Fish. Bull. 99: 572-587.
+
+Matsuura, S., and K. Takeshita. 1990. Longevity of red king crab, Paralithodes camtschaticus, revealed by long-term rearing study. Pages 247-266 in Proceedings of the International Symposium on King and Tanner Crabs. University Alaska Fairbanks, Alaska Sea Grant College Program Report 90-04, Fairbanks. 
+
+McCaughran, D.A., and G.C. Powell. 1977. Growth model for Alaskan king crab (Paralithodes camtschaticus). J. Fish. Res. Board Can. 34: 989-995.
+North Pacific Fishery Management Council (NPFMC). 2007. Environmental assessment for proposed amendment 24 to the fishery management plan for Bering Sea and Aleutian Islands king and Tanner crabs to revise overfishing definitions. 
+
+Otto, R.S. 1989. An overview of eastern Bering Sea king and Tanner crab fisheries. Pages 9–26 in Proceedings of the International Symposium on King and Tanner Crabs, Alaska Sea Grant College Program Report No. 90-04.
+
+Parma, A.M. 1993. Retrospective catch-at-age analysis of Pacific halibut: implications on assessment of harvesting policies. Pages 247-266 in G. 
+
+Kruse, D.M. Eggers, R.J. Marasco, C. Pautzke, and T.J. Quinn II (eds.). Proceedings of the international symposium on management strategies for exploited fish populations. University of Alaska Fairbanks, Alaska Sea Grant Rep. 90-04.
+
+Paul, J.M., and A.J. Paul. 1990. Breeding success of sublegal size male red king crab Paralithodes camtschaticus (Tilesius, 1815) (Decapopa, Lithodidae). J. Shellfish Res. 9: 29-32.
+
+Paul, J.M., A.J. Paul, R.S. Otto, and R.A. MacIntosh. 1991. Spermatophore presence in relation to carapace length for eastern Bering Sea blue king crab (Paralithodes platypus, Brandt, 1850) and red king crab (P. camtschaticus, Tilesius, 1815). J. Shellfish Res. 10: 157-163.
+
+Pengilly, D., S.F. Blau, and J.E. Blackburn. 2002. Size at maturity of Kodiak area female red king crab. Pages 213-224 in A.J. Paul, E.G. Dawe, R. 
+Elner, G.S. Jamieson, G.H. Kruse, R.S. Otto, B. Sainte-Marie, T.C. Shirley, and D. Woodby (eds.). Crabs in Cold Water Regions: Biology, Management, and Economics. University of Alaska Sea Grant, AK-SG-02-01, Fairbanks.
+
+Pengilly, D., and D. Schmidt. 1995. Harvest strategy for Kodiak and Bristol Bay red king crab and St. Matthew Island and Pribilof Islands blue king crab. Alaska Dep. Fish and Game, Comm. Fish. Manage. and Dev. Div., Special Publication 7. Juneau, AK. 
+
+Phinney, D.E. 1975. United States fishery for king and Tanner crabs in the eastern Bering Sea, 1973. Int. North Pac. Fish. Comm. Annu. Rep. 1973: 98-109. 
+
+Powell, G.C. 1967. Growth of king crabs in the vicinity of Kodiak, Alaska. Alaska Dept. Fish and Game, Inf. Leafl. 92. 106 pp.
+
+Powell, G. C., and R.B. Nickerson. 1965. Aggregations among juvenile king crab (Paralithodes camtschaticus, Tilesius) Kodiak, Alaska. Animal Behavior 13: 374–380.
+
+Schmidt, D., and D. Pengilly. 1990. Alternative red king crab fishery management practices: modeling the effects of varying size-sex restrictions and harvest rates, Pages 551-566 in Proc. Int. Symp. King and Tanner Crabs, Alaska Sea Grant Rep. 90-04. 
+
+Sparks, A.K., and J.F. Morado. 1985. A preliminary report on diseases of Alaska king crabs, Pages 333-340 in Proc. Int. Symp. King and Tanner Crabs, Alaska Sea Grant Rep. 85-12. 
+
+Stevens, B.G. 1990. Temperature-dependent growth of juvenile red king crab (Paralithodes camtschaticus), and its effects on size-at-age and subsequent recruitment in the eastern Bering Sea. Can. J. Fish. Aquat. Sci. 47: 1307-1317.
+
+Stevens, B.G., and K. Swiney. 2007. Hatch timing, incubation period, and reproductive cycle for primiparous and multiparous red king crab, Paralithodes camtschaticus. J. Crust. Bio. 27(1): 37-48.
+
+Swiney, K. M., W.C. Long, G.L. Eckert, and G.H. Kruse. 2012. Red king crab, Paralithodes camtschaticus, size-fecundity relationship, and interannual and seasonal variability in fecundity. Journal of Shellfish Research, 31:4, 925-933.
+
+Then, A. Y., J. M. Hoenig, N. G. Hall, and D. A. Hewitt. 2015. Evaluating the predictive performance of empirical estimators of natural mortality rate using information on over 200 fish species. – ICES J. Mar. Sci. 72: 82–92.
+
+Webb. J. 2014. Reproductive ecology of commercially important Lithodid crabs. Pages 285-314 in B.G. Stevens (ed.): King Crabs of the World: Biology and Fisheries Management. CRC Press, Taylor & Francis Group, New York.
+
+Weber, D.D. 1967. Growth of the immature king crab Paralithodes camtschaticus (Tilesius). Int. North Pac. Fish. Comm. Bull. 21:21-53.
+
+Weber, D.D., and T. Miyahara. 1962. Growth of the adult male king crab, Paralithodes camtschaticus (Tilesius). Fish. Bull. U.S. 62:53-75.
+
+Weinberg, K.L., R.S. Otto, and D.A. Somerton. 2004. Capture probability of a survey trawl for red king crab (Paralithodes camtschaticus). Fish. Bull. 102:740-749.
+
+Zheng, J. 2005. A review of natural mortality estimation for crab stocks: data-limited for every stock? Pages 595-612 in G.H. Kruse, V.F. Gallucci, D.E. Hay, R.I. Perry, R.M. Peterman, T.C. Shirley, P.D. Spencer, B. Wilson, and D. Woodby (eds.). Fisheries Assessment and Management in Data-limited Situation. Alaska Sea Grant College Program, AK-SG-05-02, Fairbanks.
+
+Zheng, J., and G.H. Kruse. 2002. Retrospective length-based analysis of Bristol Bay red king crabs: model evaluation and management implications. Pages 475-494 in A.J. Paul, E.G. Dawe, R. Elner, G.S. Jamieson, G.H. Kruse, R.S. Otto, B. Sainte-Marie, T.C. Shirley, and D. Woodby (eds.). Crabs in Cold Water Regions: Biology, Management, and Economics. University of Alaska Sea Grant, AK-SG-02-01, Fairbanks.
+
+Zheng, J., M.C. Murphy, and G.H. Kruse. 1995a. A length-based population model and stock-recruitment relationships for red king crab, Paralithodes camtschaticus, in Bristol Bay, Alaska. Can. J. Fish. Aquat. Sci. 52:1229-1246.
+
+Zheng, J., M.C. Murphy, and G.H. Kruse. 1995b. Updated length-based population model and stock-recruitment relationships for red king crab, Paralithodes camtschaticus, in Bristol Bay, Alaska. Alaska Fish. Res. Bull. 2:114-124.
+
+Zheng, J., M.C. Murphy, and G.H. Kruse. 1996. Overview of population estimation methods and recommended harvest strategy for red king crabs in Bristol Bay. Alaska Department of Fish and Game, Reg. Inf. Rep. 5J96-04, Juneau, Alaska. 37 pp.
+
+Zheng, J., M.C. Murphy, and G.H. Kruse. 1997a. Analysis of the harvest strategies for red king crab, Paralithodes camtschaticus, in Bristol Bay, Alaska. Can. J. Fish. Aquat. Sci. 54:1121-1134.
+
+Zheng, J., M.C. Murphy, and G.H. Kruse. 1997b. Alternative rebuilding strategies for the red king crab Paralithodes camtschaticus fishery in Bristol Bay, Alaska. J. Shellfish Res. 16:205-217.
+
 
 \pagebreak 
 \newpage\clearpage
@@ -372,7 +594,33 @@ knitr::include_graphics(c("figures/bsfrf1male.png", "figures/bsfrf1.png"), dpi =
 knitr::include_graphics(c("figures/bsfrf2male.png", "figures/bsfrf2.png"), dpi = 200)
 ```
 
+```{r bsfrf-compare3, fig.cap = "Comparison of ratios of NMFS survey abundances to BSFRF side-by-side survey abundances during 2013-2016 for Bristol Bay red king crab. Sizes of circles are proportional to total abundances. The abundance-weighted average ratio is 0.891 for crab ≥135 mm carapace length from all four years of data. The approach to compute this overall ratio is documented in section D. Data, 4. Bering Sea Fisheries Research Foundation Survey Data."}
+knitr::include_graphics("figures/bsfrf3.png", dpi = 200)
+```
 
+```{r surv-sel, fig.cap = "Estimated NMFS trawl survey selectivities under models 21.1b, 22.0, and 23.0a."}
+#knitr::include_graphics("figures/figure1.jpg", dpi = 200)
+```
+
+```{r fish-sel21b, fig.cap = "Estimated total pot fishery selectivities and retained proportions and groundfish fisheries bycatch selectivities under model 21.1b."}
+#knitr::include_graphics("figures/figure1.jpg", dpi = 200)
+```
+
+```{r fish-sel22, fig.cap = "Estimated total pot fishery selectivities and retained proportions and groundfish fisheries bycatch selectivities under model 22.0."}
+#knitr::include_graphics("figures/figure1.jpg", dpi = 200)
+```
+
+```{r fish-sel230a, fig.cap = "Estimated total pot fishery selectivities and retained proportions and groundfish fisheries bycatch selectivities under model 23.0a."}
+#knitr::include_graphics("figures/figure1.jpg", dpi = 200)
+```
+
+```{r molt, fig.cap = "Comparison of estimated probabilities of molting of male red king crab in Bristol Bay for different periods with models 21.1b and 23.0a. Molting probabilities for periods 1954-1961 and 1966-1969 were estimated by Balsiger (1974) from tagging data. Molting probabilities for 1975-1979 and 1980-2022 were estimated with a length-based model."}
+#knitr::include_graphics("figures/figure1.jpg", dpi = 200)
+```
+
+```{r molt2, fig.cap = "Comparison of estimated probabilities of molting of male red king crab in Bristol Bay with model 22.0. Molting probabilities for periods 1954-1961 and 1966-1969 were estimated by Balsiger (1974) from tagging data. Molting probability for 1985-2023 were estimated with a length-based model."}
+#knitr::include_graphics("figures/figure1.jpg", dpi = 200)
+```
 
 \clearpage
 \pagebreak
