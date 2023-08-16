@@ -1,5 +1,5 @@
 # k.palof katie.palof@alaska.gov
-# date updated: 8-16-2022
+# date updated: 8-16-2022 / 8-15-23
 
 # Data manipulation for EBS trawl survey results to put into BBRKC model
 
@@ -7,10 +7,10 @@
 # by_weight - 
 # "Crab Data" - tab
 # "EBS Trawl Survey" - "Summary Reports" - "Abundance/BIomass, Size Group Matrix" - 
-# drop down menu - 1975 to current year (2019) - red King Crab  - District - "BB"
-# click "export" Data - csv , add current year to file name
+# drop down menu - 1975 to current year (2023) - red King Crab  - District - "BB"
+# click "export" Data - csv 
 # for "by_weight"
-# save to 'BBRKC/data/trawl_survey/'
+# save to 'BBRKC/data/"cur_yr"/survey/'
 
 # size_group 
 # "EBS Trawl Survey" - "Large Data Download" - "Abundance/BIomass, Large Data Download" - 
@@ -18,7 +18,7 @@
 # click "export" Data - csv 
 
 # haul data 
-# "EBS Crab Survey" - "Large Data Download" - "Haul Data, Large Data Download" - 
+# "EBS Trawl Survey" - "Large Data Download" - "Haul Data, Large Data Download" - 
 # drop down menu - Red King Crab
 
 ## effective sample size data
@@ -31,17 +31,19 @@ library(dplyr)
 library(reshape)
 library(ggridges)
 
-cur_yr = 2022 # Current survey data 
+cur_yr = 2023 # Current survey data 
 
 # data -----
 # data files from AKFIN are saved as a different type of .csv open files and resave as csv general
-by_weight <- read.csv(paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/EBSCrab_AB_Sizegroup_', cur_yr, '.csv'))
+by_weight <- read.csv(paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/EBSCrab_AB_Sizegroup.csv'))
 # need to ignore first 5 rows here 
-haul_rkc <- read.csv(paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/EBSCrab_Haul_', cur_yr, '.csv'))
+haul_rkc <- read.csv(paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/EBSCrab_Haul.csv'), 
+                     skip = 5)
 #haul_bkc <- read.csv("C:/Users/kjpalof/Documents/SMBKC/DATA_SMBKC/EBSCrab_Haul_bkc_7519.csv")
 # size group file comes out with first 7 rows as identifiers. remove these, manually for now, automate later
 #size_group <- read.csv("C:/Users/kjpalof/Documents/SMBKC/DATA_SMBKC/EBSCrab_Abundance_Biomass_2019.csv")
-size_group <- read.csv(paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/EBSCrab_Abundance_Biomass_', cur_yr, '.csv'))
+size_group <- read.csv(paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/EBSCrab_Abundance_Biomass.csv'), 
+                       skip = 7)
 
 # survey biomass cleanup/results ---------
 head(by_weight)
@@ -59,6 +61,14 @@ biomass_mt %>%
 write.csv(biomass_mt, paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/survey_biomass_mt2.csv'), 
             row.names = FALSE)
 
+biomass_mt %>% 
+  filter(SURVEY_YEAR >= cur_yr-1) %>% 
+  filter(SIZE_GROUP == "FEMALE_GE65" | SIZE_GROUP == "MALE_GE65")
+  
+# use combined male and female CV - per Jie's instructions
+biomass_mt %>% 
+  filter(SURVEY_YEAR >= cur_yr-1) %>% 
+  filter(SIZE_GROUP == "MALE_FEMALE_GE65")
 ## Length comps - survey -------------
 head(size_group)
 
@@ -76,7 +86,7 @@ head(haul_rkc) # how to determine which ones are bb???
 
 # 2021 sampled
 haul_rkc %>% 
-  filter(AKFIN_SURVEY_YEAR == 2021 & MID_LATITUDE > 54.6) %>% 
+  filter(AKFIN_SURVEY_YEAR == 2022 & MID_LATITUDE > 54.6) %>% 
   filter(MID_LATITUDE < 58.65 & MID_LONGITUDE < -168) %>% 
   dplyr::select(AKFIN_SURVEY_YEAR, GIS_STATION, AREA_SWEPT, SPECIES_NAME, SEX, LENGTH, SAMPLING_FACTOR) %>% 
   filter(LENGTH >= 65) %>% 
@@ -135,7 +145,7 @@ p <- p + geom_density_ridges(aes(x=size_bin, y=SURVEY_YEAR, height = abund,
         axis.text.x = element_text(angle = 90)) +
   labs(x="Carapace width (mm)", y = "Female abundance in survey year")+
   xlim(25,190)
-png(paste0(here::here(), "/BBRKC/bbrkc_22f/figures/size_bins_comp_Kodiak_f_5mm.png"),height=9,width=6,res=400,units='in')
+png(paste0(here::here(), "/BBRKC/bbrkc_23f/doc/figures/size_bins_comp_Kodiak_f_5mm.png"),height=9,width=6,res=400,units='in')
 print(p)
 dev.off()
 
@@ -155,7 +165,7 @@ p <- p + geom_density_ridges(aes(x=size_bin, y=SURVEY_YEAR, height = abund,
         axis.text.x = element_text(angle = 90)) +
   labs(x="Carapace width (mm)", y = "Female abundance in survey year") +
   xlim(25,190)
-png(paste0(here::here(), "/BBRKC/bbrkc_22f/figures/size_bins_comp_Kodiak_f_5mm_LAST5.png"),height=4,width=6,res=400,units='in')
+png(paste0(here::here(), "/BBRKC/bbrkc_23f/doc/figures/size_bins_comp_Kodiak_f_5mm_LAST5.png"),height=4,width=6,res=400,units='in')
 print(p)
 dev.off()
 
@@ -184,7 +194,7 @@ p <- p + geom_density_ridges(aes(x=size_bin, y=SURVEY_YEAR, height = abund,
         axis.text.x = element_text(angle = 90)) +
   labs(x="Carapace width (mm)", y = "Male abundance in survey year") +
   xlim(25,190)
-png(paste0(here::here(), "/BBRKC/bbrkc_22f/figures/size_bins_comp_Kodiak_m_5mm.png"),height=9,width=6,res=400,units='in')
+png(paste0(here::here(), "/BBRKC/bbrkc_23f/doc/figures/size_bins_comp_Kodiak_m_5mm.png"),height=9,width=6,res=400,units='in')
 print(p)
 dev.off()
 
@@ -205,7 +215,7 @@ p <- p + geom_density_ridges(aes(x=size_bin, y=SURVEY_YEAR, height = abund,
         axis.text.x = element_text(angle = 90)) +
   labs(x="Carapace width (mm)", y = "Male abundance in survey year") +
   xlim(25,190)
-png(paste0(here::here(), "/BBRKC/bbrkc_22f/figures/size_bins_comp_Kodiak_m_5mm_LAST5.png"),height=4,width=6,res=400,units='in')
+png(paste0(here::here(), "/BBRKC/bbrkc_23f/doc/figures/size_bins_comp_Kodiak_m_5mm_LAST5.png"),height=4,width=6,res=400,units='in')
 print(p)
 dev.off()
 
