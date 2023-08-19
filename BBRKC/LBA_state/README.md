@@ -11,6 +11,19 @@ see C:\Users\kjpalof\Documents\Current projects\statewide shellfish\bbrkc\prelim
 for 2023 prelim data files
 Program files are in rk23_prelim 
 # 2023 notes
+# catch.dat file?
+- how to update this correctly - see excel fiel for what I did.
+
+#2023 runs 
+- all survey dat and catch updated.
+- run males - got down to 0.323X04 for SSQ
+- copied in estimated fishing mortality 
+
+# runs 
+		# v1 typical run for both males and females NO manipulation of recruits (mature female recruits is to low)
+		# v2 JUST FEMALES -manipulation of female recruits towards the end of convergence (match 23_prelim v3)
+		# v3 JUST FEMALES - adj R in last 3 years towards end - ended up with slightly higher SSQ - don't use
+
 # 7-11-23 prelim runs - have # individuals and raw size comps
 # males run once - no removals included (need to update catch from bycatch and cost recovery)
 # females run a couple times -
