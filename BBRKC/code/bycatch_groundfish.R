@@ -1,5 +1,5 @@
 # k.palof katie.palof@alaska.gov
-# date updated: 8-14-22
+# date updated: 8-14-22 / 8-11-23
 
 # Data manipulation for bycatch in Groundfish fisheries for BBRKC
 
@@ -8,22 +8,28 @@
 #  URL: https://akfinbi.psmfc.org/analytics 
 #  See login info in e-mail, results in file similar to "Crab Bycatch Estimates.csv" below
 # "Crab Data" tab, "Estimates of Crab Bycatch in Groundfish Fisheries", "Crab Bycatch Estimates: 2009- present, by crab year"
-#   From drop down menus "2009 to 2020", Fishery name: "Saint Matthew blue king crab", 
-#   Species Group Name: Blue King Crab
+#   From drop down menus "2009 to 2020", Fishery name: "Bristol Bay red king crab", 
+#   Species Group Name: Red King Crab
 #   Click - "detail report" 
 #    at bottom of page click "export", choose Data - .csv - save in data folder for current year - here smbkc_XX/data
 
+#  AKFIN database/Observer and EM Data/NORPAC Length Report - Haul & Length. 
+#     FMP Area: BSAI | FMP Subarea: BS | 
+#       Species Name: RED KING CRAB 
+#     Use only BBRKC data (south of 58.65 deg., east of -168 deg., and north of 54.6 deg.). 
+#     Excel PivotTable can summarize it through adding a column with 5-mm interval values.
 #   
 # load -----
 source("./SMBKC/code/packages.R")
-model_yr = "bbrkc_22f"
-cur_yr = 2022 # need a note here if this should be 2021 or 2022
+model_yr = "bbrkc_23f"
+cur_yr = 2023 # need a note here if this should be 2021 or 2022
 cal_yr = cur_yr
 
 # data -----
 #gf_bycatch <- read.csv("C:/Users/kjpalof/Documents/SMBKC/DATA_SMBKC/Crab Bycatch Estimates.csv") # old location
 gf_bycatch <- read.csv(paste0(here::here(), '/BBRKC/data/', cal_yr, '/groundfish bycatch/Crab Bycatch Estimates.csv'))
-gf_length <- read.csv(paste0(here::here(), '/BBRKC/data/', cal_yr, '/groundfish bycatch/norpac_length_report_22.csv'))
+gf_length <- read.csv(paste0(here::here(), '/BBRKC/data/', cal_yr, '/groundfish bycatch/norpac_length_report/norpac_length_report.csv'), 
+                      skip = 8)
 
 # clean-up data ---------
 head(gf_bycatch)
@@ -64,7 +70,7 @@ write.csv(gf_by_weight, paste0(here::here(), '/BBRKC/data/', cal_yr, '/groundfis
 
 # ** FIX ** need to add in lines here to summarize catch for executive summary tables 
 
-# for .dat file use columng "trawl_thou" and "fixed_thou"
+# for .dat file use column "trawl_thou" and "fixed_thou"
 
 
 # legnth comps -------
@@ -107,8 +113,8 @@ gf_length_bb %>%
 
 output_male[is.na(output_male)] <- 0  
 
-output_male %>% 
-  filter(Year == cur_yr-1)
+output_male %>% # missing some size groups...how to keep these?
+  filter(Year >= cur_yr-2)
 
 # female proportions ------
 gf_length_bb %>% 
@@ -130,4 +136,4 @@ gf_length_bb %>%
 output_female[is.na(output_female)] <- 0  
 
 output_female %>% 
-  filter(Year == cur_yr-1) # missing 65 need to add this
+  filter(Year >= cur_yr-2) # missing 65 need to add this

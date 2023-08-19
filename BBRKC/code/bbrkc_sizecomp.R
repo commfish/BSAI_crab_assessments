@@ -1,5 +1,5 @@
 # 4-28-23 from Tyler Jackson
-# originall size composition for bbrkc 
+# original size composition for bbrkc 
 
 # section below for size composition without retows for May 2023 models.
 
@@ -100,3 +100,45 @@ size_comp %>%
   rbind(c("#year", "season", "fleet", "sex", "type", "shell", "maturity", "nsamp", "datavector", rep(NA, 20)), .) %>%
   #write_delim("female_race_size_comp.txt", delim = "\t", col_names = F, na = "")
   write_delim(paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/female_race_size_comp.txt'), delim = "\t", col_names = F, na = "")
+
+
+# males 95 to 160 
+specimen %>%
+  filter(haul_type == 3, !is.na(sex)) %>%
+  filter(gis_station %in% bb_stations) %>% 
+  filter(length_1mm >= 95) %>%
+  filter(sex == 1) %>% 
+  # create length comp bin
+  mutate(cl_bin = ifelse(length_1mm > 160, 160, floor(length_1mm / 5) * 5),
+         cl_bin = ifelse(sex == "FEMALE" & cl_bin >= 140, 140, cl_bin)) %>%
+  # need shell condition in old or new 
+  mutate(shellc = ifelse(shell_condition == 2 | shell_condition == 1, "new", 
+                         (ifelse(shell_condition == 3| shell_condition == 4| shell_condition == 5, "old", NA)))) %>% 
+  # get abundance estimates by bin
+  group_by(akfin_survey_year, sex, shellc, cl_bin) %>%
+  summarise(n = n()) %>%
+  # get total abundance estimate of all
+  group_by(akfin_survey_year) %>%
+  mutate(total = sum(n)) %>% ungroup %>% 
+  #print(n=100)
+  # compute proportion
+  mutate(p = (n / total)) -> specimen2
+  
+head(specimen2)
+#unique(size_group$SIZE_CLASS_MM)
+abund_males %>% 
+  mutate(akfin_survey_year = SURVEY_YEAR) %>% 
+  select(akfin_survey_year, abun) -> abund_males2
+
+specimen2 %>% 
+  filter(akfin_survey_year >= cur_yr-1) %>% 
+  filter(sex == 1) %>% 
+  filter(cl_bin > 94) %>% 
+  # need to add in total abundance estimate here to get N_hat estimate for new and old
+  merge(abund_males2) %>% 
+  mutate(N_hat_abun = p*abun) %>% 
+  as.data.frame() -> LBA_males
+## this is input for the LBA model for 'survey.dat' !! LBA !!
+## see "LBA_file_breakdown_data_and_output_2023.xlsx"
+
+

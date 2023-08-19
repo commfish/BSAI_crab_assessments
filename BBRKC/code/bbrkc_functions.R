@@ -1,7 +1,7 @@
 # k.palof
 # Functions created for BBRKC figures see Jie_cmn_files.R for more context
 
-r## bubbleplot of residualts ----------
+## bubbleplot of residualts ----------
 ## !!!! old inherited base code ---
 # see bubleplot-m.r  
 bubbleplot_resid <- function(letter_m, sex, ltitle = "Model")
@@ -584,8 +584,8 @@ plot_selectivity_kjp_capture <- function (M, subsetby = "", ctype = "Capture", x
 }
 
 
-ggplot(mdf) + expand_limits(y = c(0, 1)) +
-  geom_line(aes(variable, value, col = factor(year), linetype = Model))
+#ggplot(mdf) + expand_limits(y = c(0, 1)) +
+#  geom_line(aes(variable, value, col = factor(year), linetype = Model))
 
 # size composition residuals by fleet -------------------
 plot_size_comps_res_kjp <- function (M, subsetby = "", ncol = 1, xlab = "Year", ylab = "Mid-point of size-class (mm)") 

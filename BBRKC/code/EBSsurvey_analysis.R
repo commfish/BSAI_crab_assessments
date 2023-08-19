@@ -105,10 +105,26 @@ size_group %>%
   filter(SIZE_CLASS_MM > 89) %>% 
   mutate(size_bin = ifelse(SIZE_CLASS_MM >140, 140, floor(SIZE_CLASS_MM/5)*5)) %>% 
   group_by(SURVEY_YEAR, size_bin) %>% 
-  summarise(bin_abun = sum(ABUNDANCE)) %>% 
+  summarise(bin_abun = sum(ABUNDANCE)/1000) %>% 
   as.data.frame()
-## this is input for the LBA model for 'surveyf.dat'
+## this is input for the LBA model for 'surveyf.dat' !! LBA !!
 
+size_group %>% 
+  filter(SURVEY_YEAR >= cur_yr-1) %>% 
+  filter(SEX == "FEMALE") %>% 
+  filter(SIZE_CLASS_MM > 89) %>% 
+  group_by(SURVEY_YEAR) %>% 
+  summarise(abun = sum(ABUNDANCE)/1000)
+
+# males 95 to 160 
+size_group %>% 
+  filter(SURVEY_YEAR >= cur_yr-1) %>% 
+  filter(SEX == "MALE") %>% 
+  filter(SIZE_CLASS_MM > 94) %>% 
+  group_by(SURVEY_YEAR) %>% 
+  summarise(abun = sum(ABUNDANCE)/1000) -> abund_males
+# use this in bbrkc_sizecomps.R
+# - see bbrkc_sizecomp.R file need haul data for just BB
 
 ### length frequency info surey ----------
 # from Cody --
