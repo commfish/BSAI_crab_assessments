@@ -223,16 +223,18 @@ ggsave(paste0(.FIGS, "selectivity_23s_trawl_MOD_scen_UPDATED.png"), width = ww*1
 
 ## selectivity just males for presentation ---------
 # mod_scen
-#mdf <- .get_selectivity_df(M[2:6])
+mdf <- .get_selectivity_df(M[c(2,3,4,5,6,8)])
 # mod_q
 #mdf <- .get_selectivity_df(M[mod_q])
 #mod_yr
 #mdf <- .get_selectivity_df(M[mod_yr])
 
-mdf <- .get_selectivity_df(M[c(2,6,7,8)])
-mdf <- subset(mdf, fleet == "NMFS Trawl")
+#mdf <- .get_selectivity_df(M[c(2,6,7,8)])
+#mdf <- subset(mdf, fleet == "NMFS Trawl")
+mdf <- subset(mdf, fleet == "BSFRF survey")
 mdf <- subset(mdf, type == "Capture")
 mdf <- subset(mdf, sex == "Male")
+mdf <- subset(mdf, year == "1982")
 
 #plot_selectivity_kjp_capture(M[2:3], "NMFS Trawl", ctype = "Capture")
 xlab = "Mid-point of size class (mm)" 
@@ -264,6 +266,8 @@ ggsave(paste0(.FIGS, "selectivity_23s_trawl_MOD_Q_YR_UPDATED_Male.png"), width =
 # for models 2:6 save 
 #ggsave(paste0(.FIGS, "selectivity_23s_trawl_MOD_scen_UPDATED_Male.png"), width = ww*0.95, height = 1.1*hh)
 
+# BSFRF selectivity - males most modesl see !!BSFRF!! above
+ggsave(paste0(.FIGS, "selectivity_23s_BSFRF_Male_most_mods.png"), width = ww*0.95, height = 0.95*hh)
 
 # !!!moliting probability -------
 #plot_molt_prob_sex(M[2:6], "Male") # didn't quite do what i wanted
@@ -616,7 +620,9 @@ ggsave(paste0(.FIGS, "BSFRF survey_mod_scen_residuals.png"), width = ww*1.20, he
 
 ##### !! STOP HERE may 2023 -----------------
 
-
+# explore numbers vs. ssb timing
+M[[2]]$N_initial
+M[[2]]$N_males
 
 
 ##catch --------

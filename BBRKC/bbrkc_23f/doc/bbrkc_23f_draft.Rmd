@@ -43,7 +43,25 @@ folder <- "bbrkc_23f"
 
 5.	**Management performance**: 
 Status and catch specifications (1,000 t) (model 21.1b): 
-NEED A TABLE HERE
+
+
+\begin{table}[ht]
+ \centering
+ \caption{Status and catch specifications (1000 t) for the base model.}
+ \label{tab:status}
+ \begin{tabular}{lccccccc}
+  \hline
+  & & Biomass & & Retained & Total & & \\
+  Year & MSST & ($\mathit{MMB}_\text{mating}$) & TAC & catch & male catch & OFL & ABC \\
+  \hline
+  2019/20 & 12.72 & 14.24 & 1.72 & 1.78 & 2.22 & 3.40 & 2.72 \\
+  2020/21 & 12.12 & 13.96 & 1.20 & 1.26 & 1.57 & 2.14 & 1.61 \\
+  2021/22 & 12.01 & 16.64 & 0 & 0.02 & 0.10 & 2.23 & 1.78 \\
+  2022/23 & `r msst_2122 ` & `r mmb_2122` & 0 & 0.... & 0.... & 3.04 & 2.43 \\
+  2023/24 &      & `r mmb_2223 ` &  &  &  & `r ofl_2223 ` & `r abc_2223 ` \\
+  \hline
+\end{tabular}
+\end{table}
 
 The stock was above MSST in XX2021/22 (69% of BMSY) and hence was not overfished. Since total catch was below OFL, overfishing did not occur. The projection using the lowest recruitment periods during 2013-2021 would not likely result in “approaching an overfished condition” based on the current harvest strategy. The relatively low MSST in 2018/19 and B35% in 2019/20 below was caused by a problem of the previous GMACS version using the only sex ratio of recruitment in the terminal year for B35% computation in 2019. The lower estimated male recruitment ratio in the terminal year in 2019 resulted in a lower mean male recruitment for B35% computation.  The current version of GMACS uses an average of sex ratios of recruitment during the reference period to estimate B35%, which results in a stable sex ratio (about 50%) for the reference point calculation. 
 
