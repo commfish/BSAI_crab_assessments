@@ -115,7 +115,7 @@ lba_out %>%
 
 lba_out %>% 
   filter(Year == 2022) %>% 
-  select(Year, model.mm, model.mf, survey.m, survey.f, matm_lower, matm_upper) %>% 
+  select(Year, model.mm, model.mf, survey.m, survey.f, matm_lower, matm_upper, survey.f.CI) %>% 
   mutate(matf_lower = model.mf-(0.99), 
          matf_upper = model.mf+(0.71)) -> lba_out22
 
@@ -123,12 +123,17 @@ lba_out %>%
   filter(Year != 2022) %>% 
   rbind(lba_out22) -> lba_out2_a
 #write.csv(lba_out22a, "./BBRKC/LBA_state/rk22/rk22_r_input_2022edit.csv")
+
+#lba_out2_a %>% 
+#  mutate(survey.f_upper = survey.f + ((survey.f*survey.f.CV)*1.96),
+#  survey.f_lower = survey.f - ((survey.f*survey.f.CV)*1.96))
   
 #Figure with ribbons -------
 lba_out2_a %>% 
-    select(Year, survey.f, model.mf, matf_lower, matf_upper) %>% 
+    mutate(survey.f_upper = (survey.f + survey.f.CI), survey.f_lower = (survey.f - survey.f.CI)) %>% 
+    select(Year, survey.f, model.mf, matf_lower, matf_upper, survey.f_upper, survey.f_lower) %>% 
     gather(type, number, survey.f:model.mf) %>% 
-  #filter(Year >= 2015) %>% 
+  filter(Year >= 2015) %>% 
    ggplot(aes(Year, number, group = type)) +
     geom_point(aes(shape = type), size = 3) +
     geom_line(aes(group = type, linetype = type), lwd = 1) +
@@ -138,6 +143,7 @@ lba_out2_a %>%
                           labels = c("Model", "Survey")) +
     scale_x_continuous(breaks = seq(min(1972),max(max(lba_out$Year) + 1), by = 2)) +
     geom_ribbon(aes(x=Year, ymax = matf_upper, ymin = matf_lower), alpha = 0.2) +
+    geom_errorbar(aes(x=Year, ymax = survey.f_upper, ymin = survey.f_lower), width = 0.3) +
     geom_hline(yintercept = 8.4, color = "red") +
     ggtitle("Mature females") + 
     ylab("Millions of crab") +
@@ -147,8 +153,8 @@ lba_out2_a %>%
           axis.title=element_text(size=14,face="bold"), 
           axis.text.x = element_text(angle = 45, hjust = 1)) +
     theme(plot.title = element_text(hjust =0.5)) -> females 
-  ggsave(paste0('C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/', folder,'/mature_females_ribbons_v2.png'), females, dpi = 800, width = 7.5, height = 5.5)
-  #ggsave(paste0('C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/', folder,'/mature_females_recent_ribbons_v2.png'), females, dpi = 800, width = 7.5, height = 5.5)
+  #ggsave(paste0('C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/', folder,'/mature_females_ribbons_v2_error.png'), females, dpi = 800, width = 7.5, height = 5.5)
+  ggsave(paste0('C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/', folder,'/mature_females_recent_ribbons_v2_error.png'), females, dpi = 800, width = 7.5, height = 5.5)
   # to use "recent ribbons" just comment in the filter year line above
   
 
