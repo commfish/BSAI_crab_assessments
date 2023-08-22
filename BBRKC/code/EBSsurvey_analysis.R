@@ -69,15 +69,29 @@ biomass_mt %>%
 biomass_mt %>% 
   filter(SURVEY_YEAR >= cur_yr-1) %>% 
   filter(SIZE_GROUP == "MALE_FEMALE_GE65")
-## Length comps - survey -------------
+## Length comps - survey see Tyler's code-------------
 head(size_group)
 
 head(haul_rkc)
 #unique(size_group$SIZE_GROUP)
 unique(haul_rkc$LENGTH_1MM)
 
-## see Tyler's code here ---- update
+
+# see Tyler's code here ---- update
 # size comps in "female_race_size_comp.txt" - from Tyler - where is he calculating this???
+
+## CV's for survey data in LBA - >=90 (just females currently)-----
+bbrkc_area_swept %>% 
+  filter(SIZE_CLASS_MM == "GE90") %>% 
+  dplyr::select(SURVEY_YEAR, SPECIES_NAME, SIZE_GROUP, ABUNDANCE, ABUNDANCE_CV, ABUNDANCE_CI, 
+                BIOMASS_LBS, BIOMASS_LBS_CV ,BIOMASS_MT, BIOMASS_MT_CV, BIOMASS_MT_CI) -> biomass2_mt 
+head(biomass2_mt)
+biomass2_mt %>% 
+  select(SURVEY_YEAR, SIZE_GROUP, ABUNDANCE, ABUNDANCE_CV, ABUNDANCE_CI) %>% 
+  mutate(ABUNDANCE = ABUNDANCE/1000000, 
+         ABUNDANCE_CI = ABUNDANCE_CI/1000000) -> LBA_survey_CV
+write.csv(LBA_survey_CV, paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/LBA_FE_survey_CV.csv'), 
+          row.names = FALSE)
 
 ## sample size for length comps??? ----------------
 head(haul_rkc) # how to determine which ones are bb???
@@ -125,6 +139,17 @@ size_group %>%
   summarise(abun = sum(ABUNDANCE)/1000) -> abund_males
 # use this in bbrkc_sizecomps.R
 # - see bbrkc_sizecomp.R file need haul data for just BB
+# mature and legal 
+#size_group %>% 
+#  filter(SURVEY_YEAR >= cur_yr-1) %>% 
+#  filter(SEX == "MALE") %>% 
+#  filter(SIZE_CLASS_MM > 119) %>% 
+#  group_by(SURVEY_YEAR) %>% 
+#  summarise(abun = sum(ABUNDANCE)/1000) 
+
+# legal size crab -------
+bbrkc_area_swept%>% 
+  filter(SURVEY_YEAR >= cur_yr-1)
 
 ### length frequency info surey ----------
 # from Cody --
