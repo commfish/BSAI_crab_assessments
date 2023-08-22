@@ -1,6 +1,6 @@
 # k.palof
-# 8-16-22  / 4-21-23
-# Figures and Tables - May 2023 model runs exploration
+# 8-16-22  / 4-21-23 / 8-18-23
+# Figures and Tables - sept 2023 model runs exploration
 
 
 ## combination of my and Jie's R scripts. 
@@ -25,8 +25,8 @@ source("./BBRKC/code/bbrkc_functions.R")
 
 # ALL Model setup  -------------------------
 # first model is reference to previous year
-cur_yr <- 2022 # update annually 
-folder <- "bbrkc_23s" # update annually 
+cur_yr <- 2023 # update annually 
+folder <- "bbrkc_23f" # update annually 
 # The palette with grey:
 cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#D55E00", "#0072B2", "#CC79A7", "#F0E442")
 
@@ -36,17 +36,13 @@ cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#D55E00", "#0072B2",
 #scale_colour_manual(values=cbPalette)
 
 # update model names and file locations
-mod_names <- c("21.1b (2022)", "21.1b (2022-update)", "23.0 M=0.257", "23.0a Mest", "23.0b M=0.31", 
-               "23.1a inc CV q", "22.0 1985", "23.3 Mest incCV")#
+mod_names <- c("21.1b (2022)", "21.1b (2023)", "23.0a Mest", "22.0 1985")#
 #mod_names <- c("16.0 (2019)", "16.0 (2020)", "16.0a (fix R ter)", "20.1 (no pot)")
 .MODELDIR = c(paste0(here::here(), "/BBRKC/bbrkc_22f/model_211b/"),
-              paste0(here::here(), "/BBRKC/bbrkc_23s/model_211b/"),#, 
-              paste0(here::here(), "/BBRKC/bbrkc_23s/model_23_0/"),
-              paste0(here::here(), "/BBRKC/bbrkc_23s/model_23_0a/"), 
-              paste0(here::here(), "/BBRKC/bbrkc_23s/model_23_0b/"), 
-              paste0(here::here(), "/BBRKC/bbrkc_23s/model_231a/"), 
-              paste0(here::here(), "/BBRKC/bbrkc_23s/model_22/"), 
-              paste0(here::here(), "/BBRKC/bbrkc_23s/model_23_3/")) #need to update these model options
+              paste0(here::here(), "/BBRKC/bbrkc_23f/model_211b/"),#, 
+              paste0(here::here(), "/BBRKC/bbrkc_23f/model_23_0a/"), 
+              paste0(here::here(), "/BBRKC/bbrkc_23f/model_22/")) #, 
+               #need to update these model options
 .THEME    = list(theme_bw(base_size = 12, base_family = ""), scale_fill_manual(values=cbPalette), 
                  scale_colour_manual(values=cbPalette), 
                  update_geom_defaults("line", list(size = 1.75)))
@@ -58,8 +54,8 @@ mod_names <- c("21.1b (2022)", "21.1b (2022-update)", "23.0 M=0.257", "23.0a Mes
 .SHELL    = c("Aggregate","New", "Old")
 .MATURITY = c("Aggregate")
 .SEAS     = c("1","2","3","4","5")
-.FIGS     = c("./BBRKC/bbrkc_23s/doc/figures/")
-.TABS     = c("./BBRKC/bbrkc_23s/doc/tables/")
+.FIGS     = c("./BBRKC/bbrkc_23f/doc/figures/")
+.TABS     = c("./BBRKC/bbrkc_23f/doc/tables/")
 # Read report file and create gmacs report object (a list):
 fn       <- paste0(.MODELDIR, "gmacs")
 M        <- lapply(fn, read_admb)
@@ -83,10 +79,10 @@ rinline <- function(code){
 #alt_mod <- 5 # alt reference time frame
 ref_mod <- 1 # base 2020
 rec_mod <- 2 # base
-mod_scen<- 2:6 #scenarios you want graphed together
+mod_scen<- 2:4 #scenarios you want graphed together
 
-mod_q <- c(2,6,8)
-mod_yr <- c(2,7)
+#mod_q <- c(2,6,8)
+#mod_yr <- c(2,7)
 
 ww <- 6
 hh <- 5
@@ -97,7 +93,7 @@ update_geom_defaults("line", list(size = 1.75))
 # USE jie's plot this isn't picking up all the fleets / indexes
 #plot_datarange(M[ref_mod]) # call in gmr not working - need to edit this on github
 #plot_datarangeSM(M[rec_mod]) # see gmr_functions2020.R
-#plot_datarangeSM(M[ref_mod]) # compare to 2019 base model 
+#plot_datarangeSM(M[rec_mod]) # compare to 2019 base model 
 
 # save the rec_mod one
 # had to save manually because I can't get this call to work...**FIX
@@ -153,35 +149,26 @@ plot_selectivity(M[2])
 #plot_selectivity(M[2])
 ggsave(paste0(.FIGS, "selectivity_211b.png"), width = ww*1.20, height = 1.1*hh)
 #ggsave(paste0(.FIGS, "PRES_selectivity_mod_scen.png"), width = ww*1.50, height = 1.3*hh)
-plot_selectivity(M[2:6])
-ggsave(paste0(.FIGS, "selectivity_23s.png"), width = ww*1.20, height = 1.1*hh)
+plot_selectivity(M[mod_scen])
+ggsave(paste0(.FIGS, "selectivity_23f.png"), width = ww*1.20, height = 1.1*hh)
 #?? may need to use Jie's code here to get just the trawl survey
-plot_selectivity_kjp(M[2:6], "NMFS Trawl")
-ggsave(paste0(.FIGS, "selectivity_23s_trawl.png"), width = ww*1.50, height = 0.85*hh)
+plot_selectivity_kjp(M[mod_scen], "NMFS Trawl")
+ggsave(paste0(.FIGS, "selectivity_23f_trawl.png"), width = ww*1.50, height = 0.85*hh)
 
-plot_selectivity_kjp(M[2:6], "BSFRF survey")
-ggsave(paste0(.FIGS, "selectivity_23s_BSFRF.png"), width = ww*1.50, height = 0.85*hh)
+plot_selectivity_kjp(M[mod_scen], "BSFRF survey")
+ggsave(paste0(.FIGS, "selectivity_23f_BSFRF.png"), width = ww*1.50, height = 0.85*hh)
 
-plot_selectivity_kjp(M[2:6], "Pot")
-ggsave(paste0(.FIGS, "selectivity_23s_pot.png"), width = ww*1.50, height = 0.85*hh)
+plot_selectivity_kjp(M[mod_scen], "Pot")
+ggsave(paste0(.FIGS, "selectivity_23f_pot.png"), width = ww*1.50, height = 0.85*hh)
 
-# selectivity mod -q
-plot_selectivity_kjp(M[mod_q], "NMFS Trawl")
-ggsave(paste0(.FIGS, "selectivity_23s_trawl_MOD_Q.png"), width = ww*1.50, height = 0.85*hh)
-
-plot_selectivity_kjp(M[mod_q], "BSFRF survey")
-ggsave(paste0(.FIGS, "selectivity_23s_BSFRF_MOD_Q.png"), width = ww*1.50, height = 0.85*hh)
-
-# selectivity mod_yr
-plot_selectivity_kjp(M[mod_yr], "NMFS Trawl")
-ggsave(paste0(.FIGS, "selectivity_23s_trawl_MOD_year.png"), width = ww*1.50, height = 0.85*hh)
-
+plot_selectivity_kjp(M[mod_scen], "Trawl bycatch")
+ggsave(paste0(.FIGS, "selectivity_23f_pot.png"), width = ww*1.50, height = 0.85*hh)
 
 # experiment --------------
 # these plot are done manually here need to put into function ASAP
-plot_selectivity_kjp(M[2:3], "NMFS Trawl", ctype = "Capture", tlab = "Model")
+#SKIP #plot_selectivity_kjp(M[2:3], "NMFS Trawl", ctype = "Capture", tlab = "Model")
 # mod_scen
-mdf <- .get_selectivity_df(M[2:6])
+mdf <- .get_selectivity_df(M[mod_scen])
 # mod_q
 #mdf <- .get_selectivity_df(M[mod_q])
 #mod_yr
@@ -211,30 +198,26 @@ p <- p + theme(strip.text.x = element_text(margin = margin(1,
                                                fill = "white"))
 print(p)
 
-# for models mod_yr
-ggsave(paste0(.FIGS, "selectivity_23s_trawl_MOD_yr_UPDATED.png"), width = ww*1.50, height = 0.85*hh)
-
-# for models mod-q
-ggsave(paste0(.FIGS, "selectivity_23s_trawl_MOD_Q_UPDATED.png"), width = ww*1.50, height = 0.85*hh)
-
 # for models 2:6 save 
-ggsave(paste0(.FIGS, "selectivity_23s_trawl_MOD_scen_UPDATED.png"), width = ww*1.50, height = 0.85*hh)
+ggsave(paste0(.FIGS, "selectivity_23f_trawl_MOD_scen_UPDATED.png"), width = ww*1.50, height = 0.85*hh)
 
 
 ## selectivity just males for presentation ---------
 # mod_scen
-mdf <- .get_selectivity_df(M[c(2,3,4,5,6,8)])
+mdf <- .get_selectivity_df(M[mod_scen])
 # mod_q
 #mdf <- .get_selectivity_df(M[mod_q])
 #mod_yr
 #mdf <- .get_selectivity_df(M[mod_yr])
 
 #mdf <- .get_selectivity_df(M[c(2,6,7,8)])
-#mdf <- subset(mdf, fleet == "NMFS Trawl")
-mdf <- subset(mdf, fleet == "BSFRF survey")
+mdf <- subset(mdf, fleet == "NMFS Trawl")
+#mdf <- subset(mdf, fleet == "BSFRF survey")
 mdf <- subset(mdf, type == "Capture")
 mdf <- subset(mdf, sex == "Male")
-mdf <- subset(mdf, year == "1982")
+#mdf <- subset(mdf, year == "1982")
+mdf %>% 
+  mutate(year = ifelse(year == 1985, 1982, year)) -> mdf
 
 #plot_selectivity_kjp_capture(M[2:3], "NMFS Trawl", ctype = "Capture")
 xlab = "Mid-point of size class (mm)" 
@@ -257,37 +240,42 @@ p <- p + theme(strip.text.x = element_text(margin = margin(1,
                                                fill = "white"))
 print(p)
 
-# for models mod_yr
-#ggsave(paste0(.FIGS, "selectivity_23s_trawl_MOD_yr_UPDATED.png"), width = ww*1.50, height = 0.85*hh)
-
-# for models mod-q
-ggsave(paste0(.FIGS, "selectivity_23s_trawl_MOD_Q_YR_UPDATED_Male.png"), width = ww*0.95, height = 1.1*hh)
-
 # for models 2:6 save 
-#ggsave(paste0(.FIGS, "selectivity_23s_trawl_MOD_scen_UPDATED_Male.png"), width = ww*0.95, height = 1.1*hh)
+ggsave(paste0(.FIGS, "selectivity_23f_trawl_MOD_scen_UPDATED_Male.png"), width = ww*0.95, height = 1.1*hh)
 
 # BSFRF selectivity - males most modesl see !!BSFRF!! above
-ggsave(paste0(.FIGS, "selectivity_23s_BSFRF_Male_most_mods.png"), width = ww*0.95, height = 0.95*hh)
+#ggsave(paste0(.FIGS, "selectivity_23f_BSFRF_Male_most_mods.png"), width = ww*0.95, height = 0.95*hh)
 
 # !!!moliting probability -------
 #plot_molt_prob_sex(M[2:6], "Male") # didn't quite do what i wanted
-plot_molt_prob(M[2:6])
+plot_molt_prob(M[mod_scen])
 ggsave(paste0(.FIGS, "molt_prob_mod_scen.png"), width = ww*1.5, height = hh*1.5)
 
-plot_molt_prob(M[mod_q])
-ggsave(paste0(.FIGS, "molt_prob_mod_scen_q.png"), width = ww*1.5, height = hh*1.5)
-
-plot_molt_prob(M[c(2,5)])
-ggsave(paste0(.FIGS, "molt_prob_base_M0.31.png"), width = ww*1.5, height = hh*1.5)
-
-plot_molt_prob_sex(M[2:6], subsetby = "Male")
+plot_molt_prob_sex(M[mod_scen], subsetby = "Male")
 ggsave(paste0(.FIGS, "molt_prob_MALE_mod_scen.png"), width = ww*1.15, height = hh*1.25)
 
-plot_molt_prob_sex(M[mod_q], subsetby = "Male")
-ggsave(paste0(.FIGS, "molt_prob_MALE_mod_scen_Q.png"), width = ww*1.15, height = hh*1.25)
+# molt with tag data base
+mdf <- .get_molt_prob_df(M[rec_mod])
+tag_molt <- read.csv(paste0(here::here(), '/BBRKC/data/tagging_data_molt_males.csv'))
+tag_molt %>% 
+  mutate(Year = as.factor(Year)) -> tag_molt
 
-plot_molt_prob_sex(M[mod_yr], subsetby = "Male")
-ggsave(paste0(.FIGS, "molt_prob_MALE_mod_scen_YR.png"), width = ww*1.15, height = hh*1.25)
+mdf %>% 
+  filter(Sex == "Male") %>% 
+  select(-Sex) -> mdf
+
+mdf %>% 
+  rbind(tag_molt) -> molt_tag_data
+
+molt_tag_data %>% 
+  ggplot(aes(x = Length, y = MP)) + 
+        expand_limits(y = c(0, 1)) + 
+        labs(x = "Length(mm)", y = "Molting probabilities (males)") +
+        geom_line(aes(linetype = Model, col = Year)) +
+        geom_point(aes(linetype = Model, col = Year)) + .THEME -> p
+print(p)
+ggsave(paste0(.FIGS, "molt_tagging_males_base.png"), width = ww*1.15, height = 1.25*hh)
+
 
 #!! trawl survey -----------
 #{r trawl_survey_biomass, fig.cap = "Comparisons of area-swept estimates of total (90+ mm CL) male survey biomass (tons) and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations.\\label{fig:trawl_survey_biomass}"} 
@@ -303,13 +291,6 @@ ggsave(paste0(.FIGS, "trawl_biomass_MALES_mod_scen.png"), width = ww*1.30, heigh
 plot_cpue_kjp(M[c(mod_scen)], subsetby = "NMFS Trawl", psex = "Female", ylab = "NMFS FEMALE survey biomass (t)")
 ggsave(paste0(.FIGS, "trawl_biomass_FEMALES_mod_scen.png"), width = ww*1.30, height = hh)
 
-# q changes ---
-plot_cpue_kjp(M[c(2,6,7,8)], subsetby = "NMFS Trawl", psex = "Male", ylab = "NMFS MALE survey biomass (t)")
-ggsave(paste0(.FIGS, "trawl_biomass_MALES_mod_scen_Q.png"), width = ww*1.30, height = hh)
-
-plot_cpue_kjp(M[c(2,6,7,8)], subsetby = "NMFS Trawl", psex = "Female", ylab = "NMFS FEMALE survey biomass (t)")
-ggsave(paste0(.FIGS, "trawl_biomass_FEMALES_mod_scen_Q.png"), width = ww*1.30, height = hh)
-
 
 #!! BSFRF survey -------
 #{r pot_survey_cpue, fig.cap = "Comparisons of total (90+ mm CL) male pot survey CPUEs and model predictions for the model scenarios. The error bars are plus and minus 2 standard deviations.\\label{fig:pot_survey_cpue}"}
@@ -323,13 +304,6 @@ ggsave(paste0(.FIGS, "BSFRF_mod_scen_MALES.png"), width = ww*1.10, height = hh)
 # females 
 plot_cpue_kjp(M[c(mod_scen)],  "BSFRF survey", psex = "Female", ylab = "FEMALE survey biomass (t)", ShowEstErr = TRUE)
 ggsave(paste0(.FIGS, "BSFRF_mod_scen_FEMALES.png"), width = ww*1.10, height = hh)
-
-# males 
-plot_cpue_kjp(M[c(2,6,7,8)],  "BSFRF survey", psex = "Male", ylab = "MALE survey biomass (t)", ShowEstErr = TRUE)
-ggsave(paste0(.FIGS, "BSFRF_mod_Q_MALES.png"), width = ww*1.10, height = hh)
-# females 
-plot_cpue_kjp(M[c(2,6,7,8)],  "BSFRF survey", psex = "Female", ylab = "FEMALE survey biomass (t)", ShowEstErr = TRUE)
-ggsave(paste0(.FIGS, "BSFRF_mod_Q_FEMALES.png"), width = ww*1.10, height = hh)
 
 ## !!size comps ---------------
 ## !!!!!!!!!!!!! load my functions file here
@@ -373,16 +347,8 @@ plot_size_comps(M[mod_scen], 11, legend_loc = "right")
 ggsave(paste0(.FIGS, "lf_BSFRF_f.png"), width = 12, height = 7.5, unit = "in")
 
 
-# mod -q just for trawl survey 
-plot_size_comps(M[mod_q], 8, legend_loc = "right")
-ggsave(paste0(.FIGS, "lf_NMFS_m_MOD_Q.png"), width = 12, height = 7.5, unit = "in")
-plot_size_comps(M[mod_q], 9, legend_loc = "right")
-ggsave(paste0(.FIGS, "lf_NMFS_f_MOD_Q.png"), width = 12, height = 7.5, unit = "in")
-#plot_size_comps(M[2:4], 3, legend_loc = "right") #legend_loc=c(.87,.2))
-#ggsave(paste0(.FIGS, "lf_3.png"), width = 8.5, height = 5, unit = "in")
-
 ### !!!ssb mod scen ---------
-ssb <- .get_ssb_dfKP(M[2:6])
+ssb <- .get_ssb_dfKP(M[mod_scen])
 ssb %>% 
   ggplot(aes(year, ssb, col = Model)) +
   geom_line() +
@@ -400,7 +366,7 @@ ggsave(paste0(.FIGS, "mod_scen_ssb_wprojected_yr_tall.png"), width = ww*1.3, hei
 ggsave(paste0(.FIGS, "mod_scen_ssb_wprojected_yr.png"), width = ww*1.1, height = hh*1.1)
 
 ## ssb mod_scen limited years ------------
-ssb <- .get_ssb_dfKP(M[2:8])
+ssb <- .get_ssb_dfKP(M[mod_scen])
 ssb %>% 
   filter(year >= 1985) %>% 
   ggplot(aes(year, ssb, col = Model)) +
@@ -417,33 +383,10 @@ ssb %>%
   .THEME
 ggsave(paste0(.FIGS, "1985mod_scen_ssb_wprojected_yr.png"), width = ww*1.3, height = hh*.85)
 
-### !! ssb mod q ---------
-ssb <- .get_ssb_dfKP(M[c(2,6,7,8)])
-ssb %>% 
-  ggplot(aes(year, ssb, col = Model)) +
-  geom_line() +
-  #geom_ribbon(aes(x=year, ymax = ub, ymin = lb), alpha = 0.2) +
-  expand_limits(y=0) +
-  scale_y_continuous(expand = c(0,0)) +
-  #geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
-  #           lty = c("solid", "dashed"))+
-  #geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
-  #          hjust = -0.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
-  ggtitle("Model scenarios") +
-  ylab("Mature male biomass (t) on 15th February") + xlab("Year") +
-  .THEME
-ggsave(paste0(.FIGS, "mod_Q_ssb_wprojected_yr_tall.png"), width = ww*1.3, height = hh*1.25)
-ggsave(paste0(.FIGS, "mod_Q_ssb_wprojected_yr.png"), width = ww*1.1, height = hh*1.1)
-
 ## !!recruitment -------------
-plot_rec_bb_kjp(M[2:7]) # this is found in 'bbrkc_functions.R'
+plot_rec_bb_kjp(M[mod_scen]) # this is found in 'bbrkc_functions.R'
 ggsave(paste0(.FIGS, "recruitment_mod_scen.png"), width = 1.18*ww, height = hh)
 
-plot_rec_bb_kjp(M[c(2,5,7)]) # this is found in 'bbrkc_functions.R'
-ggsave(paste0(.FIGS, "recruitment_base_highM.png"), width = 1.18*ww, height = hh)
-
-plot_rec_bb_kjp(M[c(2,6,7,8)]) # this is found in 'bbrkc_functions.R'
-ggsave(paste0(.FIGS, "recruitment_mod_Q.png"), width = 1.18*ww, height = hh)
 
 ##!!natural_mortality -------------
   #, fig.cap = "Time-varying natural mortality ($M_t$). Estimated pulse period occurs in 1998/99 (i.e. $M_{1998}$). \\label{fig:M_t}"}
@@ -454,11 +397,40 @@ plot_natural_mortality2(M[2:3])
 plot_natural_mortality2(M[mod_scen], knots = NULL, slab = "Model")
 ggsave(paste0(.FIGS, "mod_scen_M_t.png"), width = 1.20*ww, height = hh)
 #plot_natural_mortality(M, knots = NULL, slab = "Model")
-plot_natural_mortality2(M[c(2,6,8)])
-ggsave(paste0(.FIGS, "mod_q_M_t.png"), width = 1.20*ww, height = hh)
 
-plot_natural_mortality2(M[c(2:5)])
-ggsave(paste0(.FIGS, "mod_nat_mort_M_t.png"), width = 1.20*ww, height = hh)
+# female abundance ------
+fem1 <- as.data.frame (M[[1]]$N_females/1000000)
+fem2 <- as.data.frame (M[[2]]$N_females/1000000)
+
+fem1 %>% 
+  mutate(mat_total = (V6 + V7 + V8 + V9 + V10 + V11 + V12 + V13 + V14 + V15 + V16)) %>%
+  mutate(model = "ref", year = c(1975:2023)) %>% 
+  select(year, model, mat_total)-> hemp1
+
+fem2 %>% 
+  mutate(mat_total = (V6 + V7 + V8 + V9 + V10 + V11 + V12 + V13 + V14 + V15 + V16)) %>%
+  mutate(model = "base", year = c(1975:2023)) %>% 
+  select(year, model, mat_total)-> hemp2
+
+hemp1 %>% 
+  rbind(hemp2) -> mat_fem
+
+# female abundance figure -----
+mat_fem %>% 
+  ggplot(aes(year, mat_total, col = model)) +
+  geom_line() +
+  #geom_ribbon(aes(x=year, ymax = ub, ymin = lb), alpha = 0.2) +
+  expand_limits(y=0) +
+  scale_y_continuous(expand = c(0,0)) +
+  #geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
+  #           lty = c("solid", "dashed"))+
+  #geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
+  #          hjust = -0.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
+  ggtitle("Female Abundance with and without retow data") +
+  ylab("Matue female abundance (million crab)") + xlab("Year") +
+  .THEME
+ggsave(paste0(.FIGS, "mature_female_abundance.png"), width = ww*1.3, height = hh*1.25)
+
 
 ## TABLES ====================================
 # Tables 1 to 3 calcs -------

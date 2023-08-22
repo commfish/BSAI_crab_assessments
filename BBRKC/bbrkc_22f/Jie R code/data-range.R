@@ -1,4 +1,4 @@
-data#' Plot data range by fleet and year
+#data#' Plot data range by fleet and year
 #'
 #' @param A a list of lists object created by the read_admb function
 
