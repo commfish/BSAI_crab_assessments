@@ -601,8 +601,8 @@ knitr::include_graphics("figures/data_range.png", dpi = 125)
 knitr::include_graphics("figures/catch.png", dpi = 200)
 ```
 
-```{r cpue-catch, fig.cap = "Comparison of survey legal male abundances and catches per unit effort for Bristol Bay red king crab from 1968 to 2023."}
-knitr::include_graphics("figures/cpue_catch.png", dpi = 200)
+```{r cpue-catch, out.width = "75%", fig.cap = "Comparison of survey legal male abundances and catches per unit effort for Bristol Bay red king crab from 1968 to 2023."}
+knitr::include_graphics("figures/cpue_catch.png", dpi = 150)
 ```
 
 ```{r male-comps, fig.cap = "Survey abundances by 5-mm carapace length bin for male Bristol Bay red king crab from 1975 to 2023."}
@@ -686,9 +686,10 @@ knitr::include_graphics("figures/lf_BSFRF_f.png", dpi = 450)
 knitr::include_graphics("figures/mod_scen_ssb_wprojected_yr_tall.png", dpi = 200)
 ```
 
-```{r mmb3, out.width="100%", fig.cap = "Estimated absolute mature male biomasses during 1985-2023 for models 21.1b, 22.0, and 23.0. Mature male biomass is estimated on Feb. 15, year+1."}
+```{r mmb3, out.width="100%", fig.cap = "Estimated absolute mature male biomasses during 1985-2023 for models 21.1b, 22.0, and 23.0a. Mature male biomass is estimated on Feb. 15, year+1."}
 knitr::include_graphics("figures/1985mod_scen_ssb_wprojected_yr.png", dpi = 200)
 ```
+
 
 ```{r rect1, out.width="100%", fig.cap = "Estimated recruitment time series during 1976-2022 with models 21.1b, 22.0, and 23.0a. Mean male recruits during 1984-2022 was used to estimate B35. Recruitment estimates in the terminal year (2023) are unreliable."}
 knitr::include_graphics("figures/recruitment_mod_scen.png", dpi = 200)
@@ -701,6 +702,84 @@ knitr::include_graphics("figures/fish_mort_mmb.png", dpi = 200)
 ```{r fmort2, out.width="100%", fig.cap = "Relationships between full fishing mortalities for the directed pot fishery and mature male biomass on Feb. 15 during 1975-2022 under model 23.0a. Average of recruitment from 1984 to 2022 was used to estimate B35. "}
 knitr::include_graphics("figures/fish_mort_mmb_23_0a.png", dpi = 200)
 ```
+
+```{r fmort3, out.width="100%", fig.cap = "Relationships between full fishing mortalities for the directed pot fishery and mature male biomass on Feb. 15 during 1985-2022 under model 22.0. Average of recruitment from 1985 to 2022 was used to estimate B35. "}
+knitr::include_graphics("figures/fish_mort_mmb_22.png", dpi = 200)
+```
+
+```{r Nmort, out.width="90%", fig.cap = "Comparison of natural mortality - either estimated or fixed depending on the model - for models 21.1b, 22.0, and 23.0a."}
+knitr::include_graphics("figures/mod_scen_M_t.png", dpi = 200)
+```
+
+```{r fmortC, out.width="100%", fig.cap = "Comparison of estimated fishing mortality for models 21.1b, 22.0, and 23.0a. "}
+knitr::include_graphics("figures/fishing_mortality_mod_scen.png", dpi = 200)
+```
+
+```{r stockr, out.width="100%", fig.cap = "Relationships between mature male biomass on Feb. 15 and total recruits at age 5 (i.e., 6 year time lag) for Bristol Bay red king crab under model 21.1b. Numerical labels are years of mating, and the vertical dotted line is the estimated B35 based on the mean recruitment level during 1984 to 2022. "}
+knitr::include_graphics("figures/stock_recruit_211b.png", dpi = 200)
+```
+
+```{r stockr2, out.width="100%", fig.cap = "Relationships between log recruitment per mature male biomass and mature male biomass on Feb. 15 for Bristol Bay red king crab under model 21.1b. Numerical labels are years of mating, and the line is the regression line for data of 1978-2016."}
+knitr::include_graphics("figures/log_stock_recruit_211b.png", dpi = 200)
+```
+
+```{r clutch, out.width="100%", fig.cap = "Average clutch fullness and proportion of empty clutches of newshell (shell conditions 1 and 2) mature female crab >89 mm CL from 1975 to 2022 from survey data. Oldshell females were excluded. The blue dashed line is the mean clutch fullness during two periods before 1992 and after 1991."}
+knitr::include_graphics("figures/figure15.png", dpi = 200)
+```
+
+```{r clutchfull, out.width="100%", fig.cap = "Clutch fullness distribution of newshell (shell conditions 1 and 2) mature female crab >89 mm CL from 1975 to 2022 from survey data. Oldshell females were excluded. "}
+knitr::include_graphics("figures/figure_15_alternate.png", dpi = 200)
+```
+
+```{r surv1-res, out.width="100%", fig.cap = "Standardized residuals of NMFS survey biomass under models 21.1b, 22.0, and 23.0a."} 
+knitr::include_graphics("figures/trawl_biomass_mod_scen_residuals.png", dpi = 200)
+```
+
+```{r sc-pot, out.width="100%", fig.cap = "Observed and model estimated total observer legnth-frequencies of male BBRKC by year in the directed pot fishery for all model scenarios."}
+knitr::include_graphics("figures/lf_pot_total_M.png", dpi = 450)
+```
+
+```{r sc-potR, out.width="100%", fig.cap = "Observed and model estimated retained legnth-frequencies of male BBRKC by year in the directed pot fishery for all model scenarios."}
+knitr::include_graphics("figures/lf_1_retained_pot.png", dpi = 450)
+```
+
+```{r sc-potF, out.width="100%", fig.cap = "Observed and model estimated total observer legnth-frequencies of discarded female BBRKC by year in the directed pot fishery for all model scenarios."}
+knitr::include_graphics("figures/lf_pot_Females.png", dpi = 450)
+```
+
+```{r sc-trawl1, out.width="100%", fig.cap = "Comparison of area-swept and model estimated NMFS survey length frequencies of Bristol Bay male red king crab by year for all model scenarios."}
+knitr::include_graphics("figures/lf_NMFS_m.png", dpi = 450)
+```
+
+```{r sc-trawl1F, out.width="100%", fig.cap = "Comparison of area-swept and model estimated NMFS survey length frequencies of Bristol Bay FEMALE red king crab by year for all model scenarios."}
+knitr::include_graphics("figures/lf_NMFS_f.png", dpi = 450)
+```
+
+
+```{r sc-trawlbyM, out.width="100%", fig.cap = "Comparison of observer and model estimated discarded length frequencies of Bristol Bay male red king crab by year in the groundfish trawl fisheries for all model scenarios."}
+knitr::include_graphics("figures/lf_trawl_bycatch_m.png", dpi = 450)
+```
+
+```{r sc-trawlbyF, out.width="100%", fig.cap = "Comparison of observer and model estimated discarded length frequencies of Bristol Bay female red king crab by year in the groundfish trawl fisheries for all model scenarios."}
+knitr::include_graphics("figures/lf_trawl_bycatch_f.png", dpi = 450)
+```
+
+```{r sc-fixedbyM, out.width="100%", fig.cap = "Comparison of observer and model estimated discarded length frequencies of Bristol Bay male red king crab by year in the groundfish fixed gear fisheries for all model scenarios."}
+knitr::include_graphics("figures/lf_fixed_bycatch_m.png", dpi = 450)
+```
+
+```{r sc-fixedbyF, out.width="100%", fig.cap = "Comparison of observer and model estimated discarded length frequencies of Bristol Bay female red king crab by year in the groundfish fixed gear fisheries for all model scenarios."}
+knitr::include_graphics("figures/lf_fixed_bycatch_f.png", dpi = 450)
+```
+
+```{r sc-tannerM, out.width="100%", fig.cap = "Comparison of observer and model estimated discarded length frequencies of Bristol Bay male red king crab by year in the groundfish fixed gear fisheries for all model scenarios."}
+knitr::include_graphics("figures/lf_tanner_males.png", dpi = 450)
+```
+
+```{r sc-tannerF, out.width="100%", fig.cap = "Comparison of observer and model estimated discarded length frequencies of Bristol Bay female red king crab by year in the groundfish fixed gear fisheries for all model scenarios."}
+knitr::include_graphics("figures/lf_tanner_females.png", dpi = 450)
+```
+
 
 \clearpage
 \pagebreak
