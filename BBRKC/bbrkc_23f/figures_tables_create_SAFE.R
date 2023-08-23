@@ -199,7 +199,7 @@ p <- p + theme(strip.text.x = element_text(margin = margin(1,
 print(p)
 
 # for models 2:6 save 
-ggsave(paste0(.FIGS, "selectivity_23f_trawl_MOD_scen_UPDATED.png"), width = ww*1.50, height = 0.85*hh)
+ggsave(paste0(.FIGS, "selectivity_23f_trawl_MOD_scen_UPDATED.png"), width = ww*1.15, height = 0.85*hh)
 
 
 ## selectivity just males for presentation ---------
@@ -314,6 +314,8 @@ ggsave(paste0(.FIGS, "BSFRF_mod_scen_FEMALES.png"), width = ww*1.10, height = hh
 #ggsave(paste0(.FIGS, "lf_1_retained_pot.png"), width = 8.5, height = 5, unit = "in")
 
 ## new function to sort these by season see bbrkc_functions.R -----------
+plot_size_comps_kjp(M[mod_scen], 1, legend_loc = "right")
+ggsave(paste0(.FIGS, "lf_1_retained_pot.png"), width = 12, height = 7.5, unit = "in")
 plot_size_comps_kjp(M[mod_scen], 2, legend_loc = "right")
 #plot_size_comps(M[mod_scen], 2, legend_loc = "right") # not working
 ggsave(paste0(.FIGS, "lf_pot_total_M.png"), width = 12, height = 7.5, unit = "in")
@@ -404,7 +406,7 @@ fem2 <- as.data.frame (M[[2]]$N_females/1000000)
 
 fem1 %>% 
   mutate(mat_total = (V6 + V7 + V8 + V9 + V10 + V11 + V12 + V13 + V14 + V15 + V16)) %>%
-  mutate(model = "ref", year = c(1975:2023)) %>% 
+  mutate(model = "ref", year = c(1975:2022)) %>% 
   select(year, model, mat_total)-> hemp1
 
 fem2 %>% 
@@ -412,6 +414,7 @@ fem2 %>%
   mutate(model = "base", year = c(1975:2023)) %>% 
   select(year, model, mat_total)-> hemp2
 
+write.csv(hemp2, paste0(.TABS, "mature_female_2023.csv"), row.names = FALSE)
 hemp1 %>% 
   rbind(hemp2) -> mat_fem
 
@@ -576,14 +579,6 @@ ggsave(paste0(.FIGS, "m.31_size_comp_residuals_trawl.png"), width = ww*1.20, hei
 plot_cpue_res(M[mod_scen], "NMFS Trawl")
 ggsave(paste0(.FIGS, "trawl_biomass_mod_scen_residuals.png"), width = ww*1.30, height = 1.1*hh)
 
-plot_cpue_res(M[mod_q], "NMFS Trawl")
-ggsave(paste0(.FIGS, "trawl_biomass_mod_scen_Q_residuals.png"), width = ww*1.30, height = 1.1*hh)
-
-plot_cpue_res(M[mod_yr], "NMFS Trawl")
-ggsave(paste0(.FIGS, "trawl_biomass_mod_scen_YR_residuals.png"), width = ww*1.30, height = 1.1*hh)
-
-plot_cpue_res(M[c(2,3,5)], "NMFS Trawl") # larger M models
-ggsave(paste0(.FIGS, "trawl_biomass_mod_scen_M_residuals.png"), width = ww*1.30, height = 1.1*hh)
 
 #!! bsfrf_res  --------
 #{r bts_resid_adfg, fig.cap = "Standardized residuals for total male pot survey CPUEs for each of the Gmacs model scenarios.\\label{fig:bts_resid_adfg}"}

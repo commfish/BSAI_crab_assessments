@@ -12,6 +12,7 @@ code: code for processing data etc. things that aren't related to specific model
 
 data: data foldered by year. Updates from survey, observer data, catch data, groundfish bycatch
 - survey data updated from - EBSsurvey_analysis.R
+- size comps from 'bbrkc_sizecomps.R'
 
 
 readme: files from Jie, background files, Excel summary files I inherited from Jie

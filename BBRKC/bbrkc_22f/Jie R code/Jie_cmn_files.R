@@ -613,7 +613,7 @@ d3<-cbind(c(0,0.25*b35, 0.25*b35, b35, 100), c(0,0,0.15*f35/0.9,f35,f35))
 par(oma=c(3.5,3.5,1.0,1.0),tck=-0.01,xaxs="i",yaxs="i",font=1,lwd=0.75)
 par(mgp=c(1.0,0.5,0),mar=c(0,0,0,0),xpd=FALSE)
 tem<-c('75','76','77','78','79','80','81','82','83','84','85','86','87','88','89','90','91','92','93','94','95','96','97','98','99','00','01','02','03','04','05','06','07',
-       '08','09','10','11','12','13','14','15','16','17','18','19','20','21', '22')
+       '08','09','10','11','12','13','14','15','16','17','18','19','20','21', ' ')
 tem1<-c('Mature male biomass (1000 t) on Feb. 15')
 plot(d3[,1],d3[,2],xlim=c(0,125),ylim=c(-0.03,0.8),xlab=tem1,ylab='Fishing mortality at fishing time',axes=FALSE,type="n",las=1,cex=1.0)
 text(d1,d2,tem,cex=0.9)
@@ -633,7 +633,8 @@ mtext('Fishing mortality at fishing time',2,2.0,outer=T,cex=1.0)
 dev.off()
 
 # Figure 13c
-d11<-C$ssb/1000.0 # model 22.0 2022
+png("./BBRKC/bbrkc_23f/doc/figures/fish_mort_mmb_22.png", width = 700, height = 800)
+d11<-C$ssb/1000.0 # model 22.0 2023
 dtot<-C$ft
 b35 <- C$spr_bmsy/1000.0
 f35<- C$sd_fmsy[1]
@@ -645,11 +646,11 @@ d3<-cbind(c(0,0.25*b35, 0.25*b35, b35, 100), c(0,0,0.15*f35/0.9,f35,f35))
 par(oma=c(3.5,3.5,1.0,1.0),tck=-0.01,xaxs="i",yaxs="i",font=1,lwd=0.75)
 par(mgp=c(1.0,0.5,0),mar=c(0,0,0,0),xpd=FALSE)
 tem<-c('85','86','87','88','89','90','91','92','93','94','95','96','97','98','99','00','01','02','03','04','05','06','07','08','09','10','11',
-       '12','13','14','15','16','17','18','19','20',' ') #update a year here
+       '12','13','14','15','16','17','18','19','20','21', ' ') #update a year here
 tem1<-c('Mature male biomass (1000 t) on Feb. 15')
 plot(d3[,1],d3[,2],xlim=c(0,41),ylim=c(-0.03,0.7),xlab=tem1,ylab='Fishing mortality at fishing time',axes=FALSE,type="n",las=1,cex=1.0)
 text(d1,d2,tem,cex=0.9)
-text(d1[n],d2[n],'21',cex=1.2,font=2, col=2) # update year to highlight here - last years's fishery
+text(d1[n],d2[n],'22',cex=1.2,font=2, col=2) # update year to highlight here - last years's fishery
 lines(d3[,1],d3[,2],lty=1,lwd=2.5)
 text(107,f35,'F35%',cex=1.0)
 #text(105,0.25,'F40%',cex=1.0)
@@ -662,6 +663,7 @@ axis(1,at=xat,labels=xat,outer=T,cex=1.0)
 box()
 mtext(tem1,1,1.7,outer=T,cex=1.0)
 mtext('Fishing mortality at fishing time',2,2.0,outer=T,cex=1.0)
+dev.off()
 
 #### mortality  -----
 n1<-2
@@ -740,6 +742,7 @@ par(mfrow=c(1,1))
 
 ## rksr -----
 # Figure 14a
+png("./BBRKC/bbrkc_23f/doc/figures/stock_recruit_211b.png", width = 700, height = 800)
 plot.new()
 c1<-B$ssb/1000.0 # model 21.1b 2022
 n<-length(c1)
@@ -769,12 +772,13 @@ axis(1,at=xat,labels=xat,outer=T,cex=1.0)
 box()
 mtext(tem1,1,1.6,outer=T,cex=1.0)
 mtext('Total Recruits (millions)',2,1.7,outer=T,cex=1.0)
+dev.off()
 
-#dev.off()
 ## rksrp ----------------
 # Figure 14b
+png("./BBRKC/bbrkc_23f/doc/figures/log_stock_recruit_211b.png", width = 700, height = 800)
 plot.new()
-n<-length(B$ssb) # model 21.1b 2022
+n<-length(B$ssb) # model 21.1b 2023
 c1<-matrix(rep(0,(n-5-1)*2),ncol=2)
 c1[,1]<-B$ssb[1:(n-5-1)]/1000.0
 c1[,2]<-(B$recruits[1,(6:(n-1))]+B$recruits[2,(6:(n-1))])/1000000/c1[,1]
@@ -787,7 +791,7 @@ par(oma=c(3.2,3.5,0.7,1.0),tck=-0.01,xaxs="i",yaxs="i",font=1,lwd=1.00)
 par(mgp=c(1.0,0.5,0),mar=c(0,0,0,0),xpd=FALSE)
 tem<-c(0,2,4,6,8,10,12,14,17,20,23,26,29,32,35,38,41,44,48,52,57,62,68,74,79,80)
 tem1<-c('Mature male biomass on 2/15 (1000 t)')
-tem2<-c('75','76','77','78','79','80','81','82','83','84','85','86','87','88','89','90','91','92','93','94','95','96','97','98','99','00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15')
+tem2<-c('75','76','77','78','79','80','81','82','83','84','85','86','87','88','89','90','91','92','93','94','95','96','97','98','99','00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15', '16') # add one more recruitment year here each year
 plot(c1[,1],c1[,2],xlim=c(0,130),ylim=c(-1.0,4.2),xlab=tem1,ylab=' ',axes=FALSE,type="n",las=1,cex=1.0)
 text(c1[1:3,1],c1[1:3,2],tem2[1:3],cex=1.0,col=1)
 text(c2[,1],c2[,2],tem2[4:(n-5-1)],cex=1.0,col=2)
@@ -804,6 +808,7 @@ axis(1,at=xat,labels=xat,outer=T,cex=1.0)
 box()
 mtext(tem1,1,1.6,outer=T,cex=1.0)
 mtext('Log(Total Recruits/MMB)',2,1.7,outer=T,cex=1.0)
+dev.off ()
 
 ## c-direct -----
 n1<-3
