@@ -940,23 +940,57 @@ knitr::include_graphics("figures/length_resid_22_females.png", dpi = 100)
 knitr::include_graphics("figures/length_resid_23a_females.png", dpi = 100)
 ```
 
-```{r retro211b, out.width="100%", fig.cap = "Comparison of hindcast estimates of mature male biomass on Feb. 15 of Bristol Bay red king crab with terminal years 2013-2023 using model 21.1b. These are results of the 2022 model. Legend shows the terminal year"}
-#knitr::include_graphics("figures/ssb_retrospective_model211b_frombbrkc22f.png", dpi = 200)
+```{r retro211b, out.width="100%", fig.cap = "Comparison of hindcast estimates of mature male biomass on Feb. 15 of Bristol Bay red king crab with terminal years 2013-2023 using model 21.1b. These are results of the 2022 model. Legend shows the terminal year."}
+knitr::include_graphics("figures/ssb_retrospective_model211b.png", dpi = 200)
 ```
 
-```{r retro22, out.width="100%", fig.cap = "Comparison of hindcast estimates of mature male biomass on Feb. 15 of Bristol Bay red king crab with terminal years 2013-2023 using model 22.0. These are results of the 2022 model. Legend shows the terminal year"}
+```{r retro22, out.width="100%", fig.cap = "Comparison of hindcast estimates of mature male biomass on Feb. 15 of Bristol Bay red king crab with terminal years 2013-2023 using model 22.0. These are results of the 2022 model. Legend shows the terminal year."}
 #knitr::include_graphics("figures/ssb_retrospective_model_22.png", dpi = 200)
 ```
 
-```{r retro230a, out.width="100%", fig.cap = "Comparison of hindcast estimates of mature male biomass on Feb. 15 of Bristol Bay red king crab with terminal years 2013-2023 using model 23.0a. These are results of the 2022 model. Legend shows the terminal year"}
+```{r retro230a, out.width="100%", fig.cap = "Comparison of hindcast estimates of mature male biomass on Feb. 15 of Bristol Bay red king crab with terminal years 2013-2023 using model 23.0a. These are results of the 2022 model. Legend shows the terminal year."}
 #knitr::include_graphics("figures/ssb_retrospective_model_230a.png", dpi = 200)
 ```
 
+\newpage
+```{r retroRec, out.width="100%", fig.cap = "Comparison of hindcast estimates of total recruitment for model 21.1b of Bristol Bay red king crab from 1976 to 2023 made with terminal years 2013-2023. These are results of the model 21.1b. Legend shows the terminal year."}
+knitr::include_graphics("figures/recruitment_retrospective_model211b.png", dpi = 200)
+```
+
+\newpage 
+```{r retroRec2, out.width="100%", fig.cap = "Evaluation of Bristol Bay red king crab retrospective errors on recruitment estimates as a function of the number of years in the model for model 21.1b."}
+knitr::include_graphics("figures/ratio_to_terminal_yr_model211b.png", dpi = 200)
+```
+
+```{r retroRec3, out.width="100%", fig.cap = "Mean ratios of retrospective estimates of recruitments to those estimated in the most recent year (2023) and standard deviations (red line) of the ratios as a function of the number of years in the model for model 21.1b. "}
+knitr::include_graphics("figures/Recruitment_Mean_sd_ratio_model211b.png", dpi = 200)
+```
+
+\newpage 
+```{r male-comps2, fig.cap = "Length frequency distributions of male red king crab in Bristol Bay from NMFS trawl surveys during 2017-2023. For purposes of these graphs, abundance estimates are based on area-swept methods."}
+knitr::include_graphics("figures/size_bins_comp_Kodiak_m_5mm_LAST5.png", dpi = 200)
+```
+
+```{r female-comps2, fig.cap = "Length frequency distributions of female red king crab in Bristol Bay from NMFS trawl surveys during 2017-2023. For purposes of these graphs, abundance estimates are based on area-swept methods."}
+knitr::include_graphics("figures/size_bins_comp_Kodiak_f_5mm_LAST5.png", dpi = 200)
+```
+
+```{r northBB1F, fig.cap = "Comparisons of NMFS survey area-swept estimates of total female crab <90 mm CL abundance in Bristol Bay area (BB) and north of Bristol Bay area (North) during 1985-2023. "}
+#knitr::include_graphics("figures/size_bins_comp_Kodiak_f_5mm_LAST5.png", dpi = 200)
+```
+
+```{r northBB2F, fig.cap = "Comparisons of NMFS survey area-swept estimates of mature female crab abundance in Bristol Bay area (BB) and north of Bristol Bay area (North) during 1985-2023. "}
+#knitr::include_graphics("figures/size_bins_comp_Kodiak_f_5mm_LAST5.png", dpi = 200)
+```
+
+\newpage
+
+```{r northBB1M, fig.cap = "Comparisons of NMFS survey area-swept estimates of mature and legal male abundances in Bristol Bay area (BB) and north of Bristol Bay area (North) during 1985-2023. NOTE the large scale differences between panels 1 and 2."}
+knitr::include_graphics("figures/figure_35_alternate.png", dpi = 200)
+```
 
 
-
-
-
+ 
 \clearpage
 \pagebreak
 
