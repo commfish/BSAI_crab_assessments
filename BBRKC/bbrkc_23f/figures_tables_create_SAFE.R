@@ -385,6 +385,39 @@ ssb %>%
   .THEME
 ggsave(paste0(.FIGS, "1985mod_scen_ssb_wprojected_yr.png"), width = ww*1.3, height = hh*.85)
 
+### !! ssb with ribbons -------
+ssb1 <- .get_ssb_df(M[2:4])
+# need last year 
+ssb_last <- get_ssb_last(M[2:4]) %>% select(-par, -sd)
+
+ssb1 %>% 
+  select(Model, ssb, year, lb, ub) %>% 
+  rbind(ssb_last) -> ssb
+
+# Figures -----
+## reference with last year ------
+ssb %>% 
+  filter(year >= 1985) %>% # comment out for whole time series
+  ggplot(aes(year, ssb, col = Model)) +
+  geom_line() +
+  geom_ribbon(aes(x=year, ymax = ub, ymin = lb, fill = Model, col = NULL), alpha = 0.2) +
+  expand_limits(y=0) +
+  ylim(0, max(ssb$ub)+ 100)+
+  ylim(0, 60000)+ # comment out for whole time series
+  #ylab = "SSB (tonnes)" +
+  #scale_y_continuous(expand = c(0,0)) +
+  #geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
+  #           lty = c("solid", "dashed"))+
+  #geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
+  #          hjust = -0.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
+  #ggtitle("Base model - model 1 (Model 3 2018)") +
+  ylab("Mature male biomass (tons) on 15 February") + xlab("Year") +
+  .THEME + theme(legend.position = c(0.8, 0.85))
+#ggsave(paste0(.FIGS, "ssb_ribbons_mod_scen.png"), width = ww*1.18, height = hh)
+#ggsave(paste0(.FIGS, "PRESENTATION_ssb_ribbons_mod_scen.png"), width = ww*1.5, height = hh)
+
+ggsave(paste0(.FIGS, "ssb_ribbons_mod_scen1985.png"), width = ww*1.18, height = hh)
+
 ## !!recruitment -------------
 plot_rec_bb_kjp(M[mod_scen]) # this is found in 'bbrkc_functions.R'
 ggsave(paste0(.FIGS, "recruitment_mod_scen.png"), width = 1.18*ww, height = hh)
@@ -435,27 +468,29 @@ mat_fem %>%
 ggsave(paste0(.FIGS, "mature_female_abundance.png"), width = ww*1.3, height = hh*1.25)
 
 
+
+
 ## TABLES ====================================
 # Tables 1 to 3 calcs -------
 ## table 1 ------
-round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_2122
-round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_2122
-round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2223
-round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2223
-round(M[[rec_mod]]$spr_cofl/1000*0.80, 2) -> abc_2223
-table1specs_t <- c(msst_2122, mmb_2122, mmb_2223, ofl_2223, abc_2223)
+round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_2223
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_2223
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2324
+round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2324
+round(M[[rec_mod]]$spr_cofl/1000*0.80, 2) -> abc_2324
+table1specs_t <- c(msst_2223, mmb_2223, mmb_2324, ofl_2324, abc_2324)
 table1specs_t
 #rec_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1/figure/ofl_calc.csv"))
 #round(rec_ofl$OFL_2020/1000, 2) -> ofl_2021
 #round(ofl_2021*0.8, 2) -> abc_2021
 
 # table 2 ----------
-round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_2122_lb
-round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]* 2204.62/1e6, 2) -> mmb_2122_lb
-round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_2223_lb
-round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 3) -> ofl_2223_lb
-round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.80, 2) -> abc_2223_lb
-table1specs_lb <- c(msst_2122_lb, mmb_2122_lb, mmb_2223_lb, ofl_2223_lb, abc_2223_lb)
+round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_2223_lb
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]* 2204.62/1e6, 2) -> mmb_2223_lb
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_2324_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 3) -> ofl_2324_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.80, 2) -> abc_2324_lb
+table1specs_lb <- c(msst_2223_lb, mmb_2223_lb, mmb_2324_lb, ofl_2324_lb, abc_2324_lb)
 table1specs_lb
 #round(rec_ofl$OFL_2020* 2204.62/1e6, 3) -> ofl_2021_lb
 #round(ofl_2021_lb*0.8, 2) -> abc_2021_lb
@@ -465,30 +500,31 @@ table1specs_lb
 round(M[[rec_mod]]$spr_bmsy/1000, 2) -> bmsy_cur
 round(M[[rec_mod]]$spr_depl, 2) -> ratio_bmsy
 round(M[[rec_mod]]$sd_fofl[1], 3) -> fofl
-table3specs_t <- c(bmsy_cur, mmb_2223, ratio_bmsy, fofl)
+table3specs_t <- c(bmsy_cur, mmb_2324, ratio_bmsy, fofl)
 
-table3specs_lb <- c(bmsy_cur*(2204.62/1e3), mmb_2223*(2204.62/1e3), ratio_bmsy, fofl)
-
+table3specs_lb <- round(c(bmsy_cur*(2204.62/1e3), mmb_2324*(2204.62/1e3), ratio_bmsy, fofl), 2)
+table3specs_t
+table3specs_lb
 # need summary of models for may 2023
 ## table 1 -
-round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_2122
-round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_2122
-round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2223
-round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2223
-round(M[[rec_mod]]$spr_cofl/1000*0.80, 2) -> abc_2223
-table1specs_t <- c(msst_2122, mmb_2122, mmb_2223, ofl_2223, abc_2223)
+round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_2223
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_2223
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2324
+round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2324
+round(M[[rec_mod]]$spr_cofl/1000*0.80, 2) -> abc_2324
+table1specs_t <- c(msst_2223, mmb_2223, mmb_2324, ofl_2324, abc_2324)
 table1specs_t
 #rec_ofl <- read.csv(paste0(here::here(), "/SMBKC/smbkc_20/model_1/figure/ofl_calc.csv"))
 #round(rec_ofl$OFL_2020/1000, 2) -> ofl_2021
 #round(ofl_2021*0.8, 2) -> abc_2021
 
 # table 2 --
-round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_2122_lb
-round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]* 2204.62/1e6, 2) -> mmb_2122_lb
-round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_2223_lb
-round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 3) -> ofl_2223_lb
-round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.80, 2) -> abc_2223_lb
-table1specs_lb <- c(msst_2122_lb, mmb_2122_lb, mmb_2223_lb, ofl_2223_lb, abc_2223_lb)
+round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_2223_lb
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]* 2204.62/1e6, 2) -> mmb_2223_lb
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_2324_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 3) -> ofl_2324_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.80, 2) -> abc_2324_lb
+table1specs_lb <- c(msst_2223_lb, mmb_2223_lb, mmb_2324_lb, ofl_2324_lb, abc_2324_lb)
 table1specs_lb
 #round(rec_ofl$OFL_2020* 2204.62/1e6, 3) -> ofl_2021_lb
 #round(ofl_2021_lb*0.8, 2) -> abc_2021_lb
@@ -498,24 +534,24 @@ table1specs_lb
 round(M[[rec_mod]]$spr_bmsy/1000, 2) -> bmsy_cur
 round(M[[rec_mod]]$spr_depl, 2) -> ratio_bmsy
 round(M[[rec_mod]]$sd_fofl[1], 3) -> fofl
-table3specs_t <- c(bmsy_cur, mmb_2223, ratio_bmsy, fofl)
+table3specs_t <- c(bmsy_cur, mmb_2324, ratio_bmsy, fofl)
 
-table3specs_lb <- c(bmsy_cur*(2204.62/1e3), mmb_2223*(2204.62/1e3), ratio_bmsy, fofl)
+table3specs_lb <- c(bmsy_cur*(2204.62/1e3), mmb_2324*(2204.62/1e3), ratio_bmsy, fofl)
 
 # specs table --------
 # only for model 21.1b see function below to pull them all out
-round(M[[2]]$spr_bmsy*M[[2]]$spr_depl/1000, 2) -> mmb_2223
+round(M[[2]]$spr_bmsy*M[[2]]$spr_depl/1000, 2) -> mmb_2324
 round(M[[2]]$spr_bmsy/1000, 2) -> b_35 # also B35%
 round(M[[2]]$sd_fmsy[1], 2) -> f_35 # F35%
 round(M[[2]]$sd_fofl[1], 2) -> f_ofl # Fofl
-round(M[[2]]$spr_cofl/1000, 2) -> ofl_2223
-round(M[[2]]$spr_cofl/1000*0.80, 2) -> abc_2223
+round(M[[2]]$spr_cofl/1000, 2) -> ofl_2324
+round(M[[2]]$spr_cofl/1000*0.80, 2) -> abc_2324
 round((M[[2]]$spr_rbar[1] + M[[2]]$spr_rbar[2])/1000000, 2) -> avg_rec
 
-specs <- c(mmb_2223, b_35, f_35, f_ofl, ofl_2223, avg_rec)
+specs <- c(mmb_2324, b_35, f_35, f_ofl, ofl_2324, avg_rec)
 #dfnames <- c("MMB", "B35%", "F35%", "Fofl", "OFL", "avg_rec")
 
-temp <- save_specs_out(M[1:8])
+temp <- save_specs_out(M[1:4])
 # go from long to wide 
 temp %>% 
   spread(cnames, specs) %>% 
@@ -525,7 +561,7 @@ write.csv(specs_temp, paste0(.TABS, "specs_all_mods.csv"), row.names = FALSE)
 
 # specs table in text more detail --------------
 #round(M[[2]]$spr_depl, 2)
-temp_more <- save_specs_out_more(M[1:8])
+temp_more <- save_specs_out_more(M[1:4])
 # go from long to wide 
 temp_more %>% 
   spread(cnames, specs) %>% 
@@ -534,17 +570,13 @@ temp_more %>%
 write.csv(specs_temp_more, paste0(.TABS, "specs_all_mods_detailed.csv"), row.names = FALSE)
 
 # Table 7 nat mort----
-nat_mort <- .get_M_df_kjp(M[2:8]) # bbrkc_functions.R
+nat_mort <- .get_M_df_kjp(M[2:4]) # bbrkc_functions.R
 
 nat_mort %>% 
   distinct(Model, Sex, M) %>% 
   mutate(year = c("base", "1980-84", "base", "1980-84", 
                   "base", "1980-84", "base", "1980-84", 
-                  "base", "1980-84", "base", "1980-84", 
-                  "base", "1980-84", "base", "1980-84", 
-                  "base", "1980-84", "base", "1980-84", 
-                  "1985-22", "1985-22", 
-                  "base", "1980-84", "base", "1980-84"))-> natural_mort_all
+                  "1985-22", "1985-22"))-> natural_mort_all
 # want to seperate out the year ranges
 natural_mort_all %>% 
   spread(year, M)  %>% 
@@ -557,8 +589,8 @@ write.csv(natural_mort_all2, paste0(.TABS, "M_out.csv"), row.names = FALSE)
 plot_size_comps_res_kjp(M[rec_mod], "NMFS Trawl")
 ggsave(paste0(.FIGS, "ref_mod_size_comp_residuals_trawl.png"), width = ww*1.20, height = 1.1*hh)
 
-plot_size_comps_res_kjp(M[5], "NMFS Trawl")
-ggsave(paste0(.FIGS, "m.31_size_comp_residuals_trawl.png"), width = ww*1.20, height = 1.1*hh)
+plot_size_comps_res_kjp(M[3], "NMFS Trawl")
+ggsave(paste0(.FIGS, "23_0a_size_comp_residuals_trawl.png"), width = ww*1.20, height = 1.1*hh)
 
 # These are hard to read, look at Jie's bubbleplot code - found in bubleplot-m.r
 
@@ -599,38 +631,19 @@ ggsave(paste0(.FIGS, "catch.png"), width = ww*1.02, height = hh*1.2)
 plot_catch(M[mod_scen])
 ggsave(paste0(.FIGS, "catch_mod_scen.png"), width = ww*1.35, height = hh*1.2)
 #
-#plot_cpue_res(Mbase, "ADF&G Pot")
-#ggsave(paste0(.FIGS, "pot_cpue_REF_residuals.png"), width = ww*1.20, height = 1.1*hh)
 
 ## ssb -----------
-#SKIP "Sensitivity of new data in 2020 on estimated mature male biomass (MMB); 1978-2019. \\label{fig:ssb1}"}
 ssb <- .get_ssb_dfKP(M[1:2])
-ssb %>% 
-  ggplot(aes(year, ssb, col = Model)) +
-  geom_line() +
-  #geom_ribbon(aes(x=year, ymax = ub, ymin = lb), alpha = 0.2) +
-  expand_limits(y=0) +
-  scale_y_continuous(expand = c(0,0)) +
-  #geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
-  #           lty = c("solid", "dashed"))+
-  #geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
-  #          hjust = -0.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
-  ggtitle("Reference model (21.1b)") +
-  ylab("Mature male biomass (t) on 15th February") + xlab("Year") +
-  .THEME
-ggsave(paste0(.FIGS, "reference_ssb_wprojected_yr.png"), width = ww, height = hh)
-
-
 
 #plot_ssb(M[1:2], ylab = "Mature male biomass (tons) on 15 February")
-# !!SSB lst yr / current yr base model-----------
+# SSB lst yr / current yr base model-----------
 #ssb <- .get_ssb_df(M[1:2]) # ssb now does NOT include projection year so only up to 2018 crab year - 2019 projection (example)
 head(ssb)
 tail(ssb)
 
-#!!ssb current year uncertainty --------
+#ssb current year uncertainty --------
 ### come back to this later ---------------------------
-raw_data <- data_out(mod_names[1:5], .MODELDIR[1:5])
+raw_data <- data_out(mod_names[1:2], .MODELDIR[1:2])
 
 ssb1 <- get_ssb_out(mod_names[1:2], raw_data)
 ssb_last <- get_ssb_last(M[1:2]) %>% select(-par, -sd)
@@ -659,7 +672,7 @@ ssb %>%
 ggsave(paste0(.FIGS, "lastyr_reference_ssb_wprojected_yr.png"), width = ww*1.18, height = hh)
 ggsave(paste0(.FIGS, "PRESENTATION_lastyr_reference_ssb_wprojected_yr.png"), width = ww*1.5, height = hh)
 
-# !!SSB model scenarios-----------
+# SSB model scenarios-----------
 #raw_data <- data_out(mod_names[2:4], .MODELDIR[2:4]) # see line 212
 #  !! FIX!! need to pull this data from all models to create output file 'ssb_rec_out.csv'
 ssb1 <- get_ssb_out(mod_names[2:5], raw_data)
@@ -691,7 +704,7 @@ ssb %>%
 ggsave(paste0(.FIGS, "mod_scen_ssb_wprojected_yr.png"), width = ww*1.18, height = hh)
 ggsave(paste0(.FIGS, "PRESENTATION_mod_scen_ssb_wprojected_yr.png"), width = ww*1.5, height = hh)
 
-# !!recruitment mod scen-------------
+# recruitment mod scen-------------
 plot_recruitment(M[3]) # code issue doesn't work with mulitple models
 rec <- .get_recruitment_df(M[3:4])
 head(rec)
@@ -776,7 +789,7 @@ get_Db0_out(mod_names[2], raw_data, M[2]) %>% transmute(round(100*ssb,0)) %>% sl
 ## TABLES ====================================
 
 
-# !!Likelihood components -----------------
+# Likelihood components -----------------
 #```{r likelihood_components, results = "asis"}
 Mname2 <- c("Ref", "M_21","M_26", "Mall")
 df <- NULL
@@ -812,7 +825,7 @@ names(df) <- c("Component", Mname2) #mod_names[mod_scen])
 write.csv(df, paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/neg_log_like.csv'), 
           row.names = FALSE)
 
-### !!population abundance last years model -----------------------
+### population abundance last years model -----------------------
 #```{r pop-abundance-2019, results = "asis"}
 # need ssb or mmb and CV from last years model - here 1
 #ssb1 <- get_ssb_out(mod_names[1], raw_data)
@@ -839,7 +852,7 @@ names(df) <- c("Year","$n_1$","$n_2$","$n_3$","MMB","CV MMB")
 write.csv(df, paste0(here::here(), '/SMBKC/', folder, '/doc/safe_tables/numbers_last_yrs.csv'), 
           row.names = FALSE)
 
-### !!population abundance current year base model -----------------------
+### population abundance current year base model -----------------------
 # **FIX**??  if I want this to be model with fixed recruitment in 2019
 #```{r pop-abundance-2019, results = "asis"}
 A         <- M[[rec_mod]]

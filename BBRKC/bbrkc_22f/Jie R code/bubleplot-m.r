@@ -1,8 +1,11 @@
+# need to run the "load" code in Jie_figures_tables_create_SAFE.R
 library(ggplot2);
 # load function below 
-.FIGS     = c("./BBRKC/bbrkc_22f/figures/")
+.FIGS     = c("./BBRKC/bbrkc_23f/doc/figures/")
+## load function below before proceeding
 
 bubbleplot_resid(B, sex = "male", ltitle = "Model 21.1b, Survey Males")
+ggsave(paste0(.FIGS, "length_resid_211b_males.png"), width = 7, height = 8)
 bubbleplot_resid(B, sex = "female", ltitle = "Model 21.1b, Survey Females")
 #bubbleplot_resid(B, sex = "female", ltitle = "Model 21.1b, Survey Females")
 ggsave(paste0(.FIGS, "length_resid_211b_females.png"), width = 7, height = 8)
@@ -10,12 +13,12 @@ ggsave(paste0(.FIGS, "length_resid_211b_females.png"), width = 7, height = 8)
 bubbleplot_resid(C, sex = "male", ltitle = "Model 22.0, Survey Males")
 ggsave(paste0(.FIGS, "length_resid_22_males.png"), width = 7, height = 8)
 bubbleplot_resid(C, sex = "female", ltitle = "Model 22.0, Survey Females")
-ggsave(paste0(.FIGS, "length_resid_22_females.png"), width = 7, height = 8)
+ggsave(paste0(.FIGS, "length_resid_22_females.png"), width = 6, height = 7)
 
-bubbleplot_resid(D, sex = "male", ltitle = "Model 22.0a, Survey Males")
-ggsave(paste0(.FIGS, "length_resid_22a_males.png"), width = 7, height = 8)
-bubbleplot_resid(D, sex = "female", ltitle = "Model 22.0a, Survey Females")
-ggsave(paste0(.FIGS, "length_resid_22a_females.png"), width = 7, height = 8)
+bubbleplot_resid(D, sex = "male", ltitle = "Model 23.0a, Survey Males")
+ggsave(paste0(.FIGS, "length_resid_23a_males.png"), width = 7, height = 8)
+bubbleplot_resid(D, sex = "female", ltitle = "Model 23.0a, Survey Females")
+ggsave(paste0(.FIGS, "length_resid_23a_females.png"), width = 7, height = 8)
 
 bubbleplot_resid <- function(letter_m, sex, ltitle = "Model")
 {
