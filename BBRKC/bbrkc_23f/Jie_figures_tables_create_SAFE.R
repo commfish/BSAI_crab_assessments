@@ -92,7 +92,7 @@ D <- read_rep("./BBRKC/bbrkc_23f/model_23_0a/gmacs.rep")
 # tanner crab length frequencies - males and females
 # !!Figure 25 a, b -------------
 # length frequencies residuals for model runs, males NMFS
-# see bubbleplot-m.r (FIX move to master file for functions and figure calls eventually)
+# see BBRKC/bbrkc_22f/Jie R code/bubbleplot-m.r (FIX move to master file for functions and figure calls eventually)
 # !!Figure 26 a, b -------------
 # length frequencies residuals for model runs, females NMFS 
 #  see figure 25 
@@ -100,6 +100,7 @@ D <- read_rep("./BBRKC/bbrkc_23f/model_23_0a/gmacs.rep")
 # retrospective of MMB --- look for my code for this????????
 # Figure 28 a, b, c --------
 # retrospective for recruitment, retrospective errors as function of recruitment, mean ratios of retrospective estimates
+#  located in retrospective file??? double check this
 # Figure 29 ------
 # base model old models NOT retro? code for this??? data for this?
 # Figures 30 a, b, c, d, e, f, 
