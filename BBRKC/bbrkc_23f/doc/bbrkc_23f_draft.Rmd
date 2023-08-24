@@ -4,14 +4,18 @@ author: |
   | Katie Palof$^1$, 
   | $^1$Alaska Department of Fish and Game, katie.palof@alaska.gov 
 date: "`r format(Sys.time(), '%B %Y')`"
+header-includes:
+  - \usepackage{caption}
 output:
   bookdown::pdf_document2:
     fig_caption: true
     includes: null
     toc: no
+
 ---
 
 \pagenumbering{arabic}
+
 
 ```{r global_options, include=FALSE, echo = FALSE, message = FALSE, warning=FALSE}
 library(knitr)
@@ -30,7 +34,88 @@ options(xtable.comment = FALSE)
 # the model specs
 cur_yr <- 2023 
 folder <- "bbrkc_23f"
+# The palette with grey:
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#D55E00", "#0072B2", "#CC79A7", "#F0E442")
+
+# To use for fills, add
+#scale_fill_manual(values=cbPalette)
+# To use for line and point colors, add
+#scale_colour_manual(values=cbPalette)
+
+# update model names and file locations
+mod_names <- c("21.1b (2022)", "21.1b (2023)", "23.0a Mest", "22.0 1985")#
+#mod_names <- c("16.0 (2019)", "16.0 (2020)", "16.0a (fix R ter)", "20.1 (no pot)")
+.MODELDIR = c(paste0(here::here(), "/BBRKC/bbrkc_22f/model_211b/"),
+              paste0(here::here(), "/BBRKC/bbrkc_23f/model_211b/"),#, 
+              paste0(here::here(), "/BBRKC/bbrkc_23f/model_23_0a/"), 
+              paste0(here::here(), "/BBRKC/bbrkc_23f/model_22/")) #, 
+               #need to update these model options
+.THEME    = list(theme_bw(base_size = 12, base_family = ""), scale_fill_manual(values=cbPalette), 
+                 scale_colour_manual(values=cbPalette), 
+                 update_geom_defaults("line", list(size = 1.75)))
+.OVERLAY  = TRUE
+.SEX      = c("Aggregate","Male", "Female")
+.FLEET    = c("Pot","Trawl bycatch", "Tanner bycatch", "Fixed bycatch","NMFS Trawl","BSFRF survey")
+#.TYPE     = c("Retained","Discarded", "Total")
+.TYPE     = c("Total", "Retained","Discarded", "Total")
+.SHELL    = c("Aggregate","New", "Old")
+.MATURITY = c("Aggregate")
+.SEAS     = c("1","2","3","4","5")
+.FIGS     = c("./BBRKC/bbrkc_23f/doc/figures/")
+.TABS     = c("./BBRKC/bbrkc_23f/doc/tables/")
+# Read report file and create gmacs report object (a list):
+fn       <- paste0(.MODELDIR, "gmacs")
+M        <- lapply(fn, read_admb)
+names(M) <- mod_names
+
+nmult_1 <- 1e+06
+nmult_2 <- 0.0004535923 * 1e+6
+#fn <- paste0(.MODELDIR[1], "gmacs")
+#Mmatch <- lapply(fn, read_admb)
+#names(Mmatch) <- c("SMBKC")
+
+fn <- paste0(.MODELDIR[2], "gmacs")
+Mbase <- lapply(fn, read_admb)
+names(Mbase) <- c("BBRKC")
+
+rinline <- function(code){
+  html <- '<code  class="r">``` `CODE` ```</code>'
+  sub("CODE", code, html)
+}
+
+#alt_mod <- 5 # alt reference time frame
+ref_mod <- 1 # base 2020
+rec_mod <- 2 # base
+mod_scen<- 2:4 #scenarios you want graphed together
+
+#mod_q <- c(2,6,8)
+#mod_yr <- c(2,7)
+
+ww <- 6
+hh <- 5
 ```
+
+```{r exesum, echo = FALSE}
+## table 1 ------
+## table 1 ------
+round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_2223
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_2223
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2324
+round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2324
+round(M[[rec_mod]]$spr_cofl/1000*0.80, 2) -> abc_2324
+
+round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_2223_lb
+round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]* 2204.62/1e6, 2) -> mmb_2223_lb
+round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_2324_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 3) -> ofl_2324_lb
+round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.80, 2) -> abc_2324_lb
+
+# ofl and abc basis -------- table 3
+round(M[[rec_mod]]$spr_bmsy/1000, 2) -> bmsy_cur
+round(M[[rec_mod]]$spr_depl, 2) -> ratio_bmsy
+round(M[[rec_mod]]$sd_fofl[1], 3) -> fofl
+```
+
 
 # Executive Summary {-}
 1.	**Stock**: Red king crab (RKC), *Paralithodes camtschaticus*, in Bristol Bay, Alaska.
@@ -42,8 +127,13 @@ folder <- "bbrkc_23f"
 4.	**Recruitment**: Estimated recruitment was high during the 1970s and early 1980s and has generally been low since 1985 (1979-year class). During 1984-2020, estimated recruitment was above the historical average (1976-2019 reference years) only in 1984, 1986, 1990, 1995, 1999, 2002, and 2005. Estimated recruitment was extremely low during the last 12 years, and even lower during the recent eight years. With the low recruitment in recent years, the projected mature biomass is expected to decline during the next few years with a below-average fishing mortality of 0.167 to 0.25 $yr^{-1}$.
 
 5.	**Management performance**: 
-Status and catch specifications (1,000 t) (model 21.1b): 
 
+The stock was above MSST in 2022/2023 (85% of BMSY) and hence was not overfished. Since total catch was below OFL, overfishing did not occur. The projection using the lowest recruitment periods during 2013-2021 would not likely result in “approaching an overfished condition” based on the current harvest strategy. The relatively low MSST in 2018/19 and B35% in 2019/20 below was caused by a problem of the previous GMACS version using the only sex ratio of recruitment in the terminal year for B35% computation in 2019. The lower estimated male recruitment ratio in the terminal year in 2019 resulted in a lower mean male recruitment for B35% computation.  The current version of GMACS uses an average of sex ratios of recruitment during the reference period to estimate B35%, which results in a stable sex ratio (about 50%) for the reference point calculation. 
+
+The ABC buffer was increased from 10% to 20% in 2018, and an additional buffer of 5% was added in 2020 due to the lack of a 2020 survey. A 20% buffer was recommended by the CPT and SSC for ABC estimation since 2021/22. Reoccurring concerns for this stock are still present (cold pool distributional shifts, declining trends in mature biomass, lack of large recruitment pulses, retrospective patterns), in addition to low mature female biomass the last two years, all contribute to a recommended 20% buffer for 2023/24.
+
+
+Status and catch specifications (1,000 t) (model 21.1b): 
 
 \begin{table}[ht]
  \centering
@@ -57,18 +147,32 @@ Status and catch specifications (1,000 t) (model 21.1b):
   2019/20 & 12.72 & 14.24 & 1.72 & 1.78 & 2.22 & 3.40 & 2.72 \\
   2020/21 & 12.12 & 13.96 & 1.20 & 1.26 & 1.57 & 2.14 & 1.61 \\
   2021/22 & 12.01 & 16.64 & 0 & 0.02 & 0.10 & 2.23 & 1.78 \\
-  2022/23 & & & 0 & 0.02 & 0.07 & 3.04 & 2.43 \\
-  2023/24 &      &  &  &  &  &  &  \\
+  2022/23 & `r msst_2223` & `r mmb_2223` & 0 & 0.02 & 0.07 & 3.04 & 2.43 \\
+  2023/24 &               & `r mmb_2324` &   &      &      & `r ofl_2324` & `r abc_2324` \\
   \hline
 \end{tabular}
 \end{table}
 
-The stock was above MSST in XX2021/22 (69% of BMSY) and hence was not overfished. Since total catch was below OFL, overfishing did not occur. The projection using the lowest recruitment periods during 2013-2021 would not likely result in “approaching an overfished condition” based on the current harvest strategy. The relatively low MSST in 2018/19 and B35% in 2019/20 below was caused by a problem of the previous GMACS version using the only sex ratio of recruitment in the terminal year for B35% computation in 2019. The lower estimated male recruitment ratio in the terminal year in 2019 resulted in a lower mean male recruitment for B35% computation.  The current version of GMACS uses an average of sex ratios of recruitment during the reference period to estimate B35%, which results in a stable sex ratio (about 50%) for the reference point calculation. 
-
-The ABC buffer was increased from 10% to 20% in 2018, and an additional buffer of 5% was added in 2020 due to the lack of a 2020 survey. A 20% buffer was recommended by the CPT and SSC for ABC estimation for 2021/22. Reoccurring concerns for this stock are still present (cold pool distributional shifts, declining trends in mature biomass, lack of large recruitment pulses, retrospective patterns), in addition to low mature female biomass the last two years, all contribute to a recommended 20% buffer for 2022/23.
-
 Status and catch specifications (million lb, model 21.1b):
-NEED A TABLE HERE
+\begin{table}[ht]
+ \centering
+ \caption{Status and catch specifications (million lb) for the base model.}
+ \label{tab:status}
+ \begin{tabular}{lccccccc}
+  \hline
+  & & Biomass & & Retained & Total & & \\
+  Year & MSST & ($\mathit{MMB}_\text{mating}$) & TAC & catch & male catch & OFL & ABC \\
+  \hline
+  2019/20 & 28.0 & 31.4 & 3.80 & 3.91 & 4.89 & 7.50 & 6.00 \\
+  2020/21 & 26.7 & 30.8 & 2.77 & 2.65 & 3.47 & 4.72 & 3.54 \\
+  2021/22 & 26.5 & 36.7 & 0 & 0.04 & 0.22 & 4.91 & 3.92 \\
+  2022/23 & `r msst_2223_lb` & `r mmb_2223_lb` & 0 & 0.05 & 0.16 & 6.70 & 5.35 \\
+  2023/24 &               & `r mmb_2324_lb` &   &      &      & `r ofl_2324_lb` & `r abc_2324_lb` \\
+  \hline
+\end{tabular}
+\end{table}
+
+
 
 6. **Basis for the OFL**: 
 \begin{table}[ht]
@@ -80,12 +184,30 @@ NEED A TABLE HERE
   & & & Biomass & & & & Natural \\ 
   Year & Tier & $B_\mathit{MSY}$ & ($\mathit{MMB}_\text{mating}$) & $B/B_\mathit{MSY}$ & $F_\mathit{OFL}$ & Basis for $B_\mathit{MSY}$ & mortality \\ 
   \hline
-  2018/19 & 3b & 25.5 & 20.8 & 0.82 & 0.25 & 1984-2017 & 0.18 \\
   2019/20 & 3b & 21.2 & 16.0 & 0.75 & 0.22 & 1984-2018 & 0.18 \\ 
   2020/21 & 3b & 25.4 & 14.9 & 0.59 & 0.16 & 1984-2019 & 0.18 \\
   2021/22 & 3b & 24.2 & 14.9 & 0.62 & 0.17 & 1984-2020 & 0.18 \\
   2022/23 & 3b & 24.03 & 17.0 & 0.71 & 0.20 & 1984-2021 & 0.18 \\
-  2023/24 & 3b & & & & 1984-2022 & 0.18\\
+  2023/24 & 3b & `r bmsy_cur` & `r mmb_2324` & `r ratio_bmsy` & `r fofl` & 1984-2022 & 0.18\\
+  \hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[ht]
+\centering
+\caption{Basis for the OFL (million lb) from the base model (model 21.1b).}
+\label{tab:ofl-basis}
+\begin{tabular}{lcccccccc}
+  \hline
+  & & & Biomass & & & & Natural \\ 
+  Year & Tier & $B_\mathit{MSY}$ & ($\mathit{MMB}_\text{mating}$) & $B/B_\mathit{MSY}$ & $F_\mathit{OFL}$ & Basis for $B_\mathit{MSY}$ & mortality \\ 
+  \hline
+  2019/20 & 3b & 46.8 & 35.2 & 0.75 & 0.22 & 1984-2018 & 0.18 \\ 
+  2020/21 & 3b & 56.1 & 32.9 & 0.59 & 0.16 & 1984-2019 & 0.18 \\
+  2021/22 & 3b & 53.4 & 33.0 & 0.62 & 0.17 & 1984-2020 & 0.18 \\
+  2022/23 & 3b & 53.0 & 37.4 & 0.71 & 0.20 & 1984-2021 & 0.18 \\
+  2023/24 & 3b & `r bmsy_cur` & `r mmb_2324` & `r ratio_bmsy` & `r fofl` & 1984-2022 & 0.18\\
   \hline
 \end{tabular}
 \end{table}
@@ -106,15 +228,14 @@ c.	Updated length composition data for directed and non-directed fisheries.
 ## 3. Changes in Assessment Methodology {-}
 Updated version of GMACS (version XX, XX, 2023) is used.
 b. The analyses of terminal years of recruitment are updated. 
-c. Three models are compared in this report (See Section E.3.a for details):
+c. Three models are compared in this report (See Section E.3.a for details), these models are designed for evaluating starting the model in 1985 and estimating M for males.:
 
-      **21.1b**: model 21.1a + updated groundfish fisheries bycatch data. 
+  **21.1b**: model 21.1a + updated groundfish fisheries bycatch data. 
 
-    	**22.0**: model 21.1b + starting in 1985.
+  **22.0**: model 21.1b + starting in 1985.
 
-    	**23.0a**: model 22.0 + estimating a constant M for males.
+  **23.0a**: model 22.0 + estimating a constant M for males.
 
-    These models are designed for evaluating starting the model in 1985 and estimating M for males.  
 
 
 ## 4. Changes in Assessment Results {-}
@@ -329,11 +450,11 @@ The original LBA model was described in detail by Zheng et al. (1995a, 1995b) an
 
 ### g.	Critical assumptions of the model: {-}
 i.	The base natural mortality is kept constant at 0.18 $yr_1$ for males, shell condition, and length and was estimated assuming a maximum age of 25 and applying the 1% rule (Zheng 2005).
-ii.	Survey and fisheries selectivities are a function of length and were constant over shell condition. Selectivities may or may not be a function of sex except for groundfish fisheries bycatch selectivities, which are the same for both sexes. Two different NMFS survey selectivities were estimated: (1) 1975-1981 and (2) 1982-2021, based on modifications to the trawl gear used in the assessment survey.
-iii.	Growth is a function of length. For females, growth-per-molt increments as a function of length are estimated for three periods (1975-1982, 1983-1993, and 1994-2022) based on sizes at maturity. Once mature, female red king crab have a much smaller growth increment per molt.
+ii.	Survey and fisheries selectivities are a function of length and were constant over shell condition. Selectivities may or may not be a function of sex except for groundfish fisheries bycatch selectivities, which are the same for both sexes. Two different NMFS survey selectivities were estimated: (1) 1975-1981 and (2) 1982-2023, based on modifications to the trawl gear used in the assessment survey.
+iii.	Growth is a function of length. For females, growth-per-molt increments as a function of length are estimated for three periods (1975-1982, 1983-1993, and 1994-2023) based on sizes at maturity. Once mature, female red king crab have a much smaller growth increment per molt.
 iv.	Molting probabilities are an inverse logistic function of length for males. Females molt annually.
 v.	Annual fishing seasons for the directed fishery are short.
-vi.	The prior mean for NMFS survey catchability (Q) is estimated to be 0.896 with a standard deviation of 0.025 for some models, based on a trawl experiment by Weinberg et al. (2004); Q is assumed to be constant over time and is estimated in the model. The BSFRF survey catchability is assumed to be 1.0. The prior mean of 0.896 for NMFS survey Q (at 162.5 mm carapace length) is also close to the abundance-weighted average ratio of 0.891 for crab $\geq$ 135 mm CL across four years of side-by-side NMFS and BSFRF survey data (Figure 7c).
+vi.	The prior mean for NMFS survey catchability (Q) is estimated to be 0.896 with a standard deviation of 0.025 for some models, based on a trawl experiment by Weinberg et al. (2004); Q is assumed to be constant over time and is estimated in the model. The BSFRF survey catchability is assumed to be 1.0. The prior mean of 0.896 for NMFS survey Q (at 162.5 mm carapace length) is also close to the abundance-weighted average ratio of 0.891 for crab $\geq$ 135 mm CL across four years of side-by-side NMFS and BSFRF survey data (Figure \@ref(fig:bsfrf-compare3).
 vii.	Males mature at sizes $\geq$ 120 mm CL. For convenience, female abundance is summarized at sizes $\geq$ 90 mm CL as an index of mature females.
 viii.	Measurement errors are assumed to be normally distributed for length compositions and are log-normally distributed for biomasses. 
 
@@ -581,7 +702,18 @@ Zheng, J., M.C. Murphy, and G.H. Kruse. 1997b. Alternative rebuilding strategies
 \newpage\clearpage
 # Tables {-}
 
-
+```{r totalcatch, results = "asis"}
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/catch_all.csv')) # created from table 1a 22f
+#df %>% select(-m22) -> df
+names(df) <- c("Year", "US", "Cost Recovery", "Foreign", "Total", "Females", "Trawl Bycatch", "Fixed Bycatch", "Tanner Bycatch") 
+addtorow <- list()
+addtorow$pos <- list(0, 0)
+addtorow$command <- c("& \\multicolumn{4}{c}{Retained} & \\multicolumn{4}{c}{Bycatch}\\\\\n", 
+                      "Year & US & Cost Recovery & Foreign & Total & Females & Trawl & Fixed & Tanner \\\\\n")
+tab <- xtable(df, caption = "Bristol Bay red king crab annual catch and bycatch mortality biomass (t) from July 1 to June 30. A handling mortality rate of 0.20 for the directed pot, 0.25 for the Tanner fishery, 0.80 for trawl, and 0.50 for fixed gear was assumed to estimate bycatch mortality biomass. The male bycatch biomass in the directed pot fishery is not estimated outside of a model and not included in this Table.  Pot bycatch and Tanner crab fishery bycatch are estimated through expanding the mean observer bycatch per pot to total fishery pot. The pot male bycatch after 2017 is estimated through the subtraction method (B. Daly, ADFG, personal communication). The trawl and fixed gear fishery bycatches are obtained from the NMFS database. The directed pot bycatch before 1990 and Tanner crab fishery bycatch before 1991 are not available from the observer data and thus not included in this table. These include recently updated estimates from the pot fisheries observer data in 2022.", label = "tab:totalcatch")
+print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
+      tabular.environment="longtable", sanitize.text.function = function(x){x}, hline.after = c(-1,0, 39, nrow(tab)))
+```
 
 \clearpage
 \pagebreak 
@@ -779,6 +911,50 @@ knitr::include_graphics("figures/lf_tanner_males.png", dpi = 450)
 ```{r sc-tannerF, out.width="100%", fig.cap = "Comparison of observer and model estimated discarded length frequencies of Bristol Bay female red king crab by year in the groundfish fixed gear fisheries for all model scenarios."}
 knitr::include_graphics("figures/lf_tanner_females.png", dpi = 450)
 ```
+
+```{r sc-res-ref-M, out.width="100%", fig.cap = "Residuals of proportions of NMFS survey male red king crab by year and carapace length (mm) under model 21.1b. Green circles are positive residuals, and red circles are negative residuals."}
+knitr::include_graphics("figures/length_resid_211b_males.png", dpi = 100)
+```
+
+```{r sc-res-M3, out.width="100%", fig.cap = "Residuals of proportions of NMFS survey male red king crab by year and carapace length (mm) under model 22.0. Green circles are positive residuals, and red circles are negative residuals."}
+knitr::include_graphics("figures/length_resid_22_males.png", dpi = 100)
+```
+
+```{r sc-res-M4, out.width="100%", fig.cap = "Residuals of proportions of NMFS survey male red king crab by year and carapace length (mm) under model 23.0a. Green circles are positive residuals, and red circles are negative residuals."}
+knitr::include_graphics("figures/length_resid_23a_males.png", dpi = 100)
+```
+
+```{r sc-res-ref-F, out.width="100%", fig.cap = "Residuals of proportions of NMFS survey female red king crab by year and carapace length (mm) under model 21.1b. Green circles are positive residuals, and red circles are negative residuals."}
+knitr::include_graphics("figures/length_resid_211b_females.png", dpi = 100)
+```
+
+\newpage 
+
+```{r sc-resF3, out.width="100%", fig.cap = "Residuals of proportions of NMFS survey female red king crab by year and carapace length (mm) under model 22.0. Green circles are positive residuals, and red circles are negative residuals."}
+knitr::include_graphics("figures/length_resid_22_females.png", dpi = 100)
+```
+
+\newpage 
+
+```{r sc-res-F4, out.width="100%", fig.cap = "Residuals of proportions of NMFS survey male red king crab by year and carapace length (mm) under model 23.0a. Green circles are positive residuals, and red circles are negative residuals."}
+knitr::include_graphics("figures/length_resid_23a_females.png", dpi = 100)
+```
+
+```{r retro211b, out.width="100%", fig.cap = "Comparison of hindcast estimates of mature male biomass on Feb. 15 of Bristol Bay red king crab with terminal years 2013-2023 using model 21.1b. These are results of the 2022 model. Legend shows the terminal year"}
+#knitr::include_graphics("figures/ssb_retrospective_model211b_frombbrkc22f.png", dpi = 200)
+```
+
+```{r retro22, out.width="100%", fig.cap = "Comparison of hindcast estimates of mature male biomass on Feb. 15 of Bristol Bay red king crab with terminal years 2013-2023 using model 22.0. These are results of the 2022 model. Legend shows the terminal year"}
+#knitr::include_graphics("figures/ssb_retrospective_model_22.png", dpi = 200)
+```
+
+```{r retro230a, out.width="100%", fig.cap = "Comparison of hindcast estimates of mature male biomass on Feb. 15 of Bristol Bay red king crab with terminal years 2013-2023 using model 23.0a. These are results of the 2022 model. Legend shows the terminal year"}
+#knitr::include_graphics("figures/ssb_retrospective_model_230a.png", dpi = 200)
+```
+
+
+
+
 
 
 \clearpage
