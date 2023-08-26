@@ -69,6 +69,12 @@ biomass_mt %>%
 biomass_mt %>% 
   filter(SURVEY_YEAR >= cur_yr-1) %>% 
   filter(SIZE_GROUP == "MALE_FEMALE_GE65")
+
+# mature female need just those GE90 --------------
+bbrkc_area_swept %>% 
+  filter(SIZE_GROUP == "FEMALE_GE90") %>% 
+  dplyr::select(SURVEY_YEAR, SPECIES_NAME, SIZE_GROUP, ABUNDANCE, ABUNDANCE_CV,  
+                BIOMASS_LBS, BIOMASS_LBS_CV ,BIOMASS_MT, BIOMASS_MT_CV, BIOMASS_MT_CI) -> Fbiomass_mt 
 ## Length comps - survey see Tyler's code-------------
 head(size_group)
 
@@ -100,7 +106,7 @@ head(haul_rkc) # how to determine which ones are bb???
 
 # 2021 sampled
 haul_rkc %>% 
-  filter(AKFIN_SURVEY_YEAR == 2022 & MID_LATITUDE > 54.6) %>% 
+  filter(AKFIN_SURVEY_YEAR == 2023 & MID_LATITUDE > 54.6) %>% 
   filter(MID_LATITUDE < 58.65 & MID_LONGITUDE < -168) %>% 
   dplyr::select(AKFIN_SURVEY_YEAR, GIS_STATION, AREA_SWEPT, SPECIES_NAME, SEX, LENGTH, SAMPLING_FACTOR) %>% 
   filter(LENGTH >= 65) %>% 
@@ -284,7 +290,47 @@ kod_dat_m %>%
     geom_density_ridges(aes(height = abund), alpha= 0.25, 
                             scale = 5)
 
+# stats for current year data for SAFE executive summary---------
+# MALES 
+biomass_mt %>% 
+  filter(SIZE_GROUP == "MALE_GE65") %>% 
+  filter(SURVEY_YEAR >= 1975) %>% 
+  dplyr::select(SURVEY_YEAR, BIOMASS_MT) %>% 
+  mutate(rank = rank(BIOMASS_MT)) # 2023 4th lowest
 
+# rank since 2000
+biomass_mt %>% 
+  filter(SIZE_GROUP == "MALE_GE65") %>% 
+  filter(SURVEY_YEAR >= 2000) %>% 
+  dplyr::select(SURVEY_YEAR, BIOMASS_MT) %>% 
+  mutate(rank = rank(BIOMASS_MT), avg = mean(BIOMASS_MT))
+
+# 1975 - 2023 mean MALE survey biomass
+biomass_mt %>%  # all using biomass_mt metric tons
+  filter(SIZE_GROUP == "MALE_GE65") %>% 
+  filter(SURVEY_YEAR >= 1975) %>% 
+  mutate(LT_MEAN = mean(BIOMASS_MT), pct.LT_MEAN = BIOMASS_MT/LT_MEAN) -> biomass_mt_mean
+#avg3yr = ifelse(SURVEY_YEAR >= cur_yr -2, mean(BIOMASS_MT), 0))
+# 34.3 % of long term mean
+
+# 1975 - 2023 mean FEMALE survey biomass
+Fbiomass_mt %>%  # all using biomass_mt metric tons
+  #filter(SIZE_GROUP == "FEMALE_GE65") %>% 
+  filter(SURVEY_YEAR >= 1975) %>% 
+  mutate(LT_MEAN = mean(BIOMASS_MT), pct.LT_MEAN = BIOMASS_MT/LT_MEAN)
+# 52.3% of long term mean 
+
+# 3 year average and percent of LT mean 
+biomass_mt %>% 
+  filter(SURVEY_YEAR >= cur_yr-3) %>% # !! change to 3 here to include actual last 3 years due to missing 2020
+  summarise(mean_3yr = mean(BIOMASS_MT), pct.lt = mean_3yr/biomass_mt_mean$LT_MEAN[1])
+
+# last years percent change 
+biomass_mt %>% 
+  filter(SURVEY_YEAR >= cur_yr-2) %>% # needs to be 2 here since no 2020 survey
+  mutate(pct.change = (BIOMASS_MT[2]-BIOMASS_MT[1])/BIOMASS_MT[1],
+         pct.change2 = (BIOMASS_LBS[2]-BIOMASS_LBS[1])/BIOMASS_LBS[1],
+         pct.change3 = (ABUNDANCE[2]-ABUNDANCE[1])/ABUNDANCE[1])
 ############### nothing below this line is being used --------------------
 # male size comps
 haul_rkc %>% 
@@ -304,13 +350,13 @@ haul_rkc %>%
  
 
 
-# sample size by year
+# sample size by year - see line 44 in bbrkc_sizecomp.R, need just BB
 haul_rkc %>% 
   filter(AKFIN_SURVEY_YEAR >= cur_yr-2) %>% 
   select(AKFIN_SURVEY_YEAR, SPECIES_NAME, SEX, LENGTH_1MM, SAMPLING_FACTOR) %>% 
   filter(#SEX == 1, 
     LENGTH_1MM >= 65) %>% 
-  group_by(AKFIN_SURVEY_YEAR) %>% 
+  group_by(AKFIN_SURVEY_YEAR, SEX) %>% 
   summarise(total_samp = n()) -> samp_by_year
   
 

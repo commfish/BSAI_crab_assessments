@@ -41,6 +41,16 @@ specimen %>%
   #mutate(Nsamp = min(0.25*n, 200)) %>%
   print(n = 100)
 
+# sample size by year
+specimen %>%
+  filter(haul_type == 3, !is.na(sex)) %>%
+  filter(gis_station %in% bb_stations) %>% 
+  filter(akfin_survey_year >= cur_yr-2) %>% 
+  #filter(mid_latitude > 54.6) %>% 
+  #filter(mid_latitude < 58.65 & mid_longitude < -168) %>% 
+  filter(length >= 65) %>% 
+  group_by(akfin_survey_year, sex) %>%
+  summarise(total_samp = n()) #-> samp_by_year
 
 # akfin abundance report ----
 read.csv(paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/EBSCrab_Abundance_Biomass.csv'), 
