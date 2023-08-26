@@ -124,7 +124,10 @@ D <- read_rep("./BBRKC/bbrkc_23f/model_23_0a/gmacs.rep")
 # Table 3a - look at Tyler's observer summary files and survey data/groundfish sample sizes
 # Table 4 ------
 # effective sample sizes and harmonic means, see im-ess.cmn
-# now in Jie_cmn_files.R
+# now in BBRKC/code/Jie_cmn_files.R
+
+# Table 5a - ----
+# see Jie_cmn_files.R
 
 # Table 7 ----
 # see figures_tables_create_SAFE.R
