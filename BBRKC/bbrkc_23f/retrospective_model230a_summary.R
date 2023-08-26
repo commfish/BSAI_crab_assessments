@@ -1,4 +1,4 @@
-#k.palof, 8-23-2022
+#k.palof, 8-23-2022 / 8-24-23
 # Script for compiling retrospective runs - mainly ssb and recruitment
 
 # Currently use a new script for each model - need to make this figure a function!
@@ -21,8 +21,8 @@ library(icesAdvice)
 # Model 1 plots -------------------------
 # ALL retrospective model setup  -------------------------
 # first model is reference to previous year
-cur_yr <- 2022 # update annually 
-folder <- "bbrkc_22f/model_22a/retrospective" # update annually 
+cur_yr <- 2023 # update annually 
+folder <- "bbrkc_23f/model_23_0a/retrospective" # update annually 
 # The palette with grey:
 cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 
@@ -32,9 +32,9 @@ cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2",
 #scale_colour_manual(values=cbPalette)
 
 # update model names and file locations
-mod_names <- c("22.0a (2022)", "2021", "2020", "2019", "2018", "2017", "2016", "2015", "2014", "2013", "2012")
-#mod_names <- c("16.0 (2019)", "16.0 (2020)", "16.0a (fix R ter)", "20.1 (no pot)")
-.MODELDIR = c(paste0(here::here(), "/BBRKC/bbrkc_22f/model_22a/"),
+mod_names <- c("23.0a (2023)", "2022", "2021", "2020", "2019", "2018", "2017", "2016", "2015", "2014", "2013") #, "2012")
+
+.MODELDIR = c(paste0(here::here(), "/BBRKC/bbrkc_23f/model_23_0a/"),
               paste0(here::here(), "/BBRKC/", folder, "/retro1/"),
               paste0(here::here(), "/BBRKC/", folder, "/retro2/"),
               paste0(here::here(), "/BBRKC/", folder, "/retro3/"),
@@ -55,9 +55,9 @@ mod_names <- c("22.0a (2022)", "2021", "2020", "2019", "2018", "2017", "2016", "
 .SHELL    = c("Aggregate","New", "Old")
 .MATURITY = c("Aggregate")
 .SEAS     = c("1","2","3","4","5")
-.FIGS     = c("./BBRKC/bbrkc_22f/figures/")
-.TABS     = c("./BBRKC/bbrkc_22f/doc/safe_tables/")
-.FILES     = c("./BBRKC/bbrkc_22f/model_22a/retrospective/")
+.FIGS     = c("./BBRKC/bbrkc_23f/doc/figures/")
+.TABS     = c("./BBRKC/bbrkc_23f/doc/tables/")
+.FILES     = c("./BBRKC/bbrkc_23f/model_23_0a/retrospective/")
 # Read report file and create gmacs report object (a list):
 fn       <- paste0(.MODELDIR, "gmacs")
 M        <- lapply(fn, read_admb)
@@ -81,9 +81,9 @@ ww <- 6
 hh <- 5
 #####----------
 
-ssb <- .get_ssb_dfKP(M[1:10]) # 2012 results are low and not typical....no time to investigate right now to eliminate
+ssb <- .get_ssb_dfKP(M[1:11]) # 
 # retro runs in GMACS do not output projected ssb...which is frustrating. need to adjust function for this see 'gmr
-ssb2 <- .get_ssb_dfKP_retro(M[1:10])
+ssb2 <- .get_ssb_dfKP_retro(M[1:11])
 
 # plot ssb retro -----
 ssb2 %>% 
@@ -94,33 +94,33 @@ ssb2 %>%
   #ylim(c(0,11500)) +
   theme_bw(base_size = 12, base_family = "") +
   scale_colour_discrete(name  ="Model end year") +
-  scale_x_continuous(breaks = seq(min(1985),max(max(ssb2$year) + 1), by = 5)) +
-  ylim(10, 50) +
+  scale_x_continuous(breaks = seq(min(1975),max(max(ssb2$year) + 1), by = 5)) +
+  #ylim(10, 50) +
   theme(#legend.position = c(0.8, 0.7), 
         text = element_text(size = 13), 
         axis.text = element_text(size = 13), 
         axis.title = element_text(size = 13)) +
-  geom_text(x = 1993, y = 45, label = "Mohn's rho: 0.329", size = 6) # add in Mohn's rho - currently calculated in excel - see retro_out_2022
+  geom_text(x = 1993, y = 45, label = "Mohn's rho: 0.242", size = 6) # add in Mohn's rho - currently calculated in excel - see retro_out_2022
 
-ggsave(paste0(.FIGS, "ssb_retrospective_model_22a.png"), width = 1.35*6, height = 8)
+ggsave(paste0(.FIGS, "ssb_retrospective_model_23_0a.png"), width = 1.35*6, height = 8)
 
 ## Mohn's rho ssb------
 ssb2 %>% 
   mutate(ssb = ssb/1000) %>% 
-  mutate(model.end.yr = ifelse(Model == '22.0a (2022)', 2021, as.integer(Model)-1)) %>% 
+  mutate(model.end.yr = ifelse(Model == '23.0a (2023)', 2022, as.integer(Model)-1)) %>% 
   select(model.end.yr, year, ssb) %>% 
   spread(model.end.yr, ssb) %>% 
   mutate(year = as.integer(year)) %>% 
   #needs to be in descending order for code to work
-  select(`2021`, `2020`, `2019`, `2018`, `2017`, `2016`, `2015`, `2014`, `2013`, `2012`) -> out3
+  select(`2022`,`2021`, `2020`, `2019`, `2018`, `2017`, `2016`, `2015`, `2014`, `2013`, `2012`) -> out3
 # issue because year model names as column names don't match estimates
 
-row.names(out3) <- 1975:2021 # only works if rownames are years and retrospective estimates are in columns
+row.names(out3) <- 1975:2022 # only works if rownames are years and retrospective estimates are in columns
 
 
 mohn(out3)
 mohn(out3, peels = 5, details = FALSE, plot = TRUE)
-mohn(out3, peels = 9, details = TRUE, plot = TRUE) # 0.3287713
+mohn(out3, peels = 10, details = TRUE, plot = TRUE) # 0.2417024
 mohn(out3, peels = 1, details = TRUE, plot = TRUE)
 
 # output to calculate in Excel like Jie

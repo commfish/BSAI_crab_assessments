@@ -82,9 +82,9 @@ ww <- 6
 hh <- 5
 #####----------
 
-ssb <- .get_ssb_dfKP(M[1:10])
+ssb <- .get_ssb_dfKP(M[1:11])
 # retro runs in GMACS do not output projected ssb...which is frustrating. need to adjust function for this see 'gmr
-ssb2 <- .get_ssb_dfKP_retro(M[1:10])
+ssb2 <- .get_ssb_dfKP_retro(M[1:11])
 
 # plot ssb retro -----
 ssb2 %>% 
@@ -101,7 +101,7 @@ ssb2 %>%
         text = element_text(size = 13), 
         axis.text = element_text(size = 13), 
         axis.title = element_text(size = 13)) +
-  geom_text(x = 1993, y = 40, label = "Mohn's rho: 0.437", size = 6) # add in Mohn's rho - currently calculated in excel - see retro_out_2022
+  geom_text(x = 1993, y = 40, label = "Mohn's rho: 0.418", size = 6) # add in Mohn's rho - currently calculated in excel - see retro_out_2022
 
 ggsave(paste0(.FIGS, "ssb_retrospective_model_22.png"), width = 1.35*6, height = 8)
 
@@ -113,7 +113,7 @@ ssb2 %>%
   spread(model.end.yr, ssb) %>% 
   mutate(year = as.integer(year)) %>% 
   #needs to be in descending order for code to work
-  select(`2022`, `2021`, `2020`, `2019`, `2018`, `2017`, `2016`, `2015`, `2014`, `2013`) -> out3
+  select(`2022`, `2021`, `2020`, `2019`, `2018`, `2017`, `2016`, `2015`, `2014`, `2013`, `2012`) -> out3
 # issue because year model names as column names don't match estimates
 # add cur_yr -1 to beginning and delete last / oldest year
 
@@ -122,7 +122,7 @@ row.names(out3) <- 1975:2022 # only works if rownames are years and retrospectiv
 
 mohn(out3)
 mohn(out3, peels = 5, details = FALSE, plot = TRUE)
-mohn(out3, peels = 9, details = TRUE, plot = TRUE) # 0.4535501
+mohn(out3, peels = 10, details = TRUE, plot = TRUE) # 0.4535501
 mohn(out3, peels = 1, details = TRUE, plot = TRUE)
 
 # output to calculate in Excel like Jie
