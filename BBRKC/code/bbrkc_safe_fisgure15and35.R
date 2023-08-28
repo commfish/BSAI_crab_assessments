@@ -353,7 +353,7 @@ ggsave(paste0(.FIGS, "figure_35_alternate.png"), plot = a/b/c, height = 8, width
 strata %>%
   filter(district %in% c("Bristol Bay", "Northern Unstratified")) %>%
   distinct(survey_year, district, station_id, total_area_sq_nm) %>%
-  rename(akfin_survey_year = survey_year, gis_station = station_id) %>%
+  dplyr::rename(akfin_survey_year = survey_year, gis_station = station_id) %>%
   expand_grid(sex = 2, length_1mm = 0:250) -> hauls
 
 # estimates in 1 mm bins
@@ -391,7 +391,7 @@ specimen %>%
   summarise(n = sum(sampling_factor),
             wt_t = n * mean(calculated_weight_1mm) * 1e-6,
             cpue_n = n / mean(area_swept),
-            cpue_t = wt_t / mean(area_swept)) %>%
+            cpue_t = wt_t / mean(area_swept)) %>% #-> temp2#%>%
   
   # join to all hauls, fill in zero catches
   right_join(hauls) %>%
@@ -414,8 +414,8 @@ est_1mm %>%
   add_row(akfin_survey_year = 2020, district = c("Bristol Bay", "Northern Unstratified")) %>%
   pivot_wider(names_from = district, values_from = N_hat) %>%
   mutate(`Proportion of North (North)/(North+BB)` = `Northern Unstratified` / (`Bristol Bay` + `Northern Unstratified`) * 100) %>%
-  rename(`BB biomass` = `Bristol Bay`,
-         `North biomass` = `Northern Unstratified`) %>%
+  #rename(`BB biomass` = `Bristol Bay`,
+  #       `North biomass` = `Northern Unstratified`) %>%
   pivot_longer(2:4, names_to = "stat", values_to = "value") %>%
   
   ggplot()+
@@ -425,10 +425,10 @@ est_1mm %>%
   scale_x_continuous(labels = yr_axis$labels, breaks = yr_axis$breaks)+
   scale_color_manual(values = c("red", "blue", "black"))+
   scale_shape_manual(values = c(15, 8, 16))+
-  labs(x = NULL, y = "Female abundance <90mm (millions of crab)", color = NULL, shape = NULL)+
+  labs(x = NULL, y = "Immature female <90mm (millions of crab)", color = NULL, shape = NULL)+
   theme(legend.justification = c(0,1),
         legend.position = c(0,1.00))-> x
-ggsave("./BBRKC/bbrkc_22f/figures/FEMALES_figure_35a.png", plot = x, height= 3, width = 5, units = "in")
+ggsave("./BBRKC/bbrkc_23f/doc/figures/FEMALES_figure_35a.png", plot = x, height= 3, width = 5, units = "in")
 
 ### figure 35b
 est_1mm %>%
@@ -439,8 +439,8 @@ est_1mm %>%
   add_row(akfin_survey_year = 2020, district = c("Bristol Bay", "Northern Unstratified")) %>%
   pivot_wider(names_from = district, values_from = N_hat) %>%
   mutate(`Proportion of North (North)/(North+BB)` = `Northern Unstratified` / (`Bristol Bay` + `Northern Unstratified`)*100) %>%
-  rename(`BB biomass` = `Bristol Bay`,
-         `North biomass` = `Northern Unstratified`) %>%
+  #rename(`BB biomass` = `Bristol Bay`,
+  #       `North biomass` = `Northern Unstratified`) %>%
   pivot_longer(2:4, names_to = "stat", values_to = "value") %>%
   
   ggplot()+
@@ -450,7 +450,7 @@ est_1mm %>%
   scale_x_continuous(labels = yr_axis$labels, breaks = yr_axis$breaks)+
   scale_color_manual(values = c("red", "blue", "black"))+
   scale_shape_manual(values = c(15, 8, 16))+
-  labs(x = NULL, y = "Mature female abundance (millions of crab)", color = NULL, shape = NULL)+
+  labs(x = NULL, y = "Mature female >89mm (millions of crab)", color = NULL, shape = NULL)+
   theme(legend.justification = c(0,1),
         legend.position = c(0,1.025))  -> x
-ggsave("./BBRKC/bbrkc_22f/figures/FEMALES_figure_35b.png", plot = x, height= 3, width = 5, units = "in")
+ggsave("./BBRKC/bbrkc_23f/doc/figures/FEMALES_figure_35b.png", plot = x, height= 3, width = 5, units = "in")

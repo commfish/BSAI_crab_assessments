@@ -1,4 +1,4 @@
-# k.palof - 8-27-22
+# k.palof - 8-27-22/ 8-27-23
 
 # Objective: code to summarize projection output from GMACS for
 #       1) ssb projected
@@ -10,24 +10,25 @@ source("./SMBKC/code/helper.R")
 cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 .THEME    = list(theme_bw(base_size = 12, base_family = ""), scale_fill_manual(values=cbPalette), 
                  scale_colour_manual(values=cbPalette))
-.FIGS     = c("./BBRKC/bbrkc_22f/figures/")
+.FIGS     = c("./BBRKC/bbrkc_23f/doc/figures/")
 
+folder = "bbrkc_23f"
 
 # data ------
 
 #Bproj <- read.table("C:/Users/kjpalof/Documents/Current projects/statewide shellfish/bbrkc/rk22s/mcoutPROJ211b.rep", 
 #                    header = TRUE)
-Bproj <- read.table(paste0(here::here(), "/BBRKC/bbrkc_22f/model_211b_mcmc/mcoutPROJ.rep"), header = T)
-B_ref <- read.table(paste0(here::here(), "/BBRKC/bbrkc_22f/model_211b_mcmc/mcoutREF.rep"), header = T)
+Bproj <- read.table(paste0(here::here(), "/BBRKC/", folder, "/model_211b-mcmc/mcoutPROJ.rep"), header = T)
+B_ref <- read.table(paste0(here::here(), "/BBRKC/", folder, "/model_211b-mcmc/mcoutREF.rep"), header = T)
 
 ## ssb proj data summary -------------
 Bproj %>% 
-  select(F_val, f_for_fleet_1, BMSY, SSB_2022:SSB_2032) %>% 
+  select(F_val, f_for_fleet_1, BMSY, SSB_2023:SSB_2033) %>% #needs to be updated with correct years
   group_by(F_val) %>% 
   summarise(across(everything(), mean))
 
 Bproj%>% 
-  select(F_val, f_for_fleet_1, BMSY, SSB_2022:SSB_2032) %>% 
+  select(F_val, f_for_fleet_1, BMSY, SSB_2023:SSB_2033) %>% #needs to be updated with correct years
   group_by(F_val) %>% 
   #filter(F_val == 1) %>% 
   gather(xvar, value, BMSY:SSB_2032) %>% 
@@ -56,7 +57,7 @@ sum1 %>%
     geom_ribbon(aes(x=year, ymax = upper.x, ymin = lower.x), alpha = 0.15) +
     #scale_fill_manual(name = "", labels = c("F=0", "F=0.083", "F=0.167", "F=0.25")) +
     #labs(fill = "Fishing mortality") +
-    ylab("MMB (t)") +
+    ylab(bquote(MMB[yr[t+1]])) +
     xlab("Year") +
     ggtitle("Model 21.1b") +
     geom_hline(aes(yintercept = (B_BMSY$`1`/2)), color = "#999999", lty = "dashed") +
@@ -74,17 +75,17 @@ ggsave(paste0(.FIGS, "proj_ssb_model_211b.png"), width = 7, height = 6)
 
 ### seperate out F values -------------
 Bproj%>% 
-  select(F_val, f_for_fleet_1, BMSY, SSB_2022:SSB_2031) %>% 
+  select(F_val, f_for_fleet_1, BMSY, SSB_2023:SSB_2033) %>% # update years
   group_by(F_val) %>% 
   filter(F_val == 2) -> Bproj_F08
 
 Bproj%>% 
-  select(F_val, f_for_fleet_1, BMSY, SSB_2022:SSB_2031) %>% 
+  select(F_val, f_for_fleet_1, BMSY, SSB_2023:SSB_2033) %>% 
   group_by(F_val) %>% 
   filter(F_val == 3) -> Bproj_F16
 
 Bproj%>% 
-  select(F_val, f_for_fleet_1, BMSY, SSB_2022:SSB_2031) %>% 
+  select(F_val, f_for_fleet_1, BMSY, SSB_2023:SSB_2033) %>% 
   group_by(F_val) %>% 
   filter(F_val == 4) -> Bproj_F25
 
@@ -107,7 +108,7 @@ B_ref %>%
    ggtitle("Model 21.1b") +
    scale_x_continuous(breaks = 11:21) 
   #xlim(12, 22)
-ggsave(paste0(.FIGS, "proj_MMB_histogram_model_211b.png"), width = 7, height = 6)
+ggsave(paste0(.FIGS, "proj_MMB_histogram_model_211b.png"), width = 7, height = 4.5)
 
 ## OFL histo ------------
 B_ref %>% 
@@ -120,7 +121,7 @@ B_ref %>%
   ggtitle("Model 21.1b") +
   scale_x_continuous(breaks = 1:5) 
 #xlim(12, 22)
-ggsave(paste0(.FIGS, "proj_OFL_histogram_model_211b.png"), width = 7, height = 6)
+ggsave(paste0(.FIGS, "proj_OFL_histogram_model_211b.png"), width = 7, height = 4.5)
 
 ## cumulative probability MMB current year------------
 head(B_ref)
@@ -133,6 +134,9 @@ ggplot(temp1, aes(BMSY.B0))+
   stat_ecdf(geom = "step")+
   xlab(expression(MMB[2022]/MMB[35~percent]))+
   ylab("Cumulative probability")+
+  scale_x_continuous(breaks = seq(0.4, 1.00, by = 0.1)) +
+  geom_vline(xintercept = 0.5, color = "red", lty = "dashed") +
+  xlab(expression(MMB[2022]/MMB[35~percent]))+
   .THEME
 ggsave(paste0(.FIGS, "proj_CDF_MMB_model_211b.png"), width = 6, height = 7.5)
   
@@ -143,19 +147,19 @@ ggsave(paste0(.FIGS, "proj_CDF_MMB_model_211b.png"), width = 6, height = 7.5)
 head(Bproj)
 
 Bproj %>% 
-  select(F_val, BMSY, SSB_2022:SSB_2025) %>% 
-  mutate(year22 = SSB_2022/BMSY, 
-         year23 = SSB_2023/BMSY,
+  select(F_val, BMSY, SSB_2023:SSB_2026) %>% # need to change years here
+  mutate(year23 = SSB_2023/BMSY, 
          year24 = SSB_2024/BMSY,
-         year25 = SSB_2025/BMSY, 
+         year25 = SSB_2025/BMSY,
+         year26 = SSB_2026/BMSY, 
          F_valu = ifelse(F_val == 1, "F=0", 
                          ifelse(F_val == 2, "F=0.083", 
                                 ifelse(F_val ==3, "F=0.167", "F=0.25")))) %>% #"F=0", "F=0.083", "F=0.167", "F=0.25"
-  select(F_valu, year22:year25) %>% 
-  gather(year, value, year22:year25) -> temp2
+  select(F_valu, year23:year26) %>% 
+  gather(year, value, year23:year26) -> temp2
 
-yearlabel <- c("2022", "2023", "2024", "2025")
-names(yearlabel) <- c("year22", "year23", "year24", "year25")
+yearlabel <- c("Feb.15th,2024", "Feb.15th,2025", "Feb.15th,2026", "Feb.15th,2027")
+names(yearlabel) <- c("year23", "year24", "year25", "year26")
 
 ggplot(temp2, aes(value, group = year))+
   stat_ecdf(geom = "step")+
