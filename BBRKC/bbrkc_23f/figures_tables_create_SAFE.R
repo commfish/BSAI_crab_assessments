@@ -211,10 +211,10 @@ mdf <- .get_selectivity_df(M[mod_scen])
 #mdf <- .get_selectivity_df(M[mod_yr])
 
 #mdf <- .get_selectivity_df(M[c(2,6,7,8)])
-mdf <- subset(mdf, fleet == "NMFS Trawl")
-#mdf <- subset(mdf, fleet == "BSFRF survey")
+#mdf <- subset(mdf, fleet == "NMFS Trawl")
+mdf <- subset(mdf, fleet == "BSFRF survey")
 mdf <- subset(mdf, type == "Capture")
-mdf <- subset(mdf, sex == "Male")
+#mdf <- subset(mdf, sex == "Male")
 #mdf <- subset(mdf, year == "1982")
 mdf %>% 
   mutate(year = ifelse(year == 1985, 1982, year)) -> mdf
@@ -241,11 +241,11 @@ p <- p + theme(strip.text.x = element_text(margin = margin(1,
 print(p)
 
 # for models 2:6 save 
-ggsave(paste0(.FIGS, "selectivity_23f_trawl_MOD_scen_UPDATED_Male.png"), width = ww*0.95, height = 1.1*hh)
+#ggsave(paste0(.FIGS, "selectivity_23f_trawl_MOD_scen_UPDATED_Male.png"), width = ww*0.95, height = 1.1*hh)
 
 # BSFRF selectivity - males most modesl see !!BSFRF!! above
 #ggsave(paste0(.FIGS, "selectivity_23f_BSFRF_Male_most_mods.png"), width = ww*0.95, height = 0.95*hh)
-
+ggsave(paste0(.FIGS, "selectivity_23f_BSFRF_all_mods.png"), width = ww*0.95, height = 0.95*hh)
 # !!!moliting probability -------
 #plot_molt_prob_sex(M[2:6], "Male") # didn't quite do what i wanted
 plot_molt_prob(M[mod_scen])
@@ -625,11 +625,11 @@ M[[2]]$N_males
 
 
 ##catch --------
-plot_catch(M[2]) # not working
+plot_catch(M[2]) # not visually good 
 ggsave(paste0(.FIGS, "catch.png"), width = ww*1.02, height = hh*1.2)
 
-plot_catch(M[mod_scen])
-ggsave(paste0(.FIGS, "catch_mod_scen.png"), width = ww*1.35, height = hh*1.2)
+plot_catch(M[mod_scen], x_leg = 0.8, y_leg = 0.2)
+ggsave(paste0(.FIGS, "catch_mod_scen.png"), width = ww*1.35, height = hh*1.8)
 #
 
 ## ssb -----------

@@ -90,6 +90,8 @@ After completion, then run:
 
 1) Update .prj file with the projection that you're running (see .prj file)
 check Jie's prj file from 2021 - see what his parameters are here
+- how many iterations to run? Jie had anywhere from 1,000 to 10,000
+- try 10,000 - how long 21.1b 4:30pm
 
 2) 'gmacs -mceval'
 

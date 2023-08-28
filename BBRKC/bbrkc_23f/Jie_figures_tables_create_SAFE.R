@@ -131,7 +131,14 @@ D <- read_rep("./BBRKC/bbrkc_23f/model_23_0a/gmacs.rep")
 
 # Table 7 ----
 # see figures_tables_create_SAFE.R
-# Table 8 & 9 ------
+# Table 8 ----
+# mature females from area-swept - take from LBA input excel file - from MEMORKC_23
+# effective spawning biomass? LBA output milion of pounds
+#     conversion from million lbs to tons
+19.608*1e6/2204.62/1000 # 2022 table8 effective spawnning biomass in 1,000t from memrkc_22
+20.552*1e6/2204.62/1000# 2023 values from memorkc_23_v2
+
+# Table 9 ------
 # gmacs-sum_model211b.csv - see Jie_cmn_files.R
 # B$N_males - see which sizes classes to assign to legal, mature etc.
 # B$N_females (>90mm mature)
