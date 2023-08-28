@@ -108,7 +108,9 @@ B_ref %>%
    ggtitle("Model 21.1b") +
    scale_x_continuous(breaks = 11:21) 
   #xlim(12, 22)
+
 ggsave(paste0(.FIGS, "proj_MMB_histogram_model_211b.png"), width = 7, height = 3.5)
+
 
 ## OFL histo ------------
 B_ref %>% 
@@ -121,7 +123,9 @@ B_ref %>%
   ggtitle("Model 21.1b") +
   scale_x_continuous(breaks = 1:5) 
 #xlim(12, 22)
+
 ggsave(paste0(.FIGS, "proj_OFL_histogram_model_211b.png"), width = 7, height = 3.5)
+
 
 ## cumulative probability MMB current year------------
 head(B_ref)
