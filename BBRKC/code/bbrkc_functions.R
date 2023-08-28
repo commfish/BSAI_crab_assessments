@@ -686,5 +686,57 @@ save_specs_out_more <- function (M){
   return(mdf)
 }
   
+### catch function to do by fleet on seperate figures -----
+
+plot_catch_kjp <- function (M, plot_res = FALSE, scales = "free_y", xlab = "Year", 
+          ylab = "Catch", mlab = "Model", x_leg = 0.9, 
+          y_leg = 0.7) 
+{
+  xlab <- paste0("\n", xlab)
+  ylab <- paste0(ylab, "\n")
+  mdf <- .get_catch_df(M)
+  mdf$units[mdf$units == 1] <- "Units: biomass"
+  mdf$units[mdf$units == 2] <- "Units: numbers"
+  p <- ggplot(mdf, aes(x = year, y = observed)) + geom_bar(stat = "identity", 
+                                                           position = "dodge", alpha = 0.15) + geom_linerange(aes(x = year, 
+                                                                                                                  y = observed, ymax = ub, ymin = lb, position = "dodge"), 
+                                                                                                              size = 0.2, alpha = 0.5, col = "black") + labs(x = xlab, 
+                                                                                                                                                             y = ylab)
+  if (.OVERLAY) {
+    if (length(M) == 1 && length(unique(mdf$sex)) == 1) {
+      p <- p + geom_line(aes(x = as.integer(year), y = predicted), 
+                         alpha = 0.4)
+      if (scales %in% "fixed") {
+        p <- p + facet_grid(units ~ fleet + type, scales = "free_y")
+      }
+      else {
+        p <- p + facet_wrap(~fleet + type + units, scales = scales)
+      }
+    }
+    else if (length(M) != 1 && length(unique(mdf$sex)) == 
+             1) {
+      p <- p + geom_line(aes(x = as.integer(year), y = predicted, 
+                             col = model), alpha = 0.4) + facet_wrap(~fleet + 
+                                                                       type + units, scales = scales) + labs(col = mlab)
+    }
+    else if (length(M) == 1 && length(unique(mdf$sex)) != 
+             1) {
+      p <- p + geom_line(aes(x = as.integer(year), y = predicted), 
+                         alpha = 0.4) + facet_wrap(~fleet + sex + type + 
+                                                     units, scales = scales)
+    }
+    else {
+      p <- p + geom_line(aes(x = as.integer(year), y = predicted, 
+                             col = model), alpha = 0.4) + facet_wrap(~fleet + 
+                                                                       sex + type + units, scales = scales) + labs(col = mlab)
+    }
+  }
+  else {
+    p <- p + geom_line(aes(x = as.integer(year), y = predicted, 
+                           col = model), alpha = 0.4)
+    p <- p + facet_wrap(~model + sex + fleet + type, scales = scales)
+  }
+  print(p + .THEME + theme(legend.position = c(x_leg, y_leg)))
+}
   
   
