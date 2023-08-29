@@ -4,6 +4,10 @@ output:
   html_document: default
 ---
 # Appendix B. Data files for model 21.1b {-}
+
+Data files can be provided by the author in a more readable format, katie.palof@alaska.gov
+
+
 ## Model 21.1b data file for 2023 {-}
 
 \fontsize{7}{9}

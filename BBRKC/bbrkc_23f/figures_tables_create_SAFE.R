@@ -142,6 +142,13 @@ ggsave(paste0(.FIGS, "fishing_mortality_mod_scen.png"), width = ww*1.25, height 
 plot_F(Mbase)
 ggsave(paste0(.FIGS, "fishing_mortality.png"), width = ww*1.25, height = hh)
 
+# recent fishing mortality for pot
+fish_mort <- (.get_F_df(Mbase))$F
+head(fish_mort)
+fish_mort %>% 
+  filter(year >= 2012 & fleet == "Pot" & sex == "Male")
+
+
 ## !!selectivity ----------
 #"Comparisons of the estimated stage-1 and stage-2 selectivities for the different model scenarios (the stage-3 selectivities are all fixed at 1). Estimated selectivities are shown for the directed pot fishery, the trawl bycatch fishery, the fixed bycatch fishery, the NMFS trawl survey, and the ADF&G pot survey. Two selectivity periods are estimated in the directed pot fishery, from 1978-2008 and 2009-2017.\\label{fig:selectivity}", fig.height = 15}
 plot_selectivity(M[2]) 
@@ -436,25 +443,32 @@ ggsave(paste0(.FIGS, "mod_scen_M_t.png"), width = 1.20*ww, height = hh)
 # female abundance ------
 fem1 <- as.data.frame (M[[1]]$N_females/1000000)
 fem2 <- as.data.frame (M[[2]]$N_females/1000000)
+fem3 <- as.data.frame (M[[3]]$N_females/1000000)
 
 fem1 %>% 
   mutate(mat_total = (V6 + V7 + V8 + V9 + V10 + V11 + V12 + V13 + V14 + V15 + V16)) %>%
-  mutate(model = "ref", year = c(1975:2022)) %>% 
+  mutate(model = "base-2022", year = c(1975:2022)) %>% 
   select(year, model, mat_total)-> hemp1
 
 fem2 %>% 
   mutate(mat_total = (V6 + V7 + V8 + V9 + V10 + V11 + V12 + V13 + V14 + V15 + V16)) %>%
-  mutate(model = "base", year = c(1975:2023)) %>% 
+  mutate(model = "base-2023", year = c(1975:2023)) %>% 
   select(year, model, mat_total)-> hemp2
+
+fem3 %>% 
+  mutate(mat_total = (V6 + V7 + V8 + V9 + V10 + V11 + V12 + V13 + V14 + V15 + V16)) %>%
+  mutate(model = "23.0a", year = c(1975:2023)) %>% 
+  select(year, model, mat_total)-> hemp3
 
 write.csv(hemp2, paste0(.TABS, "mature_female_2023.csv"), row.names = FALSE)
 hemp1 %>% 
-  rbind(hemp2) -> mat_fem
+  rbind(hemp2) %>% 
+  rbind(hemp3) -> mat_fem
 
 # female abundance figure -----
 mat_fem %>% 
   ggplot(aes(year, mat_total, col = model)) +
-  geom_line() +
+  geom_line(lwd = 1) +
   #geom_ribbon(aes(x=year, ymax = ub, ymin = lb), alpha = 0.2) +
   expand_limits(y=0) +
   scale_y_continuous(expand = c(0,0)) +
@@ -465,9 +479,10 @@ mat_fem %>%
   ggtitle("Female Abundance with and without retow data") +
   ylab("Matue female abundance (million crab)") + xlab("Year") +
   .THEME
-ggsave(paste0(.FIGS, "mature_female_abundance.png"), width = ww*1.3, height = hh*1.25)
+ggsave(paste0(.FIGS, "mature_female_abundance_mod_scen.png"), width = ww*1.3, height = hh*1.25)
 
-
+#ggsave(paste0(.FIGS, "mature_female_abundance.png"), width = ww*1.3, height = hh*1.25)
+# with just models 1 and 2
 
 
 ## TABLES ====================================
@@ -617,20 +632,23 @@ ggsave(paste0(.FIGS, "trawl_biomass_mod_scen_residuals.png"), width = ww*1.30, h
 plot_cpue_res(M[mod_scen], "BSFRF survey")
 ggsave(paste0(.FIGS, "BSFRF survey_mod_scen_residuals.png"), width = ww*1.20, height = 1.1*hh)
 
-##### !! STOP HERE may 2023 -----------------
 
-# explore numbers vs. ssb timing
-M[[2]]$N_initial
-M[[2]]$N_males
-
-
-##catch --------
+#!!catch --------
 plot_catch(M[2]) # not visually good 
 ggsave(paste0(.FIGS, "catch.png"), width = ww*1.02, height = hh*1.2)
 
 plot_catch(M[mod_scen], x_leg = 0.8, y_leg = 0.2)
 ggsave(paste0(.FIGS, "catch_mod_scen.png"), width = ww*1.35, height = hh*1.8)
 #
+
+##### !! STOP HERE sept 2023 -----------------
+
+# explore numbers vs. ssb timing
+M[[2]]$N_initial
+M[[2]]$N_males
+
+
+
 
 ## ssb -----------
 ssb <- .get_ssb_dfKP(M[1:2])
