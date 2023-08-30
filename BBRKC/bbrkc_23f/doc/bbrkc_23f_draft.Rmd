@@ -112,6 +112,7 @@ round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.80, 2) -> abc_2324_lb
 
 # ofl and abc basis -------- table 3
 round(M[[rec_mod]]$spr_bmsy/1000, 2) -> bmsy_cur
+round(M[[rec_mod]]$spr_bmsy* 2204.62/1e6, 2) -> bmsy_cur_lb
 round(M[[rec_mod]]$spr_depl, 2) -> ratio_bmsy
 round(M[[rec_mod]]$sd_fofl[1], 3) -> fofl
 ```
@@ -204,7 +205,7 @@ Status and catch specifications (million lb, model 21.1b):
   2020/21 & 3b & 56.1 & 32.9 & 0.59 & 0.16 & 1984-2019 & 0.18 \\
   2021/22 & 3b & 53.4 & 33.0 & 0.62 & 0.17 & 1984-2020 & 0.18 \\
   2022/23 & 3b & 53.0 & 37.4 & 0.71 & 0.20 & 1984-2021 & 0.18 \\
-  2023/24 & 3b & `r bmsy_cur` & `r mmb_2324` & `r ratio_bmsy` & `r fofl` & 1984-2022 & 0.18\\
+  2023/24 & 3b & `r bmsy_cur_lb` & `r mmb_2324_lb` & `r ratio_bmsy` & `r fofl` & 1984-2022 & 0.18\\
   \hline
 \end{tabular}
 \end{table}
@@ -760,7 +761,7 @@ Status and catch specifications (million lb, model 21.1b):
   2020/21 & 3b & 56.1 & 32.9 & 0.59 & 0.16 & 1984-2019 & 0.18 \\
   2021/22 & 3b & 53.4 & 33.0 & 0.62 & 0.17 & 1984-2020 & 0.18 \\
   2022/23 & 3b & 53.0 & 37.4 & 0.71 & 0.20 & 1984-2021 & 0.18 \\
-  2023/24 & 3b & `r bmsy_cur` & `r mmb_2324` & `r ratio_bmsy` & `r fofl` & 1984-2022 & 0.18\\
+  2023/24 & 3b & `r bmsy_cur_lb` & `r mmb_2324_lb` & `r ratio_bmsy` & `r fofl` & 1984-2022 & 0.18\\
   \hline
 \end{tabular}
 \end{table}    
