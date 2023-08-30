@@ -1,7 +1,7 @@
 # notes ----
 # REMA for BBRKC MMB 
 # tyler jackson
-# 5/2/2023
+# 5/2/2023 / 8-28-2023
 
 # load ----
 
@@ -111,11 +111,13 @@ f_plot_rema_fit <- function(fits, confint = T) {
 # data ----
 
 # specimen data (haul data dump)
-read.csv("./BBRKC/data/2022/survey/rkc_specimen.csv", skip = 5) %>%
+#read.csv("./BBRKC/data/2022/survey/rkc_specimen.csv", skip = 5) %>%
+read.csv("./BBRKC/data/2023/survey/EBSCrab_Haul.csv", skip = 5) %>%
   rename_all(tolower) -> specimen
 
 # strata file (strata dump)
-read.csv("./BBRKC/data/2022/survey/rkc_strata.csv") %>%
+#read.csv("./BBRKC/data/2022/survey/rkc_strata.csv") %>%
+read.csv("./BBRKC/data/2023/survey/EBSCRAB - Strata Report_all.csv") %>%
   rename_all(tolower) %>%
   rename_at(1, ~"station_id") -> strata
 
@@ -133,7 +135,7 @@ bb_area <- length(bb_stations) * 401 #each full station is 401 nmi2
 strata %>%
   filter(district == "Bristol Bay") %>%
   distinct(survey_year, station_id, total_area_sq_nm) %>%
-  rename(akfin_survey_year = survey_year, gis_station = station_id) -> hauls
+  dplyr::rename(akfin_survey_year = survey_year, gis_station = station_id) -> hauls
 
 ## estimates
 specimen %>%
@@ -204,12 +206,12 @@ prepare_rema_input(model_name = "BBRKC_REMA23.4",
 tidy_rema(BBRKC_REMA23.4)$biomass_by_strata %>%
   transmute(year, pred_t = pred, pred_l95 = pred_lci, pred_u95 = pred_uci,
             obs_t = obs, obs_l95 = obs_lci, obs_u95 = obs_uci) %>%
-  write.csv("./BBRKC/bbrkc_23s/doc/figures/REMA/rema_fit.csv")
+  write.csv("./BBRKC/bbrkc_23f/doc/figures/REMA/rema_fit.csv")
 
 # plot mmb fit
 p1 <- f_plot_rema_fit(list(BBRKC_REMA23.4))
 
-ggsave("./BBRKC/bbrkc_23s/doc/figures/REMA/mmbfit.png", plot = p1, height = 4, width = 6, units = "in")
+ggsave("./BBRKC/bbrkc_23f/doc/figures/REMA/mmbfit.png", plot = p1, height = 4, width = 6, units = "in")
 
 # estimate OFL and ABC using tier 4/5 ----
 ## mmb timeseries fit ----
@@ -218,7 +220,7 @@ tidy_rema(BBRKC_REMA23.4)$biomass_by_strata %>%
 
 # average B from 1984 to 2021
 predicted_mmb %>% 
-  filter(year >=1984 & year <= 2021) %>% 
+  filter(year >=1984 & year <= 2022) %>% 
   summarise(averageB = mean(pred)) %>% 
   as.numeric -> avg_B
 
@@ -250,6 +252,6 @@ df <- data.frame(cnames, specs)
 df %>% 
   spread(cnames, specs) %>% 
   select(avgB, MMB, `B/Bmsy`, M, Fofl, OFL, ABC)-> df
-write.csv(df, "./BBRKC/bbrkc_23s/doc/figures/REMA/specs_REMA.csv", row.names = FALSE)
+write.csv(df, "./BBRKC/bbrkc_23f/doc/figures/REMA/specs_REMA.csv", row.names = FALSE)
 
 
