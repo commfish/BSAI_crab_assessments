@@ -18,8 +18,14 @@ folder = "bbrkc_23f"
 
 #Bproj <- read.table("C:/Users/kjpalof/Documents/Current projects/statewide shellfish/bbrkc/rk22s/mcoutPROJ211b.rep", 
 #                    header = TRUE)
+# these have more F values for SHS purposes 
 Bproj <- read.table(paste0(here::here(), "/BBRKC/", folder, "/model_211b-mcmc/mcoutPROJ.rep"), header = T)
 B_ref <- read.table(paste0(here::here(), "/BBRKC/", folder, "/model_211b-mcmc/mcoutREF.rep"), header = T)
+
+# original figures for SAFE 
+#Bproj <- read.table(paste0(here::here(), "/BBRKC/", folder, "/model_211b-mcmc/10year_projections_recent_recruit/mcoutPROJ.rep"), header = T)
+#B_ref <- read.table(paste0(here::here(), "/BBRKC/", folder, "/model_211b-mcmc/10year_projections_recent_recruit/mcoutREF.rep"), header = T)
+
 
 ## ssb proj data summary -------------
 Bproj %>% 
@@ -31,7 +37,7 @@ Bproj%>%
   select(F_val, f_for_fleet_1, BMSY, SSB_2023:SSB_2033) %>% #needs to be updated with correct years
   group_by(F_val) %>% 
   #filter(F_val == 1) %>% 
-  gather(xvar, value, BMSY:SSB_2032) %>% 
+  gather(xvar, value, BMSY:SSB_2033) %>% 
   group_by(F_val, xvar) %>% 
   summarise(mean.x = quantile(value, probs = 0.50), 
             lower.x = quantile(value, probs = 0.05),
@@ -52,6 +58,7 @@ sum1 %>%
   mutate(year = gsub("[^0-9]", "", xvar), 
          F_val = as.character(F_val)) %>% 
   select(-xvar) %>% 
+  #filter(F_val <= 4) %>% 
   ggplot(aes(year, mean.x, group = F_val, fill = F_val))+
     geom_line(aes(color = F_val)) +
     geom_ribbon(aes(x=year, ymax = upper.x, ymin = lower.x), alpha = 0.15) +
@@ -66,11 +73,13 @@ sum1 %>%
            hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 4.0, parse = T) +
   geom_text(aes(x = 0.1, y = B_BMSY$`1`/2, label = "50% Bmsy"), 
             hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 4.0) +
-  scale_fill_discrete(labels = c("F=0", "F=0.083", "F=0.167", "F=0.25"))+
+  #scale_fill_discrete(labels = c("F=0", "F=0.083", "F=0.167", "F=0.25"))+
+  scale_fill_discrete(labels = c("F=0", "F=0.038", "F=0.071", "F=0.107","F=0.143", "F=0.179", "F=0.214", "F=0.25"))+
   labs(fill = "Fishing mortality") +
   guides(color = "none") 
 
-ggsave(paste0(.FIGS, "proj_ssb_model_211b.png"), width = 7, height = 6)
+ggsave(paste0(.FIGS, "proj_ssb_model_211b_v2.png"), width = 7, height = 6) # version 3 uncomment line 61 
+#ggsave(paste0(.FIGS, "proj_ssb_model_211b.png"), width = 7, height = 6)
  # .THEME
 
 ### seperate out F values -------------

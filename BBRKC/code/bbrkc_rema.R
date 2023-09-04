@@ -218,9 +218,9 @@ ggsave("./BBRKC/bbrkc_23f/doc/figures/REMA/mmbfit.png", plot = p1, height = 4, w
 tidy_rema(BBRKC_REMA23.4)$biomass_by_strata %>% 
   select(year, pred) -> predicted_mmb
 
-# average B from 1984 to 2021
+# average B from 1984 to 2022
 predicted_mmb %>% 
-  filter(year >=1984 & year <= 2022) %>% 
+  filter(year >=1984 & year <= 2022) %>% # change year here to 2022
   summarise(averageB = mean(pred)) %>% 
   as.numeric -> avg_B
 

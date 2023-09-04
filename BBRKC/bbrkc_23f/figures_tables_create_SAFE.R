@@ -641,6 +641,18 @@ plot_catch(M[mod_scen], x_leg = 0.8, y_leg = 0.2)
 ggsave(paste0(.FIGS, "catch_mod_scen.png"), width = ww*1.35, height = hh*1.8)
 #
 
+
+## jitter runs -----
+# see 'BBRKC/code/gmacs_functions.R'
+#f_run_jitter <- function(dir, jitter_factor, iterations, ref_points = T)
+f_run_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_23f/model_211b", 0.1, 1, ref_points = F)  
+# test to see if it works. Reference points turned off gives a run time of about ~20mins. 
+# but does NOT produce a MMB estimate.
+f_run_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_23f/model_211b", 0.1, 50, ref_points = F)
+
+f_run_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_23f/model_23_0a", 0.1, 50, ref_points = F)
+
+  
 ##### !! STOP HERE sept 2023 -----------------
 
 # explore numbers vs. ssb timing

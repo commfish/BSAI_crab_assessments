@@ -39,4 +39,8 @@ namesC <- c("MatureM", "LegalM", "MatureF", "ESB_1000t", "ESB_millionlbs", "rati
 data.frame(namesC, results)
 write.csv(data.frame(namesC, results), "./BBRKC/bbrkc_23f/doc/tables/lba_cmn.csv", row.names = FALSE)
 
+
+# sum of mature females by year???----
+fem2 <- d1f[ ,(n2-3):16]*W$selectivity[n4,n2:19]*Q  
+glimpse(fem2)
             
