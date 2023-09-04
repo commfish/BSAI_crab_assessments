@@ -30,7 +30,7 @@ This is a Tier 4 approach where:
 For BBRKC the male biomass that is determined to be vulnerable to the directed and incidental catch fisheries is the mature male biomass, crab >119mm. Crab at this size are approximately one molt increment away from legal size and therefore are likely to be found with legal size male crab and be vulnerable to discard mortality.
 This modeling exercise applies a similar buffer as the Tier 3 model (20%), although the actual buffer used if this model approach was adopted would likely be different.
 
-As defined by the Crab FMP stock status is determined by the current years biomass (B) compared to the average biomass over a period of time. For consistencies with the current modeling approaches for BBRKC the time period used is 1984 to 2021.
+As defined by the Crab FMP stock status is determined by the current years biomass (B) compared to the average biomass over a period of time. For consistencies with the current modeling approaches for BBRKC the time period used is 1984 to 2022, this is the same time period that is used in the Tier 3 model for calculation status determination.
 
 ## Calculation of Reference Points {-}
 
