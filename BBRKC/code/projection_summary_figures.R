@@ -19,12 +19,12 @@ folder = "bbrkc_23f"
 #Bproj <- read.table("C:/Users/kjpalof/Documents/Current projects/statewide shellfish/bbrkc/rk22s/mcoutPROJ211b.rep", 
 #                    header = TRUE)
 # these have more F values for SHS purposes 
-Bproj <- read.table(paste0(here::here(), "/BBRKC/", folder, "/model_211b-mcmc/mcoutPROJ.rep"), header = T)
-B_ref <- read.table(paste0(here::here(), "/BBRKC/", folder, "/model_211b-mcmc/mcoutREF.rep"), header = T)
+#Bproj <- read.table(paste0(here::here(), "/BBRKC/", folder, "/model_211b-mcmc/mcoutPROJ.rep"), header = T)
+#B_ref <- read.table(paste0(here::here(), "/BBRKC/", folder, "/model_211b-mcmc/mcoutREF.rep"), header = T)
 
 # original figures for SAFE 
-#Bproj <- read.table(paste0(here::here(), "/BBRKC/", folder, "/model_211b-mcmc/10year_projections_recent_recruit/mcoutPROJ.rep"), header = T)
-#B_ref <- read.table(paste0(here::here(), "/BBRKC/", folder, "/model_211b-mcmc/10year_projections_recent_recruit/mcoutREF.rep"), header = T)
+Bproj <-read.table(paste0(here::here(), "/BBRKC/", folder, "/model_211b-mcmc/10year_projections_recent_recruit/mcoutPROJ.rep"), header = T)
+B_ref <- read.table(paste0(here::here(), "/BBRKC/", folder, "/model_211b-mcmc/10year_projections_recent_recruit/mcoutREF.rep"), header = T)
 
 
 ## ssb proj data summary -------------
@@ -114,6 +114,7 @@ B_ref %>%
   ggplot(aes(MMB/1000)) +
    geom_histogram(color = "black", fill = "grey70", bins = 15) +
    xlab("MMB on 2/15 (1000 t)")+
+   ylab("Count") +
    ggtitle("Model 21.1b") +
    scale_x_continuous(breaks = 11:21) 
   #xlim(12, 22)
@@ -129,6 +130,7 @@ B_ref %>%
   ggplot(aes(OFL/1000)) +
   geom_histogram(color = "black", fill = "grey70", bins = 15) +
   xlab("OFL (1000 t)")+
+  ylab("Count") +
   ggtitle("Model 21.1b") +
   scale_x_continuous(breaks = 1:5) 
 #xlim(12, 22)
