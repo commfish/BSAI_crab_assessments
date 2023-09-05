@@ -292,7 +292,7 @@
    0        0        0        0        0        0         # female retention flag (0 = no, 1 = yes)
    0        0        0        0        0        0         #-NEW: extra parameters for each pattern by fleet, males
    0        0        0        0        0        0         #-NEW: extra parameters for each pattern by fleet, females
-
+   1        1        1        1        1        1         # determines if maximum selectivity at size is forced to equal 1 or not (ASK)
 ## ———————————————————————————————————————————————————————————————————————————————————— ##
 ## gear  par   sel                                                  start  end    Env  Link Rand  Start_Y  End_Y   Sigma##
 ## index index par sex  ival  lb    ub     prior   p1   p2     phz  period period Link Par  Walk  period   period  ##

@@ -39,7 +39,7 @@ The Tier 4 OFL is calculated using the $F_{OFL}$ control rule:
 \begin{equation}
 F_{OFL} = 
 \begin{cases}
-0 & \frac{MMB}{B_{MSY}} \geq 0.25\\[10pt]
+0 & \frac{MMB}{B_{MSY}} \leq 0.25\\[10pt]
 \frac{M(\frac{MMB}{B_{MSY}} - \alpha)}{1-\alpha} & 0.25 < \frac{MMB}{B_{MSY}} < 1\\[10pt]
 M & MMB > B_{MSY}\\[10pt]
 \end{cases}
