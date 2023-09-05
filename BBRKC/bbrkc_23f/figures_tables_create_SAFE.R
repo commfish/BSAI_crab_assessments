@@ -137,7 +137,7 @@ ssb2 <- .get_ssb_dfKP_2(M[2]) # gets ssb with sd_last_ssb from std file
 
 ## !!fishing mortality ------
 #plot_F(M[2]) **FIX** bring in this from model 1 for now.
-plot_F(M[mod_scen])
+plot_F(M[mod_scen], in_leg_x = 0.15, in_leg_y = 0.37)
 ggsave(paste0(.FIGS, "fishing_mortality_mod_scen.png"), width = ww*1.25, height = hh)
 plot_F(Mbase)
 ggsave(paste0(.FIGS, "fishing_mortality.png"), width = ww*1.25, height = hh)

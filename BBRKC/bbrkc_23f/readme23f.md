@@ -31,7 +31,10 @@ Three models recommended from May 2023:
 23.0a - "base" with estimated M for males, prior??? see Jie's 22.0a 
 
 # Document updates ----------
-SAFE document should be in Rmarkdown format. Need to work on all tables, etc.
+SAFE document is in Rmarkdown format. Need to work on all tables, etc.
+see "figures_tables_create_SAFE.R" and "Jie_figures_tables_create_SAFE.R" for creation of figures and tables. These also refer to some of Jie's code which is in folder 'BBRKC/code/Jie R code'.
+Other code for figures or analysis is found in 'BBRKC/code'
+Full markdown document was successful in 2023 but still some formatting with figures, etc. needed.
 
 ## GMACS versions ----
 Last Sept models used version from May 2022 models - gmacs.exe taken from 'BBKRC/src_bbrkc_040622'
@@ -48,14 +51,18 @@ files used for model: found in the gmacs.dat file in each folder, also have a fi
 
 
 # figures and tables ------
-'figures_tables_create_SAFE.R' in bbrkc22f has figures created with 'gmr'
-'Jie_figures_tables_create_SAFE.R' in bbrkc 22f has notes on each figure and what is used to create it, if it's Jie code see "Jie_cmn_files.R"
+'figures_tables_create_SAFE.R' in bbrkc23f has figures created with 'gmr'
+'Jie_figures_tables_create_SAFE.R' in bbrkc 23f has notes on each figure and what is used to create it, if it's Jie code see "Jie_cmn_files.R"
 
 # retrospective run -------------
 Thinking this should be done for a few models to compare with base?
 Try with '-nohess' added to avoid error I'm getting in the resent version of GMACS.
+Performed on all 3 models. Ran with "gmacs -nohess" to avoid errors - need to track these down.
 
 ### retrospective run code is found in folder (here bbrkc_23f) under each models name
+
+## jitter ----
+Tyler created functions to run jitter code in GMACS and save results, see file 'gmacs_functions.R'
 
 ## model runs - initial to compare to Jie's ------
 ### Model 21.1b - run 4-14-23; see gmacs.dat -
@@ -66,7 +73,8 @@ Compare to Fall 2022 model 21.1b - no new data just new GMACS version - see if d
 ### Model 22.0 
 updated .dat and .ctl files to reflect new GMACS version. 
 
-### Model 23.
+### Model 23.0a
+updated .ctl, .dat file is the same as 21.1b due to same model just estimated M for males here.
 
 
 
@@ -107,6 +115,7 @@ gmacs.hst
 figures, etc. created in BBRKC/code/projection_summary_figures.R
 
 
+These times are for 2022 but similar times for 2023 for all models.
 ## mcmc model 21.1b ---
 -------------------------------------------
 --Start time: Mon Aug 22 01:28:13 2022
