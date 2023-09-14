@@ -114,6 +114,11 @@ plot_recruitment(M[2])
 #plot_recruitment(M[1])
 ggsave(paste0(.FIGS, "recruit_ref.png"), width = ww*1.08, height = hh)
 
+# same as above 
+plot_rec_bb_kjp(M[2:4]) # this is found in 'bbrkc_functions.R'
+ggsave(paste0(.FIGS, "recruitment_mod_scen_2.png"), width = 1.18*ww, height = hh)
+
+
 ### !!!ssb ref_new GMACS ---------
 ssb <- .get_ssb_dfKP(M[1:2])
 ssb %>% 
