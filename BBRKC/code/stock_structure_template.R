@@ -1,11 +1,14 @@
 # red king crab size comps 
 # 2023 stock structure template
-# k.palof
+# k.palof 
+# 9-5-23
 
 # load ----
 
 library(tidyverse)
 library(patchwork)
+library(ggplot2)
+library(ggridges)
 library(FNGr); theme_set(theme_sleek())
 
 cur_yr <- 2023 # update annually
@@ -40,7 +43,7 @@ size_group %>%
   summarize(abund=sum(ABUNDANCE)) -> fem_dat
 
 ### ggridges 5mm bins 
-kod_dat_f %>% 
+fem_dat %>% 
   mutate(size_bin = ifelse(SIZE_CLASS_MM > 190, 190, floor(SIZE_CLASS_MM/5)* 5)) %>% 
   group_by(DISTRICT_CODE, SURVEY_YEAR, size_bin) %>% 
   summarize(abund = sum(abund)) -> fem_dat_f_5mm
@@ -49,7 +52,7 @@ p <- ggplot(dat=fem_dat_f_5mm)
 #p <- 
 p <- p + geom_density_ridges(aes(x=size_bin, y=SURVEY_YEAR, height = abund,
                                  group = SURVEY_YEAR, 
-                                 fill=stat(y),alpha=.9999), stat = "identity",scale=15) +
+                                 fill=after_stat(y),alpha=.9999), stat = "identity",scale=15) +
   facet_wrap(~DISTRICT_CODE) +
   scale_fill_viridis_c()+
   theme_bw() +
@@ -57,7 +60,7 @@ p <- p + geom_density_ridges(aes(x=size_bin, y=SURVEY_YEAR, height = abund,
         panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
   theme(legend.position = "none",
         axis.text.x = element_text(angle = 90)) +
-  labs(x="Carapace width (mm)", y = "Female abundance in survey year")+
+  labs(x="Carapace width (mm)", y = "Female abundance in survey year (scaled by area)")+
   xlim(25,190)
 
 png(paste0(here::here(), "/BBRKC/", folder,"/N_BB_size_bins_comp_fem_5mm.png"),height=9,width=6,res=400,units='in')
@@ -66,12 +69,12 @@ dev.off()
 
 # last 5 years of data 5mm females -----
 fem_dat_f_5mm %>% 
-  filter(SURVEY_YEAR >= (cur_yr-6)) -> kod_dat_f_5mm_2
+  filter(SURVEY_YEAR >= 2007) -> kod_dat_f_5mm_2
 p <- ggplot(dat=kod_dat_f_5mm_2) 
 #p <- 
 p <- p + geom_density_ridges(aes(x=size_bin, y=SURVEY_YEAR, height = abund,
                                  group = SURVEY_YEAR, 
-                                 fill=stat(y),alpha=.9999), stat = "identity",scale=2, panel_scaling = FALSE) +
+                                 fill=stat(y),alpha=.9999), stat = "identity",scale=6, panel_scaling = FALSE) +
   facet_wrap(~DISTRICT_CODE) +
   scale_fill_viridis_c()+
   theme_bw() +
@@ -109,7 +112,7 @@ p <- p + geom_density_ridges(aes(x=size_bin, y=SURVEY_YEAR, height = abund,
         panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
   theme(legend.position = "none",
         axis.text.x = element_text(angle = 90)) +
-  labs(x="Carapace width (mm)", y = "Male abundance in survey year") +
+  labs(x="Carapace width (mm)", y = "Male abundance in survey year (scaled by area)") +
   xlim(25,190)
 png(paste0(here::here(), "/BBRKC/", folder,"/N_BB_size_bins_comp_male_5mm.png"),height=9,width=6,res=400,units='in')
 print(p)
@@ -118,12 +121,13 @@ dev.off()
 ### last 5 years males -------
 
 male_dat_m_5mm %>% 
-  filter(SURVEY_YEAR >= (cur_yr-6)) -> male_dat_m_5mm_2
+  filter(SURVEY_YEAR >= 2007) -> male_dat_m_5mm_2
+  #filter(SURVEY_YEAR >= (cur_yr-6)) -> male_dat_m_5mm_2
 p <- ggplot(dat=male_dat_m_5mm_2) 
 #p <- 
 p <- p + geom_density_ridges(aes(x=size_bin, y=SURVEY_YEAR, height = abund,
                                  group = SURVEY_YEAR, 
-                                 fill=stat(y),alpha=.9999), stat = "identity",scale=2, panel_scaling = FALSE) +
+                                 fill=stat(y),alpha=.9999), stat = "identity",scale =10, panel_scaling = FALSE) +
   facet_wrap(~DISTRICT_CODE) +
   scale_fill_viridis_c()+
   theme_bw() +
@@ -202,3 +206,16 @@ strata %>%
   distinct(survey_year, district, station_id, total_area_sq_nm) %>%
   dplyr::rename(akfin_survey_year = survey_year, gis_station = station_id) %>%
   expand_grid(sex = 1, length_1mm = 0:250) -> hauls
+
+
+# sample size by year -----
+specimen %>%
+  mutate(district = ifelse(gis_station %in% bb_stations, "Bristol Bay", 
+                       ifelse(gis_station %in% nu_stations, "Northern", "NA"))) %>% 
+  filter(gis_station %in% bb_stations | gis_station %in% nu_stations) %>% 
+  #filter(akfin_survey_year >= cur_yr-2) %>% 
+  #filter(mid_latitude > 54.6) %>% 
+  #filter(mid_latitude < 58.65 & mid_longitude < -168) %>% 
+  filter(length >= 65) %>% 
+  group_by(akfin_survey_year, sex, district) %>%
+  summarise(total_samp = n()) #-> samp_by_year
