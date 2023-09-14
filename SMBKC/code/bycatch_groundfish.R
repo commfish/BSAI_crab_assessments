@@ -16,8 +16,8 @@
 #   
 # load -----
 source("./SMBKC/code/packages.R")
-model_yr = "smbkc_22f"
-cur_yr = 2022
+model_yr = "smbkc_23"
+cur_yr = 2023
 
 # data -----
 #gf_bycatch <- read.csv("C:/Users/kjpalof/Documents/SMBKC/DATA_SMBKC/Crab Bycatch Estimates.csv") # old location
