@@ -284,7 +284,11 @@ molt_tag_data %>%
         expand_limits(y = c(0, 1)) + 
         labs(x = "Length(mm)", y = "Molting probabilities (males)") +
         geom_line(aes(linetype = Model, col = Year)) +
-        geom_point(aes(linetype = Model, col = Year)) + .THEME -> p
+        geom_point(aes(linetype = Model, col = Year)) + .THEME +
+        #scale_color_discrete(name = "Year Range", labels = c("1975-1979", "1980-2023", "1954-1961", "1966-1969"))+
+        scale_color_manual(values = c("#999999", "#E69F00", "#56B4E9", "#009E73"), 
+                           name = "Year Range", labels = c("1975-1979", "1980-2023", "1954-1961", "1966-1969"))-> p
+# add in year range as labels. 
 print(p)
 ggsave(paste0(.FIGS, "molt_tagging_males_base.png"), width = ww*1.15, height = 1.25*hh)
 
