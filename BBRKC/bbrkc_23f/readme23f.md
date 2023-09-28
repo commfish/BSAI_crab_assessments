@@ -3,7 +3,7 @@ katie.palof@alaska.gov
 
 
 # CPT/SSC comments  -----
-
+see SAFE document and my notes in OneNote
 
 ## Running model
 1) Update gmacs.exe with updated version via github. Make sure to update .dat and .ctl files to reflect changes in the program and input files - see "C:\Users\kjpalof\Documents\Rprojects\GMACS-project\GMACS_Assessment_code\GMACS_versions\Latest_Version" for latest version of GMACS. Make sure to "pull" this project first before following "katie" R script in R script file to compile
@@ -28,7 +28,7 @@ Three models recommended from May 2023:
 22.0 - "base" starting from 1985 - should have different control file
      - also has different .dat and .prj file (see folder in bbrkc_23s)
 
-23.0a - "base" with estimated M for males, prior??? see Jie's 22.0a 
+23.0a - "base" with estimated M for males, prior is tight - mean 0.18, CV 0.04 see Jie's 22.0a from May 2022
 
 # Document updates ----------
 SAFE document is in Rmarkdown format. Need to work on all tables, etc.

@@ -25,7 +25,7 @@ folder = "bbrkc_23f"
 # original figures for SAFE 
 Bproj <-read.table(paste0(here::here(), "/BBRKC/", folder, "/model_211b-mcmc/10year_projections_recent_recruit/mcoutPROJ.rep"), header = T)
 B_ref <- read.table(paste0(here::here(), "/BBRKC/", folder, "/model_211b-mcmc/10year_projections_recent_recruit/mcoutREF.rep"), header = T)
-
+# make sure to change back figure name - line !!
 
 ## ssb proj data summary -------------
 Bproj %>% 
@@ -73,12 +73,12 @@ sum1 %>%
            hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 4.0, parse = T) +
   geom_text(aes(x = 0.1, y = B_BMSY$`1`/2, label = "50% Bmsy"), 
             hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 4.0) +
-  #scale_fill_discrete(labels = c("F=0", "F=0.083", "F=0.167", "F=0.25"))+
-  scale_fill_discrete(labels = c("F=0", "F=0.038", "F=0.071", "F=0.107","F=0.143", "F=0.179", "F=0.214", "F=0.25"))+
+  scale_fill_discrete(labels = c("F=0", "F=0.083", "F=0.167", "F=0.25"))+
+  #scale_fill_discrete(labels = c("F=0", "F=0.038", "F=0.071", "F=0.107","F=0.143", "F=0.179", "F=0.214", "F=0.25"))+
   labs(fill = "Fishing mortality") +
   guides(color = "none") 
 
-ggsave(paste0(.FIGS, "proj_ssb_model_211b_v2.png"), width = 7, height = 6) # version 3 uncomment line 61 
+#ggsave(paste0(.FIGS, "proj_ssb_model_211b_v3.png"), width = 7, height = 6) # version 3 uncomment line 61 
 #ggsave(paste0(.FIGS, "proj_ssb_model_211b.png"), width = 7, height = 6)
  # .THEME
 
@@ -99,7 +99,32 @@ Bproj%>%
   filter(F_val == 4) -> Bproj_F25
 
 
-
+# need a column of years 
+sum1 %>% 
+  filter(xvar != "BMSY") %>% 
+  mutate(year = gsub("[^0-9]", "", xvar), 
+         F_val = as.character(F_val)) %>% 
+  select(-xvar) %>% 
+  filter(F_val <= 2) %>% 
+  ggplot(aes(year, mean.x, group = F_val, fill = F_val))+
+  geom_line(aes(color = F_val)) +
+  geom_ribbon(aes(x=year, ymax = upper.x, ymin = lower.x), alpha = 0.15) +
+  #scale_fill_manual(name = "", labels = c("F=0", "F=0.083", "F=0.167", "F=0.25")) +
+  #labs(fill = "Fishing mortality") +
+  ylab(bquote(MMB[yr[t+1]])) +
+  xlab("Year") +
+  ggtitle("Model 21.1b") +
+  geom_hline(aes(yintercept = (B_BMSY$`1`/2)), color = "#999999", lty = "dashed") +
+  geom_hline(aes(yintercept = (B_BMSY$`1`)), color = "#999999") +
+  geom_text(aes(x = 1.2, y = B_BMSY$`1`, label = "B[MSY]"), 
+            hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 4.0, parse = T) +
+  geom_text(aes(x = 0.1, y = B_BMSY$`1`/2, label = "50% Bmsy"), 
+            hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 4.0) +
+  scale_fill_discrete(labels = c("F=0", "F=0.083", "F=0.167", "F=0.25"))+
+  #scale_fill_discrete(labels = c("F=0", "F=0.038", "F=0.071", "F=0.107","F=0.143", "F=0.179", "F=0.214", "F=0.25"))+
+  labs(fill = "Fishing mortality") +
+  guides(color = "none") 
+ggsave(paste0(.FIGS, "proj_ssb_model_211b_STATE_v1.png"), width = 7, height = 6)
 
 
 
@@ -356,7 +381,202 @@ ggplot(temp2, aes(value, group = year))+
 #panel.grid.minor = element_blank()) 
 ggsave(paste0(.FIGS, "proj_CDF_MMB_by_year_", model_folder, ".png"), width = 6.5, height = 7.5)
 
-### archieved NOT used -----------
+
+# TAC setting 21.1b----------------
+
+nums<-expand.grid(c("r1","r2"),c("m1","m2"))
+r_m<-apply(nums, 1, function(x) paste(x[!is.na(x) & x != "No"], collapse = "_"))
+f_scene<-c("0_f","1_0.083","2_0.167","3_0.25")
+all_dir<-expand.grid(r_m,f_scene)
+#fin_dir<-apply(all_dir, 1, function(x) paste(x[!is.na(x) & x != "No"], collapse = "_"))
+fin_dir <- "10year_projections_recent_recruit"
+name_in<-expand.grid(c("Rec = 2013-2022"),c("M = 2022"))
+rootname<-"C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_23f/model_211b-mcmc/"
+
+
+#C:\Users\kjpalof\Documents\BSAI_crab_assessments\BBRKC\bbrkc_23f\model_211b-mcmc\10year_projections_recent_recruit
+draw_dirs_tac<-rep(NA,length(fin_dir))
+all_summ<-NULL
+
+for(x in 1:length(fin_dir))
+{
+  draw_dirs_tac[x]<-paste(rootname, fin_dir[x],"/mcoutDIAG.rep",sep='')
+  tac_file<-  repfile<-scan( draw_dirs_tac[x],skip=4,what='list')
+  ofl_pt<-grep("OFL",tac_file)
+  chk_pt<-grep("Decision",tac_file)
+  abc_pt <- grep("Retained", tac_file)
+  bmsy_pt<-grep("BMSY",tac_file)
+  
+  removalsA<-as.numeric(tac_file[chk_pt+2]) # this grabs the "stateTAC" but not sure where that's coming from since the harvest strategy is not coded into GMACS?
+  removalsB <- as.numeric(tac_file[abc_pt+2])
+  year<-as.numeric(tac_file[ofl_pt-1])
+  treatment<-as.numeric(tac_file[chk_pt+5])
+  replic<-as.numeric(rep(tac_file[bmsy_pt+2],each=16))
+  
+  df<-data.frame(removalsS=(removalsA),removalsR=(removalsB),year=(year),treat=treatment,rep=replic)
+  #casted<-dcast(df,treat+rep~year,value.var='removals')
+  
+  #==filter for what we want
+# just for 0.083
+  tmp<-filter(df,treat == 0.0833333000)
+  tmp<- filter(tmp, year <= 2024) # Use 2024 since 2023 is set in the file?
+#NOTE: 2023 values are all the same because those are dictated by the projection
+  # built into GMACS. Not sure this actual gives the correct F value? maybe 2024 onward it would?
+  # ALSO: "decision" seems low - not sure where that's coming from vs. retained ABC
+  # need to dig into this projection code to see what's actually going on.
+  # 2023 gave Ben upper limit of "decision" since it seems in ballpark
+  
+  # mean 
+tmp %>% 
+  group_by(year) %>% 
+  summarise(mean.xS = quantile(removalsS, probs = 0.50), 
+            mean.xR = quantile(removalsR, probs = 0.50), 
+            lower.xS = quantile(removalsS, probs = 0.05),
+            upper.xS = quantile(removalsS, probs = 0.95), 
+            lbs_mean = mean.xS*2204.62/1e6, 
+            upper.lbs = upper.xS*2204.62/1e6)
+            #lbs_meanR = mean.xR*2204.62/1e6) #conversion to million pounds
+
+# just for 0.25
+tmp<-filter(df,treat == 0.1666670000)
+tmp<- filter(tmp, year <= 2024) # Use 2024 since 2023 is set in the file?
+
+# mean 
+tmp %>% 
+  group_by(year) %>% 
+  summarise(mean.xS = quantile(removalsS, probs = 0.50), 
+            mean.xR = quantile(removalsR, probs = 0.50), 
+            lower.xS = quantile(removalsS, probs = 0.05),
+            upper.xS = quantile(removalsS, probs = 0.95), 
+            lbs_mean = mean.xS*2204.62/1e6, 
+            upper.lbs = upper.xS*2204.62/1e6)
+#lbs_meanR = mean.xR*2204.62/1e6) #conversion to million pounds
+
+#   make_rib<-filter(casted,treat!=1e-10)[,3:ncol(casted)]
+#   # if(length(grep('bycatch',fin_dir[x]))>0)
+#   #   make_rib<-filter(casted,treat==1e-10)[,3:ncol(casted)]
+#   sorted<-apply(make_rib,2,sort)
+#   up_rib<-sorted[0.05*nrow(sorted),]
+#   dn_rib<-sorted[0.95*nrow(sorted),]
+#   md_rib<-apply(sorted,2,median)
+#   
+#   df2<-data.frame(year=colnames(sorted),removals=md_rib,upper=up_rib,lower=dn_rib)
+#   #==names
+#   df2$"Recruitment"<-"Rec = 1982-2017"
+#   if(length(grep('r2',fin_dir[x]))>0)
+#     df2$"Recruitment"<-"Rec = 2005-2019"
+#   df2$"Mortality"<-"M = 1982-2017"
+#   if(length(grep('m2',fin_dir[x]))>0)
+#     df2$"Mortality"<-"M = 2005-2019"  
+#   
+#   tmp<-unlist(strsplit(fin_dir[x],split='_'))
+#   df2$fmort<-paste(tmp[4:length(tmp)],sep="",collapse="")
+#   
+#   all_summ<-rbind(all_summ,df2)
+# }
+# 
+# 
+# use_it<-filter(all_summ,fmort!='f')
+write.csv(all_summ,"TAC_projections.csv")
+
+# TAC setting 23.0a----------------
+
+nums<-expand.grid(c("r1","r2"),c("m1","m2"))
+r_m<-apply(nums, 1, function(x) paste(x[!is.na(x) & x != "No"], collapse = "_"))
+f_scene<-c("0_f","1_0.083","2_0.167","3_0.25")
+all_dir<-expand.grid(r_m,f_scene)
+#fin_dir<-apply(all_dir, 1, function(x) paste(x[!is.na(x) & x != "No"], collapse = "_"))
+#fin_dir <- "10year_projections_recent_recruit"
+name_in<-expand.grid(c("Rec = 2013-2022"),c("M = 2022"))
+rootname<-"C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_23f/model_230a-mcmc/"
+
+
+#C:\Users\kjpalof\Documents\BSAI_crab_assessments\BBRKC\bbrkc_23f\model_230a-mcmc
+draw_dirs_tac<-rep(NA,length(fin_dir))
+all_summ<-NULL
+
+for(x in 1:length(fin_dir))
+{
+  draw_dirs_tac[x]<-paste(rootname, "/mcoutDIAG.rep",sep='')
+  tac_file<-  repfile<-scan( draw_dirs_tac[x],skip=4,what='list')
+  ofl_pt<-grep("OFL",tac_file)
+  chk_pt<-grep("Decision",tac_file)
+  abc_pt <- grep("Retained", tac_file)
+  bmsy_pt<-grep("BMSY",tac_file)
+  
+  removalsA<-as.numeric(tac_file[chk_pt+2]) # this grabs the "stateTAC" but not sure where that's coming from since the harvest strategy is not coded into GMACS?
+  removalsB <- as.numeric(tac_file[abc_pt+2])
+  year<-as.numeric(tac_file[ofl_pt-1])
+  treatment<-as.numeric(tac_file[chk_pt+5])
+  replic<-as.numeric(rep(tac_file[bmsy_pt+2],each=11))
+  
+  df<-data.frame(removalsS=(removalsA),removalsR=(removalsB),year=(year),treat=treatment,rep=replic)
+  #casted<-dcast(df,treat+rep~year,value.var='removals')
+  
+  #==filter for what we want
+  # just for 0.083
+  tmp<-filter(df,treat == 0.0833333000)
+  tmp<- filter(tmp, year <= 2024) # Use 2024 since 2023 is set in the file?
+  #NOTE: 2023 values are all the same because those are dictated by the projection
+  # built into GMACS. Not sure this actual gives the correct F value? maybe 2024 onward it would?
+  # ALSO: "decision" seems low - not sure where that's coming from vs. retained ABC
+  # need to dig into this projection code to see what's actually going on.
+  # 2023 gave Ben upper limit of "decision" since it seems in ballpark
+  
+  # mean 
+  tmp %>% 
+    group_by(year) %>% 
+    summarise(mean.xS = quantile(removalsS, probs = 0.50), 
+              mean.xR = quantile(removalsR, probs = 0.50), 
+              lower.xS = quantile(removalsS, probs = 0.05),
+              upper.xS = quantile(removalsS, probs = 0.95), 
+              lbs_mean = mean.xS*2204.62/1e6, 
+              upper.lbs = upper.xS*2204.62/1e6)
+  #lbs_meanR = mean.xR*2204.62/1e6) #conversion to million pounds
+  
+  # just for 0.25
+  tmp<-filter(df,treat == 0.1666670000)
+  tmp<- filter(tmp, year <= 2024) # Use 2024 since 2023 is set in the file?
+  
+  # mean 
+  tmp %>% 
+    group_by(year) %>% 
+    summarise(mean.xS = quantile(removalsS, probs = 0.50), 
+              mean.xR = quantile(removalsR, probs = 0.50), 
+              lower.xS = quantile(removalsS, probs = 0.05),
+              upper.xS = quantile(removalsS, probs = 0.95), 
+              lbs_mean = mean.xS*2204.62/1e6, 
+              upper.lbs = upper.xS*2204.62/1e6)
+  #lbs_meanR = mean.xR*2204.62/1e6) #conversion to million pounds
+  
+  #   make_rib<-filter(casted,treat!=1e-10)[,3:ncol(casted)]
+  #   # if(length(grep('bycatch',fin_dir[x]))>0)
+  #   #   make_rib<-filter(casted,treat==1e-10)[,3:ncol(casted)]
+  #   sorted<-apply(make_rib,2,sort)
+  #   up_rib<-sorted[0.05*nrow(sorted),]
+  #   dn_rib<-sorted[0.95*nrow(sorted),]
+  #   md_rib<-apply(sorted,2,median)
+  #   
+  #   df2<-data.frame(year=colnames(sorted),removals=md_rib,upper=up_rib,lower=dn_rib)
+  #   #==names
+  #   df2$"Recruitment"<-"Rec = 1982-2017"
+  #   if(length(grep('r2',fin_dir[x]))>0)
+  #     df2$"Recruitment"<-"Rec = 2005-2019"
+  #   df2$"Mortality"<-"M = 1982-2017"
+  #   if(length(grep('m2',fin_dir[x]))>0)
+  #     df2$"Mortality"<-"M = 2005-2019"  
+  #   
+  #   tmp<-unlist(strsplit(fin_dir[x],split='_'))
+  #   df2$fmort<-paste(tmp[4:length(tmp)],sep="",collapse="")
+  #   
+  #   all_summ<-rbind(all_summ,df2)
+  # }
+  # 
+  # 
+  # use_it<-filter(all_summ,fmort!='f')
+  write.csv(all_summ,"TAC_projections.csv")
+  
+### archived NOT used -----------
 ## proj-mmb.cnm jie's code ----------------
 H<-read.table("mcoutPROJ193g.rep")
 c1<-H[c(1:1000),c(11:21)]
