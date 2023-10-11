@@ -185,7 +185,7 @@ The ABC (acceptable biological catch) buffer was increased from 10% to 20% in 20
   2020/21 & 3b & 25.4 & 14.9 & 0.59 & 0.16 & 1984-2019 & 0.18 \\
   2021/22 & 3b & 24.2 & 14.9 & 0.62 & 0.17 & 1984-2020 & 0.18 \\
   2022/23 & 3b & 24.03 & 17.0 & 0.71 & 0.20 & 1984-2021 & 0.18 \\
-  2023/24 & 3b & `r bmsy_cur` & `r mmb_2324` & `r ratio_bmsy` & `r fofl` & 1984-2022 & 0.18\\
+  2023/24 & 3b & `r bmsy_cur` & `r mmb_2324` & `r ratio_bmsy` & `r fofl` & 1984-2022 & 0.23\\
   \hline
 \end{tabular}
 \end{table}
@@ -204,7 +204,7 @@ The ABC (acceptable biological catch) buffer was increased from 10% to 20% in 20
   2020/21 & 3b & 56.1 & 32.9 & 0.59 & 0.16 & 1984-2019 & 0.18 \\
   2021/22 & 3b & 53.4 & 33.0 & 0.62 & 0.17 & 1984-2020 & 0.18 \\
   2022/23 & 3b & 53.0 & 37.4 & 0.71 & 0.20 & 1984-2021 & 0.18 \\
-  2023/24 & 3b & `r bmsy_cur_lb` & `r mmb_2324_lb` & `r ratio_bmsy` & `r fofl` & 1984-2022 & 0.18\\
+  2023/24 & 3b & `r bmsy_cur_lb` & `r mmb_2324_lb` & `r ratio_bmsy` & `r fofl` & 1984-2022 & 0.23\\
   \hline
 \end{tabular}
 \end{table}
@@ -568,7 +568,7 @@ i.	Negative log-likelihood values and parameter estimates are summarized in Tabl
 ii.	Natural mortality estimates are shown in Table \@ref(tab:Natmort) for three models.  
 iii.	Area-swept estimates of mature female abundance and model estimates of effective spawning biomass (Zheng et al. 1995b) during 2011-2022 for groundfish fisheries bycatch calculation are provided in Table \@ref(tab:LBA-out).   
 iv.	Abundance and biomass time series are provided in Tables \@ref(tab:est-m211b) -- \@ref(tab:est-m22) for models 21.1b, 22.0, and 23.0a.  
-v.	Recruitment time series for models 21.1b, 22.0, 22.0a are provided in Tables \@ref(tab:est-m211b) -- \@ref(tab:est-m22).  
+v.	Recruitment time series for models 21.1b, 22.0, 23.0a are provided in Tables \@ref(tab:est-m211b) -- \@ref(tab:est-m22).  
 vi.	Time series of catch biomass is provided in Tables \@ref(tab:totalcatch) and \@ref(tab:retainedcatch).   
 
 Length-specific fishing mortality is equal to selectivity-at-length times the full selection fishing mortality. Estimated full pot fishing mortalities for females and full fishing mortalities for groundfish fisheries bycatch are low due to low bycatch and handling mortality rates less than 1.0. Estimated recruits varied greatly among years (Tables \@ref(tab:est-m211b) -- \@ref(tab:est-m22)). Estimated selectivities for female pot bycatch are close to 1.0 for all mature females, and the estimated full fishing mortalities for female pot bycatch are lower than those for male retained catch and bycatch (Tables \@ref(tab:parm-std211b) -- \@ref(tab:parm-std22) for models 21.1b, 22.0, and 23.0a). 
