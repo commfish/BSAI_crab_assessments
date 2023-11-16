@@ -1,0 +1,63 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+
+\pagenumbering{arabic}
+
+```{r global_options2, include=FALSE, echo = FALSE, message = FALSE, warning=FALSE}
+#library(knitr) # don't need these if this is a "child" of the larger doc
+#opts_chunk$set(fig.width = 12, fig.height = 7, fig.align = "left", echo = FALSE, warning = FALSE, message = FALSE,  dpi=300)
+#\pagenumbering{gobble}
+#library(xtable)
+#options(xtable.comment = FALSE)
+```
+
+# Appendix C. Simpler model working group REMA exploration {-}
+
+At the March 2023 simpler model working group meeting a "fallback" option for model output was discussed to be used as an alternative option if the current assessment model is not usable. This option is detailed in the working group report under - "Proposed "Fallback" model options". 
+
+This is a Tier 4 approach where:
+
+- B or current year's biomass is equal to survey-estimated (ideally using the REMA R package) vulnerable male biomass. Vulnerable male biomass is male crabs likely to be susceptible to both the directed and incidental catch fisheries
+
+- OFL = M (adjusted by the stock status as defined in the Crab FMP) * B
+
+- ABC = buffer * OFL
+
+## REMA model for BBRKC {-}
+For BBRKC the male biomass that is determined to be vulnerable to the directed and incidental catch fisheries is the mature male biomass, crab > 119mm CL. Crab at this size are approximately one or more molt increments away from legal size and therefore are likely to be found with legal size male crab and be vulnerable to discard mortality.
+This modeling exercise applies a similar buffer as the Tier 3 model (20%), although the actual buffer used if this model approach was adopted would likely be different.
+
+As defined by the Crab FMP stock status is determined by the current years biomass (B) compared to the average biomass over a period of time. For consistencies with the current modeling approaches for BBRKC the time period used is 1984 to 2022, this is the same time period that is used in the Tier 3 model for calculation status determination.
+
+## Calculation of Reference Points {-}
+
+The Tier 4 OFL is calculated using the $F_{OFL}$ control rule:
+
+\begin{equation}
+F_{OFL} = 
+\begin{cases}
+0 & \frac{MMB}{B_{MSY}} \leq 0.25\\[10pt]
+\frac{M(\frac{MMB}{B_{MSY}} - \alpha)}{1-\alpha} & 0.25 < \frac{MMB}{B_{MSY}} < 1\\[10pt]
+M & MMB > B_{MSY}\\[10pt]
+\end{cases}
+\end{equation}
+
+where MMB is quantified at the mean time of mating date (15 February), $B_{MSY}$ is defined as the average MMB for a specified period, $M$ = 0.18 yr$^{-1}$, and $\alpha$ = 0.1. The Tier 4 OFL (Table \@ref(tab:specs-rema)) was calculated by applying a fishing mortality determined by the harvest control rule (above) to the mature male biomass at the time of mating (B$_{proj}$ or Current B).
+
+```{r specs-rema, results = "asis"}
+
+df <- read.csv(paste0(here::here(), '/BBRKC/bbrkc_23f/doc/figures/REMA/specs_REMA.csv'))
+names(df) <- c("avgB", "Current B", "$MMB/B_\\text{MSY}$", "M", "$F_\\text{OFL}$", "OFL", "ABC")
+tab       <- xtable(df, caption = "Specificatoins using the REMA output on mature male NFMS trawl survey area-swept biomass.", label = "tab:specs-rema")
+print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,nrow(tab)))
+```
+
+\pagebreak 
+\newpage\clearpage
+## Figures {-}
+```{r mmb-rema, out.width="100%", fig.cap = "Comparisons of area-swept estimates of mature MALE NMFS survey biomass (males > 119 mm) and REMA model predicted fit."} 
+knitr::include_graphics("figures/REMA/mmbfit.png", dpi = 200)
+```

@@ -1,8 +1,8 @@
-# k.palof - 8-27-22
+# k.palof - 8-27-22/ 8-27-23
 
 # Objective: code to summarize projection output from GMACS for
 #       1) ssb projected
-#       2) histograms?
+#       2) histograms
 
 ## load ------
 library(ggplot2)
@@ -10,27 +10,34 @@ source("./SMBKC/code/helper.R")
 cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 .THEME    = list(theme_bw(base_size = 12, base_family = ""), scale_fill_manual(values=cbPalette), 
                  scale_colour_manual(values=cbPalette))
-.FIGS     = c("./BBRKC/bbrkc_22f/figures/")
+.FIGS     = c("./BBRKC/bbrkc_23f/doc/figures/")
 
+folder = "bbrkc_23f"
 
-# data ------
+###### data m 21.1b ------
 
 #Bproj <- read.table("C:/Users/kjpalof/Documents/Current projects/statewide shellfish/bbrkc/rk22s/mcoutPROJ211b.rep", 
 #                    header = TRUE)
-Bproj <- read.table(paste0(here::here(), "/BBRKC/bbrkc_22f/model_211b_mcmc/mcoutPROJ.rep"), header = T)
-B_ref <- read.table(paste0(here::here(), "/BBRKC/bbrkc_22f/model_211b_mcmc/mcoutREF.rep"), header = T)
+# these have more F values for SHS purposes 
+#Bproj <- read.table(paste0(here::here(), "/BBRKC/", folder, "/model_211b-mcmc/mcoutPROJ.rep"), header = T)
+#B_ref <- read.table(paste0(here::here(), "/BBRKC/", folder, "/model_211b-mcmc/mcoutREF.rep"), header = T)
+
+# original figures for SAFE 
+Bproj <-read.table(paste0(here::here(), "/BBRKC/", folder, "/model_211b-mcmc/10year_projections_recent_recruit/mcoutPROJ.rep"), header = T)
+B_ref <- read.table(paste0(here::here(), "/BBRKC/", folder, "/model_211b-mcmc/10year_projections_recent_recruit/mcoutREF.rep"), header = T)
+# make sure to change back figure name - line !!
 
 ## ssb proj data summary -------------
 Bproj %>% 
-  select(F_val, f_for_fleet_1, BMSY, SSB_2022:SSB_2032) %>% 
+  select(F_val, f_for_fleet_1, BMSY, SSB_2023:SSB_2033) %>% #needs to be updated with correct years
   group_by(F_val) %>% 
   summarise(across(everything(), mean))
 
 Bproj%>% 
-  select(F_val, f_for_fleet_1, BMSY, SSB_2022:SSB_2032) %>% 
+  select(F_val, f_for_fleet_1, BMSY, SSB_2023:SSB_2033) %>% #needs to be updated with correct years
   group_by(F_val) %>% 
   #filter(F_val == 1) %>% 
-  gather(xvar, value, BMSY:SSB_2032) %>% 
+  gather(xvar, value, BMSY:SSB_2033) %>% 
   group_by(F_val, xvar) %>% 
   summarise(mean.x = quantile(value, probs = 0.50), 
             lower.x = quantile(value, probs = 0.05),
@@ -51,12 +58,13 @@ sum1 %>%
   mutate(year = gsub("[^0-9]", "", xvar), 
          F_val = as.character(F_val)) %>% 
   select(-xvar) %>% 
+  #filter(F_val <= 4) %>% 
   ggplot(aes(year, mean.x, group = F_val, fill = F_val))+
     geom_line(aes(color = F_val)) +
     geom_ribbon(aes(x=year, ymax = upper.x, ymin = lower.x), alpha = 0.15) +
     #scale_fill_manual(name = "", labels = c("F=0", "F=0.083", "F=0.167", "F=0.25")) +
     #labs(fill = "Fishing mortality") +
-    ylab("MMB (t)") +
+    ylab(bquote(MMB[yr[t+1]])) +
     xlab("Year") +
     ggtitle("Model 21.1b") +
     geom_hline(aes(yintercept = (B_BMSY$`1`/2)), color = "#999999", lty = "dashed") +
@@ -66,30 +74,57 @@ sum1 %>%
   geom_text(aes(x = 0.1, y = B_BMSY$`1`/2, label = "50% Bmsy"), 
             hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 4.0) +
   scale_fill_discrete(labels = c("F=0", "F=0.083", "F=0.167", "F=0.25"))+
+  #scale_fill_discrete(labels = c("F=0", "F=0.038", "F=0.071", "F=0.107","F=0.143", "F=0.179", "F=0.214", "F=0.25"))+
   labs(fill = "Fishing mortality") +
   guides(color = "none") 
 
-ggsave(paste0(.FIGS, "proj_ssb_model_211b.png"), width = 7, height = 6)
+#ggsave(paste0(.FIGS, "proj_ssb_model_211b_v3.png"), width = 7, height = 6) # version 3 uncomment line 61 
+#ggsave(paste0(.FIGS, "proj_ssb_model_211b.png"), width = 7, height = 6)
  # .THEME
 
 ### seperate out F values -------------
 Bproj%>% 
-  select(F_val, f_for_fleet_1, BMSY, SSB_2022:SSB_2031) %>% 
+  select(F_val, f_for_fleet_1, BMSY, SSB_2023:SSB_2033) %>% # update years
   group_by(F_val) %>% 
   filter(F_val == 2) -> Bproj_F08
 
 Bproj%>% 
-  select(F_val, f_for_fleet_1, BMSY, SSB_2022:SSB_2031) %>% 
+  select(F_val, f_for_fleet_1, BMSY, SSB_2023:SSB_2033) %>% 
   group_by(F_val) %>% 
   filter(F_val == 3) -> Bproj_F16
 
 Bproj%>% 
-  select(F_val, f_for_fleet_1, BMSY, SSB_2022:SSB_2031) %>% 
+  select(F_val, f_for_fleet_1, BMSY, SSB_2023:SSB_2033) %>% 
   group_by(F_val) %>% 
   filter(F_val == 4) -> Bproj_F25
 
 
-
+# need a column of years 
+sum1 %>% 
+  filter(xvar != "BMSY") %>% 
+  mutate(year = gsub("[^0-9]", "", xvar), 
+         F_val = as.character(F_val)) %>% 
+  select(-xvar) %>% 
+  filter(F_val <= 2) %>% 
+  ggplot(aes(year, mean.x, group = F_val, fill = F_val))+
+  geom_line(aes(color = F_val)) +
+  geom_ribbon(aes(x=year, ymax = upper.x, ymin = lower.x), alpha = 0.15) +
+  #scale_fill_manual(name = "", labels = c("F=0", "F=0.083", "F=0.167", "F=0.25")) +
+  #labs(fill = "Fishing mortality") +
+  ylab(bquote(MMB[yr[t+1]])) +
+  xlab("Year") +
+  ggtitle("Model 21.1b") +
+  geom_hline(aes(yintercept = (B_BMSY$`1`/2)), color = "#999999", lty = "dashed") +
+  geom_hline(aes(yintercept = (B_BMSY$`1`)), color = "#999999") +
+  geom_text(aes(x = 1.2, y = B_BMSY$`1`, label = "B[MSY]"), 
+            hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 4.0, parse = T) +
+  geom_text(aes(x = 0.1, y = B_BMSY$`1`/2, label = "50% Bmsy"), 
+            hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 4.0) +
+  scale_fill_discrete(labels = c("F=0", "F=0.083", "F=0.167", "F=0.25"))+
+  #scale_fill_discrete(labels = c("F=0", "F=0.038", "F=0.071", "F=0.107","F=0.143", "F=0.179", "F=0.214", "F=0.25"))+
+  labs(fill = "Fishing mortality") +
+  guides(color = "none") 
+ggsave(paste0(.FIGS, "proj_ssb_model_211b_STATE_v1.png"), width = 7, height = 6)
 
 
 
@@ -104,10 +139,13 @@ B_ref %>%
   ggplot(aes(MMB/1000)) +
    geom_histogram(color = "black", fill = "grey70", bins = 15) +
    xlab("MMB on 2/15 (1000 t)")+
+   ylab("Count") +
    ggtitle("Model 21.1b") +
    scale_x_continuous(breaks = 11:21) 
   #xlim(12, 22)
-ggsave(paste0(.FIGS, "proj_MMB_histogram_model_211b.png"), width = 7, height = 6)
+
+ggsave(paste0(.FIGS, "proj_MMB_histogram_model_211b.png"), width = 7, height = 3.5)
+
 
 ## OFL histo ------------
 B_ref %>% 
@@ -117,10 +155,13 @@ B_ref %>%
   ggplot(aes(OFL/1000)) +
   geom_histogram(color = "black", fill = "grey70", bins = 15) +
   xlab("OFL (1000 t)")+
+  ylab("Count") +
   ggtitle("Model 21.1b") +
   scale_x_continuous(breaks = 1:5) 
 #xlim(12, 22)
-ggsave(paste0(.FIGS, "proj_OFL_histogram_model_211b.png"), width = 7, height = 6)
+
+ggsave(paste0(.FIGS, "proj_OFL_histogram_model_211b.png"), width = 7, height = 3.5)
+
 
 ## cumulative probability MMB current year------------
 head(B_ref)
@@ -133,6 +174,9 @@ ggplot(temp1, aes(BMSY.B0))+
   stat_ecdf(geom = "step")+
   xlab(expression(MMB[2022]/MMB[35~percent]))+
   ylab("Cumulative probability")+
+  scale_x_continuous(breaks = seq(0.4, 1.00, by = 0.1)) +
+  geom_vline(xintercept = 0.5, color = "red", lty = "dashed") +
+  xlab(expression(MMB[2022]/MMB[35~percent]))+
   .THEME
 ggsave(paste0(.FIGS, "proj_CDF_MMB_model_211b.png"), width = 6, height = 7.5)
   
@@ -143,19 +187,19 @@ ggsave(paste0(.FIGS, "proj_CDF_MMB_model_211b.png"), width = 6, height = 7.5)
 head(Bproj)
 
 Bproj %>% 
-  select(F_val, BMSY, SSB_2022:SSB_2025) %>% 
-  mutate(year22 = SSB_2022/BMSY, 
-         year23 = SSB_2023/BMSY,
+  select(F_val, BMSY, SSB_2023:SSB_2026) %>% # need to change years here
+  mutate(year23 = SSB_2023/BMSY, 
          year24 = SSB_2024/BMSY,
-         year25 = SSB_2025/BMSY, 
+         year25 = SSB_2025/BMSY,
+         year26 = SSB_2026/BMSY, 
          F_valu = ifelse(F_val == 1, "F=0", 
                          ifelse(F_val == 2, "F=0.083", 
                                 ifelse(F_val ==3, "F=0.167", "F=0.25")))) %>% #"F=0", "F=0.083", "F=0.167", "F=0.25"
-  select(F_valu, year22:year25) %>% 
-  gather(year, value, year22:year25) -> temp2
+  select(F_valu, year23:year26) %>% 
+  gather(year, value, year23:year26) -> temp2
 
-yearlabel <- c("2022", "2023", "2024", "2025")
-names(yearlabel) <- c("year22", "year23", "year24", "year25")
+yearlabel <- c("Feb.15th,2024", "Feb.15th,2025", "Feb.15th,2026", "Feb.15th,2027")
+names(yearlabel) <- c("year23", "year24", "year25", "year26")
 
 ggplot(temp2, aes(value, group = year))+
   stat_ecdf(geom = "step")+
@@ -173,9 +217,366 @@ ggplot(temp2, aes(value, group = year))+
         #panel.grid.minor = element_blank()) 
 ggsave(paste0(.FIGS, "proj_CDF_MMB_by_year_model_211b.png"), width = 6.5, height = 7.5)
 
+# data m 23.0a ------
+
+#Bproj <- read.table("C:/Users/kjpalof/Documents/Current projects/statewide shellfish/bbrkc/rk22s/mcoutPROJ211b.rep", 
+#                    header = TRUE)
+model_folder = "model_230a"
+Model = "Model 23.0a"
+Bproj <- read.table(paste0(here::here(), "/BBRKC/", folder, "/", model_folder, "-mcmc/mcoutPROJ.rep"), header = T)
+B_ref <- read.table(paste0(here::here(), "/BBRKC/", folder, "/", model_folder, "-mcmc/mcoutREF.rep"), header = T)
+
+## ssb proj data summary -------------
+Bproj %>% 
+  select(F_val, f_for_fleet_1, BMSY, SSB_2023:SSB_2033) %>% #needs to be updated with correct years
+  group_by(F_val) %>% 
+  summarise(across(everything(), mean))
+
+Bproj%>% 
+  select(F_val, f_for_fleet_1, BMSY, SSB_2023:SSB_2033) %>% #needs to be updated with correct years
+  group_by(F_val) %>% 
+  #filter(F_val == 1) %>% 
+  gather(xvar, value, BMSY:SSB_2032) %>% 
+  group_by(F_val, xvar) %>% 
+  summarise(mean.x = quantile(value, probs = 0.50), 
+            lower.x = quantile(value, probs = 0.05),
+            upper.x = quantile(value, probs = 0.95)) -> sum1
+sum1 %>% 
+  filter(xvar == "BMSY") %>% 
+  select(F_val, mean.x) %>% 
+  spread(F_val, mean.x) -> B_BMSY
 
 
-### archieved NOT used -----------
+
+# Figure for all F values together ------
+## FIGURE 32 all together ------
+
+# need a column of years 
+sum1 %>% 
+  filter(xvar != "BMSY") %>% 
+  mutate(year = gsub("[^0-9]", "", xvar), 
+         F_val = as.character(F_val)) %>% 
+  select(-xvar) %>% 
+  ggplot(aes(year, mean.x, group = F_val, fill = F_val))+
+  geom_line(aes(color = F_val)) +
+  geom_ribbon(aes(x=year, ymax = upper.x, ymin = lower.x), alpha = 0.15) +
+  #scale_fill_manual(name = "", labels = c("F=0", "F=0.083", "F=0.167", "F=0.25")) +
+  #labs(fill = "Fishing mortality") +
+  ylab(bquote(MMB[yr[t+1]])) +
+  xlab("Year") +
+  ggtitle(paste0(Model)) +
+  geom_hline(aes(yintercept = (B_BMSY$`1`/2)), color = "#999999", lty = "dashed") +
+  geom_hline(aes(yintercept = (B_BMSY$`1`)), color = "#999999") +
+  geom_text(aes(x = 1.2, y = B_BMSY$`1`, label = "B[MSY]"), 
+            hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 4.0, parse = T) +
+  geom_text(aes(x = 0.1, y = B_BMSY$`1`/2, label = "50% Bmsy"), 
+            hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 4.0) +
+  scale_fill_discrete(labels = c("F=0", "F=0.083", "F=0.167", "F=0.25"))+
+  labs(fill = "Fishing mortality") +
+  guides(color = "none") 
+
+ggsave(paste0(.FIGS, paste0("proj_ssb_", model_folder, ".png")), width = 7, height = 6)
+# .THEME
+
+### seperate out F values -------------
+Bproj%>% 
+  select(F_val, f_for_fleet_1, BMSY, SSB_2023:SSB_2033) %>% # update years
+  group_by(F_val) %>% 
+  filter(F_val == 2) -> Bproj_F08
+
+Bproj%>% 
+  select(F_val, f_for_fleet_1, BMSY, SSB_2023:SSB_2033) %>% 
+  group_by(F_val) %>% 
+  filter(F_val == 3) -> Bproj_F16
+
+Bproj%>% 
+  select(F_val, f_for_fleet_1, BMSY, SSB_2023:SSB_2033) %>% 
+  group_by(F_val) %>% 
+  filter(F_val == 4) -> Bproj_F25
+
+# histograms --------------
+head(B_ref)
+
+# mmb histo ------
+B_ref %>% 
+  mutate(MMB = BMSY*BMSY.B0) %>% 
+  select(Draw, OFL, MMB) %>% 
+  filter(MMB <= 21500) %>% 
+  ggplot(aes(MMB/1000)) +
+  geom_histogram(color = "black", fill = "grey70", bins = 15) +
+  xlab("MMB on 2/15 (1000 t)")+
+  ggtitle(Model) +
+  scale_x_continuous(breaks = 11:21) 
+#xlim(12, 22)
+
+ggsave(paste0(.FIGS, "proj_MMB_histogram_", model_folder, ".png"), width = 7, height = 3.5)
+
+
+## OFL histo ------------
+B_ref %>% 
+  mutate(MMB = BMSY*BMSY.B0) %>% 
+  select(Draw, OFL, MMB) %>% 
+  #filter(OFL <= 4500) %>% 
+  ggplot(aes(OFL/1000)) +
+  geom_histogram(color = "black", fill = "grey70", bins = 15) +
+  xlab("OFL (1000 t)")+
+  ggtitle(Model) +
+  scale_x_continuous(breaks = 1:7) 
+#xlim(12, 22)
+
+ggsave(paste0(.FIGS, "proj_OFL_histogram_", model_folder, ".png"), width = 7, height = 3.5)
+
+
+## cumulative probability MMB current year------------
+head(B_ref)
+
+B_ref %>% 
+  select(BMSY.B0) -> temp1
+
+
+ggplot(temp1, aes(BMSY.B0))+
+  stat_ecdf(geom = "step")+
+  xlab(expression(MMB[2022]/MMB[35~percent]))+
+  ylab("Cumulative probability")+
+  scale_x_continuous(breaks = seq(0.4, 1.00, by = 0.1)) +
+  geom_vline(xintercept = 0.5, color = "red", lty = "dashed") +
+  xlab(expression(MMB[2022]/MMB[35~percent]))+
+  .THEME
+ggsave(paste0(.FIGS, "proj_CDF_", model_folder, ".png"), width = 6, height = 7.5)
+
+#CDF <- ecdf(temp1$BMSY.B0)
+#plot(CDF)
+
+## cumulative probability in each year ------------
+head(Bproj)
+
+Bproj %>% 
+  select(F_val, BMSY, SSB_2023:SSB_2026) %>% # need to change years here
+  mutate(year23 = SSB_2023/BMSY, 
+         year24 = SSB_2024/BMSY,
+         year25 = SSB_2025/BMSY,
+         year26 = SSB_2026/BMSY, 
+         F_valu = ifelse(F_val == 1, "F=0", 
+                         ifelse(F_val == 2, "F=0.083", 
+                                ifelse(F_val ==3, "F=0.167", "F=0.25")))) %>% #"F=0", "F=0.083", "F=0.167", "F=0.25"
+  select(F_valu, year23:year26) %>% 
+  gather(year, value, year23:year26) -> temp2
+
+yearlabel <- c("Feb.15th,2024", "Feb.15th,2025", "Feb.15th,2026", "Feb.15th,2027")
+names(yearlabel) <- c("year23", "year24", "year25", "year26")
+
+ggplot(temp2, aes(value, group = year))+
+  stat_ecdf(geom = "step")+
+  #xlab(expression(MMB[2022]/MMB[35~percent]))+
+  ylab("Cumulative probability")+
+  facet_wrap(~year + F_valu, 
+             labeller = labeller(year = yearlabel)) +
+  xlim(0.25, 0.9) +
+  geom_hline(yintercept = 0.5, color ="red", lty = "dashed") +
+  geom_vline(xintercept = 0.5, color = "red", lty = "dashed") +
+  theme_bw()+
+  theme(strip.text.x = element_text(margin = margin(2, 0, 2, 0)), 
+        #panel.grid.major = element_blank(), 
+        plot.background = element_blank())
+#panel.grid.minor = element_blank()) 
+ggsave(paste0(.FIGS, "proj_CDF_MMB_by_year_", model_folder, ".png"), width = 6.5, height = 7.5)
+
+
+# TAC setting 21.1b----------------
+
+nums<-expand.grid(c("r1","r2"),c("m1","m2"))
+r_m<-apply(nums, 1, function(x) paste(x[!is.na(x) & x != "No"], collapse = "_"))
+f_scene<-c("0_f","1_0.083","2_0.167","3_0.25")
+all_dir<-expand.grid(r_m,f_scene)
+#fin_dir<-apply(all_dir, 1, function(x) paste(x[!is.na(x) & x != "No"], collapse = "_"))
+fin_dir <- "10year_projections_recent_recruit"
+name_in<-expand.grid(c("Rec = 2013-2022"),c("M = 2022"))
+rootname<-"C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_23f/model_211b-mcmc/"
+
+
+#C:\Users\kjpalof\Documents\BSAI_crab_assessments\BBRKC\bbrkc_23f\model_211b-mcmc\10year_projections_recent_recruit
+draw_dirs_tac<-rep(NA,length(fin_dir))
+all_summ<-NULL
+
+for(x in 1:length(fin_dir))
+{
+  draw_dirs_tac[x]<-paste(rootname, fin_dir[x],"/mcoutDIAG.rep",sep='')
+  tac_file<-  repfile<-scan( draw_dirs_tac[x],skip=4,what='list')
+  ofl_pt<-grep("OFL",tac_file)
+  chk_pt<-grep("Decision",tac_file)
+  abc_pt <- grep("Retained", tac_file)
+  bmsy_pt<-grep("BMSY",tac_file)
+  
+  removalsA<-as.numeric(tac_file[chk_pt+2]) # this grabs the "stateTAC" but not sure where that's coming from since the harvest strategy is not coded into GMACS?
+  removalsB <- as.numeric(tac_file[abc_pt+2])
+  year<-as.numeric(tac_file[ofl_pt-1])
+  treatment<-as.numeric(tac_file[chk_pt+5])
+  replic<-as.numeric(rep(tac_file[bmsy_pt+2],each=16))
+  
+  df<-data.frame(removalsS=(removalsA),removalsR=(removalsB),year=(year),treat=treatment,rep=replic)
+  #casted<-dcast(df,treat+rep~year,value.var='removals')
+  
+  #==filter for what we want
+# just for 0.083
+  tmp<-filter(df,treat == 0.0833333000)
+  tmp<- filter(tmp, year <= 2024) # Use 2024 since 2023 is set in the file?
+#NOTE: 2023 values are all the same because those are dictated by the projection
+  # built into GMACS. Not sure this actual gives the correct F value? maybe 2024 onward it would?
+  # ALSO: "decision" seems low - not sure where that's coming from vs. retained ABC
+  # need to dig into this projection code to see what's actually going on.
+  # 2023 gave Ben upper limit of "decision" since it seems in ballpark
+  
+  # mean 
+tmp %>% 
+  group_by(year) %>% 
+  summarise(mean.xS = quantile(removalsS, probs = 0.50), 
+            mean.xR = quantile(removalsR, probs = 0.50), 
+            lower.xS = quantile(removalsS, probs = 0.05),
+            upper.xS = quantile(removalsS, probs = 0.95), 
+            lbs_mean = mean.xS*2204.62/1e6, 
+            upper.lbs = upper.xS*2204.62/1e6)
+            #lbs_meanR = mean.xR*2204.62/1e6) #conversion to million pounds
+
+# just for 0.25
+tmp<-filter(df,treat == 0.1666670000)
+tmp<- filter(tmp, year <= 2024) # Use 2024 since 2023 is set in the file?
+
+# mean 
+tmp %>% 
+  group_by(year) %>% 
+  summarise(mean.xS = quantile(removalsS, probs = 0.50), 
+            mean.xR = quantile(removalsR, probs = 0.50), 
+            lower.xS = quantile(removalsS, probs = 0.05),
+            upper.xS = quantile(removalsS, probs = 0.95), 
+            lbs_mean = mean.xS*2204.62/1e6, 
+            upper.lbs = upper.xS*2204.62/1e6)
+#lbs_meanR = mean.xR*2204.62/1e6) #conversion to million pounds
+
+#   make_rib<-filter(casted,treat!=1e-10)[,3:ncol(casted)]
+#   # if(length(grep('bycatch',fin_dir[x]))>0)
+#   #   make_rib<-filter(casted,treat==1e-10)[,3:ncol(casted)]
+#   sorted<-apply(make_rib,2,sort)
+#   up_rib<-sorted[0.05*nrow(sorted),]
+#   dn_rib<-sorted[0.95*nrow(sorted),]
+#   md_rib<-apply(sorted,2,median)
+#   
+#   df2<-data.frame(year=colnames(sorted),removals=md_rib,upper=up_rib,lower=dn_rib)
+#   #==names
+#   df2$"Recruitment"<-"Rec = 1982-2017"
+#   if(length(grep('r2',fin_dir[x]))>0)
+#     df2$"Recruitment"<-"Rec = 2005-2019"
+#   df2$"Mortality"<-"M = 1982-2017"
+#   if(length(grep('m2',fin_dir[x]))>0)
+#     df2$"Mortality"<-"M = 2005-2019"  
+#   
+#   tmp<-unlist(strsplit(fin_dir[x],split='_'))
+#   df2$fmort<-paste(tmp[4:length(tmp)],sep="",collapse="")
+#   
+#   all_summ<-rbind(all_summ,df2)
+# }
+# 
+# 
+# use_it<-filter(all_summ,fmort!='f')
+write.csv(all_summ,"TAC_projections.csv")
+
+# TAC setting 23.0a----------------
+
+nums<-expand.grid(c("r1","r2"),c("m1","m2"))
+r_m<-apply(nums, 1, function(x) paste(x[!is.na(x) & x != "No"], collapse = "_"))
+f_scene<-c("0_f","1_0.083","2_0.167","3_0.25")
+all_dir<-expand.grid(r_m,f_scene)
+#fin_dir<-apply(all_dir, 1, function(x) paste(x[!is.na(x) & x != "No"], collapse = "_"))
+#fin_dir <- "10year_projections_recent_recruit"
+name_in<-expand.grid(c("Rec = 2013-2022"),c("M = 2022"))
+rootname<-"C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_23f/model_230a-mcmc/"
+
+
+#C:\Users\kjpalof\Documents\BSAI_crab_assessments\BBRKC\bbrkc_23f\model_230a-mcmc
+draw_dirs_tac<-rep(NA,length(fin_dir))
+all_summ<-NULL
+
+for(x in 1:length(fin_dir))
+{
+  draw_dirs_tac[x]<-paste(rootname, "/mcoutDIAG.rep",sep='')
+  tac_file<-  repfile<-scan( draw_dirs_tac[x],skip=4,what='list')
+  ofl_pt<-grep("OFL",tac_file)
+  chk_pt<-grep("Decision",tac_file)
+  abc_pt <- grep("Retained", tac_file)
+  bmsy_pt<-grep("BMSY",tac_file)
+  
+  removalsA<-as.numeric(tac_file[chk_pt+2]) # this grabs the "stateTAC" but not sure where that's coming from since the harvest strategy is not coded into GMACS?
+  removalsB <- as.numeric(tac_file[abc_pt+2])
+  year<-as.numeric(tac_file[ofl_pt-1])
+  treatment<-as.numeric(tac_file[chk_pt+5])
+  replic<-as.numeric(rep(tac_file[bmsy_pt+2],each=11))
+  
+  df<-data.frame(removalsS=(removalsA),removalsR=(removalsB),year=(year),treat=treatment,rep=replic)
+  #casted<-dcast(df,treat+rep~year,value.var='removals')
+  
+  #==filter for what we want
+  # just for 0.083
+  tmp<-filter(df,treat == 0.0833333000)
+  tmp<- filter(tmp, year <= 2024) # Use 2024 since 2023 is set in the file?
+  #NOTE: 2023 values are all the same because those are dictated by the projection
+  # built into GMACS. Not sure this actual gives the correct F value? maybe 2024 onward it would?
+  # ALSO: "decision" seems low - not sure where that's coming from vs. retained ABC
+  # need to dig into this projection code to see what's actually going on.
+  # 2023 gave Ben upper limit of "decision" since it seems in ballpark
+  
+  # mean 
+  tmp %>% 
+    group_by(year) %>% 
+    summarise(mean.xS = quantile(removalsS, probs = 0.50), 
+              mean.xR = quantile(removalsR, probs = 0.50), 
+              lower.xS = quantile(removalsS, probs = 0.05),
+              upper.xS = quantile(removalsS, probs = 0.95), 
+              lbs_mean = mean.xS*2204.62/1e6, 
+              upper.lbs = upper.xS*2204.62/1e6)
+  #lbs_meanR = mean.xR*2204.62/1e6) #conversion to million pounds
+  
+  # just for 0.25
+  tmp<-filter(df,treat == 0.1666670000)
+  tmp<- filter(tmp, year <= 2024) # Use 2024 since 2023 is set in the file?
+  
+  # mean 
+  tmp %>% 
+    group_by(year) %>% 
+    summarise(mean.xS = quantile(removalsS, probs = 0.50), 
+              mean.xR = quantile(removalsR, probs = 0.50), 
+              lower.xS = quantile(removalsS, probs = 0.05),
+              upper.xS = quantile(removalsS, probs = 0.95), 
+              lbs_mean = mean.xS*2204.62/1e6, 
+              upper.lbs = upper.xS*2204.62/1e6)
+  #lbs_meanR = mean.xR*2204.62/1e6) #conversion to million pounds
+  
+  #   make_rib<-filter(casted,treat!=1e-10)[,3:ncol(casted)]
+  #   # if(length(grep('bycatch',fin_dir[x]))>0)
+  #   #   make_rib<-filter(casted,treat==1e-10)[,3:ncol(casted)]
+  #   sorted<-apply(make_rib,2,sort)
+  #   up_rib<-sorted[0.05*nrow(sorted),]
+  #   dn_rib<-sorted[0.95*nrow(sorted),]
+  #   md_rib<-apply(sorted,2,median)
+  #   
+  #   df2<-data.frame(year=colnames(sorted),removals=md_rib,upper=up_rib,lower=dn_rib)
+  #   #==names
+  #   df2$"Recruitment"<-"Rec = 1982-2017"
+  #   if(length(grep('r2',fin_dir[x]))>0)
+  #     df2$"Recruitment"<-"Rec = 2005-2019"
+  #   df2$"Mortality"<-"M = 1982-2017"
+  #   if(length(grep('m2',fin_dir[x]))>0)
+  #     df2$"Mortality"<-"M = 2005-2019"  
+  #   
+  #   tmp<-unlist(strsplit(fin_dir[x],split='_'))
+  #   df2$fmort<-paste(tmp[4:length(tmp)],sep="",collapse="")
+  #   
+  #   all_summ<-rbind(all_summ,df2)
+  # }
+  # 
+  # 
+  # use_it<-filter(all_summ,fmort!='f')
+  write.csv(all_summ,"TAC_projections.csv")
+  
+### archived NOT used -----------
 ## proj-mmb.cnm jie's code ----------------
 H<-read.table("mcoutPROJ193g.rep")
 c1<-H[c(1:1000),c(11:21)]

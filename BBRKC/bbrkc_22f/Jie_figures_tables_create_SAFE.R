@@ -21,6 +21,9 @@ source("./SMBKC/code/helper.R")
 source("./SMBKC/code/packages.R")
 source("./SMBKC/code/gmr_functions2020.R") 
 source("./BBRKC/bbrkc_22f/Jie R code/read_rep.R")
+.THEME    = list(theme_bw(base_size = 12, base_family = ""), scale_fill_manual(values=cbPalette), 
+                 scale_colour_manual(values=cbPalette))
+.FIGS     = c("./BBRKC/bbrkc_22f/figures/")
 
 ## Jie's code ------
 A <- read_rep("./BBRKC/bbrkc_22f/model_211b_spring/gmacs.rep")
@@ -124,14 +127,14 @@ D <- read_rep("./BBRKC/bbrkc_22f/model_22a/gmacs.rep")
 
 # Table 7 ----
 # see figures_tables_create_SAFE.R
-# Table 8 & 9 --
+# Table 8 & 9 ------
+# gmacs-sum_model211b.csv - see Jie_cmn_files.R
 # B$N_males - see which sizes classes to assign to legal, mature etc.
 # B$N_females (>90mm mature)
 # B$recruits
 # effective spawning biomass (lba.cmn)
   # number of females * selectivity * Q * 
 
-# mature females?
 # model 21.1b mature females --------------
 f_temp <- B$N_females_mature
 head(f_temp)
@@ -141,12 +144,34 @@ f_temp %>%
   mutate(total_mature = rowSums(across(where(is.numeric)))/1000000, # this doesn't match what Jie has for mature females....
          totalGE90 = (V6+ V7 + V8 + V9 + V10 + V11 +V12 +V13 +V14 +V15 +V16)/1000000) # this doesn't match what Jie has for mature females....
   
+# this is number greater than 90mm CL which is Jie's currency
 f_temp2 <- B$N_females
 
 f_temp2 %>%    
   as.data.frame() %>% 
   mutate(totalGE90 = (V6+ V7 + V8 + V9 + V10 + V11 +V12 +V13 +V14 +V15 +V16)/1000000) -> f_temp2_sum
 tail(f_temp2_sum)
+# mature females figure --------
+f_temp2_sum %>% 
+  select(totalGE90) %>% 
+  mutate(year = c(1975:2022)) %>% 
+  ggplot(aes(year, totalGE90)) +
+  geom_line(lwd = 1) +
+  scale_y_continuous(expand = c(0,0)) +
+  ylim(0, max(f_temp2_sum$totalGE90) +10)+
+  #scale_y_continuous(expand = c(0, 0))
+  expand_limits(y=0) +
+  #scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0))
+  #geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
+  #           lty = c("solid", "dashed"))+
+  #geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
+  #          hjust = -0.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
+  ggtitle("Model estimated (21.1b) mature female abundance") +
+  ylab("Mature female abundance (>90mm CL)") + xlab("Year") +
+  .THEME #+ theme(legend.position = c(0.8, 0.85))
+
+ggsave(paste0(.FIGS, "PRESENTATION_mature_female_abundance_211b.png"), width = 9, height =5)
+ggsave(paste0(.FIGS, "PRESENTATION_mature_female_abundance_211b_v2.png"), width = 6, height =6.5)
 
 # model 22.0 mature females --------------
 f_temp <- C$N_females_mature

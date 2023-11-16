@@ -1,5 +1,18 @@
 # GMACS read me 
 
+# update 3-9-2023
+In folder you need: 
+'lib' folder
+'include' folder
+make.bat
+personal.tpl
+gmacsbase.tpl
+
+navigate using ADMB shell CMD to the folder that the above are stored. Once there type "make.bat".
+This should run the make file and create the gmacs.exe 
+
+Once the gmacs.exe is created it has to be in the folder with the input files for each model run. See model run specfic readme files for those instructions.
+
 # compile GMACS 
 
 - open command line shell to folder with GMACS files - library files plus, gmacsbase.tpl and personal.tpl

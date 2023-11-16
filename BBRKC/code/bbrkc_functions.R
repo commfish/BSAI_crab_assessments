@@ -2,7 +2,8 @@
 # Functions created for BBRKC figures see Jie_cmn_files.R for more context
 
 ## bubbleplot of residualts ----------
-# see bubleplot-m.r 
+## !!!! old inherited base code ---
+# see bubleplot-m.r  
 bubbleplot_resid <- function(letter_m, sex, ltitle = "Model")
 {
   if(sex == "male"){
@@ -51,6 +52,58 @@ bubbleplot_resid <- function(letter_m, sex, ltitle = "Model")
   # p <- p + theme(legend.position="top");
   print(p);
 }
+
+# jie's read function for GMACS output ---------------
+read_rep <- function(fn)
+{
+  options(warn = -1) # Suppress the NA message in the coercion to double
+  repfile <- scan(fn, what = "character", flush = TRUE, blank.lines.skip = FALSE, quiet = TRUE, na.strings = c("nan","-nan"))
+  #repfile <- scan(fn, what = "character", flush = TRUE, blank.lines.skip = FALSE, quiet = TRUE)
+  inan <- which(is.na(repfile)) # Identify any nan entries so that they are not picked up as objects
+  idx <- sapply(as.double(repfile), is.na)
+  idx[inan] <- FALSE
+  vnam <- repfile[idx] # list names
+  nv <- length(vnam) # number of objects
+  A <- list()
+  ir <- 0
+  for (i in 1:nv)
+  {
+    ir <- match(vnam[i], repfile)
+    if (i != nv)
+    {
+      irr <- match(vnam[i+1], repfile)
+    } else {
+      irr <- length(repfile) + 1 # next row
+    }
+    dum <- NA
+    if (irr-ir == 2)
+    {
+      dum <- as.double(scan(fn, skip = ir, nlines = 1, quiet = TRUE, what = ""))
+    }
+    if (irr-ir > 2)
+    {
+      # ncols <- 0
+      # irows <- ir:irr-1
+      # for(j in irows)
+      # {
+      #       tmp=as.double(scan(fn,skip=j,nlines=1,quiet=TRUE,what=""))
+      #       if(length(tmp)>ncols) ncols <- length(tmp)
+      #       #print(paste(1:ncols))
+      # }
+      # cname <- paste(1:ncols)
+      # dum=as.matrix(read.table(fn,skip=ir,nrow=irr-ir-1,fill=TRUE,col.names=cname))
+      # cat("\n ir ",ir," irr ",irr)
+      dum <- as.matrix(read.table(fn, skip = ir, nrow = irr-ir-1, fill = TRUE, row.names = NULL))
+    }
+    if (is.numeric(dum)) # Logical test to ensure dealing with numbers
+    {
+      A[[vnam[i]]] <- dum
+    }
+  }
+  options(warn = 0)
+  return(A)
+}
+
 
 
 # size comp plotting to include season as a divider ------------------
@@ -134,7 +187,7 @@ plot_size_comps_kjp <-
     }
   }
 
-
+#  get size comps --------------
 .get_sizeComps_df_kjp <- function(M)  
 {
   n <- length(M)
@@ -222,7 +275,7 @@ plot_size_comps_kjp <-
   return(ldf)
 }
 
-# natural mortality output
+# natural mortality output ------------
 .get_M_df_kjp <- function(M)
 {
   n <- length(M)
@@ -253,3 +306,437 @@ plot_size_comps_kjp <-
   return(mdf)
 }
 
+
+### recruitment -------------
+plot_rec_bb_kjp <- function (M, xlab = "Year", ylab = "Recruitment (millions of individuals)") 
+{
+  xlab <- paste0("\n", xlab)
+  ylab <- paste0(ylab, "\n")
+  mdf <- .get_recruitment_df(M) 
+  p <- ggplot(mdf)
+  if (length(M) == 1 && length(unique(mdf$sex)) == 1) {
+    p <- p + geom_line(aes(x = year, y = exp(log_rec)))
+  }
+  else if (length(M) != 1 && length(unique(mdf$sex)) == 1) {
+    p <- p + geom_line(aes(x = year, y = exp(log_rec), col = Model))
+  }
+  else if (length(M) == 1 && length(unique(mdf$sex)) != 1) {
+    p <- p + geom_line(aes(x = year, y = exp(log_rec), col = sex))
+  }
+  else {
+  }
+  p <- p + labs(x = xlab, y = ylab)
+  if (!.OVERLAY) 
+    p <- p + facet_wrap(~Model)
+  if (length(unique(mdf$sex)) > 1) 
+    p <- p + geom_line(aes(x = year, y = exp(log_rec), col = Model))
+    p <- p + facet_wrap(~sex, ncol = 1)
+  print(p + .THEME)
+}
+
+# trawl survey fit seperate out males and females ------
+plot_cpue_kjp <- function(M, subsetby = "", psex = "", xlab = "Year", ylab = "CPUE", slab = "Sex", ShowEstErr = FALSE, logy = FALSE)
+{
+  mdf <- .get_cpue_df(M)
+  if (subsetby != "") mdf <- subset(mdf, fleet == subsetby)
+  if (psex != "") mdf <- subset(mdf, sex == psex)
+  
+  if (logy) {
+    mdf$cpue <- log(mdf$cpue)
+    mdf$lb <- log(mdf$lb)
+    mdf$ub <- log(mdf$ub)
+    mdf$lbe <- log(mdf$lbe)
+    mdf$ube <- log(mdf$ube)
+    mdf$pred <- log(mdf$pred)
+    ylab <- paste0("log(", ylab, ")")
+  }
+  
+  xlab <- paste0("\n", xlab)
+  ylab <- paste0(ylab, "\n")
+  
+  p  <- ggplot(mdf, aes(year, cpue)) +
+    expand_limits(y = 0) +
+    geom_pointrange(aes(year, cpue, ymax = ub, ymin = lb), col = "black")
+  
+  if (ShowEstErr) {
+    if (length(M) == 1 && length(unique(mdf$sex)) == 1) {
+      p  <- p + geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe), color = "red", shape = 1, linetype = "dotted", position = position_dodge(width = 1))
+    } else if (length(M) != 1 && length(unique(mdf$sex)) == 1) {
+      p  <- p + geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe, col = Model), shape = 1, linetype = "dotted", position = position_dodge(width = 1))
+    } else if (length(M) == 1 && length(unique(mdf$sex)) != 1) {
+      p  <- p + geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe, col = sex), shape = 1, linetype = "dotted", position = position_dodge(width = 1))
+    } else {
+      p  <- p + geom_pointrange(aes(year, cpue, ymax = ube, ymin = lbe, col = Model), shape = 1, linetype = "dotted", position = position_dodge(width = 1))
+    }
+  }
+  
+  if (.OVERLAY) {
+    if (length(M) == 1 && length(unique(mdf$sex)) == 1) {
+      p <- p + geom_line(data = mdf, aes(year, pred)) +
+        facet_wrap(~fleet, scales = "free_y")
+    } else if (length(M) != 1 && length(unique(mdf$sex)) == 1) {
+      p <- p + geom_line(data = mdf, aes(year, pred, color = Model, linetype = Model)) +
+        facet_wrap(~fleet, scales = "free_y")
+    } else if (length(M) == 1 && length(unique(mdf$sex)) != 1) {
+      p <- p + geom_line(data = mdf, aes(year, pred, color = sex)) + labs(col = slab) +
+        facet_wrap(~fleet + sex, scales = "free_y")
+    } else {
+      p <- p + geom_line(data = mdf, aes(year, pred, color = Model, linetype = Model)) +
+        facet_wrap(~fleet + sex, scales = "free_y")
+    }
+  } else {
+    p  <- p + geom_line(data = mdf, aes(year, pred))
+    p  <- p + facet_wrap(~fleet + sex + Model, scales = "free_y")
+  }
+  
+  p  <- p + labs(x = xlab, y = ylab)
+  print(p + .THEME + theme(legend.position=c(.7,.85)))
+}
+
+# selectivity separate out fleets ------
+plot_selectivity_kjp <- function (M, subsetby = "", ctype = "", xlab = "Mid-point of size class (mm)", ylab = "Selectivity", 
+                                   tlab = "Type", ilab = "Period year", nrow = NULL, 
+          ncol = NULL, legend_loc = c(1.05, 0.05)) 
+{
+  xlab <- paste0("\n", xlab)
+  ylab <- paste0(ylab, "\n")
+  mdf <- .get_selectivity_df(M)
+  mdf <- mdf[!mdf$sex %in% "Aggregate", ]
+  if (subsetby != "") mdf <- subset(mdf, fleet == subsetby)
+  if (ctype != "") mdf <- subset(mdf, type == subsetby)
+  
+  ncol <- length(unique(mdf$fleet))
+  nrow <- length(unique(mdf$Model))
+  nrow_sex <- length(unique(mdf$sex))
+  p <- ggplot(mdf) + expand_limits(y = c(0, 1))
+  if (.OVERLAY) {
+    if(ctype != "") {
+      p <- p + geom_line(aes(variable, value, col = factor(year), 
+                             linetype = Model))
+    }
+    else {
+      p <- p + geom_line(aes(variable, value, col = factor(year), 
+                           linetype = type))
+    }
+    if (length(M) == 1 && length(unique(mdf$sex)) == 1) {
+      p <- p + facet_wrap(~fleet, nrow = nrow, ncol = ncol)
+    }
+    else if (length(M) != 1 && length(unique(mdf$sex)) == 
+             1) {
+      p <- p + facet_wrap(~Model + fleet, nrow = nrow, 
+                          ncol = ncol)
+    }
+    else if (length(M) == 1 && length(unique(mdf$sex)) != 
+             1) {
+      p <- p + facet_wrap(~fleet + sex, ncol = nrow_sex, 
+                          nrow = ncol)
+    }
+    else if (ctype != ""){
+      p <- p + facet_grid(sex ~ fleet, margins = FALSE)
+    }
+    else { 
+      #if (ctype == 'Capture'){
+     #   p <- p + facet_grid(sex ~ fleet, margins = FALSE)
+     # }
+     # else {
+      p <- p + facet_grid(sex + fleet ~ Model, margins = FALSE)
+     # }
+    }
+  }
+  else {
+    p <- p + geom_line(aes(variable, value, col = factor(year), 
+                           linetype = sex), alpha = 0.5)
+    p <- p + facet_wrap(~Model + fleet + type, nrow = nrow, 
+                        ncol = ncol)
+  }
+  p <- p + labs(y = ylab, x = xlab, col = ilab, linetype = tlab) + 
+    scale_linetype_manual(values = c("solid", "dashed", 
+                                     "dotted")) + .THEME
+  p <- p + theme(strip.text.x = element_text(margin = margin(1, 
+                                                             0, 1, 0)), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+                 panel.border = element_blank(), panel.background = element_blank(), 
+                 strip.background = element_rect(color = "white", 
+                                                 fill = "white"))
+  print(p)
+}
+
+# size composition residuals by fleet -------------------
+plot_size_comps_res_kjp <- function (M, subsetby = "", ncol = 1, xlab = "Year", ylab = "Mid-point of size-class (mm)") 
+{
+  seas <- NULL
+  xlab <- paste0(xlab, "\n")
+  ylab <- paste0(ylab, "\n")
+  mdf <- .get_sizeComps_df(M) %>% reshape2::melt(id = c("model", 
+                                                        "year", "seas", "fleet", "sex", 
+                                                        "type", "shell", "maturity", "nsamp", 
+                                                        "variable", "value", "pred", "resd")) %>% 
+    dplyr::mutate(seas = paste("Season", seas))
+  if (subsetby != "") mdf <- subset(mdf, fleet == subsetby)
+  
+  p <- ggplot(data = mdf) + geom_point(aes(factor(year), variable, 
+                                           col = factor(sign(resd)), size = abs(resd)), alpha = 0.6) + 
+    scale_size_area(max_size = 10) + labs(x = xlab, y = xlab, 
+                                          col = "Sign", size = "Residual") + facet_wrap(fleet ~ 
+                                                                                          seas, scales = "free_x", ncol = ncol) +
+                                              facet_wrap(sex ~ fleet, scales = "free_x", ncol = ncol) + .THEME + 
+    theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
+  print(p)
+}
+
+# selectivity separate out fleets ------
+plot_selectivity_kjp <- function (M, subsetby = "", ctype = "", xlab = "Mid-point of size class (mm)", ylab = "Selectivity", 
+                                   tlab = "Type", ilab = "Period year", nrow = NULL, 
+          ncol = NULL, legend_loc = c(1.05, 0.05)) 
+{
+  xlab <- paste0("\n", xlab)
+  ylab <- paste0(ylab, "\n")
+  mdf <- .get_selectivity_df(M)
+  mdf <- mdf[!mdf$sex %in% "Aggregate", ]
+  if (subsetby != "") mdf <- subset(mdf, fleet == subsetby)
+  if (ctype != "") mdf <- subset(mdf, type == subsetby)
+  
+  ncol <- length(unique(mdf$fleet))
+  nrow <- length(unique(mdf$Model))
+  nrow_sex <- length(unique(mdf$sex))
+  p <- ggplot(mdf) + expand_limits(y = c(0, 1))
+  if (.OVERLAY) {
+    if(ctype != "") {
+      p <- p + geom_line(aes(variable, value, col = factor(year), 
+                             linetype = Model))
+    }
+    else {
+      p <- p + geom_line(aes(variable, value, col = factor(year), 
+                           linetype = type))
+    }
+    if (length(M) == 1 && length(unique(mdf$sex)) == 1) {
+      p <- p + facet_wrap(~fleet, nrow = nrow, ncol = ncol)
+    }
+    else if (length(M) != 1 && length(unique(mdf$sex)) == 
+             1) {
+      p <- p + facet_wrap(~Model + fleet, nrow = nrow, 
+                          ncol = ncol)
+    }
+    else if (length(M) == 1 && length(unique(mdf$sex)) != 
+             1) {
+      p <- p + facet_wrap(~fleet + sex, ncol = nrow_sex, 
+                          nrow = ncol)
+    }
+    else if (ctype != ""){
+      p <- p + facet_grid(sex ~ fleet, margins = FALSE)
+    }
+    else { 
+      #if (ctype == 'Capture'){
+     #   p <- p + facet_grid(sex ~ fleet, margins = FALSE)
+     # }
+     # else {
+      p <- p + facet_grid(sex + fleet ~ Model, margins = FALSE)
+     # }
+    }
+  }
+  else {
+    p <- p + geom_line(aes(variable, value, col = factor(year), 
+                           linetype = sex), alpha = 0.5)
+    p <- p + facet_wrap(~Model + fleet + type, nrow = nrow, 
+                        ncol = ncol)
+  }
+  p <- p + labs(y = ylab, x = xlab, col = ilab, linetype = tlab) + 
+    scale_linetype_manual(values = c("solid", "dashed", 
+                                     "dotted")) + .THEME
+  p <- p + theme(strip.text.x = element_text(margin = margin(1, 
+                                                             0, 1, 0)), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+                 panel.border = element_blank(), panel.background = element_blank(), 
+                 strip.background = element_rect(color = "white", 
+                                                 fill = "white"))
+  print(p)
+}
+
+## selectivity just capture and by fleet ----
+plot_selectivity_kjp_capture <- function (M, subsetby = "", ctype = "Capture", xlab = "Mid-point of size class (mm)", ylab = "Selectivity", 
+                                  tlab = "Model", ilab = "Period year", nrow = NULL, 
+                                  ncol = NULL, legend_loc = c(1.05, 0.05)) 
+{
+  xlab <- paste0("\n", xlab)
+  ylab <- paste0(ylab, "\n")
+  mdf <- .get_selectivity_df(M)
+  mdf <- mdf[!mdf$sex %in% "Aggregate", ]
+  if (subsetby != "") mdf <- subset(mdf, fleet == subsetby)
+  if (ctype != "") mdf <- subset(mdf, type == subsetby)
+  
+  ncol <- length(unique(mdf$fleet))
+  #nrow <- length(unique(mdf$Model))
+  nrow_sex <- length(unique(mdf$sex))
+  p <- ggplot(mdf) + expand_limits(y = c(0, 1))
+  
+    
+  p <- p + geom_line(aes(variable, value, col = factor(year), 
+                             linetype = Model))
+  p <- p + facet_grid(fleet ~ sex, margins = FALSE)
+    
+  p <- p + labs(y = ylab, x = xlab, col = ilab, linetype = tlab) + .THEME
+    #scale_linetype_manual(values = c("solid", "dashed", 
+                                     #"dotted")) + .THEME
+  p <- p + theme(strip.text.x = element_text(margin = margin(1, 
+                                                             0, 1, 0)), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+                 panel.border = element_blank(), panel.background = element_blank(), 
+                 strip.background = element_rect(color = "white", 
+                                                 fill = "white"))
+  print(p)
+}
+
+
+#ggplot(mdf) + expand_limits(y = c(0, 1)) +
+#  geom_line(aes(variable, value, col = factor(year), linetype = Model))
+
+# size composition residuals by fleet -------------------
+plot_size_comps_res_kjp <- function (M, subsetby = "", ncol = 1, xlab = "Year", ylab = "Mid-point of size-class (mm)") 
+{
+  seas <- NULL
+  xlab <- paste0(xlab, "\n")
+  ylab <- paste0(ylab, "\n")
+  mdf <- .get_sizeComps_df(M) %>% reshape2::melt(id = c("model", 
+                                                        "year", "seas", "fleet", "sex", 
+                                                        "type", "shell", "maturity", "nsamp", 
+                                                        "variable", "value", "pred", "resd")) %>% 
+    dplyr::mutate(seas = paste("Season", seas))
+  if (subsetby != "") mdf <- subset(mdf, fleet == subsetby)
+  
+  p <- ggplot(data = mdf) + geom_point(aes(factor(year), variable, 
+                                           col = factor(sign(resd)), size = abs(resd)), alpha = 0.6) + 
+    scale_size_area(max_size = 10) + labs(x = xlab, y = xlab, 
+                                          col = "Sign", size = "Residual") + facet_wrap(fleet ~ 
+                                                                                          seas, scales = "free_x", ncol = ncol) +
+                                              facet_wrap(sex ~ fleet, scales = "free_x", ncol = ncol) + .THEME + 
+    theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
+  print(p)
+}
+
+# molt prob male only -------------
+plot_molt_prob_sex <- function (M, subsetby = "", xlab = "Mid-point of size class (mm)", ylab = "Probability of molting") 
+{
+  xlab <- paste0("\n", xlab)
+  ylab <- paste0(ylab, "\n")
+  mdf <- .get_molt_prob_df(M)
+  if (subsetby != "") mdf <- subset(mdf, Sex == subsetby)
+  
+  p <- ggplot(mdf, aes(x = Length, y = MP)) + expand_limits(y = c(0, 
+                                                                  1)) + labs(x = xlab, y = ylab)
+  #if (length(M) == 1 && length(unique(mdf$Sex)) == 1) {
+  #  p <- p + geom_line() + geom_point()
+  #}
+  #else if (length(M) != 1 && length(unique(mdf$Sex)) == 1) {
+  #  p <- p + geom_line(aes(col = Model, linetype = Year)) + 
+  #    geom_point(aes(col = Model, shape = Year))
+  #}
+  #else if (length(M) == 1 && length(unique(mdf$Sex)) != 1) {
+  #  p <- p + geom_line(aes(linetype = Sex, col = Year)) + 
+  #    geom_point(aes(col = Year, shape = Sex))
+  #}
+  #else {
+    p <- p + geom_line(aes(linetype = Model, col = Year)) + 
+      geom_point(aes(linetype = Model, col = Year)) + facet_wrap(~Sex)
+  #}
+  print(p + .THEME)
+}
+
+
+# save speces for each model -----------------
+save_specs_out <- function (M){
+  n <- length(M)
+  mdf <- NULL
+  for (i in 1:n)
+  {
+    A <- M[[i]]
+    round(A$spr_bmsy*A$spr_depl/1000, 2) -> mmb_2223
+    round(A$spr_bmsy/1000, 2) -> b_35 # also B35%
+    round(A$sd_fmsy[1], 2) -> f_35 # F35%
+    round(A$sd_fofl[1], 2) -> f_ofl # Fofl
+    round(A$spr_cofl/1000, 2) -> ofl_2223
+    round(A$spr_cofl/1000*0.80, 2) -> abc_2223
+    round((A$spr_rbar[1] + A$spr_rbar[2])/1000000, 2) -> avg_rec
+    specs <- c(mmb_2223, b_35, f_35, f_ofl, ofl_2223, avg_rec)
+    cnames <- c("MMB", "B35%", "F35%", "Fofl", "OFL", "avg_rec")
+    df <- data.frame(Model=names(M)[i], cnames, specs)
+    mdf <- rbind(mdf, df)
+  }
+  return(mdf)
+}
+  
+# Detailed save specs for each model -----------------
+save_specs_out_more <- function (M){
+  n <- length(M)
+  mdf <- NULL
+  for (i in 1:n)
+  {
+    A <- M[[i]]
+    round(A$spr_bmsy*A$spr_depl/1000, 2) -> mmb_2223
+    round(A$spr_bmsy/1000, 2) -> b_35 # also B35%
+    round(A$spr_bmsy*A$spr_depl/1000, 2) -> mmb_2223
+    round(A$spr_depl, 2) -> b_bmsy # also B over Bmsy
+    round(A$sd_fmsy[1], 2) -> f_35 # F35%
+    round(A$sd_fofl[1], 2) -> f_ofl # Fofl
+    round(A$spr_cofl/1000, 2) -> ofl_2223
+    round(A$spr_cofl/1000*0.80, 2) -> abc_2223
+    round((A$spr_rbar[1] + A$spr_rbar[2])/1000000, 2) -> avg_rec
+    round((A$M[1]), 2) -> maleM
+    specs <- c(mmb_2223, b_35, b_bmsy, f_35, f_ofl, ofl_2223, avg_rec, maleM)
+    cnames <- c("MMB", "B35%", "B/Bmsy","F35%", "Fofl", "OFL", "avg_rec", "maleM")
+    df <- data.frame(Model=names(M)[i], cnames, specs)
+    mdf <- rbind(mdf, df)
+  }
+  return(mdf)
+}
+  
+### catch function to do by fleet on seperate figures -----
+
+plot_catch_kjp <- function (M, plot_res = FALSE, scales = "free_y", xlab = "Year", 
+          ylab = "Catch", mlab = "Model", x_leg = 0.9, 
+          y_leg = 0.7) 
+{
+  xlab <- paste0("\n", xlab)
+  ylab <- paste0(ylab, "\n")
+  mdf <- .get_catch_df(M)
+  mdf$units[mdf$units == 1] <- "Units: biomass"
+  mdf$units[mdf$units == 2] <- "Units: numbers"
+  p <- ggplot(mdf, aes(x = year, y = observed)) + geom_bar(stat = "identity", 
+                                                           position = "dodge", alpha = 0.15) + geom_linerange(aes(x = year, 
+                                                                                                                  y = observed, ymax = ub, ymin = lb, position = "dodge"), 
+                                                                                                              size = 0.2, alpha = 0.5, col = "black") + labs(x = xlab, 
+                                                                                                                                                             y = ylab)
+  if (.OVERLAY) {
+    if (length(M) == 1 && length(unique(mdf$sex)) == 1) {
+      p <- p + geom_line(aes(x = as.integer(year), y = predicted), 
+                         alpha = 0.4)
+      if (scales %in% "fixed") {
+        p <- p + facet_grid(units ~ fleet + type, scales = "free_y")
+      }
+      else {
+        p <- p + facet_wrap(~fleet + type + units, scales = scales)
+      }
+    }
+    else if (length(M) != 1 && length(unique(mdf$sex)) == 
+             1) {
+      p <- p + geom_line(aes(x = as.integer(year), y = predicted, 
+                             col = model), alpha = 0.4) + facet_wrap(~fleet + 
+                                                                       type + units, scales = scales) + labs(col = mlab)
+    }
+    else if (length(M) == 1 && length(unique(mdf$sex)) != 
+             1) {
+      p <- p + geom_line(aes(x = as.integer(year), y = predicted), 
+                         alpha = 0.4) + facet_wrap(~fleet + sex + type + 
+                                                     units, scales = scales)
+    }
+    else {
+      p <- p + geom_line(aes(x = as.integer(year), y = predicted, 
+                             col = model), alpha = 0.4) + facet_wrap(~fleet + 
+                                                                       sex + type + units, scales = scales) + labs(col = mlab)
+    }
+  }
+  else {
+    p <- p + geom_line(aes(x = as.integer(year), y = predicted, 
+                           col = model), alpha = 0.4)
+    p <- p + facet_wrap(~model + sex + fleet + type, scales = scales)
+  }
+  print(p + .THEME + theme(legend.position = c(x_leg, y_leg)))
+}
+  
+  

@@ -1,5 +1,5 @@
 # k.palof katie.palof@alaska.gov
-# date updated: 8-16-2022
+# date updated: 8-16-2022 / 8-15-23
 
 # Data manipulation for EBS trawl survey results to put into BBRKC model
 
@@ -7,10 +7,10 @@
 # by_weight - 
 # "Crab Data" - tab
 # "EBS Trawl Survey" - "Summary Reports" - "Abundance/BIomass, Size Group Matrix" - 
-# drop down menu - 1975 to current year (2019) - red King Crab  - District - "BB"
-# click "export" Data - csv , add current year to file name
+# drop down menu - 1975 to current year (2023) - red King Crab  - District - "BB"
+# click "export" Data - csv 
 # for "by_weight"
-# save to 'BBRKC/data/trawl_survey/'
+# save to 'BBRKC/data/"cur_yr"/survey/'
 
 # size_group 
 # "EBS Trawl Survey" - "Large Data Download" - "Abundance/BIomass, Large Data Download" - 
@@ -18,7 +18,7 @@
 # click "export" Data - csv 
 
 # haul data 
-# "EBS Crab Survey" - "Large Data Download" - "Haul Data, Large Data Download" - 
+# "EBS Trawl Survey" - "Large Data Download" - "Haul Data, Large Data Download" - 
 # drop down menu - Red King Crab
 
 ## effective sample size data
@@ -31,17 +31,19 @@ library(dplyr)
 library(reshape)
 library(ggridges)
 
-cur_yr = 2022 # Current survey data 
+cur_yr = 2023 # Current survey data 
 
 # data -----
 # data files from AKFIN are saved as a different type of .csv open files and resave as csv general
-by_weight <- read.csv(paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/EBSCrab_AB_Sizegroup_', cur_yr, '.csv'))
+by_weight <- read.csv(paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/EBSCrab_AB_Sizegroup.csv'))
 # need to ignore first 5 rows here 
-haul_rkc <- read.csv(paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/EBSCrab_Haul_', cur_yr, '.csv'))
+haul_rkc <- read.csv(paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/EBSCrab_Haul.csv'), 
+                     skip = 5)
 #haul_bkc <- read.csv("C:/Users/kjpalof/Documents/SMBKC/DATA_SMBKC/EBSCrab_Haul_bkc_7519.csv")
 # size group file comes out with first 7 rows as identifiers. remove these, manually for now, automate later
 #size_group <- read.csv("C:/Users/kjpalof/Documents/SMBKC/DATA_SMBKC/EBSCrab_Abundance_Biomass_2019.csv")
-size_group <- read.csv(paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/EBSCrab_Abundance_Biomass_', cur_yr, '.csv'))
+size_group <- read.csv(paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/EBSCrab_Abundance_Biomass.csv'), 
+                       skip = 7)
 
 # survey biomass cleanup/results ---------
 head(by_weight)
@@ -59,14 +61,43 @@ biomass_mt %>%
 write.csv(biomass_mt, paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/survey_biomass_mt2.csv'), 
             row.names = FALSE)
 
-## Length comps - survey -------------
+biomass_mt %>% 
+  filter(SURVEY_YEAR >= cur_yr-1) %>% 
+  filter(SIZE_GROUP == "FEMALE_GE65" | SIZE_GROUP == "MALE_GE65")
+  
+# use combined male and female CV - per Jie's instructions
+biomass_mt %>% 
+  filter(SURVEY_YEAR >= cur_yr-1) %>% 
+  filter(SIZE_GROUP == "MALE_FEMALE_GE65")
+
+# mature female need just those GE90 --------------
+bbrkc_area_swept %>% 
+  filter(SIZE_GROUP == "FEMALE_GE90") %>% 
+  dplyr::select(SURVEY_YEAR, SPECIES_NAME, SIZE_GROUP, ABUNDANCE, ABUNDANCE_CV,  
+                BIOMASS_LBS, BIOMASS_LBS_CV ,BIOMASS_MT, BIOMASS_MT_CV, BIOMASS_MT_CI) -> Fbiomass_mt 
+## Length comps - survey see Tyler's code-------------
 head(size_group)
 
 head(haul_rkc)
 #unique(size_group$SIZE_GROUP)
 unique(haul_rkc$LENGTH_1MM)
 
-## see Tyler's code here ---- update
+
+# see Tyler's code here ---- update
+# size comps in "female_race_size_comp.txt" - from Tyler - where is he calculating this???
+
+## CV's for survey data in LBA - >=90 (just females currently)-----
+bbrkc_area_swept %>% 
+  filter(SIZE_CLASS_MM == "GE90") %>% 
+  dplyr::select(SURVEY_YEAR, SPECIES_NAME, SIZE_GROUP, ABUNDANCE, ABUNDANCE_CV, ABUNDANCE_CI, 
+                BIOMASS_LBS, BIOMASS_LBS_CV ,BIOMASS_MT, BIOMASS_MT_CV, BIOMASS_MT_CI) -> biomass2_mt 
+head(biomass2_mt)
+biomass2_mt %>% 
+  select(SURVEY_YEAR, SIZE_GROUP, ABUNDANCE, ABUNDANCE_CV, ABUNDANCE_CI) %>% 
+  mutate(ABUNDANCE = ABUNDANCE/1000000, 
+         ABUNDANCE_CI = ABUNDANCE_CI/1000000) -> LBA_survey_CV
+write.csv(LBA_survey_CV, paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/LBA_FE_survey_CV.csv'), 
+          row.names = FALSE)
 
 ## sample size for length comps??? ----------------
 head(haul_rkc) # how to determine which ones are bb???
@@ -75,7 +106,7 @@ head(haul_rkc) # how to determine which ones are bb???
 
 # 2021 sampled
 haul_rkc %>% 
-  filter(AKFIN_SURVEY_YEAR == 2021 & MID_LATITUDE > 54.6) %>% 
+  filter(AKFIN_SURVEY_YEAR == 2023 & MID_LATITUDE > 54.6) %>% 
   filter(MID_LATITUDE < 58.65 & MID_LONGITUDE < -168) %>% 
   dplyr::select(AKFIN_SURVEY_YEAR, GIS_STATION, AREA_SWEPT, SPECIES_NAME, SEX, LENGTH, SAMPLING_FACTOR) %>% 
   filter(LENGTH >= 65) %>% 
@@ -94,10 +125,37 @@ size_group %>%
   filter(SIZE_CLASS_MM > 89) %>% 
   mutate(size_bin = ifelse(SIZE_CLASS_MM >140, 140, floor(SIZE_CLASS_MM/5)*5)) %>% 
   group_by(SURVEY_YEAR, size_bin) %>% 
-  summarise(bin_abun = sum(ABUNDANCE)) %>% 
+  summarise(bin_abun = sum(ABUNDANCE)/1000) %>% 
   as.data.frame()
-## this is input for the LBA model for 'surveyf.dat'
+## this is input for the LBA model for 'surveyf.dat' !! LBA !!
 
+size_group %>% 
+  filter(SURVEY_YEAR >= cur_yr-1) %>% 
+  filter(SEX == "FEMALE") %>% 
+  filter(SIZE_CLASS_MM > 89) %>% 
+  group_by(SURVEY_YEAR) %>% 
+  summarise(abun = sum(ABUNDANCE)/1000)
+
+# males 95 to 160 
+size_group %>% 
+  filter(SURVEY_YEAR >= cur_yr-1) %>% 
+  filter(SEX == "MALE") %>% 
+  filter(SIZE_CLASS_MM > 94) %>% 
+  group_by(SURVEY_YEAR) %>% 
+  summarise(abun = sum(ABUNDANCE)/1000) -> abund_males
+# use this in bbrkc_sizecomps.R
+# - see bbrkc_sizecomp.R file need haul data for just BB
+# mature and legal 
+#size_group %>% 
+#  filter(SURVEY_YEAR >= cur_yr-1) %>% 
+#  filter(SEX == "MALE") %>% 
+#  filter(SIZE_CLASS_MM > 119) %>% 
+#  group_by(SURVEY_YEAR) %>% 
+#  summarise(abun = sum(ABUNDANCE)/1000) 
+
+# legal size crab -------
+bbrkc_area_swept%>% 
+  filter(SURVEY_YEAR >= cur_yr-1)
 
 ### length frequency info surey ----------
 # from Cody --
@@ -134,7 +192,7 @@ p <- p + geom_density_ridges(aes(x=size_bin, y=SURVEY_YEAR, height = abund,
         axis.text.x = element_text(angle = 90)) +
   labs(x="Carapace width (mm)", y = "Female abundance in survey year")+
   xlim(25,190)
-png(paste0(here::here(), "/BBRKC/bbrkc_22f/figures/size_bins_comp_Kodiak_f_5mm.png"),height=9,width=6,res=400,units='in')
+png(paste0(here::here(), "/BBRKC/bbrkc_23f/doc/figures/size_bins_comp_Kodiak_f_5mm.png"),height=9,width=6,res=400,units='in')
 print(p)
 dev.off()
 
@@ -154,7 +212,7 @@ p <- p + geom_density_ridges(aes(x=size_bin, y=SURVEY_YEAR, height = abund,
         axis.text.x = element_text(angle = 90)) +
   labs(x="Carapace width (mm)", y = "Female abundance in survey year") +
   xlim(25,190)
-png(paste0(here::here(), "/BBRKC/bbrkc_22f/figures/size_bins_comp_Kodiak_f_5mm_LAST5.png"),height=4,width=6,res=400,units='in')
+png(paste0(here::here(), "/BBRKC/bbrkc_23f/doc/figures/size_bins_comp_Kodiak_f_5mm_LAST5.png"),height=4,width=6,res=400,units='in')
 print(p)
 dev.off()
 
@@ -183,7 +241,7 @@ p <- p + geom_density_ridges(aes(x=size_bin, y=SURVEY_YEAR, height = abund,
         axis.text.x = element_text(angle = 90)) +
   labs(x="Carapace width (mm)", y = "Male abundance in survey year") +
   xlim(25,190)
-png(paste0(here::here(), "/BBRKC/bbrkc_22f/figures/size_bins_comp_Kodiak_m_5mm.png"),height=9,width=6,res=400,units='in')
+png(paste0(here::here(), "/BBRKC/bbrkc_23f/doc/figures/size_bins_comp_Kodiak_m_5mm.png"),height=9,width=6,res=400,units='in')
 print(p)
 dev.off()
 
@@ -204,7 +262,7 @@ p <- p + geom_density_ridges(aes(x=size_bin, y=SURVEY_YEAR, height = abund,
         axis.text.x = element_text(angle = 90)) +
   labs(x="Carapace width (mm)", y = "Male abundance in survey year") +
   xlim(25,190)
-png(paste0(here::here(), "/BBRKC/bbrkc_22f/figures/size_bins_comp_Kodiak_m_5mm_LAST5.png"),height=4,width=6,res=400,units='in')
+png(paste0(here::here(), "/BBRKC/bbrkc_23f/doc/figures/size_bins_comp_Kodiak_m_5mm_LAST5.png"),height=4,width=6,res=400,units='in')
 print(p)
 dev.off()
 
@@ -232,7 +290,47 @@ kod_dat_m %>%
     geom_density_ridges(aes(height = abund), alpha= 0.25, 
                             scale = 5)
 
+# stats for current year data for SAFE executive summary---------
+# MALES 
+biomass_mt %>% 
+  filter(SIZE_GROUP == "MALE_GE65") %>% 
+  filter(SURVEY_YEAR >= 1975) %>% 
+  dplyr::select(SURVEY_YEAR, BIOMASS_MT) %>% 
+  mutate(rank = rank(BIOMASS_MT)) # 2023 4th lowest
 
+# rank since 2000
+biomass_mt %>% 
+  filter(SIZE_GROUP == "MALE_GE65") %>% 
+  filter(SURVEY_YEAR >= 2000) %>% 
+  dplyr::select(SURVEY_YEAR, BIOMASS_MT) %>% 
+  mutate(rank = rank(BIOMASS_MT), avg = mean(BIOMASS_MT))
+
+# 1975 - 2023 mean MALE survey biomass
+biomass_mt %>%  # all using biomass_mt metric tons
+  filter(SIZE_GROUP == "MALE_GE65") %>% 
+  filter(SURVEY_YEAR >= 1975) %>% 
+  mutate(LT_MEAN = mean(BIOMASS_MT), pct.LT_MEAN = BIOMASS_MT/LT_MEAN) -> biomass_mt_mean
+#avg3yr = ifelse(SURVEY_YEAR >= cur_yr -2, mean(BIOMASS_MT), 0))
+# 34.3 % of long term mean
+
+# 1975 - 2023 mean FEMALE survey biomass
+Fbiomass_mt %>%  # all using biomass_mt metric tons
+  #filter(SIZE_GROUP == "FEMALE_GE65") %>% 
+  filter(SURVEY_YEAR >= 1975) %>% 
+  mutate(LT_MEAN = mean(BIOMASS_MT), pct.LT_MEAN = BIOMASS_MT/LT_MEAN)
+# 52.3% of long term mean 
+
+# 3 year average and percent of LT mean 
+biomass_mt %>% 
+  filter(SURVEY_YEAR >= cur_yr-3) %>% # !! change to 3 here to include actual last 3 years due to missing 2020
+  summarise(mean_3yr = mean(BIOMASS_MT), pct.lt = mean_3yr/biomass_mt_mean$LT_MEAN[1])
+
+# last years percent change 
+biomass_mt %>% 
+  filter(SURVEY_YEAR >= cur_yr-2) %>% # needs to be 2 here since no 2020 survey
+  mutate(pct.change = (BIOMASS_MT[2]-BIOMASS_MT[1])/BIOMASS_MT[1],
+         pct.change2 = (BIOMASS_LBS[2]-BIOMASS_LBS[1])/BIOMASS_LBS[1],
+         pct.change3 = (ABUNDANCE[2]-ABUNDANCE[1])/ABUNDANCE[1])
 ############### nothing below this line is being used --------------------
 # male size comps
 haul_rkc %>% 
@@ -252,13 +350,13 @@ haul_rkc %>%
  
 
 
-# sample size by year
+# sample size by year - see line 44 in bbrkc_sizecomp.R, need just BB
 haul_rkc %>% 
   filter(AKFIN_SURVEY_YEAR >= cur_yr-2) %>% 
   select(AKFIN_SURVEY_YEAR, SPECIES_NAME, SEX, LENGTH_1MM, SAMPLING_FACTOR) %>% 
   filter(#SEX == 1, 
     LENGTH_1MM >= 65) %>% 
-  group_by(AKFIN_SURVEY_YEAR) %>% 
+  group_by(AKFIN_SURVEY_YEAR, SEX) %>% 
   summarise(total_samp = n()) -> samp_by_year
   
 

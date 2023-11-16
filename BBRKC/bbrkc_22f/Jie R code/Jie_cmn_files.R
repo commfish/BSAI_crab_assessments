@@ -1,18 +1,87 @@
+## Jie's code ------
+A <- read_rep("./BBRKC/bbrkc_23s/model_211b/gmacs.rep")
+B <- read_rep("./BBRKC/bbrkc_23f/model_211b/gmacs.rep")
+C <- read_rep("./BBRKC/bbrkc_23f/model_22/gmacs.rep")
+D <- read_rep("./BBRKC/bbrkc_23f/model_23_0a/gmacs.rep")
+# these need to be run before any code in 'Jie_cmn_files.R' is run
+
+### mmb 7 -----------------
+n1<-1
+n2<-1
+n3<-B$nyr-B$syr+2
+n4<-C$nyr-C$syr+2
+d0m0<-A$ssb/1000.0
+d1m0<-B$ssb/1000.0
+d2m0<-C$ssb/1000.0
+d3m0<-D$ssb/1000.0
+#d4m0<-E$ssb/1000.0
+#d5m0<-F$ssb/1000.0
+#d6m0<-G$ssb/1000.0
+#d7m0<-H$ssb/1000.0
+d0m<-c(d0m0,A$spr_bmsy*A$spr_depl/1000.0)
+d1m<-c(d1m0,B$spr_bmsy*B$spr_depl/1000.0)
+d2m<-c(d2m0,C$spr_bmsy*C$spr_depl/1000.0)
+d3m<-c(d3m0,D$spr_bmsy*D$spr_depl/1000.0)
+#d4m<-c(d4m0,E$spr_bmsy*E$spr_depl/1000.0)
+#d5m<-c(d5m0,F$spr_bmsy*F$spr_depl/1000.0)
+#d6m<-c(d6m0,G$spr_bmsy*F$spr_depl/1000.0)
+#d4bm<-c(d4bm0,G$spr_bmsy*G$spr_depl/1000.0)
+#d5m<-c(d5m0,H$spr_bmsy*H$spr_depl/1000.0)
+
+par(oma=c(3.50,4.0,1.0,1.0),tck=-0.01,xaxs="i",yaxs="i",font=1,lwd=0.75)
+par(mgp=c(1.2,1.0,0),mar=c(0,0,0,0),mfcol=c(n1,n2),xpd=FALSE)
+xat<-c(1975,1978,1981,1984,1987,1990,1993,1996,1999,2002,2005,2008,2011,2014,2017,2020,2023)
+yat<-c(0,10,20,30,40,50,60,70,80,90,100,110,120,130)
+xm<-B$syr-1
+xx<-B$nyr+2
+ym<-0
+up<-0.87
+year<-c(B$syr:(B$nyr+1))
+year1<-c(C$syr:(C$nyr+1))
+
+yx<-130.0
+plot(year,d0m[1:n3],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
+lines(year,d0m[1:n3],lty=1,lwd=2.5,col=1)
+lines(year,d1m[1:n4],lty=2,lwd=2.5,col=2)
+lines(year1,d2m[1:n4],lty=3,lwd=2.5,col=3)
+lines(year1,d3m[1:n4],lty=4,lwd=2.5,col=4)
+#lines(year1,d4m[1:n4],lty=5,lwd=2.5,col=5)
+#lines(year1,d5m[1:n4],lty=6,lwd=2.5,col=6)
+#lines(year1,d6m[1:n4],lty=7,lwd=2.5,col=7)
+#   lines(year,d5m[1:n3],lty=8,lwd=2.5,col=8)
+legend("topright",inset=0.02,c("21.1b","22.0","23.0a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3),
+       cex=c(0.8,0.8,0.8))
+#   legend("topright",inset=0.02,c("19.3d","19.3e","19.3g","21.0"),lwd=c(2.5,2.5,2.5,2.5),lty=c(1,2,3,4),col=c(1,2,3,4),cex=c(0.8,0.8,0.8,0.8))
+#   legend("topright",inset=0.02,c("19.3d","19.3e","19.3f","19.3g","19.3i","19.6"),lwd=c(2.5,2.5,2.5,2.5,2.5,2.5),lty=c(1,2,3,4,5,6),col=c(1,2,3,4,5,6),cex=c(0.8,0.8,0.8,0.8,0.8,0.8))
+#  legend("topright",inset=0.02,c("19.0a","19.3","19.3a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.8,0.8,0.8))
+axis(2,at=yat,labels=yat,outer=T,cex=1.5)
+par(mgp=c(3.0,0.75,0))
+axis(1,at=xat,labels=xat,outer=T,cex=1.5)
+box()
+yt<-c('Estimated mature male biomass (1000 t)')
+mtext(yt,2,2.8,outer=T,cex=1.0)
+mtext('Year',1,2.10,outer=T,cex=1.0)
+par(mfrow=c(1,1))
+
+
+
+
+
 
 ### mmb 5 ------------
 n1<-1
 n2<-1
-n3<-A$nyr-A$syr+2
-d0m0<-A$ssb/1000.0
-#d1m0<-I$ssb/1000.0
+n3<-B$nyr-B$syr+2
+d0m0<-B$ssb/1000.0
+#d1m0<-D$ssb/1000.0
 #d2m0<-A$ssb/1000.0
 #d3m0<-J$ssb/1000.0
 #d4m0<-K$ssb/1000.0
 #d5m0<-F$ssb/1000.0
 #d4bm0<-G$ssb/1000.0
 #d5m0<-H$ssb/1000.0
-d0m<-c(d0m0,A$spr_bmsy*A$spr_depl/1000.0)
-#d1m<-c(d1m0,B$spr_bmsy*B$spr_depl/1000.0)
+d0m<-c(d0m0,B$spr_bmsy*B$spr_depl/1000.0)
+#d1m<-c(d1m0,D$spr_bmsy*D$spr_depl/1000.0)
 #d2m<-c(d2m0,C$spr_bmsy*C$spr_depl/1000.0)
 #d3m<-c(d3m0,D$spr_bmsy*D$spr_depl/1000.0)
 #d4m<-c(d4m0,E$spr_bmsy*E$spr_depl/1000.0)
@@ -24,25 +93,25 @@ d6f<-c(rep(0,n3))
 
 par(oma=c(3.50,4.0,1.0,1.0),tck=-0.01,xaxs="i",yaxs="i",font=1,lwd=0.75)
 par(mgp=c(1.2,1.0,0),mar=c(0,0,0,0),mfcol=c(n1,n2),xpd=FALSE)
-xat<-c(1975,1978,1981,1984,1987,1990,1993,1996,1999,2002,2005,2008,2011,2014,2017,2020)
+xat<-c(1975,1978,1981,1984,1987,1990,1993,1996,1999,2002,2005,2008,2011,2014,2017,2020, 2023)
 yat<-c(0,10,20,30,40,50,60,70,80,90,100,110,120,130)
-xm<-A$syr-1
-xx<-A$nyr+2
+xm<-B$syr-1
+xx<-B$nyr+2
 ym<-0
 up<-0.87
-year<-c(A$syr:(A$nyr+1))
+year<-c(B$syr:(B$nyr+1))
 
 yx<-130.0
 plot(year,d0m[1:n3],axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
 lines(year,d0m[1:n3],lty=1,lwd=2.5,col=1)
 lines(year,d1m[1:n3],lty=2,lwd=2.5,col=2)
-lines(year,d2m[1:n3],lty=3,lwd=2.5,col=3)
-lines(year,d3m[1:n3],lty=4,lwd=2.5,col=4)
-lines(year,d4m[1:n3],lty=5,lwd=2.5,col=5)
+#lines(year,d2m[1:n3],lty=3,lwd=2.5,col=3)
+#lines(year,d3m[1:n3],lty=4,lwd=2.5,col=4)
+#lines(year,d4m[1:n3],lty=5,lwd=2.5,col=5)
 #   lines(year,d5m[1:n3],lty=6,lwd=2.5,col=6)
 #   lines(year,d4bm[1:n3],lty=7,lwd=2.5,col=7)
 #   lines(year,d5m[1:n3],lty=8,lwd=2.5,col=8)
-legend("topright",inset=0.02,c("21.1","21.1a","21.1b","22.1","22.1a"),lwd=c(2.5,2.5,2.5,2.5,2.5),lty=c(1,2,3,4,5),col=c(1,2,3,4,5),cex=c(0.8,0.8,source("0.8,0.8,0.8")))
+legend("topright",inset=0.02,c("21.1b","22.1","22.1a"),lwd=c(2.5,2.5,2.5,2.5,2.5),lty=c(1,2,3,4,5),col=c(1,2,3,4,5),cex=c(0.8,0.8,source("0.8,0.8,0.8")))
 
 #   legend("topright",inset=0.02,c("19.3d","19.3e","19.3g","21.0"),lwd=c(2.5,2.5,2.5,2.5),lty=c(1,2,3,4),col=c(1,2,3,4),cex=c(0.8,0.8,0.8,0.8))
 #   legend("topright",inset=0.02,c("19.3d","19.3e","19.3f","19.3g","19.3i","19.6"),lwd=c(2.5,2.5,2.5,2.5,2.5,2.5),lty=c(1,2,3,4,5,6),col=c(1,2,3,4,5,6),cex=c(0.8,0.8,0.8,0.8,0.8,0.8))
@@ -86,7 +155,7 @@ lines(A$mid_points,d1m[1:n3],lty=1,lwd=2.5,col=1)
 lines(A$mid_points,d2m[1:n3],lty=3,lwd=2.5,col=3)
 lines(A$mid_points,d2f[1:n3],lty=2,lwd=2.5,col=2)
 lines(A$mid_points,d2g[1:n3],lty=4,lwd=2.5,col=4)
-legend("bottomright",inset=0.01,cex = 0.7, c("Model 21.1b 1975-81","Model 21.1b 1982-2022","Model 22.0 1985-2022","Model 22.0a 1985-2022"),lwd=c(2.5,2.5,2.5,2.5),lty=c(1,2,3,4),col=c(1,2,3,4))
+legend("bottomright",inset=0.01,cex = 0.7, c("Model 21.1b 1975-81","Model 21.1b 1982-2022","Model 22.0 1985-2022","Model 23.0a 1985-2022"),lwd=c(2.5,2.5,2.5,2.5),lty=c(1,2,3,4),col=c(1,2,3,4))
 axis(2,at=yat,labels=yatv,outer=T,cex=1.0)
 #  axis(1,at=xat,labels=xat,outer=T,cex=1.0,las=3)
 axis(1,at=xat,labels=xat,outer=T,cex=1.0)
@@ -205,7 +274,7 @@ box()
 mtext('Length (mm)',1,2.10,outer=T,cex=1.0)
 par(mfrow=c(1,1))
 
-#### sel-directedpot (model 22.0a)-------
+#### sel-directedpot (model 23.0a)-------
 
 #### molt-prob (model 21.1b) --------------
 n3<-20
@@ -238,10 +307,10 @@ mtext(yt,2,2.3,outer=T,cex=1.2)
 mtext('Length (mm)',1,2.0,outer=T,cex=1.2)
 par(mfrow=c(1,1))
 
-#### molt-prob (model 22.0/22.0a) --------------
+#### molt-prob (model 22.0/23.0a) --------------
 n3<-20
 d1m<-C$molt_probability[1,] # C is model 22.0 for 2022
-d2m<-D$molt_probability[1,] # D is model 22.0a 
+d2m<-D$molt_probability[1,] # D is model 23.0a 
 d3m<-c(1.0,1.0,1.0,1.0,1.0,0.993,0.990,0.987,0.983,0.979,0.976,0.97,0.96,0.95,0.94,0.92,0.89,0.86,0.81,0.74)
 d4m<-c(1.0,1.0,1.0,1.0,0.99,0.98,0.970,0.960,0.940,0.920,0.880,0.83,0.77,0.69,0.61,0.53,0.44,0.36,0.29,0.23)
 xat<-c(70,80,90,100,110,120,130,140,150,160)
@@ -259,7 +328,7 @@ lines(B$mid_points,d1m[1:n3],lty=1,lwd=2.5,col=1)
 lines(B$mid_points,d2m[1:n3],lty=2,lwd=2.5,col=2)
 lines(B$mid_points,d3m[1:n3],lty=3,lwd=2.5,col=3)
 lines(B$mid_points,d4m[1:n3],lty=4,lwd=2.5,col=4)
-legend("bottomleft",inset=0.02,cex = 0.7, c("Model 22.0, 1985-2022", "Model 22.0a, 1985-2022","Tagging 1954-1961","Tagging 1966-1969"),lwd=c(2.5,2.5,2.5,2.5),lty=c(1,2,3,4),col=c(1,2,3,4))
+legend("bottomleft",inset=0.02,cex = 0.7, c("Model 22.0, 1985-2022", "Model 23.0a, 1985-2022","Tagging 1954-1961","Tagging 1966-1969"),lwd=c(2.5,2.5,2.5,2.5),lty=c(1,2,3,4),col=c(1,2,3,4))
 axis(2,at=yat,labels=yatv,outer=T,cex=1.5)
 #  axis(1,at=xat,labels=xat,outer=T,cex=1.0,las=3)
 axis(1,at=xat,labels=xat,outer=T,cex=1.5)
@@ -356,7 +425,7 @@ lines(A$mid_points,d1m[1:n3],lty=1,lwd=2.5,col=1)
 lines(A$mid_points,d2m[1:n3],lty=2,lwd=2.5,col=2)
 lines(A$mid_points,d3m[1:n3],lty=3,lwd=2.5,col=3)
 #lines(A$mid_points,d4m[1:n3],lty=4,lwd=2.5,col=4)
-legend("bottomright",inset=0.02,c("21.1b","22.0","22.0a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.6,0.6,0.6)) 
+legend("bottomright",inset=0.02,c("21.1b","22.0","23.0a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.6,0.6,0.6)) 
 axis(2,at=yat,labels=yatv,outer=T,cex=1.5)
 axis(1,at=xat,labels=xat,outer=T,cex=1.5)
 box()
@@ -423,7 +492,7 @@ par(new=T,xaxs="i",yaxs="i")
 barplot(c(0,0,0,0,0,0,0,0,0,0,d2m[1:n4]),space=0,density=-1,col="red",axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),names.arg=" ")
 lines(c(9,(n3-1))-0.5,c(d3f,d3f),lty=1,lwd=2.5,col=1)
 # legend("topright",inset=0.02,c("Recruits","1984-2018 mean"),lwd=c(2.5,2.5),lty=c(1,2),col=c(1,2))
-text(0.4*xx,yx*up,"Model 22.0a",cex=1.5)
+text(0.4*xx,yx*up,"Model 23.0a",cex=1.5)
 axis(2,at=yat,labels=yat,outer=T,cex=1.5)
 par(mgp=c(2.5,0.65,0))
 axis(1,at=xat,labels=xatv,outer=T,cex=1.5)
@@ -442,7 +511,7 @@ d1m<-B$rec_sdd[1,1:8] #B is model 21.1b
 d3m<-B$rec_sdd[2,1:8]
 d4m<-C$rec_sdd[1,1:8] # C is model 22.0
 d5m<-C$rec_sdd[2,1:8]
-d6m<-D$rec_sdd[1,1:8] # D is model 22.0a
+d6m<-D$rec_sdd[1,1:8] # D is model 23.0a
 d7m<-D$rec_sdd[2,1:8]
 d1m<-c(0,d1m)
 d3m<-c(0,d3m)
@@ -480,7 +549,7 @@ box()
 plot(xat,d7m,axes=FALSE,ylim=c(ym,yx),xlim=c(xm,xx),type="n",lwd=1)
 lines(xat,d6m,lty=1,lwd=2.5,col=1)
 lines(xat,d7m,lty=2,lwd=2.5,col=2)
-legend("topright",inset=0.02,cex = 0.8, c("Model 22.0a: males","Model 22.0a: females"),lwd=c(2.5,2.5),lty=c(1,2),col=c(1,2))
+legend("topright",inset=0.02,cex = 0.8, c("Model 23.0a: males","Model 23.0a: females"),lwd=c(2.5,2.5),lty=c(1,2),col=c(1,2))
 axis(2,at=yat,labels=yatv,outer=T,cex=1.4)
 par(mgp=c(3.0,0.75,0))
 axis(1,at=xat,labels=xatv,outer=T,cex=1.5)
@@ -493,6 +562,7 @@ par(mfrow=c(1,1))
 
 ## rkf -------------
 # Figure 13a
+png("./BBRKC/bbrkc_23f/doc/figures/fish_mort_mmb.png", width = 700, height = 800)
 plot.new()
 d11<-B$ssb/1000.0 # model 21.1b 2022
 dtot<-B$ft
@@ -506,11 +576,11 @@ d3<-cbind(c(0,0.25*b35, 0.25*b35, b35, 100), c(0,0,0.15*f35/0.9,f35,f35))
 par(oma=c(3.5,3.5,1.0,1.0),tck=-0.01,xaxs="i",yaxs="i",font=1,lwd=0.75)
 par(mgp=c(1.0,0.5,0),mar=c(0,0,0,0),xpd=FALSE)
 tem<-c('75','76','77','78','79','80','81','82','83','84','85','86','87','88','89','90','91','92','93','94','95','96','97','98','99','00','01','02','03','04','05','06','07',
-       '08','09','10','11','12','13','14','15','16','17','18','19','20', ' ')
+       '08','09','10','11','12','13','14','15','16','17','18','19','20','21', '')
 tem1<-c('Mature male biomass (1000 t) on Feb. 15')
 plot(d3[,1],d3[,2],xlim=c(0,125),ylim=c(-0.03,0.8),xlab=tem1,ylab='Fishing mortality at fishing time',axes=FALSE,type="n",las=1,cex=1.0)
 text(d1,d2,tem,cex=0.9)
-text(d1[n],d2[n],'21',cex=1.2,font=2, col=2)
+text(d1[n],d2[n],'22',cex=1.2,font=2, col=2)
 lines(d3[,1],d3[,2],lty=1,lwd=2.5)
 text(107,f35,'F35%',cex=1.0)
 #text(105,0.25,'F40%',cex=1.0)
@@ -523,10 +593,15 @@ axis(1,at=xat,labels=xat,outer=T,cex=1.0)
 box()
 mtext(tem1,1,1.7,outer=T,cex=1.0)
 mtext('Fishing mortality at fishing time',2,2.0,outer=T,cex=1.0)
+dev.off()
+#ggsave(paste0("./BBRKC/bbrkc_23f/doc/figures/fish_mort_mmb.png"), width = ww*1.15, height = 1.25*hh)
 
-### rkf85 ---------
+
+### rkf ---------
 # Figure 13b
-d11<-D$ssb/1000.0 # model 22.0a 2022
+png("./BBRKC/bbrkc_23f/doc/figures/fish_mort_mmb_23_0a.png", width = 700, height = 800)
+plot.new()
+d11<-D$ssb/1000.0 # model 21.1b 2022
 dtot<-D$ft
 b35 <- D$spr_bmsy/1000.0
 f35<- D$sd_fmsy[1]
@@ -537,16 +612,16 @@ d2<-dtot[(1:n),3]
 d3<-cbind(c(0,0.25*b35, 0.25*b35, b35, 100), c(0,0,0.15*f35/0.9,f35,f35))
 par(oma=c(3.5,3.5,1.0,1.0),tck=-0.01,xaxs="i",yaxs="i",font=1,lwd=0.75)
 par(mgp=c(1.0,0.5,0),mar=c(0,0,0,0),xpd=FALSE)
-tem<-c('85','86','87','88','89','90','91','92','93','94','95','96','97','98','99','00','01','02','03','04','05','06','07','08','09','10','11',
-       '12','13','14','15','16','17','18','19','20',' ') #update a year here
+tem<-c('75','76','77','78','79','80','81','82','83','84','85','86','87','88','89','90','91','92','93','94','95','96','97','98','99','00','01','02','03','04','05','06','07',
+       '08','09','10','11','12','13','14','15','16','17','18','19','20','21', ' ')
 tem1<-c('Mature male biomass (1000 t) on Feb. 15')
-plot(d3[,1],d3[,2],xlim=c(0,41),ylim=c(-0.03,0.7),xlab=tem1,ylab='Fishing mortality at fishing time',axes=FALSE,type="n",las=1,cex=1.0)
+plot(d3[,1],d3[,2],xlim=c(0,125),ylim=c(-0.03,0.8),xlab=tem1,ylab='Fishing mortality at fishing time',axes=FALSE,type="n",las=1,cex=1.0)
 text(d1,d2,tem,cex=0.9)
-text(d1[n],d2[n],'21',cex=1.2,font=2, col=2) # update year to highlight here - last years's fishery
+text(d1[n],d2[n],'22',cex=1.2,font=2, col=2)
 lines(d3[,1],d3[,2],lty=1,lwd=2.5)
 text(107,f35,'F35%',cex=1.0)
 #text(105,0.25,'F40%',cex=1.0)
-xat<-c(0,5,10,15,20,25,30,35,40)
+xat<-c(0,15,30,45,60,75,90,105,120)
 yat<-c(0.00,0.1,0.20,0.3,0.4,0.5,0.60,0.7,0.8,0.9,1.0,1.1,1.2, 1.3,1.4,1.5)
 yln<-c('0.0','0.1','0.2','0.3','0.4','0.5','0.6','0.7','0.8','0.9','1.0','1.1','1.2','1.3','1.4','1.5')
 axis(2,at=yat,labels=yln,outer=T,cex=1.0)
@@ -555,9 +630,11 @@ axis(1,at=xat,labels=xat,outer=T,cex=1.0)
 box()
 mtext(tem1,1,1.7,outer=T,cex=1.0)
 mtext('Fishing mortality at fishing time',2,2.0,outer=T,cex=1.0)
+dev.off()
 
 # Figure 13c
-d11<-C$ssb/1000.0 # model 22.0 2022
+png("./BBRKC/bbrkc_23f/doc/figures/fish_mort_mmb_22.png", width = 700, height = 800)
+d11<-C$ssb/1000.0 # model 22.0 2023
 dtot<-C$ft
 b35 <- C$spr_bmsy/1000.0
 f35<- C$sd_fmsy[1]
@@ -569,11 +646,11 @@ d3<-cbind(c(0,0.25*b35, 0.25*b35, b35, 100), c(0,0,0.15*f35/0.9,f35,f35))
 par(oma=c(3.5,3.5,1.0,1.0),tck=-0.01,xaxs="i",yaxs="i",font=1,lwd=0.75)
 par(mgp=c(1.0,0.5,0),mar=c(0,0,0,0),xpd=FALSE)
 tem<-c('85','86','87','88','89','90','91','92','93','94','95','96','97','98','99','00','01','02','03','04','05','06','07','08','09','10','11',
-       '12','13','14','15','16','17','18','19','20',' ') #update a year here
+       '12','13','14','15','16','17','18','19','20','21', ' ') #update a year here
 tem1<-c('Mature male biomass (1000 t) on Feb. 15')
 plot(d3[,1],d3[,2],xlim=c(0,41),ylim=c(-0.03,0.7),xlab=tem1,ylab='Fishing mortality at fishing time',axes=FALSE,type="n",las=1,cex=1.0)
 text(d1,d2,tem,cex=0.9)
-text(d1[n],d2[n],'21',cex=1.2,font=2, col=2) # update year to highlight here - last years's fishery
+text(d1[n],d2[n],'22',cex=1.2,font=2, col=2) # update year to highlight here - last years's fishery
 lines(d3[,1],d3[,2],lty=1,lwd=2.5)
 text(107,f35,'F35%',cex=1.0)
 #text(105,0.25,'F40%',cex=1.0)
@@ -586,6 +663,7 @@ axis(1,at=xat,labels=xat,outer=T,cex=1.0)
 box()
 mtext(tem1,1,1.7,outer=T,cex=1.0)
 mtext('Fishing mortality at fishing time',2,2.0,outer=T,cex=1.0)
+dev.off()
 
 #### mortality  -----
 n1<-2
@@ -600,7 +678,7 @@ d4m<-C$M[1:n4,1]
 d5m<-C$M[(n4+1):(n4+n4),1]
 d4f0<-C$ft
 
-d8m<-D$M[1:n4,1] #model 22.0a
+d8m<-D$M[1:n4,1] #model 23.0a
 d9m<-D$M[(n4+1):(n4+n4),1]
 d6f0<-D$ft
 #d6m<-K$M[1:n3,1]
@@ -638,7 +716,7 @@ lines(year[11:n3],d8m[1:n4],lty=5,lwd=2.5,col=5)
 lines(year[11:n3],d9m[1:n4],lty=6,lwd=2.5,col=6)
 #lines(year,d6m[1:n3],lty=7,lwd=2.5,col=7)
 #lines(year,d7m[1:n3],lty=8,lwd=2.5,col=8)
-legend("topright",inset=0.02,cex = 0.55, c("Model 21.1b: males","Model 21.1b: females","Model 22.0: males","Model 22.0: females","Model 22.0a: males","Model 22.0a: females"),lwd=c(2.5,2.5,2.5,2.5,2.5,2.5),lty=c(1,2,3,4,5,6),col=c(1,2,3,4,5,6))
+legend("topright",inset=0.02,cex = 0.55, c("Model 21.1b: males","Model 21.1b: females","Model 22.0: males","Model 22.0: females","Model 23.0a: males","Model 23.0a: females"),lwd=c(2.5,2.5,2.5,2.5,2.5,2.5),lty=c(1,2,3,4,5,6),col=c(1,2,3,4,5,6))
 text(1995,yx*up,"Natural mortality",cex=1.3)
 axis(2,at=yat,labels=yatv,outer=T,cex=1.4)
 box()
@@ -650,7 +728,7 @@ lines(year,d3f[1:n3],lty=1,lwd=2.5,col=1)
 lines(year[11:n3],d4f[1:n4],lty=3,lwd=2.5,col=3)
 lines(year[11:n3],d6f[1:n4],lty=5,lwd=2.5,col=5)
 #lines(year,d5f[1:n3],lty=7,lwd=2.5,col=7)
-legend("topright",inset=0.02,cex = 0.6, c("Model 21.1b","Model 22.0","Model 22.0a"),lwd=c(2.5,2.5,2.5),lty=c(1,3,5),col=c(1,3,5))
+legend("topright",inset=0.02,cex = 0.6, c("Model 21.1b","Model 22.0","Model 23.0a"),lwd=c(2.5,2.5,2.5),lty=c(1,3,5),col=c(1,3,5))
 text(2000,yx*up,"Directed pot fishing mortality",cex=1.3)
 axis(2,at=yat,labels=yatv,outer=T,cex=1.4)
 par(mgp=c(3.0,0.75,0))
@@ -664,6 +742,7 @@ par(mfrow=c(1,1))
 
 ## rksr -----
 # Figure 14a
+png("./BBRKC/bbrkc_23f/doc/figures/stock_recruit_211b.png", width = 700, height = 800)
 plot.new()
 c1<-B$ssb/1000.0 # model 21.1b 2022
 n<-length(c1)
@@ -693,12 +772,13 @@ axis(1,at=xat,labels=xat,outer=T,cex=1.0)
 box()
 mtext(tem1,1,1.6,outer=T,cex=1.0)
 mtext('Total Recruits (millions)',2,1.7,outer=T,cex=1.0)
+dev.off()
 
-#dev.off()
 ## rksrp ----------------
 # Figure 14b
+png("./BBRKC/bbrkc_23f/doc/figures/log_stock_recruit_211b.png", width = 700, height = 800)
 plot.new()
-n<-length(B$ssb) # model 21.1b 2022
+n<-length(B$ssb) # model 21.1b 2023
 c1<-matrix(rep(0,(n-5-1)*2),ncol=2)
 c1[,1]<-B$ssb[1:(n-5-1)]/1000.0
 c1[,2]<-(B$recruits[1,(6:(n-1))]+B$recruits[2,(6:(n-1))])/1000000/c1[,1]
@@ -711,7 +791,7 @@ par(oma=c(3.2,3.5,0.7,1.0),tck=-0.01,xaxs="i",yaxs="i",font=1,lwd=1.00)
 par(mgp=c(1.0,0.5,0),mar=c(0,0,0,0),xpd=FALSE)
 tem<-c(0,2,4,6,8,10,12,14,17,20,23,26,29,32,35,38,41,44,48,52,57,62,68,74,79,80)
 tem1<-c('Mature male biomass on 2/15 (1000 t)')
-tem2<-c('75','76','77','78','79','80','81','82','83','84','85','86','87','88','89','90','91','92','93','94','95','96','97','98','99','00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15')
+tem2<-c('75','76','77','78','79','80','81','82','83','84','85','86','87','88','89','90','91','92','93','94','95','96','97','98','99','00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15', '16') # add one more recruitment year here each year
 plot(c1[,1],c1[,2],xlim=c(0,130),ylim=c(-1.0,4.2),xlab=tem1,ylab=' ',axes=FALSE,type="n",las=1,cex=1.0)
 text(c1[1:3,1],c1[1:3,2],tem2[1:3],cex=1.0,col=1)
 text(c2[,1],c2[,2],tem2[4:(n-5-1)],cex=1.0,col=2)
@@ -728,6 +808,7 @@ axis(1,at=xat,labels=xat,outer=T,cex=1.0)
 box()
 mtext(tem1,1,1.6,outer=T,cex=1.0)
 mtext('Log(Total Recruits/MMB)',2,1.7,outer=T,cex=1.0)
+dev.off ()
 
 ## c-direct -----
 n1<-3
@@ -779,7 +860,7 @@ lines(year[11:n3],d4d[1:n5],lty=3,lwd=2.5,col=3)
 #lines(year[11:n3],d5d[1:n5],lty=4,lwd=2.5,col=4)
 #lines(year,d6d[1:n3],lty=5,lwd=2.5,col=5)
 #lines(year,d7d[1:n3],lty=6,lwd=2.5,col=6)
-legend("topright",inset=0.02,c("Model 21.1b","Model 22.0","Model 22.0a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.8,0.8,0.8))
+legend("topright",inset=0.02,c("Model 21.1b","Model 22.0","Model 23.0a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.8,0.8,0.8))
 #   legend("topright",inset=0.02,c("19.3d","19.3e","19.3g","21.0"),lwd=c(2.5,2.5,2.5,2.5),lty=c(1,2,3,4),col=c(1,2,3,4))
 # legend("topright",inset=0.02,c("19.3","19.3d"),lwd=c(2.5,2.5),lty=c(1,2),col=c(1,2))
 text(0.99*xx,yx*up,"Pot retained catch",cex=1.5)
@@ -797,7 +878,7 @@ lines(year1,d4m[1:n4],lty=3,lwd=2.5,col=3)
 #lines(year1,d5m[1:n4],lty=4,lwd=2.5,col=4)
 #lines(year1,d6m[1:n4],lty=5,lwd=2.5,col=5)
 #lines(year1,d7m[1:n4],lty=6,lwd=2.5,col=6)
-legend("topright",inset=0.02,c("Model 21.1b","Model 22.0","Model 22.0a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.8,0.8,0.8))   
+legend("topright",inset=0.02,c("Model 21.1b","Model 22.0","Model 23.0a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.8,0.8,0.8))   
 #  legend("topright",inset=0.02,c("19.3d","19.3e","19.3g","21.0"),lwd=c(2.5,2.5,2.5,2.5),lty=c(1,2,3,4),col=c(1,2,3,4))
 #  legend("topright",inset=0.02,c("19.0a","19.4","19.4a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3))
 # legend("topright",inset=0.02,c("19.3","19.3d"),lwd=c(2.5,2.5),lty=c(1,2),col=c(1,2))
@@ -815,7 +896,7 @@ lines(year1,d4f[1:n4],lty=3,lwd=2.5,col=3)
 #lines(year1,d5f[1:n4],lty=4,lwd=2.5,col=4)
 #lines(year1,d6f[1:n4],lty=5,lwd=2.5,col=5)
 #lines(year1,d7f[1:n4],lty=6,lwd=2.5,col=6)
-legend("topright",inset=0.02,c("Model 21.1b","Model 22.0","Model 22.0a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.8,0.8,0.8)) 
+legend("topright",inset=0.02,c("Model 21.1b","Model 22.0","Model 23.0a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.8,0.8,0.8)) 
 #  legend("topright",inset=0.02,c("19.3d","19.3e","19.3g","21.0"),lwd=c(2.5,2.5,2.5,2.5),lty=c(1,2,3,4),col=c(1,2,3,4))
 #   legend("topright",inset=0.02,c("19.0a","19.4","19.4a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3))
 # legend("topright",inset=0.02,c("19.3","19.3d"),lwd=c(2.5,2.5),lty=c(1,2),col=c(1,2))
@@ -885,7 +966,7 @@ lines(year[11:n3],d4d[1:n5],lty=3,lwd=2.5,col=3)
 #lines(year[11:n3],d5d[1:n5],lty=4,lwd=2.5,col=4)
 #lines(year,c(0,d6d[1:(n3-1)]),lty=5,lwd=2.5,col=5)
 #lines(year,c(0,d7d[1:(n3-1)]),lty=6,lwd=2.5,col=6)
-legend("topright",inset=0.02,c("Model 21.1b","Model 22.0","Model 22.0a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.8,0.8,0.8))   
+legend("topright",inset=0.02,c("Model 21.1b","Model 22.0","Model 23.0a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.8,0.8,0.8))   
 # legend("topright",inset=0.02,c("19.3d","19.3e","19.3g","21.0"),lwd=c(2.5,2.5,2.5,2.5),lty=c(1,2,3,4),col=c(1,2,3,4))
 # legend("topright",inset=0.02,c("19.0a","19.4","19.4a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3))
 # legend("topright",inset=0.02,c("19.3","19.3d"),lwd=c(2.5,2.5),lty=c(1,2),col=c(1,2))
@@ -904,7 +985,7 @@ lines(year1,d4m[1:n4],lty=3,lwd=2.5,col=3)
 #lines(year1,d5m[1:n4],lty=4,lwd=2.5,col=4)
 #lines(year1,d6m[1:n4],lty=5,lwd=2.5,col=5)
 #lines(year1,d7m[1:n4],lty=6,lwd=2.5,col=6)
-legend("topleft",inset=0.02,c("Model 21.1b","Model 22.0","Model 22.0a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.8,0.8,0.8))    
+legend("topleft",inset=0.02,c("Model 21.1b","Model 22.0","Model 23.0a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.8,0.8,0.8))    
 # legend("topright",inset=0.02,c("19.3d","19.3e","19.3g","21.0"),lwd=c(2.5,2.5,2.5,2.5),lty=c(1,2,3,4),col=c(1,2,3,4))
 #  legend("topright",inset=0.02,c("19.0a","19.4","19.4a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3))
 # legend("topright",inset=0.02,c("19.3","19.3d"),lwd=c(2.5,2.5),lty=c(1,2),col=c(1,2))
@@ -926,7 +1007,7 @@ lines(year[11:n3],d4f[1:n5],lty=3,lwd=2.5,col=3)
 #lines(year[11:n3],d5f[1:n5],lty=4,lwd=2.5,col=4)
 #lines(year,d6f[1:n3],lty=5,lwd=2.5,col=5)
 #lines(year,d7f[1:n3],lty=6,lwd=2.5,col=6)
-legend("topright",inset=0.02,c("Model 21.1b","Model 22.0","Model 22.0a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.8,0.8,0.8))    
+legend("topright",inset=0.02,c("Model 21.1b","Model 22.0","Model 23.0a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.8,0.8,0.8))    
 # legend("topright",inset=0.02,c("19.3d","19.3e","19.3g","21.0"),lwd=c(2.5,2.5,2.5,2.5),lty=c(1,2,3,4),col=c(1,2,3,4))
 #  legend("topright",inset=0.02,c("19.0a","19.4","19.4a"),lwd=c(2.5,2.5,2.5),lty=c(1,2,3),col=c(1,2,3))
 # legend("topright",inset=0.02,c("19.3","19.3d"),lwd=c(2.5,2.5),lty=c(1,2),col=c(1,2))
@@ -1082,7 +1163,7 @@ lines(xat,d3[i1-9,1:nc],lty=2,lwd=1.5,col=2)
 lines(xat,d4[i1-9,1:nc],lty=3,lwd=1.5,col=3)
 #lines(xat,d5[i1+1,1:nc],lty=4,lwd=1.5,col=4)
 text(0.8*xx,yx*up,paste(year[i1+1]),cex=1.0)
-legend("topleft",inset=0.02,c("21.1b","22.0","22.0a"),lwd=c(1.5,1.5,1.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.7,0.7,0.7))
+legend("topleft",inset=0.02,c("21.1b","22.0","23.0a"),lwd=c(1.5,1.5,1.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.7,0.7,0.7))
 # legend("topleft",inset=0.010,c("19.3d","19.3e","19.3g","21.0"),lwd=c(1.5,1.5,1.5,1.5),lty=c(1,2,3,4),col=c(1,2,3,4),cex=c(0.5,0.5,0.5,0.5))
 #  legend("topleft",inset=0.010,c("19.3","19.3c","19.3d"),lwd=c(1.5,1.5,1.5),lty=c(1,2,3),col=c(1,2,3),cex=c(0.5,0.5,0.5))
 axis(1,at=xat,labels=xatv,outer=T,cex=0.7,las=3)
@@ -1270,7 +1351,7 @@ function(M, which_plots = "all", xlab = "Mid-point of size-class (mm)", ylab = "
 # table 4, im-ess ---------------
 #Z<-B # model 21.1b is B
 #Z<-C # model 22
-Z<-D # model 22a
+Z<-D # model 23a
 d1m<-Z$d3_pre_size_comps_1[,1:20]
 d1mo<-Z$d3_obs_size_comps_1[,1:20]
 d2m<-Z$d3_pre_size_comps_2[,1:20]
@@ -1350,19 +1431,22 @@ ess22 <- data.frame(Type = c("Retained catch", "Pot total males", "Pot total fem
                              "Fixed gear bycatch", "NMFS survey", "BSFRF survey"), 
                     Harm.mean_22 = c(d10,d20,d30,d40,d50,d60,d70,d80))
 
-ess22a <- data.frame(Type = c("Retained catch", "Pot total males", "Pot total females", "Trawl bycatch", "Tanner fishery bycatch", 
+ess23a <- data.frame(Type = c("Retained catch", "Pot total males", "Pot total females", "Trawl bycatch", "Tanner fishery bycatch", 
                               "Fixed gear bycatch", "NMFS survey", "BSFRF survey"), 
-                     Harm.mean_22a = c(d10,d20,d30,d40,d50,d60,d70,d80))
+                     Harm.mean_23a = c(d10,d20,d30,d40,d50,d60,d70,d80))
 
 ess211b %>% 
-  cbind(ess22, ess22a) -> ess_all
-write.table(ess_all, "./BBRKC/bbrkc_22f/doc/safe_tables/ess_all.out")
+  left_join(ess22, by = "Type") %>% 
+  left_join( ess23a, by = "Type") %>% 
+  mutate(N = c(150,150,50,50,50,50,200,200)) %>% 
+  select(Type, N, Harm.mean_211b, Harm.mean_22, Harm.mean_23a) -> ess_all
+write.csv(ess_all, "./BBRKC/bbrkc_23f/doc/tables/ess_all.csv", row.names = FALSE)
 #write.table(c(d10,d20,d30,d40,d50,d60,d70,d80),"./BBRKC/bbrkc_22f/doc/safe_tables/ess221b.out")
 
 ### Table 6 --------
-## model 21.1b --------
+## Table 9, model 21.1b --------
 n4<-192 # what is this value?
-Z<-read.table("./BBRKC/bbrkc_22f/model_211b/gmacs.std", header = TRUE, sep = "", quote = "", colClasses = c("numeric","character","numeric","numeric"), nrows = -1, skip = 0, check.names = TRUE)
+Z<-read.table("./BBRKC/bbrkc_23f/model_211b/gmacs.std", header = TRUE, sep = "", quote = "", colClasses = c("numeric","character","numeric","numeric"), nrows = -1, skip = 0, check.names = TRUE)
 #library(xlsx)
 W<-B # output for this model as letter
 n10<-2000 # same here?
@@ -1403,7 +1487,7 @@ for (i in 1:n10)
 for (i in 1:(n3-1)) d3b0[i] <- d3m[i]*(exp(d3b0[i]^2)-1)^0.5
 d3b<-c(d3b0,n6)
 d4m<-cbind(year,d1m,d1l,d3m,d3b,d1f,d2r,d2m,d2b)
-write.csv(d4m,"./BBRKC/bbrkc_22f/doc/gmacs-sum_model211b.csv") # results go in Table 9
+write.csv(d4m,"./BBRKC/bbrkc_23f/doc/tables/gmacs-sum_model211b.csv") # results go in Table 9
 # column names: Mature males, Legal males, MMB, sd MMB, Mature Females, Total Recruits, Survey biomass model est.(>64), area-swept(>64)
 # these results are in order but last two columns skip 2020 so you need to accomidate that in table - basically insert 0, 0 for 2020 and move
 #     observations down
@@ -1418,11 +1502,11 @@ d6[97:146,]<-Z[243:292,]
 d5[147:n4,]<-Z[293:(293+n4-147),]
 d6[147:n4,]<-Z[(293+n4-146):(n4+n4),]
 d7<-cbind(d5,d6)
-write.csv(d7,"./BBRKC/bbrkc_22f/doc/gmacs-para_model211b.csv")
+write.csv(d7,"./BBRKC/bbrkc_23f/doc/tables/gmacs-para_model211b.csv")
 
 # table 6&9, model 22 ----------
 n4<-192 # what is this value?
-Z<-read.table("./BBRKC/bbrkc_22f/model_22/gmacs.std", header = TRUE, sep = "", quote = "", colClasses = c("numeric","character","numeric","numeric"), nrows = -1, skip = 0, check.names = TRUE)
+Z<-read.table("./BBRKC/bbrkc_23f/model_22/gmacs.std", header = TRUE, sep = "", quote = "", colClasses = c("numeric","character","numeric","numeric"), nrows = -1, skip = 0, check.names = TRUE)
 #library(xlsx)
 W<-C # output for this model as letter
 n10<-2000 # same here?
@@ -1463,7 +1547,7 @@ for (i in 1:n10)
 for (i in 1:(n3-1)) d3b0[i] <- d3m[i]*(exp(d3b0[i]^2)-1)^0.5
 d3b<-c(d3b0,n6)
 d4m<-cbind(year,d1m,d1l,d3m,d3b,d1f,d2r,d2m,d2b)
-write.csv(d4m,"./BBRKC/bbrkc_22f/doc/gmacs-sum_model22.csv") # results go in Table 9
+write.csv(d4m,"./BBRKC/bbrkc_23f/doc/tables/gmacs-sum_model22.csv") # results go in Table 9
 # column names: Mature males, Legal males, MMB, sd MMB, Mature Females, Total Recruits, Survey biomass model est.(>64), area-swept(>64)
 # these results are in order but last two columns skip 2020 so you need to accomidate that in table - basically insert 0, 0 for 2020 and move
 #     observations down
@@ -1478,13 +1562,13 @@ d6[97:146,]<-Z[243:292,]
 d5[147:n4,]<-Z[293:(293+n4-147),]
 d6[147:n4,]<-Z[(293+n4-146):(n4+n4),]
 d7<-cbind(d5,d6)
-write.csv(d7,"./BBRKC/bbrkc_22f/doc/gmacs-para_model22.csv")
+write.csv(d7,"./BBRKC/bbrkc_23f/doc/tables/gmacs-para_model22.csv")
 
-# table 6&9, model 22.0a ----------
+# table 6&9, model 23.0a ----------
 n4<-192 # what is this value?
-Z<-read.table("./BBRKC/bbrkc_22f/model_22a/gmacs.std", header = TRUE, sep = "", quote = "", colClasses = c("numeric","character","numeric","numeric"), nrows = -1, skip = 0, check.names = TRUE)
+Z<-read.table("./BBRKC/bbrkc_23f/model_23_0a/gmacs.std", header = TRUE, sep = "", quote = "", colClasses = c("numeric","character","numeric","numeric"), nrows = -1, skip = 0, check.names = TRUE)
 #library(xlsx)
-W<-D # output for this model as letter **CHANGE**
+W<-D # output for this model as letter
 n10<-2000 # same here?
 #n10<-796
 n1<-12
@@ -1523,7 +1607,7 @@ for (i in 1:n10)
 for (i in 1:(n3-1)) d3b0[i] <- d3m[i]*(exp(d3b0[i]^2)-1)^0.5
 d3b<-c(d3b0,n6)
 d4m<-cbind(year,d1m,d1l,d3m,d3b,d1f,d2r,d2m,d2b)
-write.csv(d4m,"./BBRKC/bbrkc_22f/doc/gmacs-sum_model22a.csv") # results go in Table 9
+write.csv(d4m,"./BBRKC/bbrkc_23f/doc/tables/gmacs-sum_model_23_0a.csv") # results go in Table 9
 # column names: Mature males, Legal males, MMB, sd MMB, Mature Females, Total Recruits, Survey biomass model est.(>64), area-swept(>64)
 # these results are in order but last two columns skip 2020 so you need to accomidate that in table - basically insert 0, 0 for 2020 and move
 #     observations down
@@ -1538,6 +1622,10 @@ d6[97:146,]<-Z[243:292,]
 d5[147:n4,]<-Z[293:(293+n4-147),]
 d6[147:n4,]<-Z[(293+n4-146):(n4+n4),]
 d7<-cbind(d5,d6)
-write.csv(d7,"./BBRKC/bbrkc_22f/doc/gmacs-para_model22a.csv")
+write.csv(d7,"./BBRKC/bbrkc_23f/doc/gmacs-para_model23a.csv")
+
+### surveybio ---------
+
+
 
 ## next --------------
