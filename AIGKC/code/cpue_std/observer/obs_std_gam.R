@@ -131,7 +131,7 @@ obs_raw %>%
 
 # plot of core data cpue ----
 
-# siddek core data
+# siddeek core data
 file <- c("./AIGKC/data/observer/pre_eag_datacore_siddeek.RDS", 
           "./AIGKC/data/observer/post_eag_datacore_siddeek.RDS", 
           "./AIGKC/data/observer/pre_wag_datacore_siddeek.RDS", 
