@@ -148,11 +148,14 @@ plot_F(Mbase)
 ggsave(paste0(.FIGS, "fishing_mortality.png"), width = ww*1.25, height = hh)
 
 # recent fishing mortality for pot
-fish_mort <- (.get_F_df(Mbase))$F
+fish_mort <- (.get_F_df(M[3]))$F # uses new model 23.0a #fish_mort <- (.get_F_df(Mbase))$F
 head(fish_mort)
 fish_mort %>% 
   filter(year >= 2012 & fleet == "Pot" & sex == "Male")
-
+# average of last 5 years with directed fishery
+fish_mort %>% 
+  filter(year >= 2016 & year <= 2020 & fleet == "Pot", sex == "Male") %>% 
+  summarise(avg = mean(F))
 
 ## !!selectivity ----------
 #"Comparisons of the estimated stage-1 and stage-2 selectivities for the different model scenarios (the stage-3 selectivities are all fixed at 1). Estimated selectivities are shown for the directed pot fishery, the trawl bycatch fishery, the fixed bycatch fishery, the NMFS trawl survey, and the ADF&G pot survey. Two selectivity periods are estimated in the directed pot fishery, from 1978-2008 and 2009-2017.\\label{fig:selectivity}", fig.height = 15}
