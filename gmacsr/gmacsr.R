@@ -1,6 +1,14 @@
 ## gmacs R functions
+## updated to gmacs version 2.01.M.09 (compiled 2/28/2024); tpl updated by AEP
 ## tyler jackson
-## 2/27/2024
+## last update - 2/28/2024
+
+# major updates since last revision ----
+
+## gmacs_read_allout
+# 1) add numbers units
+# 2) add gradient to parameters table
+# 3) add mmb_proj to output
 
 # load ----
 
@@ -76,10 +84,6 @@ gmacs_read_allout <- function(file, model_name = NULL) {
   # setup ----
   # Suppress the NA message in the coercion to double
   options(warn = -1) 
-  # load tidyverse
-  if(!("tidyverse" %in% .packages())){
-    library(tidyverse) 
-  }
   
   # read text file
   allout <- read.delim(file, sep = "", header = F, col.names = c(1:1000), fill = T, na.strings = "", colClasses = "character")
@@ -111,9 +115,12 @@ gmacs_read_allout <- function(file, model_name = NULL) {
   out$n_maturity <- as.numeric(str_extract(str_flatten(allout[last + 1,], na.rm = T), "([[:digit:]]+)")); last <- last + 1 
   ## units 
   out$wt_units <-  gsub("Weightunitis:", "", str_flatten(allout[last + 1,], na.rm = T)); last <- last + 1 
-  ## spr lambda
-  #out$spr_lambda <- gsub("Proportion Male SPR:", "", str_flatten(allout[last + 1,], na.rm = T)); last <- last + 1 
-  
+  out$n_units <- gsub("Numbersunitis:", "", str_flatten(allout[last + 1,], na.rm = T)); last <- last + 1
+  case_when(out$n_units %in% c(1, "1", "1s", "one", "One", "ones", "Ones", "Numbers") ~ "1s",
+            out$n_units %in% c(10, "10", "10s", "ten", "Ten", "Tens") ~ "10s",
+            out$n_units %in% c(100, "100", "100s", "hundred", "Hundred", "Hundreds") ~ "100s",
+            out$n_units %in% c(1000, "10-0", "1000s", "thousand", "Thousand", "Thousands", "thou", "Thou") ~ "1000s") -> out$n_units
+
   # likelihoods by type ----
   
   # read lines individually
@@ -184,18 +191,19 @@ gmacs_read_allout <- function(file, model_name = NULL) {
   # parameters ----
   
   ## par tibble
-  tmp <- matrix(ncol = 10, nrow = length((last + 2):(grep("#---", allout[,1])[1]-1)))
+  tmp <- matrix(ncol = 11, nrow = length((last + 2):(grep("#---", allout[,1])[1]-1)))
   for(i in 1:nrow(tmp)) {
-    if("*" %in% as.character(allout[last + 1 + i, 1:10])) {
-      as.character(allout[last + 1 + i, 1:12]) %>%
+    if("*" %in% as.character(allout[last + 1 + i, 1:ncol(tmp)])) {
+      as.character(allout[last + 1 + i, 1:13]) %>%
         .[!is.na(.)] %>% .[. != "*"] -> tmp[i,]
-    } else{as.character(allout[last + 1 + i, 1:10]) -> tmp[i,]}
+    } else{as.character(allout[last + 1 + i, 1:ncol(tmp)]) -> tmp[i,]}
   }
   as_tibble(tmp) %>%
-    rename_all(~na.omit(as.character(allout[last + 1,]))) %>%
-    janitor::clean_names() %>%
-    mutate_at(c(1, 4:10), as.numeric) %>% 
-    dplyr::select(-index) -> out$parameters; last <- grep("#---", allout[,1])[1]
+    rename_all(~c("parameter_count", "parameter", "colon", "estimate", "phase", "lower_bound", "upper_bound", 
+                  "penalty", "gradient", "standard_error", "est_count")) %>%
+    #janitor::clean_names() %>%
+    mutate_at(c(1, 4:11), as.numeric) %>% 
+    dplyr::select(-colon) -> out$parameters; last <- grep("#---", allout[,1])[1]
   out$n_par <- out$parameters %>% filter(phase > 0) %>% nrow
   ## parameters at bounds
   out$parameters %>%
@@ -216,6 +224,7 @@ gmacs_read_allout <- function(file, model_name = NULL) {
                    paste0("Fmsy_", 1:out$n_fleets), paste0("Fofl_", 1:out$n_fleets), 
                    paste0("OFL_", 1:out$n_fleets))) %>%
     transmute(parameter_name = ref, estimate = V1, se = V2, est_quantity_count = V3) -> out$reference_points
+  out$mmb_proj <- prod(out$reference_points$estimate[out$reference_points$parameter_name %in% c("BMSY", "Bcurr/BMSY")])
   last <- grep("#---", allout[,1])[2] - 1
   ## ref sigma
   allout[last,] %>% dplyr::select_if(~ !any(is.na(.))) %>%
@@ -244,6 +253,8 @@ gmacs_read_allout <- function(file, model_name = NULL) {
   
   ## add size bins
   out$size_bins <- as.numeric(na.omit(as.numeric(allout[last+2,])))
+  ## number of bins
+  out$n_size_bins <- length(out$size_bins)
   ## weight at size matrix
   tmp <- matrix(nrow = out$n_sex*out$n_maturity*length(out$mod_yrs), ncol = length(out$size_bins)+3)
   for(i in 1:nrow(tmp)) {
@@ -294,21 +305,53 @@ gmacs_read_allout <- function(file, model_name = NULL) {
   out$sdnr_MAR_cpue <- tmp; last <- grep("#---", allout[,1])[6]
   
   # size composition fit summary ----
+  
   ## size composition fit summary
-  tmp <- matrix(ncol = 10 + (length(out$size_bins) * 2), nrow = length((last+3):(grep("sdnr_MAR_lf", allout[,1])-2)))
+  ## get info first
+  tmp <- matrix(ncol = 10, nrow = length((last+3):(grep("sdnr_MAR_lf", allout[,1])-2)))
   for(i in 1:nrow(tmp)) {
-    tmp[i,] <- as.character(allout[last+2+i, 1:(10+length(out$size_bins)*2)])
+    tmp[i,] <- as.character(allout[last+2+i, 1:ncol(tmp)])
   }
   as_tibble(tmp) %>%
-    dplyr::select(1:(10 + length(out$size_bins))) %>%
-    rename_all(~c("org_series", "mod_series", "year", "fleet", "season", "sex", "type", "shell", "maturity", "nsamp", out$size_bins)) %>%
-    pivot_longer(11:(10 + length(out$size_bins)), names_to = "size", values_to = "obs") %>%
-    bind_cols(as_tibble(tmp) %>%
-                dplyr::select(c(1:10, (ncol(tmp)-length(out$size_bins)+1):ncol(tmp))) %>% 
-                rename_all(~c("org_series", "mod_series", "year", "fleet", "season", "sex", "type", "shell", "maturity", "nsamp", out$size_bins)) %>%
-                pivot_longer(11:(10 + length(out$size_bins)), names_to = "size", values_to = "pred") %>% transmute(pred)) %>%
-    mutate_at(c(1:3, 5, 10:13), as.numeric) %>%
-    mutate(residual = obs - pred) -> out$size_fit_summary; last <- grep("sdnr_MAR_lf", allout[,1])
+    rename_all(~c("org_series", "mod_series", "year", "fleet", "season", "sex", "type", "shell", "maturity", "nsamp_obs")) %>%
+    mutate_at(c(1:3, 5, 10), as.numeric) -> tmp
+  # check to see how shell conditions are input, FALSE should mean input as separate shell condition, 
+  # maturity size comps don't get combined....? 
+  series_same <- sum(tmp$org_series == tmp$mod_series) == nrow(tmp)
+  if(out$n_shell > 1 & series_same == F) {
+    tmp2 <- matrix(ncol = out$n_shell * 2 * out$n_size_bins, nrow = nrow(tmp))
+    for(i in 1:nrow(tmp2)) {
+      tmp2[i,] <- as.character(allout[last+2+i, (ncol(tmp)+1):(ncol(tmp)+ncol(tmp2))])
+    }
+    # combine with size info
+    bind_cols(tmp, as_tibble(tmp2)) %>%
+      rename_all(~c(names(tmp), paste0("obs_New_", out$size_bins), paste0("obs_Old_", out$size_bins), 
+                    paste0("pred_New_", out$size_bins), paste0("pred_Old_", out$size_bins))) %>%
+      pivot_longer((ncol(tmp)+1):ncol(.), names_to = "group", values_to = "prop") %>% 
+      separate_wider_delim(group, "_", names_sep = "split") %>%
+      pivot_wider(names_from = groupsplit1, values_from = prop) %>%
+      dplyr::select(-shell) %>%
+      rename(shell = groupsplit2, size = groupsplit3) %>%
+      transmute(org_series, mod_series, year, fleet, season, sex, type, shell, maturity, size = as.numeric(size), 
+                nsamp_obs, obs = as.numeric(obs), pred = as.numeric(pred), residual = obs - pred) -> out$size_fit_summary
+    }
+  if(series_same == T) {
+    
+    tmp2 <- matrix(ncol = 2 * out$n_size_bins, nrow = nrow(tmp))
+    for(i in 1:nrow(tmp2)) {
+      tmp2[i,] <- as.character(allout[last+2+i, (ncol(tmp)+1):(ncol(tmp)+ncol(tmp2))])
+    }
+    # combine with size info
+    bind_cols(tmp, as_tibble(tmp2)) %>%
+      rename_all(~c(names(tmp), paste0("obs_", out$size_bins), paste0("pred_", out$size_bins))) %>%
+      pivot_longer((ncol(tmp)+1):ncol(.), names_to = "group", values_to = "prop") %>% 
+      separate_wider_delim(group, "_", names_sep = "split") %>%
+      pivot_wider(names_from = groupsplit1, values_from = prop) %>%
+      rename(size = groupsplit2) %>%
+      transmute(org_series, mod_series, year, fleet, season, sex, type, shell, maturity, size = as.numeric(size), 
+                nsamp, obs = as.numeric(obs), pred = as.numeric(pred), residual = obs - pred) -> out$size_fit_summary
+    }
+  last <- grep("sdnr_MAR_lf", allout[,1])
   ## sdnr_MAR_lf
   tmp <- matrix(ncol = 2, nrow = length(unique(out$size_fit_summary$org_series)))
   for(i in 1:nrow(tmp)) {
@@ -319,6 +362,10 @@ gmacs_read_allout <- function(file, model_name = NULL) {
   ## francis weights
   out$francis_weights <- as.numeric(allout[last+1, 1:length(unique(out$size_fit_summary$org_series))]); last <- grep("#---", allout[,1])[7]
   
+  ## add stage two weights to fit summary
+  out$size_fit_summary %>% 
+    mutate(lambda = out$francis_weights[.$mod_series],
+           nsamp_est = exp(out$parameters$estimate[grepl("Log_vn_comp", out$parameters$parameter)][.$mod_series]) * nsamp_obs * lambda) -> out$size_fit_summary
   
   # selectivity ----
   
@@ -349,43 +396,40 @@ gmacs_read_allout <- function(file, model_name = NULL) {
     rename_all(~c("year", "sex", "fleet", out$size_bins)) %>%
     pivot_longer(4:ncol(.), values_to = "slx_discard", names_to = "size") %>%
     mutate_at(c(1, 4, 5), as.numeric) -> slx_disc; last <- grep("slx_control", allout[,1])
-  # ## slx control
-  # as_tibble(allout[(last+1):(grep("#----", allout[,1])[8]-1), 1:19]) %>%
-  #   mutate_all(as.numeric) %>%
-  #   rename_all(~c("gear", "par", "sel_par", "sex", "init_val", "lb", "ub", 
-  #                 "prior", "p1", "p2", "phase", "start_yr", "end_yr", "env_link",
-  #                 "link_par", "rand_walk", "re_start_yr", "re_end_yr", "re_sigma")) -> out$slx_control
-  # last <- grep("slx_control", allout[,1])
-  # out$slx_control %>%
-  #   mutate(fleet = out$fleet_names[abs(as.numeric(.$gear))],
-  #          sex = case_when(sex %in% 0:1 ~ "male",
-  #                          sex == 2 ~ "female"),
-  #          type = ifelse(gear > 0, "capture", "retention")) %>%
-  #   distinct(fleet, type, sex, start_yr, end_yr) %>%
-  #   mutate(year = purrr::map2(start_yr, end_yr, function(start_yr, end_yr) {start_yr:end_yr})) %>%
-  #   unnest(year) %>%
-  #   mutate(period = paste(start_yr, "-", end_yr)) %>%
-  #   dplyr::select(-start_yr, -end_yr) -> tmp
-  # slx_cap %>%
-  #   left_join(tmp %>% 
-  #               filter(type == "capture") %>%
-  #               transmute(year, fleet, sex, capture_period = period),
-  #             by = join_by(year, sex, fleet)) %>%
-  #   left_join(slx_ret %>%
-  #               left_join(tmp %>% 
-  #                           filter(type == "retention") %>% 
-  #                           transmute(year, fleet, sex, ret_disc_period = period),
-  #                         by = join_by(year, sex, fleet)),
-  #             by = join_by(year, sex, fleet, size)) %>%
-  #   left_join(slx_disc, by = join_by(year, sex, fleet, size)) %>%
-  #   transmute(year, sex, fleet, size, slx_capture, capture_period, slx_retention, 
-  #             slx_discard, ret_disc_period) -> out$selectivity
-  # last <- grep("#----", allout[,1])[8]
-  
-  last <- grep("#---", allout[,1])[8]
-  out$selectivity <- left_join(slx_cap, slx_ret, by = join_by(year, sex, fleet, size)) %>%
-    left_join(., slx_disc, by = join_by(year, sex, fleet, size))
-
+  ## slx control
+  as_tibble(allout[(last+1):(grep("#----", allout[,1])[8]-1), 1:19]) %>%
+    mutate_all(as.numeric) %>%
+    rename_all(~c("gear", "par", "sel_par", "sex", "init_val", "lb", "ub",
+                  "prior", "p1", "p2", "phase", "start_yr", "end_yr", "env_link",
+                  "link_par", "rand_walk", "re_start_yr", "re_end_yr", "re_sigma")) -> out$slx_control
+  last <- grep("slx_control", allout[,1])
+  out$slx_control %>%
+    mutate(fleet = out$fleet_names[abs(as.numeric(.$gear))],
+           sex = case_when(sex %in% 0:1 ~ "male",
+                           sex == 2 ~ "female"),
+           type = ifelse(gear > 0, "capture", "retention")) %>%
+    distinct(fleet, type, sex, start_yr, end_yr) %>%
+    mutate(start_yr = ifelse(start_yr == 0, out$yr_range[1], start_yr),
+           end_yr = ifelse(start_yr == 0, out$yr_range[2], end_yr),
+           year = purrr::map2(start_yr, end_yr, function(start_yr, end_yr) {start_yr:end_yr})) %>%
+    unnest(year) %>%
+    mutate(period = paste(start_yr, "-", end_yr)) %>%
+    dplyr::select(-start_yr, -end_yr) -> tmp
+  slx_cap %>%
+    left_join(tmp %>%
+                filter(type == "capture") %>%
+                transmute(year, fleet, sex, capture_period = period),
+              by = join_by(year, sex, fleet)) %>%
+    left_join(slx_ret %>%
+                left_join(tmp %>%
+                            filter(type == "retention") %>%
+                            transmute(year, fleet, sex, ret_disc_period = period),
+                          by = join_by(year, sex, fleet)),
+              by = join_by(year, sex, fleet, size)) %>%
+    left_join(slx_disc, by = join_by(year, sex, fleet, size)) %>%
+    transmute(year, sex, fleet, size, slx_capture, capture_period, slx_retention,
+              slx_discard, ret_disc_period) -> out$selectivity
+  last <- grep("#----", allout[,1])[8]
   
   # mortality ----
   
@@ -559,7 +603,7 @@ gmacs_read_allout <- function(file, model_name = NULL) {
   # objective function ----
   out$objective_function <- out$likelihoods_by_type %>% filter(process == "total") %>% pull(net_lik)
   # max gradient ----
-  out$max_gradient <- max(read.table(file.path(dirname(file), "./gradient.dat"), header = T)[,3])
+  out$max_gradient <- max(out$parameters$gradient, na.rm = T)
   # output ----
   return(out)
 }
@@ -987,9 +1031,7 @@ gmacs_get_size_summary <- function(all_out = NULL, file = NULL, model_name = NUL
          all_out = all_out) %>% 
     mutate(data = purrr::map(all_out, function(x) {
       x$size_fit_summary %>% 
-        mutate(lambda = x$francis_weights[org_series],
-               nsamp_stage2 = exp(x$parameters$estimate[grepl("Log_vn_comp", x$parameters$parameter_type)][org_series]) * nsamp * lambda,
-               model = as.character(x$model_name))
+        mutate(model = as.character(x$model_name))
     })) %>% transmute(data) %>% unnest(data) %>%
     dplyr::select(ncol(.), 1:(ncol(.)-1)) -> out
   
@@ -1392,24 +1434,25 @@ gmacs_plot_index <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_l
 ### plot_dir - file directory in which to save plots
 ### size_lab - optional, custom size axis label, as character vector, example: "Carapace Length (mm)", default = "Size"
 ### show_neff - show effective N on plots, default = T
-### show_neff_adj - use stage 2 effective N on plots (show neff must also be true), default = T
+### show_neff_est - use stage 2 effective N on plots (show neff must also be true), default = T
 ### data_summary - alternate way to bring in data, output of gmacs_get_size_summary()
 ### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 ### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 
-gmacs_plot_size_comp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, size_lab = "Size", show_neff = T,
-                                 show_neff_adj = T, data_summary = NULL, file = NULL, model_name = NULL) {
+gmacs_plot_size_comp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, size_lab = "Size", 
+                                 neff_options = list(neff = T, neff_est = T, location = "right"),
+                                 data_summary = NULL, file = NULL, model_name = NULL) {
 
   # get size summary data
   if(is.null(data_summary)){data_summary <- gmacs_get_size_summary(all_out, file, model_name)}
   
   # line plots ----
   
-  if(save_plot == T & is.null(plot_dir)) {stop("plot_dir not provided!!!")}
+  if(save_plot == T & is.null(plot_dir)) {dir.create("./plots", showWarnings = F, recursive = TRUE); plot_dir <- "./plots"}
   if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
   
   data_summary %>%
-    nest_by(org_series, mod_series, sex, .keep = T) %>% ungroup %>% 
+    nest_by(org_series, mod_series, sex, .keep = T) %>% ungroup %>%
     mutate(all_fit = purrr::map(data, function(data) {
       
       ## plot dimensions
@@ -1417,39 +1460,84 @@ gmacs_plot_size_comp <- function(all_out = NULL, save_plot = T, plot_dir = NULL,
                      ifelse(length(unique(data$year)) >= 6, 2, 1))
       rows <- ifelse(cols == 1, length(unique(data$year)), 
                      ifelse(cols == 2, ceiling(length(unique(data$year)) / 2), ceiling(length(unique(data$year)) / 3)))
-      ## plot
-      data %>%
-        mutate(neff_annotate = paste0("N = ", round(nsamp))) -> tmp
-      if(show_neff_adj == T){
-        mutate(tmp, neff_annotate = paste0("N = ", round(nsamp), "\nN adj = ", round(nsamp_stage2, 1))) -> tmp
-      }
-      tmp %>%
-        ggplot()+
-        geom_bar(aes(x = size, y = obs), stat = "identity", position = "identity", color = NA, fill = "grey70", 
-                 width = data$size[2]-data$size[1], alpha = 0.5)+
-        geom_line(aes(x = size, y = pred, color = model))+
-        geom_text_npc(aes(npcx = "left", npcy = 0.6, label = year),
-                      check_overlap = T, size = 3) -> tmp
-      if(show_neff == T) {
-        tmp + 
-          geom_text_npc(aes(npcx = "right", npcy = 0.9, label = neff_annotate),
+      # do side by side x axis for shell condition (nsrkc) or not
+      sxs_xaxis <- data %>% distinct(org_series, mod_series, fleet, sex, shell, maturity) %>% nrow > 1
+      if(sxs_xaxis == T){
+        size_interval <- out$size_bins[2] - out$size_bins[1]
+        # make 5 breaks across size range
+        labels <- seq(floor(out$size_bins[1]/10)*10, ceiling(out$size_bins[out$n_size_bins]/10)*10, length.out = 5)
+        # extend that out for both x axes
+        breaks <- c(labels, (labels+5*(labels[2]-labels[1]))-size_interval)
+        data %>%
+          mutate(size = ifelse(shell == "Old", size + size_interval + size_interval*out$n_size_bins, size),
+                 neff_annotate = paste0("N = ", round(nsamp_obs))) -> tmp
+        if(neff_options$neff_est == T){
+          mutate(tmp, neff_annotate = paste0("N = ", round(nsamp_obs), "\nN est = ", round(nsamp_est, 1))) -> tmp
+        }
+        tmp %>%
+          ggplot()+
+          geom_bar(aes(x = size, y = obs, fill = shell), stat = "identity", position = "identity", color = NA, 
+                   width = size_interval, alpha = 0.5)+
+          scale_fill_manual(values = c("grey60", "grey80"))+
+          geom_vline(xintercept = max(out$size_bins) + size_interval, linetype = 2)+
+          geom_line(aes(x = size, y = pred, color = model, group = shell))+
+          geom_text_npc(aes(npcx = "left", npcy = 0.6, label = year),
                         check_overlap = T, size = 3) -> tmp
+        if(neff_options$neff == T) {
+          tmp + 
+            geom_text_npc(aes(npcx = neff_options$location, npcy = 0.9, label = neff_annotate),
+                          check_overlap = T, size = 3) -> tmp
+        }
+        tmp+
+          labs(x = size_lab, y = NULL, color = NULL, fill = NULL)+
+          facet_wrap(~year, ncol = cols, nrow = rows, dir = "v")+
+          scale_x_continuous(expand = c(0.1, 0.1), breaks = breaks, labels = c(labels, labels))+
+          scale_color_manual(values = cbpalette)+
+          theme(panel.spacing.x = unit(0.2, "lines"),
+                panel.spacing.y = unit(0, "lines"),
+                panel.border = element_blank(),
+                axis.line.x = element_line(color = "grey70", size = 0.2),
+                axis.ticks.y = element_blank(),
+                axis.text.y = element_blank(),
+                axis.text.x = element_text(size = 8),
+                plot.title = element_text(hjust = 0.5),
+                strip.background = element_blank(),
+                strip.text.x = element_blank(),
+                panel.background = element_blank()) -> x
       }
-      tmp+
-        labs(x = size_lab, y = NULL, color = NULL)+
-        facet_wrap(~year, ncol = cols, nrow = rows, dir = "v")+
-        scale_x_continuous(expand = c(0.1, 0.1))+
-        scale_color_manual(values = cbpalette)+
-        theme(panel.spacing.x = unit(0.2, "lines"),
-              panel.spacing.y = unit(0, "lines"),
-              panel.border = element_blank(),
-              axis.line.x = element_line(color = "grey70", size = 0.2),
-              axis.ticks.y = element_blank(),
-              axis.text.y = element_blank(),
-              plot.title = element_text(hjust = 0.5),
-              strip.background = element_blank(),
-              strip.text.x = element_blank(),
-              panel.background = element_blank()) -> x
+      if(sxs_xaxis == F){## plot
+        data %>%
+          mutate(neff_annotate = paste0("N = ", round(nsamp_obs))) -> tmp
+        if(neff_options$neff_est == T){
+          mutate(tmp, neff_annotate = paste0("N = ", round(nsamp_obs), "\nN est = ", round(nsamp_est, 1))) -> tmp
+        }
+        tmp %>%
+          ggplot()+
+          geom_bar(aes(x = size, y = obs), stat = "identity", position = "identity", color = NA, fill = "grey70", 
+                   width = 1, alpha = 0.5)+
+          geom_line(aes(x = size, y = pred, color = model))+
+          geom_text_npc(aes(npcx = "left", npcy = 0.6, label = year),
+                        check_overlap = T, size = 3) -> tmp
+        if(neff_options$neff == T) {
+          tmp + 
+            geom_text_npc(aes(npcx = neff_options$location, npcy = 0.9, label = neff_annotate),
+                          check_overlap = T, size = 3) -> tmp
+        }
+        tmp+
+          labs(x = size_lab, y = NULL, color = NULL)+
+          facet_wrap(~year, ncol = cols, nrow = rows, dir = "v")+
+          scale_x_continuous(expand = c(0.1, 0.1))+
+          scale_color_manual(values = cbpalette)+
+          theme(panel.spacing.x = unit(0.2, "lines"),
+                panel.spacing.y = unit(0, "lines"),
+                panel.border = element_blank(),
+                axis.line.x = element_line(color = "grey70", size = 0.2),
+                axis.ticks.y = element_blank(),
+                axis.text.y = element_blank(),
+                plot.title = element_text(hjust = 0.5),
+                strip.background = element_blank(),
+                strip.text.x = element_blank(),
+                panel.background = element_blank()) -> x}
       if(save_plot == T){
       ggsave(file.path(plot_dir, paste0("size_comp_fit_",tolower(unique(data$fleet)),"_",
                                         tolower(unique(data$sex)),"_",
@@ -1461,40 +1549,89 @@ gmacs_plot_size_comp <- function(all_out = NULL, save_plot = T, plot_dir = NULL,
     }),
     agg_fir = purrr::map(data, function(data) {
       
-      data %>%
-        group_by(model, size) %>%
-        summarise(obs = sum(obs),
-                  pred = sum(pred),
-                  nsamp = sum(nsamp),
-                  nsamp_stage2 = sum(nsamp_stage2),
-                  neff_annotate = paste0("sum N = ", round(nsamp))) -> tmp
-      if(show_neff_adj == T){
-        mutate(tmp, neff_annotate = paste0("sum N = ", round(nsamp), "\nsum N adj = ", round(nsamp_stage2, 1))) -> tmp
+      # do side by side x axis for shell condition (nsrkc) or not
+      sxs_xaxis <- data %>% distinct(org_series, mod_series, fleet, sex, shell, maturity) %>% nrow > 1
+      if(sxs_xaxis == T){
+        size_interval <- out$size_bins[2] - out$size_bins[1]
+        # make 5 breaks across size range
+        labels <- seq(floor(out$size_bins[1]/10)*10, ceiling(out$size_bins[out$n_size_bins]/10)*10, length.out = 5)
+        # extend that out for both x axes
+        breaks <- c(labels, (labels+5*(labels[2]-labels[1]))-size_interval)
+        data %>%
+          mutate(size = ifelse(shell == "Old", size + size_interval + size_interval*out$n_size_bins, size)) %>%
+          group_by(model, shell, size) %>%
+          summarise(obs = sum(obs),
+                    pred = sum(pred),
+                    nsamp_obs = sum(nsamp_obs),
+                    nsamp_est = sum(nsamp_est),
+                    neff_annotate = paste0("sum N = ", round(nsamp_obs))) -> tmp
+        if(neff_options$neff_est == T){
+          mutate(tmp, neff_annotate = paste0("sum N = ", round(nsamp_obs), "\nsum N est = ", round(nsamp_est, 1))) -> tmp
+        }
+        tmp %>% ungroup %>%
+          ggplot()+
+          geom_bar(aes(x = size, y = obs, fill = shell), stat = "identity", position = "identity", color = NA, 
+                   width = size_interval, alpha = 0.5)+
+          scale_fill_manual(values = c("grey60", "grey80"))+
+          geom_vline(xintercept = max(out$size_bins) + size_interval, linetype = 2)+
+          geom_line(aes(x = size, y = pred, color = model, group = shell)) -> tmp
+        if(neff_options$neff == T) {
+          tmp + 
+            geom_text_npc(aes(npcx = neff_options$location, npcy = 0.9, label = neff_annotate),
+                          check_overlap = T, size = 3) -> tmp
+        }
+        tmp+
+          labs(x = size_lab, y = NULL, color = NULL, fill = NULL)+
+          scale_x_continuous(breaks = breaks, labels = c(labels, labels))+
+          scale_color_manual(values = cbpalette)+
+          theme(panel.spacing.x = unit(0.2, "lines"),
+                panel.spacing.y = unit(0, "lines"),
+                panel.border = element_blank(),
+                axis.line.x = element_line(color = "grey70", size = 0.2),
+                axis.ticks.y = element_blank(),
+                axis.text.y = element_blank(),
+                axis.text.x = element_text(size = 8),
+                plot.title = element_text(hjust = 0.5),
+                strip.background = element_blank(),
+                strip.text.x = element_blank(),
+                panel.background = element_blank()) -> x
       }
-      tmp %>% ungroup %>%
-        ggplot()+
-        geom_bar(aes(x = size, y = obs), stat = "identity", position = "identity", color = NA, fill = "grey70", 
-                 width = data$size[2]-data$size[1], alpha = 0.5)+
-        geom_line(aes(x = size, y = pred, color = model)) -> tmp
-      if(show_neff == T) {
-        tmp + 
-          geom_text_npc(aes(npcx = "left", npcy = 0.9, label = neff_annotate),
-                        check_overlap = T, size = 3) -> tmp
+      if(sxs_xaxis == F){
+        data %>%
+          group_by(model, size) %>%
+          summarise(obs = sum(obs),
+                    pred = sum(pred),
+                    nsamp_obs = sum(nsamp_obs),
+                    nsamp_est = sum(nsamp_est),
+                    neff_annotate = paste0("sum N = ", round(nsamp_obs))) -> tmp
+        if(neff_options$neff_est == T){
+          mutate(tmp, neff_annotate = paste0("sum N = ", round(nsamp_obs), "\nsum N est = ", round(nsamp_est, 1))) -> tmp
+        }
+        tmp %>% ungroup %>%
+          ggplot()+
+          geom_bar(aes(x = size, y = obs), stat = "identity", position = "identity", color = NA, fill = "grey70", 
+                   width = data$size[2]-data$size[1], alpha = 0.5)+
+          geom_line(aes(x = size, y = pred, color = model)) -> tmp
+        if(neff_options$neff == T) {
+          tmp + 
+            geom_text_npc(aes(npcx = neff_options$location, npcy = 0.9, label = neff_annotate),
+                          check_overlap = T, size = 3) -> tmp
+        }
+        tmp+
+          labs(x = size_lab, y = NULL, color = NULL)+
+          scale_x_continuous(expand = c(0.1, 0.1))+
+          scale_color_manual(values = cbpalette)+
+          theme(panel.spacing.x = unit(0.2, "lines"),
+                panel.spacing.y = unit(0, "lines"),
+                panel.border = element_blank(),
+                axis.line.x = element_line(color = "grey70", size = 0.2),
+                axis.ticks.y = element_blank(),
+                axis.text.y = element_blank(),
+                plot.title = element_text(hjust = 0.5),
+                strip.background = element_blank(),
+                strip.text.x = element_blank(),
+                panel.background = element_blank()) -> x
       }
-      tmp+
-        labs(x = size_lab, y = NULL, color = NULL)+
-        scale_x_continuous(expand = c(0.1, 0.1))+
-        scale_color_manual(values = cbpalette)+
-        theme(panel.spacing.x = unit(0.2, "lines"),
-              panel.spacing.y = unit(0, "lines"),
-              panel.border = element_blank(),
-              axis.line.x = element_line(color = "grey70", size = 0.2),
-              axis.ticks.y = element_blank(),
-              axis.text.y = element_blank(),
-              plot.title = element_text(hjust = 0.5),
-              strip.background = element_blank(),
-              strip.text.x = element_blank(),
-              panel.background = element_blank()) -> x
       if(save_plot == T){
       ggsave(file.path(plot_dir, paste0("aggregate_size_comp_fit_",tolower(unique(data$fleet)),"_",
                                         tolower(unique(data$sex)),"_",
@@ -1509,29 +1646,64 @@ gmacs_plot_size_comp <- function(all_out = NULL, save_plot = T, plot_dir = NULL,
                      ifelse(length(unique(data$year)) >= 6, 2, 1))
       rows <- ifelse(cols == 1, length(unique(data$year)), 
                      ifelse(cols == 2, ceiling(length(unique(data$year)) / 2), ceiling(length(unique(data$year)) / 3)))
-      ## plot
-      data %>%
-        ggplot()+
-        geom_hline(yintercept = 0, linetype = 2, color = "grey70")+
-        geom_line(aes(x = size, y = residual, color = model))+
-        scale_color_manual(values = cbpalette)+
-        labs(y = NULL, x = "Carapce Length (mm)", size = NULL, fill = NULL)+
-        geom_text_npc(aes(npcx = "left", npcy = 0.8, label = year),
-                      check_overlap = T, size = 4)+
-        facet_wrap(~year) +
-        theme(legend.position = "top")+
-        facet_wrap(~year, ncol = 3, dir = "v", )+
-        labs(x = size_lab, y = NULL, fill = NULL, color = NULL) +
-        theme(panel.border= element_blank(),
-              panel.spacing.y = unit(-0.5, "lines"),
-              panel.spacing.x = unit(1, "lines"),
-              strip.background = element_blank(),
-              strip.text.x = element_blank(),
-              axis.text.y = element_blank(),
-              axis.line.y = element_blank(),
-              axis.line.x = element_line(size = 0.1, color = "grey70"),
-              axis.ticks.y = element_blank(),
-              panel.background = element_blank()) -> x
+      # do side by side x axis for shell condition (nsrkc) or not
+      sxs_xaxis <- data %>% distinct(org_series, mod_series, fleet, sex, shell, maturity) %>% nrow > 1
+      if(sxs_xaxis == T) {
+        size_interval <- out$size_bins[2] - out$size_bins[1]
+        # make 5 breaks across size range
+        labels <- seq(floor(out$size_bins[1]/10)*10, ceiling(out$size_bins[out$n_size_bins]/10)*10, length.out = 5)
+        # extend that out for both x axes
+        breaks <- c(labels, (labels+5*(labels[2]-labels[1]))-size_interval)
+        data %>%
+          mutate(size = ifelse(shell == "Old", size + size_interval + size_interval*out$n_size_bins, size)) %>%
+          ggplot()+
+          geom_hline(yintercept = 0, linetype = 2, color = "grey70")+
+          geom_vline(xintercept = max(out$size_bins) + size_interval, linetype = 2)+
+          geom_line(aes(x = size, y = residual, color = model, group = shell))+
+          scale_color_manual(values = cbpalette)+
+          labs(y = NULL, x = "Carapce Length (mm)", size = NULL, fill = NULL)+
+          geom_text_npc(aes(npcx = "left", npcy = 0.8, label = year),
+                        check_overlap = T, size = 4)+
+          theme(legend.position = "top")+
+          facet_wrap(~year, ncol = cols, dir = "v", )+
+          labs(x = size_lab, y = NULL, fill = NULL, color = NULL)+
+          scale_x_continuous(breaks = breaks, labels = c(labels, labels))+
+          theme(panel.border= element_blank(),
+                panel.spacing.y = unit(-0.5, "lines"),
+                panel.spacing.x = unit(1, "lines"),
+                strip.background = element_blank(),
+                strip.text.x = element_blank(),
+                axis.text.y = element_blank(),
+                axis.text.x = element_text(size = 8),
+                axis.line.y = element_blank(),
+                axis.line.x = element_line(size = 0.1, color = "grey70"),
+                axis.ticks.y = element_blank(),
+                panel.background = element_blank()) -> x
+      }
+      if(sxs_xaxis == F) {
+        ## plot
+        data %>%
+          ggplot()+
+          geom_hline(yintercept = 0, linetype = 2, color = "grey70")+
+          geom_line(aes(x = size, y = residual, color = model))+
+          scale_color_manual(values = cbpalette)+
+          labs(y = NULL, x = "Carapce Length (mm)", size = NULL, fill = NULL)+
+          geom_text_npc(aes(npcx = "left", npcy = 0.8, label = year),
+                        check_overlap = T, size = 4)+
+          theme(legend.position = "top")+
+          facet_wrap(~year, ncol = cols, dir = "v", )+
+          labs(x = size_lab, y = NULL, fill = NULL, color = NULL) +
+          theme(panel.border= element_blank(),
+                panel.spacing.y = unit(-0.5, "lines"),
+                panel.spacing.x = unit(1, "lines"),
+                strip.background = element_blank(),
+                strip.text.x = element_blank(),
+                axis.text.y = element_blank(),
+                axis.line.y = element_blank(),
+                axis.line.x = element_line(size = 0.1, color = "grey70"),
+                axis.ticks.y = element_blank(),
+                panel.background = element_blank()) -> x
+      }
       if(save_plot == T){
       ggsave(file.path(plot_dir, paste0("size_comp_resid_line_",tolower(unique(data$fleet)),"_",
                                         tolower(unique(data$sex)),"_",
@@ -1558,6 +1730,7 @@ gmacs_plot_size_comp <- function(all_out = NULL, save_plot = T, plot_dir = NULL,
         scale_x_continuous(breaks = yraxis$breaks, labels = yraxis$labels)+
         labs(x = NULL, y = size_lab, size = NULL, fill = NULL)+
         theme(legend.position = "top") -> x
+      
       if(save_plot == T){
       ggsave(file.path(plot_dir, paste0("size_comp_dot_",tolower(unique(data$model)),"_", 
                                         tolower(unique(data$fleet)),"_",
