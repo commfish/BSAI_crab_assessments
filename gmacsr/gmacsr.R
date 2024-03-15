@@ -1,14 +1,7 @@
 ## gmacs R functions
-## updated to gmacs version 2.01.M.09 (compiled 2/28/2024); tpl updated by AEP
+## updated to GMACS 2.01.M.10; Completed 2024-02-27
 ## tyler jackson
-## last update - 2/28/2024
-
-# major updates since last revision ----
-
-## gmacs_read_allout
-# 1) add numbers units
-# 2) add gradient to parameters table
-# 3) add mmb_proj to output
+## last update - 3/14/2024
 
 # load ----
 
@@ -98,7 +91,7 @@ gmacs_read_allout <- function(file, model_name = NULL) {
   out$stock <- gsub("#Stock being assessed: ", "", str_flatten(allout[2,], collapse = " ", na.rm = T))
   # general info ----
   ## years
-  out$yr_range <- as.numeric(allout[grep("Year_range", allout[,1]), 2:3])
+  out$yr_range <- as.numeric(gsub(";", "", allout[grep("Year_range", allout[,1]), 2:3]))
   out$mod_yrs <- out$yr_range[1]:out$yr_range[2]
   last <- grep("Year_range", allout[,1]) # start saving last position in file
   ## number of seasons
@@ -186,7 +179,7 @@ gmacs_read_allout <- function(file, model_name = NULL) {
     transmute(penalty, raw_lik = V1, emphasis = V2, net_lik = V3) -> tmp
 
   out$penalties <- tmp
-  last <- last + 13
+  last <- last + 14
   
   # parameters ----
   
@@ -212,6 +205,8 @@ gmacs_read_allout <- function(file, model_name = NULL) {
                            ifelse(estimate > upper_bound-range*0.01, 1, 0))) %>%
     filter(status == 1) %>% dplyr::select(-range, -status) -> out$parameters_at_bounds
   
+  # max gradient ----
+  out$max_gradient <- max(abs(out$parameters$gradient), na.rm = T)
   # reference points ----
   
   ## ref tibble
@@ -224,7 +219,13 @@ gmacs_read_allout <- function(file, model_name = NULL) {
                    paste0("Fmsy_", 1:out$n_fleets), paste0("Fofl_", 1:out$n_fleets), 
                    paste0("OFL_", 1:out$n_fleets))) %>%
     transmute(parameter_name = ref, estimate = V1, se = V2, est_quantity_count = V3) -> out$reference_points
-  out$mmb_proj <- prod(out$reference_points$estimate[out$reference_points$parameter_name %in% c("BMSY", "Bcurr/BMSY")])
+  out$mmb_curr <- prod(out$reference_points$estimate[out$reference_points$parameter_name %in% c("BMSY", "Bcurr/BMSY")])
+  out$ofl_tot <- out$reference_points$estimate[out$reference_points$parameter_name %in% c("OFL_tot")]
+  out$bmsy <- out$reference_points$estimate[out$reference_points$parameter_name %in% c("BMSY")]
+  out$b_bmsy <- out$reference_points$estimate[out$reference_points$parameter_name %in% c("Bcurr/BMSY")]
+  out$f_msy_tot <- sum(out$reference_points$estimate[out$reference_points$parameter_name %in% paste0("Fmsy_", 1:out$n_fleets)])
+  out$f_ofl_tot <- sum(out$reference_points$estimate[out$reference_points$parameter_name %in% paste0("Fofl_", 1:out$n_fleets)])
+  out$rbar_tot <- sum(out$reference_points$estimate[out$reference_points$parameter_name %in% c("Male_spr_rbar", "Female_spr_rbar")])
   last <- grep("#---", allout[,1])[2] - 1
   ## ref sigma
   allout[last,] %>% dplyr::select_if(~ !any(is.na(.))) %>%
@@ -232,6 +233,7 @@ gmacs_read_allout <- function(file, model_name = NULL) {
     .[1,] %>% as.numeric() %>%na.omit() %>% as.numeric() -> out$ref_sigmaR
   names(out$ref_sigmaR) <- c("sigmaR", "weight")
   last <- grep("#---", allout[,1])[2]
+  
   # overall summary ----
   
   tmp <- matrix(ncol = 15 + (3*out$n_sex) + out$n_fleets, nrow = length(out$mod_yrs))
@@ -315,52 +317,63 @@ gmacs_read_allout <- function(file, model_name = NULL) {
   as_tibble(tmp) %>%
     rename_all(~c("org_series", "mod_series", "year", "fleet", "season", "sex", "type", "shell", "maturity", "nsamp_obs")) %>%
     mutate_at(c(1:3, 5, 10), as.numeric) -> tmp
-  # check to see how shell conditions are input, FALSE should mean input as separate shell condition, 
-  # maturity size comps don't get combined....? 
-  series_same <- sum(tmp$org_series == tmp$mod_series) == nrow(tmp)
-  if(out$n_shell > 1 & series_same == F) {
-    tmp2 <- matrix(ncol = out$n_shell * 2 * out$n_size_bins, nrow = nrow(tmp))
-    for(i in 1:nrow(tmp2)) {
-      tmp2[i,] <- as.character(allout[last+2+i, (ncol(tmp)+1):(ncol(tmp)+ncol(tmp2))])
-    }
-    # combine with size info
-    bind_cols(tmp, as_tibble(tmp2)) %>%
-      rename_all(~c(names(tmp), paste0("obs_New_", out$size_bins), paste0("obs_Old_", out$size_bins), 
-                    paste0("pred_New_", out$size_bins), paste0("pred_Old_", out$size_bins))) %>%
-      pivot_longer((ncol(tmp)+1):ncol(.), names_to = "group", values_to = "prop") %>% 
-      separate_wider_delim(group, "_", names_sep = "split") %>%
-      pivot_wider(names_from = groupsplit1, values_from = prop) %>%
-      dplyr::select(-shell) %>%
-      rename(shell = groupsplit2, size = groupsplit3) %>%
-      transmute(org_series, mod_series, year, fleet, season, sex, type, shell, maturity, size = as.numeric(size), 
-                nsamp_obs, obs = as.numeric(obs), pred = as.numeric(pred), residual = obs - pred) -> out$size_fit_summary
-    }
-  if(series_same == T) {
-    
-    tmp2 <- matrix(ncol = 2 * out$n_size_bins, nrow = nrow(tmp))
-    for(i in 1:nrow(tmp2)) {
-      tmp2[i,] <- as.character(allout[last+2+i, (ncol(tmp)+1):(ncol(tmp)+ncol(tmp2))])
-    }
-    # combine with size info
-    bind_cols(tmp, as_tibble(tmp2)) %>%
-      rename_all(~c(names(tmp), paste0("obs_", out$size_bins), paste0("pred_", out$size_bins))) %>%
-      pivot_longer((ncol(tmp)+1):ncol(.), names_to = "group", values_to = "prop") %>% 
-      separate_wider_delim(group, "_", names_sep = "split") %>%
-      pivot_wider(names_from = groupsplit1, values_from = prop) %>%
-      rename(size = groupsplit2) %>%
-      transmute(org_series, mod_series, year, fleet, season, sex, type, shell, maturity, size = as.numeric(size), 
-                nsamp, obs = as.numeric(obs), pred = as.numeric(pred), residual = obs - pred) -> out$size_fit_summary
-    }
+  
+  ## get comps
+  last <- last + 2 # set last to start where the data is
+  tmp %>%
+    nest_by(mod_series, .keep = T) %>% ungroup() %>% 
+    mutate(row = purrr::map_dbl(data, ~nrow(.)),
+           row = lag(row),
+           row = cumsum(ifelse(is.na(row), 0, row)) + last) %>% 
+    mutate(comps = purrr::map2(data, row, function(data, row) {
+      
+      comp_tmp <- matrix(ncol = ncol(allout)-ncol(tmp), nrow = nrow(data))
+      for(i in 1:nrow(comp_tmp)) {
+        comp_tmp[i,] <- as.numeric(allout[row + i, 11:ncol(allout)])
+      }
+      as_tibble(comp_tmp) %>%
+        select(where(function(x) !all(is.na(x)))) -> comp_tmp
+      if((ncol(comp_tmp)/out$n_size_bins) <= 2) {comp_agg <- F} else{comp_agg <- T}
+      if(comp_agg == F){
+        
+        comp_tmp %>% 
+          rename_all(~c(paste0("obs_", out$size_bins[1:(ncol(comp_tmp)/2)]), paste0("pred_", out$size_bins[1:(ncol(comp_tmp)/2)]))) %>%
+          bind_cols(data, .) %>%
+          pivot_longer((ncol(data)+1):ncol(.), names_to = "group", values_to = "prop") %>% 
+          separate_wider_delim(group, "_", names_sep = "split") %>%
+          pivot_wider(names_from = groupsplit1, values_from = prop) %>%
+          rename(size = groupsplit2) %>%
+          transmute(org_series, mod_series, year, fleet, season, sex, type, shell, maturity, size = as.numeric(size), 
+                    nsamp_obs, obs = as.numeric(obs), pred = as.numeric(pred), residual = obs - pred) -> comp_out
+      }
+      if(comp_agg == T){
+        nobs <- ncol(comp_tmp)/2
+        group <- rep(1:50, each = out$n_size_bins)[1:nobs] # << probably a more elegant way to do this...
+        comp_tmp %>% 
+          rename_all(~c(paste0("obs_", group, "_", as.numeric(matrix(out$size_bins, ncol = nobs))), paste0("pred_", group, "_", as.numeric(matrix(out$size_bins, ncol = nobs))))) %>%
+          bind_cols(data, .) %>%
+          pivot_longer((ncol(data)+1):ncol(.), names_to = "group", values_to = "prop") %>% 
+          separate_wider_delim(group, "_", names_sep = "split") %>%
+          pivot_wider(names_from = groupsplit1, values_from = prop) %>%
+          rename(size = groupsplit3, aggregate_series = groupsplit2) %>%
+          transmute(org_series, mod_series, aggregate_series = as.numeric(aggregate_series), year, fleet, season, sex, type, shell, maturity, size = as.numeric(size),
+                    nsamp_obs, obs = as.numeric(obs), pred = as.numeric(pred), residual = obs - pred) -> comp_out
+      }
+      
+      return(comp_out)
+      
+    })) %>% transmute(comps) %>% unnest -> out$size_fit_summary
+  
   last <- grep("sdnr_MAR_lf", allout[,1])
   ## sdnr_MAR_lf
-  tmp <- matrix(ncol = 2, nrow = length(unique(out$size_fit_summary$org_series)))
+  tmp <- matrix(ncol = 2, nrow = length(unique(out$size_fit_summary$mod_series)))
   for(i in 1:nrow(tmp)) {
     tmp[i,] <- as.numeric(allout[last+i, 1:2])
   }
   out$sdnr_MAR_lf <- tmp
   last <- grep("Francis_weights", allout[,1])
   ## francis weights
-  out$francis_weights <- as.numeric(allout[last+1, 1:length(unique(out$size_fit_summary$org_series))]); last <- grep("#---", allout[,1])[7]
+  out$francis_weights <- as.numeric(allout[last+1, 1:length(unique(out$size_fit_summary$mod_series))]); last <- grep("#---", allout[,1])[7]
   
   ## add stage two weights to fit summary
   out$size_fit_summary %>% 
@@ -395,40 +408,41 @@ gmacs_read_allout <- function(file, model_name = NULL) {
   as_tibble(tmp) %>%
     rename_all(~c("year", "sex", "fleet", out$size_bins)) %>%
     pivot_longer(4:ncol(.), values_to = "slx_discard", names_to = "size") %>%
-    mutate_at(c(1, 4, 5), as.numeric) -> slx_disc; last <- grep("slx_control", allout[,1])
+    mutate_at(c(1, 4, 5), as.numeric) -> slx_disc; last <- grep("Select_control", allout[,2])
   ## slx control
-  as_tibble(allout[(last+1):(grep("#----", allout[,1])[8]-1), 1:19]) %>%
+  as_tibble(allout[(last+2):(grep("#----", allout[,1])[8]-1), 1:11]) %>%
     mutate_all(as.numeric) %>%
-    rename_all(~c("gear", "par", "sel_par", "sex", "init_val", "lb", "ub",
-                  "prior", "p1", "p2", "phase", "start_yr", "end_yr", "env_link",
-                  "link_par", "rand_walk", "re_start_yr", "re_end_yr", "re_sigma")) -> out$slx_control
-  last <- grep("slx_control", allout[,1])
+    rename_all(~c("gear", "par", "phase", "start_yr", "end_yr", "env_link",
+                  "link_par", "rand_walk", "re_start_yr", "re_end_yr", "re_sigma")) %>%
+    # add sex wherever there is two selectivity functions with the same gear and block - Andre should change the output back to what I had at some point
+    group_by(gear, start_yr, end_yr) %>% 
+    mutate(sex = c("male", "female")[row_number()]) %>% ungroup() %>%
+    transmute(gear, sex, par, phase, start_yr, end_yr, env_link, link_par, rand_walk, re_start_yr, re_end_yr, re_sigma) -> out$slx_control
+  
   out$slx_control %>%
     mutate(fleet = out$fleet_names[abs(as.numeric(.$gear))],
-           sex = case_when(sex %in% 0:1 ~ "male",
-                           sex == 2 ~ "female"),
            type = ifelse(gear > 0, "capture", "retention")) %>%
     distinct(fleet, type, sex, start_yr, end_yr) %>%
     mutate(start_yr = ifelse(start_yr == 0, out$yr_range[1], start_yr),
            end_yr = ifelse(start_yr == 0, out$yr_range[2], end_yr),
            year = purrr::map2(start_yr, end_yr, function(start_yr, end_yr) {start_yr:end_yr})) %>%
     unnest(year) %>%
-    mutate(period = paste(start_yr, "-", end_yr)) %>%
+    mutate(block = paste(start_yr, "-", end_yr)) %>%
     dplyr::select(-start_yr, -end_yr) -> tmp
   slx_cap %>%
     left_join(tmp %>%
                 filter(type == "capture") %>%
-                transmute(year, fleet, sex, capture_period = period),
+                transmute(year, fleet, sex, capture_block = block),
               by = join_by(year, sex, fleet)) %>%
     left_join(slx_ret %>%
                 left_join(tmp %>%
                             filter(type == "retention") %>%
-                            transmute(year, fleet, sex, ret_disc_period = period),
+                            transmute(year, fleet, sex, ret_disc_block = block),
                           by = join_by(year, sex, fleet)),
               by = join_by(year, sex, fleet, size)) %>%
     left_join(slx_disc, by = join_by(year, sex, fleet, size)) %>%
-    transmute(year, sex, fleet, size, slx_capture, capture_period, slx_retention,
-              slx_discard, ret_disc_period) -> out$selectivity
+    transmute(year, sex, fleet, size, slx_capture, capture_block, slx_retention,
+              slx_discard, ret_disc_block) -> out$selectivity
   last <- grep("#----", allout[,1])[8]
   
   # mortality ----
@@ -602,8 +616,7 @@ gmacs_read_allout <- function(file, model_name = NULL) {
   
   # objective function ----
   out$objective_function <- out$likelihoods_by_type %>% filter(process == "total") %>% pull(net_lik)
-  # max gradient ----
-  out$max_gradient <- max(out$parameters$gradient, na.rm = T)
+
   # output ----
   return(out)
 }
@@ -742,7 +755,7 @@ gmacs_do_exe <- function(gmacs.dat, pin = F, wait = T, reweight = T, level = 0.0
       converged <- F
       # turn off reference point calculation
       dat <- readLines("./gmacs_files_in.dat")
-      dat[31] <- "0 # Calculate reference points (0=no)" 
+      dat[33] <- "0 # Calculate reference points (0=no)" 
       writeLines(dat, "./gmacs.dat")
       ctl_file <- dat[6] # ctl file path
       # start a counter
@@ -767,7 +780,7 @@ gmacs_do_exe <- function(gmacs.dat, pin = F, wait = T, reweight = T, level = 0.0
         iteration <- iteration + 1
       }
       # turn on reference point calculation, run gmacs once more
-      dat[31] <- "1 # Calculate reference points (0=no)" 
+      dat[33] <- "1 # Calculate reference points (0=no)" 
       writeLines(dat, "./gmacs.dat")
       shell("gmacs.exe")
       setwd(wd)
@@ -795,14 +808,15 @@ gmacs_do_exe <- function(gmacs.dat, pin = F, wait = T, reweight = T, level = 0.0
 ### csv_dir - file directory in which to save output
 ### save_plot - T/F, create histograms, default = T
 ### plot_dir - file directory in which to save plots
+### model_name - character string to save as object in output, later to be used for plot legends. example: "23.1b"
 
 gmacs_do_jitter <- function(gmacs.dat, sd, iter, ref_points = T, pin = F, wait = T,
-                            save_csv = T, csv_dir = NULL, save_plot = T, plot_dir = NULL) {
+                            save_csv = T, csv_dir = NULL, save_plot = T, plot_dir = NULL, model_name = NULL) {
   
   # create output directories
-  if(save_csv == T & is.null(csv_dir)) {stop("csv_dir not provided!!!")}
+  if(save_csv == T & is.null(csv_dir)) {csv_dir <- file.path(dirname(gmacs.dat), "output"); dir.create(csv_dir, showWarnings = F, recursive = TRUE)}
   if(!is.null(csv_dir) && !file.exists(csv_dir)) {dir.create(csv_dir, showWarnings = F, recursive = TRUE)}
-  if(save_plot == T & is.null(plot_dir)) {stop("plot_dir not provided!!!")}
+  if(save_plot == T & is.null(plot_dir)) {plot_dir <- file.path(dirname(gmacs.dat), "plots"); dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
   if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
   
   # directory ----
@@ -844,11 +858,11 @@ gmacs_do_jitter <- function(gmacs.dat, sd, iter, ref_points = T, pin = F, wait =
   # set working 
   setwd("./jitter")
   # turn on reference points
-  if(ref_points == T){dat[31] <- "1 # Calculate reference points (0=no)"}
-  if(ref_points == F){dat[31] <- "1 # Calculate reference points (0=no)"}
+  if(ref_points == T){dat[33] <- "1 # Calculate reference points (0=no)"}
+  if(ref_points == F){dat[33] <- "0 # Calculate reference points (0=no)"}
   # set up jitter
-  dat[14] <- 1
-  dat[16] <- sd
+  dat[16] <- 1
+  dat[18] <- sd
   # write gmacs.dat file
   writeLines(dat, "gmacs.dat"); file.remove("gmacs_files_in.dat")
   gfiles <- list.files()
@@ -860,7 +874,7 @@ gmacs_do_jitter <- function(gmacs.dat, sd, iter, ref_points = T, pin = F, wait =
                 catch_lik = NA,
                 index_lik = NA,
                 size_lik = NA,
-                mmb = NA,
+                mmb_curr = NA,
                 bmsy = NA)
   for (i in 1:iter) {
     rundir <- paste0("./run_", i)
@@ -876,15 +890,16 @@ gmacs_do_jitter <- function(gmacs.dat, sd, iter, ref_points = T, pin = F, wait =
     out$index_lik[i] <- ao$likelihoods_by_type$net_lik[ao$likelihoods_by_type$process == "index"]
     out$size_lik[i] <- ao$likelihoods_by_type$net_lik[ao$likelihoods_by_type$process == "size"]
     if(ref_points == T) {
-      out$mmb[i] <- ao$reference_points$estimate[ao$reference_points$parameter_name == "BMSY"] * ao$reference_points$estimate[ao$reference_points$parameter_name == "Bcurr/BMSY"]
-      out$bmsy[i] <- ao$reference_points$estimate[ao$reference_points$parameter_name == "BMSY"]
+      out$mmb_curr[i] <- ao$mmb_curr
+      out$bmsy[i] <- ao$bmsy
     }
+    setwd("..")
   }
-  out <- out %>% filter(complete.cases(.))
+  out <- out %>% dplyr::select(where(function(x) !all(is.na(x))))
   # return to model directory
-  setwd("../..")
+  setwd("..")
   # get mle estimates of objects
-  mle_ao <- gmacs_read_allout("./Gmacsall.out")
+  mle_ao <- gmacs_read_allout("./Gmacsall.out", model_name = model_name)
   # set wd back to original
   setwd(wd)
   
@@ -906,9 +921,9 @@ gmacs_do_jitter <- function(gmacs.dat, sd, iter, ref_points = T, pin = F, wait =
     if(ref_points == T){
       # mmb
       ggplot()+
-        geom_histogram(data = out, aes(x = mmb), color = 1, fill = "grey80", 
+        geom_histogram(data = out, aes(x = mmb_curr), color = 1, fill = "grey80", 
                        width = 1)+
-        geom_vline(xintercept = mle_ao$reference_points$estimate[mle_ao$reference_points$parameter_name == "BMSY"] * mle_ao$reference_points$estimate[mle_ao$reference_points$parameter_name == "Bcurr/BMSY"], linetype = 2, color = 2)+
+        geom_vline(xintercept = mle_ao$mmb_curr, linetype = 2, color = 2)+
         scale_x_continuous(labels = scales::comma)+
         labs(x = paste0("MMB (", mle_ao$wt_units, ")") , y = "Jitter Runs") -> p_mmb
       
@@ -920,7 +935,7 @@ gmacs_do_jitter <- function(gmacs.dat, sd, iter, ref_points = T, pin = F, wait =
       ggplot()+
         geom_histogram(data = out, aes(x = bmsy), color = 1, fill = "grey80", 
                        width = 1)+
-        geom_vline(xintercept = mle_ao$reference_points$estimate[mle_ao$reference_points$parameter_name == "BMSY"], linetype = 2, color = 2)+
+        geom_vline(xintercept = mle_ao$bmsy, linetype = 2, color = 2)+
         scale_x_continuous(labels = scales::comma)+
         labs(x = paste0("BMSY (", mle_ao$wt_units, ")"), y = "Jitter Runs") -> p_bmsy
       
@@ -965,6 +980,7 @@ gmacs_get_catch_summary <- function(all_out = NULL, file = NULL, model_name = NU
     mutate(data = purrr::map(all_out, function(x) {
       x$catch_fit_summary %>% 
         mutate(wt_units = gsub("_", " ", x$wt_units),
+               n_units = gsub("_", " ", x$n_units),
                model = as.character(x$model_name)) 
     })) %>% transmute(data) %>% unnest(data) %>%
     dplyr::select(ncol(.), 1:(ncol(.)-1))-> out
@@ -998,6 +1014,7 @@ gmacs_get_index_summary <- function(all_out = NULL, file = NULL, model_name = NU
     mutate(data = purrr::map(all_out, function(x) {
       x$index_fit_summary %>% 
         mutate(wt_units = gsub("_", " ", x$wt_units),
+               n_units = gsub("_", " ", x$n_units),
                model = as.character(x$model_name))
     })) %>% transmute(data) %>% unnest(data) %>%
     dplyr::select(ncol(.), 1:(ncol(.)-1)) -> out
@@ -1066,12 +1083,47 @@ gmacs_get_derived_quantity_summary <- function(all_out = NULL, file = NULL, mode
     mutate(data = purrr::map(all_out, function(x) {
       x$derived_quant_summary %>%
         mutate(model = as.character(x$model_name),
-               units = gsub("_", " ", x$wt_units))
+               wt_units = gsub("_", " ", x$wt_units),
+               n_units = gsub("_", " ", x$n_units))
     })) %>% transmute(data) %>% unnest(data) -> out
   
   return(out)
   
 }
+
+# gmacs_get_f() ----
+
+## isolate fully selected fishing mortality by model
+
+## args:
+### all_out - output from gmacs_read_allout as nested list, example: all.out = list(mod_23.0a, mod_23.1b)
+### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
+### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
+
+gmacs_get_f <- function(all_out = NULL, file = NULL, model_name = NULL){
+  
+  # bring in all out data ----
+  
+  if(!is.null(file) && is.null(all_out)) {
+    if(is.null(model_name)) {stop("Must supply model name(s)!!")}
+    # read all out file
+    all_out <- purrr::map2(file, model_name, gmacs_read_allout); names(all_out) <- paste0("model", model_name)
+  }
+  
+  # extract data ----
+  
+  tibble(mod = names(all_out),
+         all_out = all_out) %>% 
+    mutate(data = purrr::map(all_out, function(x) {
+      x$F_by_sex_fleet_year_season %>%
+        mutate(model = as.character(x$model_name),
+               n_sex = x$n_sex)
+    })) %>% transmute(data) %>% unnest(data) -> out
+  
+  return(out)
+  
+}
+
 
 # gmacs_get_n_matrix() ----
 
@@ -1275,13 +1327,13 @@ gmacs_get_lik <- function(all_out = NULL, file = NULL, model_name = NULL){
 gmacs_plot_catch <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_labs = NULL, 
                              data_summary = NULL, file = NULL, model_name = NULL) {
   
-  # get catch summary data
+  # get summary data
   if(is.null(data_summary)){data_summary <- gmacs_get_catch_summary(all_out, file, model_name)}
   
   # plots 
   
   # create output directories
-  if(save_plot == T & is.null(plot_dir)) {stop("plot_dir not provided!!!")}
+  if(save_plot == T & is.null(plot_dir)) {plot_dir <- file.path(getwd(), "plots"); dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
   if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
   
   data_summary %>%
@@ -1292,7 +1344,7 @@ gmacs_plot_catch <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_l
       if(is.null(y_labs)) {
       y_labs <- paste0(gsub("_", " ", unique(data$fleet)), " ", gsub("All", "Total", unique(data$type)), " Catch (", unique(data$wt_units), ")")
       if(unique(data$units) == "Numbers") {
-        y_labs <- paste0(gsub("_", " ", unique(data$fleet)), " ", gsub("All", "Total", unique(data$type)), " Catch (1,000s)")
+        y_labs <- paste0(gsub("_", " ", unique(data$fleet)), " ", gsub("All", "Total", unique(data$type)), " Catch (", unique(data$wt_units), ")")
       }
       }
       
@@ -1315,11 +1367,13 @@ gmacs_plot_catch <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_l
       if(length(min(data$year):max(data$year)) > 10) { p + scale_x_continuous(labels = yraxis$labels, breaks = yraxis$breaks) -> p }
       
       if(save_plot == T) {
+        
+        pwidth <- min(max(length(min(data$year):max(data$year))*0.2, 5), 7)
         # save plot
         ggsave(plot = p, 
                filename = file.path(plot_dir, paste0("catch_fit_", tolower(unique(data$fleet)), "_", tolower(unique(data$units)), ".png")), 
-               width = max(length(min(data$year):max(data$year))*0.2, 5), 
-               height = min(max(length(min(data$year):max(data$year))*0.2, 5), 3), units = "in")
+               width = pwidth, 
+               height = pwidth * (3/5), units = "in")
       }
       
       return(p)
@@ -1357,13 +1411,13 @@ gmacs_plot_catch <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_l
 gmacs_plot_index <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_labs = NULL, 
                              data_summary = NULL, file = NULL, model_name = NULL) {
   
-  # get catch summary data
+  # get summary data
   if(is.null(data_summary)){data_summary <- gmacs_get_index_summary(all_out, file, model_name)}
 
   # plots 
   
   # create output directories
-  if(save_plot == T & is.null(plot_dir)) {stop("plot_dir not provided!!!")}
+  if(save_plot == T & is.null(plot_dir)) {plot_dir <- file.path(getwd(), "plots"); dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
   if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
   
   data_summary %>%
@@ -1374,7 +1428,7 @@ gmacs_plot_index <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_l
       if(is.null(y_labs)) {
         y_labs <- paste0(gsub("_", " ", unique(data$fleet)), " Index (", unique(data$wt_units), ")")
         if(unique(data$units) == "Numbers") {
-          y_labs <- paste0(gsub("_", " ", unique(data$fleet)), " Index")
+          y_labs <- paste0(gsub("_", " ", unique(data$fleet)), " Index (", unique(data$n_units), ")")
         }
       }
       
@@ -1398,12 +1452,13 @@ gmacs_plot_index <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_l
       if(length(min(data$year):max(data$year)) > 10) { p + scale_x_continuous(labels = yraxis$labels, breaks = yraxis$breaks) -> p }
       
       if(save_plot == T) {
+        pwidth <- min(max(length(min(data$year):max(data$year))*0.2, 5), 7)
         # save plot
         ggsave(plot = p, 
                filename = file.path(plot_dir, paste0("index_fit_", tolower(unique(data$fleet)), "_",
                                                      tolower(unique(data$sex)), ".png")), 
-               width = max(length(min(data$year):max(data$year))*0.2, 5), 
-               height = min(max(length(min(data$year):max(data$year))*0.2, 5), 3), units = "in")
+               width = pwidth, 
+               height = pwidth * (3/5), units = "in")
       }
       
       return(p)
@@ -1424,359 +1479,6 @@ gmacs_plot_index <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_l
   
 }
 
-# gmacs_plot_size_comp() ----
-
-## plot fits to gmacs size composition data
-
-## args:
-### all_out - output from gmacs_read_allout as nested list, example: all.out = list(mod_23.0a, mod_23.1b)
-### save_plot - T/F save plots, default = T
-### plot_dir - file directory in which to save plots
-### size_lab - optional, custom size axis label, as character vector, example: "Carapace Length (mm)", default = "Size"
-### show_neff - show effective N on plots, default = T
-### show_neff_est - use stage 2 effective N on plots (show neff must also be true), default = T
-### data_summary - alternate way to bring in data, output of gmacs_get_size_summary()
-### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
-### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
-
-gmacs_plot_size_comp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, size_lab = "Size", 
-                                 neff_options = list(neff = T, neff_est = T, location = "right"),
-                                 data_summary = NULL, file = NULL, model_name = NULL) {
-
-  # get size summary data
-  if(is.null(data_summary)){data_summary <- gmacs_get_size_summary(all_out, file, model_name)}
-  
-  # line plots ----
-  
-  if(save_plot == T & is.null(plot_dir)) {dir.create("./plots", showWarnings = F, recursive = TRUE); plot_dir <- "./plots"}
-  if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
-  
-  data_summary %>%
-    nest_by(org_series, mod_series, sex, .keep = T) %>% ungroup %>%
-    mutate(all_fit = purrr::map(data, function(data) {
-      
-      ## plot dimensions
-      cols <- ifelse(length(unique(data$year)) >= 12, 3, 
-                     ifelse(length(unique(data$year)) >= 6, 2, 1))
-      rows <- ifelse(cols == 1, length(unique(data$year)), 
-                     ifelse(cols == 2, ceiling(length(unique(data$year)) / 2), ceiling(length(unique(data$year)) / 3)))
-      # do side by side x axis for shell condition (nsrkc) or not
-      sxs_xaxis <- data %>% distinct(org_series, mod_series, fleet, sex, shell, maturity) %>% nrow > 1
-      if(sxs_xaxis == T){
-        size_interval <- out$size_bins[2] - out$size_bins[1]
-        # make 5 breaks across size range
-        labels <- seq(floor(out$size_bins[1]/10)*10, ceiling(out$size_bins[out$n_size_bins]/10)*10, length.out = 5)
-        # extend that out for both x axes
-        breaks <- c(labels, (labels+5*(labels[2]-labels[1]))-size_interval)
-        data %>%
-          mutate(size = ifelse(shell == "Old", size + size_interval + size_interval*out$n_size_bins, size),
-                 neff_annotate = paste0("N = ", round(nsamp_obs))) -> tmp
-        if(neff_options$neff_est == T){
-          mutate(tmp, neff_annotate = paste0("N = ", round(nsamp_obs), "\nN est = ", round(nsamp_est, 1))) -> tmp
-        }
-        tmp %>%
-          ggplot()+
-          geom_bar(aes(x = size, y = obs, fill = shell), stat = "identity", position = "identity", color = NA, 
-                   width = size_interval, alpha = 0.5)+
-          scale_fill_manual(values = c("grey60", "grey80"))+
-          geom_vline(xintercept = max(out$size_bins) + size_interval, linetype = 2)+
-          geom_line(aes(x = size, y = pred, color = model, group = shell))+
-          geom_text_npc(aes(npcx = "left", npcy = 0.6, label = year),
-                        check_overlap = T, size = 3) -> tmp
-        if(neff_options$neff == T) {
-          tmp + 
-            geom_text_npc(aes(npcx = neff_options$location, npcy = 0.9, label = neff_annotate),
-                          check_overlap = T, size = 3) -> tmp
-        }
-        tmp+
-          labs(x = size_lab, y = NULL, color = NULL, fill = NULL)+
-          facet_wrap(~year, ncol = cols, nrow = rows, dir = "v")+
-          scale_x_continuous(expand = c(0.1, 0.1), breaks = breaks, labels = c(labels, labels))+
-          scale_color_manual(values = cbpalette)+
-          theme(panel.spacing.x = unit(0.2, "lines"),
-                panel.spacing.y = unit(0, "lines"),
-                panel.border = element_blank(),
-                axis.line.x = element_line(color = "grey70", size = 0.2),
-                axis.ticks.y = element_blank(),
-                axis.text.y = element_blank(),
-                axis.text.x = element_text(size = 8),
-                plot.title = element_text(hjust = 0.5),
-                strip.background = element_blank(),
-                strip.text.x = element_blank(),
-                panel.background = element_blank()) -> x
-      }
-      if(sxs_xaxis == F){## plot
-        data %>%
-          mutate(neff_annotate = paste0("N = ", round(nsamp_obs))) -> tmp
-        if(neff_options$neff_est == T){
-          mutate(tmp, neff_annotate = paste0("N = ", round(nsamp_obs), "\nN est = ", round(nsamp_est, 1))) -> tmp
-        }
-        tmp %>%
-          ggplot()+
-          geom_bar(aes(x = size, y = obs), stat = "identity", position = "identity", color = NA, fill = "grey70", 
-                   width = 1, alpha = 0.5)+
-          geom_line(aes(x = size, y = pred, color = model))+
-          geom_text_npc(aes(npcx = "left", npcy = 0.6, label = year),
-                        check_overlap = T, size = 3) -> tmp
-        if(neff_options$neff == T) {
-          tmp + 
-            geom_text_npc(aes(npcx = neff_options$location, npcy = 0.9, label = neff_annotate),
-                          check_overlap = T, size = 3) -> tmp
-        }
-        tmp+
-          labs(x = size_lab, y = NULL, color = NULL)+
-          facet_wrap(~year, ncol = cols, nrow = rows, dir = "v")+
-          scale_x_continuous(expand = c(0.1, 0.1))+
-          scale_color_manual(values = cbpalette)+
-          theme(panel.spacing.x = unit(0.2, "lines"),
-                panel.spacing.y = unit(0, "lines"),
-                panel.border = element_blank(),
-                axis.line.x = element_line(color = "grey70", size = 0.2),
-                axis.ticks.y = element_blank(),
-                axis.text.y = element_blank(),
-                plot.title = element_text(hjust = 0.5),
-                strip.background = element_blank(),
-                strip.text.x = element_blank(),
-                panel.background = element_blank()) -> x}
-      if(save_plot == T){
-      ggsave(file.path(plot_dir, paste0("size_comp_fit_",tolower(unique(data$fleet)),"_",
-                                        tolower(unique(data$sex)),"_",
-                                        tolower(unique(data$type)),".png")),
-             plot = x, width = max((8/3)*cols, 4), height = max((9/13)*rows, 4), units = "in")}
-      
-      return(x)
-      
-    }),
-    agg_fir = purrr::map(data, function(data) {
-      
-      # do side by side x axis for shell condition (nsrkc) or not
-      sxs_xaxis <- data %>% distinct(org_series, mod_series, fleet, sex, shell, maturity) %>% nrow > 1
-      if(sxs_xaxis == T){
-        size_interval <- out$size_bins[2] - out$size_bins[1]
-        # make 5 breaks across size range
-        labels <- seq(floor(out$size_bins[1]/10)*10, ceiling(out$size_bins[out$n_size_bins]/10)*10, length.out = 5)
-        # extend that out for both x axes
-        breaks <- c(labels, (labels+5*(labels[2]-labels[1]))-size_interval)
-        data %>%
-          mutate(size = ifelse(shell == "Old", size + size_interval + size_interval*out$n_size_bins, size)) %>%
-          group_by(model, shell, size) %>%
-          summarise(obs = sum(obs),
-                    pred = sum(pred),
-                    nsamp_obs = sum(nsamp_obs),
-                    nsamp_est = sum(nsamp_est),
-                    neff_annotate = paste0("sum N = ", round(nsamp_obs))) -> tmp
-        if(neff_options$neff_est == T){
-          mutate(tmp, neff_annotate = paste0("sum N = ", round(nsamp_obs), "\nsum N est = ", round(nsamp_est, 1))) -> tmp
-        }
-        tmp %>% ungroup %>%
-          ggplot()+
-          geom_bar(aes(x = size, y = obs, fill = shell), stat = "identity", position = "identity", color = NA, 
-                   width = size_interval, alpha = 0.5)+
-          scale_fill_manual(values = c("grey60", "grey80"))+
-          geom_vline(xintercept = max(out$size_bins) + size_interval, linetype = 2)+
-          geom_line(aes(x = size, y = pred, color = model, group = shell)) -> tmp
-        if(neff_options$neff == T) {
-          tmp + 
-            geom_text_npc(aes(npcx = neff_options$location, npcy = 0.9, label = neff_annotate),
-                          check_overlap = T, size = 3) -> tmp
-        }
-        tmp+
-          labs(x = size_lab, y = NULL, color = NULL, fill = NULL)+
-          scale_x_continuous(breaks = breaks, labels = c(labels, labels))+
-          scale_color_manual(values = cbpalette)+
-          theme(panel.spacing.x = unit(0.2, "lines"),
-                panel.spacing.y = unit(0, "lines"),
-                panel.border = element_blank(),
-                axis.line.x = element_line(color = "grey70", size = 0.2),
-                axis.ticks.y = element_blank(),
-                axis.text.y = element_blank(),
-                axis.text.x = element_text(size = 8),
-                plot.title = element_text(hjust = 0.5),
-                strip.background = element_blank(),
-                strip.text.x = element_blank(),
-                panel.background = element_blank()) -> x
-      }
-      if(sxs_xaxis == F){
-        data %>%
-          group_by(model, size) %>%
-          summarise(obs = sum(obs),
-                    pred = sum(pred),
-                    nsamp_obs = sum(nsamp_obs),
-                    nsamp_est = sum(nsamp_est),
-                    neff_annotate = paste0("sum N = ", round(nsamp_obs))) -> tmp
-        if(neff_options$neff_est == T){
-          mutate(tmp, neff_annotate = paste0("sum N = ", round(nsamp_obs), "\nsum N est = ", round(nsamp_est, 1))) -> tmp
-        }
-        tmp %>% ungroup %>%
-          ggplot()+
-          geom_bar(aes(x = size, y = obs), stat = "identity", position = "identity", color = NA, fill = "grey70", 
-                   width = data$size[2]-data$size[1], alpha = 0.5)+
-          geom_line(aes(x = size, y = pred, color = model)) -> tmp
-        if(neff_options$neff == T) {
-          tmp + 
-            geom_text_npc(aes(npcx = neff_options$location, npcy = 0.9, label = neff_annotate),
-                          check_overlap = T, size = 3) -> tmp
-        }
-        tmp+
-          labs(x = size_lab, y = NULL, color = NULL)+
-          scale_x_continuous(expand = c(0.1, 0.1))+
-          scale_color_manual(values = cbpalette)+
-          theme(panel.spacing.x = unit(0.2, "lines"),
-                panel.spacing.y = unit(0, "lines"),
-                panel.border = element_blank(),
-                axis.line.x = element_line(color = "grey70", size = 0.2),
-                axis.ticks.y = element_blank(),
-                axis.text.y = element_blank(),
-                plot.title = element_text(hjust = 0.5),
-                strip.background = element_blank(),
-                strip.text.x = element_blank(),
-                panel.background = element_blank()) -> x
-      }
-      if(save_plot == T){
-      ggsave(file.path(plot_dir, paste0("aggregate_size_comp_fit_",tolower(unique(data$fleet)),"_",
-                                        tolower(unique(data$sex)),"_",
-                                        tolower(unique(data$type)),".png")),
-             plot = x, width = 5, height = 3, units = "in")}
-      return(x)
-      
-    }),
-    res_lin = purrr::map(data, function(data) {
-      ## plot dimensions
-      cols <- ifelse(length(unique(data$year)) >= 12, 3, 
-                     ifelse(length(unique(data$year)) >= 6, 2, 1))
-      rows <- ifelse(cols == 1, length(unique(data$year)), 
-                     ifelse(cols == 2, ceiling(length(unique(data$year)) / 2), ceiling(length(unique(data$year)) / 3)))
-      # do side by side x axis for shell condition (nsrkc) or not
-      sxs_xaxis <- data %>% distinct(org_series, mod_series, fleet, sex, shell, maturity) %>% nrow > 1
-      if(sxs_xaxis == T) {
-        size_interval <- out$size_bins[2] - out$size_bins[1]
-        # make 5 breaks across size range
-        labels <- seq(floor(out$size_bins[1]/10)*10, ceiling(out$size_bins[out$n_size_bins]/10)*10, length.out = 5)
-        # extend that out for both x axes
-        breaks <- c(labels, (labels+5*(labels[2]-labels[1]))-size_interval)
-        data %>%
-          mutate(size = ifelse(shell == "Old", size + size_interval + size_interval*out$n_size_bins, size)) %>%
-          ggplot()+
-          geom_hline(yintercept = 0, linetype = 2, color = "grey70")+
-          geom_vline(xintercept = max(out$size_bins) + size_interval, linetype = 2)+
-          geom_line(aes(x = size, y = residual, color = model, group = shell))+
-          scale_color_manual(values = cbpalette)+
-          labs(y = NULL, x = "Carapce Length (mm)", size = NULL, fill = NULL)+
-          geom_text_npc(aes(npcx = "left", npcy = 0.8, label = year),
-                        check_overlap = T, size = 4)+
-          theme(legend.position = "top")+
-          facet_wrap(~year, ncol = cols, dir = "v", )+
-          labs(x = size_lab, y = NULL, fill = NULL, color = NULL)+
-          scale_x_continuous(breaks = breaks, labels = c(labels, labels))+
-          theme(panel.border= element_blank(),
-                panel.spacing.y = unit(-0.5, "lines"),
-                panel.spacing.x = unit(1, "lines"),
-                strip.background = element_blank(),
-                strip.text.x = element_blank(),
-                axis.text.y = element_blank(),
-                axis.text.x = element_text(size = 8),
-                axis.line.y = element_blank(),
-                axis.line.x = element_line(size = 0.1, color = "grey70"),
-                axis.ticks.y = element_blank(),
-                panel.background = element_blank()) -> x
-      }
-      if(sxs_xaxis == F) {
-        ## plot
-        data %>%
-          ggplot()+
-          geom_hline(yintercept = 0, linetype = 2, color = "grey70")+
-          geom_line(aes(x = size, y = residual, color = model))+
-          scale_color_manual(values = cbpalette)+
-          labs(y = NULL, x = "Carapce Length (mm)", size = NULL, fill = NULL)+
-          geom_text_npc(aes(npcx = "left", npcy = 0.8, label = year),
-                        check_overlap = T, size = 4)+
-          theme(legend.position = "top")+
-          facet_wrap(~year, ncol = cols, dir = "v", )+
-          labs(x = size_lab, y = NULL, fill = NULL, color = NULL) +
-          theme(panel.border= element_blank(),
-                panel.spacing.y = unit(-0.5, "lines"),
-                panel.spacing.x = unit(1, "lines"),
-                strip.background = element_blank(),
-                strip.text.x = element_blank(),
-                axis.text.y = element_blank(),
-                axis.line.y = element_blank(),
-                axis.line.x = element_line(size = 0.1, color = "grey70"),
-                axis.ticks.y = element_blank(),
-                panel.background = element_blank()) -> x
-      }
-      if(save_plot == T){
-      ggsave(file.path(plot_dir, paste0("size_comp_resid_line_",tolower(unique(data$fleet)),"_",
-                                        tolower(unique(data$sex)),"_",
-                                        tolower(unique(data$type)),".png")),
-             plot = x, width = max((8/3)*cols, 4), height = max((9/13)*rows, 4), units = "in")}
-      return(x)
-    })) -> plots_a
-  
-  # dot plots ----
-  
-  data_summary %>%
-    nest_by(model, sex, org_series, mod_series, .keep = T) %>% ungroup %>% 
-    mutate(plot = purrr::map(data, function(data) {
-      
-      data %>%
-        # compute residual
-        mutate(pos = case_when(residual >= 0 ~ "> 0", 
-                               residual < 0 ~ "< 0"),
-               residual = ifelse(residual == 0, NA, residual)) %>%
-        ggplot()+
-        geom_point(aes(x = year, y = size, size = abs(residual), fill = pos), 
-                   shape = 21, alpha = 0.5)+
-        scale_fill_manual(values = c("black", "white", NA))+
-        scale_x_continuous(breaks = yraxis$breaks, labels = yraxis$labels)+
-        labs(x = NULL, y = size_lab, size = NULL, fill = NULL)+
-        theme(legend.position = "top") -> x
-      
-      if(save_plot == T){
-      ggsave(file.path(plot_dir, paste0("size_comp_dot_",tolower(unique(data$model)),"_", 
-                                        tolower(unique(data$fleet)),"_",
-                                        tolower(unique(data$sex)),"_",
-                                        tolower(unique(data$type)),".png")),
-             plot = x, width = 6, height = 4, units = "in")}
-      return(x)
-      
-    })) -> plots_b
-  
-  # francis plots ----
-  
-  data_summary %>%
-    nest_by(model, sex, org_series, mod_series, .keep = T) %>% ungroup %>% 
-    mutate(plot = purrr::map(data, function(data) {
-      
-      if(show_neff_adj == F) {data$nsamp_stage2 <- data$nsamp}
-      
-      data %>%
-        group_by(year) %>%
-        summarise(obs_mean_size = weighted.mean(size, obs),
-                  pred_mean_size = weighted.mean(size, pred), 
-                  sd = sqrt(sum((size - pred_mean_size)^2 * pred) / sum(pred)) / sqrt(mean(nsamp_stage2)),
-                  l95 = pred_mean_size + sd * qnorm(0.025),
-                  u95 = pred_mean_size + sd * qnorm(0.975)) %>% ungroup %>%
-        ggplot()+
-        geom_ribbon(aes(x = year, ymin = l95, ymax = u95, group = 1), fill = "grey80", alpha = 0.5)+
-        geom_line(aes(x = year, y = pred_mean_size, group = 1))+
-        geom_point(aes(x = year, y = obs_mean_size))+
-        scale_x_continuous(breaks = yraxis$breaks, labels = yraxis$labels)+
-        labs(x = NULL, y = paste0("Mean ", size_lab)) -> x
-      if(save_plot == T){
-        ggsave(file.path(plot_dir, paste0("mean_size_",tolower(unique(data$model)),"_", 
-                                          tolower(unique(data$fleet)),"_",
-                                          tolower(unique(data$sex)),"_",
-                                          tolower(unique(data$type)),".png")),
-               plot = x, width = 6, height = 3, units = "in")}
-      return(x)
-      
-    })) -> plots_c
-  
-  # out ----
-  if(save_plot == T){return("done")}
-  if(save_plot == F){return(c(plots_a$all_fit, plots_a$agg_fir, plots_a$res_lin, plots_b$plot, plots_c$plot))}
-  
-}
 
 # gmacs_plot_mmb() ----
 
@@ -1786,34 +1488,20 @@ gmacs_plot_size_comp <- function(all_out = NULL, save_plot = T, plot_dir = NULL,
 ### all_out - output from gmacs_read_allout as nested list, example: all.out = list(mod_23.0a, mod_23.1b)
 ### save_plot - T/F save plots, default = T
 ### plot_dir - file directory in which to save plots
+### data_summary - alternate way to bring in data, output of gmacs_get_derived_quantity_summary()
 ### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 ### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 
-gmacs_plot_mmb <- function(all_out = NULL, save_plot = T, plot_dir = NULL, file = NULL, model_name = NULL) {
+gmacs_plot_mmb <- function(all_out = NULL, save_plot = T, plot_dir = NULL, data_summary = NULL, file = NULL, model_name = NULL) {
   
-  # bring in all out data ----
-  
-  if(!is.null(file) && is.null(all_out)) {
-    if(is.null(model_name)) {stop("Must supply model name(s)!!")}
-    # read all out file
-    all_out <- purrr::map2(file, model_name, gmacs_read_allout); names(all_out) <- paste0("model", model_name)
-  }
-  
-  # extract data ----
-  
-  tibble(mod = names(all_out),
-         all_out = all_out) %>% 
-    mutate(data = purrr::map(all_out, function(x) {
-      x$derived_quant_summary %>%
-        mutate(model = as.character(x$model_name),
-               units = gsub("_", " ", x$wt_units))
-    })) %>% transmute(data) %>% unnest(data) -> plot_dat
+  # get summary data
+  if(is.null(data_summary)){data_summary <- gmacs_get_derived_quantity_summary(all_out, file, model_name)}
   
   # plots ----
-  if(save_plot == T & is.null(plot_dir)) {stop("plot_dir not provided!!!")}
+  if(save_plot == T & is.null(plot_dir)) {plot_dir <- file.path(getwd(), "plots"); dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
   if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
   # plot ssb
-  plot_dat %>%
+  data_summary %>%
     ggplot()+
     geom_line(aes(x = factor(year), y = ssb, group = model, color = model))+
     geom_point(data = function(x) filter(x, year == max(year)),
@@ -1821,11 +1509,11 @@ gmacs_plot_mmb <- function(all_out = NULL, save_plot = T, plot_dir = NULL, file 
     scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels)+
     scale_y_continuous(labels = scales::comma, limits = c(0, NA))+
     scale_color_manual(values = cbpalette)+
-    labs(x = NULL, y = paste0("MMB (", unique(plot_dat$units), ")"), color = NULL)+
+    labs(x = NULL, y = paste0("MMB (", unique(data_summary$wt_units), ")"), color = NULL)+
     theme(legend.position = c(1, 1),
           legend.justification = c(1, 1)) -> mmb
   # plot ssa
-  plot_dat %>%
+  data_summary %>%
     ggplot()+
     geom_line(aes(x = factor(year), y = ssa, group = model, color = model))+
     geom_point(data = function(x) filter(x, year == max(year)),
@@ -1833,12 +1521,15 @@ gmacs_plot_mmb <- function(all_out = NULL, save_plot = T, plot_dir = NULL, file 
     scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels)+
     scale_y_continuous(labels = scales::comma, limits = c(0, NA))+
     scale_color_manual(values = cbpalette)+
-    labs(x = NULL, y = paste0("MMA (1,000s)"), color = NULL)+
+    labs(x = NULL, 
+         y = ifelse(unique(data_summary$n_units) %in% c(1, "1", "1s", "one", "One", "ones", "Ones"),
+                    "MMA", paste0("MMA (", unique(data_summary$n_units), ")")),
+         color = NULL)+
     theme(legend.position = c(1, 1),
           legend.justification = c(1, 1)) -> mma
   if(save_plot == T){
-    ggsave(file.path(plot_dir, "mmb_trajectory.png"), plot = mmb, height = 4, width = 7, units = "in")
-    ggsave(file.path(plot_dir, "mma_trajectory.png"), plot = mma, height = 4, width = 7, units = "in")
+    ggsave(file.path(plot_dir, "mmb_trajectory.png"), plot = mmb, height = 4.2, width = 7, units = "in")
+    ggsave(file.path(plot_dir, "mma_trajectory.png"), plot = mma, height = 4.2, width = 7, units = "in")
     return("done")
   }
   if(save_plot == F){return(c(mmb, mma))}
@@ -1853,81 +1544,78 @@ gmacs_plot_mmb <- function(all_out = NULL, save_plot = T, plot_dir = NULL, file 
 ### all_out - output from gmacs_read_allout as nested list, example: all.out = list(mod_23.0a, mod_23.1b)
 ### save_plot - T/F save plots, default = T
 ### plot_dir - file directory in which to save plots
+### data_summary - alternate way to bring in data, output of gmacs_get_derived_quantity_summary()
 ### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 ### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 
-gmacs_plot_recruitment <- function(all_out = NULL, save_plot = T, plot_dir = NULL, file = NULL, model_name = NULL) {
+gmacs_plot_recruitment <- function(all_out = NULL, save_plot = T, plot_dir = NULL, data_summary = NULL, file = NULL, model_name = NULL) {
   
-  # bring in all out data ----
-  
-  if(!is.null(file) && is.null(all_out)) {
-    if(is.null(model_name)) {stop("Must supply model name(s)!!")}
-    # read all out file
-    all_out <- purrr::map2(file, model_name, gmacs_read_allout); names(all_out) <- paste0("model", model_name)
-  }
-  
-  
-  # extract data ----
-  
-  tibble(mod = names(all_out),
-         all_out = all_out) %>% 
-    mutate(data = purrr::map(all_out, function(x) {
-      x$derived_quant_summary %>%
-        mutate(model = as.character(x$model_name))
-    })) %>% transmute(data) %>% unnest(data) %>%
-    replace_na(list(recruit_male = 0, recruit_female = 0)) -> plot_dat
+  # get summary data
+  if(is.null(data_summary)){data_summary <- gmacs_get_derived_quantity_summary(all_out, file, model_name)}
   
   # plots ----
-  if(save_plot == T & is.null(plot_dir)) {stop("plot_dir not provided!!!")}
+  if(save_plot == T & is.null(plot_dir)) {plot_dir <- file.path(getwd(), "plots"); dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
   if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
+  
   # male and female
-  if("recruit_female" %in% names(plot_dat)) {
-    plot_dat %>%
+  if("recruit_female" %in% names(data_summary)) {
+    
+    if(unique(data_summary$n_units) %in% c(1, "1", "1s", "one", "One", "ones", "Ones")){y_labs <- c("Total Recruitment", "Female Recruitment", "Male Recruitment")} else{
+      y_labs <- paste0(c("Total Recruitment", "Female Recruitment", "Male Recruitment"), " (", unique(data_summary$n_units), ")")
+    }
+    data_summary %>%
       mutate(tot_recruit = recruit_male + recruit_female) %>%
       ggplot()+
       geom_line(aes(x = factor(year), y = tot_recruit, group = model, color = model))+
       scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels)+
       scale_y_continuous(labels = scales::comma, limits = c(0, NA))+
-      labs(x = NULL, y = paste0("Total Recruitment (1,000s)"), color = NULL)+
+      scale_color_manual(values = cbpalette)+
+      labs(x = NULL, y = y_labs[1], color = NULL)+
       theme(legend.position = c(1, 1),
             legend.justification = c(1, 1)) -> tot
-    plot_dat %>%
+    data_summary %>%
       ggplot()+
       geom_line(aes(x = factor(year), y = recruit_female, group = model, color = model))+
       scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels)+
       scale_y_continuous(labels = scales::comma, limits = c(0, NA))+
-      labs(x = NULL, y = paste0("Female Recruitment (1,000s)"), color = NULL)+
+      labs(x = NULL, y = y_labs[2], color = NULL)+
+      scale_color_manual(values = cbpalette)+
       theme(legend.position = c(1, 1),
             legend.justification = c(1, 1)) -> fem
-    plot_dat %>%
+    data_summary %>%
       ggplot()+
       geom_line(aes(x = factor(year), y = recruit_male, group = model, color = model))+
       scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels)+
       scale_y_continuous(labels = scales::comma, limits = c(0, NA))+
-      labs(x = NULL, y = paste0("Male Recruitment (1,000s)"), color = NULL)+
+      labs(x = NULL, y = y_labs[3], color = NULL)+
+      scale_color_manual(values = cbpalette)+
       theme(legend.position = c(1, 1),
             legend.justification = c(1, 1)) -> mal
     
     if(save_plot == T){
-      ggsave(file.path(plot_dir, "total_recruitment.png"), plot = tot, height = 4, width = 7, units = "in")
-      ggsave(file.path(plot_dir, "female_recruitment.png"), plot = fem, height = 4, width = 7, units = "in")
-      ggsave(file.path(plot_dir, "male_recruitment.png"), plot = mal, height = 4, width = 7, units = "in")
+      ggsave(file.path(plot_dir, "total_recruitment.png"), plot = tot, height = 4.2, width = 7, units = "in")
+      ggsave(file.path(plot_dir, "female_recruitment.png"), plot = fem, height = 4.2, width = 7, units = "in")
+      ggsave(file.path(plot_dir, "male_recruitment.png"), plot = mal, height = 4.2, width = 7, units = "in")
     }
     if(save_plot == F){plots = c(tot, fem, mal)}
   }
   # only male
-  if(!("recruit_female" %in% names(plot_dat))) {
-    plot_dat %>%
+  if(!("recruit_female" %in% names(data_summary))) {
+    if(unique(data_summary$n_units) %in% c(1, "1", "1s", "one", "One", "ones", "Ones")){y_labs <- "Recruitment"} else{
+      y_labs <- paste0("Recruitment", " (", unique(data_summary$n_units), ")")
+    }
+    data_summary %>%
       ggplot()+
       geom_line(aes(x = factor(year), y = recruit_male, group = model, color = model))+
       scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels)+
       scale_y_continuous(labels = scales::comma, limits = c(0, NA))+
-      labs(x = NULL, y = paste0("Recruitment (1,000s)"), color = NULL)+
+      y = labs(x = NULL, y = y_labs, color = NULL)+
+      scale_color_manual(values = cbpalette)+
       theme(legend.position = c(1, 1),
             legend.justification = c(1, 1)) -> mal
     
     if(save_plot == T){
-      ggsave(file.path(plot_dir, "recruitment.png"), plot = mal, height = 4, width = 7, units = "in")
+      ggsave(file.path(plot_dir, "recruitment.png"), plot = mal, height = 4.2, width = 7, units = "in")
     }
     if(save_plot == F){plots = mal}
   }
@@ -1944,36 +1632,24 @@ gmacs_plot_recruitment <- function(all_out = NULL, save_plot = T, plot_dir = NUL
 ### all_out - output from gmacs_read_allout as nested list, example: all.out = list(mod_23.0a, mod_23.1b)
 ### save_plot - T/F save plots, default = T
 ### plot_dir - file directory in which to save plots
+### data_summary - alternate way to bring in data, output of gmacs_get_f()
 ### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 ### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 ### yrs - subset a specific year range, example: c(1990:2022)
 
-gmacs_plot_f <- function(all_out = NULL, save_plot = T, plot_dir = NULL, file = NULL, model_name = NULL, yrs = NULL){
+gmacs_plot_f <- function(all_out = NULL, save_plot = T, plot_dir = NULL, data_summary = NULL, file = NULL, model_name = NULL, yrs = NULL){
   
-  # bring in all out data ----
-  
-  if(!is.null(file) && is.null(all_out)) {
-    if(is.null(model_name)) {stop("Must supply model name(s)!!")}
-    # read all out file
-    all_out <- purrr::map2(file, model_name, gmacs_read_allout); names(all_out) <- paste0("model", model_name)
-  }
-  
+  # get summary data
+  if(is.null(data_summary)){data_summary <- gmacs_get_f(all_out, file, model_name)}
   
   # save plot dirs ----
-  if(save_plot == T & is.null(plot_dir)) {stop("plot_dir not provided!!!")}
+  if(save_plot == T & is.null(plot_dir)) {plot_dir <- file.path(getwd(), "plots"); dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
   if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
   
   # plot f by fleet and sex ----
   
-  tibble(mod = names(all_out),
-         all_out = all_out) %>% 
-    mutate(data = purrr::map(all_out, function(x) {
-      x$F_by_sex_fleet_year_season %>%
-        mutate(model = as.character(x$model_name),
-               n_sex = x$n_sex)
-    })) %>% transmute(data) %>% unnest(data) -> plot_dat
-  if(!is.null(yrs)){plot_dat <- filter(plot_dat, year %in% yrs)} # filter year range if specified
-  plot_dat %>%
+  if(!is.null(yrs)){data_summary <- filter(data_summary, year %in% yrs)} # filter year range if specified
+  data_summary %>%
     group_by(model, year, sex, fleet, n_sex) %>%
     summarize(f = sum(`F`)) %>% ungroup %>%
     mutate(fleet_name = gsub("_", " ", fleet),
@@ -1991,8 +1667,9 @@ gmacs_plot_f <- function(all_out = NULL, save_plot = T, plot_dir = NULL, file = 
         scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels)+
         scale_color_manual(values = cbpalette) -> x
       if(save_plot == T){
+        pwidth <- min(max(length(min(data$year):max(data$year))*0.2, 5), 7)
         ggsave(file.path(plot_dir, paste0(tolower(gsub(" ", "_", ylab)), ".png")), plot = x, 
-               height = max(length(data$year)*(1/9),5)*(3/7), width = max(length(data$year)*(1/9),5), units = "in")
+               height = 0.6*pwidth, width = pwidth, units = "in")
       }
       return(x)
     })) -> by_fleet
