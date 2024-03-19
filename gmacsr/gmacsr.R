@@ -1428,6 +1428,109 @@ gmacs_get_lik <- function(all_out = NULL, file = NULL, model_name = NULL){
   
 }
 
+# gmacs_plot_data_range() ----
+
+# plot data range by process, fleet, type and sex
+
+## args:
+### all_out - output from gmacs_read_allout as nested list, example: all.out = list(mod_23.0a, mod_23.1b)
+### save_plot - T/F save plots, default = T
+### plot_dir - file directory in which to save plots
+### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
+### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
+
+## example: gmacs_plot_data_range(all_out = list(output))
+
+gmacs_plot_data_range <- function(all_out = NULL, save_plot = T, plot_dir = NULL, file = NULL, model_name = NULL) {
+  # setup ----
+  # read all out 
+  if(is.null(all_out)) {
+    tibble(file = file,
+           model_name = model_name) %>%
+      mutate(ao = purrr::map2(file, model_name, function(file, model_name) {gmacs_read_allout(file, model_name)})) -> ao
+  }
+  if(!is.null(all_out)) {
+    tibble(ao = all_out,
+           model_name = purrr::map_chr(ao, function(ao) {ao$model_name})) -> ao
+  }
+  
+  # create output directories
+  if(save_plot == T & is.null(plot_dir)) {plot_dir <- file.path(getwd(), "plots"); dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
+  if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
+  
+  # get data pieces and plot ----
+  
+  # catch 
+  ao %>% 
+    mutate(catch = purrr::map(ao, function(data){
+      data$catch_fit_summary %>%
+        mutate(type = gsub("All", "Total", type)) %>%
+        rowwise %>%
+        mutate(group = gsub("_", " ", ifelse(data$n_sex > 1, paste(fleet, type, sex), paste(fleet, type)))) %>%
+        ungroup %>%
+        distinct(group, year, series, sex, fleet, type) %>%
+        mutate(fleet = factor(fleet, levels = data$fleet_names),
+               type = factor(type, levels = c("Retained", "Total", "Discarded")),
+               sex = factor(sex, levels = c("Male", "Female", "Both"))) %>%
+        arrange(type, fleet, sex)
+      
+    }),
+    index = purrr::map(ao, function(data){
+      data$index_fit_summary %>%
+        rowwise %>%
+        mutate(group = gsub("_", " ", ifelse(data$n_sex > 1, paste(fleet, sex), paste(fleet)))) %>%
+        ungroup %>%
+        distinct(group, year, series, sex, fleet) %>%
+        mutate(fleet = factor(fleet, levels = data$fleet_names),
+               sex = factor(sex, levels = c("Male", "Female", "Both"))) %>%
+        arrange(fleet, sex) 
+    }),
+    size_composition = purrr::map(ao, function(data){
+      data$size_fit_summary %>%
+        mutate(type = gsub("All", "Total", type)) %>%
+        rename(series = mod_series) %>%
+        rowwise %>%
+        mutate(group = gsub("_", " ", ifelse(data$n_sex > 1, paste(fleet, type, sex), paste(fleet, type)))) %>%
+        ungroup %>%
+        distinct(group, year, series, sex, fleet, type) %>%
+        mutate(fleet = factor(fleet, levels = data$fleet_names),
+               type = factor(type, levels = c("Retained", "Total", "Discarded")),
+               sex = factor(sex, levels = c("Male", "Female", "Both"))) %>%
+        arrange(type, fleet, sex) 
+    })) %>%
+    transmute(model_name, catch, index, size_composition) %>%
+    pivot_longer(2:4, names_to = "process", values_to = "data") %>%
+    unnest(data) %>%
+    mutate(process = factor(str_to_title(gsub("_", " ", process)), level = c("Catch", "Index", "Size Composition"))) %>%
+    arrange(model_name, process, type, fleet, sex) %>%
+    mutate(group = factor(group, levels = unique(group))) %>%
+    nest_by(model_name) %>% ungroup %>% #pull(data) %>% .[[1]] -> data
+    mutate(plot = purrr::map2(model_name, data, function(model_name, data) {
+      data %>%
+        ggplot()+
+        geom_point(aes(y = group, x = year, color = fleet), shape = 95, size = 4, show.legend = F)+
+        facet_wrap(~process, ncol = 1, scales = "free_y")+
+        scale_x_continuous(breaks = yraxis$breaks, labels = yraxis$labels)+
+        scale_y_discrete(limits = rev)+
+        scale_color_manual(values = cbpalette)+
+        labs(y = NULL, x = NULL)+
+        theme(panel.border = element_blank(),
+              axis.line = element_line()) -> p_dat
+      
+      if(save_plot == T) {
+        ggsave(plot = p_dat, 
+               filename = file.path(plot_dir, paste0(model_name, "_data_range.png")), 
+               width = 7, 
+               height = 5, units = "in")
+      }
+      return(p_dat)
+    })) -> out
+  
+  # output ----
+  
+  if(save_plot == T){ return("done")} else{return(transmute(out, model_name, plot))}
+}
+
 # gmacs_plot_catch() ----
 
 ## plot fits to gmacs catch data
