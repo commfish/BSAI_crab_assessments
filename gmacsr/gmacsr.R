@@ -852,7 +852,7 @@ gmacs_do_jitter <- function(gmacs.dat, sd, iter, ref_points = T, pin = F, wait =
   
   # create subdirectory for jitter run files
   dir.create("./jitter")
-  # put files in - this likely will not work with relaive pathes
+  # put files in - this likely will not work with relative pathes
   file.copy(c(dat[grep("\\.dat", dat)], dat[grep("\\.ctl", dat)], dat[grep("\\.prj", dat)], "gmacs.exe", "gmacs_files_in.dat"), 
             to = "./jitter")
   # set working 
@@ -955,6 +955,125 @@ gmacs_do_jitter <- function(gmacs.dat, sd, iter, ref_points = T, pin = F, wait =
 }
 
 # gmacs_do_retrospective() ----
+
+## run retrospective analysis
+
+### gmacs.dat - file path to gmacs.dat file
+### n_peel - number of retrospective peels
+### wait - passed to shell(): a logical (not NA) indicating whether the R interpreter should wait for the command to finish, or run it asynchronously.
+### pin - T/F use pin file
+### plot_only - T/F, only make plot (i.e. already ran retrospectives)
+### plot_mmb - T/F, make plot of mmb by peel
+### save_plot - T/F, create histograms, default = T
+### plot_dir - file directory in which to save plots
+### model_name - character string to save as object in output, later to be used for plot legends. example: "23.1b"
+
+gmacs_do_retrospective <- function(gmacs.dat, n_peel, wait = T, pin = F, plot_only = F, plot_mmb = T, save_plot = T, 
+                                   plot_dir = NULL, model_name = NULL) {
+  # create output directories
+  if(save_plot == T & is.null(plot_dir)) {plot_dir <- file.path(dirname(gmacs.dat), "plots"); dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
+  if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
+  
+  # directory ----
+  
+  options(warn = -1) 
+  # get parent directory
+  dir <- dirname(gmacs.dat)
+  # save working dir
+  wd <- getwd()
+  setwd(dir) # change wd
+
+  # analysis ----
+  if(plot_only == F) {
+    # set up ----
+    
+    # check for other needed inputs
+    if(!file.exists("gmacs.exe")){setwd(wd); stop("Cannot find gmacs.exe!!")}
+    # look for gmacs_file_in.dat - if not present, run gmacs
+    if(!file.exists("./gmacs_files_in.dat")) {setwd(wd); gmacs_do_exe(gmacs.dat, pin = pin, reweight = F)}
+    ao_full <- gmacs_read_allout("Gmacsall.out")
+    dat <- readLines("./gmacs_files_in.dat")
+    if(!file.exists(file.path(dat[grep("\\.dat", dat)]))) {setwd(wd); stop(paste("Cannot find", file.path(dat[grep("\\.dat", dat)]), "!!"))}
+    if(!file.exists(file.path(dat[grep("\\.ctl", dat)]))) {setwd(wd); stop(paste("Cannot find", file.path(dat[grep("\\.ctl", dat)]), "!!"))}
+    if(!file.exists(file.path(dat[grep("\\.prj", dat)]))) {setwd(wd); stop(paste("Cannot find", file.path(dat[grep("\\.prj", dat)]), "!!"))}
+    # create retrospectives dir
+    dir.create("./retrospectives",recursive = T, showWarnings = F)
+    files_to_copy <- c(dat[c(4, 6, 8)], "gmacs.exe", "gmacs_files_in.dat")
+    # make sure pin file is being used as expected
+    if(pin == T){
+      if(!file.exists("gmacs.pin")) {setwd(wd); stop("Cannot find gmacs.pin!!"); files_to_copy <- c(files_to_copy, "gmacs.pin")}
+    }
+    # copy files to retro dir
+    file.copy(files_to_copy, "./retrospectives",overwrite = T, recursive = T)
+    
+    # do retrospective runs ----
+    
+    setwd("./retrospectives")
+    file.rename("gmacs_files_in.dat", "gmacs.dat")
+    gfiles <- list.files()
+    for (i in 1:n_peel){
+      # create peel sub-directory
+      dir.create(paste0("retro_", i))
+      file.copy(gfiles, paste0("retro_", i))
+      setwd(paste0("retro_", i))
+      # set up gmacs.dat for retro analysis
+      dat <- readLines("gmacs.dat")
+      dat[30] <- i
+      writeLines(dat, "gmacs.dat")
+      # run gmacs
+      shell("gmacs.exe", wait = wait)
+      setwd("..")
+    }      
+    
+  }
+  
+  if(plot_only == T) {
+    setwd("./retrospectives")  
+  }
+
+  
+  # plot ----
+  
+  if(plot_mmb == F){setwd(wd); return("done")}
+
+  if(plot_mmb == T){
+    ao <- list()
+    for(i in 1:n_peel){
+      ao[[i]] <- gmacs_read_allout(file.path(paste0("retro_", i), "Gmacsall.out"), i)
+    }
+    setwd(wd) # return to base working directory
+    data_summary <- gmacs_get_derived_quantity_summary(ao)
+    
+    data_summary %>% 
+      group_by(model) %>%
+      mutate(terminal_yr = as.character(max(year))) %>% ungroup %>%
+      left_join(ao_full$derived_quant_summary %>% transmute(year, ssb_full = ssb)) %>%
+      filter(year == terminal_yr) %>%
+      mutate(rho = abs(ssb - ssb_full) / ssb_full) %>%
+      pull(rho) %>% mean -> mohn_rho
+    
+    data_summary %>%
+      group_by(model) %>%
+      mutate(terminal_yr = as.character(max(year))) %>% ungroup %>%
+      ggplot()+
+      geom_line(aes(x = factor(year), y = ssb, group = terminal_yr, color = terminal_yr))+
+      geom_text_npc(aes(npcx = "right", npcy = "top", label = paste0("Mohn's \u03c1 = ", round(mohn_rho, 3))), 
+                    check_overlap = T, size = 3)+
+      scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels)+
+      scale_y_continuous(labels = scales::comma, limits = c(0, NA))+
+      scale_color_viridis_d()+
+      labs(x = NULL, y = paste0("MMB (", unique(data_summary$wt_units), ")"), color = "Terminal Year") -> p_mmb
+    
+    if(save_plot == T){
+      ggsave(file.path(plot_dir, paste0(model_name,"_retrospective_mmb.png")), plot = p_mmb, height = 3, width = 6)
+      return("done")
+    }
+    if(save_plot == F){return(p_mmb)}
+    
+  }
+}
+
+
 # gmacs_get_catch_summary() ----
 
 ## isolate catch summary data by model
@@ -1476,6 +1595,392 @@ gmacs_plot_index <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_l
     
   } else {return(plots$plot)}
   
+  
+}
+
+# gmacs_plot_sizecomp() ----
+
+## plot fits to gmacs size comp data
+
+## args:
+### all_out - output from gmacs_read_allout as nested list, example: all.out = list(mod_23.0a, mod_23.1b)
+### save_plot - T/F save plots, default = T
+### plot_dir - file directory in which to save plots
+### size_lab - optional, custom size axis label, as character vector, example: "Carapace Length (mm)", default = "Size"
+### plot_nsamp_est - show stage 2 effective sample sizes on plots? T/F
+### aggregate_series_labels - character vector of labels for aggregate series, ex: c("Male", "Female") or c("New Shell", "Old Shell");
+###                           or list with elements being character vectors for each aggregate series (if you want to use different labels)
+### data_summary - alternate way to bring in data, output of gmacs_get_index_summary()
+### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
+### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
+
+
+gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, size_lab = "Size",
+                                plot_nsamp_est = F, aggregate_series_label = NULL, data_summary = NULL, file = NULL, 
+                                model_name = NULL) {
+  
+  # get size summary data
+  if(is.null(data_summary)){data_summary <- gmacs_get_size_summary(all_out, file, model_name)}
+  
+  # check dir
+  if(save_plot == T & is.null(plot_dir)) {dir.create("./plots", showWarnings = F, recursive = TRUE); plot_dir <- "./plots"}
+  if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
+  
+  # make plots
+  data_summary %>% 
+    nest_by(mod_series, .keep = T) %>% ungroup %>% 
+    mutate(agg = purrr::map_lgl(data, function(data) {
+      # check for aggregated comp
+      data <- dplyr::select(data, where(function(x) !all(is.na(x))))
+      agg <- "aggregate_series" %in% names(data)
+      return(agg)
+    }),
+    agg_series_order = rank(mod_series * ifelse(agg==F, NA, 1), na.last = "keep"),
+    aggregate_series_label = purrr::map2(agg, agg_series_order, function(agg, agg_series_order){
+      if(agg == T & class(aggregate_series_label) == "list"){return(aggregate_series_label[[agg_series_order]])}
+      if(agg == T & class(aggregate_series_label) != "list"){return(aggregate_series_label)}
+      if(agg == F) {return(NA)}
+    }),
+    plots = purrr::pmap(list(data, agg, aggregate_series_label), function(data, agg, aggregate_series_label){
+      
+      ## comp, agg comp, and residual plots
+      if(agg == T) {
+        ## setup for plotting aggregate series ----
+        # get some detail about size bins
+        size_bins <- data %>% pull(size) %>% unique 
+        n_bins <- length(size_bins)
+        n_yr <- length(unique(data$year))
+        bin_width <- size_bins[2] - size_bins[1]
+        # adjust size bin for the secondary series
+        data <- mutate(data, plot_size = (aggregate_series-1)*(max(size_bins)-min(size_bins)+bin_width*2) + size) 
+        # get size breaks and labels for the plot
+        brks <- labeling::extended(1, n_bins, m = 3); brks <- brks[brks != 0]
+        data %>%
+          distinct(aggregate_series, plot_size) %>% 
+          nest_by(aggregate_series) %>% ungroup %>%
+          mutate(breaks = purrr::map(data, function(data){data %>% dplyr::slice(brks)})) %>%
+          pull(breaks) %>% unlist %>% as.numeric -> breaks
+        data %>%
+          distinct(size, plot_size) %>%
+          filter(plot_size %in% breaks) %>% pull(size) -> labels
+        data %>%
+          filter(aggregate_series > 1) %>%
+          group_by(aggregate_series) %>%
+          summarise(divider = min(plot_size) - bin_width) %>% pull(divider) -> divider
+        if(is.null(aggregate_series_label)) {aggregate_series_label <- unique(data$aggregate_series)}
+        
+        ## comp by year ----
+        ### plot dimensions
+        cols <- ifelse(n_yr >= 12, 3, ifelse(n_yr >= 6, 2, 1))
+        rows <- ifelse(cols == 1, n_yr, ifelse(cols == 2, ceiling(n_yr/2), ceiling(n_yr/3)))  
+        ### plot
+        data %>%  
+          mutate(nsamp_annotate = ifelse(plot_nsamp_est == T,
+                                         paste0("N = ", round(nsamp_obs), "\nN est = ", round(nsamp_est, 1)),
+                                         paste0("N = ", round(nsamp_obs))),
+                 aggregate_series_label = factor(aggregate_series_label[aggregate_series], levels = aggregate_series_label)) %>%
+          ggplot()+
+          geom_bar(aes(x = plot_size, y = obs, fill = aggregate_series_label), stat = "identity", color = NA, width = bin_width)+
+          geom_line(aes(x = plot_size, y = pred, group = aggregate_series, color = model))+
+          geom_vline(xintercept = divider, linetype = 2, color = "grey70")+
+          scale_x_continuous(breaks = breaks, labels = labels)+
+          scale_y_continuous(expand = expand_scale(mult = c(0, 0.1), add = c(0, 0)))+
+          labs(x = size_lab, y = NULL, color = NULL, fill = NULL)+
+          geom_text_npc(aes(npcx = "left", npcy = 0.6, label = year), check_overlap = T, size = 3)+
+          geom_text_npc(aes(npcx = "right", npcy = 0.9, label = nsamp_annotate),
+                        check_overlap = T, size = 3)+
+          facet_wrap(~year, nrow = rows, ncol = cols)+
+          scale_color_manual(values = cbpalette)+
+          scale_fill_grey()+
+          theme(panel.spacing.x = unit(0.2, "lines"),
+                panel.spacing.y = unit(0, "lines"),
+                panel.border = element_blank(),
+                axis.line.x = element_line(color = "grey70", size = 0.2),
+                axis.ticks.y = element_blank(),
+                axis.text.y = element_blank(),
+                axis.text.x = element_text(size = 8),
+                plot.title = element_text(hjust = 0.5),
+                strip.background = element_blank(),
+                strip.text.x = element_blank(),
+                panel.background = element_blank()) -> p_comp_year
+        ### save
+        if(save_plot == T){
+          height = min(rows, 10)
+          width = min(cols*3, 9)
+          ggsave(file.path(plot_dir, paste0("comp_fit_",tolower(unique(data$fleet)),"_", tolower(unique(data$sex)),"_", tolower(unique(data$type)),".png")),
+                 plot = p_comp_year, height = height, width = width, units = "in") 
+        }
+        
+        
+        ## aggregate size comp ----
+        ### plot
+        data %>%  
+          group_by(model, aggregate_series,size, plot_size) %>%
+          summarise(obs = sum(obs), pred = sum(pred),
+                    nsamp_obs = sum(nsamp_obs), nsamp_est = sum(nsamp_est)) %>% ungroup %>%
+          mutate(nsamp_annotate = ifelse(plot_nsamp_est == T,
+                                         paste0("N = ", round(nsamp_obs), "\nN est = ", round(nsamp_est, 1)),
+                                         paste0("N = ", round(nsamp_obs))),
+                 aggregate_series_label = factor(aggregate_series_label[aggregate_series], levels = aggregate_series_label)) %>%
+          ggplot()+
+          geom_bar(aes(x = plot_size, y = obs, fill = aggregate_series_label), stat = "identity", color = NA, width = bin_width)+
+          geom_line(aes(x = plot_size, y = pred, group = aggregate_series, color = model))+
+          geom_vline(xintercept = divider, linetype = 2, color = "grey70")+
+          scale_x_continuous(breaks = breaks, labels = labels)+
+          scale_y_continuous(expand = expand_scale(mult = c(0, 0.1), add = c(0, 0)))+
+          labs(x = size_lab, y = NULL, color = NULL, fill = NULL)+
+          geom_text_npc(aes(npcx = "left", npcy = 0.9, label = nsamp_annotate),
+                        check_overlap = T, size = 3)+
+          scale_color_manual(values = cbpalette)+
+          scale_fill_grey()+
+          theme(panel.spacing.x = unit(0.2, "lines"),
+                panel.spacing.y = unit(0, "lines"),
+                panel.border = element_blank(),
+                axis.line.x = element_line(color = "grey70", size = 0.2),
+                axis.ticks.y = element_blank(),
+                axis.text.y = element_blank(),
+                axis.text.x = element_text(size = 8),
+                plot.title = element_text(hjust = 0.5),
+                strip.background = element_blank(),
+                strip.text.x = element_blank(),
+                panel.background = element_blank()) -> p_comp_agg
+        ### save
+        if(save_plot == T){
+          ggsave(file.path(plot_dir, paste0("aggregated_comp_fit_",tolower(unique(data$fleet)),"_", tolower(unique(data$sex)),"_", tolower(unique(data$type)),".png")),
+                 plot = p_comp_agg, height = 3, width = 5, units = "in") 
+        }
+        
+        ## line residual plot ----
+        
+        ### plot dimensions
+        cols <- ifelse(n_yr >= 12, 3, ifelse(n_yr >= 6, 2, 1))
+        rows <- ifelse(cols == 1, n_yr, ifelse(cols == 2, ceiling(n_yr/2), ceiling(n_yr/3)))  
+        ### plot
+        data %>%  
+          ggplot()+
+          geom_line(aes(x = plot_size, y = residual, group = aggregate_series, color = model))+
+          geom_hline(yintercept = 0, linetype = 2, color = "grey70")+
+          geom_vline(xintercept = divider, linetype = 2, color = "grey70")+
+          scale_x_continuous(breaks = breaks, labels = labels)+
+          scale_y_continuous(expand = expand_scale(mult = c(0, 0.1), add = c(0, 0)))+
+          labs(x = size_lab, y = NULL, color = NULL, fill = NULL)+
+          geom_text_npc(aes(npcx = "left", npcy = 0.8, label = year), check_overlap = T, size = 3)+
+          facet_wrap(~year, nrow = rows, ncol = cols)+
+          scale_color_manual(values = cbpalette)+
+          scale_fill_grey()+
+          theme(panel.spacing.x = unit(0.2, "lines"),
+                panel.spacing.y = unit(0, "lines"),
+                panel.border = element_blank(),
+                axis.line.x = element_line(color = "grey70", size = 0.2),
+                axis.ticks.y = element_blank(),
+                axis.text.y = element_blank(),
+                axis.text.x = element_text(size = 8),
+                plot.title = element_text(hjust = 0.5),
+                strip.background = element_blank(),
+                strip.text.x = element_blank(),
+                panel.background = element_blank()) -> p_resid_line
+        ### save
+        if(save_plot == T){
+          height = min(rows, 10)
+          width = min(cols*3, 9)
+          ggsave(file.path(plot_dir, paste0("resid_line_",tolower(unique(data$fleet)),"_", tolower(unique(data$sex)),"_", tolower(unique(data$type)),".png")),
+                 plot = p_resid_line, height = height, width = width, units = "in") 
+        }
+        
+        ## dot plot ----
+        
+        data %>%
+          # compute residual
+          mutate(pos = case_when(residual >= 0 ~ "> 0", 
+                                 residual < 0 ~ "< 0"),
+                 residual = ifelse(residual == 0, NA, residual),
+                 aggregate_series_label = factor(aggregate_series_label[aggregate_series], levels = aggregate_series_label)) %>%
+          ggplot()+
+          geom_point(aes(x = year, y = size, size = abs(residual), fill = pos), 
+                     shape = 21, alpha = 0.5)+
+          scale_fill_manual(values = c("black", "white", NA))+
+          scale_x_continuous(breaks = yraxis$breaks, labels = yraxis$labels, limits = range(data$year))+
+          labs(x = NULL, y = size_lab, size = NULL, fill = NULL)+
+          theme(legend.position = "top")+
+          facet_wrap(~aggregate_series_label, ncol = 1, scales = "free_y") -> p_dot
+        ### save
+        if(save_plot == T){
+          height = unique(data$aggregate_series) * 6
+          width = min(6, n_yr * 0.5)
+          ggsave(file.path(plot_dir, paste0("resid_dot_",tolower(unique(data$fleet)),"_", tolower(unique(data$sex)),"_", tolower(unique(data$type)),".png")),
+                 plot = p_dot, height = height, width = width, units = "in") 
+        }
+      }
+      if(agg == F) {
+        ## setup for plotting aggregate series ----
+        # get some detail about size bins
+        size_bins <- data %>% pull(size) %>% unique 
+        n_bins <- length(size_bins)
+        n_yr <- length(unique(data$year))
+        bin_width <- size_bins[2] - size_bins[1]
+        
+        ## comp by year ----
+        ### plot dimensions
+        cols <- ifelse(n_yr >= 12, 3, ifelse(n_yr >= 6, 2, 1))
+        rows <- ifelse(cols == 1, n_yr, ifelse(cols == 2, ceiling(n_yr/2), ceiling(n_yr/3)))  
+        ### plot
+        data %>%  
+          mutate(nsamp_annotate = ifelse(plot_nsamp_est == T,
+                                         paste0("N = ", round(nsamp_obs), "\nN est = ", round(nsamp_est, 1)),
+                                         paste0("N = ", round(nsamp_obs)))) %>%
+          ggplot()+
+          geom_bar(aes(x = size, y = obs), stat = "identity", color = NA, fill = "grey70", width = bin_width, alpha = 0.5)+
+          geom_line(aes(x = size, y = pred, color = model))+
+          scale_y_continuous(expand = expand_scale(mult = c(0, 0.1), add = c(0, 0)))+
+          labs(x = size_lab, y = NULL, color = NULL, fill = NULL)+
+          geom_text_npc(aes(npcx = "left", npcy = 0.6, label = year), check_overlap = T, size = 3)+
+          geom_text_npc(aes(npcx = "right", npcy = 0.9, label = nsamp_annotate),
+                        check_overlap = T, size = 3)+
+          facet_wrap(~year, nrow = rows, ncol = cols)+
+          scale_color_manual(values = cbpalette)+
+          theme(panel.spacing.x = unit(0.2, "lines"),
+                panel.spacing.y = unit(0, "lines"),
+                panel.border = element_blank(),
+                axis.line.x = element_line(color = "grey70", size = 0.2),
+                axis.ticks.y = element_blank(),
+                axis.text.y = element_blank(),
+                axis.text.x = element_text(size = 8),
+                plot.title = element_text(hjust = 0.5),
+                strip.background = element_blank(),
+                strip.text.x = element_blank(),
+                panel.background = element_blank()) -> p_comp_year
+        ### save
+        if(save_plot == T){
+          height = min(rows, 10)
+          width = min(cols*3, 9)
+          ggsave(file.path(plot_dir, paste0("comp_fit_",tolower(unique(data$fleet)),"_", tolower(unique(data$sex)),"_", tolower(unique(data$type)),".png")),
+                 plot = p_comp_year, height = height, width = width, units = "in") 
+        }
+        
+        
+        ## aggregate size comp ----
+        ### plot
+        data %>%  
+          group_by(model, size) %>%
+          summarise(obs = sum(obs), pred = sum(pred),
+                    nsamp_obs = sum(nsamp_obs), nsamp_est = sum(nsamp_est)) %>% ungroup %>%
+          mutate(nsamp_annotate = ifelse(plot_nsamp_est == T,
+                                         paste0("N = ", round(nsamp_obs), "\nN est = ", round(nsamp_est, 1)),
+                                         paste0("N = ", round(nsamp_obs)))) %>%
+          ggplot()+
+          geom_bar(aes(x = size, y = obs), stat = "identity", color = NA, fill = "grey70", width = bin_width, alpha = 0.5)+
+          geom_line(aes(x = size, y = pred, color = model))+
+          scale_y_continuous(expand = expand_scale(mult = c(0, 0.1), add = c(0, 0)))+
+          labs(x = size_lab, y = NULL, color = NULL, fill = NULL)+
+          geom_text_npc(aes(npcx = "left", npcy = 0.9, label = nsamp_annotate),
+                        check_overlap = T, size = 3)+
+          scale_color_manual(values = cbpalette)+
+          theme(panel.spacing.x = unit(0.2, "lines"),
+                panel.spacing.y = unit(0, "lines"),
+                panel.border = element_blank(),
+                axis.line.x = element_line(color = "grey70", size = 0.2),
+                axis.ticks.y = element_blank(),
+                axis.text.y = element_blank(),
+                axis.text.x = element_text(size = 8),
+                plot.title = element_text(hjust = 0.5),
+                strip.background = element_blank(),
+                strip.text.x = element_blank(),
+                panel.background = element_blank()) -> p_comp_agg
+        ### save
+        if(save_plot == T){
+          ggsave(file.path(plot_dir, paste0("aggregated_comp_fit_",tolower(unique(data$fleet)),"_", tolower(unique(data$sex)),"_", tolower(unique(data$type)),".png")),
+                 plot = p_comp_agg, height = 3, width = 5, units = "in") 
+        }
+        
+        ## line residual plot ----
+        
+        ### plot dimensions
+        cols <- ifelse(n_yr >= 12, 3, ifelse(n_yr >= 6, 2, 1))
+        rows <- ifelse(cols == 1, n_yr, ifelse(cols == 2, ceiling(n_yr/2), ceiling(n_yr/3)))  
+        ### plot
+        data %>%  
+          ggplot()+
+          geom_line(aes(x = size, y = residual, color = model))+
+          geom_hline(yintercept = 0, linetype = 2, color = "grey70")+
+          scale_y_continuous(expand = expand_scale(mult = c(0, 0.1), add = c(0, 0)))+
+          labs(x = size_lab, y = NULL, color = NULL, fill = NULL)+
+          geom_text_npc(aes(npcx = "left", npcy = 0.8, label = year), check_overlap = T, size = 3)+
+          facet_wrap(~year, nrow = rows, ncol = cols)+
+          scale_color_manual(values = cbpalette)+
+          theme(panel.spacing.x = unit(0.2, "lines"),
+                panel.spacing.y = unit(0, "lines"),
+                panel.border = element_blank(),
+                axis.line.x = element_line(color = "grey70", size = 0.2),
+                axis.ticks.y = element_blank(),
+                axis.text.y = element_blank(),
+                axis.text.x = element_text(size = 8),
+                plot.title = element_text(hjust = 0.5),
+                strip.background = element_blank(),
+                strip.text.x = element_blank(),
+                panel.background = element_blank()) -> p_resid_line
+        ### save
+        if(save_plot == T){
+          height = min(rows, 10)
+          width = min(cols*3, 9)
+          ggsave(file.path(plot_dir, paste0("resid_line_",tolower(unique(data$fleet)),"_", tolower(unique(data$sex)),"_", tolower(unique(data$type)),".png")),
+                 plot = p_resid_line, height = height, width = width, units = "in") 
+        }
+        
+        ## dot plot ----
+        
+        data %>%
+          # compute residual
+          mutate(pos = case_when(residual >= 0 ~ "> 0", 
+                                 residual < 0 ~ "< 0"),
+                 residual = ifelse(residual == 0, NA, residual)) %>%
+          ggplot()+
+          geom_point(aes(x = year, y = size, size = abs(residual), fill = pos), 
+                     shape = 21, alpha = 0.5)+
+          scale_fill_manual(values = c("black", "white", NA))+
+          scale_x_continuous(breaks = yraxis$breaks, labels = yraxis$labels, limits = range(data$year))+
+          labs(x = NULL, y = size_lab, size = NULL, fill = NULL)+
+          theme(legend.position = "top") -> p_dot
+        ### save
+        if(save_plot == T){
+          height = 6
+          width = min(6, n_yr * 0.5)
+          ggsave(file.path(plot_dir, paste0("resid_dot_",tolower(unique(data$fleet)),"_", tolower(unique(data$sex)),"_", tolower(unique(data$type)),".png")),
+                 plot = p_dot, height = height, width = width, units = "in") 
+        }
+      }
+      ## mean size (francis) plot ---- 
+      
+      data %>%
+        group_by(year) %>%
+        summarise(obs_mean_size = weighted.mean(size, obs),
+                  pred_mean_size = weighted.mean(size, pred), 
+                  sd = sqrt(sum((size - pred_mean_size)^2 * pred) / sum(pred)) / sqrt(mean(nsamp_obs)),
+                  l95 = pred_mean_size + sd * qnorm(0.025),
+                  u95 = pred_mean_size + sd * qnorm(0.975),
+                  sd_est = sqrt(sum((size - pred_mean_size)^2 * pred) / sum(pred)) / sqrt(mean(nsamp_est)),
+                  l95_est = pred_mean_size + sd_est * qnorm(0.025),
+                  u95_est = pred_mean_size + sd_est * qnorm(0.975)) %>% ungroup %>%
+        ggplot()-> tmp
+      if(plot_nsamp_est == T){tmp+geom_ribbon(aes(x = year, ymin = l95_est, ymax = u95_est, group = 1), fill = "grey80", alpha = 0.5)->tmp}
+      tmp+geom_ribbon(aes(x = year, ymin = l95, ymax = u95, group = 1), fill = "grey60", alpha = 0.5)+
+        geom_line(aes(x = year, y = pred_mean_size, group = 1))+
+        geom_point(aes(x = year, y = obs_mean_size))+
+        scale_x_continuous(breaks = yraxis$breaks, labels = yraxis$labels)+
+        labs(x = NULL, y = paste0("Mean ", size_lab)) -> p_mean_size
+      ### save
+      if(save_plot == T){
+        height = 4
+        width = 6
+        ggsave(file.path(plot_dir, paste0("mean_size_",tolower(unique(data$fleet)),"_", tolower(unique(data$sex)),"_", tolower(unique(data$type)),".png")),
+               plot = p_mean_size, height = height, width = width, units = "in") 
+      }
+      
+      return(list(p_comp_year, p_comp_agg, p_resid_line, p_dot, p_mean_size))
+      
+    })) -> out
+  
+  # output
+  if(save_plot == F) {return(out %>% pull(plots))} else{"done"}
   
 }
 
