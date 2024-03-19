@@ -1034,7 +1034,7 @@ gmacs_do_retrospective <- function(gmacs.dat, n_peel, wait = T, pin = F, plot_on
   
   # plot ----
   
-  if(plot_mmb == F){setwd(wd); return("done")}
+  if(plot_mmb == F){setwd(wd); return(mohn_rho)}
 
   if(plot_mmb == T){
     ao <- list()
@@ -1068,7 +1068,7 @@ gmacs_do_retrospective <- function(gmacs.dat, n_peel, wait = T, pin = F, plot_on
       ggsave(file.path(plot_dir, paste0(model_name,"_retrospective_mmb.png")), plot = p_mmb, height = 3, width = 6)
       return("done")
     }
-    if(save_plot == F){return(p_mmb)}
+    if(save_plot == F){return(list(mohn_rho, p_mmb))}
     
   }
 }
