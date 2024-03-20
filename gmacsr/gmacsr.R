@@ -1507,8 +1507,9 @@ gmacs_plot_data_range <- function(all_out = NULL, save_plot = T, plot_dir = NULL
     nest_by(model_name) %>% ungroup %>% #pull(data) %>% .[[1]] -> data
     mutate(plot = purrr::map2(model_name, data, function(model_name, data) {
       data %>%
+        filter(year > 1980) %>%
         ggplot()+
-        geom_point(aes(y = group, x = year, color = fleet), shape = 95, size = 4, show.legend = F)+
+        geom_point(aes(y = group, x = year, color = fleet), shape = 15, size = 3.75, show.legend = F)+
         facet_wrap(~process, ncol = 1, scales = "free_y")+
         scale_x_continuous(breaks = yraxis$breaks, labels = yraxis$labels)+
         scale_y_discrete(limits = rev)+
