@@ -1244,6 +1244,44 @@ gmacs_get_f <- function(all_out = NULL, file = NULL, model_name = NULL){
 }
 
 
+# gmacs_get_molt_probability() ----
+
+## isolate molt probability by model
+
+## args:
+### all_out - output from gmacs_read_allout as nested list, example: all.out = list(mod_23.0a, mod_23.1b)
+### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
+### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
+
+gmacs_get_molt_probability <- function(all_out = NULL, file = NULL, model_name = NULL){
+  
+  # bring in all out data ----
+  
+  if(!is.null(file) && is.null(all_out)) {
+    if(is.null(model_name)) {stop("Must supply model name(s)!!")}
+    # read all out file
+    all_out <- purrr::map2(file, model_name, gmacs_read_allout); names(all_out) <- paste0("model", model_name)
+  }
+  
+  # extract data ----
+  
+  tibble(mod = names(all_out),
+         all_out = all_out) %>% 
+    mutate(data = purrr::map(all_out, function(x) {
+      x$molt_probability %>%
+        mutate(model = as.character(x$model_name)) %>%
+        left_join(x$molt_probability %>%
+                    distinct(sex, size, molt_probability, .keep_all = T) %>% 
+                    distinct(sex, year) %>% group_by(sex) %>%
+                    mutate(year_lead = lead(year)) %>% ungroup() %>%
+                    replace_na(list(year_lead = max(x$molt_probability$year))) %>%
+                    transmute(sex, year, block = paste0(year, " - ", year_lead)), by = c("sex", "year"))
+      })) %>% transmute(data) %>% unnest(data) -> out
+  
+  return(out)
+  
+}
+
 # gmacs_get_n_matrix() ----
 
 ## isolate n matrix data by model
@@ -2218,7 +2256,7 @@ gmacs_plot_recruitment <- function(all_out = NULL, save_plot = T, plot_dir = NUL
       geom_line(aes(x = factor(year), y = recruit_male, group = model, color = model))+
       scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels)+
       scale_y_continuous(labels = scales::comma, limits = c(0, NA))+
-      y = labs(x = NULL, y = y_labs, color = NULL)+
+      labs(x = NULL, y = y_labs, color = NULL)+
       scale_color_manual(values = cbpalette)+
       theme(legend.position = c(1, 1),
             legend.justification = c(1, 1)) -> mal
