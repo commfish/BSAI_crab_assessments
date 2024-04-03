@@ -1,7 +1,7 @@
 ## gmacs R functions
-## updated to GMACS 2.01.M.10; Completed 2024-02-27
+## updated to GMACS 2.01.M.10; Compiled 2024-02-27
 ## tyler jackson
-## last update - 3/14/2024
+## last update - 4/3/2024
 
 # load ----
 
@@ -1671,35 +1671,33 @@ gmacs_plot_catch <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_l
 
 gmacs_plot_index <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_labs = NULL, 
                              data_summary = NULL, file = NULL, model_name = NULL) {
-  
   # get summary data
   if(is.null(data_summary)){data_summary <- gmacs_get_index_summary(all_out, file, model_name)}
-
-  # plots 
   
+  # plots 
   # create output directories
   if(save_plot == T & is.null(plot_dir)) {plot_dir <- file.path(getwd(), "plots"); dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
   if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
-  
   data_summary %>%
     nest_by(series, sex, units, .keep = T) %>% ungroup %>%
     mutate(plot = purrr::map(data, function(data) {
-      
       # y label
       if(is.null(y_labs)) {
         y_labs <- paste0(gsub("_", " ", unique(data$fleet)), " Index (", unique(data$wt_units), ")")
         if(unique(data$units) == "Numbers") {
-          y_labs <- paste0(gsub("_", " ", unique(data$fleet)), " Index (", unique(data$n_units), ")")
+          if(is.na(unique(data$n_units)) == FALSE) {
+            y_labs <- paste0(gsub("_", " ", unique(data$fleet)), " Index (", unique(data$n_units), ")")}
+          if(is.na(unique(data$n_units)) == TRUE) {
+            y_labs <- paste0(gsub("_", " ", unique(data$fleet)), " Index") 
+          }
         }
       }
-      
       # plot
       data %>%
         mutate(obs_l95 = obs_index * exp(-1.96 * sqrt(log(1 + obs_cv^2))),
                obs_u95 = obs_index * exp(1.96 * sqrt(log(1 + obs_cv^2))),
                tot_l95 = obs_index * exp(-1.96 * sqrt(log(1 + tot_cv^2))),
                tot_u95 = obs_index * exp(1.96 * sqrt(log(1 + tot_cv^2)))) %>%
-        
         ggplot()+
         geom_errorbar(aes(x = year, ymin = tot_l95, ymax = tot_u95), width = 0, color = "grey70")+
         geom_errorbar(aes(x = year, ymin = obs_l95, ymax = obs_u95), width = 0, color = "grey20")+
@@ -1709,9 +1707,7 @@ gmacs_plot_index <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_l
         scale_y_continuous(labels = scales::comma)+
         scale_color_manual(values = cbpalette)+
         coord_cartesian(ylim = c(0, NA)) -> p
-      
       if(length(min(data$year):max(data$year)) > 10) { p + scale_x_continuous(labels = yraxis$labels, breaks = yraxis$breaks) -> p }
-      
       if(save_plot == T) {
         pwidth <- min(max(length(min(data$year):max(data$year))*0.2, 5), 7)
         # save plot
@@ -1721,22 +1717,16 @@ gmacs_plot_index <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_l
                width = pwidth, 
                height = pwidth * (3/5), units = "in")
       }
-      
       return(p)
-      
     })) -> plots
-  
   # return ----
   if(save_plot == T) {
     # save plot of all stacked
     ggsave(plot = patchwork::wrap_plots(plots$plot, ncol = 2), 
            filename = file.path(plot_dir, "index_fit.png"),
            height = nrow(plots) / 2 * 4, width = 11, units = "in") 
-    
     return("done")
-    
   } else {return(plots$plot)}
-  
   
 }
 
