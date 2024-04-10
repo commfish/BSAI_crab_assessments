@@ -122,22 +122,6 @@ f_add_area <- function(data) {
   return(out)
 }
 
-# # f_add_yrs5trip() ----
-# 
-# f_add_yrs5trip() <- function(data) {
-#   
-#   # add number of yrs with 5 trips (data must include full timeseries)
-#   data %>%
-#     distinct(fmpyear, ftlandlink, adfg, statarea) %>%
-#     count(fmpyear, adfg, name = "n_trips") %>% 
-#     group_by(adfg) %>%
-#     summarise(yrs5trip = sum(n_trips >= 5)) -> tmp
-#     filter(adfg == 5992)
-#   
-# }
-# 
-# 
-
 # f_getCPUE() ----
 
 ## function to extract standardized CPUE indices and confidence limits from a fitted linear model
@@ -177,7 +161,7 @@ f_getCPUE <- function(model, where, years) {
   Lower <- exp(log(std_cpue) - 2 * SE)
   
   out <- tibble(year = years, 
-                index = std_cpue, 
+                index = std_cpue,
                 se = SE, 
                 l95 = Lower,
                 u95 = Upper)
@@ -729,16 +713,127 @@ f_stepCPUE <- function(object, scope, r2.change = 0.01, scale = 0, direction = c
   
 }
 
+# f_dharma() ----
+
+# wrapper function for dharma residuals, plot as ggplot grob
+f_dharma <- function(model, plot = T, path = NULL){
+  simr <- simulateResiduals(fittedModel = model, plot = F, n = 1000)
+  if(plot == T) {
+    # make qq plot of simulatied residuals - should be uniform
+    qq <- patchwork::wrap_elements(panel = ~plotQQunif(simr, testUniformity = T, testOutliers = F, testDispersion = F, cex = 0.2), clip = F)
+    # plot residuals against ranked model predictions
+    rf <- patchwork::wrap_elements(panel = ~plotResiduals(simr, smoothScatter = F, cex = 0.2, pch = 16), clip = F)
+    # histogram of residuls
+    hs <- patchwork::wrap_elements(panel = ~ {hist(residuals(simr), main = NULL, xlab = "DHARMa Residuals", probability = T); curve(dunif(x), from = -0.1, to = 1.1, add = T, col = 2)})
+    ggsave(path, plot = (qq + rf)/ (hs+plot_spacer()), height = 9, width = 9, units = "in")
+  }
+  return(simr)
+}
+# f_step_plot() ----
+## create step plot for cpue index terms
+
+## args: model - final cpue standardization model, class gam or bam
+##       term_labs - optional, alternative term labels for plot
+
+f_step_plot <- function(model, term_labs = NULL){
+  
+  ## get terms
+  form <- gsub(" ", "", strsplit(deparse1(model$formula), split = "\\+|\\~")[[1]])
+  resp <- form[1]
+  # get the focal (index) term
+  index_term <- form[2]
+  # update terms
+  terms <- form[c(-1,-2)]
+  
+  # fit the null model and get a standardized index
+  null <- update(model, paste0("~.", paste0("- ", terms, collapse = " ")))
+  loc <- grep(index_term, names(coef(null)))
+  yrs <- sort(model$model %>% pull(index_term) %>% unique)
+  
+  if(class(model)[1] %in% c("bam", "gam")){
+    f_getCPUE_gam(null, loc, yrs) %>%
+      mutate(model = index_term) %>%
+      dplyr::select(6, 1:5) -> null_ind
+    
+    # fit models and get a list of std indices
+    mods <- list(null)
+    ind <- list(null_ind)
+    for(i in 2:(length(terms)+1)){
+      mods[[i]] <- update(mods[[i-1]], paste0("~ . + ", terms[i-1]))
+      loc <- grep(index_term, names(coef(mods[[i]])))
+      yrs <- sort(model$model %>% pull(index_term) %>% unique)
+      f_getCPUE_gam(mods[[i]], loc, yrs) %>%
+        mutate(model = paste("+", terms[i-1])) %>%
+        dplyr::select(6, 1:5) -> ind[[i]]
+    } 
+  }
+  if(class(model)[1] %in% c("glm", "lm")){
+    f_getCPUE(null, loc, yrs) %>%
+      mutate(model = index_term) %>%
+      dplyr::select(6, 1:5) -> null_ind
+    
+    # fit models and get a list of std indices
+    mods <- list(null)
+    ind <- list(null_ind)
+    for(i in 2:(length(terms)+1)){
+      mods[[i]] <- update(mods[[i-1]], paste0("~ . + ", terms[i-1]))
+      loc <- grep(index_term, names(coef(mods[[i]])))
+      yrs <- sort(model$model %>% pull(index_term) %>% unique)
+      f_getCPUE(mods[[i]], loc, yrs) %>%
+        mutate(model = paste("+", terms[i-1])) %>%
+        dplyr::select(6, 1:5) -> ind[[i]]
+    } 
+  }
+  
+  # plot
+  do.call("rbind", ind) %>%
+    mutate(model = factor(model, levels = c(index_term, paste("+", terms)))) %>%
+    nest_by(model, .keep = T) %>% ungroup -> tmp
+  
+  plot_dat <- list(tmp$data[[1]] %>% rename(model_background = model))
+  for(i in 2:nrow(tmp)) {
+    tmp$data[[i]] %>%
+      bind_rows(do.call("rbind", tmp$data[1:(i-1)])) %>%
+      rename(model_background = model) -> plot_dat[[i]]
+  }
+  
+  if(is.null(term_labs)){term_labs <- tmp %>% pull(model) %>% unique}
+  names(term_labs) <- tmp %>% pull(model) %>% unique
+  
+  tmp %>%
+    mutate(plot_dat = plot_dat) %>%
+    transmute(model, plot_dat) %>%
+    unnest(plot_dat) %>%
+    mutate(alpha = model_background == model) %>%
+    ggplot()+
+    geom_point(aes(x = year, y = index, alpha = alpha), show.legend = F)+
+    geom_line(aes(x = year, y = index, group = model_background, alpha = alpha), show.legend = F)+
+    geom_hline(yintercept = 1, linetype = 2)+
+    scale_alpha_manual(values = c(0.1, 1))+
+    facet_wrap(~model, ncol = 1, strip.position = "left", labeller = labeller(model = term_labs))+
+    labs(x = NULL, y = NULL)+
+    theme(axis.text.y = element_blank(),
+          axis.ticks.y = element_blank(),
+          panel.spacing = unit(0, "lines")) -> plot
+  
+  return(plot)
+  
+}
+
 # f_glm_r2() ----
 
 # extract r2 from glm model
-# arg: mod - glm omdel object
+# arg: mod - glm model object
 f_glm_r2 <- function(mod) {
   
   r2 <- (mod$null.deviance - mod$deviance) / mod$null.deviance
   return(r2)
   
 }
+
+# f_CAIC() ----
+
+f_CAIC <- function(model){AIC(model, k = log(nrow(model$model)) + 1.0)}
 
 # f_add_len_bin() ----
 
@@ -815,6 +910,17 @@ f_crab_year <- function(x, date_correct = F, date_format = "mdy", data = "crab_o
   
 }
 
+# f_bias_correct () ----
+# bias correction from log space
+# args: ln_mu = mean of log(x)
+#       ln_sigma = standard error of log(x)
+f_bias_correct <- function(ln_mu, ln_sigma) {
+  
+  mu = exp(ln_mu + (ln_sigma^2)/2)
+  sigma = sqrt((exp(ln_sigma^2) - 1) * exp(2*ln_mu + ln_sigma^2))
+  
+  return(c(mu = mu, sigma = sigma))
+}
 # length bin metadata ----
 
 ### bins are 101-105, 106-110, 111-115, 116-120...
