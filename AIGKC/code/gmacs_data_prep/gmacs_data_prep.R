@@ -2,7 +2,7 @@
 
 # aigkc gmacs .dat file prep
 # tyler jackson
-# 6/21/2023
+# 4/11/2024
 
 # load ----
 
@@ -28,8 +28,9 @@ read_csv("./AIGKC/data/observer/item10_season_dates.csv") %>%
             yr = paste0("#", crab_year)) %>%
   # filter for eag
   filter(fishery == "EAG") %>%
-  dplyr::select(-fishery) %>%
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/eag_tau_1981_present_tj.txt", delim = "\t")
+  dplyr::select(-fishery) %>% 
+  mutate_at(1:6, function(x){sprintf('%.3f', x)}) %>%
+  write_delim(., "./AIGKC/data/gmacs/2024_may/eag_tau_1981_present.txt", delim = "\t")
 
 # wag
 read_csv("./AIGKC/data/observer/item10_season_dates.csv") %>%
@@ -50,30 +51,30 @@ read_csv("./AIGKC/data/observer/item10_season_dates.csv") %>%
   # filter for eag
   filter(fishery == "WAG") %>%
   dplyr::select(-fishery) %>%
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/wag_tau_1981_present_tj.txt", delim = "\t")
+  mutate_at(1:6, function(x){sprintf('%.3f', x)}) %>%
+  write_delim(., "./AIGKC/data/gmacs/2024_jan/wag_tau_1981_present.txt", delim = "\t")
 
 # ai
-# eag
-read_csv("./AIGKC/data/observer/item10_season_dates.csv") %>%
-  # calculate mid date
-  mutate(midfish = f_mid_date(start_date, end_date),
-         jul1 = mdy(paste0("7/1/", crab_year)),
-         feb15 = mdy(paste0("2/15/", crab_year+1)),
-         midfish = as_date(ifelse(midfish > feb15, feb15, midfish))) %>%
-  # compute taus
-  transmute(fishery, 
-            `#inst_n` = 0,
-            jul1_midfish = as.numeric(midfish - jul1) / 365,
-            inst_c = 0,
-            midfish_feb15 = as.numeric(feb15 - midfish) / 365,
-            inst_bycatch = 0, 
-            rest = 0.37260274,
-            yr = paste0("#", crab_year)) %>%
-  group_by(yr) %>%
-  summarise_all(mean) %>%
-  dplyr::select(3:8, 1) %>%
-  
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/ai_tau_1981_present_tj.txt", delim = "\t")
+# read_csv("./AIGKC/data/observer/item10_season_dates.csv") %>%
+#   # calculate mid date
+#   mutate(midfish = f_mid_date(start_date, end_date),
+#          jul1 = mdy(paste0("7/1/", crab_year)),
+#          feb15 = mdy(paste0("2/15/", crab_year+1)),
+#          midfish = as_date(ifelse(midfish > feb15, feb15, midfish))) %>%
+#   # compute taus
+#   transmute(fishery, 
+#             `#inst_n` = 0,
+#             jul1_midfish = as.numeric(midfish - jul1) / 365,
+#             inst_c = 0,
+#             midfish_feb15 = as.numeric(feb15 - midfish) / 365,
+#             inst_bycatch = 0, 
+#             rest = 0.37260274,
+#             yr = paste0("#", crab_year)) %>%
+#   group_by(yr) %>%
+#   summarise_all(mean) %>%
+#   dplyr::select(3:8, 1) %>%
+#   
+#   write_delim(., "./AIGKC/data/gmacs/2024_jan/ai_tau_1981_present_tj.txt", delim = "\t")
   
 
 # retained catch ----
@@ -86,7 +87,7 @@ read_csv("./AIGKC/data/observer/item3_retained_catch.csv") %>%
             obs = round(t, 2),
             cv = 0.0316, type = 1, units = 1, mult = 1, effort = 0, discard_mortality = 0.2) %>%
   arrange(`#year`) %>%
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/eag_retained_1985_present_tj.txt", delim = "\t")
+  write_delim(., "./AIGKC/data/gmacs/2024_may/eag_retained_1985_present.txt", delim = "\t")
 
 # wag
 read_csv("./AIGKC/data/observer/item3_retained_catch.csv") %>%
@@ -96,7 +97,7 @@ read_csv("./AIGKC/data/observer/item3_retained_catch.csv") %>%
             obs = round(t, 2),
             cv = 0.0316, type = 1, units = 1, mult = 1, effort = 0, discard_mortality = 0.2) %>%
   arrange(`#year`) %>%
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/wag_retained_1985_present_tj.txt", delim = "\t")
+  write_delim(., "./AIGKC/data/gmacs/2024_may/wag_retained_1985_present.txt", delim = "\t")
 
 # total catch ----
 
@@ -123,7 +124,7 @@ read_csv("./AIGKC/data/observer/item4_directed_total_catch.csv") %>%
             cv = round(cv, 3), type = 0, units = 1, mult = 1, effort = 0, discard_mortality = 0.2) %>%
   arrange(`#year`) %>% 
   # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/eag_total_catch_tj.txt", delim = "\t")
+  write_delim(., "./AIGKC/data/gmacs/2024_may/eag_total_catch.txt", delim = "\t")
 
 # wag
 read_csv("./AIGKC/data/observer/item4_directed_total_catch.csv") %>%
@@ -148,7 +149,7 @@ read_csv("./AIGKC/data/observer/item4_directed_total_catch.csv") %>%
             cv = round(cv, 3), type = 0, units = 1, mult = 1, effort = 0, discard_mortality = 0.2) %>%
   arrange(`#year`) %>% 
   # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/wag_total_catch_tj.txt", delim = "\t")
+  write_delim(., "./AIGKC/data/gmacs/2024_may/wag_total_catch.txt", delim = "\t")
 
 
 
@@ -189,7 +190,7 @@ read_csv("./AIGKC/data/observer/item8_retained_size_comp.csv") %>%
   arrange(`#year`) %>%
   replace(is.na(.), "0.00000") %>%
   # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/eag_retained_composition_tj.txt", delim = "\t")
+  write_delim(., "./AIGKC/data/gmacs/2024_may/eag_retained_composition.txt", delim = "\t")
 
 # wag
 read_csv("./AIGKC/data/observer/item8_retained_size_comp.csv") %>%
@@ -223,7 +224,7 @@ read_csv("./AIGKC/data/observer/item8_retained_size_comp.csv") %>%
   replace(is.na(.), "0.00000") %>%
   arrange(`#year`) %>%
   # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/wag_retained_composition_tj.txt", delim = "\t")
+  write_delim(., "./AIGKC/data/gmacs/2024_may/wag_retained_composition.txt", delim = "\t")
 
 # retained size composition, no minus bin ----
 
@@ -263,7 +264,7 @@ read_csv("./AIGKC/data/observer/item8_retained_size_comp.csv") %>%
   arrange(`#year`) %>%
   replace(is.na(.), "0.00000") %>%
   # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/eag_retained_composition_trunc.txt", delim = "\t")
+  write_delim(., "./AIGKC/data/gmacs/2024_may/eag_retained_composition_trunc.txt", delim = "\t")
 
 # wag
 read_csv("./AIGKC/data/observer/item8_retained_size_comp.csv") %>%
@@ -301,85 +302,8 @@ read_csv("./AIGKC/data/observer/item8_retained_size_comp.csv") %>%
   arrange(`#year`) %>%
   replace(is.na(.), "0.00000") %>%
   # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/Wag_retained_composition_trunc.txt", delim = "\t")
+  write_delim(., "./AIGKC/data/gmacs/2024_may/Wag_retained_composition_trunc.txt", delim = "\t")
 
-
-
-# retained size composition, different neff based on deliveries ----
-
-# eag
-read_csv("./AIGKC/data/observer/item8_retained_size_comp.csv") %>%
-  filter(size > 100) %>%
-  # add length bin
-  f_add_len_bin(., .$size) %>%
-  # compute total measured per year
-  group_by(crab_year, fishery) %>%
-  mutate(nmeas = sum(total)) %>%
-  # compute total measured by bin
-  group_by(crab_year, fishery, bin) %>%
-  summarise(n = sum(total),
-            nmeas = mean(nmeas)) %>%
-  ungroup %>%
-  mutate(prop  = n / nmeas) %>%
-  # join to stage 1 neff
-  group_by(fishery, crab_year) %>%
-  mutate(neff = min(nmeas * 0.05, 100)) %>% ungroup %>%
-  left_join(read_csv("./AIGKC/data/observer/item11_deliveries_sampled.csv")) %>%
-  # gmacs retained composition
-  filter(fishery == "EAG") %>% ungroup %>%
-  arrange(bin) %>%
-  transmute(`#year` = crab_year, 
-            seas = 3,
-            fleet = 1, 
-            sex = 1,
-            type = 1,
-            shell = 0,
-            maturity = 0, 
-            nsamp = n_deliveries,
-            bin = paste0("l", bin), 
-            prop = sprintf("%.5f", prop)) %>%
-  pivot_wider(names_from = bin, values_from = prop) %>%
-  arrange(`#year`) %>%
-  replace(is.na(.), "0.00000") %>%
-  # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/eag_retained_composition_alt_neff_deliveries.txt", delim = "\t")
-
-# wag
-read_csv("./AIGKC/data/observer/item8_retained_size_comp.csv") %>%
-  filter(size > 100) %>%
-  # add length bin
-  f_add_len_bin(., .$size) %>%
-  # compute total measured per year
-  group_by(crab_year, fishery) %>%
-  mutate(nmeas = sum(total)) %>%
-  # compute total measured by bin
-  group_by(crab_year, fishery, bin) %>%
-  summarise(n = sum(total),
-            nmeas = mean(nmeas)) %>%
-  ungroup %>%
-  mutate(prop  = n / nmeas) %>%
-  # join to stage 1 neff
-  group_by(fishery, crab_year) %>%
-  mutate(neff = min(nmeas * 0.05, 100)) %>% ungroup %>%
-  left_join(read_csv("./AIGKC/data/observer/item11_deliveries_sampled.csv")) %>%
-  # gmacs retained composition
-  filter(fishery == "WAG") %>% ungroup %>%
-  arrange(bin) %>%
-  transmute(`#year` = crab_year, 
-            seas = 3,
-            fleet = 1, 
-            sex = 1,
-            type = 1,
-            shell = 0,
-            maturity = 0, 
-            nsamp = n_deliveries,
-            bin = paste0("l", bin), 
-            prop = sprintf("%.5f", prop)) %>%
-  pivot_wider(names_from = bin, values_from = prop) %>%
-  arrange(`#year`) %>%
-  replace(is.na(.), "0.00000") %>%
-  # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/wag_retained_composition_alt_neff_deliveries.txt", delim = "\t")
 
 
 # total size composition ----
@@ -420,7 +344,7 @@ read_csv("./AIGKC/data/observer/item9_directed_observer_size_comp.csv") %>%
   pivot_wider(names_from = bin, values_from = prop) %>%
   replace(is.na(.), "0.00000") %>%
   # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/eag_total_composition_tj.txt", delim = "\t")
+  write_delim(., "./AIGKC/data/gmacs/2024_may/eag_total_composition.txt", delim = "\t")
 
 # wag
 read_csv("./AIGKC/data/observer/item9_directed_observer_size_comp.csv") %>%
@@ -455,7 +379,7 @@ read_csv("./AIGKC/data/observer/item9_directed_observer_size_comp.csv") %>%
   pivot_wider(names_from = bin, values_from = prop) %>%
   replace(is.na(.), "0.00000") %>% 
   # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/wag_total_composition_tj.txt", delim = "\t")
+  write_delim(., "./AIGKC/data/gmacs/2024_may/wag_total_composition.txt", delim = "\t")
 
 # total size composition, no minus bin ----
 
@@ -496,7 +420,7 @@ read_csv("./AIGKC/data/observer/item9_directed_observer_size_comp.csv") %>%
   pivot_wider(names_from = bin, values_from = prop) %>%
   replace(is.na(.), "0.00000") %>%
   # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/eag_total_composition_trunc.txt", delim = "\t")
+  write_delim(., "./AIGKC/data/gmacs/2024_may/eag_total_composition_trunc.txt", delim = "\t")
 
 
 
@@ -537,89 +461,67 @@ read_csv("./AIGKC/data/observer/item9_directed_observer_size_comp.csv") %>%
   pivot_wider(names_from = bin, values_from = prop) %>%
   replace(is.na(.), "0.00000") %>%
   # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/wag_total_composition_trunc.txt", delim = "\t")
+  write_delim(., "./AIGKC/data/gmacs/2024_may/wag_total_composition_trunc.txt", delim = "\t")
 
 
 # observer index ----
 
 # eag
 ## gam legal male, pre-rationalized
-read_csv("./AIGKC/output/cpue_std/2024/jan/pre_eag_index.csv") %>%
+read_csv("./AIGKC/output/cpue_std/2024/may/pre_eag_index.csv") %>%
   transmute(`#index` = 1,
             year, season = 3, fleet = 1, sex = 1, maturity = 0, 
             index = round(index, 4), cv = round(se / index, 4), unit = 2, timing = 0.5) %>%
   arrange(year) %>%
   # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/eag_pre_std_cpue.txt", delim = "\t")
+  write_delim(., "./AIGKC/data/gmacs/2024_may/eag_pre_std_cpue.txt", delim = "\t")
 ## gam legal male, post-rationalized
-read_csv("./AIGKC/output/cpue_std/2024/jan/post_eag_index.csv") %>%
+read_csv("./AIGKC/output/cpue_std/2024/may/post_eag_index.csv") %>%
   transmute(`#index` = 2,
             year, season = 3, fleet = 1, sex = 1, maturity = 0, 
             index = round(index, 4), cv = round(se / index, 4), unit = 2, timing = 0.5) %>%
   arrange(year) %>%
   # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/eag_post_std_cpue.txt", delim = "\t")
-
-# eag
-## gam total male, pre-rationalized
-read_csv("./AIGKC/output/cpue_std/2024/jan/pre_eag_tm_index.csv") %>%
-  transmute(`#index` = 1,
-            year, season = 3, fleet = 1, sex = 1, maturity = 0, 
-            index = round(index, 4), cv = round(se / index, 4), unit = 2, timing = 0.5) %>%
-  arrange(year) %>%
-  # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/eag_pre_tm_std_cpue.txt", delim = "\t")
-## gam total male, post-rationalized
-read_csv("./AIGKC/output/cpue_std/2024/jan/post_eag_tm_index.csv") %>%
-  transmute(`#index` = 2,
-            year, season = 3, fleet = 1, sex = 1, maturity = 0, 
-            index = round(index, 4), cv = round(se / index, 4), unit = 2, timing = 0.5) %>%
-  arrange(year) %>%
-  # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/eag_post_tm_std_cpue.txt", delim = "\t")
-
+  write_delim(., "./AIGKC/data/gmacs/2024_may/eag_post_std_cpue.txt", delim = "\t")
 
 # wag
 ## gam legal male, pre-rationalized
-read_csv("./AIGKC/output/cpue_std/2024/jan/pre_wag_index.csv") %>%
+read_csv("./AIGKC/output/cpue_std/2024/may/pre_wag_index.csv") %>%
   transmute(`#index` = 1,
             year, season = 3, fleet = 1, sex = 1, maturity = 0, 
             index = round(index, 4), cv = round(se / index, 4), unit = 2, timing = 0.5) %>%
   arrange(year) %>%
   # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/wag_pre_std_cpue.txt", delim = "\t")
+  write_delim(., "./AIGKC/data/gmacs/2024_may/wag_pre_std_cpue.txt", delim = "\t")
 ## gam legal male, post-rationalized
-read_csv("./AIGKC/output/cpue_std/2024/jan/post_wag_index.csv") %>%
+read_csv("./AIGKC/output/cpue_std/2024/may/post_wag_index.csv") %>%
   transmute(`#index` = 2,
             year, season = 3, fleet = 1, sex = 1, maturity = 0, 
             index = round(index, 4), cv = round(se / index, 4), unit = 2, timing = 0.5) %>%
   arrange(year) %>%
   # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/wag_post_std_cpue.txt", delim = "\t")
+  write_delim(., "./AIGKC/data/gmacs/2024_may/wag_post_std_cpue.txt", delim = "\t")
   
 
 # fish ticket index ----
 
 # eag
-read_csv("./AIGKC/output/cpue_std/eag_fish_tickets_85_98_std_index.csv") %>%
+read_csv("./AIGKC/output/cpue_std/eag_fish_tickets_85_98_std_index_may2024.csv") %>%
   transmute(`#index` = 3,
             year, season = 3, fleet = 1, sex = 1, maturity = 0, 
             index = round(index, 4), cv = round(se / index, 4), unit = 2, timing = 0.5) %>%
   arrange(year) %>%
   # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/eag_fish_tickets_85_98_std_index.txt", delim = "\t")
+  write_delim(., "./AIGKC/data/gmacs/2024_may/eag_fish_tickets_85_98_std_index.txt", delim = "\t")
 
 # wag
-read_csv("./AIGKC/output/cpue_std/wag_fish_tickets_85_98_std_index.csv") %>%
+read_csv("./AIGKC/output/cpue_std/wag_fish_tickets_85_98_std_index_may2024.csv") %>%
   transmute(`#index` = 3,
             year, season = 3, fleet = 1, sex = 1, maturity = 0, 
             index = round(index, 4), cv = round(se / index, 4), unit = 2, timing = 0.5) %>%
   arrange(year) %>%
   # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/wag_fish_tickets_85_98_std_index.txt", delim = "\t")
-
-
-
+  write_delim(., "./AIGKC/data/gmacs/2024_may/wag_fish_tickets_85_98_std_index.txt", delim = "\t")
 
 # survey index ----
 
