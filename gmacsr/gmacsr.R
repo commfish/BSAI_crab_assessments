@@ -332,7 +332,7 @@ gmacs_read_allout <- function(file, model_name = NULL) {
         comp_tmp[i,] <- as.numeric(allout[row + i, 11:ncol(allout)])
       }
       as_tibble(comp_tmp) %>%
-        select(where(function(x) !all(is.na(x)))) -> comp_tmp
+        dplyr::select(where(function(x)!all(is.na(x)))) -> comp_tmp
       if((ncol(comp_tmp)/out$n_size_bins) <= 2) {comp_agg <- F} else{comp_agg <- T}
       if(comp_agg == F){
         
