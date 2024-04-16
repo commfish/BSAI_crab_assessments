@@ -1028,6 +1028,7 @@ gmacs_do_retrospective <- function(gmacs.dat, n_peel, wait = T, pin = F, plot_on
   }
   
   if(plot_only == T) {
+    ao_full <- gmacs_read_allout("Gmacsall.out")
     setwd("./retrospectives")  
   }
 
@@ -1516,7 +1517,7 @@ gmacs_plot_data_range <- function(all_out = NULL, save_plot = T, plot_dir = NULL
     index = purrr::map(ao, function(data){
       data$index_fit_summary %>%
         rowwise %>%
-        mutate(group = gsub("_", " ", ifelse(data$n_sex > 1, paste(fleet, sex), paste(fleet)))) %>%
+        mutate(group = gsub("_", " ", ifelse(data$n_sex > 1, paste(fleet, series, sex), paste(fleet, series)))) %>%
         ungroup %>%
         distinct(group, year, series, sex, fleet) %>%
         mutate(fleet = factor(fleet, levels = data$fleet_names),
@@ -1699,15 +1700,15 @@ gmacs_plot_index <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_l
                tot_l95 = obs_index * exp(-1.96 * sqrt(log(1 + tot_cv^2))),
                tot_u95 = obs_index * exp(1.96 * sqrt(log(1 + tot_cv^2)))) %>%
         ggplot()+
-        geom_errorbar(aes(x = year, ymin = tot_l95, ymax = tot_u95), width = 0, color = "grey70")+
-        geom_errorbar(aes(x = year, ymin = obs_l95, ymax = obs_u95), width = 0, color = "grey20")+
-        geom_point(aes(x = year, y = obs_index), color = "grey20")+
-        geom_line(aes(x = year, y = pred_index, group = model, color = model))+
+        geom_errorbar(aes(x = factor(year), ymin = tot_l95, ymax = tot_u95), width = 0, color = "grey70")+
+        geom_errorbar(aes(x = factor(year), ymin = obs_l95, ymax = obs_u95), width = 0, color = "grey20")+
+        geom_point(aes(x = factor(year), y = obs_index), color = "grey20")+
+        geom_line(aes(x = factor(year), y = pred_index, group = model, color = model))+
         labs(x = NULL, color = NULL, y = y_labs)+
         scale_y_continuous(labels = scales::comma)+
         scale_color_manual(values = cbpalette)+
         coord_cartesian(ylim = c(0, NA)) -> p
-      if(length(min(data$year):max(data$year)) > 10) { p + scale_x_continuous(labels = yraxis$labels, breaks = yraxis$breaks) -> p }
+      if(length(min(data$year):max(data$year)) > 10) { p + scale_x_discrete(labels = yraxis$labels, breaks = yraxis$breaks) -> p }
       if(save_plot == T) {
         pwidth <- min(max(length(min(data$year):max(data$year))*0.2, 5), 7)
         # save plot
@@ -1961,7 +1962,7 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
                                          paste0("N = ", round(nsamp_obs), "\nN est = ", round(nsamp_est, 1)),
                                          paste0("N = ", round(nsamp_obs)))) %>%
           ggplot()+
-          geom_bar(aes(x = size, y = obs), stat = "identity", color = NA, fill = "grey70", width = bin_width, alpha = 0.5)+
+          geom_bar(aes(x = size, y = obs), stat = "identity", position = "identity", color = NA, fill = "grey70", width = bin_width, alpha = 0.5)+
           geom_line(aes(x = size, y = pred, color = model))+
           scale_y_continuous(expand = expand_scale(mult = c(0, 0.1), add = c(0, 0)))+
           labs(x = size_lab, y = NULL, color = NULL, fill = NULL)+
@@ -1997,10 +1998,10 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
           summarise(obs = sum(obs), pred = sum(pred),
                     nsamp_obs = sum(nsamp_obs), nsamp_est = sum(nsamp_est)) %>% ungroup %>%
           mutate(nsamp_annotate = ifelse(plot_nsamp_est == T,
-                                         paste0("N = ", round(nsamp_obs), "\nN est = ", round(nsamp_est, 1)),
-                                         paste0("N = ", round(nsamp_obs)))) %>%
+                                         paste0("N = ", prettyNum(round(nsamp_obs), big.mark = ","), "\nN est = ", prettyNum(round(nsamp_est, 1), big.mark = ",")),
+                                         paste0("N = ", prettyNum(round(nsamp_obs), big.mark = ",")))) %>%
           ggplot()+
-          geom_bar(aes(x = size, y = obs), stat = "identity", color = NA, fill = "grey70", width = bin_width, alpha = 0.5)+
+          geom_bar(aes(x = size, y = obs), stat = "identity", position = "identity", color = NA, fill = "grey70", width = bin_width, alpha = 0.5)+
           geom_line(aes(x = size, y = pred, color = model))+
           scale_y_continuous(expand = expand_scale(mult = c(0, 0.1), add = c(0, 0)))+
           labs(x = size_lab, y = NULL, color = NULL, fill = NULL)+
