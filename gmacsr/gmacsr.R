@@ -681,13 +681,14 @@ gmacs_read_rep <- function(file) {
 ## args: file = file path to gmacs.std file
 #        sub_text = parameter name string used for filtering, Default = NULL
 
-gmacs_read_std <- function(file, sub_text = NULL) {
+gmacs_read_std <- function(file, model_name = NULL, sub_text = NULL) {
   
   std <- read.delim(file, sep = "", skip = 2, header = F) 
   
   std %>%
     as_tibble() %>%
-    rename_all(~c("est_no","par", "est", "se")) -> out
+    rename_all(~c("est_no","par", "est", "se")) %>%
+    mutate(model_name = model_name) -> out
   
   if(!is.null(sub_text)) {
     out %>% filter(grepl(sub_text, par)) -> out
@@ -2125,12 +2126,18 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
 ## args:
 ### all_out - output from gmacs_read_allout as nested list, example: all.out = list(mod_23.0a, mod_23.1b)
 ### save_plot - T/F save plots, default = T
+### plot_ci - T/F add confidence interval ribbon to ssb
+### ci_alpha - alpha value for confidence interval, a = 0.05 is 95% CI
+### yrs - subset a specific year range, example: c(1990:2022)
 ### plot_dir - file directory in which to save plots
 ### data_summary - alternate way to bring in data, output of gmacs_get_derived_quantity_summary()
 ### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 ### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
+### std_file - file path to gmacs.std file. Optional, if plot_ci = T, both std_file and std_list cannot be NULL.
+### std_list -  output from gmacs_read_std() as nested list, e.g., std = list(std.24.0, std.16.0). Optional, if plot_ci = T, both std_file and std_list cannot be NULL.
 
-gmacs_plot_mmb <- function(all_out = NULL, save_plot = T, plot_dir = NULL, data_summary = NULL, file = NULL, model_name = NULL) {
+gmacs_plot_mmb <- function(all_out = NULL, save_plot = T, plot_ci = F, ci_alpha = 0.05, yrs = NULL, plot_dir = NULL, data_summary = NULL, 
+                           file = NULL, model_name = NULL, std_file = NULL, std_list = NULL) {
   
   # get summary data
   if(is.null(data_summary)){data_summary <- gmacs_get_derived_quantity_summary(all_out, file, model_name)}
@@ -2138,9 +2145,27 @@ gmacs_plot_mmb <- function(all_out = NULL, save_plot = T, plot_dir = NULL, data_
   # plots ----
   if(save_plot == T & is.null(plot_dir)) {plot_dir <- file.path(getwd(), "plots"); dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
   if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
+  # add ci if plot_ci is on
+  if(plot_ci == T){
+    if(is.null(model_name)){model_name <- unique(data_summary$model)}
+    if(is.null(std_list)){std_list <- purrr::map2(std_file, model_name, gmacs_read_std)}
+    bind_rows(std_list) %>%
+      filter(grepl("sd_log_ssb", par)) %>%
+      transmute(ssb_se = se / (1 / exp(est)), 
+                ssb_lci = exp(est) + ssb_se * qnorm(ci_alpha / 2), 
+                ssb_uci = exp(est) + ssb_se * qnorm(1 - ci_alpha / 2)) %>%
+      bind_cols(data_summary, .) -> data_summary
+  }
+  if(plot_ci == F){
+    data_summary %>%
+      mutate(ssb_se = NA, ssb_lci = NA, ssb_uci = NA) -> data_summary
+  }
+  # filter for years if specified
+  if(!is.null(yrs)){data_summary %>% filter(year %in% yrs) -> data_summary}
   # plot ssb
   data_summary %>%
     ggplot()+
+    {if(plot_ci == T){geom_ribbon(aes(x = factor(year), ymin = ssb_lci, ymax = ssb_uci, group = model, fill = model), alpha = 0.2, show.legend = F)}}+
     geom_line(aes(x = factor(year), y = ssb, group = model, color = model))+
     geom_point(data = function(x) filter(x, year == max(year)),
                aes(x = factor(year), y = ssb, color = model))+
@@ -2170,7 +2195,7 @@ gmacs_plot_mmb <- function(all_out = NULL, save_plot = T, plot_dir = NULL, data_
     ggsave(file.path(plot_dir, "mma_trajectory.png"), plot = mma, height = 4.2, width = 7, units = "in")
     return("done")
   }
-  if(save_plot == F){return(c(mmb, mma))}
+  if(save_plot == F){return(list(mmb, mma))}
   
 }
 
