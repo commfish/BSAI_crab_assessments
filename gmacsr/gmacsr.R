@@ -1350,7 +1350,6 @@ gmacs_get_slx <- function(all_out = NULL, file = NULL, model_name = NULL){
   
 }
 
-
 # gmacs_get_pars() ----
 
 ## isolate parameters data by model
@@ -2342,5 +2341,91 @@ gmacs_plot_f <- function(all_out = NULL, save_plot = T, plot_dir = NULL, data_su
 }
 
 
+# gmacs_plot_slx() ----
 
+## args:
+### all_out - output from gmacs_read_allout as nested list, example: all.out = list(mod_23.0a, mod_23.1b)
+### save_plot - T/F save plots, default = T
+### plot_dir - file directory in which to save plots
+### data_summary - alternate way to bring in data, output of gmacs_get_slx()
+### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
+### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
+### yrs - subset a specific year range, example: c(1990:2022)
+
+gmacs_plot_slx <- function(all_out = NULL, save_plot = T, plot_dir = NULL, data_summary = NULL, file = NULL, model_name = NULL, yrs = NULL){
+  
+  # get summary data
+  if(is.null(data_summary)){data_summary <- gmacs_get_slx(all_out, file, model_name)}
+  if(!is.null(yrs)){data_summary %>% filter(year %in% yrs) -> data_summary}
+  
+  # create output directories
+  if(save_plot == T & is.null(plot_dir)) {plot_dir <- file.path(getwd(), "plots"); dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
+  if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
+  
+  
+  # plots
+  data_summary %>%
+    mutate(sex = str_to_title(sex)) %>%
+    nest_by(fleet, .keep = T) %>% ungroup %>% pull(data) %>% .[[1]] -> data
+    mutate(capture_plot = purrr::map2(data, fleet, function(data, fleet){
+      
+      data %>% print(n = 1000)
+        ggplot()+
+        geom_line(aes(x = size, y = slx_capture, color = model))+
+        {if(length(unique(data$sex)) == 1){facet_wrap(~capture_block, nrow = 1)}}+
+        {if(length(unique(data$sex)) > 1){facet_grid(cols = vars(capture_block), rows = vars(sex))}}+
+        labs(x = size_lab, y = "Selectivity", color = NULL) -> x
+      
+      if(save_plot == T) {
+        # save plot of all stacked
+        ggsave(plot = x, 
+               filename = file.path(plot_dir, paste0(tolower(fleet), "_slx_capture.png")),
+               height = length(unique(data$sex)) * 3, width = min(length(unique(data$capture_block)) * 4, 8), units = "in") 
+      }
+      return(x)
+      
+    }),
+    retention_plot = purrr::map2(data, fleet, function(data, fleet){
+      
+      data %>%
+        ggplot()+
+        geom_line(aes(x = size, y = slx_retention, color = model))+
+        {if(length(unique(data$sex)) == 1){facet_wrap(~ret_disc_block, nrow = 1)}}+
+        {if(length(unique(data$sex)) > 1){facet_grid(cols = vars(ret_disc_block), rows = vars(sex))}}+
+        labs(x = size_lab, y = "Prob. Retention", color = NULL) -> x
+      
+      if(save_plot == T) {
+        # save plot of all stacked
+        ggsave(plot = x, 
+               filename = file.path(plot_dir, paste0(tolower(fleet), "_slx_retention.png")),
+               height = length(unique(data$sex)) * 3, width = min(length(unique(data$ret_disc_block)) * 4, 8), units = "in") 
+      }
+      return(x)
+      
+    }),
+    discard_plot = purrr::map2(data, fleet, function(data, fleet){
+      
+      data %>%
+        ggplot()+
+        geom_line(aes(x = size, y = slx_discard, color = model))+
+        {if(length(unique(data$sex)) == 1){facet_wrap(~ret_disc_block, nrow = 1)}}+
+        {if(length(unique(data$sex)) > 1){facet_grid(cols = vars(ret_disc_block), rows = vars(sex))}}+
+        labs(x = size_lab, y = "Prob. Discard", color = NULL) -> x
+      
+      if(save_plot == T) {
+        # save plot of all stacked
+        ggsave(plot = x, 
+               filename = file.path(plot_dir, paste0(tolower(fleet), "_slx_discard.png")),
+               height = length(unique(data$sex)) * 3, width = min(length(unique(data$ret_disc_block)) * 4, 8), units = "in") 
+      }
+      return(x)
+      
+    })) -> out
+  
+  # output
+  if(save_plot == T) {return("done")}
+  if(save_plot == F) {c(out$capture_plot, out$retention_plot, out$discard_plot)}
+  
+
+  }
 
