@@ -2429,3 +2429,43 @@ gmacs_plot_slx <- function(all_out = NULL, save_plot = T, plot_dir = NULL, data_
 
   }
 
+
+# gmacs_plot_m() ----
+
+## plot natural mortality. Note: this function was written for SMBKC and may not work for other stocks.
+
+## args:
+### all_out - output from gmacs_read_allout as nested list, example: all.out = list(mod_23.0a, mod_23.1b)
+### save_plot - T/F save plots, default = T
+### plot_dir - file directory in which to save plots
+### size - size class to plot
+
+gmacs_plot_m <- function(all_out = NULL, save_plot = T, plot_dir = NULL, size = NULL) {
+  
+  # combine data
+  list <- lapply(all_out, function(x) {x$M_by_class %>% mutate(model = x$model_name)})
+  df <- bind_rows(list) %>%
+    filter(size == size)
+  
+  # plots ----
+  if(save_plot == T & is.null(plot_dir)) {plot_dir <- file.path(getwd(), "plots"); dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
+  if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
+  # plot ssb
+  df %>%
+    ggplot()+
+    geom_line(aes(x = factor(year), y = M, group = model, color = model))+
+    geom_point(data = function(x) filter(x, year == max(year)),
+               aes(x = factor(year), y = M, color = model))+
+    scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels)+
+    scale_y_continuous(labels = scales::comma, limits = c(0, NA))+
+    scale_color_manual(values = cbpalette)+
+    labs(x = "Year", y = paste0("Natural mortality (M)"), color = NULL)+
+    theme(legend.position = c(1, 1),
+          legend.justification = c(1, 1)) -> natmort
+  if(save_plot == T){
+    ggsave(file.path(plot_dir, "natural_mortality.png"), plot = natmort, height = 4.2, width = 7, units = "in")
+    return("done")
+  }
+  if(save_plot == F){return(c(natmort))}
+  
+}
