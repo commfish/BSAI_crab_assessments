@@ -2435,7 +2435,7 @@ gmacs_plot_slx <- function(all_out = NULL, save_plot = T, plot_dir = NULL, size_
   # plots
   data_summary %>%
     mutate(sex = str_to_title(sex)) %>%
-    nest_by(fleet, .keep = T) %>% ungroup %>% pull(data) %>% .[[1]] -> data
+    nest_by(fleet, .keep = T) %>% ungroup %>% 
     mutate(capture_plot = purrr::map2(data, fleet, function(data, fleet){
       
       data %>% print(n = 1000)
