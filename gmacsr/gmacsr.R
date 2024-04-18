@@ -1467,6 +1467,75 @@ gmacs_get_lik <- function(all_out = NULL, file = NULL, model_name = NULL){
   
 }
 
+# gmacs_get_recruitment_distribution() ----
+
+## compute size distribution of recruit classes
+
+## args:
+### all_out - output from gmacs_read_allout as nested list, example: all.out = list(mod_23.0a, mod_23.1b)
+### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
+### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
+### n_rec_class - number of recruitment classes as list with first element vector for males, second element vector for females
+
+gmacs_get_recruitment_distribution <- function(all_out = NULL, file = NULL, model_name = NULL, n_rec_class = NULL){
+  
+  if(is.null(n_rec_class)){stop("Provide number of recruitment classes; its not in Gmacsall.out")}
+  # bring in all out data ----
+  
+  if(!is.null(file) && is.null(all_out)) {
+    if(is.null(model_name)) {stop("Must supply model name(s)!!")}
+    # read all out file
+    all_out <- purrr::map2(file, model_name, gmacs_read_allout); names(all_out) <- paste0("model", model_name)
+  }
+  
+  # extract rec dist data ----
+  tibble(mod = names(all_out),
+         all_out = all_out) %>% 
+    mutate(sex = purrr::map(all_out, function(x){if(x$n_sex == 2){return(c("male", "female"))}  else{return("male")}}),
+           mod = purrr::map_chr(all_out, function(x){x$model_name})) %>%
+    unnest(sex) %>% group_by(sex) %>% nest() %>%
+    bind_cols(tibble(n_rec_class)) %>% unnest(data, n_rec_class) %>% arrange(mod) %>% #pull(all_out) %>% .[[1]] -> x
+    mutate(rec_dist = purrr::pmap(list(all_out, sex, n_rec_class), function(x, sex, n_rec_class){
+      
+      if(sex == "male") {
+        # pull parameters
+        x$parameters %>%
+          filter(parameter %in% c("Recruitment_ra-males", "Recruitment_rb-males")) %>% pull(estimate) -> pars
+        # compute rec dist
+        ra <- pars[1]; rbeta <- pars[2]
+        size_breaks <- x$size_bins - ((x$size_bins[2]-x$size_bins[1])/2)
+        ralpha <- ra / rbeta
+        z <- pgamma(size_breaks / rbeta, ralpha)
+        rec_sdd <- z - lag(z)
+        rec_sdd <- rec_sdd[-1]
+        rec_sdd[(n_rec_class + 1):length(rec_sdd)] <- 0
+        dist <- c(rec_sdd / sum(rec_sdd, na.rm = T), 0)
+        return(tibble(size = x$size_bins, rec_dist = dist))
+      }
+      if(sex == "female") {
+        # pull parameters
+        x$parameters %>%
+          filter(parameter %in% c("Recruitment_ra-males", "Recruitment_rb-males", "Recruitment_ra-females", "Recruitment_rb-females")) %>% pull(estimate) -> pars
+        # compute rec dist
+        ra <- pars[1]*exp(pars[3]); rbeta <- pars[2]*exp(pars[4])
+        size_breaks <- x$size_bins - ((x$size_bins[2]-x$size_bins[1])/2)
+        ralpha <- ra / rbeta
+        z <- pgamma(size_breaks / rbeta, ralpha)
+        rec_sdd <- z - lag(z)
+        rec_sdd <- rec_sdd[-1]
+        rec_sdd[(n_rec_class + 1):length(rec_sdd)] <- 0
+        dist <- c(rec_sdd / sum(rec_sdd, na.rm = T), 0)
+        return(tibble(size = x$size_bins, rec_dist = dist))
+      }
+      
+    })) %>%
+    transmute(model = mod, sex, rec_dist) %>%
+    unnest(rec_dist) -> out
+  
+  return(out)
+  
+}
+
 # gmacs_plot_data_range() ----
 
 # plot data range by process, fleet, type and sex
@@ -2470,3 +2539,42 @@ gmacs_plot_m <- function(all_out = NULL, save_plot = T, plot_dir = NULL, size = 
   if(save_plot == F){return(c(natmort))}
   
 }
+
+# gmacs_plot_recruitment_distribution() ----
+
+## plot recruitment distribution
+
+## args:
+### all_out - output from gmacs_read_allout as nested list, example: all.out = list(mod_23.0a, mod_23.1b)
+### save_plot - T/F save plots, default = T
+### plot_dir - file directory in which to save plots
+### n_rec_class - number of recruitment classes as list with first element vector for males, second element vector for females
+### size_lab - optional, custom size axis label, as character vector, example: "Carapace Length (mm)", default = "Size"
+### data_summary - alternate way to bring in data, output of gmacs_get_derived_quantity_summary()
+### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
+### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
+
+gmacs_plot_recruitment_distribution <- function(all_out = NULL, save_plot = T, plot_dir = NULL, n_rec_class = NULL, size_lab = "Size", data_summary = NULL, file = NULL, model_name = NULL) {
+  # get summary data
+  if(is.null(data_summary)){data_summary <- gmacs_get_recruitment_distribution(all_out, file, model_name, n_rec_class = n_rec_class)}
+  
+  # plots ----
+  if(save_plot == T & is.null(plot_dir)) {plot_dir <- file.path(getwd(), "plots"); dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
+  if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
+  
+  data_summary %>%
+    mutate(sex = str_to_title(sex)) %>%
+    ggplot()+
+    geom_line(aes(x = size, y = rec_dist, color = model))+
+    labs(x = size_lab, y = "Recruitment Proportion", color = NULL)+
+    theme(legend.position = c(1, 1), legend.justification = c(1, 1))+
+    {if(length(unique(data_summary$sex)) > 1) {facet_wrap(~sex, ncol = 1)}} -> p
+  if(save_plot == T){
+    ggsave(file.path(plot_dir, "recruitment_distribution.png"), plot = p, height = 3, width = 5, units = "in")
+    return("done")
+  }
+  if(save_plot == F) {return(p)}
+}
+
+
+
