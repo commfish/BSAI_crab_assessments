@@ -2443,6 +2443,7 @@ gmacs_plot_slx <- function(all_out = NULL, save_plot = T, plot_dir = NULL, size_
         geom_line(aes(x = size, y = slx_capture, color = model))+
         {if(length(unique(data$sex)) == 1){facet_wrap(~capture_block, nrow = 1)}}+
         {if(length(unique(data$sex)) > 1){facet_grid(cols = vars(capture_block), rows = vars(sex))}}+
+        scale_color_manual(values = cbpalette)+
         labs(x = size_lab, y = "Selectivity", color = NULL) -> x
       
       if(save_plot == T) {
@@ -2461,6 +2462,7 @@ gmacs_plot_slx <- function(all_out = NULL, save_plot = T, plot_dir = NULL, size_
         geom_line(aes(x = size, y = slx_retention, color = model))+
         {if(length(unique(data$sex)) == 1){facet_wrap(~ret_disc_block, nrow = 1)}}+
         {if(length(unique(data$sex)) > 1){facet_grid(cols = vars(ret_disc_block), rows = vars(sex))}}+
+        scale_color_manual(values = cbpalette)+
         labs(x = size_lab, y = "Prob. Retention", color = NULL) -> x
       
       if(save_plot == T) {
@@ -2479,6 +2481,7 @@ gmacs_plot_slx <- function(all_out = NULL, save_plot = T, plot_dir = NULL, size_
         geom_line(aes(x = size, y = slx_discard, color = model))+
         {if(length(unique(data$sex)) == 1){facet_wrap(~ret_disc_block, nrow = 1)}}+
         {if(length(unique(data$sex)) > 1){facet_grid(cols = vars(ret_disc_block), rows = vars(sex))}}+
+        scale_color_manual(values = cbpalette)+
         labs(x = size_lab, y = "Prob. Discard", color = NULL) -> x
       
       if(save_plot == T) {
@@ -2568,6 +2571,7 @@ gmacs_plot_recruitment_distribution <- function(all_out = NULL, save_plot = T, p
     geom_line(aes(x = size, y = rec_dist, color = model))+
     labs(x = size_lab, y = "Recruitment Proportion", color = NULL)+
     theme(legend.position = c(1, 1), legend.justification = c(1, 1))+
+    scale_color_manual(values = cbpalette)+
     {if(length(unique(data_summary$sex)) > 1) {facet_wrap(~sex, ncol = 1)}} -> p
   if(save_plot == T){
     ggsave(file.path(plot_dir, "recruitment_distribution.png"), plot = p, height = 3, width = 5, units = "in")
@@ -2611,6 +2615,7 @@ gmacs_plot_molt_probability <- function(all_out = NULL, save_plot = T, plot_dir 
         ggplot()+
         geom_line(aes(x = size, y = molt_probability, color = model))+
         {if(length(unique(data$block)) > 1) {facet_wrap(~block, nrow = 1)}}+
+        scale_color_manual(values = cbpalette)+
         labs(x = size_lab, y = "Molt Probability", color = NULL) -> x
       
       if(save_plot == T) {
