@@ -2610,7 +2610,7 @@ gmacs_plot_molt_probability <- function(all_out = NULL, save_plot = T, plot_dir 
         filter(!is.na(block)) %>%
         ggplot()+
         geom_line(aes(x = size, y = molt_probability, color = model))+
-        {if(length(unique(plot_data$block)) > 1) {facet_wrap(~block, nrow = 1)}}+
+        {if(length(unique(data$block)) > 1) {facet_wrap(~block, nrow = 1)}}+
         labs(x = size_lab, y = "Molt Probability", color = NULL) -> x
       
       if(save_plot == T) {
