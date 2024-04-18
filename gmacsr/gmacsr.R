@@ -1831,7 +1831,7 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
   
   # make plots
   data_summary %>% 
-    nest_by(mod_series, .keep = T) %>% ungroup %>% 
+    nest_by(mod_series, .keep = T) %>% ungroup %>%# pull(data) %>% .[[1]] -> data
     mutate(agg = purrr::map_lgl(data, function(data) {
       # check for aggregated comp
       data <- dplyr::select(data, where(function(x) !all(is.na(x))))
@@ -1878,10 +1878,11 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
         rows <- ifelse(cols == 1, n_yr, ifelse(cols == 2, ceiling(n_yr/2), ceiling(n_yr/3)))  
         ### plot
         data %>%  
+          rowwise %>%
           mutate(nsamp_annotate = ifelse(plot_nsamp_est == T,
                                          paste0("N = ", round(nsamp_obs), "\nN est = ", round(nsamp_est, 1)),
-                                         paste0("N = ", round(nsamp_obs))),
-                 aggregate_series_label = factor(aggregate_series_label[aggregate_series], levels = aggregate_series_label)) %>%
+                                         paste0("N = ", round(nsamp_obs)))) %>%
+          mutate(aggregate_series_label = factor(aggregate_series_label[aggregate_series], levels = aggregate_series_label)) %>%
           ggplot()+
           geom_bar(aes(x = plot_size, y = obs, fill = aggregate_series_label), stat = "identity", color = NA, width = bin_width)+
           geom_line(aes(x = plot_size, y = pred, group = aggregate_series, color = model))+
@@ -1892,7 +1893,7 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
           geom_text_npc(aes(npcx = "left", npcy = 0.6, label = year), check_overlap = T, size = 3)+
           geom_text_npc(aes(npcx = "right", npcy = 0.9, label = nsamp_annotate),
                         check_overlap = T, size = 3)+
-          facet_wrap(~year, nrow = rows, ncol = cols)+
+          facet_wrap(~year, nrow = rows, ncol = cols, dir = "v")+
           scale_color_manual(values = cbpalette)+
           scale_fill_grey()+
           theme(panel.spacing.x = unit(0.2, "lines"),
@@ -1968,7 +1969,7 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
           scale_y_continuous(expand = expand_scale(mult = c(0, 0.1), add = c(0, 0)))+
           labs(x = size_lab, y = NULL, color = NULL, fill = NULL)+
           geom_text_npc(aes(npcx = "left", npcy = 0.8, label = year), check_overlap = T, size = 3)+
-          facet_wrap(~year, nrow = rows, ncol = cols)+
+          facet_wrap(~year, nrow = rows, ncol = cols, dir = "v")+
           scale_color_manual(values = cbpalette)+
           scale_fill_grey()+
           theme(panel.spacing.x = unit(0.2, "lines"),
@@ -2028,9 +2029,10 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
         rows <- ifelse(cols == 1, n_yr, ifelse(cols == 2, ceiling(n_yr/2), ceiling(n_yr/3)))  
         ### plot
         data %>%  
+          rowwise() %>%
           mutate(nsamp_annotate = ifelse(plot_nsamp_est == T,
                                          paste0("N = ", round(nsamp_obs), "\nN est = ", round(nsamp_est, 1)),
-                                         paste0("N = ", round(nsamp_obs)))) %>%
+                                         paste0("N = ", round(nsamp_obs)))) %>% ungroup %>%
           ggplot()+
           geom_bar(aes(x = size, y = obs), stat = "identity", position = "identity", color = NA, fill = "grey70", width = bin_width, alpha = 0.5)+
           geom_line(aes(x = size, y = pred, color = model))+
@@ -2039,7 +2041,7 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
           geom_text_npc(aes(npcx = "left", npcy = 0.6, label = year), check_overlap = T, size = 3)+
           geom_text_npc(aes(npcx = "right", npcy = 0.9, label = nsamp_annotate),
                         check_overlap = T, size = 3)+
-          facet_wrap(~year, nrow = rows, ncol = cols)+
+          facet_wrap(~year, nrow = rows, ncol = cols, dir = "v")+
           scale_color_manual(values = cbpalette)+
           theme(panel.spacing.x = unit(0.2, "lines"),
                 panel.spacing.y = unit(0, "lines"),
@@ -2108,7 +2110,7 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
           scale_y_continuous(expand = expand_scale(mult = c(0, 0.1), add = c(0, 0)))+
           labs(x = size_lab, y = NULL, color = NULL, fill = NULL)+
           geom_text_npc(aes(npcx = "left", npcy = 0.8, label = year), check_overlap = T, size = 3)+
-          facet_wrap(~year, nrow = rows, ncol = cols)+
+          facet_wrap(~year, nrow = rows, ncol = cols, dir = "v")+
           scale_color_manual(values = cbpalette)+
           theme(panel.spacing.x = unit(0.2, "lines"),
                 panel.spacing.y = unit(0, "lines"),
