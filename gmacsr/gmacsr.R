@@ -2438,7 +2438,7 @@ gmacs_plot_slx <- function(all_out = NULL, save_plot = T, plot_dir = NULL, size_
     nest_by(fleet, .keep = T) %>% ungroup %>% 
     mutate(capture_plot = purrr::map2(data, fleet, function(data, fleet){
       
-      data %>% print(n = 1000)
+      data %>% 
         ggplot()+
         geom_line(aes(x = size, y = slx_capture, color = model))+
         {if(length(unique(data$sex)) == 1){facet_wrap(~capture_block, nrow = 1)}}+
