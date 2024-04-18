@@ -2603,7 +2603,7 @@ gmacs_plot_molt_probability <- function(all_out = NULL, save_plot = T, plot_dir 
   
   data_summary %>%
     distinct(model, sex, block, size, molt_probability, block) %>%
-    nest_by(sex) %>% ungroup %>% #pull(data) %>% .[[1]] -> data
+    nest_by(sex) %>% ungroup %>% 
     mutate(plot = purrr::map2(sex, data, function(sex, data){
       
       data %>%
@@ -2616,8 +2616,8 @@ gmacs_plot_molt_probability <- function(all_out = NULL, save_plot = T, plot_dir 
       if(save_plot == T) {
         # save plot of all stacked
         ggsave(plot = x, 
-               filename = file.path(plot_dir, "_molt_probability.png")),
-               height = length(unique(data$sex)) * 3, width = min(length(unique(data$capture_block)) * 4, 8), units = "in") 
+               filename = file.path(plot_dir, "molt_probability.png"),
+               height = length(unique(sex)) * 3, width = min(length(unique(data$block[!is.na(data$block)]))*4, 8), units = "in") 
       }
       return(x)
     })) -> out
