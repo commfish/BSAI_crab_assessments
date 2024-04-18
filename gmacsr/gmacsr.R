@@ -1278,7 +1278,8 @@ gmacs_get_molt_probability <- function(all_out = NULL, file = NULL, model_name =
                     mutate(year_lead = lead(year)) %>% ungroup() %>%
                     replace_na(list(year_lead = max(x$molt_probability$year))) %>%
                     transmute(sex, year, block = paste0(year, " - ", year_lead)), by = c("sex", "year"))
-      })) %>% transmute(data) %>% unnest(data) -> out
+      })) %>% transmute(data) %>% unnest(data) %>%
+    transmute(model, sex, year, size, molt_probability, block) -> out
   
   return(out)
   
@@ -2416,16 +2417,15 @@ gmacs_plot_f <- function(all_out = NULL, save_plot = T, plot_dir = NULL, data_su
 ### all_out - output from gmacs_read_allout as nested list, example: all.out = list(mod_23.0a, mod_23.1b)
 ### save_plot - T/F save plots, default = T
 ### plot_dir - file directory in which to save plots
+### size_lab - optional, custom size axis label, as character vector, example: "Carapace Length (mm)", default = "Size"
 ### data_summary - alternate way to bring in data, output of gmacs_get_slx()
 ### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 ### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
-### yrs - subset a specific year range, example: c(1990:2022)
 
-gmacs_plot_slx <- function(all_out = NULL, save_plot = T, plot_dir = NULL, data_summary = NULL, file = NULL, model_name = NULL, yrs = NULL){
+gmacs_plot_slx <- function(all_out = NULL, save_plot = T, plot_dir = NULL, size_lab = "Size", data_summary = NULL, file = NULL, model_name = NULL){
   
   # get summary data
   if(is.null(data_summary)){data_summary <- gmacs_get_slx(all_out, file, model_name)}
-  if(!is.null(yrs)){data_summary %>% filter(year %in% yrs) -> data_summary}
   
   # create output directories
   if(save_plot == T & is.null(plot_dir)) {plot_dir <- file.path(getwd(), "plots"); dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
@@ -2576,5 +2576,56 @@ gmacs_plot_recruitment_distribution <- function(all_out = NULL, save_plot = T, p
   if(save_plot == F) {return(p)}
 }
 
+
+
+
+# gmacs_plot_molt_probability() ----
+
+## args:
+### all_out - output from gmacs_read_allout as nested list, example: all.out = list(mod_23.0a, mod_23.1b)
+### save_plot - T/F save plots, default = T
+### plot_dir - file directory in which to save plots
+### size_lab - optional, custom size axis label, as character vector, example: "Carapace Length (mm)", default = "Size"
+### data_summary - alternate way to bring in data, output of gmacs_get_molt_probability()
+### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
+### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
+
+gmacs_plot_molt_probability <- function(all_out = NULL, save_plot = T, plot_dir = NULL, size_lab = "Size", data_summary = NULL, file = NULL, model_name = NULL){
+
+  # get summary data
+  if(is.null(data_summary)){data_summary <- gmacs_get_molt_probability(all_out, file, model_name)}
+  
+  # save plot dirs ----
+  if(save_plot == T & is.null(plot_dir)) {plot_dir <- file.path(getwd(), "plots"); dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
+  if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
+  
+  # plot molt probability ----
+  
+  data_summary %>%
+    distinct(model, sex, block, size, molt_probability, block) %>%
+    nest_by(sex) %>% ungroup %>% #pull(data) %>% .[[1]] -> data
+    mutate(plot = purrr::map2(sex, data, function(sex, data){
+      
+      data %>%
+        filter(!is.na(block)) %>%
+        ggplot()+
+        geom_line(aes(x = size, y = molt_probability, color = model))+
+        {if(length(unique(plot_data$block)) > 1) {facet_wrap(~block, nrow = 1)}}+
+        labs(x = size_lab, y = "Molt Probability", color = NULL) -> x
+      
+      if(save_plot == T) {
+        # save plot of all stacked
+        ggsave(plot = x, 
+               filename = file.path(plot_dir, paste0(tolower(fleet), "_slx_capture.png")),
+               height = length(unique(data$sex)) * 3, width = min(length(unique(data$capture_block)) * 4, 8), units = "in") 
+      }
+      return(x)
+    })) -> out
+  
+  # output
+  if(save_plot == T) {return("done")}
+  if(save_plot == F) {out$plot} 
+  
+}
 
 
