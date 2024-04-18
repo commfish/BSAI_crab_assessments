@@ -1530,7 +1530,7 @@ gmacs_get_recruitment_distribution <- function(all_out = NULL, file = NULL, mode
       
     })) %>%
     transmute(model = mod, sex, rec_dist) %>%
-    unnest(rec_dist) -> out
+    unnest(rec_dist) %>% ungroup -> out
   
   return(out)
   
