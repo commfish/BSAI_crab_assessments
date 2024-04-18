@@ -2616,7 +2616,7 @@ gmacs_plot_molt_probability <- function(all_out = NULL, save_plot = T, plot_dir 
       if(save_plot == T) {
         # save plot of all stacked
         ggsave(plot = x, 
-               filename = file.path(plot_dir, paste0(tolower(fleet), "_slx_capture.png")),
+               filename = file.path(plot_dir, "_molt_probability.png")),
                height = length(unique(data$sex)) * 3, width = min(length(unique(data$capture_block)) * 4, 8), units = "in") 
       }
       return(x)
