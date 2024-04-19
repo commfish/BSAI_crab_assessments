@@ -2277,12 +2277,16 @@ gmacs_plot_mmb <- function(all_out = NULL, save_plot = T, plot_ci = F, ci_alpha 
 ## args:
 ### all_out - output from gmacs_read_allout as nested list, example: all.out = list(mod_23.0a, mod_23.1b)
 ### save_plot - T/F save plots, default = T
+### plot_ci - T/F add confidence interval ribbon to ssb
+### ci_alpha - alpha value for confidence interval, a = 0.05 is 95% CI
+### yrs - subset a specific year range, example: c(1990:2022)
 ### plot_dir - file directory in which to save plots
 ### data_summary - alternate way to bring in data, output of gmacs_get_derived_quantity_summary()
 ### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 ### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
-
-gmacs_plot_recruitment <- function(all_out = NULL, save_plot = T, plot_dir = NULL, data_summary = NULL, file = NULL, model_name = NULL) {
+### std_file - file path to gmacs.std file. Optional, if plot_ci = T, both std_file and std_list cannot be NULL.
+### std_list -  output from gmacs_read_std() as nested list, e.g., std = list(std.24.0, std.16.0). Optional, if plot_ci = T, both std_file and std_list cannot be NULL.
+gmacs_plot_recruitment <- function(all_out = NULL, save_plot = T, plot_ci = F, ci_alpha = 0.05, yrs = NULL, plot_dir = NULL, data_summary = NULL, file = NULL, model_name = NULL, std_file = NULL, std_list = NULL) {
   
   # get summary data
   if(is.null(data_summary)){data_summary <- gmacs_get_derived_quantity_summary(all_out, file, model_name)}
@@ -2290,6 +2294,24 @@ gmacs_plot_recruitment <- function(all_out = NULL, save_plot = T, plot_dir = NUL
   # plots ----
   if(save_plot == T & is.null(plot_dir)) {plot_dir <- file.path(getwd(), "plots"); dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
   if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
+  
+  # add ci if plot_ci is on
+  if(plot_ci == T){
+    if(is.null(model_name)){model_name <- unique(data_summary$model)}
+    if(is.null(std_list)){std_list <- purrr::map2(std_file, model_name, gmacs_read_std)}
+    bind_rows(std_list) %>%
+      filter(grepl("sd_log_recruits", par)) %>%
+      transmute(rec_se = se / (1 / exp(est)), 
+                rec_lci = exp(est) + rec_se * qnorm(ci_alpha / 2), 
+                rec_uci = exp(est) + rec_se * qnorm(1 - ci_alpha / 2)) %>%
+      bind_cols(data_summary, .) -> data_summary
+  }
+  if(plot_ci == F){
+    data_summary %>%
+      mutate(rec_se = NA, rec_lci = NA, rec_uci = NA) -> data_summary
+  }
+  # filter for years if specified
+  if(!is.null(yrs)){data_summary %>% filter(year %in% yrs) -> data_summary}
   
   # male and female
   if("recruit_female" %in% names(data_summary)) {
@@ -2336,15 +2358,18 @@ gmacs_plot_recruitment <- function(all_out = NULL, save_plot = T, plot_dir = NUL
   # only male
   if(!("recruit_female" %in% names(data_summary))) {
     if(unique(data_summary$n_units) %in% c(1, "1", "1s", "one", "One", "ones", "Ones")){y_labs <- "Recruitment"} else{
-      y_labs <- paste0("Recruitment", " (", unique(data_summary$n_units), ")")
+      if(is.na(data_summary$n_units)[1] == TRUE){y_labs <- "Recruitment"} else{
+        y_labs <- paste0("Recruitment", " (", unique(data_summary$n_units), ")")}
     }
     data_summary %>%
       ggplot()+
       geom_line(aes(x = factor(year), y = recruit_male, group = model, color = model))+
+      {if(plot_ci == T){geom_ribbon(aes(x = factor(year), ymin = rec_lci, ymax = rec_uci, group = model, fill = model), alpha = 0.2, show.legend = F)}}+
       scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels)+
-      scale_y_continuous(labels = scales::comma, limits = c(0, NA))+
+      scale_y_continuous(labels = scales::comma, limits = c(NA, NA))+
       labs(x = NULL, y = y_labs, color = NULL)+
       scale_color_manual(values = cbpalette)+
+      {if(plot_ci == T){scale_fill_manual(values = cbpalette)}}+
       theme(legend.position = c(1, 1),
             legend.justification = c(1, 1)) -> mal
     
