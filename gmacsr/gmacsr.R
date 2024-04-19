@@ -1811,6 +1811,7 @@ gmacs_plot_index <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_l
 ### plot_dir - file directory in which to save plots
 ### size_lab - optional, custom size axis label, as character vector, example: "Carapace Length (mm)", default = "Size"
 ### plot_nsamp_est - show stage 2 effective sample sizes on plots? T/F
+### nsamp_est_model - name of model to display nsamp_est for. Only required if plotting more than a single model. Defaults to first in list.
 ### aggregate_series_labels - character vector of labels for aggregate series, ex: c("Male", "Female") or c("New Shell", "Old Shell");
 ###                           or list with elements being character vectors for each aggregate series (if you want to use different labels)
 ### data_summary - alternate way to bring in data, output of gmacs_get_index_summary()
@@ -1819,7 +1820,7 @@ gmacs_plot_index <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_l
 
 
 gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, size_lab = "Size",
-                                plot_nsamp_est = F, aggregate_series_label = NULL, data_summary = NULL, file = NULL, 
+                                plot_nsamp_est = F, nsamp_est_model = NULL, aggregate_series_label = NULL, data_summary = NULL, file = NULL, 
                                 model_name = NULL) {
   
   # get size summary data
@@ -1829,9 +1830,9 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
   if(save_plot == T & is.null(plot_dir)) {dir.create("./plots", showWarnings = F, recursive = TRUE); plot_dir <- "./plots"}
   if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
   
-  # make plots
+  # make plots with all models
   data_summary %>% 
-    nest_by(mod_series, .keep = T) %>% ungroup %>%# pull(data) %>% .[[1]] -> data
+    nest_by(mod_series, .keep = T) %>% ungroup %>% #pull(data) %>% .[[1]] -> data
     mutate(agg = purrr::map_lgl(data, function(data) {
       # check for aggregated comp
       data <- dplyr::select(data, where(function(x) !all(is.na(x))))
@@ -1845,6 +1846,10 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
       if(agg == F) {return(NA)}
     }),
     plots = purrr::pmap(list(data, agg, aggregate_series_label), function(data, agg, aggregate_series_label){
+      
+      ### check nsamp_est_model
+      if(length(unique(data$model)) > 1 & is.null(nsamp_est_model)){nsamp_est_model <- unique(data$model)[1]}
+      if(length(unique(data$model)) > 1 & is.null(nsamp_est_model)){nsamp_est_model <- unique(data$model)[1]}
       
       ## comp, agg comp, and residual plots
       if(agg == T) {
@@ -1875,13 +1880,14 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
         ## comp by year ----
         ### plot dimensions
         cols <- ifelse(n_yr >= 12, 3, ifelse(n_yr >= 6, 2, 1))
-        rows <- ifelse(cols == 1, n_yr, ifelse(cols == 2, ceiling(n_yr/2), ceiling(n_yr/3)))  
+        rows <- ifelse(cols == 1, n_yr, ifelse(cols == 2, ceiling(n_yr/2), ceiling(n_yr/3))) 
         ### plot
         data %>%  
           rowwise %>%
           mutate(nsamp_annotate = ifelse(plot_nsamp_est == T,
                                          paste0("N = ", round(nsamp_obs), "\nN est = ", round(nsamp_est, 1)),
-                                         paste0("N = ", round(nsamp_obs)))) %>%
+                                         paste0("N = ", round(nsamp_obs))),
+                 nsamp_annotate = ifelse(model == nsamp_est_model, nsamp_annotate, NA)) %>%
           mutate(aggregate_series_label = factor(aggregate_series_label[aggregate_series], levels = aggregate_series_label)) %>%
           ggplot()+
           geom_bar(aes(x = plot_size, y = obs, fill = aggregate_series_label), stat = "identity", color = NA, width = bin_width)+
@@ -1923,9 +1929,10 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
           summarise(obs = sum(obs), pred = sum(pred),
                     nsamp_obs = sum(nsamp_obs), nsamp_est = sum(nsamp_est)) %>% ungroup %>%
           mutate(nsamp_annotate = ifelse(plot_nsamp_est == T,
-                                         paste0("N = ", round(nsamp_obs), "\nN est = ", round(nsamp_est, 1)),
-                                         paste0("N = ", round(nsamp_obs))),
-                 aggregate_series_label = factor(aggregate_series_label[aggregate_series], levels = aggregate_series_label)) %>%
+                                         paste0("N = ", prettyNum(round(nsamp_obs), big.mark = ","), "\nN est = ", prettyNum(round(nsamp_est, 1), big.mark = ",")),
+                                         paste0("N = ", prettyNum(round(nsamp_obs), big.mark = ","))),
+                 nsamp_annotate = ifelse(model == nsamp_est_model, nsamp_annotate, NA)) %>%
+          mutate(aggregate_series_label = factor(aggregate_series_label[aggregate_series], levels = aggregate_series_label)) %>%
           ggplot()+
           geom_bar(aes(x = plot_size, y = obs, fill = aggregate_series_label), stat = "identity", color = NA, width = bin_width)+
           geom_line(aes(x = plot_size, y = pred, group = aggregate_series, color = model))+
@@ -1991,29 +1998,6 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
                  plot = p_resid_line, height = height, width = width, units = "in") 
         }
         
-        ## dot plot ----
-        
-        data %>%
-          # compute residual
-          mutate(pos = case_when(residual >= 0 ~ "> 0", 
-                                 residual < 0 ~ "< 0"),
-                 residual = ifelse(residual == 0, NA, residual),
-                 aggregate_series_label = factor(aggregate_series_label[aggregate_series], levels = aggregate_series_label)) %>%
-          ggplot()+
-          geom_point(aes(x = year, y = size, size = abs(residual), fill = pos), 
-                     shape = 21, alpha = 0.5)+
-          scale_fill_manual(values = c("black", "white", NA))+
-          scale_x_continuous(breaks = yraxis$breaks, labels = yraxis$labels, limits = range(data$year))+
-          labs(x = NULL, y = size_lab, size = NULL, fill = NULL)+
-          theme(legend.position = "top")+
-          facet_wrap(~aggregate_series_label, ncol = 1, scales = "free_y") -> p_dot
-        ### save
-        if(save_plot == T){
-          height = unique(data$aggregate_series) * 6
-          width = min(6, n_yr * 0.5)
-          ggsave(file.path(plot_dir, paste0("resid_dot_",tolower(unique(data$fleet)),"_", tolower(unique(data$sex)),"_", tolower(unique(data$type)),".png")),
-                 plot = p_dot, height = height, width = width, units = "in") 
-        }
       }
       if(agg == F) {
         ## setup for plotting aggregate series ----
@@ -2032,7 +2016,8 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
           rowwise() %>%
           mutate(nsamp_annotate = ifelse(plot_nsamp_est == T,
                                          paste0("N = ", round(nsamp_obs), "\nN est = ", round(nsamp_est, 1)),
-                                         paste0("N = ", round(nsamp_obs)))) %>% ungroup %>%
+                                         paste0("N = ", round(nsamp_obs))),
+                 nsamp_annotate = ifelse(model == nsamp_est_model, nsamp_annotate, NA)) %>% ungroup %>%
           ggplot()+
           geom_bar(aes(x = size, y = obs), stat = "identity", position = "identity", color = NA, fill = "grey70", width = bin_width, alpha = 0.5)+
           geom_line(aes(x = size, y = pred, color = model))+
@@ -2071,7 +2056,8 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
                     nsamp_obs = sum(nsamp_obs), nsamp_est = sum(nsamp_est)) %>% ungroup %>%
           mutate(nsamp_annotate = ifelse(plot_nsamp_est == T,
                                          paste0("N = ", prettyNum(round(nsamp_obs), big.mark = ","), "\nN est = ", prettyNum(round(nsamp_est, 1), big.mark = ",")),
-                                         paste0("N = ", prettyNum(round(nsamp_obs), big.mark = ",")))) %>%
+                                         paste0("N = ", prettyNum(round(nsamp_obs), big.mark = ","))),
+                 nsamp_annotate = ifelse(model == nsamp_est_model, nsamp_annotate, NA)) %>%
           ggplot()+
           geom_bar(aes(x = size, y = obs), stat = "identity", position = "identity", color = NA, fill = "grey70", width = bin_width, alpha = 0.5)+
           geom_line(aes(x = size, y = pred, color = model))+
@@ -2131,6 +2117,88 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
                  plot = p_resid_line, height = height, width = width, units = "in") 
         }
         
+      }
+    })) -> out
+  
+  # make plots by model
+  data_summary %>% 
+    nest_by(model, mod_series, .keep = T) %>% ungroup %>% #pull(data) %>% .[[1]] -> data
+    mutate(agg = purrr::map_lgl(data, function(data) {
+      # check for aggregated comp
+      data <- dplyr::select(data, where(function(x) !all(is.na(x))))
+      agg <- "aggregate_series" %in% names(data)
+      return(agg)
+    }),
+    agg_series_order = rank(mod_series * ifelse(agg==F, NA, 1), na.last = "keep"),
+    aggregate_series_label = purrr::map2(agg, agg_series_order, function(agg, agg_series_order){
+      if(agg == T & class(aggregate_series_label) == "list"){return(aggregate_series_label[[agg_series_order]])}
+      if(agg == T & class(aggregate_series_label) != "list"){return(aggregate_series_label)}
+      if(agg == F) {return(NA)}
+    }),
+    plots = purrr::pmap(list(data, agg, aggregate_series_label, model), function(data, agg, aggregate_series_label, model){
+      
+      ### check nsamp_est_model
+      if(length(unique(data$model)) > 1 & is.null(nsamp_est_model)){nsamp_est_model <- unique(data$model)[1]}
+      if(length(unique(data$model)) > 1 & is.null(nsamp_est_model)){nsamp_est_model <- unique(data$model)[1]}
+      
+      ## comp, agg comp, and residual plots
+      if(agg == T) {
+        ## setup for plotting aggregate series ----
+        # get some detail about size bins
+        size_bins <- data %>% pull(size) %>% unique 
+        n_bins <- length(size_bins)
+        n_yr <- length(unique(data$year))
+        bin_width <- size_bins[2] - size_bins[1]
+        # adjust size bin for the secondary series
+        data <- mutate(data, plot_size = (aggregate_series-1)*(max(size_bins)-min(size_bins)+bin_width*2) + size) 
+        # get size breaks and labels for the plot
+        brks <- labeling::extended(1, n_bins, m = 3); brks <- brks[brks != 0]
+        data %>%
+          distinct(aggregate_series, plot_size) %>% 
+          nest_by(aggregate_series) %>% ungroup %>%
+          mutate(breaks = purrr::map(data, function(data){data %>% dplyr::slice(brks)})) %>%
+          pull(breaks) %>% unlist %>% as.numeric -> breaks
+        data %>%
+          distinct(size, plot_size) %>%
+          filter(plot_size %in% breaks) %>% pull(size) -> labels
+        data %>%
+          filter(aggregate_series > 1) %>%
+          group_by(aggregate_series) %>%
+          summarise(divider = min(plot_size) - bin_width) %>% pull(divider) -> divider
+        if(is.null(aggregate_series_label)) {aggregate_series_label <- unique(data$aggregate_series)}
+        
+        ## dot plot ----
+        
+        data %>%
+          # compute residual
+          mutate(pos = case_when(residual >= 0 ~ "> 0", 
+                                 residual < 0 ~ "< 0"),
+                 residual = ifelse(residual == 0, NA, residual),
+                 aggregate_series_label = factor(aggregate_series_label[aggregate_series], levels = aggregate_series_label)) %>%
+          ggplot()+
+          geom_point(aes(x = year, y = size, size = abs(residual), fill = pos), 
+                     shape = 21, alpha = 0.5)+
+          scale_fill_manual(values = c("black", "white", NA))+
+          scale_x_continuous(breaks = yraxis$breaks, labels = yraxis$labels, limits = range(data$year))+
+          labs(x = NULL, y = size_lab, size = NULL, fill = NULL)+
+          theme(legend.position = "top")+
+          facet_wrap(~aggregate_series_label, ncol = 1, scales = "free_y") -> p_dot
+        ### save
+        if(save_plot == T){
+          height = unique(data$aggregate_series) * 6
+          width = min(6, n_yr * 0.5)
+          ggsave(file.path(plot_dir, paste0(model, "_resid_dot_",tolower(unique(data$fleet)),"_", tolower(unique(data$sex)),"_", tolower(unique(data$type)),".png")),
+                 plot = p_dot, height = height, width = width, units = "in") 
+        }
+      }
+      if(agg == F) {
+        ## setup for plotting aggregate series ----
+        # get some detail about size bins
+        size_bins <- data %>% pull(size) %>% unique 
+        n_bins <- length(size_bins)
+        n_yr <- length(unique(data$year))
+        bin_width <- size_bins[2] - size_bins[1]
+        
         ## dot plot ----
         
         data %>%
@@ -2149,7 +2217,7 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
         if(save_plot == T){
           height = 6
           width = min(6, n_yr * 0.5)
-          ggsave(file.path(plot_dir, paste0("resid_dot_",tolower(unique(data$fleet)),"_", tolower(unique(data$sex)),"_", tolower(unique(data$type)),".png")),
+          ggsave(file.path(plot_dir, paste0(model, "_resid_dot_",tolower(unique(data$fleet)),"_", tolower(unique(data$sex)),"_", tolower(unique(data$type)),".png")),
                  plot = p_dot, height = height, width = width, units = "in") 
         }
       }
@@ -2176,16 +2244,16 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
       if(save_plot == T){
         height = 4
         width = 6
-        ggsave(file.path(plot_dir, paste0("mean_size_",tolower(unique(data$fleet)),"_", tolower(unique(data$sex)),"_", tolower(unique(data$type)),".png")),
+        ggsave(file.path(plot_dir, paste0(model, "_mean_size_",tolower(unique(data$fleet)),"_", tolower(unique(data$sex)),"_", tolower(unique(data$type)),".png")),
                plot = p_mean_size, height = height, width = width, units = "in") 
       }
       
-      return(list(p_comp_year, p_comp_agg, p_resid_line, p_dot, p_mean_size))
+      return(list(p_dot, p_mean_size))
       
-    })) -> out
+    })) -> out2
   
   # output
-  if(save_plot == F) {return(out %>% pull(plots))} else{"done"}
+  if(save_plot == F) {return(c(out %>% pull(plots), out2 %>% pull(plots)))} else{"done"}
   
 }
 
