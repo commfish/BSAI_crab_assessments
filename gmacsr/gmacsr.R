@@ -1848,8 +1848,7 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
     plots = purrr::pmap(list(data, agg, aggregate_series_label), function(data, agg, aggregate_series_label){
       
       ### check nsamp_est_model
-      if(length(unique(data$model)) > 1 & is.null(nsamp_est_model)){nsamp_est_model <- unique(data$model)[1]}
-      if(length(unique(data$model)) > 1 & is.null(nsamp_est_model)){nsamp_est_model <- unique(data$model)[1]}
+      if(is.null(nsamp_est_model)){nsamp_est_model <- unique(data$model)[1]}
       
       ## comp, agg comp, and residual plots
       if(agg == T) {
@@ -1887,7 +1886,7 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
           mutate(nsamp_annotate = ifelse(plot_nsamp_est == T,
                                          paste0("N = ", round(nsamp_obs), "\nN est = ", round(nsamp_est, 1)),
                                          paste0("N = ", round(nsamp_obs))),
-                 nsamp_annotate = ifelse(model == nsamp_est_model, nsamp_annotate, NA)) %>%
+                 nsamp_annotate = ifelse(model == nsamp_est_model, nsamp_annotate, NA)) %>% ungroup %>%
           mutate(aggregate_series_label = factor(aggregate_series_label[aggregate_series], levels = aggregate_series_label)) %>%
           ggplot()+
           geom_bar(aes(x = plot_size, y = obs, fill = aggregate_series_label), stat = "identity", color = NA, width = bin_width)+
@@ -2141,7 +2140,6 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
       if(length(unique(data$model)) > 1 & is.null(nsamp_est_model)){nsamp_est_model <- unique(data$model)[1]}
       if(length(unique(data$model)) > 1 & is.null(nsamp_est_model)){nsamp_est_model <- unique(data$model)[1]}
       
-      ## comp, agg comp, and residual plots
       if(agg == T) {
         ## setup for plotting aggregate series ----
         # get some detail about size bins
@@ -2669,7 +2667,7 @@ gmacs_plot_recruitment_distribution <- function(all_out = NULL, save_plot = T, p
     scale_color_manual(values = cbpalette)+
     {if(length(unique(data_summary$sex)) > 1) {facet_wrap(~sex, ncol = 1)}} -> p
   if(save_plot == T){
-    ggsave(file.path(plot_dir, "recruitment_distribution.png"), plot = p, height = 3, width = 5, units = "in")
+    ggsave(file.path(plot_dir, "recruitment_distribution.png"), plot = p, height = 4.2, width = 7, units = "in")
     return("done")
   }
   if(save_plot == F) {return(p)}
@@ -2716,7 +2714,7 @@ gmacs_plot_molt_probability <- function(all_out = NULL, save_plot = T, plot_dir 
       if(save_plot == T) {
         # save plot of all stacked
         ggsave(plot = x, 
-               filename = file.path(plot_dir, "molt_probability.png"),
+               filename = file.path(plot_dir, paste0(sex, "_molt_probability.png")),
                height = length(unique(sex)) * 3, width = min(length(unique(data$block[!is.na(data$block)]))*4, 8), units = "in") 
       }
       return(x)
