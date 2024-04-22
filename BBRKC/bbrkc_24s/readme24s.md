@@ -1,4 +1,4 @@
-# BBRKC May 2024 SAFE models (1-11-24, )
+# BBRKC May 2024 SAFE models (1-11-24,4-15-24 )
 katie.palof@alaska.gov
 
 
@@ -22,13 +22,14 @@ Model should run if input files are read in correctly.
 
 
 ## Model options ------
-Three models recommended from May 2023:
-
-21.1b - updated "base" model, new bycatch data and updated GMACS version (2.01 E)
-22.0 - "base" starting from 1985 - should have different control file
-     - also has different .dat and .prj file (see folder in bbrkc_23s)
+Model explorations from comments:
 
 23.0a - "base" with estimated M for males, prior is tight - mean 0.18, CV 0.04 see Jie's 22.0a from May 2022
+21.1b - updated "base" model, new bycatch data and updated GMACS version (see github)
+21.1b_ph7 - base + ssb in season 7
+23.0a_ph7 - base + ssb in season 7
+24.0 - 23.0a_ph7 + selectivity informed by BSFRF (like snow crab)
+24.0b - 21.1b_ph7 + selectivity informed by BSFRF (like snowc crab)
 
 # Document updates ----------
 SAFE document is in Rmarkdown format. Need to work on all tables, etc.
