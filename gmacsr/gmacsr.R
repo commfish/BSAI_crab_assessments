@@ -2309,6 +2309,7 @@ gmacs_plot_mmb <- function(all_out = NULL, save_plot = T, plot_ci = F, ci_alpha 
     scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels)+
     scale_y_continuous(labels = scales::comma, limits = c(0, NA))+
     scale_color_manual(values = cbpalette)+
+    {if(plot_ci == T){scale_fill_manual(values = cbpalette)}}+
     labs(x = NULL, y = paste0("MMB (", unique(data_summary$wt_units), ")"), color = NULL)+
     theme(legend.position = c(1, 1),
           legend.justification = c(1, 1)) -> mmb
