@@ -2309,7 +2309,6 @@ gmacs_plot_mmb <- function(all_out = NULL, save_plot = T, plot_ci = F, ci_alpha 
     scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels)+
     scale_y_continuous(labels = scales::comma, limits = c(0, NA))+
     scale_color_manual(values = cbpalette)+
-    {if(plot_ci == T){scale_fill_manual(values = cbpalette)}}+
     labs(x = NULL, y = paste0("MMB (", unique(data_summary$wt_units), ")"), color = NULL)+
     theme(legend.position = c(1, 1),
           legend.justification = c(1, 1)) -> mmb
@@ -2689,7 +2688,7 @@ gmacs_plot_recruitment_distribution <- function(all_out = NULL, save_plot = T, p
 ### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 
 gmacs_plot_molt_probability <- function(all_out = NULL, save_plot = T, plot_dir = NULL, size_lab = "Size", data_summary = NULL, file = NULL, model_name = NULL){
-
+  
   # get summary data
   if(is.null(data_summary)){data_summary <- gmacs_get_molt_probability(all_out, file, model_name)}
   
