@@ -1248,6 +1248,37 @@ gmacs_get_f <- function(all_out = NULL, file = NULL, model_name = NULL){
 }
 
 
+# gmacs_get_m() ----
+
+## isolate fully selected fishing mortality by model
+
+## args:
+### all_out - output from gmacs_read_allout as nested list, example: all.out = list(mod_23.0a, mod_23.1b)
+### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
+### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
+
+gmacs_get_m <- function(all_out = NULL, file = NULL, model_name = NULL){
+  
+  # bring in all out data ----
+  
+  if(!is.null(file) && is.null(all_out)) {
+    if(is.null(model_name)) {stop("Must supply model name(s)!!")}
+    # read all out file
+    all_out <- purrr::map2(file, model_name, gmacs_read_allout); names(all_out) <- paste0("model", model_name)
+  }
+  
+  # extract data ----
+  
+  tibble(mod = names(all_out),
+         all_out = all_out) %>% 
+    mutate(data = purrr::map(all_out, function(x) {
+      x$M_by_class %>%
+        mutate(model = as.character(x$model_name))
+    })) %>% transmute(data) %>% unnest(data) -> out
+  
+  return(out)
+  
+}
 # gmacs_get_molt_probability() ----
 
 ## isolate molt probability by model
@@ -2599,42 +2630,103 @@ gmacs_plot_slx <- function(all_out = NULL, save_plot = T, plot_dir = NULL, size_
 
 # gmacs_plot_m() ----
 
-## plot natural mortality. Note: this function was written for SMBKC and may not work for other stocks.
+## ## plot natural mortality
 
 ## args:
 ### all_out - output from gmacs_read_allout as nested list, example: all.out = list(mod_23.0a, mod_23.1b)
 ### save_plot - T/F save plots, default = T
 ### plot_dir - file directory in which to save plots
-### size - size class to plot
-### sex - sex class to plot
+### by - vector of grouping variable. Example = c("year", "sex"). Optional, if NULL, the function will determine how M varies
+### size_lab - optional, custom size axis label, as character vector, example: "Carapace Length (mm)", default = "Size"
+### data_summary - alternate way to bring in data, output of gmacs_get_m()
+### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
+### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
+### yrs - subset a specific year range, example: c(1990:2022)
 
-gmacs_plot_m <- function(all_out = NULL, save_plot = T, plot_dir = NULL, size = NULL, sex = NULL) {
+gmacs_plot_m <- function(all_out = NULL, save_plot = T, plot_dir = NULL, by = NULL, size_lab = "Size", data_summary = NULL, file = NULL, model_name = NULL, yrs = NULL){
   
-  # combine data
-  list <- lapply(all_out, function(x) {x$M_by_class %>% mutate(model = x$model_name)})
-  df <- bind_rows(list) %>%
-    filter(size == size, sex == sex)
+  # get summary data
+  if(is.null(data_summary)){data_summary <- gmacs_get_m(all_out, file, model_name)}
   
-  # plots ----
+  # save plot dirs ----
   if(save_plot == T & is.null(plot_dir)) {plot_dir <- file.path(getwd(), "plots"); dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
   if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
-  # plot ssb
-  df %>%
-    ggplot()+
-    geom_line(aes(x = factor(year), y = M, group = model, color = model))+
-    geom_point(data = function(x) filter(x, year == max(year)),
-               aes(x = factor(year), y = M, color = model))+
-    scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels)+
-    scale_y_continuous(labels = scales::comma, limits = c(0, NA))+
-    scale_color_manual(values = cbpalette)+
-    labs(x = "Year", y = paste0("Natural mortality (M)"), color = NULL)+
-    theme(legend.position = c(1, 1),
-          legend.justification = c(1, 1)) -> natmort
-  if(save_plot == T){
-    ggsave(file.path(plot_dir, "natural_mortality.png"), plot = natmort, height = 4.2, width = 7, units = "in")
-    return("done")
+  
+  # plot m ----
+  
+  if(!is.null(yrs)){data_summary <- filter(data_summary, year %in% yrs)} # filter year range if specified
+  
+  if(is.null(by)){
+    data_summary %>%
+      distinct(M, .keep_all = T) %>%
+      dplyr::select_if(function(x){length(unique(x)) > 1}) %>%
+      dplyr::select(-M) %>% names -> by
   }
-  if(save_plot == F){return(c(natmort))}
+  
+  #plot dimensions
+  data_summary %>%
+    distinct(M, .keep_all = T) %>%
+    pull(sex) %>% unique %>% length -> nsex
+  data_summary %>%
+    distinct(M, .keep_all = T) %>%
+    pull(maturity) %>% unique %>% length -> nmat
+  
+  if(!("size" %in% by) & "year" %in% by) {
+    
+    data_summary %>%
+      mutate(sex = str_to_title(sex),
+             sex = factor(sex, levels = c("Male", "Female"))) %>%
+      mutate(maturity = case_when(maturity == 1 ~ "Mature",
+                                  maturity == 2 ~ "Immature"),
+             maturity = factor(maturity, levels = c("Mature", "Immature"))) %>%
+      distinct(model, year, !!!syms(by), M) %>%
+      ggplot()+
+      geom_line(aes(x = factor(year), y = M, group = model, color = model))+
+      geom_point(data = function(x) filter(x, year == max(year)),
+                 aes(x = factor(year), y = M, color = model))+
+      scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels)+
+      scale_y_continuous(labels = scales::comma, limits = c(0, NA))+
+      scale_color_manual(values = cbpalette)+
+      labs(x = NULL, y = paste0("Natural mortality (M)"), color = NULL)+
+      facet_wrap(by[by!="year"], ncol = 1, scales = "free_y") -> x
+    
+  }
+  if("size" %in% by & "year" %in% by){
+    
+    data_summary %>%
+      mutate(sex = str_to_title(sex),
+             sex = factor(sex, levels = c("Male", "Female"))) %>%
+      mutate(maturity = case_when(maturity == 1 ~ "Mature",
+                                  maturity == 2 ~ "Immature"),
+             maturity = factor(maturity, levels = c("Mature", "Immature"))) %>%
+      distinct(model, year, !!!syms(by), M) %>%
+      ggplot()+
+      geom_line(aes(x = size, y = M, color = factor(year), linetype = model))+
+      labs(x = size_lab, y = "Natural Mortaity (M)", color = NULL, linetype = NULL)+
+      facet_wrap(by[by != "size"]) -> x
+    
+  }
+  if("size" %in% by & !("year" %in% by)){
+    
+    data_summary %>%
+      mutate(sex = str_to_title(sex),
+             sex = factor(sex, levels = c("Male", "Female"))) %>%
+      mutate(maturity = case_when(maturity == 1 ~ "Mature",
+                                  maturity == 2 ~ "Immature"),
+             maturity = factor(maturity, levels = c("Mature", "Immature"))) %>%
+      distinct(model, !!!syms(by), M) %>%
+      ggplot()+
+      geom_line(aes(x = size, y = M, color = model))+
+      labs(x = size_lab, y = "Natural Mortaity (M)", color = NULL)+
+      facet_wrap(by[!(by %in% c("size", "year"))], ncol = 1) -> x
+    
+  }
+  
+  if(save_plot == T){
+    ggsave(file.path(plot_dir, "natural_mortality.png"), plot = x, height = 4.2 * nsex * nmat, width = 7, units = "in")
+  }
+  
+  return(if(save_plot == T){"done"}else{x})
   
 }
 
