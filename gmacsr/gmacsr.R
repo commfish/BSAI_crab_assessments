@@ -8,6 +8,7 @@
 if(!require(tidyverse, quietly = T)) {install.packages("tidyverse", dependencies = T); library(tidyverse)}
 if(!require(ggpmisc, quietly = T)) {install.packages("ggpmisc", dependencies = T); library(ggpmisc)}
 if(!require(janitor, quietly = T)) {install.packages("janitor", dependencies = T); library(janitor)}
+if(!require(latex2exp, quietly = T)) {install.packages("latex2exp", dependencies = T); library(latex2exp)}
 
 # plot options -----
 
@@ -1059,7 +1060,8 @@ gmacs_do_retrospective <- function(gmacs.dat, n_peel, wait = T, pin = F, plot_on
       mutate(terminal_yr = as.character(max(year))) %>% ungroup %>%
       ggplot()+
       geom_line(aes(x = factor(year), y = ssb, group = terminal_yr, color = terminal_yr))+
-      geom_text_npc(aes(npcx = "right", npcy = "top", label = paste0("Mohn's \u03c1 = ", round(mohn_rho, 3))), 
+      geom_text_npc(aes(npcx = "right", npcy = "top"),
+                    label = latex2exp::TeX(paste("Mohn's $\\rho$ = ", round(mohn_rho, 3))),
                     check_overlap = T, size = 3)+
       scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels)+
       scale_y_continuous(labels = scales::comma, limits = c(0, NA))+
