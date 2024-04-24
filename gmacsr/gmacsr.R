@@ -1865,7 +1865,7 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
   
   # make plots with all models
   data_summary %>% 
-    nest_by(mod_series, .keep = T) %>% ungroup %>% #pull(data) %>% .[[1]] -> data
+    nest_by(mod_series, .keep = T) %>% ungroup %>%# pull(data) %>% .[[5]] -> data
     mutate(agg = purrr::map_lgl(data, function(data) {
       # check for aggregated comp
       data <- dplyr::select(data, where(function(x) !all(is.na(x))))
@@ -1923,7 +1923,7 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
           mutate(aggregate_series_label = factor(aggregate_series_label[aggregate_series], levels = aggregate_series_label)) %>%
           ggplot()+
           geom_bar(aes(x = plot_size, y = obs, fill = aggregate_series_label), stat = "identity", position = "identity", color = NA, width = bin_width)+
-          geom_line(aes(x = plot_size, y = pred, group = aggregate_series, color = model))+
+          geom_line(aes(x = plot_size, y = pred, group = interaction(aggregate_series, model), color = model))+
           geom_vline(xintercept = divider, linetype = 2, color = "grey70")+
           scale_x_continuous(breaks = breaks, labels = labels)+
           scale_y_continuous(expand = expand_scale(mult = c(0, 0.1), add = c(0, 0)))+
@@ -1957,9 +1957,10 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
         ## aggregate size comp ----
         ### plot
         data %>%  
-          group_by(model, aggregate_series,size, plot_size) %>%
+          group_by(model, aggregate_series, size, plot_size) %>%
           summarise(obs = sum(obs), pred = sum(pred),
                     nsamp_obs = sum(nsamp_obs), nsamp_est = sum(nsamp_est)) %>% ungroup %>%
+          
           mutate(nsamp_annotate = ifelse(plot_nsamp_est == T,
                                          paste0("N = ", prettyNum(round(nsamp_obs), big.mark = ","), "\nN est = ", prettyNum(round(nsamp_est, 1), big.mark = ",")),
                                          paste0("N = ", prettyNum(round(nsamp_obs), big.mark = ","))),
@@ -1967,7 +1968,7 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
           mutate(aggregate_series_label = factor(aggregate_series_label[aggregate_series], levels = aggregate_series_label)) %>%
           ggplot()+
           geom_bar(aes(x = plot_size, y = obs, fill = aggregate_series_label), stat = "identity", position = "identity", color = NA, width = bin_width)+
-          geom_line(aes(x = plot_size, y = pred, group = aggregate_series, color = model))+
+          geom_line(aes(x = plot_size, y = pred, group = interaction(aggregate_series, model), color = model))+
           geom_vline(xintercept = divider, linetype = 2, color = "grey70")+
           scale_x_continuous(breaks = breaks, labels = labels)+
           scale_y_continuous(expand = expand_scale(mult = c(0, 0.1), add = c(0, 0)))+
@@ -2001,7 +2002,7 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
         ### plot
         data %>%  
           ggplot()+
-          geom_line(aes(x = plot_size, y = residual, group = aggregate_series, color = model))+
+          geom_line(aes(x = plot_size, y = residual, group = interaction(aggregate_series, model), color = model))+
           geom_hline(yintercept = 0, linetype = 2, color = "grey70")+
           geom_vline(xintercept = divider, linetype = 2, color = "grey70")+
           scale_x_continuous(breaks = breaks, labels = labels)+
