@@ -2662,6 +2662,7 @@ gmacs_plot_m <- function(all_out = NULL, save_plot = T, plot_dir = NULL, by = NU
       dplyr::select_if(function(x){length(unique(x)) > 1}) %>%
       dplyr::select(-M) %>% names -> by
   }
+  by <- by[by!="model"]
   
   #plot dimensions
   data_summary %>%
