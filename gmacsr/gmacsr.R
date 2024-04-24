@@ -1922,7 +1922,7 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
                  nsamp_annotate = ifelse(model == nsamp_est_model, nsamp_annotate, NA)) %>% ungroup %>%
           mutate(aggregate_series_label = factor(aggregate_series_label[aggregate_series], levels = aggregate_series_label)) %>%
           ggplot()+
-          geom_bar(aes(x = plot_size, y = obs, fill = aggregate_series_label), stat = "identity", color = NA, width = bin_width)+
+          geom_bar(aes(x = plot_size, y = obs, fill = aggregate_series_label), stat = "identity", position = "identity", color = NA, width = bin_width)+
           geom_line(aes(x = plot_size, y = pred, group = aggregate_series, color = model))+
           geom_vline(xintercept = divider, linetype = 2, color = "grey70")+
           scale_x_continuous(breaks = breaks, labels = labels)+
@@ -1966,7 +1966,7 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
                  nsamp_annotate = ifelse(model == nsamp_est_model, nsamp_annotate, NA)) %>%
           mutate(aggregate_series_label = factor(aggregate_series_label[aggregate_series], levels = aggregate_series_label)) %>%
           ggplot()+
-          geom_bar(aes(x = plot_size, y = obs, fill = aggregate_series_label), stat = "identity", color = NA, width = bin_width)+
+          geom_bar(aes(x = plot_size, y = obs, fill = aggregate_series_label), stat = "identity", position = "identity", color = NA, width = bin_width)+
           geom_line(aes(x = plot_size, y = pred, group = aggregate_series, color = model))+
           geom_vline(xintercept = divider, linetype = 2, color = "grey70")+
           scale_x_continuous(breaks = breaks, labels = labels)+
