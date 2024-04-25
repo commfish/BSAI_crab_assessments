@@ -920,6 +920,7 @@ gmacs_do_jitter <- function(gmacs.dat, sd, iter, ref_points = T, pin = F, wait =
     geom_histogram(data = out, aes(x = obj_function), color = 1, fill = "grey80", 
                    width = 1)+
     geom_vline(xintercept = mle_ao$objective_function, linetype = 2, color = 2)+
+    scale_x_continuous(labels = scales::comma)+
     labs(x = "Objective Function", y = "Jitter Runs") -> p_obj
   
   if(save_plot == T){ggsave(filename = paste0(plot_dir, "/", mle_ao$model_name, "_obj_fxn_jitter_sd_", sd, ".png"),
