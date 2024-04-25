@@ -1501,6 +1501,46 @@ gmacs_get_lik <- function(all_out = NULL, file = NULL, model_name = NULL){
   
 }
 
+# gmacs_get_lik_type_pen() ----
+
+## output likelihood table by type plus some penalties needed for bbrkc
+
+## args:
+### all_out - output from gmacs_read_allout as nested list, example: all.out = list(mod_23.0a, mod_23.1b)
+### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
+### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
+
+gmacs_get_lik_type_pen <- function(all_out = NULL, file = NULL, model_name = NULL){
+  
+  # bring in all out data ----
+  
+  if(!is.null(file) && is.null(all_out)) {
+    if(is.null(model_name)) {stop("Must supply model name(s)!!")}
+    # read all out file
+    all_out <- purrr::map2(file, model_name, gmacs_read_allout); names(all_out) <- paste0("model", model_name)
+  }
+  
+  # extract catch data ----
+  
+  tibble(mod = names(all_out),
+         all_out = all_out) %>% 
+    mutate(data = purrr::map(all_out, function(x) {
+      
+      x$likelihoods_by_type %>%
+        transmute(model = x$model_name, process, net_lik) %>%
+        # add M deviation penalty
+        add_row(model = x$model_name, process = "Mdevs", net_lik = x$penalties %>% filter(penalty == "Mdevs") %>% pull(net_lik)) %>%
+        # add sex ratio penalty
+        add_row(model = x$model_name, process = "Sex_ratio", net_lik = x$penalties %>% filter(penalty == "Sex_ratio") %>% pull(net_lik))
+      
+      
+    })) %>% transmute(data) %>% unnest(data) %>%
+    pivot_wider(names_from = model, values_from = net_lik) -> out
+  
+  return(out)
+  
+}
+
 # gmacs_get_recruitment_distribution() ----
 
 ## compute size distribution of recruit classes
