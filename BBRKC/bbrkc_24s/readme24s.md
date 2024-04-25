@@ -5,7 +5,7 @@ katie.palof@alaska.gov
 # CPT/SSC comments  -----
 see SAFE document and my notes in OneNote
 
-## Running model
+## Running model -*fix* update from FEb 24 workshop
 1) Update gmacs.exe with updated version via github. Make sure to update .dat and .ctl files to reflect changes in the program and input files - see "C:\Users\kjpalof\Documents\Rprojects\GMACS-project\GMACS_Assessment_code\GMACS_versions\Latest_Version" for latest version of GMACS. Make sure to "pull" this project first before following "katie" R script in R script file to compile
 2) change the 'XX.prj' files to bbrkc.prj for that model run
 3) update 'gmacs.dat' to reflect the model run files
@@ -30,6 +30,8 @@ Model explorations from comments:
 23.0a_ph7 - base + ssb in season 7
 24.0 - 23.0a_ph7 + selectivity informed by BSFRF (like snow crab)
 24.0b - 21.1b_ph7 + selectivity informed by BSFRF (like snowc crab)
+24.0c - 23.0a_ph7 + 1 molt prob time block
+24.0d - 21.1b_ph7 + 1 molt prob time block
 
 # Document updates ----------
 SAFE document is in Rmarkdown format. Need to work on all tables, etc.
