@@ -8,6 +8,7 @@
 if(!require(tidyverse, quietly = T)) {install.packages("tidyverse", dependencies = T); library(tidyverse)}
 if(!require(ggpmisc, quietly = T)) {install.packages("ggpmisc", dependencies = T); library(ggpmisc)}
 if(!require(janitor, quietly = T)) {install.packages("janitor", dependencies = T); library(janitor)}
+if(!require(patchwork, quietly = T)) {install.packages("patchwork", dependencies = T); library(patchwork)}
 if(!require(latex2exp, quietly = T)) {install.packages("latex2exp", dependencies = T); library(latex2exp)}
 
 # plot options -----
