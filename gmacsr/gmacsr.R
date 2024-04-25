@@ -921,7 +921,7 @@ gmacs_do_jitter <- function(gmacs.dat, sd, iter, ref_points = T, pin = F, wait =
                    width = 1)+
     geom_vline(xintercept = mle_ao$objective_function, linetype = 2, color = 2)+
     scale_x_continuous(labels = scales::comma)+
-    labs(x = "Objective Function", y = "Jitter Runs") -> p_obj
+    labs(x = "Negative Log-likelihood", y = "Jitter Runs") -> p_obj
   
   if(save_plot == T){ggsave(filename = paste0(plot_dir, "/", mle_ao$model_name, "_obj_fxn_jitter_sd_", sd, ".png"),
                             plot = p_obj,
@@ -946,7 +946,7 @@ gmacs_do_jitter <- function(gmacs.dat, sd, iter, ref_points = T, pin = F, wait =
                      width = 1)+
       geom_vline(xintercept = mle_ao$bmsy, linetype = 2, color = 2)+
       scale_x_continuous(labels = scales::comma)+
-      labs(x = paste0("BMSY (", mle_ao$wt_units, ")"), y = "Jitter Runs") -> p_bmsy
+      labs(x = bquote(B["35%"]~"("~.(mle_ao$wt_units)~")"), y = "Jitter Runs") -> p_bmsy
     
     if(save_plot == T){ggsave(filename = paste0(plot_dir, "/", mle_ao$model_name, "_b35_jitter_sd_", sd, ".png"),
                               plot = p_bmsy,
