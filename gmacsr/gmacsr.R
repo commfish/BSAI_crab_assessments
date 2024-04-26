@@ -1864,13 +1864,13 @@ gmacs_plot_index <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_l
         coord_cartesian(ylim = c(0, NA)) -> p
       if(length(min(data$year):max(data$year)) > 9) { p + scale_x_discrete(labels = yraxis$labels, breaks = yraxis$breaks) -> p }
       if(save_plot == T) {
-        pwidth <- min(max(length(min(data$year):max(data$year))*0.3, 5), 7)
+        pwidth <- min(max(length(min(data$year):max(data$year))*0.3, 6), 7)
         # save plot
         ggsave(plot = p, 
                filename = file.path(plot_dir, paste0("index_fit_", tolower(unique(data$fleet)), "_",
                                                      tolower(unique(data$sex)), ".png")), 
                width = pwidth, 
-               height = pwidth * (3/5), units = "in")
+               height = pwidth * (4/6), units = "in")
       }
       return(p)
     })) -> plots
