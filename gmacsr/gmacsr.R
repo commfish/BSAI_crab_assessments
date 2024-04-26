@@ -1749,7 +1749,7 @@ gmacs_plot_catch <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_l
   
   data_summary %>%
     nest_by(series, units, .keep = T) %>% ungroup %>%
-    mutate(y_lab = y_labs) %>%
+    mutate(y_lab = ifelse(is.null(y_labs), NA, y_labs)) %>%
     #dplyr::slice(1) %>% # pull(data) %>% .[[1]]-> data
     mutate(plot = purrr::map2(data, y_lab, function(data, y_lab) {
       
@@ -1832,7 +1832,7 @@ gmacs_plot_index <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_l
   if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
   data_summary %>%
     nest_by(series, sex, units, .keep = T) %>% ungroup %>%
-    mutate(y_lab = y_labs) %>%  #pull(data) %>% .[[3]]-> data
+    mutate(y_lab = ifelse(is.null(y_labs), NA, y_labs)) %>%  
     mutate(plot = purrr::map2(data, y_lab, function(data, y_lab) {
       # y label
       if(is.null(y_labs)) {
