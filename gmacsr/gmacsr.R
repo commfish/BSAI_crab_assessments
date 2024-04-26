@@ -1831,20 +1831,24 @@ gmacs_plot_index <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_l
   if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
   data_summary %>%
     nest_by(series, sex, units, .keep = T) %>% ungroup %>%
-    mutate(plot = purrr::map(data, function(data) {
+    mutate(y_lab = y_labs) %>% # pull(data) %>% .[[1]]-> data
+    mutate(plot = purrr::map2(data, y_lab, function(data, y_lab) {
       # y label
       if(is.null(y_labs)) {
-        y_labs <- paste0(gsub("_", " ", unique(data$fleet)), " Index (", unique(data$wt_units), ")")
+        y_lab <- paste0(gsub("_", " ", unique(data$fleet)), " ", unique(data$sex), " Index (", unique(data$wt_units), ")")
         if(unique(data$units) == "Numbers") {
           if(is.na(unique(data$n_units)) == FALSE) {
-            y_labs <- paste0(gsub("_", " ", unique(data$fleet)), " Index (", unique(data$n_units), ")")}
+            y_lab <- paste0(gsub("_", " ", unique(data$fleet)), " ", unique(data$sex), " Index (", unique(data$n_units), ")")}
           if(is.na(unique(data$n_units)) == TRUE) {
-            y_labs <- paste0(gsub("_", " ", unique(data$fleet)), " Index") 
+            y_lab <- paste0(gsub("_", " ", unique(data$fleet)), " ", unique(data$sex), " Index") 
           }
         }
       }
       # plot
       data %>%
+        right_join(expand_grid(distinct(., model, series, sex, units),
+                               year = min(data$year):max(data$year)),
+                   by = join_by(model, series, sex, year, units)) %>%
         mutate(obs_l95 = obs_index * exp(-1.96 * sqrt(log(1 + obs_cv^2))),
                obs_u95 = obs_index * exp(1.96 * sqrt(log(1 + obs_cv^2))),
                tot_l95 = obs_index * exp(-1.96 * sqrt(log(1 + tot_cv^2))),
@@ -1854,7 +1858,7 @@ gmacs_plot_index <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_l
         geom_errorbar(aes(x = factor(year), ymin = obs_l95, ymax = obs_u95), width = 0, color = "grey20")+
         geom_point(aes(x = factor(year), y = obs_index), color = "grey20")+
         geom_line(aes(x = factor(year), y = pred_index, group = model, color = model))+
-        labs(x = NULL, color = NULL, y = y_labs)+
+        labs(x = NULL, color = NULL, y = y_lab)+
         scale_y_continuous(labels = scales::comma)+
         scale_color_manual(values = cbpalette)+
         coord_cartesian(ylim = c(0, NA)) -> p
