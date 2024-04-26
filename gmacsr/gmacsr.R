@@ -1748,20 +1748,21 @@ gmacs_plot_catch <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_l
   if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
   
   data_summary %>%
-    nest_by(series, units, .keep = T) %>% ungroup %>% 
-    mutate(plot = purrr::map(data, function(data) {
+    nest_by(series, units, .keep = T) %>% ungroup %>%
+    mutate(y_lab = y_labs) %>% # pull(data) %>% .[[1]]-> data
+    mutate(plot = purrr::map2(data, y_lab, function(data, ylab) {
       
       # y label
-      if(is.null(y_labs)) {
-      y_labs <- paste0(gsub("_", " ", unique(data$fleet)), " ", gsub("All", "Total", unique(data$type)), " Catch (", unique(data$wt_units), ")")
+      if(is.null(y_lab)) {
+      y_lab <- paste0(gsub("_", " ", unique(data$fleet)), " ", gsub("All", "Total", unique(data$type)), " Catch (", unique(data$wt_units), ")")
       if(unique(data$units) == "Numbers") {
-        y_labs <- paste0(gsub("_", " ", unique(data$fleet)), " ", gsub("All", "Total", unique(data$type)), " Catch (", unique(data$wt_units), ")")
+        y_lab <- paste0(gsub("_", " ", unique(data$fleet)), " ", gsub("All", "Total", unique(data$type)), " Catch (", unique(data$n_units), ")")
       }
       }
       
       # plot
       data %>%
-        left_join(expand_grid(distinct(., model, series, units),
+        right_join(expand_grid(distinct(., model, series, units),
                               year = min(data$year):max(data$year)),
                   by = join_by(model, series, year, units)) %>%
         mutate(obs_l95 = obs_catch * exp(-1.96 * sqrt(log(1 + cv^2))),
@@ -1770,7 +1771,7 @@ gmacs_plot_catch <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_l
         geom_point(aes(x = year, y = obs_catch), color = "grey40")+
         geom_errorbar(aes(x = year, ymin = obs_l95, ymax = obs_u95), width = 0, color = "grey40")+
         geom_line(aes(x = year, y = pred_catch, group = model, color = model))+
-        labs(x = NULL, color = NULL, y = y_labs)+
+        labs(x = NULL, color = NULL, y = y_lab)+
         scale_y_continuous(labels = scales::comma)+
         scale_color_manual(values = cbpalette)+
         coord_cartesian(ylim = c(0, NA)) -> p
