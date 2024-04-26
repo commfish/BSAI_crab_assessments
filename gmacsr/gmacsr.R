@@ -1749,8 +1749,9 @@ gmacs_plot_catch <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_l
   
   data_summary %>%
     nest_by(series, units, .keep = T) %>% ungroup %>%
-    mutate(y_lab = y_labs) %>% # pull(data) %>% .[[1]]-> data
-    mutate(plot = purrr::map2(data, y_lab, function(data, ylab) {
+    mutate(y_lab = y_labs) %>%
+    #dplyr::slice(1) %>% # pull(data) %>% .[[1]]-> data
+    mutate(plot = purrr::map2(data, y_lab, function(data, y_lab) {
       
       # y label
       if(is.null(y_labs)) {
@@ -1831,7 +1832,7 @@ gmacs_plot_index <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_l
   if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
   data_summary %>%
     nest_by(series, sex, units, .keep = T) %>% ungroup %>%
-    mutate(y_lab = y_labs) %>% # pull(data) %>% .[[1]]-> data
+    mutate(y_lab = y_labs) %>%  #pull(data) %>% .[[3]]-> data
     mutate(plot = purrr::map2(data, y_lab, function(data, y_lab) {
       # y label
       if(is.null(y_labs)) {
@@ -1862,7 +1863,7 @@ gmacs_plot_index <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_l
         scale_y_continuous(labels = scales::comma)+
         scale_color_manual(values = cbpalette)+
         coord_cartesian(ylim = c(0, NA)) -> p
-      if(length(min(data$year):max(data$year)) > 9) { p + scale_x_discrete(labels = yraxis$labels, breaks = yraxis$breaks) -> p }
+      if(length(min(data$year):max(data$year)) > 10) { p + scale_x_discrete(labels = yraxis$labels, breaks = yraxis$breaks) -> p }
       if(save_plot == T) {
         pwidth <- min(max(length(min(data$year):max(data$year))*0.3, 6), 7)
         # save plot
