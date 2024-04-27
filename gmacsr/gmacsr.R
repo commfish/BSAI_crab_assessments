@@ -700,6 +700,25 @@ gmacs_read_std <- function(file, model_name = NULL, sub_text = NULL) {
   
 }
 
+# gmacs_read_mcoutref() ----
+
+## args: file = file path to mcoutREF.rep file
+#        sub_text = parameter name string used for filtering, Default = NULL
+
+gmacs_read_mcoutREF <- function(file, model_name = NULL){
+  
+  mcout <- read.delim(file, sep = "", skip = 1, header = F)
+  ao <- gmacs_read_allout(file.path(dirname(file), "Gmacsall.out"))
+  
+  tibble(model = model_name, 
+         mcout) %>%
+    rename_all(~c("model", "draw", "mean_rec", "f", "mmb", "bmsy", "bmsy_b0", "ofl",
+                  paste0("fmsy_", ao$fleet_names), paste0("fofl_", ao$fleet_names))) -> out
+  
+  return(out)
+  
+}
+
 # gmacs_do_exe() ----
 
 ## run gmacs.exe program and tune length composition weights
