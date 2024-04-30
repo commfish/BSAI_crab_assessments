@@ -12,6 +12,7 @@ output:
 ---
 
 \pagenumbering{arabic}
+\setlength\LTcapwidth{\linewidth}
 
 ```{r global_options, include=FALSE, echo = FALSE, message = FALSE, warning=FALSE}
 library(knitr)
@@ -270,9 +271,9 @@ Models 23.0a, 23.0a.p7, 21.1b, and 21.1b.p7 reflect sensitivities of the model o
 
 
 ### b. Tables of estimates {-}
-- Negative log-likelihood values are summarized in Tables \@ref(tab:likelihood-components) -- \@ref(tab:likelihood-components2) for all models, while parameter estimates are summarized in Tables \@ref(tab:parm-std211b) -- \@ref(tab:parm-std22)  for a few respesentative models.
+- Negative log-likelihood values are summarized in Tables \@ref(tab:likelihood-components) for all models, while parameter estimates are summarized in Tables \@ref(tab:parm-std211b) -- \@ref(tab:parm-std24c)  for a few representative models.
 - Natural mortality estimates are shown in Table \@ref(tab:Natmort).
-- Abundance, MMB, and recruitment time series for a few representative models are found in Tables \@ref(tab:est-m211b) -- \@ref(tab:est-m232). 
+- Abundance, MMB, and recruitment time series for a few representative models are found in Tables \@ref(tab:est-m211b) -- \@ref(tab:est-m24c). 
 
 ### c. Evaluation of the fit to the data and model estimates.{-}
 - Selectivities by length (Figures \@ref(fig:sel1), \@ref(fig:sel2), and \@ref(fig:sel3))
@@ -308,15 +309,14 @@ Estimated fishing mortalities for pot female and groundfish fisheries bycatches 
 Estimated mature male biomass for all models have a similar trend over time, however the scaling of the biomass is highly dependent, as expected, on estimates of natural mortality (M) and *Q* in the model. Overall, higher estimates of M for males produce larger estimates of mature male biomass for most of the time series. Recent mature male biomass, in the last five years or so, was relatively similar for all models. 
 Figure \@ref(fig:mmb1) displays the results of changes in the period or season in which mmb is estimated. The corrected models (labeled .p7) reflect the correct timing for mmb estimation to coincide with the intended Feb 15th timing.
 
-- Size composition fits by length and residual bubble plots (Figures  \@ref(fig:sc-pot) -- \@ref(fig:sc-res-M4)).
+- Size composition fits by length and residual bubble plots (Figures  \@ref(fig:sc-pot) -- \@ref(fig:sc-aggregate-nmfs)).
 
 All models fit the length composition data similarly and well. Modal progressions are tracked well in the trawl survey data, particularly beginning in mid-1990s. Cohorts first seen in the trawl survey data in 1975, 1986, 1990, 1995, 1999, 2002 and 2005 can be tracked over time. Bycatch size composition data provide little information to track modal progression and is not displayed graphically.
 Residuals of proportions of length are plotted to examine their patterns. Residuals were calculated as observed minus predicted and standardized by the estimated standard deviation. Generally, residuals of proportions of survey males and females appear to be random over length and year for all models, however models with higher base M - models based on 23.0a - improve the plus group fittings slightly.   
 
 ### d. Retrospective and historical analyses {-}
-Retrospective analysis was performed for a selection of models - 21.1b, 22.0, 23.0a, and 23.3 - to represent the base model and determine if the retrospective pattern is reduced by estimating M (model 23.0a), or estimating M and relaxing the prior on *Q* (model 23.3) (Figures \@ref(fig:retro211b) -- \@ref(fig:retro233)). Retrospective analysis were performed using the GMACS retrospective feature which runs the current years model (2022) and sequentially excludes one year of data to evaluate current model performance in hindcast. 
+Retrospective analysis was not performed on these model explorations. Topics explored in these models did not were not expected to improved retrospective trends and therefore these were not explored at this time. They will be performed on models for the fall full SAFE. Retrospective runs performed for the 2023 SAFE suggested an improvement with estimation of M for males, as reported in the Mohn's rho values, from a Mohn's rho of 0.373 to 0.226. The improved retrospective pattern in MMB was one of the reasons model 23.0a was chosen for specification in fall of 2023. 
 
-The retrospective pattern for MMB did improve with estimation of M for males, as reported in the Mohn's rho values on Figures \@ref(fig:retro230a) and \@ref(fig:retro233), from a Mohn's rho of 0.373 to 0.226. While overall model fit was not improved with estimate of M for males (see likelihood tables) the improved retrospective pattern in MMB maybe a reason to consider this model for specifications in the fall. 
 
 ### e. Uncertainty and sensitivity analyses.{-}
 - Estimated standard deviation of parameters are summarized in Tables \@ref(tab:parm-std211b) -- \@ref(tab:parm-std22) for a few representative models. **update**
@@ -326,13 +326,15 @@ The retrospective pattern for MMB did improve with estimation of M for males, as
 
 
 ### f. Comparison of alternative model scenarios.{-}
-In this report (May 2024), six models are presented. For negative likelihood value comparisons (Table \@ref(tab:likelihood-components)), the base models - 21.1b.p7 and 23.0a.p7 were similar in total likelihood, with those models with one molt time block being very similar also (models 24.0c and 24.0d). The base models were run using the most recent updates to GMACS (version 2.01.M.10) and compared to output from the runs in September 2023 (not shown but performed with updated GMACS versions as part of version control protocol). The likelihood components of these runs using models 21.1b, 23.0a, 21.1b.p7 and 23.0a.7 were identical out to three digits, however reference point differences, although small, do exist as expected due to the change in timing for MMB estimation. Models 21.1b.p7 and 23.0a.p7 should be considered the most correct reference models, and were used to compare other model explorations.
+In this report (May 2024), six models are presented. For negative likelihood value comparisons (Table \@ref(tab:likelihood-components)), the base models - 21.1b.p7 and 23.0a.p7 were similar in total likelihood, with those models with one molt time block being very similar also (models 24.0c and 24.0d). The base models were run using the most recent updates to GMACS (version 2.01.M.10) and compared to output from the runs in September 2023 (not shown but performed with updated GMACS versions as part of version control protocol). The likelihood components of these runs using models 21.1b, 23.0a, 21.1b.p7 and 23.0a.7 were identical out to three digits, however reference point differences, although small, do exist as expected due to the change in timing for MMB estimation. Models 21.1b.p7 and 23.0a.p7 should be considered the most correct reference models, and were used to compare other model explorations. 
 
-Two models (24.0 and 24.0b) either had higher base natural mortality (M) estimates for males or estimated M. 
+Two models (24.0 and 24.0b) explore the use of the BSFRF survey data as an informed prior on selectivity for NMFS instead of treating this data as another index/size composition under both base models (24.0 estimates M with a tight prior (23.0a) and 24.0b has a fixed M of 0.18 (21.1b)). This approach was similar to that used for snow crab in 2023, and is considered a first approach at this line of exploration. First, the inferred selectivity pattern/model estimated using the BSFRF data is similar to that estimated in the base model (\@ref(fig:exploreS)). Suggesting a logistic or dome-shaped selectivity for the NMFS survey. Figure \@ref(fig:sel2) visualizes the estimated relationship using the estimated inferred selectivity from the BSFRF data as a prior, and indicates the potential for a dome-shaped relationship. These models do not improve model fit and are not recommended to pursue further. However, they do suggest further model explorations - such as dome shaped selectivity for NMFS and the potential for selectivity to be greater than 1 for the NMFS survey - are warranted for exploring selectivity and catchability in this model. Additionally if the BSFRF were used as a prior a more appropriate method to incorporate that data is needed since the method used here ignores correlation among size bins in estimating parameters for selectivity. 
 
-Two models (24.0c and 24.0d) 
+Two models (24.0c and 24.0d) explore the removal of a time block for molt probability for males and females. Female molt probability is estimated to be 1 so the time block is does not impact model outcomes for females. These models, run using both base model frameworks, suggest the time blocking for molt probability does not improve model fit and is likely not necessary. Removing this blocking reduces the number of parameters while giving a similar model fit. 
 
-Based on the above considerations, we recommend 
+Based on the above considerations, we recommend bringing models 23.0a (updated season), 21.1b (updated season), and the corresponding models with one molt period (24.0c and 24.0d) forward for consideration in Sept. The reference model - accepted in fall 2023 - was model 23.0a without the updated season for MMB. However, it was determined that the timing in MMB estimation for this model was incorrect and therefore model 23.0a (updated season, also labeled 23.0a.p7 in figures) should be the accepted reference model moving foward. It was the authors understanding that both the CPT and SSC desired the previous reference model - 21.1b - be maintained for model development and comparison, and it is done so here. In line with parsimony and model simplification models 24.0c and 24.0d are recommended for consideration in the fall since they simplify the molt probability time periods. Further work is needed on explorations for selectivity and catchability before variants of models 24.0 and 24.0b should be considered for specification setting. 
+
+The CPT/SSC comments above address many other topics that were not able to be addressed in this round of model improvements but are on the authors list for considerations. Additionally, the author is currently pursuing analyses to assist the Alaska Department of Fish and Game in updating the female threshold used for State management and will update on progress on that front when appropriate in the Council process. 
 
 
 
@@ -445,60 +447,71 @@ print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environm
 \newpage\clearpage
 
 ```{r est-m211b, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/gmacs-sum_model211b_ed.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
-# #df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
-# names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) #, "M0.21" ,"M0.26", "Notimeblock")
-# tab <- xtable(df, caption = "Annual abundance estimates (mature >119mm, legal >134mm, mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 21.1b during 1975-2022. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m211b", digits = c(0,0,3,3,3,3,3,3,3,3))
-# print(tab, caption.placement = "top", caption.width = , include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,1, nrow(tab)))
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/_m211b_p7gmacs_sum_abun.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
+#df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
+names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) #, "M0.21" ,"M0.26", "Notimeblock")
+addtorow <- list()
+addtorow$pos <- list(0, 0, 0)
+addtorow$command <- c(paste("& \\multicolumn{4}{c}{Males} & Females & Total & \\multicolumn{2}{c}{Total Survey Biomass } \\\\\n" , "\\cmidrule(l){2-5}    \\cmidrule(l){8-9}\n"), 
+                      "Year & Mature & Legal  & MMB & sd & Mature & Recruits & Model Est & Area-Swept \\\\\n",                      "& >119mm & >134mm & >119mm & MMB & >89mm & & >64mm & >64mm \\\\\n")
+tab <- xtable(df, caption = "Annual abundance estimates (mature males, legal males, and mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 21.1b during 1975-2022. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m211b", digits = c(0,0,3,3,3,3,3,3,3,3))
+print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE, tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
 ```
 
 \pagebreak 
 \newpage\clearpage
+
 
 ```{r est-m230a, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/gmacs-sum_model230a_ed.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
-# #df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
-# names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) #, "M0.21" ,"M0.26", "Notimeblock")
-# tab <- xtable(df, caption = "Annual abundance estimates (mature >119mm, legal >134mm, mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 23.0a during 1975-2022. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m230a", digits = c(0,0,3,3,3,3,3,3,3,3))
-# print(tab, caption.placement = "top", caption.width = , include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,1, nrow(tab)))
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/_m230a_p7gmacs_sum_abun.csv')) # 
+# table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated 
+names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) 
+addtorow <- list()
+addtorow$pos <- list(0, 0, 0)
+addtorow$command <- c(paste("& \\multicolumn{4}{c}{Males} & Females & Total & \\multicolumn{2}{c}{Total Survey Biomass } \\\\\n" , "\\cmidrule(l){2-5}                   \\cmidrule(l){8-9}\n"), 
+                      "Year & Mature & Legal  & MMB & sd & Mature & Recruits & Model Est & Area-Swept \\\\\n", 
+                      "& >119mm & >134mm & >119mm & MMB & >89mm & & >64mm & >64mm \\\\\n")
+tab <- xtable(df, caption = "Annual abundance estimates (mature males, legal males, and mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 23.0a during 1975-2022. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m230a", digits = c(0,0,3,3,3,3,3,3,3,3))
+print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
+      tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
 ```
 
 \pagebreak 
 \newpage\clearpage
 
-```{r est-m233, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/gmacs-sum_model233_ed.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
-# #df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
-# names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) #, "M0.21" ,"M0.26", "Notimeblock")
-# tab <- xtable(df, caption = "Annual abundance estimates (mature >119mm, legal >134mm, mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 23.3 during 1975-2022. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m233", digits = c(0,0,3,3,3,3,3,3,3,3))
-# print(tab, caption.placement = "top", caption.width = , include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,1, nrow(tab)))
+```{r est-m24, results = "asis"}
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/_m24gmacs_sum_abun.csv')) # 
+# table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated 
+names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) 
+addtorow <- list()
+addtorow$pos <- list(0, 0, 0)
+addtorow$command <- c(paste("& \\multicolumn{4}{c}{Males} & Females & Total & \\multicolumn{2}{c}{Total Survey Biomass } \\\\\n" , "\\cmidrule(l){2-5}                   \\cmidrule(l){8-9}\n"), 
+                      "Year & Mature & Legal  & MMB & sd & Mature & Recruits & Model Est & Area-Swept \\\\\n", 
+                      "& >119mm & >134mm & >119mm & MMB & >89mm & & >64mm & >64mm \\\\\n")
+tab <- xtable(df, caption = "Annual abundance estimates (mature males, legal males, and mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 24.0 during 1975-2022. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m24", digits = c(0,0,3,3,3,3,3,3,3,3))
+print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
+      tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
 ```
 
 \pagebreak 
 \newpage\clearpage
 
-```{r est-m22, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/gmacs-sum_model22_ed.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
-# #df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
-# names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) #, "M0.21" ,"M0.26", "Notimeblock")
-# tab <- xtable(df, caption = "Annual abundance estimates (mature >119mm, legal >134mm, mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 22.0 during 1975-2022. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m22", digits = c(0,0,3,3,3,3,3,3,3,3))
-# print(tab, caption.placement = "top", caption.width = , include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,1, nrow(tab)))
+```{r est-m24c, results = "asis"}
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/_m24cgmacs_sum_abun.csv')) # 
+# table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated 
+names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) 
+addtorow <- list()
+addtorow$pos <- list(0, 0, 0)
+addtorow$command <- c(paste("& \\multicolumn{4}{c}{Males} & Females & Total & \\multicolumn{2}{c}{Total Survey Biomass } \\\\\n" , "\\cmidrule(l){2-5}                   \\cmidrule(l){8-9}\n"), 
+                      "Year & Mature & Legal  & MMB & sd & Mature & Recruits & Model Est & Area-Swept \\\\\n", 
+                      "& >119mm & >134mm & >119mm & MMB & >89mm & & >64mm & >64mm \\\\\n")
+tab <- xtable(df, caption = "Annual abundance estimates (mature males, legal males, and mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 24.0c during 1975-2022. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m24c", digits = c(0,0,3,3,3,3,3,3,3,3))
+print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
+      tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
 ```
 
 \pagebreak 
 \newpage\clearpage
-
-```{r est-m232, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/gmacs-sum_model232_ed.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
-# #df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
-# names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) #, "M0.21" ,"M0.26", "Notimeblock")
-# tab <- xtable(df, caption = "Annual abundance estimates (mature >119mm, legal >134mm, mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 23.2 (no retow) during 1975-2022. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m232", digits = c(0,0,3,3,3,3,3,3,3,3))
-# print(tab, caption.placement = "top", caption.width = , include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,1, nrow(tab)))
-```
-
-
-\clearpage
-\pagebreak 
 
 # Figures {-}
 \newpage
@@ -630,8 +643,13 @@ knitr::include_graphics("figures/molt_models/comp_fit_nmfs_trawl_male_all.png", 
 knitr::include_graphics("figures/molt_models/comp_fit_bsfrf_male_all.png", dpi = 450)
 ```
 
+```{r sc-res-ref-nmfs, out.width="100%", fig.cap = "Residual line plot for male (left panel each year) and female (right panel each) size and year for the NMFS trawl survey size composition data sets for models 21.1b and 23.0a, along with 24.0 and 24.0b (models with selectivity priors based on BSFRF)."}
+knitr::include_graphics("figures/sel_models/resid_line_nmfs_trawl_male_all.png", dpi = 100)
+```
 
-
+```{r sc-res-aggregate-nmfs, out.width="100%", fig.cap = "Aggregated size comps over all years for the NMFS survey for males (black) and females (grey) for base models and selectivity models."}
+knitr::include_graphics("figures/sel_models/aggregated_comp_fit_nmfs_trawl_male_all.png", dpi = 100)
+```
 
 
 \clearpage

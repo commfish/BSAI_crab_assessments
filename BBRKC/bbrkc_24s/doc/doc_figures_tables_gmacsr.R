@@ -25,12 +25,12 @@ plot_save_molt <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/molt_mod
 
 ## read in models
 m211b <- gmacs_read_allout(file = "./BBRKC/bbrkc_24s/model_211b/Gmacsall.out", model = "m21.1b")
-m211b_p7 <- gmacs_read_allout(file = "./BBRKC/bbrkc_24s/model_211b_ph7/Gmacsall.out", model = "m21.1b.p7")
+m211b_p7 <- gmacs_read_allout(file = "./BBRKC/bbrkc_24s/ADJ_model_211b_ph7/Gmacsall.out", model = "m21.1b.p7")
 m230a <- gmacs_read_allout(file = "./BBRKC/bbrkc_24s/model_23_0a/Gmacsall.out", model = "m23.0a")
-m230a_p7 <- gmacs_read_allout(file = "./BBRKC/bbrkc_24s/model_23_0a_ph7/Gmacsall.out", model = "m23.0a.p7")
-m24 <- gmacs_read_allout(file = "./BBRKC/bbrkc_24s/model_24_0/Gmacsall.out", model = "m24")
+m230a_p7 <- gmacs_read_allout(file = "./BBRKC/bbrkc_24s/ADJ_model_23_0a_ph7/Gmacsall.out", model = "m23.0a.p7")
+m24 <- gmacs_read_allout(file = "./BBRKC/bbrkc_24s/ADJ_model_24_0/Gmacsall.out", model = "m24")
 m24b <- gmacs_read_allout(file = "./BBRKC/bbrkc_24s/model_24_0b/Gmacsall.out", model = "m24.0b")
-m24c <- gmacs_read_allout(file = "./BBRKC/bbrkc_24s/model_24_0c/Gmacsall.out", model = "m24.0c")
+m24c <- gmacs_read_allout(file = "./BBRKC/bbrkc_24s/ADJ_model_24_0c/Gmacsall.out", model = "m24.0c")
 m24d <- gmacs_read_allout(file = "./BBRKC/bbrkc_24s/model_24_0d/Gmacsall.out", model = "m24.0d")
 
 #m24.0 <- gmacs_read_allout(file = "./SMBKC/smbkc_24s/model_16_0_c/Gmacsall.out", model = "smbkc24.0")
@@ -137,7 +137,7 @@ table1specs_t <- c(msst_2223, mmb_2223, mmb_2324, ofl_2324, abc_2324)
 table1specs_t
 
 # use this as starting place for table 1 ----
-refT1 <- gmacs_get_ref_points(all_out = list(m211b, m211b_p7, m230a, m230a_p7, m24, m24b, m24c, m24d))
+refT1 <- gmacs_get_ref_points(all_out = list(m211b, m211b_p7, m24b, m24d, m230a, m230a_p7, m24, m24c))
 refT1 %>% 
   as.data.frame() %>% 
   mutate(MMB = round(mmb/1000, 2), 
@@ -155,8 +155,8 @@ write.csv(tab1_ref, paste0(.TABS, "specs_all_mods_detailed.csv"), row.names = FA
 # need to bring in M_tab1 from below for natural mortality 
 
 # get reference points table
-gmacs_get_ref_points(all_out = list(m211b, m211b_p7, m230a, m230a_p7, m24, m24b, m24c, m24d))
-refT1 <- gmacs_get_ref_points(all_out = list(m211b, m211b_p7, m230a, m230a_p7, m24, m24b, m24c, m24d))
+gmacs_get_ref_points(all_out = list(m211b, m211b_p7, m24b, m24d, m230a, m230a_p7, m24, m24c))
+refT1 <- gmacs_get_ref_points(all_out = list(m211b, m211b_p7, m24b, m24d, m230a, m230a_p7, m24, m24c))
 refT1 %>% 
   as.data.frame() %>% 
   mutate(MMB = round(mmb/1000, 2), 
@@ -176,7 +176,7 @@ write.csv(ref_pt_table, paste0(.TABS, "specs_all_mods.csv"), row.names = FALSE)
 
 # Table 7 nat mort----
 #nat_mort <- .get_M_df_kjp(M[2:4]) # bbrkc_functions.R
-nat_mort <- gmacs_get_m(all_out = list(m211b, m211b_p7, m230a, m230a_p7, m24, m24b, m24c, m24d))
+nat_mort <- gmacs_get_m(all_out = list(m211b, m211b_p7, m24b, m24d, m230a, m230a_p7, m24, m24c))
 #nat_mort <- m230a$M_by_class
 nat_mort %>% 
   distinct(model, sex, M) %>% print(n =100)
@@ -303,9 +303,101 @@ write.csv(parm1, paste0(.TABS, "para_model_24c.csv")) # use row names as index -
 # would be in selectivity not q for those models. 
 
 # tables of numbers ------------
-base_211b <- gmacs_get_n_matrix(all_out = list(m211b))
+#base_211b <- gmacs_get_n_matrix(all_out = list(m211b))
 
-base_211b %>% 
+## Table of abundance per model -----------------------------------------------
+# Jie's old code 
+source("./BBRKC/code/bbrkc_functions.R")
+# model 21.1b.p7
+model <- "m211b_p7"
+W <- m211b_p7 ### CHANGE HERE
+Y <- m211b_p7_std ### change here 
+A <- read_rep("./BBRKC/bbrkc_24s/ADJ_model_211b_ph7/gmacs.rep")
+
+model <- "m230a_p7"
+W <- m230a_p7 ### CHANGE HERE
+Y <- m230a_p7_std ### change here 
+A <- read_rep("./BBRKC/bbrkc_24s/ADJ_model_23_0a_ph7/gmacs.rep")
+
+model <- "m24"
+W <- m24 ### CHANGE HERE
+Y <- m24_std ### change here 
+A <- read_rep("./BBRKC/bbrkc_24s/ADJ_model_24_0/gmacs.rep")
+
+model <- "m24c"
+W <- m24c ### CHANGE HERE
+Y <- m24c_std ### change here 
+A <- read_rep("./BBRKC/bbrkc_24s/ADJ_model_24_0c/gmacs.rep")
+
+# -- males - mature legal, females mature does NOT include projectino year!
+temp <- W$n_matrix
+temp %>% 
+  select(year, size, males, females) %>% 
+  mutate(size = as.numeric(size)) %>% 
+  #filter(size >= 119) %>% 
+  group_by(year) %>%  #  year
+  summarise(mat_males = sum(males[size >= 119])/1000000, # mature males >119 mm
+            leg_males = sum(males[size >= 134])/1000000, #legal males > 134 mm
+            mat_fem = sum(females[size >= 90])/1000000) -> fmales1 #mature_females >90 mm
+# -- MMB and sd and recruits - also does NOT include projection year!
+temp2 <- W$derived_quant_summary
+temp2 %>% 
+  select(year, ssb, sd_log_ssb, recruit_male, recruit_female) %>% 
   group_by(year) %>% 
-  summarise(mat_male = sum(males_mature), mat_fem = sum(females_mature))
+  mutate(recruits = sum(recruit_male, recruit_female)/1000000, # need to be moved down a year 
+         MMB = ssb/1000, # mmb
+         sd_mmb = MMB*(exp(sd_log_ssb^2)-1)^0.5) %>% # sd mmb
+  select(year, MMB, sd_mmb) -> derived_m
+# recruits needs to be moved down one year 
+temp2 %>% 
+  select(year, recruit_male, recruit_female) %>% 
+  group_by(year) %>% 
+  mutate(recruits = sum(recruit_male, recruit_female)/1000000) %>% 
+  mutate(year = year +1) %>% 
+  select(year, recruits) -> recruits
+
+# survey obs and predicted - does include prj year
+temp3 <- W$index_fit_summary
+temp3 %>% 
+  filter(fleet == "NMFS_Trawl") %>% 
+  group_by(year) %>% 
+  summarise(total_obs = round(sum(obs_index)/1000, 2), # total area swept
+            total_pred = round(sum(pred_index)/1000, 2)) -> survey_est # total model est survey
+
+# put them in the correct order for tables in doc -------
+#abun_tab <- cbind(fmales1[ ,1:3], derived_m[ ,2:3], recruit_tab, survey_est[ ,c(3,2)])
+survey_est %>% #[1:47, ] %>% 
+  merge(derived_m, all = T) %>% 
+  merge(fmales1, all = T) %>% 
+  merge(recruits, all = T) %>% 
+  filter(year <= 2022) -> abun_tab2
+# doesn't have 2023 values for anything but the survey 
+mat_fem1 <- as.data.frame(A$N_females[ , 6:16]) # need only mature females 
+mat_fem1 %>% 
+  rowwise() %>% 
+  mutate(mat_fem = sum(V6+V7+V8+V9+V10+V11+V12+V13+V14+V15+V16)/1000000) -> mat_fem2
+# values match so really just need 2023 value saved here 
+#mat_fem2[49,12] # 2023 projected mature females
+mat_mal <- as.data.frame(A$N_males[ , 12:20]) # need only mature males 
+mat_mal %>% 
+  rowwise() %>% 
+  mutate(mat_males = sum(V12+V13+V14+V15+V16+V17+V18+V19+V20)/1000000, 
+         leg_males = sum(V15+V16+V17+V18+V19+V20)/1000000) -> mat_mal2
+# values match so really just need 2023 value saved here 
+#mat_mal2[49,10:11] # 2023 projected mature females
+#mmb_proj = W$bmsy * W$b_bmsy
+Y %>% filter(par == "sd_last_ssb") %>% 
+  mutate(MMB = est/1000, 
+         sd_mmb = se/1000) %>% 
+  select(MMB, sd_mmb) -> ref_prj
+
+# 2023 vector 
+vec1 <- cbind(year = 2023, survey_est[48, 2:3] , ref_prj, mat_mal2[49,10:11], 
+              mat_fem2[49,12], recruits[48,2])
+
+abun_tab2 %>% 
+  merge(vec1, all = T) %>% 
+  select(year, mat_males, leg_males, MMB, sd_mmb, mat_fem, recruits, total_pred, total_obs) -> abun_tab3
+
+write.csv(abun_tab3, paste0(.TABS, "_", model, "gmacs_sum_abun.csv"), row.names = FALSE)
 
