@@ -14,6 +14,7 @@ output:
 \pagenumbering{arabic}
 \setlength\LTcapwidth{\linewidth}
 
+
 ```{r global_options, include=FALSE, echo = FALSE, message = FALSE, warning=FALSE}
 library(knitr)
 opts_chunk$set(fig.width = 12, fig.height = 7, fig.align = "left", echo = FALSE, warning = FALSE, message = FALSE,  dpi=300)
@@ -309,7 +310,7 @@ Estimated fishing mortalities for pot female and groundfish fisheries bycatches 
 Estimated mature male biomass for all models have a similar trend over time, however the scaling of the biomass is highly dependent, as expected, on estimates of natural mortality (M) and *Q* in the model. Overall, higher estimates of M for males produce larger estimates of mature male biomass for most of the time series. Recent mature male biomass, in the last five years or so, was relatively similar for all models. 
 Figure \@ref(fig:mmb1) displays the results of changes in the period or season in which mmb is estimated. The corrected models (labeled .p7) reflect the correct timing for mmb estimation to coincide with the intended Feb 15th timing.
 
-- Size composition fits by length and residual bubble plots (Figures  \@ref(fig:sc-pot) -- \@ref(fig:sc-aggregate-nmfs)).
+- Size composition fits by length and residual bubble plots (Figures  \@ref(fig:sc-pot) -- \@ref(fig:sc-res-aggregate-nmfs)).
 
 All models fit the length composition data similarly and well. Modal progressions are tracked well in the trawl survey data, particularly beginning in mid-1990s. Cohorts first seen in the trawl survey data in 1975, 1986, 1990, 1995, 1999, 2002 and 2005 can be tracked over time. Bycatch size composition data provide little information to track modal progression and is not displayed graphically.
 Residuals of proportions of length are plotted to examine their patterns. Residuals were calculated as observed minus predicted and standardized by the estimated standard deviation. Generally, residuals of proportions of survey males and females appear to be random over length and year for all models, however models with higher base M - models based on 23.0a - improve the plus group fittings slightly.   
@@ -319,14 +320,14 @@ Retrospective analysis was not performed on these model explorations. Topics exp
 
 
 ### e. Uncertainty and sensitivity analyses.{-}
-- Estimated standard deviation of parameters are summarized in Tables \@ref(tab:parm-std211b) -- \@ref(tab:parm-std24c) for a few representative models. **update**
+- Estimated standard deviation of parameters are summarized in Tables \@ref(tab:parm-std211b) -- \@ref(tab:parm-std24c) for a few representative models. 
 
 - The last completed SAFE document in 2023 details uncertainty estimates in the current base model parameterization in further detail (link here: [BBRKC 2023 SAFE](https://meetings.npfmc.org/CommentReview/DownloadFile?p=98a4f80c-eee1-428f-941e-8c2dcf21a14d.pdf&fileName=Bristol%20Bay%20Red%20King%20Crab%20SAFE.pdf)).
 
 
 
 ### f. Comparison of alternative model scenarios.{-}
-In this report (May 2024), six models are presented. For negative likelihood value comparisons (Table \@ref(tab:likelihood-components)), the base models - 21.1b.p7 and 23.0a.p7 were similar in total likelihood, with those models with one molt time block being very similar also (models 24.0c and 24.0d). The base models were run using the most recent updates to GMACS (version 2.01.M.10) and compared to output from the runs in September 2023 (not shown but performed with updated GMACS versions as part of version control protocol). The likelihood components of these runs using models 21.1b, 23.0a, 21.1b.p7 and 23.0a.7 were identical out to three digits, however reference point differences, although small, do exist as expected due to the change in timing for MMB estimation. Models 21.1b.p7 and 23.0a.p7 should be considered the most correct reference models, and were used to compare other model explorations. 
+In this report (May 2024), six models are presented. For negative likelihood value comparisons (Table \@ref(tab:likelihood-components)), the base models - 21.1b (updated season, 21.1b.p7) and 23.0a (updated season, 23.0a.p7) were similar in total likelihood, with those models with one molt time block being very similar also (models 24.0c and 24.0d). The base models were run using the most recent updates to GMACS (version 2.01.M.10) and compared to output from the runs in September 2023 (not shown but performed with updated GMACS versions as part of version control protocol). The likelihood components of these runs using models 21.1b, 23.0a, 21.1b.p7 and 23.0a.7 were identical out to three digits, however reference point differences, although small, do exist as expected due to the change in timing for MMB estimation. Models 21.1b.p7 and 23.0a.p7 should be considered the most correct reference models, and were used to compare other model explorations. 
 
 Two models (24.0 and 24.0b) explore the use of the BSFRF survey data as an informed prior on selectivity for NMFS instead of treating this data as another index/size composition under both base models (24.0 estimates M with a tight prior (23.0a) and 24.0b has a fixed M of 0.18 (21.1b)). This approach was similar to that used for snow crab in 2023, and is considered a first approach at this line of exploration. First, the inferred selectivity pattern/model estimated using the BSFRF data is similar to that estimated in the base model (\@ref(fig:exploreS)). Suggesting a logistic or dome-shaped selectivity for the NMFS survey. Figure \@ref(fig:sel2) visualizes the estimated relationship using the estimated inferred selectivity from the BSFRF data as a prior, and indicates the potential for a dome-shaped relationship. These models do not improve model fit and are not recommended to pursue further. However, they do suggest further model explorations - such as dome shaped selectivity for NMFS and the potential for selectivity to be greater than 1 for the NMFS survey - are warranted for exploring selectivity and catchability in this model. Additionally if the BSFRF were used as a prior a more appropriate method to incorporate that data is needed since the method used here ignores correlation among size bins in estimating parameters for selectivity. 
 
@@ -336,7 +337,7 @@ Based on the above considerations, we recommend bringing models 23.0a (updated s
 
 The CPT/SSC comments above address many other topics that were not able to be addressed in this round of model improvements but are on the authors list for considerations. Additionally, the author is currently pursuing analyses to assist the Alaska Department of Fish and Game in updating the female threshold used for State management and will update on progress on that front when appropriate in the Council process. 
 
-
+\newpage\clearpage
 
 # D. Calculation of the OFL and ABC{-}
 Tier 3 control rules and methodology behind these calculations are explained in detail in the last full SAFE report published on the NPFMC website (see summary section for link). 
@@ -345,8 +346,9 @@ Tier 3 control rules and methodology behind these calculations are explained in 
 df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/specs_all_mods_detailed.csv'))
 names(df) <- c("Model", "Current MMB", "B35", "$MMB/B_\\text{MSY}$", "F35", "$F_\\text{OFL}$", "OFL", "avg M rec", "maleM")
 tab       <- xtable(df, caption = "Changes in management quantities for each scenario explored. Reported quantities are derived from maximum likelihood estimates. MMB, B35, OFL are reported in 1,000 t. Average recruitment is males and females combined in millions of animals.", label = "tab:specs2")
-print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,nrow(tab)))
+print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,nrow(tab)))
 ```
+
 
 
 
@@ -374,7 +376,7 @@ Catch, sample size, and survey results tables are not repeated here but can be f
  df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/specs_all_mods.csv'))
 names(df) <- c("Model", "Current MMB", "B35", "F35", "$F_\\text{OFL}$", "OFL", "avg male rec")
 tab       <- xtable(df, caption = "Changes in management quantities for each scenario explored. Report quantities are derived from maximum likelihood estimates. Average recruitment is males and females combined in millions of animals.", label = "tab:specs")
-print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,nrow(tab)))
+print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,nrow(tab)))
 ```
 
 
@@ -384,16 +386,18 @@ print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.fu
 #Mname2 <- c("Ref") #, "M0.21" ,"M0.26", "Notimeblock")
 names(df) <- c("Model", "Sex", "baseM", "1980-84")
 tab       <- xtable(df, caption = "Natural mortality estimates for model scenarios during different year blocks.", label = "tab:Natmort")
-print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,2,4,6,8,10, 12, 14,nrow(tab)))
+print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,2,4,6,8,10, 12, 14,nrow(tab)))
 ```
 
+\pagebreak 
+\newpage\clearpage
 
 ```{r likelihood-components, results = "asis"}
  df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/likelihood.csv')) # table 5a in Jie_cmn_files.R edited csv in excel prior to import, see differences between this and the 'likelihood.csv' file
 df %>% select(-process) -> df
 names(df) <- c("Component", "m23.0a(ref)", "m24.0", "m24.0c", "m21.1b(ref)", "m24.0b", "m24.0d") #, "M0.21" ,"M0.26", "Notimeblock")
  tab <- xtable(df, caption = "Comparisons of negative log-likelihood values and some parameters for all model scenarios. Reference models are version with mmb estimated in season 7.", label = "tab:likelihood-components")
- print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,25,nrow(tab)))
+ print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,25,nrow(tab)))
 ```
 
 
@@ -514,7 +518,6 @@ print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = 
 \newpage\clearpage
 
 # Figures {-}
-\newpage
 
 ```{r exploreS, out.width="100%", fig.cap = "Inferred selectvity estimated from the BSFRF data by year, with resulting GAM model fit." }
 knitr::include_graphics("figures/inferred selectivity_explore.png", dpi = 200)
@@ -545,6 +548,8 @@ knitr::include_graphics("figures/molt_models/index_fit_nmfs_trawl_male.png", dpi
 knitr::include_graphics("figures/molt_models/index_fit_nmfs_trawl_female.png", dpi = 200)
 ```
 
+\newpage
+
 ```{r surv2, out.width="100%", fig.cap = "Comparisons of survey biomass estimates for MALES from the BSFRF survey and model prediction for model estimates in 2023 (models 21.1b, 23.0a, 21.1b.p7, 23.0a.p7). The error bars are plus and minus 2 standard deviations of the survey esimates. The BSFRF survey catchability is assumed to be 1.0 for all models."} 
 knitr::include_graphics("figures/index_fit_bsfrf_male.png", dpi = 200)
 ```
@@ -561,15 +566,18 @@ knitr::include_graphics("figures/molt_models/index_fit_bsfrf_male.png", dpi = 20
 knitr::include_graphics("figures/molt_models/index_fit_bsfrf_female.png", dpi = 200)
 ```
 
-```{r rect1, out.width="100%", fig.cap = "Estimated recruitment time series during 1976-2022 with models 21.1b, 23.0a, 21.1b.p7, 23.0a.p7. Mean male recruits during 1984-2021 was used to estimate B35. Recruitment estimates in the terminal year (2022) are unreliable."}
+\pagebreak 
+\newpage\clearpage  
+
+```{r rect1, out.width="100%", fig.cap = "Estimated recruitment (million of individuals) time series during 1976-2022 with models 21.1b, 23.0a, 21.1b.p7, 23.0a.p7. Mean male recruits during 1984-2021 was used to estimate B35. Recruitment estimates in the terminal year (2022) are unreliable."}
 knitr::include_graphics("figures/total_recruitment.png", dpi = 200)
 ```
 
-```{r rect2, out.width="100%", fig.cap = "Estimated recruitment time series during 1976-2022 with models 21.1b.p7, 23.0a.p7, 24.0, 24.0b (those models that remove BSFRF data and use it as a prior for NMFS q). Mean male recruits during 1984-2021 was used to estimate B35. Recruitment estimates in the terminal year (2022) are unreliable."}
+```{r rect2, out.width="100%", fig.cap = "Estimated recruitment (million of individuals) time series during 1976-2022 with models 21.1b.p7, 23.0a.p7, 24.0, 24.0b (those models that remove BSFRF data and use it as a prior for NMFS q). Mean male recruits during 1984-2021 was used to estimate B35. Recruitment estimates in the terminal year (2022) are unreliable."}
 knitr::include_graphics("figures/sel_models/total_recruitment.png", dpi = 200)
 ```
 
-```{r rect3, out.width="100%", fig.cap = "Estimated recruitment time series during 1976-2022 with models 21.1b.p7, 23.0a.p7, 24.0c, 24.0d (base compared models with 1 molt probability period). Mean male recruits during 1984-2021 was used to estimate B35. Recruitment estimates in the terminal year (2022) are unreliable."}
+```{r rect3, out.width="100%", fig.cap = "Estimated recruitment (million of individuals) time series during 1976-2022 with models 21.1b.p7, 23.0a.p7, 24.0c, 24.0d (base compared models with 1 molt probability period). Mean male recruits during 1984-2021 was used to estimate B35. Recruitment estimates in the terminal year (2022) are unreliable."}
 knitr::include_graphics("figures/molt_models/total_recruitment.png", dpi = 200)
 ```
 
@@ -585,6 +593,8 @@ knitr::include_graphics("figures/sel_models/nmfs_trawl_slx_capture.png", dpi = 2
 ```{r sel3, out.width="100%", fig.cap = "Estimated NMFS trawl survey selectivities under models 21.1b.p7, 23.0a.p7, 24.0c, and 24.0d"}
 knitr::include_graphics("figures/molt_models/nmfs_trawl_slx_capture.png", dpi = 200)
 ```
+
+\newpage
 
 ```{r molt1, out.width="100%", fig.cap = "Comparison of estimated probabilities of molting for male red king crab in Bristol Bay for two periods - 1975-1979 and 1980-2022 - for models 21.1b, 23.0a, 21.1b.p7, 23.0a.p7."}
 knitr::include_graphics("figures/male_molt_probability.png", dpi = 200)
