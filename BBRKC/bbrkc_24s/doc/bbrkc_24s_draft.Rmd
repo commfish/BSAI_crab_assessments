@@ -35,7 +35,7 @@ folder <- "bbrkc_24s"
 ```
 
 # Summary {-}
-The model explorations presented here include some of those suggested by CPT and SSC, and updates to GMACS. All GMACS updates were tested to ensure model fit (likelihood values, output, etc.) matched the last accepted base model. The model exploration presented here solely focus on selectivity - specifically assumptions for selectivity using the BSFRF data as a prior. The models presented here are the beginning of work to explore these topics and the author acknowledges that further exploration is warranted. Model variants were performed using both the accepted 2023 model - 23.0a and the previously accepted base - 21.1b. Additionally, models were updated to reflect a correction in the season in which MMB is calculated, which was season 6 but now is season 7. This was a correction that minimally affects the estiamted MMB and associated reference points. 
+The model explorations presented here include some of those suggested by CPT and SSC, and updates to GMACS. All GMACS updates were tested to ensure model fit (likelihood values, output, etc.) matched the last accepted base model. The model exploration presented here focus on selectivity - specifically assumptions for selectivity using the BSFRF data as a prior - and time block for molting probability. The models presented here are the beginning of work to explore these topics and the author acknowledges that further exploration is warranted. Model variants were performed using both the accepted 2023 model - 23.0a and the previously accepted base - 21.1b. Additionally, models were updated to reflect a correction in the season in which MMB is calculated, which was season 6 but now is season 7. This was a correction that minimally affects the estimated MMB and associated reference points. 
 
 The results of these model explorations are presented in this document in section C. Background on the Bristol Bay red king crab modeling approach, modeling framework (GMACS), and history of the stock and fisheries can be found in the last full SAFE published on the NPFMC website and will not be repeated here.
 (link here: [BBRKC 2023 SAFE](https://meetings.npfmc.org/CommentReview/DownloadFile?p=98a4f80c-eee1-428f-941e-8c2dcf21a14d.pdf&fileName=Bristol%20Bay%20Red%20King%20Crab%20SAFE.pdf))
@@ -47,14 +47,15 @@ The results of these model explorations are presented in this document in sectio
 
 ## CPT and SSC Comments on Assessments in General {-}
 \noindent\rule{\textwidth}{0.4pt}
-**Respeonse to SSC Comments (June 2023, Oct 2023):**
+
+**Response to SSC Comments (June 2023, Oct 2023):**
 
 
 **Response to SSC Comments (June 2022, Oct 2022):**
 
 *"The SSC recommends that the RKC authors work together to complete a stock structure template for June 2023."*
 
-Response: A structure template for RKC in the Bering Sea was presented for CPT and SSC at the Sept 2023 CPT meeting (Oct 2023 SSC). 
+Response: A structure template for RKC in the Bering Sea was presented at the Sept 2023 CPT meeting (Oct 2023 SSC). 
 
 *"The SSC suggests that the CPT develop guidelines for when to change model start dates"*
 
@@ -73,7 +74,7 @@ Response: These recommendations are reflected in the document.
 
 *“The CPT was concerned that the ‘information’ content of the data with respect to natural mortality could be related to strong assumptions elsewhere in the model, and recommended further exploration of natural mortality after September and suggested attending the June 2021 CAPAM workshop on natural mortality, which may provide some insights into best practices. A large increase in estimated natural mortality would likely increase fishing mortality reference points, with management implications.”*
 
-Response: Model runs in May 2022/2023 addressed some variations on M. Estimated M values in the length-based crab models tend to have higher values than the other approaches, and confounding among estimated M, survey selectivity/catchability, and recruitment in a length-based model makes it difficult to accurately estimate M in the model. The base model accepted in fall 2024 includes an estimated M for males using a tight prior. Further exploration of the appropriateness of this prior are planned. 
+Response: Model runs in May 2022/2023 addressed some variations on M. Estimated M values in the length-based crab models tend to have higher values than the other approaches, and confounding among estimated M, survey selectivity/catchability, and recruitment in a length-based model makes it difficult to accurately estimate M in the model. The base model accepted in fall 2023 (model 23.0a) includes an estimated M for males using a tight prior. Further exploration of the appropriateness of this prior are planned. 
 
 *“The CPT was interested in more exploration of the retrospective patterns, which seem to have increased since the last assessment despite no new data being added. Reported Mohn’s rhos were starting to reach concerning magnitudes in the proposed models?”*
 
@@ -104,17 +105,15 @@ Response: This has not yet been addressed, but is on the list for future work.
 
 *Reconsider which growth parameters are estimated vs. specified. Consider a model run with growth specified outside the model (CPT Sept 2023)*
 
-Response: The author is collaborating with biologists on the availability of more recent growth data, and investigating the feasibility of recovering the original raw data used in the current growth specifications. Work in underway to determine the best path forward for growth parameterizations for this stock. 
+Response: The author is collaborating with biologists on the availability of more recent growth data, and investigating the feasibility of recovering the original raw data used in the historic growth specifications. Work in underway to determine the best path forward for growth parameterizations for this stock. 
 
 *Survey selectivity / q / catchability. Reconsider the strong prior and shape of the selectivity curve. Consider using the BSFRF data as a prior on selectivity/catchability as was done in the snow crab assessment (CPT and SSC May/June 2023 and Sept/Oct 2023)*
 
-Response: Models presented here (24.0 and 24.0b) reflect explorations on using the BSFRF data as a prior on selectivity - similar to snow crab (fall 2023). Further explorations on priors and shape have not been explored yet, initial model runs were performed on some of these between 2020 and 2022 by the previous assessment authors.
+Response: Models presented here (24.0 and 24.0b) reflect explorations on using the BSFRF data as a prior on selectivity - similar to snow crab (fall 2023). Further explorations on priors and shape were not explored this round, although the previous assessment author did explore some aspects in models runs between  2020 and 2022.
 
 *Revisit blocking on molting probability from tagging data (CPT and SSC May/June 2023)*
 
-Response: The blocking of molt probability for males reflects known change in the Bristol Bay ecosystem in the early 80s and have been a historic component of the current model. Models (24.0c and 24.0d) reflect removing this blocking to estimate one molting probability for the entire time series. 
-
-\noindent\rule{\textwidth}{0.4pt}
+Response: The blocking of molt probability for males reflect changes in the Bristol Bay ecosystem in the early 80s and have been a historic component of the current model. Models (24.0c and 24.0d) reflect removing this blocking to estimate one molting probability for the entire time series. 
 
 
 \noindent\rule{\textwidth}{0.4pt}
@@ -136,7 +135,7 @@ knitr::include_graphics("figures/likelihood profile M_2020.png", dpi = 125)
 
 It appears that the maximum likelihood value is achieved with a base M of 0.31 for males and 0.321 for females.
 
-In May 2023, models 23.0, 23.0a, 23.0b, and 23.3 all involve variations of higher base M values for males. Higher base M values do not appear to improve the plus group fittings. In Sept 2023 the accepted model was 23.0a which estimates M for males with a tight prior. This was an increased from previous fixed values of 0.18 and is thought to be more appropriate for king cra stocks.  
+In May 2023, models 23.0, 23.0a, 23.0b, and 23.3 all involve variations of higher base M values for males. Higher base M values do not appear to improve the plus group fittings. In Sept 2023 the accepted model was 23.0a which estimates M for males with a tight prior. This was an increase in M (~0.23) from previous fixed values of 0.18 and is thought to be more appropriate for king crab stocks.  
 
 *“In addition to the CPT recommended models (19.3d, 19.3e, and 19.3g), the SSC recommends a simplified version of model 19.3d that estimates one natural mortality parameter across sex and time, and one shared catchability and selectivity curve for the NMFS trawl survey to help make several selectivity parameters better defined.”*
 
@@ -155,7 +154,7 @@ Response: The summary report of the 2021 CIE review is included in Appendix D of
 
 *“The SSC requests that in addition to temperature effects on the timing of the molt-mate cycle, the authors explore other potential drivers (e.g., prey quality or quantity) that could underlie the incomplete molt-mate cycle observed in 2021. Based on NMFS trawl survey female biomass estimates, the State of Alaska closed the BBRKC fishery. Next year’s assessment should estimate the probability that the stock is currently in the overfished condition.”*
 
-Response: NMFS staff did an evaluation of re-tow survey protocol in Spring 2022, no changes were adopted at that time. Probabilities in the overfished condition for some models were estimated in September 2021, May 2022, and for the base model in September 2022. Model 23.2 was presented in May 2023, as an exploration of the base model (21.1b) without the retow data for females. This model does not drastically affect the federal harvest control rules, but does estimate a lower biomass for females which would directly affect the State harvest strategy.   
+Response: NMFS staff did an evaluation of re-tow survey protocol in Spring 2022, no changes were adopted at that time. Probabilities in the overfished condition for some models were estimated in September 2021, May 2022, and for the base model in September 2022. Model 23.2 was presented in May 2023, as an exploration of the base model (21.1b) without the retow data for females. This model has minimal affects the federal harvest control rules, but does estimate a lower biomass for females which would directly affect the State harvest strategy.   
 
 *“The SSC recommends that authors should carefully consider assessment implications of the stock boundaries given the evidence of crabs outside of the managed area. The SSC suggests that the authors should still be able to use data from outside stock boundaries, even if not used in the input survey abundance estimates. For example, the abundance seen outside stock boundaries could be treated as covariate informing catchability within the model. This analysis seems particularly important for females that are increasingly outside of the current stock boundaries and are at low abundance, triggering the State closure. The SSC recommends that the authors formulate separate survey abundance time series inside and outside of the defined area that could prove useful in the assessment model (e.g., informing catchability). If this is not an option in the stock assessment, then it highlights the need for ESRs or ESPs to track movement of these crabs both through survey results and developing indices from local knowledge.”* 
 
@@ -172,6 +171,7 @@ Response: Figuring out the exact causes of high mortality in the early 1980s is 
 *“The SSC supports continued exploration of the use of VAST estimates for this assessment, particularly if their use will inform mechanisms underlying shifting distributions outside of the current management area.”*
 
 Response: We also support improvement of VAST estimates and are willing to provide feedback to Jon for further improvement. In general the CPT has not prioritized using VAST output in crab models, we hope to revisit this soon, potentially at the Jan 2025 modeling workshop.
+
 \noindent\rule{\textwidth}{0.4pt}
 **Response to SSC Comments specific to this assessment (from June 2022):**
 
@@ -187,7 +187,7 @@ Response: This is on the authors list of future work to be addressed with explor
 
 *"The SSC recommends that a high priority be placed on trying to isolate factors that reduce the retrospective bias in mature male biomass."*
 
-Response: The author agrees that this should be a high priority, however current explorations are still ongoing.  
+Response: The author agrees that this should be a high priority, however current explorations have not shed light on these factors yet. This is still a high priority for the author.
 
 *"The SSC recommends investigation of the highly biased fits to the BSFRF index and suggests that the current approach of inflating the variance to account for lack of fit is inappropriate when obvious bias is present."*
 
@@ -195,7 +195,7 @@ Response: We agree with this recommendation, and are investigating this avenue a
 
 *"The accumulation of large males and particularly large females in the plus group indicates length bin groups may need to be re-evaluated."*
 
-Response: We acknowledge this observation and have extending the size bins on the list of further work for this model. This was not prioritized on this cycle but continues to be on the list.
+Response: We acknowledge this observation, recognizing this has only been an issue for about the last 10 years of size composisions since recruitment has been poor. Explorations on extending the size bins is on the list of further work for this model, but was not prioritized on this cycle. 
 
 *"The SSC noted that the NMFS and the State determined that the survey re-tows would not be conducted in 2022, despite meeting the threshold to do so. The SSC requests an examination from the assessment author of the potential value of these re-tows, and whether re-tows provide a more or less accurate index of abundance."*
 
@@ -206,11 +206,11 @@ Response: Model 23.2 was explored in May of 2023 as a bookend for the model outp
 
 *Provide basis for the tight prior on M and catchability.*
 
-Response: The prior on trawl survey catchability is estimated with a mean of 0.896 and a standard deviation of 0.025 (CV about 0.03) that is based on double-bag experiment results (Weinberg et al. 2004). The prior on M is based on the balance of allowing M to be estimated above the default, historic 0.18 value for males but realizing the limitations of the data to estimate M freely. Furture work is planned and will continue to explore the most appropriate estimation of M.
+Response: The prior on trawl survey catchability is estimated with a mean of 0.896 and a standard deviation of 0.025 (CV about 0.03) that is based on double-bag experiment results (Weinberg et al. 2004). The prior on M is based on the balance of allowing M to be estimated above the default, historic 0.18 value for males but realizing the limitations of the data to estimate M freely. Future work is planned and will continue to explore the most appropriate estimation of M.
 
 *Consider tracking Dungeness crab abundance in the EBS and how this might affect BBRKC dynamics.*
 
-Response: Currently there is no abundance estimate of Dungeness crab in the EBS. Conversations have occurred between the author and regional biologist on possible general affects, with the overall consensus that these two species are likely not occupying the same habitat as juveniles/adults. However most of the early life spatial occupation for both of these stocks is unknown, so there may be competition for food in early life stages. Trends of Dungeness catch over time will be explored in future work.
+Response: Currently there is no abundance estimate of Dungeness crab in the EBS. Conversations have occurred between the author and regional biologist on possible general affects, with the overall consensus that these two species are likely not occupying the same habitat as juveniles/adults. However, the early life spatial occupation for both of these stocks is unknown, so there may be competition for food in these stages. Trends of Dungeness catch over time are being obtained and will be explored in future work.
 
 *Explain why equal sample sizes are used for male and female size composition data.*
 
@@ -247,15 +247,15 @@ Model explored in this document:
   - **24.0d**:          21.1b (MMB season) + 1 molt period for males and females
 
 ### Reasoning for model explorations {-}
-Six model scenarios are presented in this report. The first two models have nearly identical results and were compared to show the effect of estimating MMB at the beginning of the last season of the year, versus season 6 in previous versions. During some GMACS updating it was discovered that, due to the order of events that take place in a season within the model, the MMB for each year should be estimated in the last season - here season 7 instead of season 6. This is consistent with crab MMB to be estimated on Feb. 15th in each year. Small differences in the reference points are present with this update due to small changes in MMB, but overall model fit is nearly identical, including the MLE and likelihood components (Table \@ref(tab:likelihood-components) and \@ref(tab:likelihood-components2)). **update**
+Six model scenarios are presented in this report. The first two models have nearly identical results and were compared to show the effect of estimating MMB at the beginning of the last season of the year, versus season 6 in previous versions (models 21.1b.p7 and 23.0a.p7). During some GMACS updating it was discovered that, due to the order of events that take place in a season within the model, the MMB for each year should be estimated in the last season - here season 7 instead of season 6. This is consistent with crab MMB to be estimated on Feb. 15th in each year. Small differences in the reference points are present with this update due to small changes in MMB, but overall model fit is nearly identical, including the MLE and likelihood components (Table \@ref(tab:likelihood-components).
 
-The rest of the model scenarios can be divided into two areas of exploration: 1) exploring a prior on selectivity using the BSFRF data similar to snow crab models in 2023 (models 24.0 and 24.0b) and 2) simplification of molting probabilities to one time period instead of two (models 24.0c and 24.0d). Both lines of model exploration were done using the fall 2023 accepted base model - 23.0a (estimates the base M for males using a log-normal prior with a mean of 0.18 and a CV of 0.04) and the previously accepted base model 21.1b (has a fixed value of 0.18 for the base M for males). This allows the assumption of two different natural mortality values to play out in all situations. Further work on estimating natural mortality with a less informed prior was not performed in these model explorations but is on the list of potential model explorations for the future. 
+The rest of the model scenarios can be divided into two areas of exploration: 1) exploring a prior on selectivity using the BSFRF data similar to snow crab models in 2023 (models 24.0 and 24.0b); and 2) simplification of molting probabilities to one time period instead of two (models 24.0c and 24.0d). Both lines of model exploration were done using the fall 2023 accepted base model - 23.0a (estimates the base M for males using a log-normal prior with a mean of 0.18 and a CV of 0.04) and the previously accepted base model 21.1b (has a fixed value of 0.18 for the base M for males). This allows the assumption of two different natural mortality values to play out in all situations. Further work on estimating natural mortality with a less informed prior was not performed in these model explorations but is on the list of potential model explorations for the future. 
 
-Recent CPT/SSC comments and the simpler modeling workshop report suggested that further work be done to determine the most appropriate method to estimate catchability (*Q*) for the NMFS trawl survey. In the base models, initial trawl survey catchability is estimated to be 0.896 with a standard deviation of 0.025 (CV about 0.03) that is based on double-bag experiment results (Weinberg et al. 2004). The appropriateness of this prior and the relationship between NMFS trawl survey *Q* and that assumed for the BSFRF survey have been on the list of model suggestions. 
+Recent CPT/SSC comments and the simpler modeling workshop report suggested that the author should explore methods to estimate catchability (*Q*) for the NMFS trawl survey. In the base models, initial trawl survey catchability is estimated to be 0.896 with a standard deviation of 0.025 (CV about 0.03) that is based on double-bag experiment results (Weinberg et al. 2004). The appropriateness of this prior and the relationship between NMFS trawl survey *Q* and that assumed for the BSFRF survey have been on the list of model suggestions. 
 
-Model explorations here use methods similar to those for snow crab in 2023 to explore using the BSFRF data as a prior on selectivity for the NMFS survey. BSFRF surveys were performed in 5 years (2007, 2008, 2013, 2014, 2015, and 2016) and are currently treated as a separate index in the assessment model, with both the index and size composition data being fit with the *Q* for BSFRF set to 1.  Models 24.0 and 24.0b remove the BSFRF data as an index and size composition data set and instead use the information from this data to set a normal prior on selectivity for the NMFS survey. Modeled after the snow crab work a GAM was fit to inferred selectivity (assuming the catchability of the BSFRF survey was 1) at size by year weighted by the sample size by year (gam(sel~s(size), weights= sample_size)). For these purposes males and females were combined as one sample. The predicted mean and standard error of the resulting GAM was input as a prior on selectivity in GMACS (Figure \@ref(fig:exploreS)). Specifically, the selectivity type was set to 0 (parametric) in the .ctl file and catchability was fixed at 1. 
+Model explorations here use methods similar to those for snow crab in 2023 to explore using the BSFRF data as a prior on selectivity for the NMFS survey. BSFRF surveys were performed in 5 years (2007, 2008, 2013, 2014, 2015, and 2016) and are currently treated as a separate index in the assessment model, with both the index and size composition data being fit with the *Q* for BSFRF set to 1.  Models 24.0 (based on 23.0a) and 24.0b (based on 21.1b) remove the BSFRF data as an index and size composition data set and instead use the information from this data to set a normal prior on selectivity for the NMFS survey. Modeled after the snow crab work a GAM was fit to inferred selectivity (assuming the catchability of the BSFRF survey was 1) at size by year weighted by the sample size by year (gam(sel~s(size), weights= sample_size)). For these purposes males and females were combined as one sample. The predicted mean and standard error of the resulting GAM was input as a prior on selectivity in GMACS (Figure \@ref(fig:exploreS)). Specifically, the selectivity type was set to 0 (parametric) in the .ctl file and catchability was fixed at 1. 
 
-Models 24.0c and 24.0d are explorations of the suggestion to simplify the molting probability time periods to 1 instead of the 2 periods in the base model. The necessity of the two periods for molting probability is not well documented but it is assumed to be correlated with changes in the environment and Bristol Bay stock since it coincides with regime shifts and stock crash in the early 80s. The models explored here remove the time periods for molting probability and estimate one curve for the entire model period.
+Models 24.0c (based on model 23.0a) and 24.0d (based on model 21.b) are explorations of the suggestion to simplify the molting probability time periods to 1 instead of the 2 periods in the base model. The necessity of the two periods for molting probability is not well documented but it is assumed to be correlated with changes in the environment and the Bristol Bay stock since it coincides with regime shifts and stock crash in the early 80s. The models explored here remove the time periods for molting probability and estimate one curve for the entire model time frame.
 
 
 ## Results {-}
@@ -282,7 +282,7 @@ Model explorations focus on estimated trawl survey selectivity. Survey selectivi
 
 - Molting probability by length (Figures \@ref(fig:molt1), \@ref(fig:molt2), and \@ref(fig:molt3))
 
-For all models, estimated molting probabilities during 1975-2022 are generally lower than those estimated from the 1954-1961 and 1966-1969 tagging data (Balsiger 1974, Figure XX and XX in the last full SAFE). Lower molting probabilities mean more oldshell crab, possibly due to changes in molting probabilities over time or shell aging errors. Overestimates or underestimates of oldshell crab will result in lower or higher estimates of male molting probabilities. Female molting probability is assumed to be 1 for all time periods.
+For all models, estimated molting probabilities during 1975-2022 are generally lower than those estimated from the 1954-1961 and 1966-1969 tagging data (Balsiger 1974, Figure 15 in the last full SAFE). Lower molting probabilities mean more oldshell crab, possibly due to changes in molting probabilities over time or shell aging errors. Overestimates or underestimates of oldshell crab will result in lower or higher estimates of male molting probabilities. Female molting probability is assumed to be 1 for all time periods.
 Historically, molting probabilities have been estimating with two time blocks (1975-1980 and 1981-present) but the estimates are very similar. Models 24.0c and 24.0d remove the time blocking for molt probability in an attempt to simplify the modeling process. Overall, differences in model results are minimal. 
 
 - NMFS trawl survey biomass and BSFRF surveys (Figures \@ref(fig:surv1) -- \@ref(fig:surv2d)).
@@ -319,7 +319,7 @@ Retrospective analysis was not performed on these model explorations. Topics exp
 
 
 ### e. Uncertainty and sensitivity analyses.{-}
-- Estimated standard deviation of parameters are summarized in Tables \@ref(tab:parm-std211b) -- \@ref(tab:parm-std22) for a few representative models. **update**
+- Estimated standard deviation of parameters are summarized in Tables \@ref(tab:parm-std211b) -- \@ref(tab:parm-std24c) for a few representative models. **update**
 
 - The last completed SAFE document in 2023 details uncertainty estimates in the current base model parameterization in further detail (link here: [BBRKC 2023 SAFE](https://meetings.npfmc.org/CommentReview/DownloadFile?p=98a4f80c-eee1-428f-941e-8c2dcf21a14d.pdf&fileName=Bristol%20Bay%20Red%20King%20Crab%20SAFE.pdf)).
 
