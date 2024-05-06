@@ -114,7 +114,8 @@ gmacs_read_allout <- function(file, model_name = NULL) {
   case_when(out$n_units %in% c(1, "1", "1s", "one", "One", "ones", "Ones", "Numbers") ~ "1s",
             out$n_units %in% c(10, "10", "10s", "ten", "Ten", "Tens") ~ "10s",
             out$n_units %in% c(100, "100", "100s", "hundred", "Hundred", "Hundreds") ~ "100s",
-            out$n_units %in% c(1000, "10-0", "1000s", "thousand", "Thousand", "Thousands", "thou", "Thou") ~ "1000s") -> out$n_units
+            out$n_units %in% c(1000, "10-0", "1000s", "thousand", "Thousand", "Thousands", "thou", "Thou") ~ "1000s", 
+            out$n_units %in% c(1000000, "10-0", "1000000s", "millions", "Million", "Millions", "mill", "Mill") ~ "1000000s") -> out$n_units
 
   # likelihoods by type ----
   
