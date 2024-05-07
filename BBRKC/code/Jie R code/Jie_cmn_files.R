@@ -3,7 +3,8 @@
 # updated for Sept 2023 models - figure out how to graph these elsewhere 
 source("./BBRKC/code/bbrkc_functions.R")
 
-A <- read_rep("./BBRKC/bbrkc_23s/model_211b/gmacs.rep")
+A <- read_rep("./BBRKC/bbrkc_24s/ADJ_model_211b_ph7/gmacs.rep")
+#A <- read_rep("./BBRKC/bbrkc_23s/model_211b/gmacs.rep")
 B <- read_rep("./BBRKC/bbrkc_23f/model_211b/gmacs.rep")
 C <- read_rep("./BBRKC/bbrkc_23f/model_22/gmacs.rep")
 D <- read_rep("./BBRKC/bbrkc_23f/model_23_0a/gmacs.rep")
