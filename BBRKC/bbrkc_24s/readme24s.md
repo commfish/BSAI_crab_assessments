@@ -33,6 +33,8 @@ Model explorations from comments:
 24.0c - 23.0a_ph7 + 1 molt prob time block
 24.0d - 21.1b_ph7 + 1 molt prob time block
 
+- Folders labeled as "ADJ" related to changing the gmacsbase.tpl to accomidate output for abundance tables 
+
 # Document updates ----------
 SAFE document is in Rmarkdown format. Need to work on all tables, etc.
 see "figures_tables_create_SAFE.R" and "Jie_figures_tables_create_SAFE.R" for creation of figures and tables. These also refer to some of Jie's code which is in folder 'BBRKC/code/Jie R code'.
