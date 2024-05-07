@@ -67,27 +67,58 @@ temp <- gmacs_get_index_summary(all_out = list(m211b, m211b_p7, m230a, m230a_p7)
 
 #gmacs_plot_index(all_out = list(m230a_p7, m211b_p7, m24, m24b), plot_dir = plot_save_sel)
 
-# plot mmb
+# plot mmb ------------
 gmacs_plot_mmb(all_out = base_models, save_plot = T, plot_dir = plot_save, plot_ci = T, std_list = base_std)
 gmacs_plot_mmb(all_out = sel_models, plot_dir = plot_save_sel, plot_ci = T, std_list = sel_std)
 gmacs_plot_mmb(all_out = molt_models, plot_dir = plot_save_molt, plot_ci = T, std_list = molt_std)
 
-# recruitment
-gmacs_plot_recruitment(all_out = base_models, save_plot = T, plot_dir = plot_save)
-gmacs_plot_recruitment(all_out = sel_models, plot_dir = plot_save_sel)
-gmacs_plot_recruitment(all_out = molt_models, plot_dir = plot_save_molt)
+# recruitment ------
+gmacs_plot_recruitment(all_out = list(m211b, m211b_p7, m230a, m230a_p7), save_plot = T, plot_dir = plot_save)
+gmacs_plot_recruitment(all_out = list(m211b_p7, m230a_p7, m24, m24b), plot_dir = plot_save_sel)
+gmacs_plot_recruitment(all_out = list(m211b_p7, m230a_p7, m24c, m24d), plot_dir = plot_save_molt)
+
+#gmacs_plot_recruitment(all_out = base_models, save_plot = T, plot_dir = plot_save, 
+#                       data_summary = data_summary)
 # **fix** need units here 
 
-# plot selectivity ---
-gmacs_plot_slx(all_out = base_models, save_plot = T, plot_dir = plot_save)
-gmacs_plot_slx(all_out = sel_models, save_plot = T, plot_dir = plot_save_sel)
-gmacs_plot_slx(all_out = molt_models, save_plot = T, plot_dir = plot_save_molt)
+# plot selectivity -------
+gmacs_plot_slx(all_out = sel_models, save_plot = F) #, plot_dir = plot_save_sel)
+#gmacs_plot_slx(all_out = base_models, save_plot = T, plot_dir = plot_save)
+#gmacs_plot_slx(all_out = sel_models, save_plot = T, plot_dir = plot_save_sel)
+#gmacs_plot_slx(all_out = molt_models, save_plot = T, plot_dir = plot_save_molt)
+gmacs_get_slx(all_out = base_models) %>%
+  mutate(capture_block = case_when(fleet %in% c("BSFRF", "Bairdi_Fishery_Bycatch", "Fixed_Gear") ~ "1975 - 2023",
+                                   fleet == "NMFS_Trawl" & year %in% 1975:1981 ~ "1975 - 1981",
+                                   fleet == "NMFS_Trawl" & year %in% 1981:2023 ~ "1981 - 2023",
+                                   fleet == "Pot_Fishery" ~ "1975 - 2022",
+                                   fleet == "Trawl_Bycatch" ~ "1975 - 2022")) %>%
+  gmacs_plot_slx(data_summary = ., save_plot = T, plot_dir = plot_save)
+
+gmacs_get_slx(all_out = sel_models) %>%
+  mutate(capture_block = case_when(fleet %in% c("BSFRF", "Bairdi_Fishery_Bycatch", "Fixed_Gear") ~ "1975 - 2023",
+                                   fleet == "NMFS_Trawl" & year %in% 1975:1981 ~ "1975 - 1981",
+                                   fleet == "NMFS_Trawl" & year %in% 1981:2023 ~ "1981 - 2023",
+                                   fleet == "Pot_Fishery" ~ "1975 - 2022",
+                                   fleet == "Trawl_Bycatch" ~ "1975 - 2022")) %>%
+  gmacs_plot_slx(data_summary = ., save_plot = T, plot_dir = plot_save_sel)
+
+gmacs_get_slx(all_out = molt_models) %>%
+  mutate(capture_block = case_when(fleet %in% c("BSFRF", "Bairdi_Fishery_Bycatch", "Fixed_Gear") ~ "1975 - 2023",
+                                   fleet == "NMFS_Trawl" & year %in% 1975:1981 ~ "1975 - 1981",
+                                   fleet == "NMFS_Trawl" & year %in% 1981:2023 ~ "1981 - 2023",
+                                   fleet == "Pot_Fishery" ~ "1975 - 2022",
+                                   fleet == "Trawl_Bycatch" ~ "1975 - 2022")) %>%
+  gmacs_plot_slx(data_summary = ., save_plot = T, plot_dir = plot_save_molt)
+
 # **fix** females issue with NMFS trawl
 
-# molt and tagging data plots ---
+# molt and tagging data plots ------
 gmacs_plot_molt_probability(all_out = base_models, save_plot = T, plot_dir = plot_save)
 gmacs_plot_molt_probability(all_out = sel_models, save_plot = T, plot_dir = plot_save_sel)
 gmacs_plot_molt_probability(all_out = molt_models, save_plot = T, plot_dir = plot_save_molt)
+
+gmacs_plot_molt_probability(all_out = list(m211b_p7, m230a_p7, m24, m24b, m24c, m24d), save_plot = T, plot_dir = plot_save)
+
 #
 
 # plot M nat mort -----------
@@ -104,7 +135,7 @@ gmacs_plot_sizecomp(all_out = molt_models, save_plot = T, plot_dir = plot_save_m
 # catch
 gmacs_plot_catch(all_out = base_models, save_plot = T, plot_dir = plot_save)
 
-# fishing mortality --
+# fishing mortality ------
 gmacs_plot_f(all_out = base_models, save_plot = T, plot_dir = plot_save)
 gmacs_plot_f(all_out = sel_models, save_plot = T, plot_dir = plot_save_sel)
 gmacs_plot_f(all_out = molt_models, save_plot = T, plot_dir = plot_save_molt)
