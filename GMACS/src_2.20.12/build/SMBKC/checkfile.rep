@@ -1,0 +1,73 @@
+TheHeader
+## GMACS Version 2.01.M.09; Completed 2024-02-06
+datafile
+sm22.dat
+controlfile
+sm22.ctl
+projectfile
+sm22.prj
+weightunit
+1000_mt
+numbersunit
+trillions
+StockName
+St_Matthew_Island_blue_king_crab
+IsJittered
+0
+sdJitter
+0.1
+OutRefPars
+1
+OutRecruit
+1
+OutSSB
+1
+Outfbar
+1
+OutDynB0
+1
+nyrRetro
+0
+10 # Maximum phase (stop the estimation after this phase)
+-1 # Maximum number of function calls
+1 # Calculate reference points (0=no)
+0 # use pin file (0=no, 1=yes)
+1 # VERBOSE FLAG (0 = off, 1 = on, 2 = objective func; 3 diagnostics)
+dataeof
+9999
+TheHeader
+## GMACS Version 2.01.M.09; Completed 2024-02-06
+syr
+1978
+nyrRetro
+2021
+nseason
+5
+nfleet
+5
+nsex
+1
+nshell
+1
+nmature
+1
+nclass
+3
+season_recruitment
+5
+season_growth
+5
+season_ssb
+4
+season_N
+1
+nSizeSex
+ 3
+size_breaks
+ 90 105 120 135
+fleetname
+Pot_Fishery
+Trawl_Bycatch
+Fixed_bycatch
+NMFS_Trawl
+ADFG_Pot
