@@ -6,7 +6,7 @@ The latest GMACS version and history of updates to the .tpl are found here:
 
 [GMACS GitHub](https://github.com/GMACS-project/GMACS_tpl-cpp_code)  
 
-The latest version used by ADF&G assessments is GMACS 2.01.M.10; Completed 2024-02-27.
+The latest version used by ADF&G assessments is GMACS 2.20.14; Compiled 2024-5-20. Versions 2.01.M.10 and 2.20.12 will be removed from this reposiotry in June 2024.
 
 ## Compiling
 
