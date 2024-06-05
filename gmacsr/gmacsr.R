@@ -706,7 +706,7 @@ gmacs_read_allout <- function(file, model_name = NULL, version = "2.20.14") {
     tibble(raw_lik = as.numeric(na.omit(as.numeric(allout[last + 2,]))),
            emphasis = as.numeric(na.omit(as.numeric(allout[last + 3,]))),
            net_lik = as.numeric(na.omit(as.numeric(allout[last + 4,])))) %>%
-      transmute(process = paste0("size_", 1:nrow(.)), raw_lik, emphasis, net_lik) -> size; last <- last + 5    
+      transmute(process = paste0("size_comp_", 1:nrow(.)), raw_lik, emphasis, net_lik) -> size; last <- last + 5    
     ## recruitment penalties
     tibble(raw_lik = as.numeric(na.omit(as.numeric(allout[last + 2,]))),
            net_lik = as.numeric(na.omit(as.numeric(allout[last + 2,])))) %>%
