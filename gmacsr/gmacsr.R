@@ -881,8 +881,7 @@ gmacs_read_allout <- function(file, model_name = NULL, version = "2.20.14") {
       nest_by(mod_series, .keep = T) %>% ungroup() %>% 
       mutate(row = purrr::map_dbl(data, ~nrow(.)),
              row = lag(row),
-             row = cumsum(ifelse(is.na(row), 0, row)) + last) %>%
-      
+             row = cumsum(ifelse(is.na(row), 0, row)) + last) %>% 
       mutate(comps = purrr::map2(data, row, function(data, row) {
         
         comp_tmp <- matrix(ncol = ncol(allout)-ncol(tmp), nrow = nrow(data))
@@ -908,7 +907,7 @@ gmacs_read_allout <- function(file, model_name = NULL, version = "2.20.14") {
           nobs <- ncol(comp_tmp)/2
           group <- rep(1:50, each = out$n_size_bins)[1:nobs] # << probably a more elegant way to do this...
           comp_tmp %>% 
-            rename_all(~c(paste0("obs_", group, "_", as.numeric(matrix(out$size_bins, ncol = nobs))), paste0("pred_", group, "_", as.numeric(matrix(out$size_mid_points, ncol = nobs))))) %>%
+            rename_all(~c(paste0("obs_", group, "_", as.numeric(matrix(out$size_mid_points, ncol = nobs))), paste0("pred_", group, "_", as.numeric(matrix(out$size_mid_points, ncol = nobs))))) %>%
             bind_cols(data, .) %>%
             pivot_longer((ncol(data)+1):ncol(.), names_to = "group", values_to = "prop") %>% 
             separate_wider_delim(group, "_", names_sep = "split") %>%
