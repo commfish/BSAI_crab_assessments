@@ -3,21 +3,25 @@ output:
   pdf_document: default
   html_document: default
 ---
-# Appendix B. Data files for the reference model (16.0) {-}
-## The reference model (16.0) data file for 2022 {-}
+# Appendix B. Data files for model 21.1b {-}
+
+Data files can be provided by the author in a more readable format, katie.palof@alaska.gov
+
+
+## Model 21.1b data file for 2023 {-}
 
 \fontsize{7}{9}
-```{r data, eval = TRUE, include=TRUE,echo=FALSE, comment=NA }
+```{r data, eval = TRUE, include=TRUE,echo=FALSE, comment=NA, message = FALSE, warning=FALSE}
 library(knitr)
-opts_chunk$set(fig.width = 12, fig.height = 8, echo = FALSE, warning = FALSE, message = FALSE)
-ts <- readLines(here::here("SMBKC/smbkc_22f/data/sm22.dat"))
+library(formatR)
+opts_chunk$set(fig.width = 12, fig.height = 8, echo = FALSE, warning = FALSE, message = FALSE, tidy.opts = list(width.cutoff = 60), tidy = TRUE)
+ts <- readLines(here::here("BBRKC/bbrkc_23f/model_211b/bbrkc211.dat"))
 for (i in 1:length(ts)) cat(ts[i], "\n")
 ```
-## The reference model (16.0) control file for 2022{-}
+## Model 21.1b control file for 2023{-}
 ```{r control, eval = TRUE, include=TRUE,echo=FALSE, comment=NA}
 opts_chunk$set(fig.width = 12, fig.height = 8, echo = FALSE, warning = FALSE, message = FALSE)
-ts <- readLines(here::here("SMBKC/smbkc_22f/model_1_22f/sm22.ctl"))
+ts <- readLines(here::here("BBRKC/bbrkc_23f/model_211b/bbrkc211.ctl"))
 for (i in 1:length(ts)) cat(ts[i], "\n")
 ```
-
 
