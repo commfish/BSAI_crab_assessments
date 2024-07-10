@@ -1,4 +1,4 @@
-# BBRKC May 2024 SAFE models (1-11-24,4-15-24 )
+# BBRKC September 2024 SAFE models (6-13-2024)
 katie.palof@alaska.gov
 
 
@@ -6,7 +6,10 @@ katie.palof@alaska.gov
 see SAFE document and my notes in OneNote
 
 ## Running model -*fix* update from FEb 24 workshop
-1) Update gmacs.exe with updated version via github. Make sure to update .dat and .ctl files to reflect changes in the program and input files - see "C:\Users\kjpalof\Documents\Rprojects\GMACS-project\GMACS_Assessment_code\GMACS_versions\Latest_Version" for latest version of GMACS. Make sure to "pull" this project first before following "katie" R script in R script file to compile
+1) Update gmacs.exe with updated version via github. Make sure to update .dat and .ctl files to reflect changes in the program and input files - see 
+New location: C:\Users\kjpalof\Documents\BSAI_crab_assessments\GMACS\
+version in folder with version label
+Old location : "C:\Users\kjpalof\Documents\Rprojects\GMACS-project\GMACS_Assessment_code\GMACS_versions\Latest_Version" for latest version of GMACS. Make sure to "pull" this project first before following "katie" R script in R script file to compile.
 2) change the 'XX.prj' files to bbrkc.prj for that model run
 3) update 'gmacs.dat' to reflect the model run files
 
@@ -25,15 +28,11 @@ Model should run if input files are read in correctly.
 Model explorations from comments:
 
 23.0a - "base" with estimated M for males, prior is tight - mean 0.18, CV 0.04 see Jie's 22.0a from May 2022
-21.1b - updated "base" model, new bycatch data and updated GMACS version (see github)
-21.1b_ph7 - base + ssb in season 7
-23.0a_ph7 - base + ssb in season 7
-24.0 - 23.0a_ph7 + selectivity informed by BSFRF (like snow crab)
-24.0b - 21.1b_ph7 + selectivity informed by BSFRF (like snowc crab)
-24.0c - 23.0a_ph7 + 1 molt prob time block
-24.0d - 21.1b_ph7 + 1 molt prob time block
+- use *23.0a_ph7* version (which is base + ssb in season 7)
 
-- Folders labeled as "ADJ" related to changing the gmacsbase.tpl to accomidate output for abundance tables 
+24.0c - 23.0a_ph7 + 1 molt prob time block
+
+
 
 # Document updates ----------
 SAFE document is in Rmarkdown format. Need to work on all tables, etc.
@@ -56,6 +55,11 @@ files used for model: found in the gmacs.dat file in each folder, also have a fi
 
 
 # figures and tables ------
+Using 'gmacsr' for figures,etc. See 24s drafts.
+'doc_figures_tables_gmacsr.R'
+
+
+
 'figures_tables_create_SAFE.R' in bbrkc23f has figures created with 'gmr'
 'Jie_figures_tables_create_SAFE.R' in bbrkc 23f has notes on each figure and what is used to create it, if it's Jie code see "Jie_cmn_files.R"
 
