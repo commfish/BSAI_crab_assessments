@@ -1,0 +1,836 @@
+---
+title: "Aleutian Islands Golden King Crab Stock Assessment Draft Models"
+author: |
+  | Tyler Jackson
+  | Alaska Department of Fish and Game, tyler.jackson@alaska.gov
+date: "`r format(Sys.time(), '%B %Y')`"
+output:
+  bookdown::pdf_document2:
+    toc: no
+header-includes:
+   - \usepackage{float}
+   - \usepackage{hanging}
+---
+
+```{r, echo = F, message = F, warning = F}
+library(tidyverse)
+library(patchwork)
+library(xtable)
+
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, fig.pos='H',
+                      out.height = "\\textheight", out.width = "\\textwidth")
+```
+
+# Response to Comments {-}
+## CPT May 2023 {-}
+
+\textbf{Comment}: "\textit{Continue work to obtain an index using the cooperative pot survey data for use in the EAG assessment model.}"
+
+\textbf{Response}: Model 23.2 explores the utility of the pot survey as an additional fleet.  
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Identify and eliminate the conflict between the model and the data giving rise to the retrospective patterns for EAG models. Revisit the analysis considering a model with time-varying catchability, but impose a penalty on the devs to allow the index data to inform the model.}"
+
+\textbf{Response}: We will revisit time varying catchability in a future assessment cycle.   
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Plot observed vs. predicted values for fitted data to help diagnose misfits.}"
+
+\textbf{Response}: It's unclear what model process this is referring to. When applicable, observations are always plotted with fitted data in this document.   
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Add confidence intervals to plots of fits to catch data (i.e., retained catch, total catch) reflecting assumed data uncertainty.}"
+
+\textbf{Response}: All plots of catch and index data now include confidence intervals.    
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Perform retrospective analyses for all models that have the potential to serve as the basis for calculating reference points.}"
+
+\textbf{Response}: Retrospective analyses were performed for all EAG and WAG models, and presented for 22.1e2, 23.0a, 23.1, 23.1b, 23.2, and AI 23.1b.    
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Calculate reference points using both combined-area and area-specific size-at-maturity values.}"
+
+\textbf{Response}: This can be evaluated in May 2024, or during the next cycle in January.    
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Re-evaluate the time frame over which to calculate mean recruitment every year by, for example, using a plot of the variance in estimated recruitment deviations.}"
+
+\textbf{Response}: See plots below. Standard error of recruitment deviations increases steadily after 2017 in the EAG and after 2019 in the WAG. Though the rate of increase in the EAG in 2019 is greater than pre-2017, the standard error value is not greater than in the beginning of the reference period (1987 - 1988). Retrospective analysis of recruitment uncertainty may provide insight to the most appropriate lag from the terminal year, but it was not conducted here, since retrospective analysis in GMACS did not produce parameter standard errors. This could be re-evaluated in May by constructing retrospective runs manually.    
+
+````{r eagrecdevse, fig.align='center', fig.cap="Standard errors of recruitment deviations of EAG models 22.1e2, 23.1, 23.1b, and 23.2. Dashed lines indicate bounds of time series used for calculation of mean recruitment. ", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/eag_rec_se.png")
+```
+
+````{r wagrecdevse, fig.align='center', fig.cap="Standard errors of recruitment deviations of WAG models 22.1e2, 23.1, and 23.1b. Dashed lines indicate bounds of time series used for calculation of mean recruitment. ", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/wag_rec_se.png")
+```
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Continue work to obtain an index using the cooperative pot survey data for use in the EAG assessment model.}"
+
+\textbf{Response}: Analysis of the cooperative pot survey is detailed in Appendix C and model 23.2.  
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{The cooperative survey should be fit as an additional CPUE index, not substituted for existing indices as was done for models 22.1g and 22.1h.}"
+
+\textbf{Response}: That is what has been explored here.    
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Size-composition data should not include a “minus” group (i.e., crab smaller than the smallest size bin used in the model).}"
+
+\textbf{Response}: This is rectified by model 23.1.    
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{The data used to determine the total catch size-compositions in the two areas should be re-examined to determine whether the abundances in the smallest size bin from 1990 to 2004 are correct.}"
+
+\textbf{Response}: Appendix A recomputes size composition time series using data directly pulled from the observer database. Updated time series still appear to contain a disproportionate amount crab 101-105 mm CL, even without minus-sized crab (model 23.1). This is possibly do to escape mesh not being required until the 1997 season.  
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Explore models that provide better fits to EAG CPUE data.}"
+
+\textbf{Response}:  More work in this area is needed during the next cycle.    
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Use GAMs rather than GLMs to standardize the CPUE indices (e.g., use the R package “mgcv”).}"
+
+\textbf{Response}: All models derivative of 23.0a take this approach.     
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Show both the original CV’s and effective CV’s (i.e., incorporating additional variance) when showing fits to the CPUE index time series.}"
+
+\textbf{Response}: This has been done in all plots showing fits to CPUE index.   
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{In the SAFE document}
+\begin{itemize}
+\item \textit{Add a note to explain that retained catch can exceed TAC in some years due to the cost recovery fishery associated with the cooperative survey.}
+\item \textit{Drop Appendix D.}
+\item \textit{Remove tier designation from area-specific management Table.}
+\item \textit{Add explanation for extrapolation of total catch in final year"}
+\end{itemize}
+
+
+\textbf{Response}: All items will be addressed in the May 2024 SAFE document.      
+\makebox[165 mm]{\dotfill}
+
+
+
+
+<!-- ---- -->
+
+## SSC June 2023 {-}
+
+\textbf{Comment}: "\textit{The SSC agrees with the CPT recommendation for a 25\% buffer for this assessment and supports the resulting ABC. For the future, the SSC specifically requests that jitter and retrospective analyses be conducted for all final models that have the potential to be used for setting harvest specifications}"
+
+\textbf{Response}: Retrospective analyses were performed here, and jitter analysis will be performed on the author preferred model in the final assessment.   
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{The SSC places a high priority on incorporating information from the cooperative survey into the assessment and supports the CPT recommendation that this be incorporated as a separate fleet.}"
+
+\textbf{Response}: Model 23.2 explores the utility of the pot survey as an additional fleet.    
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Further examination of the retrospective pattern in terms of magnitude, direction and cause continues to be important.}"
+
+\textbf{Response}: More work will be done to address the retrospective pattern in the EAG during the next cycle.    
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Revisit the choice to maintain the recruitment years at 1987 – 2017 rather than successively adding recent years to the time series, as is done for other crab stocks.}"
+
+\textbf{Response}: See response to similar comment above.  
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{The CPT recommended removing the data on the smallest size bin for the total catch prior to 2005/2006. The SSC requests first plotting these data and the model fit and providing further consideration of why these data may or may not be representative of the fishery at that time.}"
+
+\textbf{Response}: For clarification, the CPT recommended to removed data on crab below the smallest size bin (i.e. $\leq$ 100 mm) that were being included in the 101-105 mm bin.   
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{The current method of projecting the remaining landings for the current incomplete season seems overly complicated and the SSC recommends that a more straightforward method for determining total catch be considered, such as basing it on the average fraction harvested to date.}"
+
+\textbf{Response}: In May 2024, total catch will be determined using the effort required to achieve the TAC at current CPUE on the date when data were pulled. See Appendix A for details of total catch estimation.  
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Further analysis and discussion of the retrospective pattern is needed to justify the size of the buffer used.}"
+
+\textbf{Response}: This will be noted during the final assessment in May 2024.   
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+# Modeling Approaches and Explorations, January 2024 {-}
+
+This assessment adopted the GMACS modeling framework in 2023. GMACS version 2.01.I was used for the May 2023 assessment, and an updated version (2.01.M.02) is used here. Progress of GMACS development has been documented on the GitHub development site (\href{https://github.com/GMACS-project}{\underline{GMACS-project}}).  
+
+## Model explorations {-}
+
+Models explore in this document are:
+
+\begin{itemize}
+
+\item \textbf{22.1e2}: base model, accepted for specifications in May 2023;
+
+\item \textbf{22.1e2 (update)}: base model, implemented in GMACS version 2.01.M.02;
+
+\item \textbf{23.0}: 22.1e2 (update) with update catch and size composition time series (Appendix A);
+
+\item \textbf{23.0a}: 23.0 + GAM observer legal CPUE standardization;
+
+\item \textbf{23.1}: 23.0a + truncated size composition (i.e., first bin $\geq$ 101 - 105 mm);
+
+\item \textbf{23.1a}: 23.1 + number of sampling efforts as retained size composition effective sample size;
+
+\item \textbf{23.1b}: 23.1 + two selectivity periods in pre-rationalized directed fishery;
+
+\item \textbf{23.2 (EAG)}: 23.1b + cooperative survey as additional fleet (i.e., cpue + size composition).
+
+\end{itemize}
+
+Unless otherwise noted, all models were fit to data from both the EAG and WAG. A combined area model based on 23.1b was also explored (AI 23.1b). This model included three fleets: 1) the EAG directed fishery, 2) the WAG directed fishery, and 3) a combined groundfish bycatch fleet. GMACS data, control, and projection files for all models can be accessed here: \href{https://github.com/commfish/BSAI_crab_assessments/tree/master/AIGKC/models/2024/jan}{\underline{Jan 2024 AIGKC Models}}.
+
+# Results {-}
+## GMACS Update {-}
+
+Models 22.1e2 and 22.1e2 (update) evaluated sensitivities of the model to updates in GMACS. In both the EAG and WAG most likelihood components, terminal year MMB, B$_{35\%}$, and F$_{35\%}$ were identical between versions (to the 6th decimal place), though OFL was slightly different (Table \ref{table:versionlik} - \ref{table:versionspecs}).
+
+## Data Updates {-}
+
+Model 23.0 updated the time series of retained and total catch, groundfish fishery bycatch mortality, and directed fishery retained and total catch size compositions (Likelihood components are in Table \ref{table:eaglik} and \ref{table:waglik}). Time series updates were necessary to improve reproducibility of assessment inputs and align data summarization methods for other BSAI crab stocks. Details of time series updates are described in Appendix A. Models appeared to fit catches equally well for both subdistricts (Figure \ref{fig:eagdatupdcatch} - \ref{fig:wagdatupdcatch}). Fits to fish ticket CPUE from 1985 - 1998 were better for model 23.0 in the EAG, though similar in the WAG. Neither model fit observer CPUE particularly well, except in the post-rationalized WAG since 2014 (Figure \ref{fig:eagdatupdindex} - \ref{fig:wagdatupdindex}). There was very little difference among predicted size composition, and fit to total size composition in the WAG in 1993 was poor (Figure \ref{fig:eagdatupdsizeret} - \ref{fig:wagdatupdsizetot}). Model 23.0 had marginally greater selectivity and was near linear in the pre-rationalized EAG (Figure \ref{fig:eagdatupdselex} - \ref{fig:wagdatupdselex}). Greater selectivity in the pre-ration period of either subdistrict is likely due to the smallest size bin (101 - 105 mm) containing the minus group (CL $\leq$ 100 mm). Recruitment trends are similar, though model 23.0 did not predict an extreme spike in 1987 as model 22.1e2 did for the EAG (Figure \ref{fig:eagdatupdrec} - \ref{fig:wagdatupdrec}). Estimated fishing mortality was slightly less that model 22.1e2 for much of the time series in the directed fishery, and tended to be larger in the groundfish bycatch fleet due to the use of expanded estimates (Figure \ref{fig:eagdatupdf} - \ref{fig:wagdatupdf}). Model 23.0 estimated greater MMB since 1985 in the EAG, whereas the two models track more closely in the WAG (Figure \ref{fig:eagdatupdssb} - \ref{fig:wagdatupdssb}). EAG management quantities suggested a similar stock status between models, though MMB at mating, and B$_{35\%}$, resulting in a slightly greater OFL (Table \ref{table:eagspecs}). MMB at mating in the WAG was similar among models, though B$_{35\%}$ was less for model 23.0. Resulting OFL in the WAG was similar among models (Table \ref{table:wagspecs}).
+
+Model 23.0a replaced pre- and post-rationalized observer legal male CPUE index with an index standardized using general additive models (see Appendix B for details). Model 23.0a also updated 1985 - 1998 fish ticket CPUE using the data and standardization procedure described in Appendix B. Model 23.0 fit its 1985 - 1998 fish ticket CPUE index better than did model 23.0a in the EAG. Fits to fish ticket CPUE index in the WAG were adequate for both models 23.0 and 23.0a. Predicted observer CPUE indices were very similar between models in both the EAG and WAG (Figure \ref{fig:eagdatupdindex} - \ref{fig:wagdatupdindex}). Difference in fits to catch and size composition data were negligible between models 23.0 and 23.0a in the EAG and WAG. Model 23.0a resulted in a marginally lower MMB throughout the time series in the EAG and since about 2000 in the WAG (Figure \ref{fig:eagdatupdssb} - \ref{fig:wagdatupdssb}). Management quantities of model 23.0a were lower than model 23.0 in both subdistricts (Table \ref{table:eagspecs} and \ref{table:wagspecs}). 
+
+## Trunacted Size Composition {-}
+
+Model 23.1 truncated size composition data to remove the minus group (CL $\leq$ 100 mm) from the smallest size bin (CL = 101 - 105 mm). Fits to catch data are nearly identical among models 23.0a and 23.1 (Table  \ref{table:eaglik} and \ref{table:waglik}; Figure \ref{fig:eagcatch} and \ref{fig:wagcatch}). There were only minor differences among fits to CPUE indices in the EAG and the WAG and fits to EAG observer CPUE remained poor (Figure \ref{fig:eagindex} and \ref{fig:wagindex}). Removing the minus improved fits to total size composition, especially pre-2000, and resulted in a more typical logistic selectivity (Figure \ref{fig:eagsizetot} - \ref{fig:eagsizetotres}, \ref{fig:wagsizetot} - \ref{fig:wagsizetotres}, \ref{fig:eagselex} - \ref{fig:wagselex}). Model 23.1 also improved fits retained size composition in many years (Figure \ref{fig:eagsizeret} - \ref{fig:eagsizeretres}, \ref{fig:wagsizeret} - \ref{fig:wagsizeretres}). Recruitment highs and lows were slightly dampened in the EAG in model 23.1 compared with model 23.0a, while the trend remained largely the same. On the other hand, model 23.1 estimated larger recruitment pulses in the WAG in 1980 and 1985 than did model models 23.0a (Figure \ref{fig:eagrec} - \ref{fig:wagrec}). Model 23.1 estimated greater fishing mortality throughout the time series in the EAG than model 23.0a, but not until 2004 in the WAG (Figure \ref{fig:eagf} - \ref{fig:wagf}). As expected, model 23.1 estimated lower MMB than model 23.0a for the entire time series (Figure \ref{fig:eagssb} - \ref{fig:wagssb}). Management quantities of models 23.1 were lower than model 23.0a in both subdistricts (Table \ref{table:eagspecs} and \ref{table:wagspecs}). 
+
+## Retained Size Composition $N_{\text{eff}}$ {-}
+
+Model 23.1a adjusted staged 1 sample sizes for retained catch size composition to reflect the amount of sampling effort. Fits to observer indices were marginally better than model 23.1, though the difference is negligible (Table \ref{table:eaglik} - \ref{table:waglik}; Figure \ref{fig:eagindex} - \ref{fig:wagindex}). Fit to fish ticket CPUE was slightly worse from 1985-1990 (Table \ref{table:eaglik} - \ref{table:waglik}; Figure \ref{fig:eagindex} - \ref{fig:wagindex}). Model 23.1a fit retained size composition data better than model 23.1 between 1988 - 1991 in both subdistricts, owing to considerably higher weight of those years in model 23.1a relative to 23.1 (Figure \ref{fig:eagsizeret} - \ref{fig:eagsizeretres}, \ref{fig:wagsizeret} - \ref{fig:wagsizeretres}). Recruitment closely aligned with model 23.1 except for an extreme decrease and subsequent spike in the EAG from 1983-1987, and much lower recruitment from 1980 - 1983 in the WAG (Figure \ref{fig:eagrec} - \ref{fig:wagrec}). Estimated MMB was lower for model 23.1a from about 2000 to present in the EAG, and was slightly lower during the full time series in the WAG (Figure \ref{fig:eagssb} - \ref{fig:wagssb}). Management quantities of model 23.1a were lower than model 23.1 in both subdistricts (Table \ref{table:eagspecs} - \ref{table:wagspecs}). Revisiting size composition data weighting would likely be beneficial for resolving lack of fit to observer CPUE data in the EAG, though with more forethought than model 23.1a. Basing effective sampling size on observation error in size composition data (Stewart and Hamel 2014) would be a good avenue for further exploration.
+
+## Additional Selectivity Period {-}
+
+Model 23.1b split the pre-rationalized period into two selectivity periods (1960 - 1996 and 1997 - 2004) corresponding to the introduction of escape mesh by requirements beginning with the 1997 season under 5 AAC 34.625(b)(1). Model 23.1b fit total catch in the WAG better than model 23.1 (Table \ref{table:eaglik} - \ref{table:waglik}; Figure \ref{fig:wagcatch}). There were marginal improvement to fits to post-rationalized CPUE and fish ticket CPUE from 1985 - 1998. As with the EAG, there was small improvement to fits to CPUE data in the WAG, but for the pre-rationalized period and fish ticket CPUE from 1985 - 1998 (Figure \ref{fig:eagindex} - \ref{fig:wagindex}). Model 23.1b fit retained and total catch size composition better than model 23.1 in the EAG, but only improved fit to retained catch size composition in the WAG (Figure \ref{fig:eagsizeret} - \ref{fig:wagsizetotres}). Poorer fit to WAG total size composition appears to be due in large part to 1993, 1994, and 1997 (Figure \ref{fig:wagsizetot} - \ref{fig:wagsizetotres}). Directed fishery selectivity from 1997 - 2004 was more similar to the post-rationalized period than pre-1997 (Figure \ref{fig:eagselex} - \ref{fig:wagselex}). 
+
+Recruitment variability during the pre-rationalized period is more attenuated in model 23.1 than model 23.1b (Figure \ref{fig:eagrec} - \ref{fig:wagrec}). Differences in MMB between models 23.1 and 23.1b were minor throughout the time series, though sightly more apparent in the WAG (Figure \ref{fig:eagssb} - \ref{fig:wagssb}). References points were similar between models 23.1 and 23.1b in the EAG (Table \ref{table:eagspecs} - \ref{table:wagspecs}). Model 23.1b estimated a slightly larger B$_{35\%}$ and resulting OFL in the WAG (Table \ref{table:wagspecs}).
+
+## Cooperative Survey {-}
+
+Model 23.2 evaluated the EAG cooperative pot survey as additional survey fleet with an abundance index and size composition time series from 2015 - 2022 (Likelihood components are in Table \ref{table:eaglik}). Fits to catch and observer CPUE time series were similar to model 23.1b (Figure \ref{fig:eagcatch} and \ref{fig:eagindex}). Fit to fish ticket CPUE from 1985 - 1998 was slightly worse. Model 23.2 fit approximately the average cooperative survey CPUE, and did not have quite the same increasing trend in predicted CPUE as observer data did in the same years (Figure \ref{fig:eagindex}). Model 23.2 fit retained catch size composition better than model 23.1b, but not total catch size composition (Figure \ref{fig:eagsizeret} - \ref{fig:eagsizetotres}). Fits to cooperative survey size composition were generally adequate in most years (the dominant cohort was under-predicted and skewed in 2018; Figure \ref{fig:eagsizesurvey}). Cooperative survey selectivity appeared similar to post-rationalized fishery selectivity (Figure \ref{fig:eagsurveyselex}). Model 23.2 estimated larger recruitment swings in 1985 and 1987, though followed recruitment of model 23.1b throughout much of the time series. Model 23.2 also estimated a decrease in recruitment from 2015 - 2016 (as opposed to an increase in model 23.1b) and a larger decrease from 2018 - 2020 (Figure \ref{fig:eagrec}). Estimated MMB was similar to model 23.1b until 2015, when model 23.2 estimated slightly less but followed the same trend (Figure \ref{fig:eagssb}). Projected MMB was lower in model 23.2 than model 23.1b and less than B$_{35\%}$, resulting in a lower OFL (Table \ref{table:eagspecs}).
+
+
+## Combined Area Model {-}
+
+Model AI 23.1b evaluated EAG and WAG version of model 23.1b combined as a single model with three fleets: 1) the EAG directed fishery, 2) the WAG directed fishery, and 3) a combined groundfish bycatch fleet (Likelihood components are in Table \ref{table:ailik}). Fits to catches were very similar among single and combine area models (Figure \ref{fig:aicatch}). Single area models fit CPUE data better than did AI 23.1b, with the exception of pre-rationalized observer CPUE (Figure \ref{fig:aiindex}). Model AI 23.1b estimated three selectivity periods for the EAG and WAG fisheries each. Selectivity was slightly lower than in EAG 23.1b among all periods, but higher than in WAG 23.1b (Figure \ref{fig:aiselex}). Fishing mortality was considerably lower throughout the time series in model AI 23.1b that in single area models (Figure \ref{fig:aif}). Recruitment generally followed the sum of single area recruitment estimates, but declined after a relative peak in 2013, similar to WAG 23.1b (Figure \ref{fig:airec}). Estimated MMB was very similar to the sum of single area model MMB estimates until 2017, and then decreased, perhaps following a better fit to observer CPUE in the EAG during that period (Figure \ref{fig:aissb}). Model AI 23.1b estimated B$_{35\%}$ slightly larger than the sum of single area models. Mean recruitment during the reference period (1987 - 2017) was approximately the sum of estimated for single area models. Projected MMB was less than the sum of single area models, resulting in a lower stock status, F35\%, and OFL (Table \ref{table:aispecs}). 
+
+
+## Retrospective Analysis {-}
+
+Retrospective analysis was performed by peeling up to ten years data for all models, but results are only discussed here for models 22.1e2, 23.0a, 23.1, 23.1b, and 23.2. Retrospective analysis of model 23.2 only peeled up to five years of data (to beginning of cooperative survey time series). EAG models 22.1e2 - 23.1b had similar retrospective patterns, tending to over estimate MMB in the terminal year relative to the full time series model. Retrospective bias increased with each model scenario (Mohn's $\rho$ = 0.327 - 0.432; Figure \ref{fig:eagretrossb}). Model 23.2 had less of a retrospective pattern that other EAG models and did not tend to overestimate MMB until there were only two years of survey data remaining (Mohn's $\rho$ = 0.157; Figure \ref{fig:eagsurveyretrossb}). WAG models also had similar retrospective patterns, though with smaller bias (Mohn's $\rho$ = 0.152 - 0.183; Figure \ref{fig:wagretrossb}). Several peels for WAG models 22.1e2, 23.0a, and 23.1 had spikes in MMB around 1992 - 1996, which is likely owing to an issue of multiple local minima relating to the skewed total size composition data in 1993. The combined area model had a retrospective pattern in MMB more similar to WAG models, with comparable bias (Mohn's $\rho$ = 0.156; Figure \ref{fig:airetrossb}).
+
+
+# Conclusions {-}
+
+The author recommended models to be evaluated in the final assessment are models 23.1, 23.1b, and 23.2. These models use updated time series data, best capture the nuance of gear modifications, and evaluate use of the cooperative survey. The transition from the 2022 accepted model (22.1e2) to models 23.0 and 23.0a represent a necessary improvement to the transparency and reproducibility of this assessment, and model 22.1e2 should be evaluated solely for the purpose of comparison. Regardless of whether the CPT recommends the proposed methods for summarizing input data (Appendix A) or the use of GAMs for CPUE standardization (Appendix B), data inputs to model 22.1e2 cannot be reproduced as the raw data are not identical to fresh database pulls. Models 23.1 and 23.1b improve overall fit to size composition data with only minor change to fits to index data. None of the models evaluated here were able to resolve poor fits to observer CPUE data, particularly in the EAG. Poor fit to index data is likely due to the nature of relying on fishery dependent data, specifically the inability of CPUE standardization procedures to fully capture inter-annual differences in catchability and the conflict that causes with size composition data. Lack of fit to the post-rationalized observer CPUE also likely drives the greater retrospective bias of EAG models compared to WAG models.  
+
+Introducing the cooperative survey as an additional fleet (model 23.2) had relatively little impact on other model processes, though resulted in larger recruitment swings, higher recent fishing mortality, lower MMB, and lower management quantities. Treating the cooperative survey as a fishery independent survey is a step in the right direction, though more investigation is warranted, specifically with respect to data weighting.  
+
+The combined area model (AI 23.1b) estimated derived quantities that were similar to the sum of single are models (until 2017), but tended not to fit individual processes quite as well as subdistrict specific models. Interestingly, model AI 23.1b fit recent EAG observer CPUE considerably better than EAG 23.1b, which didn't respect the prevailing trend of observed data. This disparity may partly explain the departure in MMB of AI 23.1b from the sum of EAG and WAG models. Using a combined area model would have a large impact on management quantities, as the stock status was lower than either subdistrict specific model. Siddeek et al. (2023) evaluated a combined area model that merged EAG and WAG as a single fleet and estimated a similar B$_{35\%}$, but greater 2022 MMB, consistent with known retrospective bias. Given the poorer fits to various model processes compared with separate models, it may be best that a combined area model be set aside until a spatially explicit GMACS framework is developed.
+
+# Tables {-}
+
+#### {-}
+\begin{table}[H]  
+\centering
+\caption{Comparison of likelihood components for EAG and WAG models 22.1e2 using GMACS version 2.01.I and 2.01.M2.}
+
+\label{table:versionlik}
+\begin{tabular}{lccccc}
+& \multicolumn{2}{c}{EAG} & \multicolumn{2}{c}{WAG}\\
+Component & v2.01.I & v2.02.M2 & v2.01.I & v2.02.M2\\
+\hline
+```{r versionlik, results='asis', eval = T}
+eag <- read_csv("../../../AIGKC/output/models/2024/jan/eag_gmacs_update_lik_table.csv")
+wag <- read_csv("../../../AIGKC/output/models/2024/jan/wag_gmacs_update_lik_table.csv")
+
+x <- bind_cols(eag, wag[2:3])
+
+# print table
+print(xtable(x, align="lccccc", digits=c(0, 3, 3, 3, 3, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+
+#### {-}
+\begin{table}[H]
+\centering
+\caption{Comparison of management quantities for EAG and WAG models 22.1e2 using GMACS version 2.01.I and 2.01.M2.}
+
+\label{table:versionspecs}
+\begin{tabular}{llcccccccc}
+
+Subdistrict & Version & MMB (t) & B$_{35\%}$ (t) & $\frac{MMB}{B_{35\%}}$ & $\bar{\text{R}}_{1987-2017}$ & F$_{35\%}$ & F$_{\text{OFL}}$ & OFL (t)\\
+\hline
+```{r versionspecst, results='asis', eval = T}
+eag <- read_csv("../../../AIGKC/output/models/2024/jan/eag_gmacs_update_specs.csv")
+wag <- read_csv("../../../AIGKC/output/models/2024/jan/wag_gmacs_update_specs.csv")
+
+bind_rows(eag, tibble(model = NA, MMB = NA, B35 = NA, B_BMSY = NA, rbar = NA, F35 = NA, FOFL = NA, OFL = NA), wag) %>%
+  mutate(subdistrict = c("EAG", NA, NA, "WAG", NA)) %>%
+  dplyr::select(9, 1:8) -> x
+
+# print table
+print(xtable(x, align="llcccccccc", digits=c(0, 0, 0, 0, 0, 2, 0, 2, 2, 0)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+&&&&&&&\\
+Subdistrict & Version & MMB (mil lb) & B$_{35\%}$ (mil lb) & $\frac{MMB}{B_{35\%}}$ & $\bar{\text{R}}_{1987-2017}$ & F$_{35\%}$ & F$_{\text{OFL}}$ & OFL (mil lb)\\
+\hline
+```{r versionspecsmillb, results='asis', eval = T}
+eag <- read_csv("../../../AIGKC/output/models/2024/jan/eag_gmacs_update_specs.csv") %>%
+  mutate(across(c(MMB, B35, OFL), ~. * 2204.62 / 1e6))
+wag <- read_csv("../../../AIGKC/output/models/2024/jan/wag_gmacs_update_specs.csv") %>%
+  mutate(across(c(MMB, B35, OFL), ~. * 2204.62 / 1e6))
+
+bind_rows(eag, tibble(model = NA, MMB = NA, B35 = NA, B_BMSY = NA, rbar = NA, F35 = NA, FOFL = NA, OFL = NA), wag) %>%
+  mutate(subdistrict = c("EAG", NA, NA, "WAG", NA)) %>%
+  dplyr::select(9, 1:8) -> x
+
+# print table
+print(xtable(x, align="llcccccccc", digits=c(0, 0, 2, 2, 2, 2, 0, 2, 2, 2)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+#### {-}
+\begin{table}[H]  
+\centering
+\caption{Likelihood components for prospective EAG models.}
+
+\label{table:eaglik}
+\begin{tabular}{lcccccccc}
+Component & 22.1e2 & 23.0 & 23.0a & 23.1 & 23.1a & 23.1b & 23.2\\
+\hline
+```{r eaglik, results='asis', eval = T}
+x <- read_csv("../../../AIGKC/output/models/2024/jan/eag_models_lik_table.csv")
+
+# print table
+print(xtable(x, align="lcccccccc", digits=c(0, 3, 3, 3, 3, 3, 3, 3, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\multicolumn{8}{l}{*Not all models use the same data (see above for details).} \\
+\end{tabular}
+\end{table}
+
+#### {-}
+
+\begin{table}[H]  
+\centering
+\caption{Likelihood components for prospective WAG models.}
+
+\label{table:waglik}
+\begin{tabular}{lccccccc}
+Component & 22.1e2 & 23.0 & 23.0a & 23.1 & 23.1a & 23.1b\\
+\hline
+```{r waglike, results='asis', eval = T}
+x <- read_csv("../../../AIGKC/output/models/2024/jan/wag_models_lik_table.csv")
+
+# print table
+print(xtable(x, align="lccccccc", digits=c(0, 3, 3, 3, 3, 3, 3, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\multicolumn{7}{l}{*Not all models use the same data (see above for details).} \\
+\end{tabular}
+\end{table}
+
+
+#### {-}
+
+\begin{table}[H]  
+\centering
+\caption{Likelihood components for models AI 23.1b, EAG 23.1b, and WAG 23.1b.}
+
+\label{table:ailik}
+\begin{tabular}{lcccc}
+Component & AI 23.1b & EAG 23.1b & WAG 23.1b\\
+\hline
+```{r ailik, results='asis', eval = T}
+x <- read_csv("../../../AIGKC/output/models/2024/jan/ai_likelihood_comp.csv")
+
+# print table
+print(xtable(x, align="lcccc", digits=c(0, 3, 3, 3, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+
+
+
+
+
+
+
+
+
+
+#### {-}
+\begin{table}[H]
+\centering
+\caption{Comparison of management quantities for EAG prospective models.}
+
+\label{table:eagspecs}
+\begin{tabular}{lcccccccc}
+
+Model & MMB (t) & B$_{35\%}$ (t) & $\frac{MMB}{B_{35\%}}$ & $\bar{\text{R}}_{1987-2017}$ & F$_{35\%}$ & F$_{\text{OFL}}$ & OFL (t)\\
+\hline
+```{r eagspecst, results='asis', eval = T}
+x <- read_csv("../../../AIGKC/output/models/2024/jan/eag_specs.csv")
+
+# print table
+print(xtable(x, align="lcccccccc", digits=c(0, 0, 0, 0, 2, 0, 2, 2, 0)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+&&&&&&&\\
+Model & MMB (mil lb) & B$_{35\%}$ (mil lb) & $\frac{MMB}{B_{35\%}}$ & $\bar{\text{R}}_{1987-2017}$ & F$_{35\%}$ & F$_{\text{OFL}}$ & OFL (mil lb)\\
+\hline
+```{r eagspecsmillb, results='asis', eval = T}
+x <- read_csv("../../../AIGKC/output/models/2024/jan/eag_specs.csv") %>%
+  mutate(across(c(MMB, B35, OFL), ~. * 2204.62 / 1e6))
+
+# print table
+print(xtable(x, align="lcccccccc", digits=c(0, 2, 2, 2, 2, 0, 2, 2, 2)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+
+
+#### {-}
+\begin{table}[H]
+\centering
+\caption{Comparison of management quantities for WAG prospective models.}
+
+\label{table:wagspecs}
+\begin{tabular}{lcccccccc}
+
+Model & MMB (t) & B$_{35\%}$ (t) & $\frac{MMB}{B_{35\%}}$ & $\bar{\text{R}}_{1987-2017}$ & F$_{35\%}$ & F$_{\text{OFL}}$ & OFL (t)\\
+\hline
+```{r wagspecst, results='asis', eval = T}
+x <- read_csv("../../../AIGKC/output/models/2024/jan/wag_specs.csv")
+
+# print table
+print(xtable(x, align="lcccccccc", digits=c(0, 0, 0, 0, 2, 0, 2, 2, 0)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+&&&&&&&\\
+Model & MMB (mil lb) & B$_{35\%}$ (mil lb) & $\frac{MMB}{B_{35\%}}$ & $\bar{\text{R}}_{1987-2017}$ & F$_{35\%}$ & F$_{\text{OFL}}$ & OFL (mil lb)\\
+\hline
+```{r wagspecsmillb, results='asis', eval = T}
+x <- read_csv("../../../AIGKC/output/models/2024/jan/wag_specs.csv") %>%
+  mutate(across(c(MMB, B35, OFL), ~. * 2204.62 / 1e6))
+
+# print table
+print(xtable(x, align="lcccccccc", digits=c(0, 2, 2, 2, 2, 0, 2, 2, 2)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+
+#### {-}
+\begin{table}[H]
+\centering
+\caption{Comparison of management quantities for EAG 23.1b, WAG 23.1b, and AI 23.1b.}
+
+\label{table:aispecs}
+\begin{tabular}{lcccccccc}
+
+Model & MMB (t) & B$_{35\%}$ (t) & $\frac{MMB}{B_{35\%}}$ & $\bar{\text{R}}_{1987-2017}$ & F$_{35\%}$ & F$_{\text{OFL}}$ & OFL (t)\\
+\hline
+```{r aispecst, results='asis', eval = T}
+x <- read_csv("../../../AIGKC/output/models/2024/jan/ai_specs.csv")
+
+# print table
+print(xtable(x, align="lcccccccc", digits=c(0, 0, 0, 0, 2, 0, 2, 2, 0)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+&&&&&&&\\
+Model & MMB (mil lb) & B$_{35\%}$ (mil lb) & $\frac{MMB}{B_{35\%}}$ & $\bar{\text{R}}_{1987-2017}$ & F$_{35\%}$ & F$_{\text{OFL}}$ & OFL (mil lb)\\
+\hline
+```{r aispecsmillb, results='asis', eval = T}
+x <- read_csv("../../../AIGKC/output/models/2024/jan/ai_specs.csv") %>%
+  mutate(across(c(MMB, B35, OFL), ~. * 2204.62 / 1e6))
+
+# print table
+print(xtable(x, align="lcccccccc", digits=c(0, 2, 2, 2, 2, 0, 2, 2, 2)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+# Figures {-} 
+
+#### {-}
+
+````{r eagdatupdcatch, fig.align='center', fig.cap="Comparison of model fit to retained catch, total catch, and groundfish bycatch moratlity for the EAG. Error bars on observed values represent 95\\% confidence intervals. Model 22.1e2 is the base model, model 23.0 updates fishery data, and model 23.0a updates index data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/eag_data_update_catch_fit.png")
+```
+
+````{r wagdatupdcatch, fig.align='center', fig.cap="Comparison of model fit to retained catch, total catch, and groundfish bycatch moratlity for the WAG. Error bars on observed values represent 95\\% confidence intervals. Model 22.1e2 is the base model, model 23.0 updates fishery data, and model 23.0a updates index data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/wag_data_update_catch_fit.png")
+```
+
+````{r eagdatupdindex, fig.align='center', fig.cap="Comparison of model fit to EAG CPUE indices. Error bars on observed values respresent 95\\% confidence intervals (colored) and estimated additional error (grey). Model 22.1e2 is the base model, model 23.0 updates fishery data, and model 23.0a updates index data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/eag_data_update_index_fit.png")
+```
+
+````{r wagdatupdindex, fig.align='center', fig.cap="Comparison of model fit to WAG CPUE indices. Error bars on observed values respresent 95\\% confidence intervals (colored) and estimated additional error (grey). Model 22.1e2 is the base model, model 23.0 updates fishery data, and model 23.0a updates index data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/wag_data_update_index_fit.png")
+```
+
+````{r eagdatupdsizeret, fig.align='center', fig.cap="Comparison of model fit to reatined catch size composition in the EAG. Model 22.1e2 is the base model, model 23.0 updates fishery data, and model 23.0a updates index data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/eag_data_update_comp_fit_fleet1_type1.png")
+```
+
+````{r eagdatupdsizetot, fig.align='center', fig.cap="Comparison of model fit to total catch size composition in the EAG. Model 22.1e2 is the base model, model 23.0 updates fishery data, and model 23.0a updates index data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/eag_data_update_comp_fit_fleet1_type0.png")
+```
+
+````{r wagdatupdsizeret, fig.align='center', fig.cap="Comparison of model fit to reatined catch size composition in the WAG. Model 22.1e2 is the base model, model 23.0 updates fishery data, and model 23.0a updates index data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/wag_data_update_comp_fit_fleet1_type1.png")
+```
+
+````{r wagdatupdsizetot, fig.align='center', fig.cap="Comparison of model fit to total catch size composition in the WAG. Model 22.1e2 is the base model, model 23.0 updates fishery data, and model 23.0a updates index data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/wag_data_update_comp_fit_fleet1_type0.png")
+```
+
+````{r eagdatupdselex, fig.align='center', fig.cap="Comparison of estimated selectivity for the directed fishery in the EAG during the pre- and post-rationalized periods. Model 22.1e2 is the base model, model 23.0 updates fishery data, and model 23.0a updates index data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/eag_data_update_selectivity.png")
+```
+
+````{r wagdatupdselex, fig.align='center', fig.cap="Comparison of estimated selectivity for the directed fishery in the WAG during the pre- and post-rationalized periods. Model 22.1e2 is the base model, model 23.0 updates fishery data, and model 23.0a updates index data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/wag_data_update_selectivity.png")
+```
+
+````{r eagdatupdrec, fig.align='center', fig.cap="Comparison of model estimated recruitment in the EAG. Model 22.1e2 is the base model, model 23.0 updates fishery data, and model 23.0a updates index data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/eag_data_update_recruits.png")
+```
+
+````{r wagdatupdrec, fig.align='center', fig.cap="Comparison of model estimated recruitment in the WAG. Model 22.1e2 is the base model, model 23.0 updates fishery data, and model 23.0a updates index data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/wag_data_update_recruits.png")
+```
+
+````{r eagdatupdf, fig.align='center', fig.cap="Comparison of model estimated fully selected fishing mortality in the EAG by fleet. Model 22.1e2 is the base model, model 23.0 updates fishery data, and model 23.0a updates index data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/eag_data_update_f_by_fleet.png")
+```
+
+````{r wagdatupdf, fig.align='center', fig.cap="Comparison of model estimated fully selected fishing mortality in the WAG by fleet. Model 22.1e2 is the base model, model 23.0 updates fishery data, and model 23.0a updates index data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/wag_data_update_f_by_fleet.png")
+```
+
+````{r eagdatupdssb, fig.align='center', fig.cap="Comparison of model estimated MMB in the EAG. Model 22.1e2 is the base model, model 23.0 updates fishery data, and model 23.0a updates index data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/eag_data_update_ssb.png")
+```
+
+````{r wagdatupdssb, fig.align='center', fig.cap="Comparison of model estimated MMB in the WAG. Model 22.1e2 is the base model, model 23.0 updates fishery data, and model 23.0a updates index data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/wag_data_update_ssb.png")
+```
+
+#### {-}
+
+````{r eagcatch, fig.align='center', fig.cap="Comparison of model fit to retained catch, total catch, and groundfish bycatch moratlity for the EAG. Error bars on observed values represent 95\\% confidence intervals. Model 23.0a is the base model with updated data, 23.1 truncates the size composition, 23.0a uses alternative size composition weights, 23.1b uses an additional selectivity period, and 23.2 uses survey data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/eag_catch_fit.png")
+```
+
+````{r wagcatch, fig.align='center', fig.cap="Comparison of model fit to retained catch, total catch, and groundfish bycatch moratlity for the WAG. Error bars on observed values represent 95\\% confidence intervals. Model 23.0a is the base model with updated data, 23.1 truncates the size composition, 23.0a uses alternative size composition weights, and 23.1b uses an additional selectivity period.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/wag_catch_fit.png")
+```
+
+````{r eagindex, fig.align='center', fig.cap="Comparison of model fit to EAG CPUE indices. Error bars on observed values respresent 95\\% confidence intervals (dark grey) and estimated additional error (light grey). Model 23.0a is the base model with updated data, 23.1 truncates the size composition, 23.0a uses alternative size composition weights, 23.1b uses an additional selectivity period, and 23.2 uses survey data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/eag_index_fit.png")
+```
+
+````{r wagindex, fig.align='center', fig.cap="Comparison of model fit to WAG CPUE indices. Error bars on observed values respresent 95\\% confidence intervals (dark grey) and estimated additional error (light grey). Model 23.0a is the base model with updated data, 23.1 truncates the size composition, 23.0a uses alternative size composition weights, and 23.1b uses an additional selectivity period.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/wag_index_fit.png")
+```
+
+````{r eagsizeret, fig.align='center', fig.cap="Comparison of model fit to reatined catch size composition in the EAG. Model 23.0a is the base model with updated data, 23.1 truncates the size composition, 23.0a uses alternative size composition weights, 23.1b uses an additional selectivity period, and 23.2 uses survey data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/eag_comp_fit_fleet1_type1.png")
+```
+
+````{r eagsizeretres, fig.align='center', fig.cap="Comparison of reatined catch size composition residuals in the EAG. Model 23.0a is the base model with updated data, 23.1 truncates the size composition, 23.0a uses alternative size composition weights, 23.1b uses an additional selectivity period, and 23.2 uses survey data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/eag__compres_fleet1_type1.png")
+```
+
+````{r eagsizetot, fig.align='center', fig.cap="Comparison of model fit to total catch size composition in the EAG. Model 23.0a is the base model with updated data, 23.1 truncates the size composition, 23.0a uses alternative size composition weights, 23.1b uses an additional selectivity period, and 23.2 uses survey data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/eag_comp_fit_fleet1_type0.png")
+```
+
+````{r eagsizetotres, fig.align='center', fig.cap="Comparison of total catch size composition residuals in the EAG. Model 23.0a is the base model with updated data, 23.1 truncates the size composition, 23.0a uses alternative size composition weights, 23.1b uses an additional selectivity period, and 23.2 uses survey data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/eag__compres_fleet1_type0.png")
+```
+
+````{r eagsizesurvey, fig.align='center', fig.cap="Comparison of model fit to cooperative survey catch size composition in the EAG. Model 23.0a is the base model with updated data, 23.1 truncates the size composition, 23.0a uses alternative size composition weights, 23.1b uses an additional selectivity period, and 23.2 uses survey data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/eag_comp_fit_fleet3_type0.png")
+```
+
+````{r wagsizeret, fig.align='center', fig.cap="Comparison of model fit to reatined catch size composition in the WAG. Model 23.0a is the base model with updated data, 23.1 truncates the size composition, 23.0a uses alternative size composition weights, and 23.1b uses an additional selectivity period.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/wag_comp_fit_fleet1_type1.png")
+```
+
+````{r wagsizeretres, fig.align='center', fig.cap="Comparison of reatined catch size composition residuals in the WAG. Model 23.0a is the base model with updated data, 23.1 truncates the size composition, 23.0a uses alternative size composition weights, and 23.1b uses an additional selectivity period.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/wag__compres_fleet1_type1.png")
+```
+
+````{r wagsizetot, fig.align='center', fig.cap="Comparison of model fit to total catch size composition in the WAG. Model 23.0a is the base model with updated data, 23.1 truncates the size composition, 23.0a uses alternative size composition weights, and 23.1b uses an additional selectivity period.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/wag_comp_fit_fleet1_type0.png")
+```
+
+````{r wagsizetotres, fig.align='center', fig.cap="Comparison of total catch size composition residuals in the WAG. Model 23.0a is the base model with updated data, 23.1 truncates the size composition, 23.0a uses alternative size composition weights, and 23.1b uses an additional selectivity period.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/wag__compres_fleet1_type0.png")
+```
+
+````{r eagselex, fig.align='center', fig.cap="Comparison of estimated selectivity for the directed fishery in the EAG. Model 23.0a is the base model with updated data, 23.1 truncates the size composition, 23.0a uses alternative size composition weights, 23.1b uses an additional selectivity period, and 23.2 uses survey data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/eag_selectivity.png")
+```
+
+````{r eagsurveyselex, fig.align='center', fig.cap="Estimated selectivity for the cooperative survey fisher in the EAG. Model 23.0a is the base model with updated data, 23.1 truncates the size composition, 23.0a uses alternative size composition weights, 23.1b uses an additional selectivity period, and 23.2 uses survey data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/eag_fleet3_selectivity.png")
+```
+
+````{r wagselex, fig.align='center', fig.cap="Comparison of estimated selectivity for the directed fishery in the WAG. Model 23.0a is the base model with updated data, 23.1 truncates the size composition, 23.0a uses alternative size composition weights, and 23.1b uses an additional selectivity period.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/wag_selectivity.png")
+```
+
+````{r eagrec, fig.align='center', fig.cap="Comparison of model estimated recruitment in the EAG. Model 23.0a is the base model with updated data, 23.1 truncates the size composition, 23.0a uses alternative size composition weights, 23.1b uses an additional selectivity period, and 23.2 uses survey data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/eag_recruits.png")
+```
+
+````{r wagrec, fig.align='center', fig.cap="Comparison of model estimated recruitment in the WAG. Model 23.0a is the base model with updated data, 23.1 truncates the size composition, 23.0a uses alternative size composition weights, and 23.1b uses an additional selectivity period.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/wag_recruits.png")
+```
+
+````{r eagf, fig.align='center', fig.cap="Comparison of model estimated fully selected fishing mortality in the EAG by fleet. Model 23.0a is the base model with updated data, 23.1 truncates the size composition, 23.0a uses alternative size composition weights, 23.1b uses an additional selectivity period, and 23.2 uses survey data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/eag_f_by_fleet.png")
+```
+
+````{r wagf, fig.align='center', fig.cap="Comparison of model estimated fully selected fishing mortality in the WAG by fleet. Model 23.0a is the base model with updated data, 23.1 truncates the size composition, 23.0a uses alternative size composition weights, and 23.1b uses an additional selectivity period.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/wag_f_by_fleet.png")
+```
+
+````{r eagssb, fig.align='center', fig.cap="Comparison of model estimated MMB in the EAG. Model 23.0a is the base model with updated data, 23.1 truncates the size composition, 23.0a uses alternative size composition weights, 23.1b uses an additional selectivity period, and 23.2 uses survey data.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/eag_ssb.png")
+```
+
+````{r wagssb, fig.align='center', fig.cap="Comparison of model estimated MMB in the WAG. Model 23.0a is the base model with updated data, 23.1 truncates the size composition, 23.0a uses alternative size composition weights, and 23.1b uses an additional selectivity period.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/wag_ssb.png")
+```
+
+
+#### {-}
+
+````{r aicatch, fig.align='center', fig.cap="Comparison of model fit to retained catch, total catch, and groundfish bycatch moratlity for AI 23.1b, EAG 23.1b, and WAG 23.1b. Error bars on observed values represent 95\\% confidence intervals.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/ai_catch_fit.png")
+```
+
+````{r aiindex, fig.align='center', fig.cap="Comparison of model fit to CPUE indices for AI 23.1b, EAG 23.1b, and WAG 23.1b. Error bars on observed values respresent 95\\% confidence intervals (dark grey) and estimated additional error (light grey).", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/ai_index_fit.png")
+```
+
+````{r aisizereteag, fig.align='center', fig.cap="Comparison of model AI 23.1b and EAG 23.1b fit to reatined catch size composition in the EAG.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/ai_comp_fit_fleet1_type1.png")
+```
+
+````{r aisizetoteag, fig.align='center', fig.cap="Comparison of model AI 23.1b and EAG 23.1b fit to total catch size composition in the EAG.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/ai_comp_fit_fleet1_type0.png")
+```
+
+````{r aisizeretwag, fig.align='center', fig.cap="Comparison of model AI 23.1b and WAG 23.1b fit to reatined catch size composition in the WAG.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/ai_comp_fit_fleet2_type1.png")
+```
+
+````{r aisizetotwag, fig.align='center', fig.cap="Comparison of model AI 23.1b and WAG 23.1b fit to total catch size composition in the WAG.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/ai_comp_fit_fleet2_type0.png")
+```
+
+````{r aiselex, fig.align='center', fig.cap="Comparison of estimated selectivity for the directed fishery in the EAG and WAG for models AI 23.1b, EAg 23.1b, and WAg 23.1b.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/ai_selectivity.png")
+```
+
+````{r airec, fig.align='center', fig.cap="Comparison of model estimated recruitment for model AI 23.1b, EAG 23.1b, WAG 23.1b, and sum of EAG and WAG models.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/ai_recruits.png")
+```
+
+````{r aif, fig.align='center', fig.cap="Comparison of model estimated fully selected fishing mortality for models AI 23.1b, EAG 23.1b, and WAG 23.1b by fleet.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/ai_f_by_fleet.png")
+```
+
+````{r aissb, fig.align='center', fig.cap="Comparison of estimated MMB for model AI 23.1b, EAG 23.1b, WAG 23.1b, and sum of EAG and WAG models.", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/ai_ssb.png")
+```
+
+
+
+
+#### {-}
+
+````{r eagretrossb, fig.align='center', fig.cap="Estimated MMB and associtated Mohn's $\\rho$ from retrospective analysis of EAG models 22.1e2, 23.0a, 23.1, and 23.1b. ", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/eag_retrospective_ssb.png")
+```
+
+````{r eagsurveyretrossb, fig.align='center', fig.cap="Estimated MMB and associtated Mohn's $\\rho$ from retrospective analysis of EAG model 23.2. ", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/eag_23_2_retrospective_ssb.png")
+```
+
+````{r wagretrossb, fig.align='center', fig.cap="Estimated MMB and associtated Mohn's $\\rho$ from retrospective analysis of WAG models 22.1e2, 23.0a, 23.1, and 23.1b. ", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/wag_retrospective_ssb.png")
+```
+
+````{r airetrossb, fig.align='center', fig.cap="Estimated MMB and associtated Mohn's $\\rho$ from retrospective analysis of model AI 23.1b. ", eval = T}
+knitr::include_graphics("../../figures/models/2024/jan/ai_retrospective_ssb.png")
+```
+
+
+# Literature Cited {-}
+
+\begin{hangparas}{.25in}{1}
+
+Siddeek, M.S.M., T. Jackson, B. Daly, C. Siddon, M.J. Westphal, and L. Hulbert. 2023. Aleutian Islands golden king crab model scenarios for May 2023 assessment. North Pacific Fishery Management Council, Anchorage, Alaska.   
+
+Stewart, I.J. and O.S. Hamel. 2014. Bootstrapping of sample sizes for length- or age-composition data used in stock assessments. Canadian Journal of Fisheries and Aquatic Sciences 71: 581-588.  
+
+\end{hangparas}
+

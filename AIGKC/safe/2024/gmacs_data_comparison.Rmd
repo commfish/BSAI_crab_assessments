@@ -1,0 +1,727 @@
+---
+title: "Appendix A: Summarization of Fishery Data for Input to GMACS"
+author: |
+  | Tyler Jackson
+  | Alaska Department of Fish and Game, tyler.jackson@alaska.gov
+date: "`r format(Sys.time(), '%B %Y')`"
+output:
+  bookdown::pdf_document2:
+    toc: no
+header-includes:
+   - \usepackage{float}
+   - \usepackage{hanging}
+---
+
+```{r, echo = F, message = F, warning = F}
+library(tidyverse)
+library(xtable)
+library(ggridges)
+source("../../code/aigkc_functions.R")
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, fig.pos='H')
+```
+
+```{r echo = F, message = F, warning = F}
+# dat files -----
+# eag data file
+eag_dat <- "../../models/2023/EAG/22.1e2_complete/Gmacs9cEAG22_1e2CatchNo_complete.dat"
+# wag data file
+wag_dat <- "../../models/2023/WAG/22.1e2_complete/gmacs9cWAG22_1e2_complete.dat"
+
+# retained catch -----
+# update version
+read_csv("../../data/observer/item3_retained_catch.csv") %>%
+  transmute(crab_year, fishery, t, type = "Update") -> ret_upd
+# status quo version
+## eag
+matrix(scan(eag_dat, skip = 131, nlines = length(132:169)),
+       ncol = 11, byrow = T) %>% as_tibble %>%
+  transmute(crab_year = V1, fishery = "EAG", t = V5, type = "Status quo") %>%
+  ## wag
+  bind_rows(
+    matrix(scan(wag_dat, skip = 132, nlines = length(133:170)),
+           ncol = 11, byrow = T) %>% as_tibble %>%
+      transmute(crab_year = V1, fishery = "WAG", t = V5, type = "Status quo")
+  ) -> ret_sq
+
+# total catch ----
+
+# update version
+read_csv("../../data/observer/item4_directed_total_catch.csv") %>%
+  filter(group %in% c("sublegal", "tot_legal")) %>%
+  group_by(fishery, crab_year) %>%
+  summarise(total_catch_t = sum(total_catch_t)) %>%
+  transmute(crab_year, fishery, total_catch_t, type = "Update") -> tot_upd
+
+# status quo version
+## eag
+matrix(scan(eag_dat, skip = 172, nlines = length(173:204)),
+       ncol = 11, byrow = T) %>% as_tibble %>%
+  transmute(crab_year = V1, fishery = "EAG", total_catch_t = V5, type = "Status quo") %>%
+  ## wag
+  bind_rows(
+    matrix(scan(wag_dat, skip = 207, nlines = length(208:240)),
+           ncol = 11, byrow = T) %>% as_tibble %>%
+      transmute(crab_year = V1, fishery = "WAG", total_catch_t = V5, type = "Status quo")
+  ) -> tot_sq 
+
+# total catch cv ----
+
+# updated version
+read_csv("../../data/observer/item5_nonzero_obs_pots.csv") %>%
+      group_by(fishery) %>%
+      # compute graded weight
+      transmute(crab_year, fishery, cv = sqrt(exp(1 / (2 * ((m_nz * 250) / max(m_nz)))) - 1),
+                m_nz,
+                type = "Update") -> totcv_upd
+
+# status quo version
+## eag
+matrix(scan(eag_dat, skip = 172, nlines = length(173:204)),
+       ncol = 11, byrow = T) %>% as_tibble %>%
+  transmute(crab_year = V1, 
+            fishery = "EAG", 
+            cv = V6, 
+            m_nz = (((1/log(cv^2+1)) / 2) * 8360) / 250,
+            type = "Status quo") %>%
+  ## wag
+  bind_rows(
+    matrix(scan(wag_dat, skip = 207, nlines = length(208:240)),
+           ncol = 11, byrow = T) %>% as_tibble %>%
+      transmute(crab_year = V1, 
+                fishery = "WAG", 
+                cv = V6, 
+                m_nz = (((1/log(cv^2+1)) / 2) * 7194) / 250, 
+                type = "Status quo")
+  ) -> totcv_sq
+
+
+# retained length composition ----
+
+# status quo
+# eag
+matrix(scan(eag_dat, skip = 364, nlines = length(365:402)),
+       ncol = 25, byrow = T) %>% as_tibble %>%
+  dplyr::select(1, 8, 9:25) %>%
+  rename_all(~c("crab_year", "neff", seq(103, 183, 5))) %>%
+  pivot_longer(3:19, names_to = "cl", values_to = "prop") %>%
+  mutate(type = "Status Quo",
+         fishery = "EAG") %>%
+
+bind_rows(
+
+# wag
+matrix(scan(wag_dat, skip = 392, nlines = length(393:430)),
+       ncol = 25, byrow = T) %>% as_tibble %>%
+  dplyr::select(1, 8, 9:25) %>%
+  rename_all(~c("crab_year", "neff", seq(103, 183, 5))) %>%
+  pivot_longer(3:19, names_to = "cl", values_to = "prop") %>%
+  mutate(type = "Status Quo",
+         fishery = "WAG")
+
+) %>%
+  mutate(cl = as.numeric(cl)) -> ret_comp_sq
+
+# update
+read_csv("../../data/observer/item8_retained_size_comp.csv") %>%
+  # add length bin
+  f_add_len_bin(., .$size) %>%
+  # compute total measured per year
+  group_by(crab_year, fishery) %>%
+  mutate(nmeas = sum(total)) %>%
+  # compute total measured by bin
+  group_by(crab_year, fishery, bin) %>%
+  summarise(n = sum(total),
+            nmeas = mean(nmeas)) %>%
+  ungroup %>%
+  mutate(prop  = n / nmeas) %>%
+  # join to stage 1 neff
+  left_join(read_csv("../../data/observer/item6_vessel_days.csv")) %>%
+  transmute(crab_year, neff = n_days, cl = bin, prop, type = "Update", fishery) -> ret_comp_upd            
+
+# total length composition ----
+
+# status quo
+# eag
+matrix(scan(eag_dat, skip = 406, nlines = length(407:438)),
+       ncol = 25, byrow = T) %>% as_tibble %>%
+  dplyr::select(1, 8, 9:25) %>%
+  rename_all(~c("crab_year", "neff", seq(103, 183, 5))) %>%
+  pivot_longer(3:19, names_to = "cl", values_to = "prop") %>%
+  mutate(type = "Status Quo",
+         fishery = "EAG",
+         cl = as.numeric(cl)) %>%
+
+bind_rows(
+
+# wag
+matrix(scan(wag_dat, skip = 434, nlines = length(435:467)),
+       ncol = 25, byrow = T) %>% as_tibble %>%
+  dplyr::select(1, 8, 9:25) %>%
+  rename_all(~c("crab_year", "neff", seq(103, 183, 5))) %>%
+  pivot_longer(3:19, names_to = "cl", values_to = "prop") %>%
+  mutate(type = "Status Quo",
+         fishery = "WAG",
+         cl = as.numeric(cl))
+
+) -> tot_comp_sq
+  
+# update
+read_csv("../../data/observer/item9_directed_observer_size_comp.csv") %>%
+  filter(sex == 1) %>%
+  # add length bin
+  f_add_len_bin(., .$size) %>%
+  # compute total measured per year
+  group_by(crab_year, fishery) %>%
+  mutate(nmeas = sum(total)) %>%
+  # compute total measured by bin
+  group_by(crab_year, fishery, bin) %>%
+  summarise(n = sum(total),
+            nmeas = mean(nmeas)) %>%
+  ungroup %>%
+  mutate(prop  = n / nmeas) %>%
+  # join to stage 1 neff
+  left_join(read_csv("../../data/observer/item7_observed_vessel_days.csv")) %>%
+  transmute(crab_year, neff = n_days, cl = bin, prop, type = "Update", fishery) -> tot_comp_upd
+
+# number of deliveries sampled ----
+read_csv("../../data/observer/item11_deliveries_sampled.csv")-> n_deliveries
+
+
+
+
+# groundfish bycatch ----
+
+# status quo
+## eag
+matrix(scan(eag_dat, skip = 206, nlines = length(207:239)),
+       ncol = 11, byrow = T) %>% as_tibble %>%
+  transmute(crab_year = V1, fishery = "EAG", bycatch_t = V5, type = "Status quo") %>%
+  ## wag
+  bind_rows(
+    matrix(scan(wag_dat, skip = 243, nlines = length(244:276)),
+           ncol = 11, byrow = T) %>% as_tibble %>%
+      transmute(crab_year = V1, fishery = "WAG", bycatch_t = V5, type = "Status quo")
+  ) -> gf_sq 
+
+
+read_csv("../../output/gf_bycatch/gf_bycatch_est.csv") %>%
+  transmute(crab_year, fishery, bycatch_t = mort_t, type = "Update") -> gf_upd
+
+
+```
+
+# Retained Catch {-}
+
+Observed retained catch (t; $\hat{C}_{Ret,i}$) based on the status quo approach was computed as
+
+\begin{equation}
+\hat{C}_{i} = \sum_{j}{w_{j}C_{RetN,i}P_{Ret,j,i}}
+\end{equation}
+
+where   
+  
+$w_{j}$ = average weight (t) of size bin $j$;   
+$C_{RetN,i}$ = total number of retained catch from fish ticket data, in year $i$;  
+$P_{Ret,j,i}$ = \textbf{retained catch} size composition proportion within size bin $j$, in year $i$.  
+
+Retained catch weight is recorded on fish tickets, and instead can be accessed directly and converted from lb to t (Table \ref{table:retainedtab}; Figure \ref{fig:retainedplot}). Average weight of each size bin ($w_{j}$) used in the status quo approach is in Table (\ref{table:wj}).
+
+# Total Catch {-}
+
+Total catch in the directed fishery (t; $\hat{C}_{Tot,i}$) based on the status quo approach was computed as
+
+\begin{equation}
+\hat{C}_{Tot,i} = \sum_{j}{w_{j}U_{i}n_{i}P_{Tot,j,i}}
+\end{equation}
+
+\begin{equation}
+\bar{U}_{i} = \frac{1}{m_{i}}\sum^{m}_{h}c_{h,i}
+\end{equation}
+
+where  
+
+$U_{i}$ = observer catch per unit effort (CPUE; crab per pot) of male crab in the directed fishery in year $i$;  
+$c_{h,i}$ = number of male crab caught in observer of pot $h$, in year $i$;  
+$n_{i}$ = total number of pot lifts in the directed fishery in year $i$;  
+$m_{i}$ = number of observer pots sampled in year $i$;  
+$w_{j}$ = average weight (t) of size bin $j$ (Table \ref{table:wj});   
+$P_{Tot,j,i}$ = \textbf{total catch} (i.e., observer collected) size composition proportion within size bin $j$, in year $i$.   
+
+The updated approach computes $\hat{C}_{Tot,i}$ as 
+
+\begin{equation}
+\hat{C}_{Tot,i} = \sum_{k}\bar{w}_{k,i}U_{k,i}n_{i}
+\end{equation}
+
+\begin{equation}
+U_{k,i} = \frac{1}{m_{i}}\sum^{m}_{h}c_{k,h,i}
+\end{equation}
+
+\begin{equation}
+\bar{w}_{k,i} = \frac{\sum{\alpha L^{\beta} c_{l,k,i}}}{\sum{c_{l,k,i}}}
+\end{equation}
+
+where   
+
+$U_{k,i}$ = observer catch per unit effort (CPUE; crab per pot) in the directed fishery of group $k$ (i.e., sublegal male, legal male), in year $i$;  
+$\bar{w}_{k,i}$ = mean weight (t) of crab caught in observer measure pots in group $k$, in year $i$;  
+$c_{k,h,i}$ = number of crab caught of group $k$,in observer of pot $h$, in year $i$;  
+$c_{l,k,i}$ = number of crab caught of carapace length $l$, in group $k$, in year $i$;  
+$L$ = carapace length;  
+$\alpha$ = allometric scale parameter ($\alpha$ = 0.0001445);  
+$\beta$ = allometric shape parameter ($\beta$ = 3.28113). 
+
+Comparison of estimates is found in Table \ref{table:totaltab} and Figure \ref{fig:totalplot}.  
+
+Coefficient of variation ($cv$) for total catch in each year is the graded number of observer sampled pots with non-zero catches ($m_{nz,i}$) in which the maximum weight ($\omega_{i}$) is $\text{max}[\omega_{i}]$ = 250, scaled as
+
+\begin{equation}
+cv_{i} = \sqrt{e^{\frac{1}{2\omega_{i}}}-1}
+\end{equation}
+
+\begin{equation}
+\omega_{i}=\frac{\text{max}[\omega_{i}]m_{nz,i}}{\text{max}[m_{nz,i}]}
+\end{equation}
+
+The number of observer sampled pots with non-zero catches listed in the data file of the legacy model does not match that accessed from the observer program database. Status quo and updated timeseries of  $m_{nz,i}$ and $cv_{i}$ are listed Table (\ref{table:totalcvtab}).
+
+
+# Retained Catch Length Composition {-}
+
+Length composition of the retained catch based on the status quo approach was estimated as 
+
+\begin{equation}
+P_{Ret,j,i} = \frac{\sum_{k}x_{j,k,i}C_{k, i}}{\sum_{j}\sum_{k}{x_{j,k,i}C_{k, i}}}
+\end{equation}
+
+where  
+
+$P_{Ret,j,i}$ = the estimated proportion of retained crab in size bin $j$, and year $i$;  
+$x_{j,k,i}$ = the number of crab measured in size bin $j$, during delivery $k$, in year $i$;  
+$C_{k, i}$ = the catch (i.e., number of crab off-loaded) from fish ticket $k$, in year $i$.  
+
+The updated approach does not weight $x_{j,k,i}$ by fish ticket report catch, thus $C_{k, i}$ = 1 (Figure \ref{fig:retcompploteag}). Stage 1 effective sample sizes ($\lambda_{Ret,i}$) are calculated as the total number of vessel days in the directed fishery, though $\lambda_{Ret,i}$ listed in the data file of the legacy model does not match that computed from fish ticket data in each year. Since the total number of vessel days is not strongly related to retained catch sampling effort, model 23.1a evaluated effective sample size based on the number of deliveries sampled (Table \ref{table:retnefftab}; Figure \ref{fig:retcompneff}).
+
+# Total Catch Length Composition {-}
+
+Length composition of the total catch based on the status quo approach was estimated as 
+
+\begin{equation}
+P_{Tot,j,i} = \frac{\sum_{h}x_{j,h,i}C_{k,i}}{\sum_{j}\sum_{h}{x_{j,h,i}C_{k,i}}}
+\end{equation}
+
+where  
+
+$P_{Tot,j,i}$ = the estimated proportion of the total catch in size bin $j$, and year $i$;  
+$x_{j,k,i}$ = the number of crab measured by observers in size bin $j$, pot $h$, and year $i$;  
+$C_{k, i}$ = the catch (i.e., number of crab off-loaded) from fish ticket $k$ corresponding to each observer pot, in year $i$.  
+
+As with the retained catch length composition, the updated approach does not weight $x_{j,k,i}$ by fish ticket report catch, thus $C_{k, i}$ = 1 (Figure \ref{fig:totalcompploteag}). Stage 1 effective sample sizes ($\lambda_{Tot,i}$) are calculated as the total number of vessel days in the directed fishery, though $\lambda_{Tot,i}$ listed in the data file of the legacy model does not match that computed from observer data in each year (Table \ref{table:totalnefftab}).
+
+
+# Groundfish Bycatch {-}
+
+Groundfish fixed and trawl gear fishery bycatch mortality (t; $\hat{C}_{GF,i}$) based on the status quo approach was computed as
+
+\begin{equation}
+\hat{C}_{GF,i} = \sum_{j}{w_{j}\hat{C}_{GFN,i}P_{GF,j,i}}
+\end{equation}
+
+where  
+
+$\hat{C}_{GFN,i}$ = estimated bycatch mortality of male crab (i.e., number of crab) in year $i$;  
+$w_{j}$ = average weight (t) of size bin $j$ (Table \ref{table:wj});   
+$P_{Tot,j,i}$ = \textbf{groundfish fisheries bycatch} (i.e., observer collected) size composition proportion within size bin $j$, in year $i$.   
+
+Estimated bycatch mortality numbers ($\hat{C}_{GFN,i}$) were computed by multiplying the estimated total bycatch accessed from AKFIN reports by the mortality rate associated with gear type (i.e., 0.5 for fixed gear and 0.8 for trawl gear) (Table \ref{table:gftab}; Figure \ref{fig: gfplot}). Cahalan et al., (2014) details the method for extrapolation of observer sampled hauls to obtain $\hat{C}_{GFN,i}$. The updated approach accesses expanded $\hat{C}_{GF,i}$ directly from AKFIN reports and applies a mortality rate of 0.5 to fixed gear fisheries and 0.8 to trawl gear fisheries, whereas the status quo approach considered only bycatch from observed hauls. NMFS reporting areas 518 (EAG), 519 (EAG), 541 (EAG), 542 (WAG) and 543 (WAG) were used for this stock in data from 1991 - 2008. 
+
+
+# Tables {-}
+
+#### {-}
+\begin{table}[H]
+\centering
+\caption{Weight at size ($w_{j}$) in kg used by the status quo approach to estimate retained catch, total catch and groundfish fishery bycatch.}
+\label{table:wj}
+\begin{tabular}{cccc}
+Bin & Mid CL (mm) & $w_{j}$\\
+\hline
+```{r wj, results='asis', eval = T}
+len_bins %>%
+  transmute(bin = paste0(min = min_cl - 0.5, " - ", round(max_cl - 0.5)),
+            mid_cl,
+            wj = round(mean_t * 1000, 3)) -> x
+
+# print table
+print(xtable(x, align="cccc", digits=c(0, 0, 0, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+#### {-}
+\begin{table}[H]
+\centering
+\caption{Timeseries of directed fishery retained catch (t) computed using the status quo approach and accessed directly from fish tickets.}
+\label{table:retainedtab}
+\begin{tabular}{lcccc}
+& \multicolumn{2}{c}{Status Quo} & \multicolumn{2}{c}{Update}\\ 
+Year & EAG & WAG & EAG & WAG\\
+\hline
+```{r retainedtab, results='asis', eval = T}
+ret_sq %>%
+  pivot_wider(names_from = fishery, values_from = t) %>%
+  transmute(crab_year, EAG_sq = EAG, WAG_sq = WAG) %>%
+  
+  left_join(ret_upd %>%
+  pivot_wider(names_from = fishery, values_from = t) %>%
+  transmute(crab_year, EAG_upd = EAG, WAG_upd = WAG) ) %>%
+  arrange(crab_year) %>%
+  mutate(crab_year = paste0(crab_year,"/", substring(crab_year+1, 3, 4))) -> x
+
+# print table
+print(xtable(x, align="lccccc", digits=c(0, 0, 0, 0, 0, 0)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+#### {-}
+\begin{table}[H]
+\centering
+\caption{Timeseries of directed fishery total catch (t) computed using the status quo approach and the updated approach.}
+\label{table:totaltab}
+\begin{tabular}{lcccc}
+& \multicolumn{2}{c}{Status Quo} & \multicolumn{2}{c}{Update}\\ 
+Year & EAG & WAG & EAG & WAG\\
+\hline
+```{r totaltab, results='asis', eval = T}
+tot_sq %>%
+  pivot_wider(names_from = fishery, values_from = total_catch_t) %>%
+  transmute(crab_year, EAG_sq = EAG, WAG_sq = WAG) %>%
+  
+  left_join(tot_upd %>%
+  pivot_wider(names_from = fishery, values_from = total_catch_t) %>%
+  transmute(crab_year, EAG_upd = EAG, WAG_upd = WAG) ) %>%
+  arrange(crab_year) %>%
+  mutate(crab_year = paste0(crab_year,"/", substring(crab_year+1, 3, 4)))-> x
+
+# print table
+print(xtable(x, align="lccccc", digits=c(0, 0, 0, 0, 0, 0)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+#### {-}
+
+\begin{table}[H]
+\centering
+\caption{Status quo and updated timeseries of total catch (t) $cv$ and number of observer sampled pots with non-zero catches ($m_{nz}$).}
+\label{table:totalcvtab}
+\begin{tabular}{lcccccccc}
+& \multicolumn{4}{c}{Status Quo} & \multicolumn{4}{c}{Update}\\ 
+& \multicolumn{2}{c}{EAG} & \multicolumn{2}{c}{WAG} & \multicolumn{2}{c}{EAG} & \multicolumn{2}{c}{WAG}\\
+Year & $cv$ & $m_{nz}$ & $cv$ & $m_{nz}$ & $cv$ & $m_{nz}$ & $cv$ & $m_{nz}$\\
+\hline
+```{r totalcvtab, results='asis', eval = T}
+totcv_sq %>%
+  pivot_wider(names_from = fishery, values_from = c(cv, m_nz)) %>%
+  transmute(crab_year, cv_EAG, m_nz_EAG, cv_WAG, m_nz_WAG) %>%
+  
+  left_join(totcv_upd %>%
+  pivot_wider(names_from = fishery, values_from = c(cv, m_nz)) %>%
+  transmute(crab_year, cv_EAGupd = cv_EAG, mn_z_EAGupd = m_nz_EAG, cv_WAGupd = cv_WAG, m_nz_WAGupd = m_nz_WAG) ) %>%
+  arrange(crab_year) %>%
+  mutate(crab_year = paste0(crab_year,"/", substring(crab_year+1, 3, 4)))-> x
+
+# print table
+print(xtable(x, align="lccccccccc", digits=c(0, 0, 3, 0, 3, 0, 3, 0, 3, 0)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+#### {-}
+
+\begin{table}[H]
+\centering
+\caption{Status quo and updated timeseries of retained catch size composition stage 1 effective sample sizes ($\lambda_{Ret,i}$; i.e., number of vessel days or number of deliveries sampled).}
+\label{table:retnefftab}
+\begin{tabular}{lccccccc}
+& \multicolumn{2}{c}{Status Quo} & \multicolumn{2}{c}{Update} & \multicolumn{2}{c}{N. Deliveries}\\ 
+Year & EAG & WAG & EAG & WAG & EAG & WAG\\
+\hline
+```{r retnefftab, results='asis', eval = T}
+ret_comp_sq %>%
+  distinct(crab_year, neff, fishery) %>%
+  pivot_wider(names_from = fishery, values_from = neff) %>%
+  rename(EAGsq = EAG, WAGsq = WAG) %>%
+  left_join(ret_comp_upd %>%
+  distinct(crab_year, neff, fishery) %>%
+  pivot_wider(names_from = fishery, values_from = neff) %>%
+  rename(EAGupd = EAG, WAGupd = WAG)) %>%
+  arrange(crab_year) %>%
+  mutate(crab_year = as.character(crab_year)) %>%
+  left_join(n_deliveries %>%
+              pivot_wider(names_from = fishery, values_from = n_deliveries) %>%
+              rename(EAGdel = EAG, WAGdel = WAG) %>%
+              arrange(crab_year) %>%
+              mutate(crab_year = as.character(crab_year)))-> x
+
+# print table
+print(xtable(x, align="lccccccc", digits=0),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+#### {-}
+
+\begin{table}[H]
+\centering
+\caption{Status quo and updated timeseries of total catch size composition stage 1 effective sample sizes ($\lambda_{Tot,i}$; i.e., number of observed vessel days).}
+\label{table:totalnefftab}
+\begin{tabular}{lccccc}
+& \multicolumn{2}{c}{Status Quo} & \multicolumn{2}{c}{Update}\\ 
+Year & EAG & WAG & EAG & WAG\\
+\hline
+```{r totalnefftab, results='asis', eval = T}
+tot_comp_sq %>%
+  distinct(crab_year, neff, fishery) %>%
+  pivot_wider(names_from = fishery, values_from = neff) %>%
+  rename(EAGsq = EAG, WAGsq = WAG) %>%
+  left_join(tot_comp_upd %>%
+  distinct(crab_year, neff, fishery) %>%
+  pivot_wider(names_from = fishery, values_from = neff) %>%
+  rename(EAGupd = EAG, WAGupd = WAG)) %>%
+  arrange(crab_year) %>%
+  mutate(crab_year = as.character(crab_year)) -> x
+
+# print table
+print(xtable(x, align="lccccc", digits=0),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+#### {-}
+
+\begin{table}[H]
+\centering
+\caption{Timeseries of bycatch mortality (t) in groundfish fisheries computed using the status quo approach and accessed directly from AKFIN.}
+\label{table:gftab}
+\begin{tabular}{lcccc}
+& \multicolumn{2}{c}{Status Quo} & \multicolumn{2}{c}{Update}\\ 
+Year & EAG & WAG & EAG & WAG\\
+\hline
+```{r gftab, results='asis', eval = T}
+gf_sq %>%
+  pivot_wider(names_from = fishery, values_from = bycatch_t) %>%
+  transmute(crab_year, EAG_sq = EAG, WAG_sq = WAG) %>%
+  
+  left_join(gf_upd %>%
+  pivot_wider(names_from = fishery, values_from = bycatch_t) %>%
+  transmute(crab_year, EAG_upd = EAG, WAG_upd = WAG) ) %>%
+  arrange(crab_year) %>%
+  mutate(crab_year = paste0(crab_year,"/", substring(crab_year+1, 3, 4))) -> x
+
+# print table
+print(xtable(x, align="lccccc", digits=c(0, 2, 2, 2, 2, 2)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+# Figures {-}
+
+```{r retainedplot, fig.align = 'center', fig.cap = "Timeseries of directed fishery retained catch (t) computed using the status quo approach and accessed directly from fish tickets.", fig.height = 6, fig.width = 6, eval = T}
+
+bind_rows(ret_sq, ret_upd) %>%
+  ggplot()+
+  geom_point(aes(x = crab_year, y = t, color = type))+
+  geom_line(aes(x = crab_year, y = t, color = type))+
+  facet_wrap(~fishery, ncol = 1)+
+  labs(x = NULL, y = "Retained Catch (t)", color = NULL)+
+  scale_y_continuous(labels = scales::comma)
+
+```
+
+```{r totalplot, fig.align = 'center', fig.cap = "Timeseries of directed fishery total catch (t) computed using the status quo approach and the updated approach.", fig.height = 6, fig.width = 6, eval = T}
+
+bind_rows(tot_sq, tot_upd) %>%
+  ggplot()+
+  geom_point(aes(x = crab_year, y = total_catch_t, color = type))+
+  geom_line(aes(x = crab_year, y = total_catch_t, color = type))+
+  facet_wrap(~fishery, ncol = 1)+
+  labs(x = NULL, y = "Total Catch (t)", color = NULL)+
+  scale_y_continuous(labels = scales::comma)
+
+```
+
+```{r retcompploteag, fig.align = 'center', fig.cap = "Timeseries of EAG retained catch size composition (expressed as proportion within year) computed using the status quo approach and the updated approach.", fig.height = 8, fig.width = 6, eval = T}
+
+bind_rows(ret_comp_sq, ret_comp_upd) %>% 
+  filter(fishery == "EAG") %>%
+  mutate(panel = crab_year >= ((2023 - 1985) / 2) + 1985) %>%
+  ggplot()+
+  geom_density_ridges(aes(x = cl, y = factor(crab_year), height = prop, fill = type), 
+                      stat = "identity", alpha = 0.4)+
+  scale_y_discrete(limits = rev)+
+  labs(y = NULL, x = "Carapace Length (mm)", fill = NULL)+
+  facet_wrap(~panel, scales = "free")+
+  theme(strip.text.x = element_blank(),
+        strip.background = element_blank(),
+        legend.position = "top")
+```
+
+```{r retcompplotwag, fig.align = 'center', fig.cap = "Timeseries of WAG retained catch size composition (expressed as proportion within year) computed using the status quo approach and the updated approach.", fig.height = 8, fig.width = 6, eval = T}
+
+bind_rows(ret_comp_sq, ret_comp_upd) %>% 
+  filter(fishery == "WAG") %>%
+  mutate(panel = crab_year >= ((2023 - 1990) / 2) + 1990) %>%
+  ggplot()+
+  geom_density_ridges(aes(x = cl, y = factor(crab_year), height = prop, fill = type), 
+                      stat = "identity", alpha = 0.4)+
+  scale_y_discrete(limits = rev)+
+  labs(y = NULL, x = "Carapace Length (mm)", fill = NULL)+
+  facet_wrap(~panel, scales = "free")+
+  theme(strip.text.x = element_blank(),
+        strip.background = element_blank(),
+        legend.position = "top")
+```
+
+```{r retcompneff, fig.align = 'center', fig.cap = "Relationship between retained catch effective sample size proxy and the number of crab measured.", fig.height = 4, fig.width = 7, eval = T}
+
+
+# status quo and updated number of vessel days
+bind_rows(ret_comp_sq, ret_comp_upd) %>% 
+  distinct(crab_year, neff, fishery, type) %>%
+  left_join(read_csv("../../data/observer/item8_retained_size_comp.csv") %>% ungroup %>%
+  # compute total measured per year
+  group_by(crab_year, fishery) %>%
+  summarise(nmeas = sum(total))) %>%
+  # number of deliveries
+  bind_rows(n_deliveries %>%
+              rename(neff = n_deliveries) %>%
+              mutate(type = "Number of Deliveries Sampled") %>%
+  left_join(read_csv("../../data/observer/item8_retained_size_comp.csv") %>% ungroup %>%
+  # compute total measured per year
+  group_by(crab_year, fishery) %>%
+  summarise(nmeas = sum(total)))) %>%
+  mutate(type = factor(type, levels = c("Status Quo", "Update", "Number of Deliveries Sampled"))) %>%
+
+  ggplot()+
+  geom_point(aes(x = neff, y = nmeas))+
+  labs(x = "N eff.", y = "Crab Measured", fill = NULL)+
+  scale_y_continuous(labels = scales::comma)+
+  facet_grid(rows = vars(fishery), cols = vars(type))
+```
+
+
+
+
+
+```{r totalcompploteag, fig.align = 'center', fig.cap = "Timeseries of EAG total catch size composition (expressed as proportion within year) computed using the status quo approach and the updated approach.", fig.height = 8, fig.width = 6, eval = T}
+
+bind_rows(tot_comp_sq, tot_comp_upd) %>% 
+  filter(fishery == "EAG") %>%
+  mutate(panel = crab_year >= ((2023 - 1990) / 2) + 1990) %>%
+  ggplot()+
+  geom_density_ridges(aes(x = cl, y = factor(crab_year), height = prop, fill = type), 
+                      stat = "identity", alpha = 0.4)+
+  scale_y_discrete(limits = rev)+
+  labs(y = NULL, x = "Carapace Length (mm)", fill = NULL)+
+  facet_wrap(~panel, scales = "free")+
+  theme(strip.text.x = element_blank(),
+        strip.background = element_blank(),
+        legend.position = "top")
+```
+
+```{r totalcompplotwag, fig.align = 'center', fig.cap = "Timeseries of WAG total catch size composition (expressed as proportion within year) computed using the status quo approach and the updated approach.", fig.height = 8, fig.width = 6, eval = T}
+
+bind_rows(tot_comp_sq, tot_comp_upd) %>% 
+  filter(fishery == "WAG") %>%
+  mutate(panel = crab_year >= ((2023 - 1985) / 2) + 1985) %>%
+  ggplot()+
+  geom_density_ridges(aes(x = cl, y = factor(crab_year), height = prop, fill = type), 
+                      stat = "identity", alpha = 0.4)+
+  scale_y_discrete(limits = rev)+
+  labs(y = NULL, x = "Carapace Length (mm)", fill = NULL)+
+  facet_wrap(~panel, scales = "free")+
+  theme(strip.text.x = element_blank(),
+        strip.background = element_blank(),
+        legend.position = "top")
+```
+
+
+```{r gfplot, fig.align = 'center', fig.cap = "Timeseries of directed fishery groundfish bycatch (t) computed using the status quo approach and the updated approach.", fig.height = 6, fig.width = 6, eval = T}
+
+bind_rows(gf_sq, gf_upd) %>%
+  ggplot()+
+  geom_point(aes(x = crab_year, y = bycatch_t, color = type))+
+  geom_line(aes(x = crab_year, y = bycatch_t, color = type))+
+  facet_wrap(~fishery, ncol = 1)+
+  labs(x = NULL, y = "Groundfish Bycatch (t)", color = NULL)+
+  scale_y_continuous(labels = scales::comma)
+
+```
+
+# Literature Cited {-}
+
+\begin{hangparas}{.25in}{1}
+
+Cahalan, J.A., J.R. Gasper, and J. Mondragon, Jennifer. 2014. Catch sampling and estimation in the federal groundfish fisheries off Alaska, 2015 edition. NOAA technical memorandum NMFS-AFSC; 286. Alaska Fisheries Science Center, Seattle, WA.
+
+\end{hangparas}
+
+
+

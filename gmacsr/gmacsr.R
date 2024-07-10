@@ -876,7 +876,7 @@ gmacs_read_allout <- function(file, model_name = NULL, version = "2.20.14") {
       mutate_at(c(1:3, 5, 12), as.numeric) -> tmp
     
     ## get comps
-    last <- last + 3 # set last to start where the data is
+    last <- last + 2 # set last to start where the data is
     tmp %>%
       nest_by(mod_series, .keep = T) %>% ungroup() %>% 
       mutate(row = purrr::map_dbl(data, ~nrow(.)),

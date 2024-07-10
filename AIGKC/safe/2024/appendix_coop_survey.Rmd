@@ -1,0 +1,138 @@
+---
+title: "Appendix C: AIGKC Cooperative Pot Suvrey"
+author: |
+  | Tyler Jackson, Ben Daly, Jared Weems, Andrew Nault
+  | Alaska Department of Fish and Game, tyler.jackson@alaska.gov
+date: "`r format(Sys.time(), '%B %Y')`"
+output:
+  bookdown::pdf_document2:
+    toc: no
+header-includes:
+   - \usepackage{float}
+   - \usepackage{hanging}
+---
+
+```{r, echo = F, message = F, warning = F}
+library(tidyverse)
+library(xtable)
+
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, fig.pos='H',
+                      out.height = "\\textheight", out.width = "\\textwidth")
+
+```
+# Background {-}
+
+The AIGKC cooperative pot survey was initiated in 2015 in the EAG and has continued every year since with the exception of 2020. The survey was extended to WAG in 2018. The main purpose of the survey is to generate a cost effective data stream available to the stock assessment that is spatially representative and less susceptible to hyperstability than fishery catch-per-unit-effort (CPUE). The survey has occurred during the beginning of each season, with participating vessels setting pots strings at pre-determined stations and later picking strings with ADF\&G staff on board for collection of biological data. Survey data is available for 2015 - 2022 in the EAG and 2018 and 2019 in the WAG. Since only two years of data are available for the WAG, this appendix only details the preparation of assessment model inputs for the EAG. 
+
+# Methods {-}
+
+## Station Selection and Sampling {-}
+
+The survey area in the EAG consists of a 2x2 nmi grid overlaying the full range of historically fished areas. The survey grid is divided into strata to improve spatial representation. Strata have varied over the time series depending on the vessels participating, but since 2022 the survey design has included three strata (Figure \ref{fig:areamap}). Vessels divided sampling efforts based on their respective fishing grounds. Survey data pre-2022 were stratified to the current design $post$ $hoc$.  
+
+Grid cells were randomly selected among strata, and selections were removed or reallocated as necessary to avoid gear conflicts with groundfish trawl operations. The number of selected cells has varied by year. Since 2022 the initial selection process in the EAG included 25 grid cells per stratum. Vessels set pot strings intersecting grid cells at their digression and there are no specific requirements on string length or soak time (Figure \ref{fig:stringmap}). Biologists systematically sampled 5-7 pots per string, not beginning or ending on the first or last pot of a string. Due to logistical constraints, not all survey strings were sampled during biologist crewed trips.
+
+Carapace lengths (CL) were recorded for legal and sublegal males, as well as females. Unmeasured crab were counted to obtain a catch number per size-sex catagory for each pot. On deck sampling procedure varied among vessels and crew as working conditions allowed, though biologists targeted CL records from at least \~ 30 crab per pot, with at least 10 of which being legal males. Females were given lowest priority and subsampled at a high rate. Sampling statistics from 2015 - 2022 are detailed in Table \ref{table:samplestats}.
+
+## Survey CPUE {-}
+
+Nominal survey CPUE ($U_{y}$) was computed as 
+
+\begin{equation}
+U_{y} = \frac{1}{k}\sum^{k}_{h = 1}{U_{h}}
+\end{equation}
+
+\begin{equation}
+U_{h} = \frac{1}{n_h}\sum^{n}_{i = 1}{U_{i,h}}
+\end{equation}
+
+\begin{equation}
+U_i,h = \frac{1}{m_{i}}\sum^{m}_{j = 1}{U_{j, i}}
+\end{equation}
+
+where 
+
+$U_{h}$ = CPUE of stratum $h$ of $k$;  
+$U_{i,h}$ = CPUE of string $i$ of $n$, within stratum $h$; and   
+$U_{j,i}$ = CPUE of pot $j$ of $m$, within string $i$.  
+
+Variance in $U_{y}$ ($\sigma^2_{U_y}$) was estimated as 
+
+\begin{equation}
+\sigma^2_{U_y} = \frac{1}{k^2}\sum^{k}_{h = 1}{\sigma^2_{U_{h}}}
+\end{equation}
+
+\begin{equation}
+\sigma^2_{U_h} = \frac{1}{n^2}\sum^{n}_{i = 1}{\sigma^2_{U_{i}}}
+\end{equation}
+
+Model based CPUE was estimated by a general additive mixed model in the form of 
+
+\begin{equation}
+\text{ln}(U_{j}) = \text{Year}_{y} + s(\text{soak time}) + (1 | \text{Stratum}_{h} / \text{String}_{i,y}) + \epsilon
+\end{equation}
+
+in which $\epsilon$ is negative binomial distributed error with $\theta$ = 1.318. The annual CPUE index was extracted from model results following the same method as used for observer CPUE standardization (Appendix B).
+
+# Results {-}
+
+Model diagnostics indicate an adequate fit to the data (Figure \ref{fig:gammdiag}). The marginal effect of soak time (EDF = 4.11) suggested a slow positive increase followed by a sharp decline at the largest values (i.e., roughly at 25 days) (Figure \ref{fig:gammsoaktime}). The resulting index follows a similar trend to the nominal CPUE, though with a more apparent decrease over the survey time series (Figure \ref{fig:indextimeseries}).  
+
+The CPT (2018) recommended to standardize cooperative survey data using models that represents the nested sampling design. The standardization method proposed here accounts for varying soak time with respect to the survey design. Vessel and captain were not used to standardize survey CPUE since vessels have little to no overlap in survey pots (Figure \ref{fig:stringmap}), and thus would be confounded with spatial variability associated with strata.
+
+Survey size composition showed little variability in the prominent mode, with most individuals measured between 125 - 175 mm CL. Sublegal males were more abundant in 2015 - 2019 surveys (Figure \ref{fig:sizecomp}).
+
+# Tables {-}
+
+\begin{table}[H]
+\centering
+\caption{Number of strings and pots sampled, total number of male crab measured, and proportion of legal and sublegal crab measured (of total caught per catagory) per survey in the EAG.}
+
+\label{table:samplestats}
+\begin{tabular}{lcccccc}
+&&&& \multicolumn{2}{c}{Proportion Measured}\\
+Suvrey Year & Strings Sampled & Pots Sampled & Males Measured & Legal & Sublegal\\
+\hline
+```{r samplestats, results='asis', eval = T}
+x <- read_csv("../../output/coop_survey/survey_sample_stats.csv") %>% mutate(year = as.character(year))
+
+# print table
+print(xtable(x, align="lcccccc", digits=c(0,0,0,0,0,2,2)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+# Figures {-}
+
+````{r areamap, fig.align='center', fig.cap="Map of survey grid in the EAG colored by stratum.", eval = T}
+knitr::include_graphics("../../figures/coop_survey/2024/jan/EAG_3_Areas_TJ2.png")
+```
+
+````{r stringmap, fig.align='center', fig.cap="Map of stings sampled in the EAG by survey year.", eval = T}
+knitr::include_graphics("../../figures/coop_survey/2024/jan/eag_string_map.png")
+```
+
+````{r gammdiag, fig.align='center', fig.cap="Diagnostic plots for the GAMM fit to survey in the EAG.", eval = T}
+knitr::include_graphics("../../figures/coop_survey/2024/jan/gamm_diag.png")
+```
+
+````{r gammsoaktime, fig.align='center', fig.cap="Marginal effect of soak time with associated partial residuals for the GAMM fit to survey CPUE in the EAG.", eval = T}
+knitr::include_graphics("../../figures/coop_survey/2024/jan/gamm_effects_soaktime.png")
+```
+
+````{r indextimeseries, fig.align='center', fig.cap="Time series of standardized survey CPUE indices estimated for the EAG.", eval = T}
+knitr::include_graphics("../../figures/coop_survey/2024/jan/index_plot.png")
+```
+
+````{r sizecomp, fig.align='center', fig.cap="Time series of carapace length composition estimated for the EAG.", eval = T}
+knitr::include_graphics("../../figures/coop_survey/2024/jan/size_comp_plot.png")
+```

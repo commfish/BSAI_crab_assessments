@@ -1,0 +1,891 @@
+---
+title: "Appendix B: AIGKC Fishery CPUE Standardization"
+author: |
+  | Tyler Jackson
+  | Alaska Department of Fish and Game, tyler.jackson@alaska.gov
+date: "`r format(Sys.time(), '%B %Y')`"
+output:
+  bookdown::pdf_document2:
+    toc: no
+header-includes:
+   - \usepackage{float}
+   - \usepackage{hanging}
+---
+
+```{r, echo = F, message = F, warning = F}
+library(tidyverse)
+library(xtable)
+
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, fig.pos='H',
+                      out.height = "\\textheight", out.width = "\\textwidth")
+
+```
+
+# Background {-}
+
+The AIGKC assessment has used catch per unit effort (CPUE) data collected by at-sea observers as a primary index of stock abundance since model development began (Siddeek et al. 2017 SAFE; Siddeek et al. 2016). The standardization method developed by Siddeek et al. (2016) used a negative binomial general linear model (GLM) with a hybrid model selection procedure in which variables are first selected by Akike Information Criterion, AIC (Burnham and Anderson 2002), and then model selection is repeated using an R$^{2}$ statistic representing the proportion of deviance explained. Explanatory variables,in addition to year, included pot soak time, sample month, vessel, vessel permit holder (i.e., proxy for captain), block (i.e., discrete geographic subarea, Figure \ref{fig:blockmap}), gear type, and depth. Soak time and depth were fit using cubic splines. Spline degrees of freedom and negative binomial dispersion parameter ($\theta$) were estimated by calculating AIC for a range of values and locating the best value at the minimum AIC (see Siddeek et al, 2021 SAFE report). This appendix details proposed updates to the CPUE standardization procedure following improvements to the data management workflow and comments from the CPT.
+
+# Major Changes {-}
+## Observer CPUE {-}
+### Core Data Preparation {-}
+
+Siddeek et al. (2016, 2023) reduced the full observer data set to represent core fishing effort by limiting data to only vessels that made five deliveries during at least three seasons in the time series. Soak time and depth data were truncated by removing the outer 5\% and 1\% of distributions, respectively. Here, vessels were not limited by the number of deliveries made as that can be determined by vessel size, hold capacity, maintenance issues, quota share, GHL/TAC. Instead, core vessels and permit holders during the pre-rationalized time series were those that participated in more than a single season. The fleet was consolidated enough in the post-rationalized time series that reductions on number of vessels and permit holders were not warranted. Following Siddeek et al. (2016, 2023) several gear types were combined, and pot types not typical to the directed fishery were removed. Since many fishing seasons in the pre-rationalized era did not align with the crab year used in the post-rationalized era (July - June), crab year was assigned to pre-2005 data $post$ $hoc$. Observer pots sampled on dates that fall after June 30 in a given season, were assigned the next crab year (Siddeek et al. 2016, 2023). Nominal CPUE computed from the core fishery data used in the current analysis is very similar to that previously used in CPUE standardization (Figure \ref{fig:nomcpue}). A comparison of the sample size and number of factor levels between the current core data and that of Siddeek et al. (2023) is in Table \ref{table:factorlevels}.
+
+### Model Fitting {-}
+
+CPUE standardization models were fit using general additive models (GAM) as implemented in the R package $mgcv$ (Wood 2004). All models assumed a negative binomial error distribution with log-link. Negative binomial overdispersion, $\theta$, was estimated as a model parameter. All splines were fit as thin plate regression splines, with smoothness determined by generalized cross-validation (Wood 2004).  
+
+### Dependent Variable {-} 
+
+Siddeek et al. (2016, 2023) developed a standardized CPUE index of only legal males, and the stock assessment fits to relative abundance of only legal males accordingly. Here an index of total male CPUE was also developed for comparison. Total male CPUE was only modeled as a negative binomial GAM without a year:block interaction.
+
+### Variable Selection {-}
+
+Null models included only crab year as an explanatory variable
+
+\begin{equation}
+\text{ln}(CPUE_{i}) = Year_{y,i}
+\end{equation}
+
+or an interaction between year and block
+
+\begin{equation}
+\text{ln}(CPUE_{i}) = Year_{y,i}:Block_{b,i}
+\end{equation}
+
+The full scope of models evaluated included gear (i.e., pot size), vessel, permit holder, month and block as factorial variables. Prospective smoothed terms include soak time, depth, slope angle, and the interaction of latitude and longitude. Sea floor slope angle (degrees) was computed in ArcGIS (Redlands, 2011) from a 100-m resolution raster surface of Aleutian Islands bathymetry (Zimmermann 2013). Evaluating block and the two-dimensional smooth of latitude and longitude allows the model to fit location data at different scales and selection of a 'best' model would not include both variables. If the best model included latitude and longitude, the tensor interaction of latitude and longitude was also evaluated.
+
+Siddeek et al. (2016, 2023) used stepwise model selection based on AIC implemented by the stepAIC function of the R library $MASS$ (Venables and Ripley 2002). The best model was then further refined using a modified version of the stepAIC function in which proportion of deviance explained (R$^2$) was used as selection criteria. Addition of new variables were considered significant if AIC decreased by at least two per degree of freedom lost and R$^2$ increased by at least 0.01. In this analysis, AIC and R$^2$ were used as selection criteria in a single step. Variables were added (or subtracted) from the model until no candidate variables met AIC and R$^2$ criteria. Consistent AIC (CAIC; -2LogLik+(ln($n$)+1)$p$; Bozdogan 1987) was used instead of the traditional AIC, in which $n$ is the number of observations and $p$ is the number of parameters (Siddeek et al. 2016, 2023).
+
+\begin{equation}
+\text{R}^{2}=\frac{D_{Null} - D_{Resid}}{D_{Null}}
+\end{equation}
+
+
+## Fish Ticket CPUE {-}
+
+Fish ticket CPUE from 1985 - 1998 was standardized using a negative binomial linear model and the same model selection criteria as Siddeek et al. (2023). Here, statistical area was evaluated as an explanatory variable opposed to block, to avoid the need for joining fish ticket data to observer pot locations. Core data were selected by limited vessels and permit holders that were present in more than five seasons. Sample size by year is listed in Table \ref{table:ftnsize}.
+
+## CPUE index {-}
+
+Following Siddeek et al. (2016, 2023) standardized CPUE index was extracted from the models as the year coefficient ($\beta_i$) with the first level set to zero and scaled to canonical coefficients ($\beta^\prime_i$) as 
+
+\begin{equation}
+\beta^{\prime}_{i} = \frac{\beta_{i}}{\bar{\beta}} 
+\end{equation}  
+
+where
+
+\begin{equation}
+\bar{\beta} = \sqrt[n_{j}]{\prod_{j = 1}^{n_j}{\beta_{i,j}}}
+\end{equation}
+  
+and $n_j$ is the number of levels in the year variable. Nominal CPUE was scaled by the same method for comparison. For models that included a year-block interaction, $\beta_i$ was the weighted mean of year coefficients for each block with area of each block that has ever been fished (nmi$^2$) as the weight (Table \ref{table:blockdat}). For models that included $$lat \otimes lon$$ by year, $\beta_i$ was mean fitted for each year based on a prediction set of data consisting of each factor level and the mean value of smoothed terms.
+
+# Results {-}
+### Legal CPUE {-}
+
+Nearly all models selected gear type and permit holder as parametric effects. Only the year:block model for the EAG and WAG post-rationalized period did not select permit holder, though the Vessel was selected for the EAG. Soak time was selected for all models except the year:block model for the post-rationalized period in the EAG, and both the post-rationalized year and year:block models in the WAG (Tables \ref{table:preeagres} - \ref{table:postwagyrbres}). Estimated degrees of freedom (EDF) for soak time ranged from 4.67-5.12 in the EAG which resulted in an asymptotic increase, whereas EDF ranged from 7.83-7.97 in the pre-rationalized WAG which yielded a wiggly increasing trend (Tables \ref{table:preeagres} - \ref{table:posteagres}, \ref{table:prewagres}-\ref{table:prewagyrbres}; Figures \ref{fig:preeagstdeffects}-\ref{fig:posteagstdeffects}, \ref{fig:prewagstdeffects}-\ref{fig:prewagstdyrbeffects}). A two-dimensional smoothing spline on latitude and longitude was selected for the pre-rationalized period in the EAG (EDF = 26.72) and both time periods in the WAG (pre EDF = 26.08, post EDF = 26.98) (Tables \ref{table:preeagres}, \ref{table:prewagres}, \& \ref{table:postwagres}; Figures \ref{fig:preeagstdlonlat}, \ref{fig:preeagstdlonlat}, \& \ref{fig:postwagstdlonlat}). The tensor interaction of latitude and longitude improved these models based on R$^2$ criteria, but not AIC. Month and Vessel were selected by only the EAG and pre- and post-rationalized models, respectively (Tables \ref{table:preeagres} \& \ref{table:posteagres}; Figures \ref{fig:preeagstdeffects} \& \ref{fig:posteagstdeffects}).
+
+Diagnostic plots of residuals highlighted an excess of zero observations all models, though less so for the EAG pre-rationalized period (Figures \ref{fig:preeagstddiag}, \ref{fig:preeagstdyrbdiag}, \ref{fig:posteagstddiag}, \ref{fig:posteagstdyrbdiag}, \ref{fig:prewagstddiag}, \ref{fig:prewagstdyrbdiag}, \ref{fig:postwagstddiag}, \& \ref{fig:postwagstdyrbdiag}). Additional work should revisit two-stage models that model zero catches and positive catches separately. Siddeek et al. (2016) noted that delta-lognormal models did not perform as well a negative binomial models, though hurdle-GAMs that assume a zero-truncated negative binomial distribution for positive catches could also be explored. Further, residual patterns associated with excess zeros may be resolved by evaluating mixed-effect models.
+
+The resulting standardized indices follow a similar trend to nominal CPUE and the previous GLM based index (Figures \ref{fig:eagindexlegal} \& \ref{fig:wagindexlegal}). In the pre-rationalized EAG, GLM and GAM based indices are more stationary until 2005, whereas the GAM year:block and nominal indices closely mirror each other and increase throughout the time series (Figure \ref{fig:eagindexlegal}). GAM derived indices without year:block should be used by the assessment model based on model performance and diagnostics. Models including year:block did not improve deviance explained, except for the post-rationalization period in the WAG (Tables \ref{table:preeagres} - \ref{table:postwagyrbres}). Though, pots in block ten were removed because it was only fished in two years of the time series and data were limited to there being at least ten pots fished in each combination of year, block, gear type, vessel, and permit holder. Using all data resulted in model evaluations with undefined null deviance.
+
+### Total Male CPUE {-}
+
+Pre-rationalized models selected gear type, permit holder, and s(longitude, latitude) in the EAG and WAG, with the WAG model also selecting vessel (Tables \ref{table:preeagtmres}-\ref{table:postwagtmres}; Figures \ref{fig:preeagstdtmeffects}-\ref{fig:postwagstdtmeffectslatlon}). EAG and WAG estimated 28.42 and 28.51 degrees of freedom for s(longitude, latitude), respectively, similar to legal CPUE models. Post-rationalized model selection differed between areas. Month, Vessel, and s(longitude, latitude, EDF = 26.5) were selected for the EAG while permit holder and s(longitude, latitude, EDF = 27.9) were selected for the WAG. Overdispersion ($\theta$) was similar between total and legal CPUE models during each area and period, and residual patterns remained largely unchanged (Figures \ref{fig:preeagstdtmdiag}, \ref{fig:posteagstdtmdiag}, \ref{fig:prewagstdtmdiag}, \& \ref{fig:postwagstdtmdiag}). Total CPUE and Legal CPUE indices follow the same trends in most years, though the scale of indices varies (Figures \ref{fig:eagindex} - \ref{fig:wagindex}). Differences between indices are most apparent in the pre-rationalized period, as well as 2007-2008 in the WAG.
+
+### Fish Ticket CPUE {-}
+
+Both EAG and WAG models selected only vessel as an explanatory variable in addition to year (Table \ref{table:eagftres} -  \ref{table:wagftres}). Model diagnostics indicated obvious residual patterns in both subdistricts, which should be further investigated (Figures \ref{fig:eagftdiag} and  \ref{fig:wagftdiag}). Resulting indices slightly differ from the status quo standardized index, particular 1998 in the EAG (Figure \ref{fig:eagftindex}) and 1985 in the WAG (Figure \ref{fig:wagftindex}).
+
+# Tables {-}
+
+\begin{table}[H]
+\centering
+\caption{Comparison on total sample size and number of levels for each factor covariate between core data sets of Siddeek et al. (2023) and the current analysis by time period and subdistrict.}
+
+\label{table:factorlevels}
+\begin{tabular}{llcccc}
+& \multicolumn{2}{c}{EAG} & \multicolumn{2}{c}{WAG}\\
+Core Data & Factor & Pre- & Post- & Pre- & Post-\\
+\hline
+Siddeek et al. (2023) & N & 31,636 & 9,271 & 32,527 & 16,504\\
+& Permit Holder & 48 & 15 & 55 & 16\\
+& Vessel & 20 & 8 & 19 & 7\\
+& Gear Type & 7 & 4 & 7 & 7\\
+& Block & 4 & 4 & 6 & 6\\
+& Month & 12 & 8 & 12 & 10\\
+\hline
+Current Analysis & N & 31,057 & 9,769 & 29,895 & 16,978\\
+& Permit Holder & 32 & 15 & 33 & 17\\
+& Vessel & 20 & 8 & 17 & 7\\
+& Gear & 7 & 4 & 7 & 7\\
+& Block & 4 & 4 & 6 & 6\\
+& Month & 12 & 8 & 12 & 10\\
+\hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\caption{Number of 1 nmi x 1 nmi cells ever fished (area) with each block.}
+
+\label{table:blockdat}
+\begin{tabular}{lcc}
+Block & Area (nmi$^2$)\\
+\hline
+```{r blockdat, results='asis', eval = T}
+
+x <-  tibble(block = 1:10, area_nmi2 = c(375, 1364, 1765, 915, 452, 1026, 812, 2172, 1042, 334))
+# print table
+print(xtable(x, align="lcc", digits=c(0, 0, 0)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Number of factor levels by variable, year, and subdistrict for core fish ticket data from 1985 - 1998.}
+
+\label{table:ftnsize}
+\begin{tabular}{lccccccccc}
+& \multicolumn{4}{c}{EAG} & \multicolumn{4}{c}{WAG}\\
+Year & Vessel & Permit Holder & Month & Stat Area & Vessel & Permit Holder & Month & Stat Area\\
+\hline
+```{r ftnsize, results='asis', eval = T}
+
+tmp <- read_csv("../../output/cpue_std/fish_tickets_85_98_sample_size.csv")
+tmp %>% 
+  filter(fishery == "EAG") %>%
+  dplyr::select(1, 3:6) %>%
+  bind_cols(tmp %>% 
+  filter(fishery == "WAG") %>%
+  dplyr::select(3:6) ) %>%
+  mutate(crab_year = factor(crab_year))-> x
+
+# print table
+print(xtable(x, align="lccccccccc", digits=0),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+
+\begin{table}[H]
+\centering
+\caption{Residual degrees of freedom, AIC, and R$^{2}$ for the EAG pre-rationalized period best legal CPUE model including year (Yr), gear type (Gr), permit holder (PH), month (Mon), s(soak time), and s(longitude, latitude).}
+
+\label{table:preeagres}
+\begin{tabular}{lccccc}
+& Residual DF & AIC & R$^{2}$\\
+Form ($\theta$ = 1.4) & ($\Delta$ DF) & ($\Delta$ AIC) & ($\Delta$ R$^{2}$)\\
+\hline
+Yr + Gr + PH + Mon + s(soak time, 5.03) + s(lon, lat, 26.72) & 30,967.25 & 203,712 & 0.23 \\
+```{r preeagres, results='asis', eval = T}
+x <- readRDS("../../output/cpue_std/2024/jan/pre_eag_std.RDS")[[2]]
+x <- x %>% transmute(term = ifelse(term == "+ adfg", "+ Vessel", term),
+               df = -1 * round(df, 2),
+               delta_AIC = round(delta_AIC, 2),
+               delta_r2 = round(delta_r2, 3))
+
+# print table
+print(xtable(x, align="lcccc", digits=c(0, 0, 2, 2, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\caption{Residual degrees of freedom, AIC, and R$^{2}$ for the EAG pre-rationalized period best year:block, legal CPUE model including year:block (Yr:B), gear type (Gr), permit holder (PH), and s(soak time).}
+
+\label{table:preeagyrbres}
+\begin{tabular}{lccccc}
+& Residual DF & AIC & R$^{2}$\\
+Form ($\theta$ = 1.385) & ($\Delta$ DF) & ($\Delta$ AIC) & ($\Delta$ R$^{2}$)\\
+\hline
+Yr:B + Gr + PH + s(soak time, 4.67) & 30,976.33 & 203,867 & 0.22 \\
+```{r preeagyrbres, results='asis', eval = T}
+x <- readRDS("../../output/cpue_std/2024/jan/pre_eag_std_yrb.RDS")[[2]]
+x <- x %>% transmute(term = ifelse(term == "+ adfg", "+ Vessel", term),
+                     term = ifelse(term == "+ month", "+ Month", term),
+               df = -1 * round(df, 2),
+               delta_AIC = round(delta_AIC, 2),
+               delta_r2 = round(delta_r2, 3))
+
+# print table
+print(xtable(x, align="lcccc", digits=c(0, 0, 2, 2, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Residual degrees of freedom, AIC, and R$^{2}$ for the EAG post-rationalized period best legal CPUE model including year (Yr), gear type (Gr), permit holder (PH), and s(soak time).}
+
+
+\label{table:posteagres}
+\begin{tabular}{lccccc}
+& Residual DF & AIC & R$^{2}$\\
+Form  ($\theta$ = 2.321) & ($\Delta$ DF) & ($\Delta$ AIC) & ($\Delta$ R$^{2}$)\\
+\hline
+Yr + Gr + PH + s(soak time, 5.12) & 9,728.88 & 85,976 & 0.12 \\
+```{r posteagres, results='asis', eval = T}
+x <- readRDS("../../output/cpue_std/2024/jan/post_eag_std.RDS")[[2]]
+x <- x %>% transmute(term = ifelse(term == "+ adfg", "+ Vessel", term),
+                     term = ifelse(term == "+ month", "+ Month", term),
+               df = -1 * round(df, 2),
+               delta_AIC = round(delta_AIC, 2),
+               delta_r2 = round(delta_r2, 3))
+
+# print table
+print(xtable(x, align="lcccc", digits=c(0, 0, 2, 2, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Residual degrees of freedom, AIC, and R$^{2}$ for the EAG post-rationalized period best year:block, legal CPUE model including year:block (Yr:B), gear type (Gr), and Vessel (Ves).}
+
+\label{table:posteagyrbres}
+\begin{tabular}{lccccc}
+& Residual DF & AIC & R$^{2}$\\
+Form ($\theta$ = 2.338) & ($\Delta$ DF) & ($\Delta$ AIC) & ($\Delta$ R$^{2}$)\\
+\hline
+Yr:B + Gr + Ves & 9,695 & 86,123 & 0.12 \\
+```{r posteagyrbres, results='asis', eval = T}
+x <- readRDS("../../output/cpue_std/2024/jan/post_eag_std_yrb.RDS")[[2]]
+x <- x %>% transmute(term = ifelse(term == "+ adfg", "+ Vessel", term),
+                     term = ifelse(term == "+ month", "+ Month", term),
+                     term = ifelse(term == "+ permit_holder", "+ Permit Holder", term),
+                     term = ifelse(term == "+ s(soaktime)", "+ s(soak time)", term),
+               df = -1 * round(df, 2),
+               delta_AIC = round(delta_AIC, 2),
+               delta_r2 = round(delta_r2, 3))
+
+# print table
+print(xtable(x, align="lcccc", digits=c(0, 0, 2, 2, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+
+
+
+
+
+
+\begin{table}[H]
+\centering
+\caption{Residual degrees of freedom, AIC, and R$^{2}$ for the WAG pre-rationalized period best legal CPUE model including year (Yr), gear type (Gr), permit holder (PH), s(soak time), and s(longitude, latitude).}
+
+\label{table:prewagres}
+\begin{tabular}{lccccc}
+& Residual DF & AIC & R$^{2}$\\
+Form ($\theta$ = 0.97) & ($\Delta$ DF) & ($\Delta$ AIC) & ($\Delta$ R$^{2}$)\\
+\hline
+Yr + Gr + PH + s(soak time, 7.97) + s(lon, lat, 26.08) & 29,812.95 & 179,942 & 0.15 \\
+```{r prewagres, results='asis', eval = T}
+x <- readRDS("../../output/cpue_std/2024/jan/pre_wag_std.RDS")[[2]]
+x <- x %>% transmute(term = ifelse(term == "+ adfg", "+ Vessel", term),
+                     term = ifelse(term == "+ month", "+ Month", term),
+                     term = ifelse(term == "+ permit_holder", "+ Permit Holder", term),
+                     term = ifelse(term == "+ s(soaktime)", "+ s(soak time)", term),
+                     term = ifelse(term == "+ gearcode", "+ Gear", term),
+               df = -1 * round(df, 2),
+               delta_AIC = round(delta_AIC, 2),
+               delta_r2 = round(delta_r2, 3))
+
+# print table
+print(xtable(x, align="lcccc", digits=c(0, 0, 2, 2, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\caption{Residual degrees of freedom, AIC, and R$^{2}$ for the WAG pre-rationalized period best year:block, legal CPUE model including year:block (Yr:B), gear type (Gr), permit holder (PH), and s(soak time).}
+
+\label{table:prewagyrbres}
+\begin{tabular}{lccccc}
+& Residual DF & AIC & R$^{2}$\\
+Form ($\theta$ = 0.972) & ($\Delta$ DF) & ($\Delta$ AIC) & ($\Delta$ R$^{2}$)\\
+\hline
+Yr:B + Gr + PH + s(soak time, 7.83) & 29,792.17 & 180,116 & 0.15 \\
+```{r prewagyrbres, results='asis', eval = T}
+x <- readRDS("../../output/cpue_std/2024/jan/pre_wag_std_yrb.RDS")[[2]]
+x <- x %>% transmute(term = ifelse(term == "+ adfg", "+ Vessel", term),
+                     term = ifelse(term == "+ month", "+ Month", term),
+                     term = ifelse(term == "+ permit_holder", "+ Permit Holder", term),
+                     term = ifelse(term == "+ s(soaktime)", "+ s(soak time)", term),
+                     term = ifelse(term == "+ gearcode", "+ Gear", term),
+               df = -1 * round(df, 2),
+               delta_AIC = round(delta_AIC, 2),
+               delta_r2 = round(delta_r2, 3))
+
+# print table
+print(xtable(x %>% filter(term != "+ Permit Holder"), align="lcccc", digits=c(0, 0, 2, 2, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\caption{Residual degrees of freedom, AIC, and R$^{2}$ for the WAG post-rationalized period best legal CPUE model including year (Yr), gear type (Gr), permit holder (PH), and s(longitude, latitude).}
+
+\label{table:postwagres}
+\begin{tabular}{lccccc}
+& Residual DF & AIC & R$^{2}$\\
+Form ($\theta$ = 1.109) & ($\Delta$ DF) & ($\Delta$ AIC) & ($\Delta$ R$^{2}$)\\
+\hline
+Yr + Gr + PH + s(lon, lat, 27) & 16,911.02 & 134,244 & 0.09 \\
+```{r postwagres, results='asis', eval = T}
+x <- readRDS("../../output/cpue_std/2024/jan/post_wag_std.RDS")[[2]]
+x <- x %>% transmute(term = ifelse(term == "+ adfg", "+ Vessel", term),
+                     term = ifelse(term == "+ month", "+ Month", term),
+                     term = ifelse(term == "+ permit_holder", "+ Permit Holder", term),
+                     term = ifelse(term == "+ s(soaktime)", "+ s(soak time)", term),
+                     term = ifelse(term == "+ gearcode", "+ Gear", term),
+               df = -1 * round(df, 2),
+               delta_AIC = round(delta_AIC, 2),
+               delta_r2 = round(delta_r2, 3))
+
+# print table
+print(xtable(x, align="lcccc", digits=c(0, 0, 2, 2, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\caption{Residual degrees of freedom, AIC, and R$^{2}$ for the WAG post-rationalized period best year:block, legal CPUE model including year:block (Yr:B) and gear type (Gr).}
+
+\label{table:postwagyrbres}
+\begin{tabular}{lccccc}
+& Residual DF & AIC & R$^{2}$\\
+Form ($\theta$ = 1.102) & ($\Delta$ DF) & ($\Delta$ AIC) & ($\Delta$ R$^{2}$)\\
+\hline
+Yr:B + Gr & 15,905 & 180,116 & 0.15 \\
+```{r postwagyrbres, results='asis', eval = T}
+x <- readRDS("../../output/cpue_std/2024/jan/post_wag_std_yrb.RDS")[[2]]
+x <- x %>% transmute(term = ifelse(term == "+ adfg", "+ Vessel", term),
+                     term = ifelse(term == "+ month", "+ Month", term),
+                     term = ifelse(term == "+ permit_holder", "+ Permit Holder", term),
+                     term = ifelse(term == "+ s(soaktime)", "+ s(soak time)", term),
+                     term = ifelse(term == "+ gearcode", "+ Gear", term),
+               df = -1 * round(df, 2),
+               delta_AIC = round(delta_AIC, 2),
+               delta_r2 = round(delta_r2, 3))
+
+# print table
+print(xtable(x, align="lcccc", digits=c(0, 0, 2, 2, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+
+
+\begin{table}[H]
+\centering
+\caption{Residual degrees of freedom, AIC, and R$^{2}$ for the EAG pre-rationalized period best total male CPUE model including year (Yr), gear type (Gr), permit holder (PH), and s(longitude, latitude).}
+
+\label{table:preeagtmres}
+\begin{tabular}{lccccc}
+& Residual DF & AIC & R$^{2}$\\
+Form ($\theta$ = 1.243) & ($\Delta$ DF) & ($\Delta$ AIC) & ($\Delta$ R$^{2}$)\\
+\hline
+Yr + Gr + PH + s(lon, lat) & 30,980.58 & 250,363 & 0.22 \\
+```{r preeagtmres, results='asis', eval = T}
+x <- readRDS("../../output/cpue_std/2024/jan/pre_eag_std_tm.RDS")[[2]]
+x <- x %>% transmute(term = ifelse(term == "+ adfg", "+ Vessel", term),
+                     term = ifelse(term == "+ month", "+ Month", term),
+                     term = ifelse(term == "+ permit_holder", "+ Permit Holder", term),
+                     term = ifelse(term == "+ s(soaktime)", "+ s(soak time)", term),
+                     term = ifelse(term == "+ gearcode", "+ Gear", term),
+               df = -1 * round(df, 2),
+               delta_AIC = round(delta_AIC, 2),
+               delta_r2 = round(delta_r2, 3))
+
+# print table
+print(xtable(x, align="lcccc", digits=c(0, 0, 2, 2, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Residual degrees of freedom, AIC, and R$^{2}$ for the EAG post-rationalized period best total male CPUE model including year (Yr), month (Mon), Vessel (Ves), and s(longitude, latitude).}
+
+\label{table:posteagtmres}
+\begin{tabular}{lccccc}
+& Residual DF & AIC & R$^{2}$\\
+Form ($\theta$ = 2.109) & ($\Delta$ DF) & ($\Delta$ AIC) & ($\Delta$ R$^{2}$)\\
+\hline
+Yr + Mon + Ves + s(lon, lat) & 30,980.58 & 250,363 & 0.22 \\
+```{r posteagtmres, results='asis', eval = T}
+x <- readRDS("../../output/cpue_std/2024/jan/post_eag_std_tm.RDS")[[2]]
+x <- x %>% transmute(term = ifelse(term == "+ adfg", "+ Vessel", term),
+                     term = ifelse(term == "+ month", "+ Month", term),
+                     term = ifelse(term == "+ permit_holder", "+ Permit Holder", term),
+                     term = ifelse(term == "+ s(soaktime)", "+ s(soak time)", term),
+                     term = ifelse(term == "+ gearcode", "+ Gear", term),
+               df = -1 * round(df, 2),
+               delta_AIC = round(delta_AIC, 2),
+               delta_r2 = round(delta_r2, 3))
+
+# print table
+print(xtable(x, align="lcccc", digits=c(0, 0, 2, 2, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Residual degrees of freedom, AIC, and R$^{2}$ for the WAG pre-rationalized period best total male CPUE model including year (Yr), gear type (Gr), permit holder (PH), Vessel (Ves), and s(longitude, latitude).}
+
+\label{table:prewagtmres}
+\begin{tabular}{lccccc}
+& Residual DF & AIC & R$^{2}$\\
+Form ($\theta$ = 0.838) & ($\Delta$ DF) & ($\Delta$ AIC) & ($\Delta$ R$^{2}$)\\
+\hline
+Yr + Gr + PH + Ves + s(lon, lat) & 29,811.49 & 224,733 & 0.19 \\
+```{r prewagtmres, results='asis', eval = T}
+x <- readRDS("../../output/cpue_std/2024/jan/pre_wag_std_tm.RDS")[[2]]
+x <- x %>% transmute(term = ifelse(term == "+ adfg", "+ Vessel", term),
+                     term = ifelse(term == "+ month", "+ Month", term),
+                     term = ifelse(term == "+ permit_holder", "+ Permit Holder", term),
+                     term = ifelse(term == "+ s(soaktime)", "+ s(soak time)", term),
+                     term = ifelse(term == "+ gearcode", "+ Gear", term),
+               df = -1 * round(df, 2),
+               delta_AIC = round(delta_AIC, 2),
+               delta_r2 = round(delta_r2, 3))
+
+# print table
+print(xtable(x, align="lcccc", digits=c(0, 0, 2, 2, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+
+\begin{table}[H]
+\centering
+\caption{Residual degrees of freedom, AIC, and R$^{2}$ for the WAG post-rationalized period best total male CPUE model including year (Yr), permit holder (PH), and s(longitude, latitude).}
+
+\label{table:postwagtmres}
+\begin{tabular}{lccccc}
+& Residual DF & AIC & R$^{2}$\\
+Form ($\theta$ = 1.04) & ($\Delta$ DF) & ($\Delta$ AIC) & ($\Delta$ R$^{2}$)\\
+\hline
+Yr + PH + s(lon, lat) & 16,916.12 & 145,659 & 0.13 \\
+```{r postwagtmres, results='asis', eval = T}
+x <- readRDS("../../output/cpue_std/2024/jan/post_wag_std_tm.RDS")[[2]]
+x <- x %>% transmute(term = ifelse(term == "+ adfg", "+ Vessel", term),
+                     term = ifelse(term == "+ month", "+ Month", term),
+                     term = ifelse(term == "+ permit_holder", "+ Permit Holder", term),
+                     term = ifelse(term == "+ s(soaktime)", "+ s(soak time)", term),
+                     term = ifelse(term == "+ gearcode", "+ Gear", term),
+               df = -1 * round(df, 2),
+               delta_AIC = round(delta_AIC, 2),
+               delta_r2 = round(delta_r2, 3))
+
+# print table
+print(xtable(x, align="lcccc", digits=c(0, 0, 2, 2, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Residual degrees of freedom, AIC, and R$^{2}$ for the best model fit to fish ticket data from the EAG 1985 - 1998.}
+
+\label{table:eagftres}
+\begin{tabular}{lccccc}
+& Residual DF & AIC & R$^{2}$\\
+Form ($\theta$ = 0.557) & ($\Delta$ DF) & ($\Delta$ AIC) & ($\Delta$ R$^{2}$)\\
+\hline
+Yr + Vessel & 1,985 & 10,993 & 0.079 \\
++ Permit Holder & -19 & -2 & \\
++ Month & -11 & 65 &\\
++ Stat Area & -38 & 251 & \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\caption{Residual degrees of freedom, AIC, and R$^{2}$ for the best model fit to fish ticket data from the WAG 1985 - 1998.}
+
+\label{table:wagftres}
+\begin{tabular}{lccccc}
+& Residual DF & AIC & R$^{2}$\\
+Form ($\theta$ = 0.88) & ($\Delta$ DF) & ($\Delta$ AIC) & ($\Delta$ R$^{2}$)\\
+\hline
+Yr + Vessel & 3,323 & 19,775 & 0.152 \\
++ Permit Holder & -9 & 55 & \\
++ Month & -11 & 31 &\\
++ Stat Area & -88 & 705 & \\
+\hline
+\end{tabular}
+\end{table}
+
+# Figures {-}
+
+````{r blockmap, fig.align='center', fig.cap="The 1995/96-2022/23 AIGKC observer pot samples enmeshed in 10 blocks.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/blocks_map.png")
+```
+
+````{r nomcpue, fig.align='center', fig.cap="Annual nominal CPUE (crab / pot) computed using core data from the current analysis and that used by Siddeek et al. (2023).", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/nominal_cpue.png")
+```
+
+````{r preeagstddiag, fig.align='center', fig.cap="Diagnostic plots for the final GAM fit to legal CPUE during the pre-rationalized period in the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/pre_eag_diag.png")
+```
+
+````{r preeagstdeffects, fig.align='center', fig.cap="Marginal effects of permit holder, gear type, and soak time with associated partial residuals for the final model fit to legal CPUE during pre-rationalized period in the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/pre_eag_effects.png")
+```
+
+````{r preeagstdlonlat, fig.align='center', fig.cap="Marginal effects of the two-dimensional smooth of latitude and longtide with associated partial residuals (i.e. pot locations) for the final model fit to legal CPUE during pre-rationalized period in the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/pre_eag_effects_lonlat.png")
+```
+
+````{r preeagstdyrbdiag, fig.align='center', fig.cap="Diagnostic plots for the final GAM including year:block, fit to legal CPUE during the pre-rationalized period in the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/pre_eag_yrb_diag.png")
+```
+
+````{r preeagstdyrbeffects, fig.align='center', fig.cap="Marginal effects of permit holder, gear type, and soaktime with associated partial residuals for the model fit to legal CPUE including yr:block during pre-rationalized period in the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/pre_eag_yrb_effects.png")
+```
+
+````{r preeagstdyrbeffectsyrb, fig.align='center', fig.cap="Marginal effect crab year by block with associated partial residuals for the model fit to legal CPUE during pre-rationalized period in the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/pre_eag_yrb_effects_yrb.png")
+```
+
+
+
+````{r posteagstddiag, fig.align='center', fig.cap="Diagnostic plots for the final GAM fit to legal CPUE during the post-rationalized period in the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/post_eag_diag.png")
+```
+
+````{r posteagstdeffects, fig.align='center', fig.cap="Marginal effects of permit holder, gear type, and soak time with associated partial residuals for the final model fit to legal CPUE during post-rationalized period in the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/post_eag_effects.png")
+```
+
+````{r posteagstdyrbdiag, fig.align='center', fig.cap="Diagnostic plots for the final GAM including year:block, fit to legal CPUE during the post-rationalized period in the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/post_eag_yrb_diag.png")
+```
+
+````{r posteagstdyrbeffects, fig.align='center', fig.cap="Marginal effects of permit holder, gear type, and soaktime with associated partial residuals for the model fit to legal CPUE including yr:block during post-rationalized period in the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/post_eag_yrb_effects.png")
+```
+
+````{r posteagstdyrbeffectsyrb, fig.align='center', fig.cap="Marginal effect crab year by block with associated partial residuals for the model fit to legal CPUE during post-rationalized period in the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/post_eag_yrb_effects_yrb.png")
+```
+
+
+
+
+
+````{r eagindexlegal, fig.align='center', fig.cap="Time series of standardized legal CPUE indices estimated for the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/eag_std_cpue_timeseries_legal.png")
+```
+
+
+
+
+
+````{r prewagstddiag, fig.align='center', fig.cap="Diagnostic plots for the final GAM fit to legal CPUE during the pre-rationalized period in the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/pre_wag_diag.png")
+```
+
+````{r prewagstdeffects, fig.align='center', fig.cap="Marginal effects of permit holder, gear type, and soaktime with associated partial residuals for the final model fit to legal CPUE during pre-rationalized period in the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/pre_wag_effects.png")
+```
+
+````{r prewagstdlonlat, fig.align='center', fig.cap="Marginal effects of the two-dimensional smooth of latitude and longtide with associated partial residuals (i.e. pot locations) for the final model fit to legal CPUE during pre-rationalized period in the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/pre_wag_effects_lonlat.png")
+```
+
+````{r prewagstdyrbdiag, fig.align='center', fig.cap="Diagnostic plots for the final GAM including year:block, fit to legal CPUE during the pre-rationalized period in the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/pre_wag_yrb_diag.png")
+```
+
+````{r prewagstdyrbeffects, fig.align='center', fig.cap="Marginal effects of permit holder, gear type, and soaktime with associated partial residuals for the model fit to legal CPUE including yr:block during pre-rationalized period in the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/pre_wag_yrb_effects.png")
+```
+
+````{r prewagstdyrbeffectsyrb, fig.align='center', fig.cap="Marginal effect crab year by block with associated partial residuals for the model fit to legal CPUE during pre-rationalized period in the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/pre_wag_yrb_effects_yrb.png")
+```
+
+
+
+
+
+````{r postwagstddiag, fig.align='center', fig.cap="Diagnostic plots for the final GAM fit to legal CPUE during the post-rationalized period in the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/post_wag_diag.png")
+```
+
+````{r postwagstdeffects, fig.align='center', fig.cap="Marginal effects of permit holder, gear type, and soak time with associated partial residuals for the final model fit to legal CPUE during post-rationalized period in the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/post_wag_effects.png")
+```
+
+````{r postwagstdlonlat, fig.align='center', fig.cap="Marginal effects of the two-dimensional smooth of latitude and longtide with associated partial residuals (i.e. pot locations) for the final model fit to legal CPUE during post-rationalized period in the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/post_wag_effects_lonlat.png")
+```
+
+
+````{r postwagstdyrbdiag, fig.align='center', fig.cap="Diagnostic plots for the final GAM including year:block, fit to legal CPUE during the post-rationalized period in the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/post_wag_yrb_diag.png")
+```
+
+````{r postwagstdyrbeffects, fig.align='center', fig.cap="Marginal effect of gear type with associated partial residuals for the model fit to legal CPUE including yr:block during post-rationalized period in the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/post_wag_yrb_effects.png")
+```
+
+````{r postwagstdyrbeffectsyrb, fig.align='center', fig.cap="Marginal effect crab year by block with associated partial residuals for the model fit to legal CPUE during post-rationalized period in the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/post_wag_yrb_effects_yrb.png")
+```
+
+````{r wagindexlegal, fig.align='center', fig.cap="Time series of standardized legal CPUE indices estimated for the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/wag_std_cpue_timeseries_legal.png")
+```
+
+
+
+
+
+
+
+
+
+````{r preeagstdtmdiag, fig.align='center', fig.cap="Diagnostic plots for the final GAM fit to total CPUE during the pre-rationalized period in the EAG.", eval = T}
+ knitr::include_graphics("../../figures/cpue_std/2024/jan/pre_eag_tm_diag.png")
+```
+
+````{r preeagstdtmeffects, fig.align='center', fig.cap="Marginal effects of permit holder and gear type with associated partial residuals for the final model fit to total CPUE during pre-rationalized period in the EAG.", eval = T}
+ knitr::include_graphics("../../figures/cpue_std/2024/jan/pre_eag_tm_effects.png")
+```
+
+````{r preeagstdtmlonlat, fig.align='center', fig.cap="Marginal effects of the two-dimensional smooth of latitude and longtide with associated partial residuals (i.e. pot locations) for the final model fit to total CPUE during pre-rationalized period in the EAG.", eval = T}
+ knitr::include_graphics("../../figures/cpue_std/2024/jan/pre_eag_tm_effects_lonlat.png")
+```
+
+````{r posteagstdtmdiag, fig.align='center', fig.cap="Diagnostic plots for the final GAM fit to total CPUE during the post-rationalized period in the EAG.", eval = T}
+ knitr::include_graphics("../../figures/cpue_std/2024/jan/post_eag_tm_diag.png")
+```
+ 
+````{r posteagstdtmeffects, fig.align='center', fig.cap="Marginal effects of permit holder with associated partial residuals for the final model fit to total CPUE during post-rationalized period in the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/post_eag_tm_effects.png")
+```
+
+````{r posteagstdtmeffectslatlon, fig.align='center', fig.cap="Marginal effects of the two-dimensional smooth of latitude and longtide with associated partial residuals (i.e. pot locations) for the final model fit to total CPUE during post-rationalized period in the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/post_eag_tm_effects_lonlat.png")
+```
+
+
+
+````{r prewagstdtmdiag, fig.align='center', fig.cap="Diagnostic plots for the final GAM fit to total CPUE during the pre-rationalized period in the WAG.", eval = T}
+ knitr::include_graphics("../../figures/cpue_std/2024/jan/pre_wag_tm_diag.png")
+```
+
+````{r prewagstdtmeffects, fig.align='center', fig.cap="Marginal effects of permit holder and gear type with associated partial residuals for the final model fit to total CPUE during pre-rationalized period in the WAG.", eval = T}
+ knitr::include_graphics("../../figures/cpue_std/2024/jan/pre_wag_tm_effects.png")
+```
+
+````{r prewagstdtmlonlat, fig.align='center', fig.cap="Marginal effects of the two-dimensional smooth of latitude and longtide with associated partial residuals (i.e. pot locations) for the final model fit to total CPUE during pre-rationalized period in the WAG.", eval = T}
+ knitr::include_graphics("../../figures/cpue_std/2024/jan/pre_wag_tm_effects_lonlat.png")
+```
+
+````{r postwagstdtmdiag, fig.align='center', fig.cap="Diagnostic plots for the final GAM fit to total CPUE during the post-rationalized period in the WAG.", eval = T}
+ knitr::include_graphics("../../figures/cpue_std/2024/jan/post_wag_tm_diag.png")
+```
+ 
+````{r postwagstdtmeffects, fig.align='center', fig.cap="Marginal effects of permit holder with associated partial residuals for the final model fit to total CPUE during post-rationalized period in the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/post_wag_tm_effects.png")
+```
+
+````{r postwagstdtmeffectslatlon, fig.align='center', fig.cap="Marginal effects of the two-dimensional smooth of latitude and longtide with associated partial residuals (i.e. pot locations) for the final model fit to total CPUE during post-rationalized period in the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/post_wag_tm_effects_lonlat.png")
+```
+
+
+````{r eagindextotal, fig.align='center', fig.cap="Time series of standardized total CPUE indices estimated for the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/eag_std_cpue_timeseries_total.png")
+```
+
+
+````{r wagindextotal, fig.align='center', fig.cap="Time series of standardized total CPUE indices estimated for the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/wag_std_cpue_timeseries_total.png")
+```
+
+````{r eagindex, fig.align='center', fig.cap="Time series of standardized legal and total CPUE indices estimated for the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/eag_std_cpue_timeseries.png")
+```
+
+````{r wagindex, fig.align='center', fig.cap="Time series of standardized legal and total CPUE indices estimated for the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/wag_std_cpue_timeseries.png")
+```
+
+````{r eagftdiag, fig.align='center', fig.cap="Diagnostic plots for the best model fit to 1985 - 1998 fish ticket CPUE in the EAG.", eval = T}
+ knitr::include_graphics("../../figures/cpue_std/2024/jan/eag_ft_diag.png")
+```
+
+````{r eagftindex, fig.align='center', fig.cap="Time series (1985 - 1998) of nominal and standardized fish ticket CPUE indices estimated for the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/eag_ft_index.png")
+```
+
+````{r wagftdiag, fig.align='center', fig.cap="Diagnostic plots for the best model fit to 1985 - 1998 fish ticket CPUE in the WAG.", eval = T}
+ knitr::include_graphics("../../figures/cpue_std/2024/jan/wag_ft_diag.png")
+```
+
+````{r wagftindex, fig.align='center', fig.cap="Time series (1985 - 1998) of nominal and standardized fish ticket CPUE indices estimated for the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/wag_ft_index.png")
+```
+
+# Literature Cited {-}
+
+\begin{hangparas}{.25in}{1}
+
+Bozdogan, H. 1987. Model selection Akaike's information criterion (AIC): The general theory and its analytical extensions. Psychometrika 52: 345-370.
+
+Burnham, K.P. and D.R. Anderson. 2002. Model selection and multimodal inference: A practical information-theoretic approach. 2nd edn. Springer-Verlag, New York. 488 pp.
+
+Redlands, C. E. S. R. I. (2011). ArcGIS Desktop: Release 10.
+
+Siddeek, M.S.M., J. Zheng, and D. Pengilly. 2016. Standardizing CPUE from the Aleutian Islands golden king crab observer data. Pages 97–116 in T.J. Quinn II, J.L. Armstrong, M.R. Baker, J. Heifetz, and D. Witherell (eds.), Assessing and Managing Data-Limited Fish Stocks. Alaska Sea Grant, University of Alaska Fairbanks, Alaska.
+
+Siddeek, M.S.M., B. Daly, and T. Jackson. 2023. Aleutian Islands golden king crab stock assessment. North Pacific Fishery Management Council, Anchorage, Alaska.
+
+Venables, W.N. and B.D. Ripley. 2002. Modern Applied Statistics with S, Fourth edition. Springer, New York. ISBN 0-387-95457-0, https://www.stats.ox.ac.uk/pub/MASS4/.
+
+Wood, S. 2004. Stable and efficient multiple smoothing parameter estimation for generalized additive models. Journal of the American Statistical Association 99: 673-686.
+
+Zimmermann, M., M.M. Prescott, and C.N. Rooper. 2013. Smooth Sheet Bathymetry of the Aleutian Islands. U.S. Dep. Commer., NOAA Tech. Memo. NMFS-AFSC-250, 43p.
+
+\end{hangparas}
+
