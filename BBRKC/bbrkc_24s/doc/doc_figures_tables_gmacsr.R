@@ -134,6 +134,7 @@ gmacs_plot_sizecomp(all_out = molt_models, save_plot = T, plot_dir = plot_save_m
 
 # catch
 gmacs_plot_catch(all_out = base_models, save_plot = T, plot_dir = plot_save)
+gmacs_plot_catch(all_out = molt_models, save_plot = T, plot_dir = plot_save_molt)
 
 # fishing mortality ------
 gmacs_plot_f(all_out = base_models, save_plot = T, plot_dir = plot_save)

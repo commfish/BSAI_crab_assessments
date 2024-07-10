@@ -91,7 +91,27 @@ Btemp4 %>%
 # fitting a GAM model -------------
 mod_gam1 = gam(selectivity ~ s(size_bin), weights = BSFRF, data = Btemp4)
 summary(mod_gam1)
-plot(mod_gam1)
+#Family: gaussian 
+#Link function: identity 
+
+#Formula:
+#  selectivity ~ s(size_bin)
+
+#Parametric coefficients:
+#  Estimate Std. Error t value Pr(>|t|)    
+#(Intercept)  0.77528    0.02512   30.86   <2e-16 ***
+#  ---
+#  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+#Approximate significance of smooth terms:
+#  edf Ref.df    F p-value    
+#s(size_bin) 2.727  3.411 19.3  <2e-16 ***
+#  ---
+#  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+#R-sq.(adj) =  0.362   Deviance explained = 37.6%
+#GCV = 335.87  Scale est. = 325.35    n = 119
+#plot(mod_gam1)
 
 
 plot(ggeffects::ggpredict(mod_gam1), facets = TRUE)

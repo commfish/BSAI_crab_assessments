@@ -1,7 +1,7 @@
 # Kpalof
 # figures _tables_create SAFE using 'gmacsr'
 
-# 4-12-24
+# 4-12-24 / 6-13-24 / 7-10-24
 # load ----------
 #library(gmr) #require(gmr)
 #source("./SMBKC/code/functions.R") 
@@ -12,26 +12,28 @@
 source("./gmacsr/gmacsr.R")
 # **************************************************************************************************
 cur_yr <- 2024 # update annually 
-folder <- "bbrkc_24s" # update annually 
+folder <- "bbrkc_24f" # update annually 
 # The palette with grey:
 cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#D55E00", "#0072B2", "#CC79A7", "#F0E442")
 
 #plot.dir <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/")
 plot_save <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/")
-plot_save_sel <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/sel_models/")
-plot_save_molt <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/molt_models/")
+#plot_save_sel <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/sel_models/")
+#plot_save_molt <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/molt_models/")
 #table directory 
-.TABS     = c("./BBRKC/bbrkc_24s/doc/tables/")
+.TABS     = c("./BBRKC/bbrkc_24f/doc/tables/")
 
 ## read in models
-m211b <- gmacs_read_allout(file = "./BBRKC/bbrkc_24s/model_211b/Gmacsall.out", model = "m21.1b")
-m211b_p7 <- gmacs_read_allout(file = "./BBRKC/bbrkc_24s/ADJ_model_211b_ph7/Gmacsall.out", model = "m21.1b.p7")
-m230a <- gmacs_read_allout(file = "./BBRKC/bbrkc_24s/model_23_0a/Gmacsall.out", model = "m23.0a")
+# for fall 2024 need:
+##      - 23.0a_p7 as base
+##      - 24c base with less molting time period
+##      - REMA model (as appendix look for in script.....)
+
 m230a_p7 <- gmacs_read_allout(file = "./BBRKC/bbrkc_24s/ADJ_model_23_0a_ph7/Gmacsall.out", model = "m23.0a.p7")
-m24 <- gmacs_read_allout(file = "./BBRKC/bbrkc_24s/ADJ_model_24_0/Gmacsall.out", model = "m24")
-m24b <- gmacs_read_allout(file = "./BBRKC/bbrkc_24s/model_24_0b/Gmacsall.out", model = "m24.0b")
-m24c <- gmacs_read_allout(file = "./BBRKC/bbrkc_24s/ADJ_model_24_0c/Gmacsall.out", model = "m24.0c")
-m24d <- gmacs_read_allout(file = "./BBRKC/bbrkc_24s/model_24_0d/Gmacsall.out", model = "m24.0d")
+m230a_24 <- gmacs_read_allout(file = "./BBRKC/bbrkc_24f/model_23_0a_ph7/Gmacsall.out", model = "m23.0a_24")
+
+m24c <- gmacs_read_allout(file = "./BBRKC/bbrkc_24f/model_24_0c/Gmacsall.out", model = "m24.0c")
+
 
 #m24.0 <- gmacs_read_allout(file = "./SMBKC/smbkc_24s/model_16_0_c/Gmacsall.out", model = "smbkc24.0")
 
