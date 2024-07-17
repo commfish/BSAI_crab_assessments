@@ -60,8 +60,8 @@ theme_set(theme_sleek())
 yraxis <- tickr(tibble(yr = 1900:2100), yr, 5)
 
 # custom color scale
-cbpalette <- colorRampPalette(colors = c("#009E73", "#0072B2", "#E69F00", "#56B4E9", "#D55E00", "#CC79A7","#F0E442", "black", "grey"))(9)
-
+cbpalette <- colorRampPalette(colors = c("#009E73", "#0072B2","#E69F00" , "#56B4E9", "#D55E00", "#CC79A7","#F0E442", "black", "grey"))(9)
+cbpalette <- c(cbpalette, "tomato3", "turquoise4", "orangered4")
 
 # gmacs_read_allout() ----
 
@@ -1001,7 +1001,7 @@ gmacs_read_allout <- function(file, model_name = NULL, version = "2.20.14") {
     #   transmute(year, sex, fleet, size, slx_capture, capture_block, slx_retention,
     #             slx_discard, ret_disc_block) -> out$selectivity
     
-    slx_cap %>% left_join(slx_ret, by = join_by(year, sex, fleet)) %>% left_join(slx_disc, by = join_by(year, sex, fleet)) -> out$selectivity
+    slx_cap %>% left_join(slx_ret, by = join_by(year, sex, fleet, size)) %>% left_join(slx_disc, by = join_by(year, sex, fleet, size)) -> out$selectivity
     last <- grep("#----", allout[,1])[8]
     
     # mortality ----
@@ -2162,32 +2162,32 @@ gmacs_get_recruitment_distribution <- function(all_out = NULL, file = NULL, mode
       if(sex == "male") {
         # pull parameters
         x$parameters %>%
-          filter(parameter %in% c("Recruitment_ra-males", "Recruitment_rb-males")) %>% pull(estimate) -> pars
+          filter(parameter %in% c("Recruitment_ra-males:", "Recruitment_rb-males:")) %>% pull(estimate) -> pars
         # compute rec dist
         ra <- pars[1]; rbeta <- pars[2]
-        size_breaks <- x$size_bins - ((x$size_bins[2]-x$size_bins[1])/2)
+        size_breaks <- x$size_mid_points - ((x$size_mid_points[2]-x$size_mid_points[1])/2)
         ralpha <- ra / rbeta
         z <- pgamma(size_breaks / rbeta, ralpha)
         rec_sdd <- z - lag(z)
         rec_sdd <- rec_sdd[-1]
         rec_sdd[(n_rec_class + 1):length(rec_sdd)] <- 0
         dist <- c(rec_sdd / sum(rec_sdd, na.rm = T), 0)
-        return(tibble(size = x$size_bins, rec_dist = dist))
+        return(tibble(size = x$size_mid_points, rec_dist = dist))
       }
       if(sex == "female") {
         # pull parameters
         x$parameters %>%
-          filter(parameter %in% c("Recruitment_ra-males", "Recruitment_rb-males", "Recruitment_ra-females", "Recruitment_rb-females")) %>% pull(estimate) -> pars
+          filter(parameter %in% c("Recruitment_ra-males:", "Recruitment_rb-males:", "Recruitment_ra-females:", "Recruitment_rb-females:")) %>% pull(estimate) -> pars
         # compute rec dist
         ra <- pars[1]*exp(pars[3]); rbeta <- pars[2]*exp(pars[4])
-        size_breaks <- x$size_bins - ((x$size_bins[2]-x$size_bins[1])/2)
+        size_breaks <- x$size_mid_points - ((x$size_mid_points[2]-x$size_mid_points[1])/2)
         ralpha <- ra / rbeta
         z <- pgamma(size_breaks / rbeta, ralpha)
         rec_sdd <- z - lag(z)
         rec_sdd <- rec_sdd[-1]
         rec_sdd[(n_rec_class + 1):length(rec_sdd)] <- 0
         dist <- c(rec_sdd / sum(rec_sdd, na.rm = T), 0)
-        return(tibble(size = x$size_bins, rec_dist = dist))
+        return(tibble(size = x$size_mid_points, rec_dist = dist))
       }
       
     })) %>%
@@ -2934,6 +2934,7 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
 ### plot_ci - T/F add confidence interval ribbon to ssb
 ### ci_alpha - alpha value for confidence interval, a = 0.05 is 95% CI
 ### yrs - subset a specific year range, example: c(1990:2022)
+### plot_proj - T/F add point to plot for projection year MMB
 ### plot_dir - file directory in which to save plots
 ### data_summary - alternate way to bring in data, output of gmacs_get_derived_quantity_summary()
 ### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
@@ -2941,7 +2942,7 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
 ### std_file - file path to gmacs.std file. Optional, if plot_ci = T, both std_file and std_list cannot be NULL.
 ### std_list -  output from gmacs_read_std() as nested list, e.g., std = list(std.24.0, std.16.0). Optional, if plot_ci = T, both std_file and std_list cannot be NULL.
 
-gmacs_plot_mmb <- function(all_out = NULL, save_plot = T, plot_ci = F, ci_alpha = 0.05, yrs = NULL, plot_dir = NULL, data_summary = NULL, 
+gmacs_plot_mmb <- function(all_out = NULL, save_plot = T, plot_ci = F, ci_alpha = 0.05, yrs = NULL, plot_proj = T, plot_dir = NULL, data_summary = NULL, 
                            file = NULL, model_name = NULL, std_file = NULL, std_list = NULL) {
   
   # get summary data
@@ -2967,13 +2968,19 @@ gmacs_plot_mmb <- function(all_out = NULL, save_plot = T, plot_ci = F, ci_alpha 
   }
   # filter for years if specified
   if(!is.null(yrs)){data_summary %>% filter(year %in% yrs) -> data_summary}
+  # add line for projection year
+  if(plot_proj == T){
+    proj <- gmacs_get_ref_points(all_out) %>% 
+      mutate(year = max(data_summary$year) + 1)
+  }
+  
   # plot ssb
   data_summary %>%
     ggplot()+
     {if(plot_ci == T){geom_ribbon(aes(x = factor(year), ymin = ssb_lci, ymax = ssb_uci, group = model, fill = model), alpha = 0.2, show.legend = F)}}+
     geom_line(aes(x = factor(year), y = ssb, group = model, color = model))+
-    geom_point(data = function(x) filter(x, year == max(year)),
-               aes(x = factor(year), y = ssb, color = model))+
+    {if(plot_proj == T){geom_point(data = proj,
+                                   aes(x = factor(year), y = mmb, color = model))}}+
     scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels)+
     scale_y_continuous(labels = scales::comma, limits = c(0, NA))+
     scale_color_manual(values = cbpalette)+
@@ -2984,8 +2991,6 @@ gmacs_plot_mmb <- function(all_out = NULL, save_plot = T, plot_ci = F, ci_alpha 
   data_summary %>%
     ggplot()+
     geom_line(aes(x = factor(year), y = ssa, group = model, color = model))+
-    geom_point(data = function(x) filter(x, year == max(year)),
-               aes(x = factor(year), y = ssa, color = model))+
     scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels)+
     scale_y_continuous(labels = scales::comma, limits = c(0, NA))+
     scale_color_manual(values = cbpalette)+
