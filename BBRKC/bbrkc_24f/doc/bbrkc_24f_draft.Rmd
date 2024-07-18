@@ -1,5 +1,5 @@
 ---
-title: "Bristol Bay Red King Crab Stock Assessment 2023"
+title: "Bristol Bay Red King Crab Stock Assessment 2024"
 author: |
   | Katie Palof$^1$, 
   | $^1$Alaska Department of Fish and Game, katie.palof@alaska.gov 
@@ -32,8 +32,8 @@ options(xtable.comment = FALSE)
 ## before running update model specs here and in doc_figures_test.R
 ## run code in that R file with !! to get table and figure input here
 # the model specs
-cur_yr <- 2023 
-folder <- "bbrkc_23f"
+cur_yr <- 2024 
+folder <- "bbrkc_24f"
 # The palette with grey:
 cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#D55E00", "#0072B2", "#CC79A7", "#F0E442")
 
@@ -121,13 +121,13 @@ round(M[[rec_mod]]$sd_fofl[1], 3) -> fofl
 # Executive Summary {-}
 1.	**Stock**: Red king crab (RKC), *Paralithodes camtschaticus*, in Bristol Bay, Alaska.
 
-2.	**Catches**: The domestic RKC fishery began to expand in the late 1960s and peaked in 1980 with a catch of 129.95 million lb (58,943 t). The catch declined dramatically in the early 1980s and remained at low levels during the last three decades. After rationalization, catches were relatively high before the 2010/11 season but have been on a declining trend since 2014. The retained catch in 2020/21 was approximately 2.65 million lb (1,257 t), compared to 4.5 million lb (2,027 t) in 2018/19, following a reduction in total allowable catch (TAC). The directed pot fishery was closed in 2021/22 and 2022/23 due to low mature female abundance in accordance with the State of Alaska harvest strategy. The magnitude of bycatch from groundfish trawl and fixed gear fisheries has been stable and small relative to stock abundance during the last 10 years. The decline of the directed pot fishery crab/pot lift (CPUE) has been much less than the retained catch decline, with the 2020/21 CPUE having about 12.5% reduction from the average CPUE during the recent 20 years. 
+2.	**Catches**: The domestic RKC fishery began to expand in the late 1960s and peaked in 1980 with a catch of 129.95 million lb (58,943 t). The catch declined dramatically in the early 1980s and remained at low levels during the last three decades. After rationalization, catches were relatively high before the 2010/11 season but have been on a declining trend since 2014. The retained catch in 2020/21 was approximately 2.65 million lb (1,257 t), compared to 4.5 million lb (2,027 t) in 2018/19, following a reduction in total allowable catch (TAC). The directed pot fishery was closed in 2021/22 and 2022/23 due to low mature female abundance in accordance with the State of Alaska harvest strategy. The magnitude of bycatch from groundfish trawl and fixed gear fisheries has been stable and small relative to stock abundance during the last 10 years. The decline of the directed pot fishery crab/pot lift (CPUE) has been much less than the retained catch decline, with the 2020/21 CPUE having about 12.5% reduction from the average CPUE during the recent 20 years. **recent season**
 
-3.	**Stock biomass**: Estimated mature biomass increased dramatically in the mid-1970s, then decreased precipitously in the early 1980s. Estimated mature crab abundance increased during 1985-2007 with mature females being about four times more abundant in 2007 than in 1985 and mature males being about two times more abundant in 2007 than in 1985. Estimated mature abundance has steadily declined since 2007. The projected mature male biomass in 2023 is approximately 34% of the estimated mean survey biomass for the entire time series. The estimated mature female survey biomass has also been very low during the last four years, but the 2023 estimated value increased to approximately 52% of the mean.
+3.	**Stock biomass**: Estimated mature biomass increased dramatically in the mid-1970s, then decreased precipitously in the early 1980s. Estimated mature crab abundance increased during 1985-2007 with mature females being about four times more abundant in 2007 than in 1985 and mature males being about two times more abundant in 2007 than in 1985. Estimated mature abundance has steadily declined since 2007. The projected mature male biomass in **fix**2023 is approximately 34% of the estimated mean survey biomass for the entire time series. The estimated mature female survey biomass has also been very low during the last four years, but the 2023 estimated value increased to approximately 52% of the mean.
 
 4.	**Recruitment**: Estimated recruitment was high during the 1970s and early 1980s and has generally been low since 1985 (1979-year class). During 1984-2022, estimated recruitment was above the historical average (1976-2022 reference years) only in 1984, 1986, 1990, 1995, 1999, 2002, 2005, 2006, and 2010. Estimated recruitment was extremely low during the last 13 years, and even lower during the recent eight years. With the low recruitment in recent years, the projected mature biomass is expected to decline during the next few years with a below-average fishing mortality of 0.167 to 0.25 $yr^{-1}$.
 
-5.	**Management performance**: The stock was above Minimum Stock Size Threshold (MSST) in 2022/23 (85% of $B_{MSY}$) and hence was not overfished. Since total catch was below the OFL (overfishing limit), overfishing did not occur. The projection using the lowest recruitment periods during 2013-2022 would not likely result in “approaching an overfished condition” based on the current harvest strategy. The relatively low MSST in 2018/19 and B~35%~ in 2019/20 below was caused by a problem of the previous GMACS (General model for assessing crustacean stocks) version using the only sex ratio of recruitment in the terminal year for B~35%~ computation in 2019. The lower estimated male recruitment ratio in the terminal year in 2019 resulted in a lower mean male recruitment for B~35%~ computation.  The current version of GMACS uses an average of sex ratios of recruitment during the reference period to estimate B~35%~, which results in a stable sex ratio (about 50%) for the reference point calculation.   
+5.	**Management performance**: The stock was above Minimum Stock Size Threshold (MSST) in **fix**2022/23 (85% of $B_{MSY}$) and hence was not overfished. Since total catch was below the OFL (overfishing limit), overfishing did not occur. The projection using the lowest recruitment periods during 2013-2022 would not likely result in “approaching an overfished condition” based on the current harvest strategy. The relatively low MSST in 2018/19 and B~35%~ in 2019/20 below was caused by a problem of the previous GMACS (General model for assessing crustacean stocks) version using the only sex ratio of recruitment in the terminal year for B~35%~ computation in 2019. The lower estimated male recruitment ratio in the terminal year in 2019 resulted in a lower mean male recruitment for B~35%~ computation.  The current version of GMACS uses an average of sex ratios of recruitment during the reference period to estimate B~35%~, which results in a stable sex ratio (about 50%) for the reference point calculation.   
 The ABC (acceptable biological catch) buffer was increased from 10% to 20% in 2018, and an additional buffer of 5% was added in 2020 due to the lack of a 2020 survey. A 20% buffer was recommended by the Crab Plan Team (CPT) and Scientific and Statistical Committee (SSC) for ABC estimation since 2021/22. Reoccurring concerns for this stock are still present (cold pool distributional shifts, declining trends in mature biomass, lack of large recruitment pulses, retrospective patterns), as well as low mature female biomass the last two years, all contribute to a recommended 20% buffer for 2023/24. Tables below represent the status and catch specifications for model 23.0a in 1,000 t and million lb (Tables \@ref(tab:status) and \@ref(tab:statuslb)).
 
 
@@ -144,8 +144,9 @@ The ABC (acceptable biological catch) buffer was increased from 10% to 20% in 20
   2019/20 & 12.72 & 14.24 & 1.72 & 1.78 & 2.22 & 3.40 & 2.72 \\
   2020/21 & 12.12 & 13.96 & 1.20 & 1.26 & 1.57 & 2.14 & 1.61 \\
   2021/22 & 12.01 & 16.64 & 0 & 0.02 & 0.10 & 2.23 & 1.78 \\
-  2022/23 & `r msst_2223` & `r mmb_2223` & 0 & 0.02 & 0.07 & 3.04 & 2.43 \\
-  2023/24 &               & `r mmb_2324` &   &      &      & `r ofl_2324` & `r abc_2324` \\
+  2022/23 & 9.68  & 18.34 & 0 & 0.02 & 0.07 & 3.04 & 2.43 \\
+  2023/24 & `r msst_2324` & `r mmb_2324` &  XX &  XX    & XX   & 4.42 & 3.54 \\
+  2024/25 &               & `r mmb_2425`&   &   &   & `r ofl_2425` & `r abc_2425` \\
   \hline
 \end{tabular}
 \end{table}
