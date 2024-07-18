@@ -1,7 +1,7 @@
 # k.palof
 # Figure to compare area-swept from survey with model output from LBA model
 
-# created 7-13-22/ 8-18-23
+# created 7-13-22/ 8-18-23 / 7-16-24
 
 #READ ME:
 # data is from fortran program
@@ -27,7 +27,7 @@ theme_set(theme_bw(base_size=12,base_family='Times New Roman')+
                   panel.grid.minor = element_blank()))
 
 ## setup -------
-folder <- "rk23"
+folder <- "rk24_prelim"  #"rk23" 
 
 # data -----
 # read in area swept from lba data file "survey.dat" and surveyf.dat
@@ -37,7 +37,7 @@ folder <- "rk23"
 #years <- as.character(c(1972:2022))
 #out[nrow(out)+1, ] <- years
 
-lba_out <- read.csv(paste0(here::here(), "/BBRKC/LBA_state/", folder, "/output23_v2.csv"))
+lba_out <- read.csv(paste0(here::here(), "/BBRKC/LBA_state/", folder, "/prelim_output_v1_24.csv"))
 #lba_out3 <- read.csv("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/rk23_prelim/rk23_avgF_SC.csv")
 #lba_out4 <- read.csv("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/rk23_prelim/rk23_rawSC_manR.csv")
 #lba_out5 <- read.csv("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/rk23_prelim/rk23_wo_large_tow.csv")
@@ -112,28 +112,56 @@ lba_out %>%
 # 2023 results for 2022
   #upper_dif_avg lower_dif_avg
 #  1      0.70725        -0.998
+# 2024 results for 2022
+#  upper_dif_avg lower_dif_avg
+#  1         0.846        -0.892
 
 lba_out %>% 
   filter(Year == 2022) %>% 
   select(Year, model.mm, model.mf, survey.m, survey.f, matm_lower, matm_upper, survey.f.CI) %>% 
-  mutate(matf_lower = model.mf-(0.99), 
-         matf_upper = model.mf+(0.71)) -> lba_out22
+  mutate(matf_lower = model.mf-(0.89), 
+         matf_upper = model.mf+(0.85)) -> lba_out22
 
 lba_out %>% 
   filter(Year != 2022) %>% 
   rbind(lba_out22) -> lba_out2_a
 #write.csv(lba_out22a, "./BBRKC/LBA_state/rk22/rk22_r_input_2022edit.csv")
 
+# same for 2024 -----
+# recalc a confidence band on 2024---------
+lba_out %>% 
+  select(Year, model.mf, matf_lower, matf_upper) %>% 
+  mutate(model.mf_t = model.mf, 
+         upper_dif = matf_upper-model.mf_t, 
+         lower_dif = matf_lower-model.mf_t) %>% 
+  filter(Year >=2018 & Year <=2023) %>% 
+  summarise(upper_dif_avg = mean(upper_dif), 
+            lower_dif_avg = mean(lower_dif))
+
+#upper_dif_avg lower_dif_avg
+#1     0.5573333     -1.233667
+
+lba_out %>% 
+  filter(Year == 2024) %>% 
+  select(Year, model.mm, model.mf, survey.m, survey.f, matm_lower, matm_upper, survey.f.CI) %>% 
+  mutate(matf_lower = model.mf-(1.24),#(0.89), 
+         matf_upper = model.mf+(0.557)) -> lba_out24
+
+lba_out2_a %>% 
+  filter(Year != 2024) %>% 
+  rbind(lba_out24) -> lba_out2_ab
+
+
 #lba_out2_a %>% 
 #  mutate(survey.f_upper = survey.f + ((survey.f*survey.f.CV)*1.96),
 #  survey.f_lower = survey.f - ((survey.f*survey.f.CV)*1.96))
   
 #Figure with ribbons -------
-lba_out2_a %>% 
+lba_out2_ab %>% 
     mutate(survey.f_upper = (survey.f + survey.f.CI), survey.f_lower = (survey.f - survey.f.CI)) %>% 
     select(Year, survey.f, model.mf, matf_lower, matf_upper, survey.f_upper, survey.f_lower) %>% 
     gather(type, number, survey.f:model.mf) %>% 
-  filter(Year >= 2015) %>% 
+  #filter(Year >= 2015) %>% 
    ggplot(aes(Year, number, group = type)) +
     geom_point(aes(shape = type), size = 3) +
     geom_line(aes(group = type, linetype = type), lwd = 1) +
@@ -153,8 +181,8 @@ lba_out2_a %>%
           axis.title=element_text(size=14,face="bold"), 
           axis.text.x = element_text(angle = 45, hjust = 1)) +
     theme(plot.title = element_text(hjust =0.5)) -> females 
-  #ggsave(paste0('C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/', folder,'/mature_females_ribbons_v2_error.png'), females, dpi = 800, width = 7.5, height = 5.5)
-  ggsave(paste0('C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/', folder,'/mature_females_recent_ribbons_v2_error.png'), females, dpi = 800, width = 7.5, height = 5.5)
+  ggsave(paste0('C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/', folder,'/mature_females_ribbons_v2_error.png'), females, dpi = 800, width = 7.5, height = 5.5)
+  #ggsave(paste0('C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/', folder,'/mature_females_recent_ribbons_v2_error.png'), females, dpi = 800, width = 7.5, height = 5.5)
   # to use "recent ribbons" just comment in the filter year line above
   
 
