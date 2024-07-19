@@ -1,7 +1,7 @@
 ## gmacs R functions
 ## updated to GMACS 2.01.M.10; Compiled 2024-02-27
 ## tyler jackson, caitlin stern
-## last update - 4/18/2024
+## last update - 7/19/2024
 
 # load ----
 
@@ -1080,12 +1080,13 @@ gmacs_read_allout <- function(file, model_name = NULL, version = "2.20.14") {
     
     # n matrix ----
     
-    nmats <- grep("#N(.)", apply(allout[(grep("#---", allout[,1])[9]+2):grep("#---", allout[,1])[10],], 1, str_flatten, na.rm = T), value = T)
+    ## n matrix by sex and maturity
+    nmats <- grep("#N(.)", apply(allout[(grep("#---", allout[,1])[9]+2):grep("sex_maturity_shell_con", allout[,1]),], 1, str_flatten, na.rm = T), value = T)
     nmats_index <- as.numeric(names(nmats))
     
     list_tmp <- list()
     for(m in 1:length(nmats)) {
-      tmp <- matrix(nrow = length(out$mod_yrs), ncol = 1 + length(out$size_mid_points))
+      tmp <- matrix(nrow = length(out$mod_yrs)+1, ncol = 1 + length(out$size_mid_points))
       for(i in 1:nrow(tmp)) {
         tmp[i,] <- as.numeric(allout[nmats_index[m]+2+i, 1:ncol(tmp)])
       }
@@ -1094,7 +1095,28 @@ gmacs_read_allout <- function(file, model_name = NULL, version = "2.20.14") {
     }
     bind_rows(list_tmp) %>%
       pivot_longer(2:(ncol(.)-1), names_to = "size", values_to = "n") %>%
-      pivot_wider(names_from = type, values_from = n) -> out$n_matrix; last <- grep("#---", allout[,1])[10]
+      pivot_wider(names_from = type, values_from = n) -> out$n_matrix
+    
+    
+    ## n matrix by sex, maturity and shell condition
+    nmats <- grep("#N(.)", apply(allout[(grep("sex_maturity_shell_con", allout[,1])):grep("#---", allout[,1])[10],], 1, str_flatten, na.rm = T), value = T)
+    nmats_index <- as.numeric(names(nmats))    
+    
+    list_tmp <- list()
+    for(m in 1:length(nmats)) {
+      tmp <- matrix(nrow = length(out$mod_yrs)+1, ncol = 1 + length(out$size_mid_points))
+      for(i in 1:nrow(tmp)) {
+        tmp[i,] <- as.numeric(allout[nmats_index[m]+i, c(1, 5:(ncol(tmp)+3))])
+      }
+      as_tibble(tmp) %>% rename_all(~c("year", out$size_mid_points)) %>%
+        mutate(type = gsub("[()]|#N", "", nmats[m])) -> list_tmp[[m]]
+    }
+    bind_rows(list_tmp) %>%
+      pivot_longer(2:(ncol(.)-1), names_to = "size", values_to = "n") %>%
+      pivot_wider(names_from = type, values_from = n) %>% 
+      right_join(out$n_matrix, ., by = join_by(year, size)) -> out$n_matrix
+    
+   last <- grep("#---", allout[,1])[10]
     
     
     # growth ----
