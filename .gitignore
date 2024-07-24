@@ -63,17 +63,17 @@ rsconnect/
 Rplots.pdf
 
 # ADMB build files
-GMACS/src/lib/*.obj
-GMACS/src/lib/*
-GMACS/src/build/*
-GMACS/src/include/*
-GMACS/src/gmacs.cpp
-GMACS/src/gmacs.exe
-GMACS/src/gmacs.htp
-GMACS/src/gmacs.obj
-GMACS/src/moltIncrement.cpp
-*.cpp
-*.obj
+#GMACS/src/lib/*.obj
+#GMACS/src/lib/*
+#GMACS/src/build/*
+#GMACS/src/include/*
+#GMACS/src/gmacs.cpp
+#GMACS/src/gmacs.exe
+#GMACS/src/gmacs.htp
+#GMACS/src/gmacs.obj
+#GMACS/src/moltIncrement.cpp
+#*.cpp
+#*.obj
 *.exe
 
 # ADMB standard output files
