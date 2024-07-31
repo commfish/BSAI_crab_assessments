@@ -25,123 +25,110 @@ plot_save <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/")
 
 ## read in models
 # for fall 2024 need:
-##      - 23.0a_p7 as base
+##      - 23.0a_p7 as base (2023 and 2024 version)
 ##      - 24c base with less molting time period
-##      - REMA model (as appendix look for in script.....)
+##      - REMA model (as appendix look for in script "BBRKC/code/bbrkc_rema.R")
 
-m230a_p7 <- gmacs_read_allout(file = "./BBRKC/bbrkc_24s/ADJ_model_23_0a_ph7/Gmacsall.out", model = "m23.0a.p7")
-m230a_24 <- gmacs_read_allout(file = "./BBRKC/bbrkc_24f/model_23_0a_ph7/Gmacsall.out", model = "m23.0a_24")
+#m230a_p7 <- gmacs_read_allout(file = "./BBRKC/bbrkc_24s/ADJ_model_23_0a_ph7/Gmacsall.out", model_name = "m23.0a.p7", 
+#                              version = "2.01.M.10")
+m230a_23 <- gmacs_read_allout(file = "./BBRKC/bbrkc_24f/model_23_0a_ph7_23/Gmacsall.out", model_name = "m23.0a_23", 
+                              version = "2.20.14")
 
-m24c <- gmacs_read_allout(file = "./BBRKC/bbrkc_24f/model_24_0c/Gmacsall.out", model = "m24.0c")
+m230a_24 <- gmacs_read_allout(file = "./BBRKC/bbrkc_24f/model_23_0a_ph7_24/Gmacsall.out", model_name = "m23.0a", 
+                              version = "2.20.14")
+
+m24c <- gmacs_read_allout(file = "./BBRKC/bbrkc_24f/model_24_0c/Gmacsall.out", model_name = "m24.0c", 
+                          version = "2.20.14")
 
 
 #m24.0 <- gmacs_read_allout(file = "./SMBKC/smbkc_24s/model_16_0_c/Gmacsall.out", model = "smbkc24.0")
 
 ## read std files -------------------
-m211b_std <- gmacs_read_std(file = "./BBRKC/bbrkc_24s/model_211b/gmacs.std", model_name = "m21.1b")
-m211b_p7_std <- gmacs_read_std(file = "./BBRKC/bbrkc_24s/model_211b_ph7/gmacs.std", model_name = "m21.1b.p7")
-m230a_std <- gmacs_read_std(file = "./BBRKC/bbrkc_24s/model_23_0a/gmacs.std", model_name = "m23.0a")
-m230a_p7_std <- gmacs_read_std(file = "./BBRKC/bbrkc_24s/model_23_0a_ph7/gmacs.std", model_name = "m23.0a.p7")
-m24_std <- gmacs_read_std(file = "./BBRKC/bbrkc_24s/model_24_0/gmacs.std", model_name = "m24")
-m24b_std <- gmacs_read_std(file = "./BBRKC/bbrkc_24s/model_24_0b/gmacs.std", model_name = "m24.0b")
-m24c_std <- gmacs_read_std(file = "./BBRKC/bbrkc_24s/model_24_0c/gmacs.std", model_name = "m24.0c")
-m24d_std <- gmacs_read_std(file = "./BBRKC/bbrkc_24s/model_24_0d/gmacs.std", model_name = "m24.0d")
+
+m230a_23_std <- gmacs_read_std(file = "./BBRKC/bbrkc_24f/model_23_0a_ph7_23/gmacs.std", model_name = "m23.0a_23")
+m230a_24_std <- gmacs_read_std(file = "./BBRKC/bbrkc_24f/model_23_0a_ph7_24/gmacs.std", model_name = "m23.0a")
+m24c_std <- gmacs_read_std(file = "./BBRKC/bbrkc_24f/model_24_0c/gmacs.std", model_name = "m24.0c")
+#m24d_std <- gmacs_read_std(file = "./BBRKC/bbrkc_24s/model_24_0d/gmacs.std", model_name = "m24.0d")
 
 # model groupings defined here for future plots ----------------
-base_models <- list(m211b, m211b_p7, m230a, m230a_p7)
-base_std <- list(m211b_std, m211b_p7_std, m230a_std, m230a_p7_std)
+base_models <- list(m230a_23, m230a_24, m24c)
+base_std <- list(m230a_23_std, m230a_24_std, m24c_std)
 
-sel_models <- list(m230a_p7, m211b_p7, m24, m24b)
-sel_std <- list(m230a_p7_std, m211b_p7_std, m24_std, m24b_std)
+# Order for SAFE R markdown doc #############################
+# data range ------
+gmacs_plot_data_range(all_out = base_models, save_plot = T, plot_dir = plot_save)
 
-molt_models <-  list(m211b_p7, m230a_p7, m24c, m24d)
-molt_std <- list(m211b_p7_std, m230a_p7_std, m24c_std, m24d_std)
-
-
-# plot indices
-#gmacs_plot_index(all_out = list(m211b, m211b_p7, m230a, m230a_p7), plot_dir = plot_save)
-## ************!!!!!!!!!!!!!!! load one from "working doc_tables.R" here
-gmacs_plot_index(all_out = base_models, plot_dir = plot_save)
-gmacs_plot_index(all_out = sel_models, plot_dir = plot_save_sel)
-gmacs_plot_index(all_out = molt_models, plot_dir = plot_save_molt)
-
-temp <- gmacs_get_index_summary(all_out = list(m211b, m211b_p7, m230a, m230a_p7))
-
-#gmacs_plot_index(all_out = list(m230a_p7, m211b_p7, m24, m24b), plot_dir = plot_save_sel)
-
-# plot mmb ------------
-gmacs_plot_mmb(all_out = base_models, save_plot = T, plot_dir = plot_save, plot_ci = T, std_list = base_std)
-gmacs_plot_mmb(all_out = sel_models, plot_dir = plot_save_sel, plot_ci = T, std_list = sel_std)
-gmacs_plot_mmb(all_out = molt_models, plot_dir = plot_save_molt, plot_ci = T, std_list = molt_std)
-
-# recruitment ------
-gmacs_plot_recruitment(all_out = list(m211b, m211b_p7, m230a, m230a_p7), save_plot = T, plot_dir = plot_save)
-gmacs_plot_recruitment(all_out = list(m211b_p7, m230a_p7, m24, m24b), plot_dir = plot_save_sel)
-gmacs_plot_recruitment(all_out = list(m211b_p7, m230a_p7, m24c, m24d), plot_dir = plot_save_molt)
-
-#gmacs_plot_recruitment(all_out = base_models, save_plot = T, plot_dir = plot_save, 
-#                       data_summary = data_summary)
-# **fix** need units here 
-
+#
 # plot selectivity -------
-gmacs_plot_slx(all_out = sel_models, save_plot = F) #, plot_dir = plot_save_sel)
+gmacs_plot_slx(all_out = base_models, save_plot = F) #, plot_dir = plot_save)
 #gmacs_plot_slx(all_out = base_models, save_plot = T, plot_dir = plot_save)
-#gmacs_plot_slx(all_out = sel_models, save_plot = T, plot_dir = plot_save_sel)
-#gmacs_plot_slx(all_out = molt_models, save_plot = T, plot_dir = plot_save_molt)
+
 gmacs_get_slx(all_out = base_models) %>%
   mutate(capture_block = case_when(fleet %in% c("BSFRF", "Bairdi_Fishery_Bycatch", "Fixed_Gear") ~ "1975 - 2023",
                                    fleet == "NMFS_Trawl" & year %in% 1975:1981 ~ "1975 - 1981",
-                                   fleet == "NMFS_Trawl" & year %in% 1981:2023 ~ "1981 - 2023",
+                                   fleet == "NMFS_Trawl" & year %in% 1982:2023 ~ "1982 - 2023",
                                    fleet == "Pot_Fishery" ~ "1975 - 2022",
                                    fleet == "Trawl_Bycatch" ~ "1975 - 2022")) %>%
   gmacs_plot_slx(data_summary = ., save_plot = T, plot_dir = plot_save)
-
-gmacs_get_slx(all_out = sel_models) %>%
-  mutate(capture_block = case_when(fleet %in% c("BSFRF", "Bairdi_Fishery_Bycatch", "Fixed_Gear") ~ "1975 - 2023",
-                                   fleet == "NMFS_Trawl" & year %in% 1975:1981 ~ "1975 - 1981",
-                                   fleet == "NMFS_Trawl" & year %in% 1981:2023 ~ "1981 - 2023",
-                                   fleet == "Pot_Fishery" ~ "1975 - 2022",
-                                   fleet == "Trawl_Bycatch" ~ "1975 - 2022")) %>%
-  gmacs_plot_slx(data_summary = ., save_plot = T, plot_dir = plot_save_sel)
-
-gmacs_get_slx(all_out = molt_models) %>%
-  mutate(capture_block = case_when(fleet %in% c("BSFRF", "Bairdi_Fishery_Bycatch", "Fixed_Gear") ~ "1975 - 2023",
-                                   fleet == "NMFS_Trawl" & year %in% 1975:1981 ~ "1975 - 1981",
-                                   fleet == "NMFS_Trawl" & year %in% 1981:2023 ~ "1981 - 2023",
-                                   fleet == "Pot_Fishery" ~ "1975 - 2022",
-                                   fleet == "Trawl_Bycatch" ~ "1975 - 2022")) %>%
-  gmacs_plot_slx(data_summary = ., save_plot = T, plot_dir = plot_save_molt)
-
-# **fix** females issue with NMFS trawl
+# need retained and discarded for pot fishery --- **fix **
 
 # molt and tagging data plots ------
 gmacs_plot_molt_probability(all_out = base_models, save_plot = T, plot_dir = plot_save)
-gmacs_plot_molt_probability(all_out = sel_models, save_plot = T, plot_dir = plot_save_sel)
-gmacs_plot_molt_probability(all_out = molt_models, save_plot = T, plot_dir = plot_save_molt)
 
-gmacs_plot_molt_probability(all_out = list(m211b_p7, m230a_p7, m24, m24b, m24c, m24d), save_plot = T, plot_dir = plot_save)
+#gmacs_plot_molt_probability(all_out = list(m211b_p7, m230a_p7, m24, m24b, m24c, m24d), save_plot = T, plot_dir = plot_save)
 
-#
+# Molt and tagging plot **fix**--------
 
-# plot M nat mort -----------
-gmacs_plot_m(all_out = base_models, save_plot = T, plot_dir = plot_save)
-gmacs_plot_m(all_out = sel_models, save_plot = T, plot_dir = plot_save_sel)
-gmacs_plot_m(all_out = molt_models, save_plot = T, plot_dir = plot_save_molt)
-# still need to deal with M by sex.
+
+# plot indices ------------
+#gmacs_plot_index(all_out = list(m211b, m211b_p7, m230a, m230a_p7), plot_dir = plot_save)
+## ************!!!!!!!!!!!!!!! load one from "working doc_tables.R" here
+gmacs_plot_index(all_out = base_models, plot_dir = plot_save)
+
+temp <- gmacs_get_index_summary(all_out = list(m230a_p7, m230a_24, m24c))
+
+#gmacs_plot_index(all_out = list(m230a_p7, m211b_p7, m24, m24b), plot_dir = plot_save_sel)
 
 # plot size comps ----
 gmacs_plot_sizecomp(all_out = base_models, save_plot = T, plot_dir = plot_save)
-gmacs_plot_sizecomp(all_out = sel_models, save_plot = T, plot_dir = plot_save_sel)
-gmacs_plot_sizecomp(all_out = molt_models, save_plot = T, plot_dir = plot_save_molt)
+#gmacs_plot_sizecomp(all_out = sel_models, save_plot = T, plot_dir = plot_save_sel)
+#gmacs_plot_sizecomp(all_out = molt_models, save_plot = T, plot_dir = plot_save_molt)
+
+
+# plot mmb ------------
+gmacs_plot_mmb(all_out = base_models, save_plot = T, plot_dir = plot_save, plot_ci = T, std_list = base_std)
+#gmacs_plot_mmb(all_out = sel_models, plot_dir = plot_save_sel, plot_ci = T, std_list = sel_std)
+#gmacs_plot_mmb(all_out = molt_models, plot_dir = plot_save_molt, plot_ci = T, std_list = molt_std)
+
+# recruitment ------
+gmacs_plot_recruitment(all_out = list(m230a_23, m230a_24, m24c), save_plot = T, plot_dir = plot_save)
+#gmacs_plot_recruitment(all_out = list(m211b_p7, m230a_p7, m24, m24b), plot_dir = plot_save_sel)
+#gmacs_plot_recruitment(all_out = list(m211b_p7, m230a_p7, m24c, m24d), plot_dir = plot_save_molt)
+
+#gmacs_plot_recruitment(all_out = base_models, save_plot = T, plot_dir = plot_save, 
+#                       data_summary = data_summary)
+
+# fishing mortality and mmb ------
+gmacs_plot_f_mmb(all_out = base_models, save_plot = T, plot_dir = plot_save)
+# not the same as 2023 figures from Jie's code - look this over **fix**
+
+# fishing mortality ------
+gmacs_plot_f(all_out = base_models, save_plot = T, plot_dir = plot_save)
+#gmacs_plot_f(all_out = sel_models, save_plot = T, plot_dir = plot_save_sel)
+#gmacs_plot_f(all_out = molt_models, save_plot = T, plot_dir = plot_save_molt)
+# fishing mortality panel ??? **fix**
+
+# plot M nat mort -----------
+gmacs_plot_m(all_out = base_models, save_plot = T, plot_dir = plot_save)
+#gmacs_plot_m(all_out = sel_models, save_plot = T, plot_dir = plot_save_sel)
+#gmacs_plot_m(all_out = molt_models, save_plot = T, plot_dir = plot_save_molt)
+# still need to deal with M by sex.
+
 
 # catch
 gmacs_plot_catch(all_out = base_models, save_plot = T, plot_dir = plot_save)
 gmacs_plot_catch(all_out = molt_models, save_plot = T, plot_dir = plot_save_molt)
 
-# fishing mortality ------
-gmacs_plot_f(all_out = base_models, save_plot = T, plot_dir = plot_save)
-gmacs_plot_f(all_out = sel_models, save_plot = T, plot_dir = plot_save_sel)
-gmacs_plot_f(all_out = molt_models, save_plot = T, plot_dir = plot_save_molt)
 
 
 # data extent -------
