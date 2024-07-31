@@ -27,20 +27,30 @@ Model should run if input files are read in correctly.
 ## Model options ------
 Model explorations from comments:
 
-23.0a - "base" with estimated M for males, prior is tight - mean 0.18, CV 0.04 see Jie's 22.0a from May 2022
+
+23.0a [model_23_0a_ph7_24] - "base" with estimated M for males, prior is tight - mean 0.18, CV 0.04 see Jie's 22.0a from May 2022
 - use *23.0a_ph7* version (which is base + ssb in season 7)
 
-24.0c - 23.0a_ph7 + 1 molt prob time block
+24.0c [model_24_0c] - 23.0a_ph7 + 1 molt prob time block
+		- using most recent version - changed time block to 0, but wouldn't run when I commented out the extra parameters ....look at results and see (7-28-24)
 
 
 
 # Document updates ----------
 SAFE document is in Rmarkdown format. Need to work on all tables, etc.
 see "figures_tables_create_SAFE.R" and "Jie_figures_tables_create_SAFE.R" for creation of figures and tables. These also refer to some of Jie's code which is in folder 'BBRKC/code/Jie R code'.
-Other code for figures or analysis is found in 'BBRKC/code'
+*2024* now this is 'doc_figures_tables_gmacsr.R'; need to make sure these run with newest GMACS version
+
 Full markdown document was successful in 2023 but still some formatting with figures, etc. needed.
 
 ## GMACS versions ----
+Sept 2024 version:
+- prepped v.2.20.M.14 (folder 5_30_24) but NOT transitioning to 2.20.M.16 (NOTE: issues with v 16 and selectivity - Tyler is tracking down)
+- in changes to these version I need to determine the "initial reference size" - using 1 for now in these runs
+
+May 2024 version: 2.01.M.10 
+- version that was edited during FEb 2023 workshop with Andre
+
 Last Sept models used version from May 2022 models - gmacs.exe taken from 'BBKRC/src_bbrkc_040622'
 - this is version 2.01E 
   - it does NOT include updates made by Andre in April/May for AIGKC - therefore may not be correct in OFL calcs.
@@ -48,6 +58,8 @@ Last Sept models used version from May 2022 models - gmacs.exe taken from 'BBKRC
 
 May 2023 models should be using version: 
 - includes updates from Andre, Mattheiu and merged snow crab changes - see GitHub https://github.com/GMACS-project
+
+
 
 ## organization -----
 Description of models: found in this readme.md
@@ -57,6 +69,10 @@ files used for model: found in the gmacs.dat file in each folder, also have a fi
 # figures and tables ------
 Using 'gmacsr' for figures,etc. See 24s drafts.
 'doc_figures_tables_gmacsr.R'
+- Catch data figures - catch and cpue ????
+- Tagging/molting figure ????
+- Mature female abundance figure ?????
+
 
 
 
