@@ -1,5 +1,5 @@
 # k.palof
-# 8-16-22 / 8-21-23
+# 8-16-22 / 8-21-23 / 7-31-24
 # Figures and Tables needed for Sept 2022 BBRKC SAFE 
 ## Using Jie's notes and code - other file - 'figures_tables_create_SAFE.R - attempts to use gmr and SMBKC code
 
@@ -15,21 +15,21 @@
 #   to the gmr folder - press OK. 
 # Over on right hand size in the tabs (between connections and git should be build) in the Build tab (upper right hand side) - 
 # click "install and restart"
-library(gmr) #require(gmr)
-source("./SMBKC/code/functions.R") 
-source("./SMBKC/code/helper.R") 
-source("./SMBKC/code/packages.R")
-source("./SMBKC/code/gmr_functions2020.R") 
+#library(gmr) #require(gmr)
+#source("./SMBKC/code/functions.R") 
+#source("./SMBKC/code/helper.R") 
+#source("./SMBKC/code/packages.R")
+#source("./SMBKC/code/gmr_functions2020.R") 
 source("./BBRKC/bbrkc_22f/Jie R code/read_rep.R")
 .THEME    = list(theme_bw(base_size = 12, base_family = ""), scale_fill_manual(values=cbPalette), 
                  scale_colour_manual(values=cbPalette))
-.FIGS     = c("./BBRKC/bbrkc_23f/doc/figures/")
+.FIGS     = c("./BBRKC/bbrkc_24f/doc/figures/")
 
 ## Jie's code ------
-A <- read_rep("./BBRKC/bbrkc_23s/model_211b/gmacs.rep")
-B <- read_rep("./BBRKC/bbrkc_23f/model_211b/gmacs.rep")
-C <- read_rep("./BBRKC/bbrkc_23f/model_22/gmacs.rep")
-D <- read_rep("./BBRKC/bbrkc_23f/model_23_0a/gmacs.rep")
+A <- read_rep("./BBRKC/bbrkc_24f/model_23_0a_ph7_23/gmacs.rep")
+B <- read_rep("./BBRKC/bbrkc_24f/model_23_0a_ph7_24/gmacs.rep")
+C <- read_rep("./BBRKC/bbrkc_24f/model_24_0c/gmacs.rep")
+#D <- read_rep("./BBRKC/bbrkc_23f/model_23_0a/gmacs.rep")
 # these need to be run before any code in 'Jie_cmn_files.R' is run
 
 ## FIGURES ----------------
