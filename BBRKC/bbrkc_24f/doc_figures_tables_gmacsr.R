@@ -90,6 +90,7 @@ temp <- gmacs_get_index_summary(all_out = list(m230a_p7, m230a_24, m24c))
 #gmacs_plot_index(all_out = list(m230a_p7, m211b_p7, m24, m24b), plot_dir = plot_save_sel)
 
 # plot size comps ----
+# Tyler says this is broken. Need to fix this for what I need. **fix**
 gmacs_plot_sizecomp(all_out = base_models, save_plot = T, plot_dir = plot_save)
 #gmacs_plot_sizecomp(all_out = sel_models, save_plot = T, plot_dir = plot_save_sel)
 #gmacs_plot_sizecomp(all_out = molt_models, save_plot = T, plot_dir = plot_save_molt)
@@ -109,7 +110,9 @@ gmacs_plot_recruitment(all_out = list(m230a_23, m230a_24, m24c), save_plot = T, 
 #                       data_summary = data_summary)
 
 # fishing mortality and mmb ------
-gmacs_plot_f_mmb(all_out = base_models, save_plot = T, plot_dir = plot_save)
+gmacs_plot_f_mmb(all_out = list(m230a_23, m230a_24, m24c), save_plot = T, plot_dir = plot_save)
+gmacs_plot_f_mmb_dir(all_out = list(m230a_24), save_plot = T, plot_dir = plot_save)
+# load from "bbrkc_functions_gmacs.R"
 # not the same as 2023 figures from Jie's code - look this over **fix**
 
 # fishing mortality ------
@@ -132,7 +135,48 @@ gmacs_plot_catch(all_out = base_models, save_plot = T, plot_dir = plot_save)
 # data extent -------
 gmacs_plot_data_range(all_out = base_models, save_plot = T, plot_dir = plot_save)
 
+#mature female abundance -----------
+fem1 <- as.data.frame(m230a_24$n_matrix)
+fem2 <- as.data.frame(m24c$n_matrix)
+
+fem1 %>% 
+  select(year, size, females) %>% 
+  mutate(size = as.numeric(size)) %>% 
+  filter(size >= 92.5, size < 147.5) %>% # just mature size classes 6 to 16 exclude first 5
+  group_by(year) %>% 
+  summarise(mat_total = sum(females)/1000000) %>% 
+  mutate(model = "m230a") -> mat_fem
+
+fem2 %>% 
+  select(year, size, females) %>% 
+  mutate(size = as.numeric(size)) %>% 
+  filter(size >= 92.5, size < 147.5) %>% # just mature size classes 6 to 16 exclude first 5
+  group_by(year) %>% 
+  summarise(mat_total = sum(females)/1000000) %>% 
+  mutate(model = "m24c") -> mat_fem2
+
+mat_fem %>% 
+  rbind(mat_fem2) -> mat_fem_abn
+
+mat_fem_abn %>% 
+  ggplot(aes(year, mat_total, col = model)) +
+  geom_line(lwd =1) +
+  expand_limits(y=0) +
+  scale_y_continuous(expand = c(0,0)) +
+  #geom_hline(data = Bmsy_options, aes(yintercept = Bmsy), color = c("blue", "red"), 
+  #           lty = c("solid", "dashed"))+
+  #geom_text(data = Bmsy_options, aes(x= 1980, y = Bmsy, label = label), 
+  #          hjust = -0.45, vjust = 1.5, nudge_y = 0.05, size = 3.5) +
+  ggtitle("Female Abundance") +
+  ylab("Matue female abundance (million crab)") + xlab("Year") +
+  .THEME
+ggsave(paste0(.FIGS, "mature_female_abundance_mod_scen.png"), width = 6*1.3, height = 5*1.25)
+
+#ggsave(paste0(.FIGS, "mature_female_abundance_m230a.png"), width = 6*1.3, height = 5*1.25)
+  
 ## save output for future use? ------------------
+
+# here here 
 # get derived quantity summary
 deriv.quant <- gmacs_get_derived_quantity_summary(all_out = list(m230a_23, m230a_24, m24c))
 
