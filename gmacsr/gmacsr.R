@@ -1527,7 +1527,7 @@ gmacs_read_allout <- function(file, model_name = NULL, version = "2.20.16") {
     out$sdnr_MAR_lf <- tmp
     last <- grep("Francis_weights", allout[,1])
     ## francis weights
-    out$francis_weights <- as.numeric(allout[last+1, 1:length(unique(out$size_fit_summary$mod_series))]); last <- grep("#---", allout[,1])[7]
+    out$francis_weights <- as.numeric(allout[last+1, 1:length(unique(out$size_fit_summary$mod_series))]); last <- grep("#---", allout[,1])[8]
     
     # selectivity ----
     
@@ -1594,7 +1594,7 @@ gmacs_read_allout <- function(file, model_name = NULL, version = "2.20.16") {
     #             slx_discard, ret_disc_block) -> out$selectivity
     
     slx_cap %>% left_join(slx_ret, by = join_by(year, sex, fleet, size)) %>% left_join(slx_disc, by = join_by(year, sex, fleet, size)) -> out$selectivity
-    last <- grep("#----", allout[,1])[8]
+    last <- grep("#----", allout[,1])[9]
     
     # mortality ----
     
@@ -1667,13 +1667,13 @@ gmacs_read_allout <- function(file, model_name = NULL, version = "2.20.16") {
       mutate_at(3:ncol(.), as.numeric) %>%
       mutate(maturity = case_when(maturity == 1 ~ "mature",
                                   maturity == 2 ~ "immature",
-                                  maturity == 0 ~ "undetermined")) -> disc; last <- grep("#---", allout[,1])[9]
+                                  maturity == 0 ~ "undetermined")) -> disc; last <- grep("#---", allout[,1])[10]
     out$Z_by_sex_maturity_year_season_size <- left_join(cont, disc, by = join_by(sex, maturity, year, season, size))
     
     # n matrix ----
     
     ## n matrix by sex and maturity
-    nmats <- grep("#N(.)", apply(allout[(grep("#---", allout[,1])[9]+2):grep("sex_maturity_shell_con", allout[,1]),], 1, str_flatten, na.rm = T), value = T)
+    nmats <- grep("#N(.)", apply(allout[(grep("#---", allout[,1])[10]+2):grep("sex_maturity_shell_con", allout[,1]),], 1, str_flatten, na.rm = T), value = T)
     nmats_index <- as.numeric(names(nmats))
     
     list_tmp <- list()
@@ -1683,15 +1683,16 @@ gmacs_read_allout <- function(file, model_name = NULL, version = "2.20.16") {
         tmp[i,] <- as.numeric(allout[nmats_index[m]+2+i, 1:ncol(tmp)])
       }
       as_tibble(tmp) %>% rename_all(~c("year", out$size_mid_points)) %>%
-        mutate(type = gsub("[()]|#N", "", nmats[m])) -> list_tmp[[m]]
+        mutate(type = tolower(gsub("-", "_", gsub("#N[(]|[)]|#", "", nmats[m])))) -> list_tmp[[m]]
     }
     bind_rows(list_tmp) %>%
+      filter(!is.na(year)) %>%
       pivot_longer(2:(ncol(.)-1), names_to = "size", values_to = "n") %>%
       pivot_wider(names_from = type, values_from = n) -> out$n_matrix
     
     
     ## n matrix by sex, maturity and shell condition
-    nmats <- grep("#N(.)", apply(allout[(grep("sex_maturity_shell_con", allout[,1])):grep("#---", allout[,1])[10],], 1, str_flatten, na.rm = T), value = T)
+    nmats <- grep("#N(.)", apply(allout[(grep("sex_maturity_shell_con", allout[,1])):grep("#---", allout[,1])[11],], 1, str_flatten, na.rm = T), value = T)
     nmats_index <- as.numeric(names(nmats))    
     
     list_tmp <- list()
@@ -1701,14 +1702,15 @@ gmacs_read_allout <- function(file, model_name = NULL, version = "2.20.16") {
         tmp[i,] <- as.numeric(allout[nmats_index[m]+i, c(1, 5:(ncol(tmp)+3))])
       }
       as_tibble(tmp) %>% rename_all(~c("year", out$size_mid_points)) %>%
-        mutate(type = gsub("[()]|#N", "", nmats[m])) -> list_tmp[[m]]
+        mutate(type = tolower(gsub("-", "_", gsub("#N[(]|[)]|#", "", nmats[m])))) -> list_tmp[[m]]
     }
     bind_rows(list_tmp) %>%
+      filter(!is.na(year)) %>%
       pivot_longer(2:(ncol(.)-1), names_to = "size", values_to = "n") %>%
       pivot_wider(names_from = type, values_from = n) %>% 
       right_join(out$n_matrix, ., by = join_by(year, size)) -> out$n_matrix
     
-    last <- grep("#---", allout[,1])[10]
+    last <- grep("#---", allout[,1])[11]
     
     
     # growth ----
@@ -1752,7 +1754,7 @@ gmacs_read_allout <- function(file, model_name = NULL, version = "2.20.16") {
     }
     names(list_tmp) <- smats_names
     out$size_transition <- list_tmp
-    last <- grep("#---", allout[,1])[11]
+    last <- grep("#---", allout[,1])[12]
     
     
     
@@ -1777,7 +1779,7 @@ gmacs_read_allout <- function(file, model_name = NULL, version = "2.20.16") {
     out$SR_beta_prj <- as.numeric(allout[grep("SR_beta_prj", allout[,1])+1, 1])
     out$spr_fofl <- as.numeric(allout[grep("spr_fofl", allout[,1])+1, 1])
     out$spr_cofl_ret <- as.numeric(allout[grep("spr_cofl_ret", allout[,1])+1, 1])
-    last <- grep("#---", allout[,1])[14]
+    last <- grep("#---", allout[,1])[15]
     
     # simple likelihood stuff ----
     max(c(length(unique(out$catch_fit_summary$series)),
