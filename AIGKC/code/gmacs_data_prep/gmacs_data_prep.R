@@ -29,7 +29,7 @@ read_csv("./AIGKC/data/observer/item10_season_dates.csv") %>%
   # filter for eag
   filter(fishery == "EAG") %>%
   dplyr::select(-fishery) %>% 
-  mutate_at(1:6, function(x){sprintf('%.3f', x)}) %>%
+  #mutate_at(1:6, function(x){sprintf('%.3f', x)}) %>%
   write_delim(., "./AIGKC/data/gmacs/2024_may/eag_tau_1981_present.txt", delim = "\t")
 
 # wag
@@ -51,8 +51,8 @@ read_csv("./AIGKC/data/observer/item10_season_dates.csv") %>%
   # filter for eag
   filter(fishery == "WAG") %>%
   dplyr::select(-fishery) %>%
-  mutate_at(1:6, function(x){sprintf('%.3f', x)}) %>%
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/wag_tau_1981_present.txt", delim = "\t")
+  #mutate_at(1:6, function(x){sprintf('%.3f', x)}) %>%
+  write_delim(., "./AIGKC/data/gmacs/2024_may/wag_tau_1981_present.txt", delim = "\t")
 
 # ai
 # read_csv("./AIGKC/data/observer/item10_season_dates.csv") %>%
@@ -153,79 +153,6 @@ read_csv("./AIGKC/data/observer/item4_directed_total_catch.csv") %>%
 
 
 
-# retained size composition ----
-
-# eag
-read_csv("./AIGKC/data/observer/item8_retained_size_comp.csv") %>%
-  # add length bin
-  f_add_len_bin(., .$size) %>%
-  # compute total measured per year
-  group_by(crab_year, fishery) %>%
-  mutate(nmeas = sum(total)) %>%
-  # compute total measured by bin
-  group_by(crab_year, fishery, bin) %>%
-  summarise(n = sum(total),
-            nmeas = mean(nmeas)) %>%
-  ungroup %>%
-  mutate(prop  = n / nmeas) %>%
-  # join to stage 1 neff
-  group_by(fishery, crab_year) %>%
-  mutate(neff = min(nmeas * 0.05, 100)) %>% ungroup %>%
-  left_join(read_csv("./AIGKC/data/observer/item6_vessel_days.csv")) %>%
-  # gmacs retained composition
-  filter(fishery == "EAG") %>% ungroup %>%
-  arrange(bin) %>%
-  transmute(`#year` = crab_year, 
-            seas = 3,
-            fleet = 1, 
-            sex = 1,
-            type = 1,
-            shell = 0,
-            maturity = 0, 
-            nsamp = neff,
-            nsamp = n_days,
-            bin = paste0("l", bin), 
-            prop = sprintf("%.5f", prop)) %>%
-  pivot_wider(names_from = bin, values_from = prop) %>%
-  arrange(`#year`) %>%
-  replace(is.na(.), "0.00000") %>%
-  # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_may/eag_retained_composition.txt", delim = "\t")
-
-# wag
-read_csv("./AIGKC/data/observer/item8_retained_size_comp.csv") %>%
-  # add length bin
-  f_add_len_bin(., .$size) %>%
-  # compute total measured per year
-  group_by(crab_year, fishery) %>%
-  mutate(nmeas = sum(total)) %>%
-  # compute total measured by bin
-  group_by(crab_year, fishery, bin) %>%
-  summarise(n = sum(total),
-            nmeas = mean(nmeas)) %>%
-  ungroup %>%
-  mutate(prop  = n / nmeas) %>%
-  # join to stage 1 neff
-  left_join(read_csv("./AIGKC/data/observer/item6_vessel_days.csv")) %>%
-  # gmacs retained composition
-  filter(fishery == "WAG") %>%
-  arrange(bin, crab_year) %>%
-  transmute(`#year` = crab_year, 
-            seas = 3,
-            fleet = 1, 
-            sex = 1,
-            type = 1,
-            shell = 0,
-            maturity = 0, 
-            nsamp = n_days,
-            bin = paste0("l", bin), 
-            prop = sprintf("%.5f", prop)) %>%
-  pivot_wider(names_from = bin, values_from = prop) %>%
-  replace(is.na(.), "0.00000") %>%
-  arrange(`#year`) %>%
-  # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_may/wag_retained_composition.txt", delim = "\t")
-
 # retained size composition, no minus bin ----
 
 # eag
@@ -245,7 +172,7 @@ read_csv("./AIGKC/data/observer/item8_retained_size_comp.csv") %>%
   # join to stage 1 neff
   group_by(fishery, crab_year) %>%
   mutate(neff = min(nmeas * 0.05, 100)) %>% ungroup %>%
-  left_join(read_csv("./AIGKC/data/observer/item6_vessel_days.csv")) %>%
+  #left_join(read_csv("./AIGKC/data/observer/item6_vessel_days.csv")) %>%
   # gmacs retained composition
   filter(fishery == "EAG") %>% ungroup %>%
   arrange(bin) %>%
@@ -257,14 +184,14 @@ read_csv("./AIGKC/data/observer/item8_retained_size_comp.csv") %>%
             shell = 0,
             maturity = 0, 
             nsamp = neff,
-            nsamp = n_days,
+            #nsamp = n_days,
             bin = paste0("l", bin), 
             prop = sprintf("%.5f", prop)) %>%
   pivot_wider(names_from = bin, values_from = prop) %>%
   arrange(`#year`) %>%
   replace(is.na(.), "0.00000") %>%
   # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_may/eag_retained_composition_trunc.txt", delim = "\t")
+  write_delim(., "./AIGKC/data/gmacs/2025_sept/eag_retained_composition_trunc.txt", delim = "\t")
 
 # wag
 read_csv("./AIGKC/data/observer/item8_retained_size_comp.csv") %>%
@@ -283,7 +210,7 @@ read_csv("./AIGKC/data/observer/item8_retained_size_comp.csv") %>%
   # join to stage 1 neff
   group_by(fishery, crab_year) %>%
   mutate(neff = min(nmeas * 0.05, 100)) %>% ungroup %>%
-  left_join(read_csv("./AIGKC/data/observer/item6_vessel_days.csv")) %>%
+  #left_join(read_csv("./AIGKC/data/observer/item6_vessel_days.csv")) %>%
   # gmacs retained composition
   filter(fishery == "WAG") %>% ungroup %>%
   arrange(bin) %>%
@@ -295,91 +222,16 @@ read_csv("./AIGKC/data/observer/item8_retained_size_comp.csv") %>%
             shell = 0,
             maturity = 0, 
             nsamp = neff,
-            nsamp = n_days,
+            #nsamp = n_days,
             bin = paste0("l", bin), 
             prop = sprintf("%.5f", prop)) %>%
   pivot_wider(names_from = bin, values_from = prop) %>%
   arrange(`#year`) %>%
   replace(is.na(.), "0.00000") %>%
   # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_may/Wag_retained_composition_trunc.txt", delim = "\t")
+  write_delim(., "./AIGKC/data/gmacs/2025_sept/Wag_retained_composition_trunc.txt", delim = "\t")
 
 
-
-# total size composition ----
-
-# eag
-read_csv("./AIGKC/data/observer/item9_directed_observer_size_comp.csv") %>%
-  filter(sex == 1,
-         !is.na(size)) %>%
-  # add length bin
-  f_add_len_bin(., .$size) %>%
-  # compute total measured per year
-  group_by(crab_year, fishery) %>%
-  mutate(nmeas = sum(total)) %>%
-  # compute total measured by bin
-  group_by(crab_year, fishery, bin) %>%
-  summarise(n = sum(total),
-            nmeas = mean(nmeas)) %>%
-  ungroup %>%
-  mutate(prop  = n / nmeas) %>%
-  group_by(crab_year, fishery) %>%
-  mutate(neff = round(min(nmeas * 0.05, 100))) %>%
-  # join to stage 1 neff
-  left_join(read_csv("./AIGKC/data/observer/item7_observed_vessel_days.csv")) %>%
-  # gmacs retained composition
-  filter(fishery == "EAG") %>% ungroup %>%
-  arrange(bin, crab_year) %>%
-  transmute(`#year` = crab_year, 
-            seas = 3,
-            fleet = 1, 
-            sex = 1,
-            type = 0,
-            shell = 0,
-            maturity = 0, 
-            nsamp = neff,
-            nsamp = n_days,
-            bin = paste0("l", bin), 
-            prop = sprintf("%.5f", prop)) %>%
-  pivot_wider(names_from = bin, values_from = prop) %>%
-  replace(is.na(.), "0.00000") %>%
-  # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_may/eag_total_composition.txt", delim = "\t")
-
-# wag
-read_csv("./AIGKC/data/observer/item9_directed_observer_size_comp.csv") %>%
-  filter(sex == 1,
-         !is.na(size)) %>%
-  # add length bin
-  f_add_len_bin(., .$size) %>%
-  # compute total measured per year
-  group_by(crab_year, fishery) %>%
-  mutate(nmeas = sum(total)) %>%
-  # compute total measured by bin
-  group_by(crab_year, fishery, bin) %>%
-  summarise(n = sum(total),
-            nmeas = mean(nmeas)) %>%
-  ungroup %>%
-  mutate(prop  = n / nmeas) %>%
-  # join to stage 1 neff
-  left_join(read_csv("./AIGKC/data/observer/item7_observed_vessel_days.csv")) %>%
-  # gmacs retained composition
-  filter(fishery == "WAG") %>%
-  arrange(bin, crab_year) %>%
-  transmute(`#year` = crab_year, 
-            seas = 3,
-            fleet = 1, 
-            sex = 1,
-            type = 0,
-            shell = 0,
-            maturity = 0, 
-            nsamp = as.character(n_days),
-            bin = paste0("l", bin), 
-            prop = sprintf("%.5f", prop)) %>%
-  pivot_wider(names_from = bin, values_from = prop) %>%
-  replace(is.na(.), "0.00000") %>% 
-  # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_may/wag_total_composition.txt", delim = "\t")
 
 # total size composition, no minus bin ----
 
@@ -387,7 +239,8 @@ read_csv("./AIGKC/data/observer/item9_directed_observer_size_comp.csv") %>%
 read_csv("./AIGKC/data/observer/item9_directed_observer_size_comp.csv") %>%
   filter(sex == 1,
          size > 100,
-         !is.na(size)) %>%
+         !is.na(size),
+         crab_year != 1993) %>%
   # add length bin
   f_add_len_bin(., .$size) %>%
   # compute total measured per year
@@ -402,7 +255,7 @@ read_csv("./AIGKC/data/observer/item9_directed_observer_size_comp.csv") %>%
   group_by(crab_year, fishery) %>%
   mutate(neff = round(min(nmeas * 0.05, 100))) %>%
   # join to stage 1 neff
-  left_join(read_csv("./AIGKC/data/observer/item7_observed_vessel_days.csv")) %>%
+  #left_join(read_csv("./AIGKC/data/observer/item7_observed_vessel_days.csv")) %>%
   # gmacs retained composition
   filter(fishery == "EAG") %>% ungroup %>%
   arrange(bin, crab_year) %>%
@@ -414,13 +267,13 @@ read_csv("./AIGKC/data/observer/item9_directed_observer_size_comp.csv") %>%
             shell = 0,
             maturity = 0, 
             nsamp = neff,
-            nsamp = n_days,
+            #nsamp = n_days,
             bin = paste0("l", bin), 
             prop = sprintf("%.5f", prop)) %>%
   pivot_wider(names_from = bin, values_from = prop) %>%
   replace(is.na(.), "0.00000") %>%
   # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_may/eag_total_composition_trunc.txt", delim = "\t")
+  write_delim(., "./AIGKC/data/gmacs/2025_sept/eag_total_composition_trunc.txt", delim = "\t")
 
 
 
@@ -443,7 +296,7 @@ read_csv("./AIGKC/data/observer/item9_directed_observer_size_comp.csv") %>%
   group_by(crab_year, fishery) %>%
   mutate(neff = round(min(nmeas * 0.05, 100))) %>%
   # join to stage 1 neff
-  left_join(read_csv("./AIGKC/data/observer/item7_observed_vessel_days.csv")) %>%
+  #left_join(read_csv("./AIGKC/data/observer/item7_observed_vessel_days.csv")) %>%
   # gmacs retained composition
   filter(fishery == "WAG") %>% ungroup %>%
   arrange(bin, crab_year) %>%
@@ -455,13 +308,179 @@ read_csv("./AIGKC/data/observer/item9_directed_observer_size_comp.csv") %>%
             shell = 0,
             maturity = 0, 
             nsamp = neff,
-            nsamp = n_days,
+            #nsamp = n_days,
             bin = paste0("l", bin), 
             prop = sprintf("%.5f", prop)) %>%
   pivot_wider(names_from = bin, values_from = prop) %>%
   replace(is.na(.), "0.00000") %>%
   # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_may/wag_total_composition_trunc.txt", delim = "\t")
+  write_delim(., "./AIGKC/data/gmacs/2025_sept/wag_total_composition_trunc.txt", delim = "\t")
+
+
+# retained size composition, dirichlet ----
+
+# eag
+read_csv("./AIGKC/data/observer/item8_retained_size_comp.csv") %>%
+  filter(size > 100) %>%
+  # add length bin
+  f_add_len_bin(., .$size) %>%
+  # compute total measured per year
+  group_by(crab_year, fishery) %>%
+  mutate(nmeas = sum(total)) %>%
+  # compute total measured by bin
+  group_by(crab_year, fishery, bin) %>%
+  summarise(n = sum(total),
+            nmeas = mean(nmeas)) %>%
+  ungroup %>%
+  mutate(prop  = n / nmeas) %>%
+  # join to stage 1 neff
+  group_by(fishery, crab_year) %>%
+  left_join(read_csv("./AIGKC/output/observer/retained_neff_boot_table.csv") %>%
+              transmute(crab_year, neff = round(eag_neff_mean))) %>%
+  mutate(neff = min(neff, 2000)) %>% ungroup %>%
+  # gmacs retained composition
+  filter(fishery == "EAG") %>% ungroup %>%
+  arrange(bin) %>%
+  transmute(`#year` = crab_year, 
+            seas = 3,
+            fleet = 1, 
+            sex = 1,
+            type = 1,
+            shell = 0,
+            maturity = 0, 
+            nsamp = neff,
+            #nsamp = n_days,
+            bin = paste0("l", bin), 
+            prop = sprintf("%.5f", prop)) %>%
+  pivot_wider(names_from = bin, values_from = prop) %>%
+  arrange(`#year`) %>%
+  replace(is.na(.), "0.00000") %>%
+  # save gmacs output
+  write_delim(., "./AIGKC/data/gmacs/2025_sept/eag_retained_composition_trunc_DM.txt", delim = "\t")
+
+# wag
+read_csv("./AIGKC/data/observer/item8_retained_size_comp.csv") %>%
+  filter(size > 100) %>%
+  # add length bin
+  f_add_len_bin(., .$size) %>%
+  # compute total measured per year
+  group_by(crab_year, fishery) %>%
+  mutate(nmeas = sum(total)) %>%
+  # compute total measured by bin
+  group_by(crab_year, fishery, bin) %>%
+  summarise(n = sum(total),
+            nmeas = mean(nmeas)) %>%
+  ungroup %>%
+  mutate(prop  = n / nmeas) %>%
+  # join to stage 1 neff
+  group_by(fishery, crab_year) %>%
+  left_join(read_csv("./AIGKC/output/observer/retained_neff_boot_table.csv") %>%
+              transmute(crab_year, neff = round(wag_neff_mean))) %>%
+  mutate(neff = min(neff, 2000)) %>% ungroup %>%
+  # gmacs retained composition
+  filter(fishery == "WAG") %>% ungroup %>%
+  arrange(bin) %>%
+  transmute(`#year` = crab_year, 
+            seas = 3,
+            fleet = 1, 
+            sex = 1,
+            type = 1,
+            shell = 0,
+            maturity = 0, 
+            nsamp = neff,
+            #nsamp = n_days,
+            bin = paste0("l", bin), 
+            prop = sprintf("%.5f", prop)) %>%
+  pivot_wider(names_from = bin, values_from = prop) %>%
+  arrange(`#year`) %>%
+  replace(is.na(.), "0.00000") %>%
+  # save gmacs output
+  write_delim(., "./AIGKC/data/gmacs/2025_sept/Wag_retained_composition_trunc_DM.txt", delim = "\t")
+
+
+
+# total size composition, dirichlet ----
+
+# eag
+read_csv("./AIGKC/data/observer/item9_directed_observer_size_comp.csv") %>%
+  filter(sex == 1,
+         size > 100,
+         !is.na(size),
+         crab_year != 1993) %>%
+  # add length bin
+  f_add_len_bin(., .$size) %>%
+  # compute total measured per year
+  group_by(crab_year, fishery) %>%
+  mutate(nmeas = sum(total)) %>%
+  # compute total measured by bin
+  group_by(crab_year, fishery, bin) %>%
+  summarise(n = sum(total),
+            nmeas = mean(nmeas)) %>%
+  ungroup %>%
+  mutate(prop  = n / nmeas) %>%
+  group_by(crab_year, fishery) %>%
+  left_join(read_csv("./AIGKC/output/observer/total_neff_boot_table.csv") %>%
+              transmute(crab_year, neff = round(eag_neff_mean))) %>%
+  mutate(neff = min(neff, 2000)) %>% ungroup %>%
+  # gmacs retained composition
+  filter(fishery == "EAG") %>% ungroup %>%
+  arrange(bin, crab_year) %>%
+  transmute(`#year` = crab_year, 
+            seas = 3,
+            fleet = 1, 
+            sex = 1,
+            type = 0,
+            shell = 0,
+            maturity = 0, 
+            nsamp = neff,
+            #nsamp = n_days,
+            bin = paste0("l", bin), 
+            prop = sprintf("%.5f", prop)) %>%
+  pivot_wider(names_from = bin, values_from = prop) %>%
+  replace(is.na(.), "0.00000") %>%
+  # save gmacs output
+  write_delim(., "./AIGKC/data/gmacs/2025_sept/eag_total_composition_trunc_DM.txt", delim = "\t")
+
+
+
+# wag
+read_csv("./AIGKC/data/observer/item9_directed_observer_size_comp.csv") %>%
+  filter(sex == 1,
+         size > 100,
+         !is.na(size)) %>%
+  # add length bin
+  f_add_len_bin(., .$size) %>%
+  # compute total measured per year
+  group_by(crab_year, fishery) %>%
+  mutate(nmeas = sum(total)) %>%
+  # compute total measured by bin
+  group_by(crab_year, fishery, bin) %>%
+  summarise(n = sum(total),
+            nmeas = mean(nmeas)) %>%
+  ungroup %>%
+  mutate(prop  = n / nmeas) %>%
+  group_by(crab_year, fishery) %>%
+  left_join(read_csv("./AIGKC/output/observer/total_neff_boot_table.csv") %>%
+              transmute(crab_year, neff = round(wag_neff_mean))) %>%
+  mutate(neff = min(neff, 2000)) %>% ungroup %>%
+  # gmacs retained composition
+  filter(fishery == "WAG") %>% ungroup %>%
+  arrange(bin, crab_year) %>%
+  transmute(`#year` = crab_year, 
+            seas = 3,
+            fleet = 1, 
+            sex = 1,
+            type = 0,
+            shell = 0,
+            maturity = 0, 
+            nsamp = neff,
+            #nsamp = n_days,
+            bin = paste0("l", bin), 
+            prop = sprintf("%.5f", prop)) %>%
+  pivot_wider(names_from = bin, values_from = prop) %>%
+  replace(is.na(.), "0.00000") %>%
+  # save gmacs output
+  write_delim(., "./AIGKC/data/gmacs/2025_sept/wag_total_composition_trunc_DM.txt", delim = "\t")
 
 
 # observer index ----
