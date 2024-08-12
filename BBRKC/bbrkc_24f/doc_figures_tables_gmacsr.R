@@ -54,6 +54,12 @@ m24c_std <- gmacs_read_std(file = "./BBRKC/bbrkc_24f/model_24_0c/gmacs.std", mod
 base_models <- list(m230a_23, m230a_24, m24c)
 base_std <- list(m230a_23_std, m230a_24_std, m24c_std)
 
+#liklihood ------
+gmacs_get_lik_type_pen(all_out = base_models)
+gmacs_get_lik(all_out = base_models) 
+gmacs_get_pars(all_out = base_models)
+
+
 # Order for SAFE R markdown doc #############################
 # data range ------
 gmacs_plot_data_range(all_out = base_models, save_plot = T, plot_dir = plot_save)
