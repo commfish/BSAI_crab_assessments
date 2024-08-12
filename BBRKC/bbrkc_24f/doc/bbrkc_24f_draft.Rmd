@@ -27,6 +27,7 @@ opts_chunk$set(fig.width = 12, fig.height = 7, fig.align = "left", echo = FALSE,
 library(gmr)
 library(xtable)
 library(tidyverse)
+source(paste0(here::here(), "./gmacsr/gmacsr.R"))
 #source(paste0(here::here(), "./SMBKC/code/gmr_functions2020.R"))
 options(xtable.comment = FALSE)
 ## before running update model specs here and in doc_figures_test.R
@@ -43,40 +44,12 @@ cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#D55E00", "#0072B2",
 #scale_colour_manual(values=cbPalette)
 
 # update model names and file locations
-mod_names <- c("21.1b (2022)", "21.1b (2023)", "23.0a Mest", "22.0 1985")#
-#mod_names <- c("16.0 (2019)", "16.0 (2020)", "16.0a (fix R ter)", "20.1 (no pot)")
-.MODELDIR = c(paste0(here::here(), "/BBRKC/bbrkc_22f/model_211b/"),
-              paste0(here::here(), "/BBRKC/bbrkc_23f/model_211b/"),#, 
-              paste0(here::here(), "/BBRKC/bbrkc_23f/model_23_0a/"), #model chosen by CPT sept 23
-              paste0(here::here(), "/BBRKC/bbrkc_23f/model_22/")) #, 
-               #need to update these model options
-.THEME    = list(theme_bw(base_size = 12, base_family = ""), scale_fill_manual(values=cbPalette), 
-                 scale_colour_manual(values=cbPalette), 
-                 update_geom_defaults("line", list(size = 1.75)))
-.OVERLAY  = TRUE
-.SEX      = c("Aggregate","Male", "Female")
-.FLEET    = c("Pot","Trawl bycatch", "Tanner bycatch", "Fixed bycatch","NMFS Trawl","BSFRF survey")
-#.TYPE     = c("Retained","Discarded", "Total")
-.TYPE     = c("Total", "Retained","Discarded", "Total")
-.SHELL    = c("Aggregate","New", "Old")
-.MATURITY = c("Aggregate")
-.SEAS     = c("1","2","3","4","5")
-.FIGS     = c("./BBRKC/bbrkc_23f/doc/figures/")
-.TABS     = c("./BBRKC/bbrkc_23f/doc/tables/")
-# Read report file and create gmacs report object (a list):
-fn       <- paste0(.MODELDIR, "gmacs")
-M        <- lapply(fn, read_admb)
-names(M) <- mod_names
+mod_names <- c("m23.0a_23", "m23.0a", "m24.0c")#
+m230a_23 <- gmacs_read_allout(file = "C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_24f/model_23_0a_ph7_23/Gmacsall.out", model_name = "m23.0a_23", version = "2.20.14")
 
-nmult_1 <- 1e+06
-nmult_2 <- 0.0004535923 * 1e+6
-#fn <- paste0(.MODELDIR[1], "gmacs")
-#Mmatch <- lapply(fn, read_admb)
-#names(Mmatch) <- c("SMBKC")
+m230a_24 <- gmacs_read_allout(file = "C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_24f/model_23_0a_ph7_24/Gmacsall.out", model_name = "m23.0a", version = "2.20.14")
 
-fn <- paste0(.MODELDIR[2], "gmacs")
-Mbase <- lapply(fn, read_admb)
-names(Mbase) <- c("BBRKC")
+m24c <- gmacs_read_allout(file = "C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_24f/model_24_0c/Gmacsall.out", model_name = "m24.0c", version = "2.20.14")
 
 rinline <- function(code){
   html <- '<code  class="r">``` `CODE` ```</code>'
@@ -86,7 +59,7 @@ rinline <- function(code){
 #alt_mod <- 5 # alt reference time frame
 ref_mod <- 1 # base 2020
 rec_mod <- 3 # not the base going into CPT, CPT picked 23.0a
-mod_scen<- 2:4 #scenarios you want graphed together
+mod_scen<- 2:3 #scenarios you want graphed together
 
 #mod_q <- c(2,6,8)
 #mod_yr <- c(2,7)
@@ -98,23 +71,35 @@ hh <- 5
 ```{r exesum, echo = FALSE}
 ## table 1 ------
 ## table 1 ------
-round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_2223
-round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_2223
-round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2324
-round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2324
-round(M[[rec_mod]]$spr_cofl/1000*0.80, 2) -> abc_2324
+M <- m230a_24
+round(M$bmsy/1000*0.5, 2) -> msst_2324
+#round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_2223
+round(M$derived_quant_summary$ssb[length(M$derived_quant_summary$ssb)]/1000, 2) -> mmb_2324
+#round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_2223
+round(M$mmb_curr/1000, 2) -> mmb_2425
+#round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2324
+round(M$ofl_tot/1000, 2) -> ofl_2425
+#round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2324
+round(ofl_2425*.80, 2) -> abc_2425
+#round(M[[rec_mod]]$spr_cofl/1000*0.80, 2) -> abc_2324
+table1specs_t <- c(msst_2324, mmb_2324, mmb_2425, ofl_2425, abc_2425)
+#table1specs_t
 
-round(M[[rec_mod]]$spr_bmsy* 0.5* 2204.62/1e6, 2) -> msst_2223_lb
-round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]* 2204.62/1e6, 2) -> mmb_2223_lb
-round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl* 2204.62/1e6, 2)-> mmb_2324_lb
-round(M[[rec_mod]]$spr_cofl* 2204.62/1e6, 2) -> ofl_2324_lb
-round(M[[rec_mod]]$spr_cofl* 2204.62/1e6*0.80, 2) -> abc_2324_lb
+round(M$bmsy*0.5*2204.62/1e6, 2) -> msst_2324_lb
+round(M$derived_quant_summary$ssb[length(M$derived_quant_summary$ssb)]* 2204.62/1e6, 2) -> mmb_2324_lb
+round(M$mmb_curr* 2204.62/1e6, 2) -> mmb_2425_lb
+round(M$ofl_tot* 2204.62/1e6, 2) -> ofl_2425_lb
+round(ofl_2425* 2204.62/1e6*.80, 2) -> abc_2425_lb
 
 # ofl and abc basis -------- table 3
-round(M[[rec_mod]]$spr_bmsy/1000, 2) -> bmsy_cur
-round(M[[rec_mod]]$spr_bmsy* 2204.62/1e6, 2) -> bmsy_cur_lb
-round(M[[rec_mod]]$spr_depl, 2) -> ratio_bmsy
-round(M[[rec_mod]]$sd_fofl[1], 3) -> fofl
+round(M$bmsy/1000, 2) -> bmsy_cur
+#round(M[[rec_mod]]$spr_bmsy/1000, 2) 
+round(M$bmsy* 2204.62/1e6, 2) -> bmsy_cur_lb
+#round(M[[rec_mod]]$spr_bmsy* 2204.62/1e6, 2) -> bmsy_cur_lb
+round(M$b_bmsy, 2) -> ratio_bmsy
+#round(M[[rec_mod]]$spr_depl, 2) -> ratio_bmsy
+round(M$f_ofl_tot, 2) -> fofl
+#round(M[[rec_mod]]$sd_fofl[1], 3) -> fofl
 ```
 
 
@@ -141,7 +126,6 @@ The ABC (acceptable biological catch) buffer was increased from 10% to 20% in 20
   & & Biomass & & Retained & Total & & \\
   Year & MSST & ($\mathit{MMB}_\text{mating}$) & TAC & Catch & Catch & OFL & ABC \\
   \hline
-  2019/20 & 12.72 & 14.24 & 1.72 & 1.78 & 2.22 & 3.40 & 2.72 \\
   2020/21 & 12.12 & 13.96 & 1.20 & 1.26 & 1.57 & 2.14 & 1.61 \\
   2021/22 & 12.01 & 16.64 & 0 & 0.02 & 0.10 & 2.23 & 1.78 \\
   2022/23 & 9.68  & 18.34 & 0 & 0.02 & 0.07 & 3.04 & 2.43 \\
@@ -161,11 +145,11 @@ The ABC (acceptable biological catch) buffer was increased from 10% to 20% in 20
   & & Biomass & & Retained & Total & & \\
   Year & MSST & ($\mathit{MMB}_\text{mating}$) & TAC & Catch & Catch & OFL & ABC \\
   \hline
-  2019/20 & 28.0 & 31.4 & 3.80 & 3.91 & 4.89 & 7.50 & 6.00 \\
   2020/21 & 26.7 & 30.8 & 2.77 & 2.65 & 3.47 & 4.72 & 3.54 \\
   2021/22 & 26.5 & 36.7 & 0 & 0.04 & 0.22 & 4.91 & 3.92 \\
-  2022/23 & `r msst_2223_lb` & `r mmb_2223_lb` & 0 & 0.05 & 0.16 & 6.70 & 5.35 \\
-  2023/24 &               & `r mmb_2324_lb` &   &      &      & `r ofl_2324_lb` & `r abc_2324_lb` \\
+  2022/23 & 21.34 & 40.44 & 0 & 0.05 & 0.16 & 6.70 & 5.35 \\
+  2023/24 & `r msst_2324_lb` & `r mmb_2324_lb` & XX & XX & XX & 9.75 & 7.8 \\
+  2024/25 &      & `r mmb_2425_lb`&   &   &   & `r ofl_2425_lb` & `r abc_2425_lb` \\
   \hline
 \end{tabular}
 \end{table}
@@ -182,11 +166,11 @@ The ABC (acceptable biological catch) buffer was increased from 10% to 20% in 20
   & & & Biomass & & & & Natural \\ 
   Year & Tier & $B_\mathit{MSY}$ & ($\mathit{MMB}_\text{mating}$) & $B/B_\mathit{MSY}$ & $F_\mathit{OFL}$ & Basis for $B_\mathit{MSY}$ & mortality \\ 
   \hline
-  2019/20 & 3b & 21.2 & 16.0 & 0.75 & 0.22 & 1984-2018 & 0.18 \\ 
   2020/21 & 3b & 25.4 & 14.9 & 0.59 & 0.16 & 1984-2019 & 0.18 \\
   2021/22 & 3b & 24.2 & 14.9 & 0.62 & 0.17 & 1984-2020 & 0.18 \\
   2022/23 & 3b & 24.03 & 17.0 & 0.71 & 0.20 & 1984-2021 & 0.18 \\
-  2023/24 & 3b & `r bmsy_cur` & `r mmb_2324` & `r ratio_bmsy` & `r fofl` & 1984-2022 & 0.23\\
+  2023/24 & 3b & 19.36 & 14.98 & 0.77 & 0.30 & 1984-2022 & 0.23\\
+  2024/25 & 3b & `r bmsy_cur` & `r mmb_2324` & `r ratio_bmsy` & `r fofl` & 1984-2023 & 0.23\\
   \hline
 \end{tabular}
 \end{table}
@@ -201,11 +185,11 @@ The ABC (acceptable biological catch) buffer was increased from 10% to 20% in 20
   & & & Biomass & & & & Natural \\ 
   Year & Tier & $B_\mathit{MSY}$ & ($\mathit{MMB}_\text{mating}$) & $B/B_\mathit{MSY}$ & $F_\mathit{OFL}$ & Basis for $B_\mathit{MSY}$ & mortality \\ 
   \hline
-  2019/20 & 3b & 46.8 & 35.2 & 0.75 & 0.22 & 1984-2018 & 0.18 \\ 
   2020/21 & 3b & 56.1 & 32.9 & 0.59 & 0.16 & 1984-2019 & 0.18 \\
   2021/22 & 3b & 53.4 & 33.0 & 0.62 & 0.17 & 1984-2020 & 0.18 \\
   2022/23 & 3b & 53.0 & 37.4 & 0.71 & 0.20 & 1984-2021 & 0.18 \\
-  2023/24 & 3b & `r bmsy_cur_lb` & `r mmb_2324_lb` & `r ratio_bmsy` & `r fofl` & 1984-2022 & 0.23\\
+  2023/24 & 3b & 42.7 & 33.0 & 0.77 & 0.30 & 1984-2022 & 0.23 \\
+  2024/25 & 3b & `r bmsy_cur_lb` & `r mmb_2425_lb` & `r ratio_bmsy` & `r fofl` & 1984-2023 & 0.23\\
   \hline
 \end{tabular}
 \end{table}
@@ -296,13 +280,28 @@ Response: These will be considered, as time allows, for May 2025.
 
 **Response to CPT Comments (from May 2024):** 
   
-*Including BSFRF as a ‘ghost fleet’ as a check on model behavior.*
+*"Including BSFRF as a ‘ghost fleet’ as a check on model behavior."*
   
 Response: Will be considered, as time allows, for May 2025.
 
-*
-  
-  
+*Split the selectivity into eras to reflect the change in survey gear, but still use the same priors, prehaps with larger CVs in the early era.*
+
+Response: Will be considered, as time allows, for May 2025.
+
+*Selectivity and retention explorations that may include: exploring parameters that allow for the retention curve to asymptote below one, exploring splines for selectivity, and exploring models using time-varying selectivity to better understand model dynamics.*
+
+Response: Will be considered, as time allows, for May 2025.
+
+
+*Explore including larger size bins in the model to explore dome shaped selectivtiy.*
+
+Response: Including larger size bins than the current model uses (>160mm for males specifically) would require re-visiting the growth matrix for this stock. This matrix has been established for some time and would require some historic data recovery to determine if larger size bin growth could be determined from the same data. Due to the time intense nature of data recovery this task may not be achievable in May 2025 but will remain on the list for future explorations.
+
+*Remove shell condition from the model since it's not being used currently*
+
+Response: This is planned for May 2025 model explorations.
+
+
 
 **Response to SSC Comments (from October 2023):**
   
