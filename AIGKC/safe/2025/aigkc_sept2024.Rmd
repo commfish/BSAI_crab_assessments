@@ -1,0 +1,776 @@
+---
+title: "Aleutian Islands Golden King Crab Stock Assessment Draft Models"
+author: |
+  | Tyler Jackson
+  | Alaska Department of Fish and Game, tyler.jackson@alaska.gov
+date: "`r format(Sys.time(), '%B %Y')`"
+output:
+  bookdown::pdf_document2:
+    toc: no
+header-includes:
+   - \usepackage{float}
+   - \usepackage{hanging}
+---
+
+```{r, echo = F, message = F, warning = F}
+library(tidyverse)
+library(patchwork)
+library(xtable)
+
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, fig.pos='H',
+                      out.height = "\\textheight", out.width = "\\textwidth")
+```
+
+# Response to Comments {-}
+
+## SSC June 2024 {-}
+
+\textbf{Comment}: "\textit{The SSC requests the rationale for using the terminal year minus four year approach to define the reference period for future assessments}"
+
+\textbf{Response}: 
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{The SSC recommends that the CPT explore whether to conduct this final assessment on the same cycle as other crab assessments in September/October to better align the assessment with the annual cycle of catch mortality. }"
+
+\textbf{Response}: ADF$\&$G and the CPT do not think moving the timing of the final assessment to September would be suitable because the fishery opens in August.
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{The SSC recommends prioritizing further consideration of data weighting, as the Francis re-weighting continues to be an issue in this assessment.}"
+
+\textbf{Response}: 
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{The SSC places a high priority on incorporating information from the cooperative survey into the assessment and supports the CPT recommendation to incorporate this survey as a separate fleet.}"
+
+\textbf{Response}: 
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Further examination of the retrospective pattern in terms of magnitude, direction and cause continues to be important.}"
+
+\textbf{Response}: 
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{The CPT suggested that next year’s model should be 25.0. The SSC reminds the CPT and authors that new model year numbers are only applicable if there is a major structural model change.}"
+
+\textbf{Response}: Noted.
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{The current method of projecting the remaining landings for the current incomplete season seems overly complicated and the SSC recommends a more straightforward method for determining total catch be considered, such as basing it on the average fraction harvested to date. }"
+
+\textbf{Response}: See response to this comment in the 2024 SAFE. If the directed fishery is incomplete at the time of the final assessment, total catch will be computed as usual, though assuming the TAC is achieved and CPUE remains the same as at the time data were pulled. Total effort will estimated by dividing the TAC in terms of the estimated number of crab by current CPUE. See Appendix A of Jackson (2024a) for details of total catch estimation. 
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+
+## CPT May 2024 {-}
+
+\textbf{Comment}: "\textit{Use the standard convention for model numbering, i.e. the models for the May 2025 assessment, will be 25.xx and not 24.xx.}"
+
+\textbf{Response}: This is done.
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Document why the 1993 bycatch and total catch size-composition data are not included in this and past assessments.}"
+
+\textbf{Response}: Issues with 1993 observer data (not bycatch) have been resolved by model 23.1 (data). There was no observer coverage in the 1993 crab year for EAG directed fishing and for WAG, most pots were previously removed because they were of unknown size. Those pots are no included for size composition data only, which also affects total catch estimation.
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Explore reasons for the retrospective pattern for the EAG.}"
+
+\textbf{Response}: The retrospective pattern in the MMB is resulting from some process influencing fit to CPUE index. Fits to no other data source showed a strong retrospective bias. Pin-pointing the specific misspecification resulting in this issue is an onoing effort.
+
+
+```{r retrobias, fig.align='center', fig.cap="MMB trajectory and fits to observed CPUE index for EAG retrospective peels up to 10 years.", eval = T, fig.height = 5, fig.width = 5, out.height = "288px", out.width = "288px"}
+knitr::include_graphics("../../figures/models/2025/sept/retrospective_cause_23_1.png")
+```
+
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Consider models for the EAG and WAG that allow for the bias-correction in recruitment, especially given there is virtually no information in the data on the sizes of the recruitments before 1985.}"
+
+\textbf{Response}: See model 23.1c and its derivations.
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Include the EAG cooperative survey data (index and size-composition) as an additional fleet.}"
+
+\textbf{Response}:
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Fit models that assume that the size-composition data are Dirichlet-multinomial distributed instead of Francis weighting the size-composition data.}"
+
+\textbf{Response}:
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Explore the reasons for the implausible values for groundfish fishing mortality in some years for some of the retrospectives and some of the jitter runs.}"
+
+\textbf{Response}:
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Consider starting the model in a non-equilibrium state around 1981.}"
+
+\textbf{Response}: Model 25.0 addresses this.
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Revisit estimation of size-at-maturity given the addition of new data.}"
+
+\textbf{Response}:
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Continue exploration of CPUE standardization, including investigation of models with block:year interactions and using geostatistical methods.}"
+
+\textbf{Response}:
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Explore time-varying catchability (e.g. as blocks) rather than the use of additional variance to reconcile the trends in CPUE and those in abundance. Given the known difficulties estimating time-variation in catchability, this could be explored as part of a simulation study – with initial discussions at the January 2025 modeling workshop.}"
+
+\textbf{Response}:
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+## SSC June 2023 {-}
+
+
+\textbf{Comment}: "\textit{Further examination of the retrospective pattern in terms of magnitude, direction and cause continues to be important.}"
+
+\textbf{Response}: 
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+## CPT May 2023 {-}
+
+\textbf{Comment}: "\textit{Identify and eliminate the conflict between the model and the data giving rise to the retrospective patterns for EAG models. Revisit the analysis considering a model with time-varying catchability, but impose a penalty on the devs to allow the index data to inform the model.}"
+
+\textbf{Response}: 
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Calculate reference points using both combined-area and area-specific size-at-maturity values.}"
+
+\textbf{Response}:  
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Continue work to obtain an index using the cooperative pot survey data for use in the EAG assessment model.}"
+
+\textbf{Response}: 
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+
+\textbf{Comment}: "\textit{Explore models that provide better fits to EAG CPUE data.}"
+
+\textbf{Response}: 
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+
+
+
+
+
+
+
+
+
+# Model Explorations {-}
+
+Models explored in this document are:
+
+\begin{itemize}
+
+\item \textbf{23.1}: base model, accepted for specifications in May 2024;
+
+\begin{itemize}
+
+\item \textbf{23.1 (update)}: base model, implemented in GMACS version 2.20.14;
+
+\item \textbf{23.1 (season)}: 23.1 (update), model seasons to allow for output of N matrix on June 30th of the terminal year.
+
+\item \textbf{23.1 (data)}: 23.1 (season),  with updated total size composition and total catch time series (i.e., including additional pot types). \textbf{This model becomes the new version of the base model, 23.1};
+
+\end{itemize}
+
+\item \textbf{23.1c}: Model 23.1, with corrected recruitment bias correction from 1960 - 1980;
+
+\item \textbf{25.0}: Model 23.1, with  non-equilibrium initial conditions, starting in 1981;
+
+\item \textbf{25.0a (EAG Only)}: Model 25.0 , with cooperative survey index and size composition data;
+
+\item \textbf{25.1}: Model 25.0, using the Dirichlet multinomial likelihood for size composition data;
+
+\item \textbf{25.1a (EAG Only)}: Model 25.1, with cooperative survey index and size composition data;
+
+\item \textbf{25.1a2 (EAG Only)}: Model 25.1a, with lower emphasis (0.2) on size composition likelihood.
+
+
+\end{itemize}
+
+## Updates to Base Model {-}
+
+The 2024 final assessment was conducted using GMACS version 2.01.M.10. This document uses the updated version 2.20.14. Small changes in the likelihood values of priors are expected, though all other model processes should be unchanged for this stock. Model 23.1 and all previous GMACS models for this assessment used the following annual structure consisting of six seasons: 
+
+\begin{enumerate}
+
+\item{Instantaneous: Start of year, output numbers at size;}
+
+\item{July 1 to the mid-point of the directed fishery: Natural mortality;}
+
+\item{Instantaneous: Removal of directed catch, bycatch, fit index and size composition;}
+
+\item{Mid-point of the directed fishery to February 15: Natural mortality;}
+
+\item{Instantaneous: Estimate MMB;}
+
+\item{February 15 - June 30: Natural mortality, recruitment, growth.}
+
+\end{enumerate}
+
+Annual structure was reconfigured by swapping the duration of seasons five and six. Season five now runs from February 15 - June 30, with the same model process occurring, though with the addition of MMB estimation. MMB is estimated at the beginning of a season, so there is no changed to estimates. Season six is now instantaneous (June 30) and is used to output numbers at size so that the ADF\&G harvest strategy can utilize estimated legal male abundance as close to the upcoming fishery as possible. This is a small process change that has no effect on model results or reference point calculation (Table \ref{table:versionllik} and \ref{table:versionref}).
+
+### Observer Coverage During the 1993/94 Fishery {-}
+
+Previous assessment models removed observer data for the EAG in 1993, but retained those data for the WAG (Jackson 2024b; Siddeek et al., 2023). The CPT recommended investigating those data and better documenting the reason for use or non-use.  
+
+Prior to 1996, the longitudinal dividing line between the EAG and WAG was 171^$\circ$ W lon, and fishing seasons did not conform to the post-rationalization crab year. Jackson (2024a) re-computed time series data by applying the current management boundary (174^$\circ$ W lon) and crab year to these early time series data. The 1993/94 season in the EAG (east of 171^$\circ$ W lon) was open from September 1, 1993 to March 1, 1994, and there was no observer coverage in the EAG during that season. Observer data that are assigned to the 1993/94 EAG season were actually from the easternmost portion (174^$\circ$ W lon - 171^$\circ$ W lon) of the WAG fishery in 1992/93, which ran from November 1, 1992 to August 15, 1993 (i.e., July 1 - August 15, 1993 get assigned to the 1993/94 crab year). Previous assessment include these data as part of the 1993/94 EAG retained catch and retained size composition, but remove these data from the total catch and total size composition time series, which seems appropriate.
+
+Observer size composition for the WAG in 1993/94 was also flagged as suspect, given the stark difference between those data and the surrounding seasons. Observer data for WAG that are assigned to the 1993/94 season come from both the 1992/93 and 1993/94 seasons, and size composition was recorded for all observer pots. Previous assessments removed various uncommon or non-target species gear types by recommendation from the fleet (M. Siddeek, ADF\&G personal communication, 2023). Those include: Dungeness crab pots, pyramid pots, conical pots, hair crab pots, snail pots, cods, dome shaped pots, ADF\&G research pots with stretch mesh instead of escape rings, and rectangular pots measuring 9'x 9', 8 1/2' x 8 1/2', 9 1/2' x 9 1/2', 8' x 9', 8' x 10', 9' x 10', 7' x 8', or with unknown dimension. In 1993, nearly all WAG observer (162 / 174) pots belonged to one of those categories, mostly unknown sized rectangular pots (160). Including all rectangular pots has little impact on the size composition in other years in either subdistrict, so the total size composition time series was revised to include all rectangular pots (Figure \ref{fig:eagobstotcomp} and \ref{fig:wagobstotcomp}). Changes to total size composition data also have a minor impact on total catch estimates (Table \ref{table:totalcatch}). Pot types included in CPUE estimation will remain unchanged. These difference are evaluated in model 23.1 (data), for which there was very little difference in model results (Figures \ref{fig:eagobstotcomp} - \ref{fig:dataupdatetotcatch}) or reference points (Table \ref{table:versionref}).
+
+## Recruitment Bias Correction {-}
+
+Model 23.1 suggests steadily decreasing MMB from 1960 - 1981 due to how previous versions of GMACS implemented bias correction of log recruitment deviations. Model 23.1 estimated initial recruitment as a model parameter (R$_0$) and recruitment by year is estimated as series of annual deviations. Log-deviations have a tendency to go to zero in lieu of data, though standard errors are large and decrease as the spin up period approaches the beginning of the data time series in 1981. GMACS version 2.01.M.10 added $e^{\frac{\sigma^2}{2}}$ to expected values of log-deviations, resulting in decreasing recruitment, and thus MMB. Model 23.1c implemented bias correction as $b_t e^{\frac{\sigma^2}{2}}$, in which $b_t$ is a vector of 0 for years preceding data (1960 - 1980) and 1 for years with time series data (1981 - 2023).
+
+## Intitial conditions {-}
+
+Previous assessment models started in 1960 assuming in the population was in an unfished state, with no fishing mortality until 1891 (Siddeek et al. 2023; Jackson 2024b). Model 25.0 starts in a non-equilibrium state in 1981 and initial numbers at size were estimated from parameters representing initial recruitment (R$_{init}$) and scaled deviates for each size class. The tenth size bin, 146 - 150 mm CL, was used as the reference size class.
+
+## Cooperative Survey {-} 
+
+The AIGKC cooperative pot survey was initiated in 2015 and has continued every year since, with the exception of 2020. The survey has been confined to the EAG in all years but 2018, when it was extended to the WAG. Appendix A details the survey design and analytical approach. Briefly, an index of total male abundance was estimated from a Tweedie GLMM that included fixed, parametric effects of soak time (days) and depth with string as a random effect nested within survey subarea. Survey size composition was estimated by the same method as observer data, and effective sampling size was estimated using the bootstrap approach described below (see Dirichlet Multinomial section).
+
+Model 25.0a represents the base model with non-equilibrium initial conditions (model 25.0) with the cooperative survey incorporated as an separate fleet. Model assumptions relating to survey data include:
+
+\begin{itemize}
+
+\end{itemize}
+
+## Data Weighting {-}
+
+### Base model data weighting {-}
+
+Recent CPT and SSC comments reflect a need to reevaluate data weighting. The data weighting scheme for the base model was as follows:
+
+\begin{itemize}
+
+\item {\textbf{Catch Data}: Retained catch $cv$ was assumed to be 0.0316 for all years and the emphasis ($\lambda$) on the likelihood is $\lambda$ = 4. Total catch $cv$ was the graded number of observer sampled pots with non-zero catches ($m_{nz,i}$) in which the maximum weight ($\omega_{i}$) is max[$\omega_{i}$] = 250, scaled as 
+
+\begin{equation}
+cv_{i} = \sqrt{e^{\frac{1}{2\omega_{i}}}-1}
+\end{equation}
+
+\begin{equation}
+\omega_{i}=\frac{\text{max}[\omega_{i}]m_{nz,i}}{\text{max}[m_{nz,i}]}
+\end{equation}
+
+Likelihood emphasis for total catch was $\lambda$ = 2. Groundfish bycatch $cv$ is assumed to be 1.3108 for all years and $\lambda$ = 1.}
+
+\item{\textbf{Index Data}: Standard errors of year coefficients from CPUE standardization models were used to compute annual $cv$ for each of the index series. Observer index $cv$ ranged from 0.017 - 0.049 in the EAG and 0.019 - 0.059 in the WAG. Fish ticket $cv$ was slightly greater, ranging from 0.044 - 0.178 in the EAG to 0.038 - 0.093 in the WAG. Since these estimates were overly precise due to the vast number of observer and fish ticket records, additional $cv$ was estimated as a parameter for each series. Additional $cv$ estimates were larger than observed $cv$ for all indices, between 0.15 - 0.23 in the EAG, and 0.06 - 0.24 in the WAG (Table 10 and 11; Jackson 2024b). Likelihood emphasis for all index series was $\lambda$ = 1.}
+
+\item{\textbf{Size Composition Data}: The base model assumed a multinomial error distribution for size composition data with effective sample size based on the number of vessel days and observer days for retained and total size composition data, respectively. Effective sample sizes were tuned using the Francis (2011) method for the multinomial. Based model Francis weights were $\lambda_{ret}$ = 0.209 and $\lambda_{tot}$ = 0.432 in the EAG and $\lambda_{ret}$ = 0.143 and $\lambda_{tot}$ = 0.521 in the WAG. Likelihood emphasis for both size composition series was $\lambda$ = 1.}
+
+\item{\textbf{Tagging Data}: Sample size for growth data were the tag return sample sizes and likelihood emphasis was $\lambda$ = 1.}
+
+\end{itemize}
+
+### Dirichlet Multinomial {-}
+
+Model 25.1 assumes the Dirichlet multinomial error distribution for both series of size composition data (Thorson et al. 2017). Observed sample sizes were estimated using a bootstrap approach based on Stewart and Hamel (2014). Bootstrap sampling design was two-staged, first within the primary sampling unit (delivery or observer pot) and second by individual crab. Resampling was done with replacement to observed sample sizes. Effective sample size for a given year was estimated as 
+
+\begin{equation}
+N_{eff} = \frac{ \sum_{l} {P_{l}(1 - P_{l})}}{\sum_{l}{(P_{l} - B_{l})^{2}}}
+\end{equation}
+
+where $P_{l}$ and $B_{l}$ are the observed and bootstrap proportion of crab measured in length bin, $l$, respectively. Annual estimates of effective sample size were computed as the mean of 500 replicates for each year for the retained size composition and 100 replicates for each year for the total size composition. Bootstrap sample sizes were low due to computational needs. Since estimated $N_{eff}$ was still quite large for many years observed sample sizes were reduced to 
+
+\begin{equation}
+N_{eff}^{\prime} = \text{min}(2000,N_{eff})
+\end{equation}
+
+### Extra CV on Index Data {-}
+
+Estimating extra CV on CPUE data allows the model to freely tune weights to those data, resulting in considerable down weighting of index data in the EAG (and to a lesser degree in the WAG). Model 25.1a fixes extra cv at 1e$^{-8}$ (effectively zero) for all three index data series. Doing so forces a better fit to index data which allows for better examination of possible misspecification in other model processes.
+
+
+
+
+
+
+
+# Results {-}
+
+## Recruitment Bias Correction {-}
+
+Model 23.1c results in a flatter MMB trend in years preceding data, but does not totally eliminate the decreasing ramp in the EAG (). Changes in recruitment bias correction had only marginal effect, if any, on other model processes.
+
+
+# Literature Cited {-}
+Jackson 2024a January 2024
+Jackson 2024b SAFE 2024
+Siddeek et al 2023 SAFE
+Thorson et al 2017 Diri multimonial
+
+# Tables {-}
+
+#### {-}
+\begin{table}[H]  
+\centering
+\caption{Comparison of likelihood components for EAG models 23.1 using GMACS version 2.01.M.10 and 2.20.14, the updated annual timing structure, and the updated observer size data.}
+
+\label{table:eagversionlik}
+\begin{tabular}{lccccc}
+Component & v2.01.M.10 & v2.20.14 & v2.20.14 + season & v2.20.14 + data\\
+\hline
+```{r eagversionlik, results='asis', eval = T}
+x <- read_csv("../../../AIGKC/output/models/2025/sept/eag_base_model_version_lik.csv")
+
+# print table
+print(xtable(x, align="lccccc", digits=c(0, 3, 3, 3, 3, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[H]  
+\centering
+\caption{Comparison of likelihood components for WAG models 23.1 using GMACS version 2.01.M.10 and 2.20.14, the updated annual timing structure, and the updated observer size data.}
+
+\label{table:wagversionlik}
+\begin{tabular}{lccccc}
+Component & v2.01.M.10 & v2.20.14 & v2.20.14 + season & v2.20.14 + data\\
+\hline
+```{r wagversionlik, results='asis', eval = T}
+x <- read_csv("../../../AIGKC/output/models/2025/sept/wag_base_model_version_lik.csv")
+
+# print table
+print(xtable(x, align="lccccc", digits=c(0, 3, 3, 3, 3, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+#### {-}
+\begin{table}[H]  
+\centering
+\caption{Comparison of reference point estimates for EAG and WAG models 23.1 using GMACS version 2.01.M.10 and 2.20.14, and the updated annual timing structure.}
+
+\label{table:versionref}
+\begin{tabular}{llcccccccc}
+Area & Model & MMB (t) & B$_{35\%}$ (t) & $\frac{MMB}{B_{35\%}}$ & $\bar{\text{R}}_{1987-2017}$ & F$_{35\%}$ & F$_{\text{OFL}}$ & OFL (t)\\
+
+\hline
+```{r versionref, results='asis', eval = T}
+eag <- read_csv("../../../AIGKC/output/models/2025/sept/eag_base_model_version_ref.csv") %>%
+  mutate(subdistrict = "EAG") %>% dplyr::select(10, 1:9) %>%
+  dplyr::select(-rbar_yrs)
+
+# print table
+print(xtable(eag, align="llcccccccc", digits=c(0, 0, 0, 0, 0, 2, 0, 2, 2, 0)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+
+&&&&&&&&\\
+```{r versionref2, results='asis', eval = T}
+wag <- read_csv("../../../AIGKC/output/models/2025/sept/wag_base_model_version_ref.csv") %>%
+  mutate(subdistrict = "WAG") %>% dplyr::select(10, 1:9) %>%
+  dplyr::select(-rbar_yrs)
+
+
+# print table
+print(xtable(wag, align="llcccccccc", digits=c(0, 0, 0, 0, 0, 2, 0, 2, 2, 0)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+#### {-}
+\begin{table}[H]
+\centering
+\caption{Timeseries of directed fishery total catch (t) computed using the status quo (SQ) and the updated size composition data.}
+\label{table:totalcatch}
+\begin{tabular}{lcccc}
+& \multicolumn{2}{c}{EAG} & \multicolumn{2}{c}{WAG}\\ 
+Crab Year & SQ & Update & SQ & Update\\
+\hline
+```{r totaltab, results='asis', eval = T}
+x <- read_csv("../../output/models/2025/sept/updated_total_catch.csv") %>%
+  mutate(year = as.character(year))
+
+# print table
+print(xtable(x, align="lccccc", digits=c(0, 0, 0, 0, 0, 0)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+
+
+
+
+
+#### {-}
+\begin{table}[H]
+\centering
+\caption{Time series of number of crab measured ($N$) in retained catch sampling and bootstrap estimated effective sample size ($N_{eff}$).}
+\label{table:retneff}
+\begin{tabular}{lcccccccccc}
+& \multicolumn{4}{c}{EAG} & & \multicolumn{4}{c}{WAG}\\ 
+& & \multicolumn{3}{c}{Bootstrap $N_{eff}$} & & & \multicolumn{3}{c}{Bootstrap $N_{eff}$}\\
+Year & $N$ & Min & Mean & Max & & $N$ & Min & Mean & Max\\
+\hline
+```{r retnefftab, results='asis', eval = T}
+x <- read_csv("../../output/observer/retained_neff_boot_table.csv") %>%
+  mutate(crab_year = as.character(crab_year))
+
+# print table
+print(xtable(x, align="lcccccccccc", digits=c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\caption{Time series of number of crab measured ($N$) in observer size composition sampling and bootstrap estimated effective sample size ($N_{eff}$).}
+\label{table:totneff}
+\begin{tabular}{lcccccccccc}
+& \multicolumn{4}{c}{EAG} & & \multicolumn{4}{c}{WAG}\\ 
+& & \multicolumn{3}{c}{Bootstrap $N_{eff}$} & & & \multicolumn{3}{c}{Bootstrap $N_{eff}$}\\
+Year & $N$ & Min & Mean & Max & & $N$ & Min & Mean & Max\\
+\hline
+```{r totnefftab, results='asis', eval = T}
+x <- read_csv("../../output/observer/total_neff_boot_table.csv") %>%
+  mutate(crab_year = as.character(crab_year)) %>%
+  mutate(eag_nmeas = ifelse(crab_year == 1993, NA, eag_nmeas),
+         eag_neff_min = ifelse(crab_year == 1993, NA, eag_neff_min),
+         eag_neff_mean = ifelse(crab_year == 1993, NA, eag_neff_mean),
+         eag_neff_max = ifelse(crab_year == 1993, NA, eag_neff_max))
+
+# print table
+print(xtable(x, align="lcccccccccc", digits=c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+# Figures {-}
+
+#### {-}
+
+```{r eagobstotcomp, fig.align='center', fig.cap="Fit to EAG total size composition data using the previous subset of gear types (Jackson 2024b; Siddeek et al. 2023) and the revised subset of gear types (explained above).", eval = T, fig.height = 6, fig.width = 7}
+knitr::include_graphics("../../figures/models/2025/sept/eag_total_comp.png")
+```
+
+```{r wagobstotcomp, fig.align='center', fig.cap="Fit to WAG total size composition data using the previous subset of gear types (Jackson 2024b; Siddeek et al. 2023) and the revised subset of gear types (explained above).", eval = T, fig.height = 6, fig.width = 7}
+knitr::include_graphics("../../figures/models/2025/sept/wag_total_comp.png")
+```
+
+```{r dataupdatetotcatch, fig.align='center', fig.cap="Fit to total catch data using the previous subset of gear types (Jackson 2024b; Siddeek et al. 2023) and the revised subset of gear types (explained above).", eval = T, fig.height = 6, fig.width = 7}
+knitr::include_graphics("../../figures/models/2025/sept/data_update_total_catch_fit.png")
+```
+
+
+
+
+
+#### {-}
+```{r mmbbiascorrect, fig.align='center', fig.cap="MMB trajectory for models 23.1 and 23.1c. Model 23.1c modifies recruitment bias correction during 1960 - 2023.", eval = T, fig.height = 4, fig.width = 6}
+knitr::include_graphics("../../figures/models/2025/sept/bias_correction_mmb.png")
+```
+
+# Previously Addressed Comments {-}
+## SSC Feb 2024 {-}
+
+\textbf{Comment}: "\textit{The SSC recommends that any new substantial standardization changes should be reviewed during the next cycle, not during specifications in May/June 2024}
+
+\textbf{Response}: The only revisions to CPUE standardization between model explorations and the final assessment addressed poor model diagnostics, though this will be noted for the future.
+\makebox[165 mm]{\dotfill}
+
+
+## CPT Jan 2024 {-}
+
+\textbf{Comment}: "\textit{The CPT recommends that the CPUE standardization be revised for the 2024 assessment by:}  
+\begin{itemize}
+\item{\textit{exploring the use of a Tweedie instead of the negative binomial distribution;}}
+\item{\textit{dropping the data for gear types 4 and 13 which have few observations;}}
+\item{\textit{reporting DHARMa residuals and providing influence plots as additional diagnostics; and}}
+\item{\textit{exploring the basic data used for the fish ticket CPUE index because the data on which
+the standardization is based for the current analyses include many zero observations –
+this may be because the extracted data may include trips for red king crab in the
+Aleutians. If the residual pattern for the fish ticket analysis (Fig. 44 of Appendix B) is not
+resolved, results should be presented in May 2024 for model runs that use and ignore
+the fish ticket CPUE index.}"}
+\end{itemize}
+
+\textbf{Response}: All of these recommendations were addressed in CPUE standardization except dropping gear types 4 and 13. This recommendation will be followed up in 2025 model explorations.
+\makebox[165 mm]{\dotfill}
+
+\textbf{Comment}: "\textit{Include measures of uncertainty (for at least one model configuration) in the plots for the estimates of recruitment and MMB}
+
+\textbf{Response}: This has been addressed.
+\makebox[165 mm]{\dotfill}
+
+\textbf{Comment}: "\textit{Include a plot of the survey index overlaid on the observer CPUE index (EAG)}
+
+\textbf{Response}: This plot will be included in documents that evaluate models containing survey data.  
+\makebox[165 mm]{\dotfill}
+
+\textbf{Comment}: "\textit{Describe why the MMB for the EAG declines substantially before 1980 while this is not the case for the WAG}
+
+\textbf{Response}: This is explained in section 4.g.
+\makebox[165 mm]{\dotfill}
+
+\textbf{Comment}: "\textit{Start the y-axis for the plots of recruitment and MMB at zero}
+
+\textbf{Response}: This has been addressed.  
+\makebox[165 mm]{\dotfill}
+
+\textbf{Comment}: "\textit{Include the number of parameters in likelihood tables}
+
+\textbf{Response}: This has been addressed.  
+\makebox[165 mm]{\dotfill}
+
+\textbf{Comment}: "\textit{Apply jittering to ensure that the reported parameters correspond to the global minimum of the objective function.}
+
+\textbf{Response}: Jitter analysis was performed for the two author preferred model scenarios, model 23.1 and 23.1b.
+\makebox[165 mm]{\dotfill}
+## SSC June 2023 {-}
+
+\textbf{Comment}: "\textit{The SSC agrees with the CPT recommendation for a 25\% buffer for this assessment and supports the resulting ABC. For the future, the SSC specifically requests that jitter and retrospective analyses be conducted for all final models that have the potential to be used for setting harvest specifications}"
+
+\textbf{Response}: Retrospective analyses were performed here, and jitter analysis will be performed on the author preferred model in the final assessment.   
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{The SSC places a high priority on incorporating information from the cooperative survey into the assessment and supports the CPT recommendation that this be incorporated as a separate fleet.}"
+
+\textbf{Response}: Model 23.2 explores the utility of the pot survey as an additional fleet.    
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Further examination of the retrospective pattern in terms of magnitude, direction and cause continues to be important.}"
+
+\textbf{Response}: More work will be done to address the retrospective pattern in the EAG during the next cycle.    
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Revisit the choice to maintain the recruitment years at 1987 – 2017 rather than successively adding recent years to the time series, as is done for other crab stocks.}"
+
+\textbf{Response}: See response to similar comment above.  
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{The CPT recommended removing the data on the smallest size bin for the total catch prior to 2005/2006. The SSC requests first plotting these data and the model fit and providing further consideration of why these data may or may not be representative of the fishery at that time.}"
+
+\textbf{Response}: For clarification, the CPT recommended to removed data on crab below the smallest size bin (i.e. $\leq$ 100 mm) that were being included in the 101-105 mm bin.   
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{The current method of projecting the remaining landings for the current incomplete season seems overly complicated and the SSC recommends that a more straightforward method for determining total catch be considered, such as basing it on the average fraction harvested to date.}"
+
+\textbf{Response}: In May 2024, total catch will be determined using the effort required to achieve the TAC at current CPUE on the date when data were pulled. See Appendix A for details of total catch estimation.  
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Further analysis and discussion of the retrospective pattern is needed to justify the size of the buffer used.}"
+
+\textbf{Response}: This will be noted during the final assessment in May 2024.   
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+## CPT May 2023 {-}
+
+\textbf{Comment}: "\textit{Continue work to obtain an index using the cooperative pot survey data for use in the EAG assessment model.}"
+
+\textbf{Response}: Model 23.2 explores the utility of the pot survey as an additional fleet.  
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Plot observed vs. predicted values for fitted data to help diagnose misfits.}"
+
+\textbf{Response}: It's unclear what model process this is referring to. When applicable, observations are always plotted with fitted data in this document.   
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Add confidence intervals to plots of fits to catch data (i.e., retained catch, total catch) reflecting assumed data uncertainty.}"
+
+\textbf{Response}: All plots of catch and index data now include confidence intervals.    
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Perform retrospective analyses for all models that have the potential to serve as the basis for calculating reference points.}"
+
+\textbf{Response}: Retrospective analyses were performed for all EAG and WAG models, and presented for 22.1e2, 23.0a, 23.1, 23.1b, 23.2, and AI 23.1b.    
+\makebox[165 mm]{\dotfill}
+
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{The cooperative survey should be fit as an additional CPUE index, not substituted for existing indices as was done for models 22.1g and 22.1h.}"
+
+\textbf{Response}: That is what has been explored here.    
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Size-composition data should not include a “minus” group (i.e., crab smaller than the smallest size bin used in the model).}"
+
+\textbf{Response}: This is rectified by model 23.1.    
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{The data used to determine the total catch size-compositions in the two areas should be re-examined to determine whether the abundances in the smallest size bin from 1990 to 2004 are correct.}"
+
+\textbf{Response}: Appendix A recomputes size composition time series using data directly pulled from the observer database. Updated time series still appear to contain a disproportionate amount crab 101-105 mm CL, even without minus-sized crab (model 23.1). This is possibly do to escape mesh not being required until the 1997 season.  
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Explore models that provide better fits to EAG CPUE data.}"
+
+\textbf{Response}:  More work in this area is needed during the next cycle.    
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Use GAMs rather than GLMs to standardize the CPUE indices (e.g., use the R package “mgcv”).}"
+
+\textbf{Response}: All models derivative of 23.0a take this approach.     
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Show both the original CV’s and effective CV’s (i.e., incorporating additional variance) when showing fits to the CPUE index time series.}"
+
+\textbf{Response}: This has been done in all plots showing fits to CPUE index.   
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{In the SAFE document}
+\begin{itemize}
+\item \textit{Add a note to explain that retained catch can exceed TAC in some years due to the cost recovery fishery associated with the cooperative survey.}
+\item \textit{Drop Appendix D.}
+\item \textit{Remove tier designation from area-specific management Table.}
+\item \textit{Add explanation for extrapolation of total catch in final year"}
+\end{itemize}
+
+
+\textbf{Response}: All items will be addressed in the May 2024 SAFE document.      
+\makebox[165 mm]{\dotfill}
+
+
+
+
+<!-- ---- -->
+
+
+

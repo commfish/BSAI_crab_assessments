@@ -89,30 +89,50 @@ pot_cpue %>%
                              (is.na(subarea) & lon > -171.6 & lon < -170.5) ~ "eag_central",
                              (is.na(subarea) & lon > -174 & lon < 171.6) ~ "eag_west")) -> pot_cpue
 
-# # plots pot locations ----
-# 
-# # string locations
-# pot_cpue %>%
-#   filter(fishery == "EAG") %>%
-#   st_as_sf(coords = c("lon", "lat")) %>%
-#   st_set_crs(st_crs(sub)) -> pts
-# 
-# # land
-# ai@data <- do.call("rbind", replicate(51, ai@data, simplify = FALSE))
-# st_as_sf(ai) -> land
-# 
-# # plot
-# ggplot()+
-#   geom_sf(data = land)+
-#   geom_sf(data = sub %>% filter(grepl("eag", subarea)), aes(fill = subarea), color = NA, alpha = 0.3, show.legend = F)+
-#   geom_sf(data = pts %>% mutate(Vessel = factor(adfg)), aes(shape = Vessel))+
-#   coord_sf(xlim = c(-173.9, -167.8), ylim = c(51.8, 53.5))+
-#   facet_wrap(~year, ncol = 2, dir = "v")+
-#   theme(legend.position = "bottom") -> p1
-# 
-# ggsave("./AIGKC/figures/coop_survey/2024/jan/eag_string_map.png",
-#        plot = p1,
-#        height = 8, width = 7, units = "in")
+# plots pot locations ----
+
+# string locations
+pot_cpue %>%
+  filter(fishery == "EAG") %>%
+  st_as_sf(coords = c("lon", "lat")) %>%
+  st_set_crs(st_crs(sub)) -> pts
+# pot locations > 25 days
+pot_cpue %>%
+  filter(fishery == "EAG",
+         soaktime > 25) %>%
+  st_as_sf(coords = c("lon", "lat")) %>%
+  st_set_crs(st_crs(sub)) -> pts_rm
+
+# land
+ai@data <- do.call("rbind", replicate(51, ai@data, simplify = FALSE))
+st_as_sf(ai) -> land
+
+# plot
+ggplot()+
+  geom_sf(data = land)+
+  geom_sf(data = sub %>% filter(grepl("eag", subarea)), aes(fill = subarea), color = NA, alpha = 0.3, show.legend = F)+
+  geom_sf(data = pts %>% mutate(Vessel = factor(adfg)), aes(shape = Vessel))+
+  coord_sf(xlim = c(-173.9, -167.8), ylim = c(51.8, 53.5))+
+  facet_wrap(~year, ncol = 2, dir = "v")+
+  theme(legend.position = "bottom") -> p1
+
+ggsave("./AIGKC/figures/coop_survey/2025/sept/eag_string_map.png",
+       plot = p1,
+       height = 8, width = 7, units = "in")
+
+# plot
+ggplot()+
+  geom_sf(data = land)+
+  geom_sf(data = sub %>% filter(grepl("eag", subarea)), aes(fill = subarea), color = NA, alpha = 0.3, show.legend = F)+
+  geom_sf(data = pts %>% filter(year == 2022))+
+  geom_sf(data = pts_rm, color = "firebrick")+
+  coord_sf(xlim = c(-173.9, -167.8), ylim = c(51.8, 53.5))+
+  facet_wrap(~year, ncol = 2, dir = "v")+
+  theme(legend.position = "bottom") -> p1
+
+ggsave("./AIGKC/figures/coop_survey/2025/sept/eag_string_map_removed_pots.png",
+       plot = p1,
+       height = 3, width = 5, units = "in")
 
 # annual nominal index ----
 
@@ -158,9 +178,9 @@ summary(step2$gam)
 
 # dharma residuals
 simr <- simulateResiduals(fittedModel = step2$mer, plot = F, n = 1000)
-qq <- patchwork::wrap_elements(panel = ~plotQQunif(simr, testUniformity = T, testOutliers = F, testDispersion = F, cex = 0.2), clip = F)
+qq <- patchwork::wrap_elements(panel = ~plotQQunif(simr, testUniformity = F, testOutliers = F, testDispersion = F, cex = 0.2), clip = F)
 rf <- patchwork::wrap_elements(panel = ~plotResiduals(simr, smoothScatter = F, cex = 0.2, pch = 16), clip = F)
-ggsave("./AIGKC/figures/coop_survey/2025/sept/gamm_nb_dharma.png", plot = (qq + rf), height = 4, width = 9, units = "in")
+ggsave("./AIGKC/figures/coop_survey/2025/sept/gamm_nb_dharma.png", plot = (qq / rf), height = 8, width = 5, units = "in")
 
 # depth
 plot(sm(getViz(step2$gam), select = 1))+
@@ -187,7 +207,7 @@ fit_dat %>%
   filter(!is.na(depth), !is.na(soaktime)) -> rdat
 rdep <- patchwork::wrap_elements(panel = ~plotResiduals(simr, rdat$depth, smoothScatter = F, cex = 0.2, pch = 16), clip = F)
 rst <- patchwork::wrap_elements(panel = ~plotResiduals(simr, rdat$soaktime, smoothScatter = F, cex = 0.2, pch = 16), clip = F)
-ggsave("./AIGKC/figures/coop_survey/2025/sept/gamm_nb_dharma_vars.png", plot = (rdep + rst), height = 4, width = 9, units = "in")
+ggsave("./AIGKC/figures/coop_survey/2025/sept/gamm_nb_dharma_vars.png", plot = (rdep / rst), height = 8, width = 5, units = "in")
 
 
 # fit model with 'standardized' soaktime
@@ -200,9 +220,9 @@ gamm4(n_males ~ year + s(depth) + s(soaktime), random = ~(1| subarea/string_id),
 
 # dharma residuals
 simr <- simulateResiduals(fittedModel = gamm_upd$mer, plot = F, n = 1000)
-qq <- patchwork::wrap_elements(panel = ~plotQQunif(simr, testUniformity = T, testOutliers = F, testDispersion = F, cex = 0.2), clip = F)
+qq <- patchwork::wrap_elements(panel = ~plotQQunif(simr, testUniformity = F, testOutliers = F, testDispersion = F, cex = 0.2), clip = F)
 rf <- patchwork::wrap_elements(panel = ~plotResiduals(simr, smoothScatter = F, cex = 0.2, pch = 16), clip = F)
-ggsave("./AIGKC/figures/coop_survey/2025/sept/gamm_upd_dharma.png", plot = (qq + rf), height = 4, width = 9, units = "in")
+ggsave("./AIGKC/figures/coop_survey/2025/sept/gamm_upd_dharma.png", plot = (qq / rf), height = 8, width = 5, units = "in")
 
 # switch to glmm
 ## neg binomial
@@ -212,9 +232,9 @@ glmmTMB(n_males ~ year + depth + soaktime + (1| subarea/string_id),
 
 # dharma residuals
 simr <- simulateResiduals(fittedModel = glmm_nb, plot = F, n = 1000)
-qq <- patchwork::wrap_elements(panel = ~plotQQunif(simr, testUniformity = T, testOutliers = F, testDispersion = F, cex = 0.2), clip = F)
+qq <- patchwork::wrap_elements(panel = ~plotQQunif(simr, testUniformity = F, testOutliers = F, testDispersion = F, cex = 0.2), clip = F)
 rf <- patchwork::wrap_elements(panel = ~plotResiduals(simr, smoothScatter = F, cex = 0.2, pch = 16), clip = F)
-ggsave("./AIGKC/figures/coop_survey/2025/sept/glmm_nb_dharma.png", plot = (qq + rf), height = 4, width = 9, units = "in")
+ggsave("./AIGKC/figures/coop_survey/2025/sept/glmm_nb_dharma.png", plot = (qq / rf), height = 8, width = 5, units = "in")
 
 
 ## tweedie
@@ -224,9 +244,9 @@ glmmTMB(n_males ~ year + depth + soaktime + (1| subarea/string_id),
 
 # dharma residuals
 simr <- simulateResiduals(fittedModel = glmm_tw, plot = F, n = 1000)
-qq <- patchwork::wrap_elements(panel = ~plotQQunif(simr, testUniformity = T, testOutliers = F, testDispersion = F, cex = 0.2), clip = F)
+qq <- patchwork::wrap_elements(panel = ~plotQQunif(simr, testUniformity = F, testOutliers = F, testDispersion = F, cex = 0.2), clip = F)
 rf <- patchwork::wrap_elements(panel = ~plotResiduals(simr, smoothScatter = F, cex = 0.2, pch = 16), clip = F)
-ggsave("./AIGKC/figures/coop_survey/2025/sept/glmm_tw_dharma.png", plot = (qq + rf), height = 4, width = 9, units = "in")
+ggsave("./AIGKC/figures/coop_survey/2025/sept/glmm_tw_dharma.png", plot = (qq / rf), height = 8, width = 5, units = "in")
 
 # plot effect
 
@@ -235,7 +255,7 @@ vis_dep <- visreg(fit = glmm_tw, "depth")
 ggplot()+
   geom_point(data = vis_dep$res, aes(x = depth, y = visregRes), size = 0.3, color = "grey70")+
   geom_ribbon(data = vis_dep$fit, aes(x = depth, ymin = visregLwr, ymax = visregUpr), 
-              fill = "grey80", color = NA, alpha = 0.4)+
+              fill = NA, color = 1, linetype = 2, alpha = 0.4)+
   geom_line(data = vis_dep$fit, aes(x = depth, y = visregFit))+
   labs(x = "Depth (fa)", y = "f(Depth)") -> x
 ggsave("./AIGKC/figures/coop_survey/2025/sept/glmm_tw_depth.png",
@@ -247,7 +267,7 @@ vis_soak <- visreg(fit = glmm_tw, "soaktime")
 ggplot()+
   geom_point(data = vis_soak$res, aes(x = soaktime, y = visregRes), size = 0.3, color = "grey70")+
   geom_ribbon(data = vis_soak$fit, aes(x = soaktime, ymin = visregLwr, ymax = visregUpr), 
-              fill = "grey80", color = NA, alpha = 0.4)+
+              fill = NA, color = 1, linetype = 2, alpha = 0.4)+
   geom_line(data = vis_soak$fit, aes(x = soaktime, y = visregFit))+
   labs(x = "Soak Time (days)", y = "f(Soak Time)") -> x
 ggsave("./AIGKC/figures/coop_survey/2025/sept/glmm_tw_soaktime.png",
@@ -283,9 +303,51 @@ survey_index %>%
   theme(legend.justification = c(1, 1),
         legend.position = c(1, 1)) -> p1
 
-ggsave("./AIGKC/figures/coop_survey/2024/jan/index_plot.png",
+ggsave("./AIGKC/figures/coop_survey/2025/sept/index_plot.png",
        plot = p1,
-       height = 3, width = 6, units = "in")
+       height = 3, width = 5, units = "in")
+
+
+glmm_index %>% mutate(type = "Survey") %>%
+  bind_rows(read_csv("./AIGKC/output/cpue_std/2024/may/post_eag_index.csv") %>%
+              mutate(year = as.character(year),
+                     type = "Observer")) %>% 
+  
+  ggplot()+
+  geom_ribbon(aes(x = year, ymin = l95, ymax = u95, fill = type, group = type), alpha = 0.3)+
+  geom_line(aes(x = year, y = index, color = type, group = type))+
+  labs(x = NULL, y = "CPUE Index", fill = NULL, color = NULL)+
+  scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels)
+
+obs_mod <- read_rds("./AIGKC/output/cpue_std/2024/may/post_eag_std_tw.rds")[[1]]
+obs_data <- read_rds("./AIGKC/output/cpue_std/2024/may/post_eag_std_tw.rds")[[1]]$model
+obs_mod_short <- update(obs_mod, data = obs_data %>% filter(crab_year %in% 2015:2023))
+f_getCPUE_gam(obs_mod_short,
+              where = 2:9,
+              years = 2015:2023) -> obs_index
+
+
+glmm_index %>% mutate(type = "Survey", year = as.numeric(as.character(year))) %>%
+  bind_rows(read_csv("./AIGKC/output/cpue_std/2024/may/post_eag_index.csv") %>%
+              mutate(type = "Observer")) %>%
+  bind_rows(obs_index %>% mutate(type = "Observer 2015 - 2023")) %>%
+  
+  ggplot()+
+  geom_ribbon(aes(x = year, ymin = l95, ymax = u95, fill = type, group = type), alpha = 0.3)+
+  geom_line(aes(x = year, y = index, color = type, group = type))+
+  labs(x = NULL, y = "CPUE Index", fill = NULL, color = NULL)+
+  scale_x_continuous(breaks = yraxis$breaks, labels = yraxis$labels)+
+  theme(legend.position = c(0, 1),
+        legend.justification = c(0, 1)) -> x
+
+ggsave("./AIGKC/figures/coop_survey/2025/sept/index_plot_w_obs.png",
+       plot = x,
+       height = 3, width = 5, units = "in")
+  
+
+
+
+
   
 
 # total male size composition ----

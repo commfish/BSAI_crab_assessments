@@ -12,8 +12,11 @@ library(tidyverse)
 library(ggfortify)
 library(lubridate)
 library(lme4)
+library(mgcViz)
+library(mgcv)
 library(patchwork)
 library(visreg)
+library(DHARMa)
 
 # define orthogonal contrast method
 options(contrasts = c("contr.treatment", "contr.poly"))
@@ -65,9 +68,9 @@ yraxis <- tickr(tibble(yr = 1950:2100), yr, 5)
 ### custom color/fill pallete
 cb_palette <- c("#009E73", "#0072B2", "#E69F00", "#56B4E9", 
                 "#F0E442", "#D55E00", "#CC79A7")
-scale_colour_discrete <- function(...) {scale_colour_manual(..., values = cb_palette)}
-scale_fill_discrete <- function(...) {scale_fill_manual(..., values = cb_palette)}
-ggplot <- function(...) ggplot2::ggplot(...) + scale_colour_discrete() + scale_fill_discrete()
+# scale_colour_discrete <- function(...) {scale_colour_manual(..., values = cb_palette)}
+# scale_fill_discrete <- function(...) {scale_fill_manual(..., values = cb_palette)}
+# ggplot <- function(...) ggplot2::ggplot(...) + scale_colour_discrete() + scale_fill_discrete()
 
 # f_add_blocks() ----
 
@@ -183,6 +186,73 @@ f_getCPUE_gam <- function(model, where, years) {
   std_cpue <- exp(relative - mean(relative))
   
   V <- model$cov.scaled[where, where]
+  
+  ## Compute confidence limits
+  Q <- matrix(-1 / n, nrow = n, ncol = n - 1)
+  Q[-1,] <- Q[-1,] + diag(rep(1, n - 1))
+  V0 <- (Q %*% V) %*% t(Q)
+  SE <- sqrt(diag(V0))
+  Upper <- exp(log(std_cpue) + 2 * SE)
+  Lower <- exp(log(std_cpue) - 2 * SE)
+  
+  out <- tibble(year = years, 
+                index = std_cpue, 
+                se = SE, 
+                l95 = Lower,
+                u95 = Upper)
+  return(out)
+  
+}
+
+# f_getCPUE_gamm4() ----
+f_getCPUE_gamm4 <- function(model, where, years) {
+  
+  ## Make sure that model is a summary and error-check vector lengths
+  if(any(class(model) == "glmerMod"))
+    model <- summary(model)    # model is now a summary object
+  n <- length(where) + 1       # number of CPUE indices to be extracted
+  if(length(years) != n)
+    stop("Expected ", n, " years, got ", length(years), ".")
+  
+  ## Extract model components
+  relative <- as.numeric(c(0, model[[10]][where]))  # shave off names
+  std_cpue <- exp(relative - mean(relative))
+  
+  model[[20]]
+  V <- model$vcov[where, where]
+  
+  ## Compute confidence limits
+  Q <- matrix(-1 / n, nrow = n, ncol = n - 1)
+  Q[-1,] <- Q[-1,] + diag(rep(1, n - 1))
+  V0 <- (Q %*% V) %*% t(Q)
+  SE <- sqrt(diag(V0))
+  Upper <- exp(log(std_cpue) + 2 * SE)
+  Lower <- exp(log(std_cpue) - 2 * SE)
+  
+  out <- tibble(year = years, 
+                index = std_cpue, 
+                se = SE, 
+                l95 = Lower,
+                u95 = Upper)
+  return(out)
+  
+}
+
+# f_getCPUE_glmm() ----
+f_getCPUE_glmm <- function(model, where, years) {
+  
+  ## Make sure that model is a summary and error-check vector lengths
+  if(any(class(model) == "glmmTMB"))
+    model <- summary(model)    # model is now a summary object
+  n <- length(where) + 1       # number of CPUE indices to be extracted
+  if(length(years) != n)
+    stop("Expected ", n, " years, got ", length(years), ".")
+  
+  ## Extract model components
+  relative <- as.numeric(c(0, model$coefficients$cond[where,1]))  # shave off names
+  std_cpue <- exp(relative - mean(relative))
+  
+  V <- model$vcov$cond[where, where]
   
   ## Compute confidence limits
   Q <- matrix(-1 / n, nrow = n, ncol = n - 1)
