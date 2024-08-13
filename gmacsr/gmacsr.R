@@ -1457,6 +1457,9 @@ gmacs_read_allout <- function(file, model_name = NULL, version = "2.20.16") {
       rename_all(~c("org_series", "mod_series", "year", "fleet", "season", "sex", "type", "shell", "maturity","shell_name", "maturity_name", "nsamp_obs")) %>%
       mutate_at(c(1:3, 5, 12), as.numeric) -> tmp
     
+    # save info for neff below
+    tmp_neff <- tmp
+    
     ## get comps
     last <- last + 2 # set last to start where the data is
     tmp %>%
@@ -1515,8 +1518,8 @@ gmacs_read_allout <- function(file, model_name = NULL, version = "2.20.16") {
     ## add estimated effectve sample size to output
     out$size_fit_summary %>%
       left_join(out$effective_sample_size %>% 
-                  transmute(mod_series, multiplier, nsamp_est, nsamp_obs),
-                by = join_by(mod_series, nsamp_obs)) -> out$size_fit_summary
+                  transmute(year = tmp_neff$year, mod_series, multiplier, nsamp_est, nsamp_obs),
+                by = join_by(year, mod_series, nsamp_obs)) -> out$size_fit_summary
     
     ## sdnr_MAR_lf
     last <- grep("sdnr_MAR_lf", allout[,1])
