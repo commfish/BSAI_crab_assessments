@@ -1,5 +1,5 @@
 # k.palof katie.palof@alaska.gov
-# date updated: 8-16-2022 / 8-15-23
+# date updated: 8-16-2022 / 8-15-23 / 8-14-24
 
 # Data manipulation for EBS trawl survey results to put into BBRKC model
 
@@ -8,6 +8,7 @@
 # "Crab Data" - tab
 # "EBS Trawl Survey" - "Summary Reports" - "Abundance/BIomass, Size Group Matrix" - 
 # drop down menu - 1975 to current year (2023) - red King Crab  - District - "BB"
+# click "Apply" 
 # click "export" Data - csv 
 # for "by_weight"
 # save to 'BBRKC/data/"cur_yr"/survey/'
@@ -15,11 +16,14 @@
 # size_group 
 # "EBS Trawl Survey" - "Large Data Download" - "Abundance/BIomass, Large Data Download" - 
 # drop down menu - size_1mm - red King Crab - BB
+# click "apply" 
 # click "export" Data - csv 
 
 # haul data 
 # "EBS Trawl Survey" - "Large Data Download" - "Haul Data, Large Data Download" - 
 # drop down menu - Red King Crab
+# click "Apply"
+# click "Doanload CSV"
 
 ## effective sample size data
 # "Crab Data" 
@@ -31,7 +35,7 @@ library(dplyr)
 library(reshape)
 library(ggridges)
 
-cur_yr = 2023 # Current survey data 
+cur_yr = 2024 # Current survey data 
 
 # data -----
 # data files from AKFIN are saved as a different type of .csv open files and resave as csv general
@@ -83,7 +87,7 @@ head(haul_rkc)
 unique(haul_rkc$LENGTH_1MM)
 
 
-# see Tyler's code here ---- update
+# see Tyler's code here ---- update bbrkc_sizecomp.R
 # size comps in "female_race_size_comp.txt" - from Tyler - where is he calculating this???
 
 ## CV's for survey data in LBA - >=90 (just females currently)-----
@@ -104,7 +108,7 @@ head(haul_rkc) # how to determine which ones are bb???
 ## See Jie's notes
 720*.25 # from prelim numbers from Jon
 
-# 2021 sampled
+# 202X sampled
 haul_rkc %>% 
   filter(AKFIN_SURVEY_YEAR == 2023 & MID_LATITUDE > 54.6) %>% 
   filter(MID_LATITUDE < 58.65 & MID_LONGITUDE < -168) %>% 

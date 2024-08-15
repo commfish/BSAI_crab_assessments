@@ -1,5 +1,6 @@
 # 4-28-23 from Tyler Jackson
 # original size composition for bbrkc 
+# 8-14-24
 
 # section below for size composition without retows for May 2023 models.
 
@@ -14,7 +15,7 @@ read.csv(paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/EBSCrab_Haul.csv'
   rename_all(tolower) -> specimen
 
 
-# strata file (strata dump) ------
+# strata file (strata dump) ------ ??? Do I need this? Jump to line 55
 # needed for effective sample size to just count those in BB
 read.csv(paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/EBSCRAB - Strata Report.csv')) %>%
   rename_all(tolower) %>%

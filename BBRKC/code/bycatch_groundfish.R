@@ -1,5 +1,5 @@
 # k.palof katie.palof@alaska.gov
-# date updated: 8-14-22 / 8-11-23
+# date updated: 8-14-22 / 8-11-23/ 8-11-24
 
 # Data manipulation for bycatch in Groundfish fisheries for BBRKC
 
@@ -10,19 +10,22 @@
 # "Crab Data" tab, "Estimates of Crab Bycatch in Groundfish Fisheries", "Crab Bycatch Estimates: 2009- present, by crab year"
 #   From drop down menus "2009 to 2020", Fishery name: "Bristol Bay red king crab", 
 #   Species Group Name: Red King Crab
+#   "Apply" , then "export" 
 #   Click - "detail report" 
-#    at bottom of page click "export", choose Data - .csv - save in data folder for current year - here smbkc_XX/data
+#    at bottom of page click "export", choose Data - .csv - save in data folder for current year - here BBRKC/data/20XX/groundfish bycatch
 
-#  AKFIN database/Observer and EM Data/NORPAC Length Report - Haul & Length. 
+#  AKFIN database/Observer (Observer and EM Data) and EM Data/NORPAC Length Report - Haul & Length. 
+#     Year - 2022; 2023; 2024 (last completed crab year 2023-23/24)
 #     FMP Area: BSAI | FMP Subarea: BS | 
 #       Species Name: RED KING CRAB 
+#     "Apply", "Download CSV" 
 #     Use only BBRKC data (south of 58.65 deg., east of -168 deg., and north of 54.6 deg.). 
 #     Excel PivotTable can summarize it through adding a column with 5-mm interval values.
 #   
 # load -----
 source("./SMBKC/code/packages.R")
-model_yr = "bbrkc_23f"
-cur_yr = 2023 # need a note here if this should be 2021 or 2022
+model_yr = "bbrkc_24f"
+cur_yr = 2024 # need a note here if this should be 2021 or 2022
 cal_yr = cur_yr
 
 # data -----
@@ -38,7 +41,8 @@ head(gf_bycatch)
 gf_bycatch %>% 
   group_by(Crab.Year, Agency.Gear.Code) %>% 
   summarise(sum = sum(Estimate.Num..Sum.)) %>% # weird export
-  reshape2::dcast( ., Crab.Year ~ Agency.Gear.Code, sum) %>% 
+  spread(key = Agency.Gear.Code, value = sum) %>% 
+  #reshape2::dcast( ., Crab.Year ~ Agency.Gear.Code, sum) %>% 
   mutate(trawl = (NPT + PTR), fixed = (HAL + POT)) -> gf_by_nums# combine trawl and fixed, male and female don't divide by 2 like smbkc
 
 
@@ -54,7 +58,8 @@ write.csv(gf_by_nums, paste0(here::here(), '/BBRKC/data/', cal_yr, '/groundfish 
 gf_bycatch %>% 
   group_by(Crab.Year, Agency.Gear.Code) %>% 
   summarise(sum = sum(Estimate.Wt..kg.crab.)) %>% 
-  reshape2::dcast( ., Crab.Year ~ Agency.Gear.Code, sum) %>% 
+  spread(key = Agency.Gear.Code, value = sum) %>% 
+  #reshape2::dcast( ., Crab.Year ~ Agency.Gear.Code, sum) %>% 
   mutate(trawl = (NPT + PTR), fixed = (HAL + POT), # divide by 2 for for smbkc since it's male only
          trawl_thou = trawl/1000, fixed_thou = round(fixed/1000, 3), 
          trawl_1000t = round(trawl_thou/1000, 3), fixed_1000t = round(fixed_thou/1000, 3), 
@@ -92,7 +97,7 @@ gf_length_bb %>%
 
 # effective sample size------
 samp_by_gear %>% 
-  mutate(eff_samp = 0.05*Nsamp) -> effective_sample
+  mutate(eff_samp = 0.05*Nsamp) -> effective_sample # put this in .dat file
 
 # male proportions ------
 gf_length_bb %>% 
@@ -135,5 +140,7 @@ gf_length_bb %>%
 
 output_female[is.na(output_female)] <- 0  
 
-output_female %>% 
+output_female %>% # this is what is added to .dat file for females trawl and fixed gear
   filter(Year >= cur_yr-2) # missing 65 need to add this
+
+## **fix** need to save these for input into .dat file?
