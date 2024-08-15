@@ -1,0 +1,73 @@
+---
+title: "2023/24 Stock Status Determination for Pribilof Islands Golden King Crab"
+author: |
+  | Tyler Jackson
+  | Alaska Department of Fish and Game, tyler.jackson@alaska.gov
+date: "`r format(Sys.time(), '%B %Y')`"
+output:
+  bookdown::pdf_document2:
+    toc: no
+header-includes:
+   - \usepackage{float}
+   - \usepackage{hanging}
+---
+
+```{r, echo = F, message = F, warning = F}
+library(tidyverse)
+library(xtable)
+
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, fig.pos='H')
+
+ft <- read_csv("../../data/fish_tickets/pigkc_ft_summary.csv")
+
+```
+
+# Summary {-}
+
+The full assessment of Pribilof Islands golden king crab (AIGKC) was conducted in May 2023 (Jackson and Daly 2023). This document updates the full assessment with stock status determination for 2023 relative to completed estimates of fishing mortality and associated biological reference points. The May 2020 assessment determined the overfishing limit (OFL) 2023 to be 93 t (0.20 million lb) with an acceptable biological catch (ABC) of 70 t (0.15 million lb). 
+
+Two vessels participated in the 2023 fishery, thus retained and total fishing mortality are confidential. There was no effort in bycatch crab fisheries (snow and grooved Tanner crab) and total byacth mortality in groundfish fisheries was 0.36 t (794 lb). \textbf{Overfishing did not occcur in 2023}.
+
+The following two tables update the management performance tables presented in the May 2023 SAFE Report with completed fishery estimates of 2023:
+
+\begin{table}[H]
+\centering
+\caption{Status and catch specifications (1,000 t) of Pribilof Islands golden king crab}
+\label{table:t}
+\begin{tabular}{ccccccccc}
+Year & MSST & Biomass & GHL & Retained & Total & OFL & ABC\\
+\hline
+2019 &&& 59 & Conf. & Conf. & 93 & 70 \\
+2020 &&& 59 & 49 & 52 & 93 & 70 \\
+2021 &&& 59 & 16  & 21 & 93 & 70 \\
+2022 &&& 59 & Conf. & Conf. & 93 & 70 \\
+2023 &&& 59 & Conf. & Conf. & 93 & 70 \\
+2024 &&& & & & 114 & 85.3 \\
+2025 &&& & & & 114 & 85.3 \\
+2026 &&& & & & 114 & 85.3 \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Status and catch specifications (million lb) of Pribilof Islands golden king crab}
+\label{table:millb}
+\begin{tabular}{ccccccccc}
+Year & MSST & Biomass & TAC & Retained & Total & OFL & ABC\\
+\hline
+2019 &&& 0.13 & Conf. & Conf. & 0.20 & 0.15 \\
+2020 &&& 0.13 & 0.11 & 0.12 & 0.20 & 0.15 \\
+2021 &&& 0.13 & 0.03  & 0.05 & 0.20 & 0.15 \\
+2022 &&& 0.13 & Conf. & Conf. & 0.20 & 0.15 \\
+2023 &&& 0.13 & Conf. & Conf. & 0.20 & 0.15 \\
+2024 &&& & & & 0.25 & 0.19 \\
+2025 &&& & & & 0.25 & 0.19 \\
+2026 &&& & & & 0.25 & 0.19 \\
+\hline
+\end{tabular}
+\end{table}
+
+# Literature {-}
+
+Jackson, T, B Daly. Pribilof Islands Golden King Crab Stock Assessment 2023. North Pacific Fishery Management Council, Anchorage, Alaska. 
