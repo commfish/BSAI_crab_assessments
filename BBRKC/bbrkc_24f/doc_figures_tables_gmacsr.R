@@ -9,6 +9,7 @@
 #source("./SMBKC/code/packages.R")
 #source("./SMBKC/code/gmr_functions2020.R") 
 #source("./BBRKC/code/bbrkc_functions.R")
+library(sjmisc)
 source("./gmacsr/gmacsr.R")
 # **************************************************************************************************
 cur_yr <- 2024 # update annually 
@@ -18,11 +19,15 @@ cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#D55E00", "#0072B2",
 
 #plot.dir <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/")
 plot_save <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/")
+plot_save_newD <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/newD")
 #plot_save_sel <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/sel_models/")
 #plot_save_molt <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/molt_models/")
 #table directory 
 .TABS     = c("./BBRKC/bbrkc_24f/doc/tables/")
-
+.FIGS     = c("./BBRKC/bbrkc_24f/doc/figures/")
+.THEME    = list(theme_bw(base_size = 12, base_family = ""), scale_fill_manual(values=cbPalette), 
+                 scale_colour_manual(values=cbPalette), 
+                 update_geom_defaults("line", list(size = 1.75)))
 ## read in models
 # for fall 2024 need:
 ##      - 23.0a_p7 as base (2023 and 2024 version)
@@ -41,7 +46,7 @@ m24c <- gmacs_read_allout(file = "./BBRKC/bbrkc_24f/model_24_0c/Gmacsall.out", m
                           version = "2.20.14")
 
 
-#m24.0 <- gmacs_read_allout(file = "./SMBKC/smbkc_24s/model_16_0_c/Gmacsall.out", model = "smbkc24.0")
+ #m24.0 <- gmacs_read_allout(file = "./SMBKC/smbkc_24s/model_16_0_c/Gmacsall.out", model = "smbkc24.0")
 
 ## read std files -------------------
 
@@ -51,13 +56,18 @@ m24c_std <- gmacs_read_std(file = "./BBRKC/bbrkc_24f/model_24_0c/gmacs.std", mod
 #m24d_std <- gmacs_read_std(file = "./BBRKC/bbrkc_24s/model_24_0d/gmacs.std", model_name = "m24.0d")
 
 # model groupings defined here for future plots ----------------
-base_models <- list(m230a_23, m230a_24, m24c)
-base_std <- list(m230a_23_std, m230a_24_std, m24c_std)
+base_models <- list(m230a_24, m24c) # models for comparison 2024
+base_std <- list(m230a_24_std, m24c_std)
+
+newD_models <- list(m230a_23, m230a_24, m24c) # comparing new data
+newD_std <- list(m230a_23_std, m230a_24_std, m24c_std)
+
 
 #liklihood ------
-gmacs_get_lik_type_pen(all_out = base_models)
-gmacs_get_lik(all_out = base_models) 
-gmacs_get_pars(all_out = base_models)
+gmacs_get_lik_type_pen(all_out = newD_models)
+temp <- gmacs_get_lik(all_out = newD_models) 
+print(temp, n = Inf)
+gmacs_get_pars(all_out = newD_models)
 
 
 # Order for SAFE R markdown doc #############################
@@ -65,7 +75,7 @@ gmacs_get_pars(all_out = base_models)
 gmacs_plot_data_range(all_out = base_models, save_plot = T, plot_dir = plot_save)
 
 #
-# plot selectivity -------
+# plot selectivity ------- **FIx**
 gmacs_plot_slx(all_out = base_models, save_plot = F) #, plot_dir = plot_save)
 #gmacs_plot_slx(all_out = base_models, save_plot = T, plot_dir = plot_save)
 
@@ -90,6 +100,8 @@ gmacs_plot_molt_probability(all_out = base_models, save_plot = T, plot_dir = plo
 #gmacs_plot_index(all_out = list(m211b, m211b_p7, m230a, m230a_p7), plot_dir = plot_save)
 ## ************!!!!!!!!!!!!!!! load one from "working doc_tables.R" here
 gmacs_plot_index(all_out = base_models, plot_dir = plot_save)
+gmacs_plot_index(all_out = comp_models, plot_dir = plot_save_newD)
+
 
 temp <- gmacs_get_index_summary(all_out = list(m230a_p7, m230a_24, m24c))
 
@@ -104,21 +116,22 @@ gmacs_plot_sizecomp(all_out = base_models, save_plot = T, plot_dir = plot_save)
 
 # plot mmb ------------
 gmacs_plot_mmb(all_out = base_models, save_plot = T, plot_dir = plot_save, plot_ci = T, std_list = base_std)
-#gmacs_plot_mmb(all_out = sel_models, plot_dir = plot_save_sel, plot_ci = T, std_list = sel_std)
+gmacs_plot_mmb(all_out = newD_models, plot_dir = plot_save_newD, plot_ci = T, std_list = newD_std)
 #gmacs_plot_mmb(all_out = molt_models, plot_dir = plot_save_molt, plot_ci = T, std_list = molt_std)
 
+
 # recruitment ------
-gmacs_plot_recruitment(all_out = list(m230a_23, m230a_24, m24c), save_plot = T, plot_dir = plot_save)
-#gmacs_plot_recruitment(all_out = list(m211b_p7, m230a_p7, m24, m24b), plot_dir = plot_save_sel)
+gmacs_plot_recruitment(all_out = list(m230a_23, m230a_24, m24c), save_plot = T, plot_dir = plot_save_newD)
+gmacs_plot_recruitment(all_out = list(m230a_24, m24c), save_plot = T, plot_dir = plot_save)
 #gmacs_plot_recruitment(all_out = list(m211b_p7, m230a_p7, m24c, m24d), plot_dir = plot_save_molt)
 
 #gmacs_plot_recruitment(all_out = base_models, save_plot = T, plot_dir = plot_save, 
 #                       data_summary = data_summary)
 
 # fishing mortality and mmb ------
-gmacs_plot_f_mmb(all_out = list(m230a_23, m230a_24, m24c), save_plot = T, plot_dir = plot_save)
-gmacs_plot_f_mmb_dir(all_out = list(m230a_24), save_plot = T, plot_dir = plot_save)
-# load from "bbrkc_functions_gmacs.R"
+gmacs_plot_f_mmb(all_out = list(m230a_24, m24c), save_plot = T, plot_dir = plot_save)
+gmacs_plot_f_mmb_dir(all_out = list(m230a_24, m24c), save_plot = T, plot_dir = plot_save)
+# load from "bbrkc_functions_gmacs.R" prior to running this 
 # not the same as 2023 figures from Jie's code - look this over **fix**
 
 # fishing mortality ------
@@ -139,7 +152,7 @@ gmacs_plot_catch(all_out = base_models, save_plot = T, plot_dir = plot_save)
 ## ** fix ** so that all directed catch is on the same scale and showing the entire time series - like old plot.
 
 # data extent -------
-gmacs_plot_data_range(all_out = base_models, save_plot = T, plot_dir = plot_save)
+#gmacs_plot_data_range(all_out = base_models, save_plot = T, plot_dir = plot_save)
 
 #mature female abundance -----------
 fem1 <- as.data.frame(m230a_24$n_matrix)
@@ -188,25 +201,28 @@ deriv.quant <- gmacs_get_derived_quantity_summary(all_out = list(m230a_23, m230a
 
 
 ## TABLES ====================================
+#executive summary stats ------------
+# see EBSsurvey_analysis.R line 301
+
 # Tables 1 to 3 calcs -------
 ## table 1 
 # model 21.1b
-M <- m211b
+M <- m230a_24
 #round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_2223
-round(M$bmsy/1000*0.5, 2) -> msst_2223
+round(M$bmsy/1000*0.5, 2) -> msst_2324
 #round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_2223
-round(M$derived_quant_summary$ssb[length(M$derived_quant_summary$ssb)]/1000, 2) -> mmb_2223
+round(M$derived_quant_summary$ssb[length(M$derived_quant_summary$ssb)]/1000, 2) -> mmb_2324
 #round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2324
-round(M$mmb_curr/1000, 2) -> mmb_2324
+round(M$mmb_curr/1000, 2) -> mmb_2425
 #round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2324
-round(M$ofl_tot/1000, 2) -> ofl_2324
+round(M$ofl_tot/1000, 2) -> ofl_2425
 #round(M[[rec_mod]]$spr_cofl/1000*0.80, 2) -> abc_2324
-round(ofl_2324*.80, 2) -> abc_2324
-table1specs_t <- c(msst_2223, mmb_2223, mmb_2324, ofl_2324, abc_2324)
+round(ofl_2425*.80, 2) -> abc_2425
+table1specs_t <- c(msst_2324, mmb_2324, mmb_2425, ofl_2425, abc_2425)
 table1specs_t
 
 # use this as starting place for table 1 ----
-refT1 <- gmacs_get_ref_points(all_out = list(m211b, m211b_p7, m24b, m24d, m230a, m230a_p7, m24, m24c))
+refT1 <- gmacs_get_ref_points(all_out = list(m230a_24, m24c))
 refT1 %>% 
   as.data.frame() %>% 
   mutate(MMB = round(mmb/1000, 2), 
@@ -216,26 +232,26 @@ refT1 %>%
          OFL = round(ofl_tot/1000, 2), 
          male_rbar = round(male_rbar/1000000, 2), 
          b_b35 = round(b_b35, 2)) %>% 
-  merge(M_tab1) %>% 
+  merge(M_tab1) %>% # see below for this data frame
   mutate(maleM = round(base, 2)) %>% 
   select(model, MMB, b35, b_b35, f35, fofl, OFL, male_rbar, maleM) -> tab1_ref
 write.csv(tab1_ref, paste0(.TABS, "specs_all_mods_detailed.csv"), row.names = FALSE)
 
 # need to bring in M_tab1 from below for natural mortality 
 
-# get reference points table
-gmacs_get_ref_points(all_out = list(m211b, m211b_p7, m24b, m24d, m230a, m230a_p7, m24, m24c))
-refT1 <- gmacs_get_ref_points(all_out = list(m211b, m211b_p7, m24b, m24d, m230a, m230a_p7, m24, m24c))
-refT1 %>% 
-  as.data.frame() %>% 
-  mutate(MMB = round(mmb/1000, 2), 
-         b35 = round(b35/1000, 2), 
-         f35 = round(f35,2), 
-         fofl = round(fofl, 2), 
-         OFL = round(ofl_tot/1000, 2), 
-         male_rbar = round(male_rbar/1000000, 2)) %>% 
-  select(Model=model, MMB, b35, f35, fofl, OFL, male_rbar) -> ref_pt_table
-write.csv(ref_pt_table, paste0(.TABS, "specs_all_mods.csv"), row.names = FALSE)
+# get reference points table -------------
+gmacs_get_ref_points(all_out = newD_models)
+#refT1 <- gmacs_get_ref_points(all_out = list(m211b, m211b_p7, m24b, m24d, m230a, m230a_p7, m24, m24c))
+#refT1 %>% 
+#  as.data.frame() %>% 
+#  mutate(MMB = round(mmb/1000, 2), 
+#         b35 = round(b35/1000, 2), 
+#         f35 = round(f35,2), 
+#         fofl = round(fofl, 2), 
+#         OFL = round(ofl_tot/1000, 2), 
+#         male_rbar = round(male_rbar/1000000, 2)) %>% 
+#  select(Model=model, MMB, b35, f35, fofl, OFL, male_rbar) -> ref_pt_table
+#write.csv(ref_pt_table, paste0(.TABS, "specs_all_mods.csv"), row.names = FALSE)
 
 
 
@@ -245,7 +261,7 @@ write.csv(ref_pt_table, paste0(.TABS, "specs_all_mods.csv"), row.names = FALSE)
 
 # Table 7 nat mort----
 #nat_mort <- .get_M_df_kjp(M[2:4]) # bbrkc_functions.R
-nat_mort <- gmacs_get_m(all_out = list(m211b, m211b_p7, m24b, m24d, m230a, m230a_p7, m24, m24c))
+nat_mort <- gmacs_get_m(all_out = list(m230a_24, m24c))
 #nat_mort <- m230a$M_by_class
 nat_mort %>% 
   distinct(model, sex, M) %>% print(n =100)
@@ -253,12 +269,6 @@ nat_mort %>%
 nat_mort %>% 
   distinct(model, sex, M) %>% 
   mutate(year = c("base", "1980-84", "base", "1980-84", 
-                  "base", "1980-84", "base", "1980-84", 
-                  "base", "1980-84", "base", "1980-84",
-                  "base", "1980-84", "base", "1980-84",
-                  "base", "1980-84", "base", "1980-84",
-                  "base", "1980-84", "base", "1980-84",
-                  "base", "1980-84", "base", "1980-84",
                   "base", "1980-84", "base", "1980-84"))-> natural_mort_all
 # want to seperate out the year ranges
 natural_mort_all %>% 
@@ -273,16 +283,16 @@ write.csv(natural_mort_all2, paste0(.TABS, "M_out.csv"), row.names = FALSE)
 
 
 # get likelihood table --------------------
-base_like <- gmacs_get_lik(all_out = list(m230a_p7, m24, m24c, m211b_p7, m24b, m24d))
+base_like <- gmacs_get_lik(all_out = list(m230a_24, m24c))
 # remove tagging and growth 
 
-base_pen <- gmacs_get_lik_type_pen(all_out = list(m230a_p7, m24, m24c, m211b_p7, m24b, m24d))
+base_pen <- gmacs_get_lik_type_pen(all_out = list(m230a_24, m24c))
 
 all_like1 <- base_like[c(1:20), ]
-all_like2 <- base_pen[c(10:11, 8, 7), ]
+all_like2 <- base_pen[c(10, 8, 7), ]
 all_like3 <- base_like[c(26,25), ]
 
-ref_all_like4 <- gmacs_get_ref_points(all_out = list(m211b_p7, m230a_p7, m24, m24b, m24c, m24d))
+ref_all_like4 <- gmacs_get_ref_points(all_out = list(m230a_24, m24c))
 ref_all_like4 %>% 
   as.data.frame() %>% 
   select(model, b35, mmb, f35, fofl, ofl_tot) %>% 
@@ -291,12 +301,12 @@ ref_all_like4 %>%
          ofl_tot = round(ofl_tot, 2)) %>% 
   select(b35, mmb, f35, fofl, ofl_tot) -> ref_all_like4a
   
-row.names(ref_all_like4a) <- c("m21.1b.p7", "m23.0a.p7", "m24", "m24.0b", "m24.0c", "m24.0d")
+row.names(ref_all_like4a) <- c("m23.0a", "m24.0c")
 
 ref_all_like4a %>% 
   rotate_df() %>% 
   mutate(process = c("b35", "mmb", "f35", "fofl", "ofl_tot")) -> temp2
-  select()
+  #select()
 
 
 
@@ -305,7 +315,7 @@ all_like1 %>%
   rbind(all_like2) %>% 
   rbind(all_like3) %>% 
   rbind(temp2) -> df1
-  print(n=100)
+  # %>% print(n=100)
 
 ## NOTE: from 'BBRKC/code/Jie_cmn_files.R'
 #d3f_names<-c("Pot-ret-catch","Pot-totM-catch","Pot-F-discC","Trawl-discC","Tanner-M-discC","Tanner-F-discC","Fixed-discC",
@@ -318,12 +328,13 @@ d3f_names<-c("Pot-ret-catch","Pot-totM-catch","Pot-F-discC","Trawl-discC","Tanne
              "Traw-suv-bio","BSFRF-sur-bio",
              "Pot-ret-comp","Pot-totM-comp","Pot-discF-comp","Trawl-disc-comp","Tanner-disc-comp","Fixed-disc-comp","Trawl-sur-comp","BSFRF-sur-comp",
              "Recruit-dev","Recruit-ini","Recruit-sex-R",
-             "M-deviation","Sex-specific-R","Ini-size-struct", 
+             "Sex-specific-R","Ini-size-struct", 
              "PriorDensity", "Tot-likelihood","Tot-parms",
              "MMB35","MMB-terminal","F35","$Fofl$","OFL")
 #
 like_all_out <- cbind(d3f_names, df1)
 write.csv(like_all_out, paste0(.TABS, "likelihood.csv"), row.names = FALSE)
+# stop here
 
 # parameter tables -------------
 base_m230a_parm <- gmacs_get_pars(all_out = list(m230a_p7))
