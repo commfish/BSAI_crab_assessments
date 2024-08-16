@@ -240,10 +240,77 @@ EAG25.0$priorDensity
 
 # dirichlet and survey ----
 
+# plot of bootstrap stage 1 neff
+boot_eag_ret <- lapply(grep("eag_retained_comp_boot", list.files("./AIGKC/output/observer", full.names = T), value = T), 
+                       readRDS) %>% bind_rows %>%
+  transmute(crab_year, fishery = "EAG", type = "Retained", n)
+boot_eag_tot <- lapply(grep("eag_total_comp_boot", list.files("./AIGKC/output/observer", full.names = T), value = T), 
+                       readRDS) %>% bind_rows %>%
+  transmute(crab_year, fishery = "EAG", type = "Total", n)
+boot_wag_ret <- lapply(grep("wag_retained_comp_boot", list.files("./AIGKC/output/observer", full.names = T), value = T), 
+                       readRDS) %>% bind_rows %>%
+  transmute(crab_year, fishery = "WAG", type = "Retained", n)
+boot_wag_tot <- lapply(grep("wag_total_comp_boot", list.files("./AIGKC/output/observer", full.names = T), value = T), 
+                       readRDS) %>% bind_rows %>%
+  transmute(crab_year, fishery = "WAG", type = "Total", n)
+
+boot_eag_ret %>%
+  group_by(crab_year, fishery) %>%
+  mutate(neff = mean(n)) %>%
+  ggplot()+
+  geom_violin(aes(x = factor(crab_year), y = n, group = crab_year), fill = cbpalette[4], color = "grey80", alpha = 0.3)+
+  geom_line(aes(x = factor(crab_year), y = neff, group = 1))+
+  labs(x = NULL, y = "Boot Effective N", title = "EAG Retained")+
+  scale_y_continuous(labels = scales::comma)+
+  scale_x_discrete(labels = yraxis$labels, breaks = yraxis$breaks)+
+  coord_cartesian(ylim = c(0, 15000))+
+  theme(plot.title = element_text(hjust = 0.5)) -> eag_ret_p
+
+boot_eag_tot %>%
+  group_by(crab_year, fishery) %>%
+  mutate(neff = mean(n)) %>%
+  ggplot()+
+  geom_violin(aes(x = factor(crab_year), y = n, group = crab_year), fill = cbpalette[4], color = "grey80", alpha = 0.3)+
+  geom_line(aes(x = factor(crab_year), y = neff, group = 1))+
+  labs(x = NULL, y = "Boot Effective N", title = "EAG Total")+
+  scale_y_continuous(labels = scales::comma)+
+  scale_x_discrete(labels = yraxis$labels, breaks = yraxis$breaks)+
+  coord_cartesian(ylim = c(0, 50000))+
+  theme(plot.title = element_text(hjust = 0.5)) -> eag_tot_p
+
+boot_wag_ret %>%
+  group_by(crab_year, fishery) %>%
+  mutate(neff = mean(n)) %>%
+  ggplot()+
+  geom_violin(aes(x = factor(crab_year), y = n, group = crab_year), fill = cbpalette[4], color = "grey80", alpha = 0.3)+
+  geom_line(aes(x = factor(crab_year), y = neff, group = 1))+
+  labs(x = NULL, y = "Boot Effective N", title = "WAG Retained")+
+  scale_y_continuous(labels = scales::comma)+
+  scale_x_discrete(labels = yraxis$labels, breaks = yraxis$breaks)+
+  coord_cartesian(ylim = c(0, 15000))+
+  theme(plot.title = element_text(hjust = 0.5)) -> wag_ret_p
+
+boot_wag_tot %>%
+  group_by(crab_year, fishery) %>%
+  mutate(neff = mean(n)) %>%
+  ggplot()+
+  geom_violin(aes(x = factor(crab_year), y = n, group = crab_year), fill = cbpalette[4], color = "grey80", alpha = 0.3)+
+  geom_line(aes(x = factor(crab_year), y = neff, group = 1))+
+  labs(x = NULL, y = "Boot Effective N", title = "WAG Total")+
+  scale_y_continuous(labels = scales::comma)+
+  scale_x_discrete(labels = yraxis$labels, breaks = yraxis$breaks)+
+  coord_cartesian(ylim = c(0, 50000))+
+  theme(plot.title = element_text(hjust = 0.5)) -> wag_tot_p
+
+ggsave("./AIGKC/figures/models/2025/sept/boot_neff.png", 
+       plot = (eag_ret_p + eag_tot_p) / (wag_ret_p + wag_tot_p), height = 6, width = 9, units = "in")
+
+
+
 EAG25.0 <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.0/Gmacsall.out", "25.0")
 EAG25.0a <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.0a/Gmacsall.out", "25.0a")
 EAG25.0ac <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.0a - Copy/Gmacsall.out", "25.0ac")
-EAG25.0b <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.0b/Gmacsall.out", "25.0b")
+EAG25.0a <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.0b/Gmacsall.out", "25.0b")
 EAG25.1 <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.1/Gmacsall.out", "25.1")
 EAG25.1.2 <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.1.2/Gmacsall.out", "25.1.2")
 EAG25.1b <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.1b/Gmacsall.out", "25.1b")
