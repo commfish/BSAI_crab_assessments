@@ -108,9 +108,9 @@ head(haul_rkc) # how to determine which ones are bb???
 ## See Jie's notes
 720*.25 # from prelim numbers from Jon
 
-# 202X sampled
+# 202X sampled **come back to this doesn't appear that hauls are updated** **fix**
 haul_rkc %>% 
-  filter(AKFIN_SURVEY_YEAR == 2023 & MID_LATITUDE > 54.6) %>% 
+  filter(AKFIN_SURVEY_YEAR == 2024 & MID_LATITUDE > 54.6) %>% # updated
   filter(MID_LATITUDE < 58.65 & MID_LONGITUDE < -168) %>% 
   dplyr::select(AKFIN_SURVEY_YEAR, GIS_STATION, AREA_SWEPT, SPECIES_NAME, SEX, LENGTH, SAMPLING_FACTOR) %>% 
   filter(LENGTH >= 65) %>% 
@@ -119,6 +119,7 @@ haul_rkc %>%
   mutate(total = sum(numbers))
 
 ## LBA length comps -------
+## **annotate**
 # females 90 to 140 
 head(size_group)
 unique(size_group$SIZE_CLASS_MM)
@@ -140,7 +141,7 @@ size_group %>%
   group_by(SURVEY_YEAR) %>% 
   summarise(abun = sum(ABUNDANCE)/1000)
 
-# males 95 to 160 
+# males 95 to 160  
 size_group %>% 
   filter(SURVEY_YEAR >= cur_yr-1) %>% 
   filter(SEX == "MALE") %>% 
@@ -158,8 +159,10 @@ size_group %>%
 #  summarise(abun = sum(ABUNDANCE)/1000) 
 
 # legal size crab -------
+# need notes here why??? **annotate**
 bbrkc_area_swept%>% 
-  filter(SURVEY_YEAR >= cur_yr-1)
+  filter(SURVEY_YEAR >= cur_yr-1) %>% 
+  filter(SIZE_GROUP == "MALE_GE135")
 
 ### length frequency info surey ----------
 # from Cody --
@@ -196,7 +199,7 @@ p <- p + geom_density_ridges(aes(x=size_bin, y=SURVEY_YEAR, height = abund,
         axis.text.x = element_text(angle = 90)) +
   labs(x="Carapace width (mm)", y = "Female abundance in survey year")+
   xlim(25,190)
-png(paste0(here::here(), "/BBRKC/bbrkc_23f/doc/figures/size_bins_comp_Kodiak_f_5mm.png"),height=9,width=6,res=400,units='in')
+png(paste0(here::here(), "/BBRKC/bbrkc_24f/doc/figures/size_bins_comp_Kodiak_f_5mm.png"),height=9,width=6,res=400,units='in')
 print(p)
 dev.off()
 
@@ -215,8 +218,9 @@ p <- p + geom_density_ridges(aes(x=size_bin, y=SURVEY_YEAR, height = abund,
   theme(legend.position = "none",
         axis.text.x = element_text(angle = 90)) +
   labs(x="Carapace width (mm)", y = "Female abundance in survey year") +
-  xlim(25,190)
-png(paste0(here::here(), "/BBRKC/bbrkc_23f/doc/figures/size_bins_comp_Kodiak_f_5mm_LAST5.png"),height=4,width=6,res=400,units='in')
+  xlim(25,190) +
+  scale_y_continuous(breaks = seq(2018, 2027, by = 2))
+png(paste0(here::here(), "/BBRKC/bbrkc_24f/doc/figures/size_bins_comp_Kodiak_f_5mm_LAST5.png"),height=4,width=6,res=400,units='in')
 print(p)
 dev.off()
 
@@ -245,7 +249,7 @@ p <- p + geom_density_ridges(aes(x=size_bin, y=SURVEY_YEAR, height = abund,
         axis.text.x = element_text(angle = 90)) +
   labs(x="Carapace width (mm)", y = "Male abundance in survey year") +
   xlim(25,190)
-png(paste0(here::here(), "/BBRKC/bbrkc_23f/doc/figures/size_bins_comp_Kodiak_m_5mm.png"),height=9,width=6,res=400,units='in')
+png(paste0(here::here(), "/BBRKC/bbrkc_24f/doc/figures/size_bins_comp_Kodiak_m_5mm.png"),height=9,width=6,res=400,units='in')
 print(p)
 dev.off()
 
@@ -265,12 +269,13 @@ p <- p + geom_density_ridges(aes(x=size_bin, y=SURVEY_YEAR, height = abund,
   theme(legend.position = "none",
         axis.text.x = element_text(angle = 90)) +
   labs(x="Carapace width (mm)", y = "Male abundance in survey year") +
-  xlim(25,190)
-png(paste0(here::here(), "/BBRKC/bbrkc_23f/doc/figures/size_bins_comp_Kodiak_m_5mm_LAST5.png"),height=4,width=6,res=400,units='in')
+  xlim(25,190) +
+  scale_y_continuous(breaks = seq(2018, 2027, by = 2))
+png(paste0(here::here(), "/BBRKC/bbrkc_24f/doc/figures/size_bins_comp_Kodiak_m_5mm_LAST5.png"),height=4,width=6,res=400,units='in')
 print(p)
 dev.off()
 
-### ggridges raw 1mm data 
+### ggridges raw 1mm data ------left off here 8-14-2024
 p <- ggplot(dat=kod_dat_m) 
 #p <- 
   p + geom_density_ridges(aes(x=SIZE_CLASS_MM, y=SURVEY_YEAR, height = abund,
@@ -314,15 +319,17 @@ biomass_mt %>%  # all using biomass_mt metric tons
   filter(SIZE_GROUP == "MALE_GE65") %>% 
   filter(SURVEY_YEAR >= 1975) %>% 
   mutate(LT_MEAN = mean(BIOMASS_MT), pct.LT_MEAN = BIOMASS_MT/LT_MEAN) -> biomass_mt_mean
+biomass_mt_mean %>% 
+  tail(2)
 #avg3yr = ifelse(SURVEY_YEAR >= cur_yr -2, mean(BIOMASS_MT), 0))
-# 34.3 % of long term mean
+# 51.4 % for 2024; 34.3 % of long term mean
 
 # 1975 - 2023 mean FEMALE survey biomass
 Fbiomass_mt %>%  # all using biomass_mt metric tons
   #filter(SIZE_GROUP == "FEMALE_GE65") %>% 
   filter(SURVEY_YEAR >= 1975) %>% 
   mutate(LT_MEAN = mean(BIOMASS_MT), pct.LT_MEAN = BIOMASS_MT/LT_MEAN)
-# 52.3% of long term mean 
+# 46.9 % for 2024; 52.3% of long term mean 
 
 # 3 year average and percent of LT mean 
 biomass_mt %>% 

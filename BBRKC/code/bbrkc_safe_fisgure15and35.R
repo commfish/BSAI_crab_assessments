@@ -1,7 +1,7 @@
 # notes ----
 ## figures 15 and 35 bbrkc safe
 ## Tyler Jackson
-## 8/23/2022 / 8-22-23 (k.palof)
+## 8/23/2022 / 8-22-23 (k.palof) / 8-16-24(kjp)
 
 # load ----
 
@@ -9,8 +9,8 @@ library(tidyverse)
 library(patchwork)
 library(FNGr); theme_set(theme_sleek())
 
-cur_yr <- 2023 # update annually
-folder <- "bbrkc_23f" # update annually
+cur_yr <- 2024 # update annually
+folder <- "bbrkc_24f" # update annually
 .FIGS     = c(paste0("./BBRKC/", folder, "/doc/figures/"))
 # y axis minor ticks
 yr_axis = tickr(tibble(yr = 1975:2050), yr, 5)
@@ -18,12 +18,13 @@ yr_axis = tickr(tibble(yr = 1975:2050), yr, 5)
 # data ----
 
 # specimen data (haul data dump)
-read.csv("./BBRKC/data/2023/survey/EBSCrab_Haul.csv", skip = 5) %>%
+read.csv(paste0("./BBRKC/data/", cur_yr, "/survey/EBSCrab_Haul.csv"), skip = 5) %>%
   rename_all(tolower) -> specimen
 
 # strata file (strata dump) - do NOT presort by BB when pull it from AKFIN
 # AKFIN/Crab Data/"Lookups/Translations"/"Stata/Station Characteristics" - 1975 to 2023, RED KING CRAB
-read.csv("./BBRKC/data/2023/survey/EBSCRAB - Strata Report_all.csv") %>%
+# needs to both BB and Northern Unstratified
+read.csv(paste0("./BBRKC/data/", cur_yr, "/survey/EBSCRAB - Strata Report_all.csv")) %>% #
   rename_all(tolower) %>%
   rename_at(1, ~"station_id") -> strata
 
@@ -428,7 +429,7 @@ est_1mm %>%
   labs(x = NULL, y = "Immature female <90mm (millions of crab)", color = NULL, shape = NULL)+
   theme(legend.justification = c(0,1),
         legend.position = c(0,1.00))-> x
-ggsave("./BBRKC/bbrkc_23f/doc/figures/FEMALES_figure_35a.png", plot = x, height= 3, width = 5, units = "in")
+ggsave(paste0("./BBRKC/", folder, "/doc/figures/FEMALES_figure_35a.png"), plot = x, height= 3, width = 5, units = "in")
 
 ### figure 35b
 est_1mm %>%
@@ -453,4 +454,4 @@ est_1mm %>%
   labs(x = NULL, y = "Mature female >89mm (millions of crab)", color = NULL, shape = NULL)+
   theme(legend.justification = c(0,1),
         legend.position = c(0,1.025))  -> x
-ggsave("./BBRKC/bbrkc_23f/doc/figures/FEMALES_figure_35b.png", plot = x, height= 3, width = 5, units = "in")
+ggsave(paste0("./BBRKC/", folder, "/doc/figures/FEMALES_figure_35b.png"), plot = x, height= 3, width = 5, units = "in")
