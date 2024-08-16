@@ -2386,6 +2386,42 @@ gmacs_get_size_summary <- function(all_out = NULL, file = NULL, model_name = NUL
   
 }
 
+
+# gmacs_get_effective_n() ----
+
+## isolate effective sample size summary data by model
+
+## args:
+### all_out - output from gmacs_read_allout as nested list, example: all.out = list(mod_23.0a, mod_23.1b)
+### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
+### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
+
+gmacs_get_effective_n <- function(all_out = NULL, file = NULL, model_name = NULL){
+  
+  # bring in all out data ----
+  
+  if(!is.null(file) && is.null(all_out)) {
+    if(is.null(model_name)) {stop("Must supply model name(s)!!")}
+    # read all out file
+    all_out <- purrr::map2(file, model_name, gmacs_read_allout); names(all_out) <- paste0("model", model_name)
+  }
+  
+  # extract neff ----
+  
+  tibble(mod = names(all_out),
+         all_out = all_out) %>% 
+    mutate(data = purrr::map(all_out, function(x) {
+      x$effective_sample_size %>% 
+        mutate(model = as.character(x$model_name))
+    })) %>% transmute(data) %>% unnest(data) %>%
+    dplyr::select(ncol(.), 1:(ncol(.)-1)) -> out
+  
+  
+  return(out)
+  
+}
+
+
 # gmacs_get_derived_quantity_summary() ----
 
 ## isolate derived quantity summary data by model
