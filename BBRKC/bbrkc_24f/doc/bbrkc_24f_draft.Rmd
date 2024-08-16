@@ -108,11 +108,11 @@ round(M$f_ofl_tot, 2) -> fofl
 
 2.	**Catches**: The domestic RKC fishery began to expand in the late 1960s and peaked in 1980 with a catch of 129.95 million lb (58,943 t). The catch declined dramatically in the early 1980s and remained at low levels during the last three decades. After rationalization, catches were relatively high before the 2010/11 season but have been on a declining trend since 2014. The retained catch in 2020/21 was approximately 2.65 million lb (1,257 t), compared to 4.5 million lb (2,027 t) in 2018/19, following a reduction in total allowable catch (TAC). The directed pot fishery was closed in 2021/22 and 2022/23 due to low mature female abundance in accordance with the State of Alaska harvest strategy. The magnitude of bycatch from groundfish trawl and fixed gear fisheries has been stable and small relative to stock abundance during the last 10 years. The decline of the directed pot fishery crab/pot lift (CPUE) has been much less than the retained catch decline, with the 2020/21 CPUE having about 12.5% reduction from the average CPUE during the recent 20 years. **recent season**
 
-3.	**Stock biomass**: Estimated mature biomass increased dramatically in the mid-1970s, then decreased precipitously in the early 1980s. Estimated mature crab abundance increased during 1985-2007 with mature females being about four times more abundant in 2007 than in 1985 and mature males being about two times more abundant in 2007 than in 1985. Estimated mature abundance has steadily declined since 2007. The projected mature male biomass in **fix**2023 is approximately 34% of the estimated mean survey biomass for the entire time series. The estimated mature female survey biomass has also been very low during the last four years, but the 2023 estimated value increased to approximately 52% of the mean.
+3.	**Stock biomass**: Estimated mature biomass increased dramatically in the mid-1970s, then decreased precipitously in the early 1980s. Estimated mature crab abundance increased during 1985-2007 with mature females being about four times more abundant in 2007 than in 1985 and mature males being about two times more abundant in 2007 than in 1985. Estimated mature abundance was steadily declining since 2017, but appears to be increasing slowly in the last few years.The projected mature male survey biomass in 2024 is approximately 51.4% of the estimated mean survey biomass for the entire time series, which includes many periods of low biomass throughout history. The estimated mature female survey biomass was low from 2018 to 2022, but the 2024 estimated value increased to approximately 46.9% of the mean.
 
-4.	**Recruitment**: Estimated recruitment was high during the 1970s and early 1980s and has generally been low since 1985 (1979-year class). During 1984-2022, estimated recruitment was above the historical average (1976-2022 reference years) only in 1984, 1986, 1990, 1995, 1999, 2002, 2005, 2006, and 2010. Estimated recruitment was extremely low during the last 13 years, and even lower during the recent eight years. With the low recruitment in recent years, the projected mature biomass is expected to decline during the next few years with a below-average fishing mortality of 0.167 to 0.25 $yr^{-1}$.
+4.	**Recruitment**: Estimated recruitment was high during the 1970s and early 1980s and has generally been low since 1985 (1979-year class). During 1984-2023, estimated recruitment was above the historical average (1976-2023 reference years) only in 1984, 1986, 1990, 1995, 1999, 2002, 2005, 2006, and 2010. Estimated recruitment was extremely low during the last 14 years, and even lower during the recent nine years. With the low recruitment in recent years, the projected mature biomass is expected to decline during the next few years with a below-average fishing mortality of 0.167 to 0.25 $yr^{-1}$.
 
-5.	**Management performance**: The stock was above Minimum Stock Size Threshold (MSST) in **fix**2022/23 (85% of $B_{MSY}$) and hence was not overfished. Since total catch was below the OFL (overfishing limit), overfishing did not occur. The projection using the lowest recruitment periods during 2013-2022 would not likely result in “approaching an overfished condition” based on the current harvest strategy. The relatively low MSST in 2018/19 and B~35%~ in 2019/20 below was caused by a problem of the previous GMACS (General model for assessing crustacean stocks) version using the only sex ratio of recruitment in the terminal year for B~35%~ computation in 2019. The lower estimated male recruitment ratio in the terminal year in 2019 resulted in a lower mean male recruitment for B~35%~ computation.  The current version of GMACS uses an average of sex ratios of recruitment during the reference period to estimate B~35%~, which results in a stable sex ratio (about 50%) for the reference point calculation.   
+5.	**Management performance**: The stock was above Minimum Stock Size Threshold (MSST) in 2023/24 **fix** (85% of $B_{MSY}$) and hence was not overfished. Since total catch was below the OFL (overfishing limit), overfishing did not occur. The projection using the lowest recruitment periods during 2013-2022 would not likely result in “approaching an overfished condition” based on the current harvest strategy. The relatively low MSST in 2018/19 and B~35%~ in 2019/20 below was caused by a problem of the previous GMACS (General model for assessing crustacean stocks) version using the only sex ratio of recruitment in the terminal year for B~35%~ computation in 2019. The lower estimated male recruitment ratio in the terminal year in 2019 resulted in a lower mean male recruitment for B~35%~ computation.  The current version of GMACS uses an average of sex ratios of recruitment during the reference period to estimate B~35%~, which results in a stable sex ratio (about 50%) for the reference point calculation.   
 The ABC (acceptable biological catch) buffer was increased from 10% to 20% in 2018, and an additional buffer of 5% was added in 2020 due to the lack of a 2020 survey. A 20% buffer was recommended by the Crab Plan Team (CPT) and Scientific and Statistical Committee (SSC) for ABC estimation since 2021/22. Reoccurring concerns for this stock are still present (cold pool distributional shifts, declining trends in mature biomass, lack of large recruitment pulses, retrospective patterns), as well as low mature female biomass the last two years, all contribute to a recommended 20% buffer for 2023/24. Tables below represent the status and catch specifications for model 23.0a in 1,000 t and million lb (Tables \@ref(tab:status) and \@ref(tab:statuslb)).
 
 
@@ -128,8 +128,8 @@ The ABC (acceptable biological catch) buffer was increased from 10% to 20% in 20
   \hline
   2020/21 & 12.12 & 13.96 & 1.20 & 1.26 & 1.57 & 2.14 & 1.61 \\
   2021/22 & 12.01 & 16.64 & 0 & 0.02 & 0.10 & 2.23 & 1.78 \\
-  2022/23 & 9.68  & 18.34 & 0 & 0.02 & 0.07 & 3.04 & 2.43 \\
-  2023/24 & `r msst_2324` & `r mmb_2324` &  XX &  XX    & XX   & 4.42 & 3.54 \\
+  2022/23 & 9.68  & 18.34 & 0 & 0.02 & 0.11 & 3.04 & 2.43 \\
+  2023/24 & `r msst_2324` & `r mmb_2324` &  XX & 0.96 & 1.34 & 4.42 & 3.54 \\
   2024/25 &               & `r mmb_2425`&   &   &   & `r ofl_2425` & `r abc_2425` \\
   \hline
 \end{tabular}
@@ -147,8 +147,8 @@ The ABC (acceptable biological catch) buffer was increased from 10% to 20% in 20
   \hline
   2020/21 & 26.7 & 30.8 & 2.77 & 2.65 & 3.47 & 4.72 & 3.54 \\
   2021/22 & 26.5 & 36.7 & 0 & 0.04 & 0.22 & 4.91 & 3.92 \\
-  2022/23 & 21.34 & 40.44 & 0 & 0.05 & 0.16 & 6.70 & 5.35 \\
-  2023/24 & `r msst_2324_lb` & `r mmb_2324_lb` & XX & XX & XX & 9.75 & 7.8 \\
+  2022/23 & 21.34 & 40.44 & 0 & 0.05 & 0.24 & 6.70 & 5.35 \\
+  2023/24 & `r msst_2324_lb` & `r mmb_2324_lb` & XX & 2.12 & 2.96 & 9.75 & 7.8 \\
   2024/25 &      & `r mmb_2425_lb`&   &   &   & `r ofl_2425_lb` & `r abc_2425_lb` \\
   \hline
 \end{tabular}
@@ -203,29 +203,30 @@ The ABC (acceptable biological catch) buffer was increased from 10% to 20% in 20
 There are no new changes in management of the fishery.
 
 ## 2. Changes to the Input Data {-}
-a.	Updated groundfish fisheries bycatch data during 1986-2022.
+a.	Updated groundfish fisheries bycatch data during 1986-2023.
 b.  Updated crab fisheries data: directed, cost-recovery, and bycatch.
-c.	Updated NMFS survey data for 2023, biomass and length compositions.
+c.	Updated NMFS survey data for 2024, biomass and length compositions.
 d.	Updated length composition data for directed and non-directed fisheries.
 
 ## 3. Changes in Assessment Methodology {-}
-a. Updated version of GMACS (version 2.01.M.01, 2023-03-13) is used.
+a. Updated version of GMACS (version 2.20.14, 2024-05-20) is used.
 b. The analyses of terminal years of recruitment are updated. 
-c. Three models are compared in this report (See Section E.3.a for details). These models are designed for evaluating starting the model in 1985 and estimating M for males:
+c. Two models are compared in this report (See Section E.3.a for details). These models represent the 2023 accepted model and a model with constant molt probability for males:
 
-|         **21.1b**: base model accepted in 2022 
+|         **23.0a**:  model 21.1b (2022) + estimating a constant base M for males.
 
-|         **22.0**:  model 21.1b + starting in 1985.
-
-|         **23.0a**: model 21.1b + estimating a constant base M for males.
+|         **24.0c**:  model 23.0a + no time blocks for molt probability for males and females.
 
 
 
 ## 4. Changes in Assessment Results {-}
 
-Three model scenarios are compared in this report. In the May 2023 draft report the accepted model in 2022 (21.1b) was presented using the newest version of GMACS, and this had minimal impact to model results. Model 21.1b is considered the base model and was used to compare to the other model scenarios. 
+Two model scenarios are compared in this report. In the May 2024 draft report the accepted model in 2023 (23.0a) was presented using an updated GMACS version and with MMB estimated in the correct season of the model (refer to May 2024 document for more details, this reflects a timing of MMB estimation within the year as a correction to model output). Model versions have minimal impact on model results and are vetted as they are updated to ensure this. Model 23.0a is considered the base model and was used to compare to the other model scenarios (labeled model 23.0.p7 in the May 2024 report to reflect the comparison of the season estimation change for MMB). 
 
-The two additional models considered: model 22.0 (1985 start date) and model 23.0a (estimated base M for males). Model 22.0, which starts the model in 1985 rather that the 1975 start date of the base model (21.1b), was used to evaluate model starting year. Model 22.0 is the reduced time series data version of model 21.1b and the overall results are similar. The notable differences are smaller B~35%~ (19,967 t vs 21,719 t) and NMFS survey catchability (0.94 vs 0.97), and higher OFL (3,917 t vs 3,522 t) for model 22.0. These differences are likely caused by a high recruitment in 1984 (associated with the very high M) being used for B~35%~ computation for model 21.1b and more influence of BSFRF survey data for model 22.0. Model 23.0a uses the entire time series but estimates a base M for males (0.23 compared to fixing at 0.18 for the base model). This model has a slightly reduced total likelihood compared to model 21.1b, slightly increased annual mature male biomass - with the exception of the last four years, and results in an estimated B~35%~ about 10% lower than model 21.1b. A higher M also results in higher F~35%~ and OFL for model 23.0a. 
+The additional model considered in this document is model 24.0a, which is model 23.0a with constant molt probability for males. 
+
+
+Model 22.0 is the reduced time series data version of model 21.1b and the overall results are similar. The notable differences are smaller B~35%~ (19,967 t vs 21,719 t) and NMFS survey catchability (0.94 vs 0.97), and higher OFL (3,917 t vs 3,522 t) for model 22.0. These differences are likely caused by a high recruitment in 1984 (associated with the very high M) being used for B~35%~ computation for model 21.1b and more influence of BSFRF survey data for model 22.0. Model 23.0a uses the entire time series but estimates a base M for males (0.23 compared to fixing at 0.18 for the base model). This model has a slightly reduced total likelihood compared to model 21.1b, slightly increased annual mature male biomass - with the exception of the last four years, and results in an estimated B~35%~ about 10% lower than model 21.1b. A higher M also results in higher F~35%~ and OFL for model 23.0a. 
 
 Moving the starting year to 1985 greatly simplifies this model by removing early years of high biomass and subsequent dramatic decline in biomass in the early 80s. Additionally, a 1985 start date coincides to gear changes in the NMFS trawl survey in the early 80s. However, retrospective patterns for this model suggest increased retrospective bias which is a cause for concern. Considerations for M estimation are whether to estimate a base M for males for the whole time series or keep the base M for males fixed at 0.18. Estimating the base M for males does reduce the retrospective bias from model 21.1b. The concern with estimating a base M for males for the whole time series is potential confounding with estimating trawl survey catchability, however trawl survey catchability in this model has a fairly strict prior.
 
@@ -433,13 +434,7 @@ Response: This is planned for May 2025 model explorations.
   
   Response: Based on our past modelling experience, when M values for males and females are estimated separately, estimated M values tended to be always higher for females than for males. The likelihood profile was created through fixing M values for males and estimating M values for females, and when the fixed M values for males were very high, estimated M values for females tended to be similar to M values for males. The increase in F35% but not a commensurate increase in OFL is due to reduction of mature male biomass caused by the high M. 
 
-As a reference, we copied the likelihood profile computed in May 2020 below. Model 19.6 uses male base M of 0.257 estimated by Then et al. (2015), and the likelihood profile of base M from 0.1 to 0.4 is as follow:
-  
-  ```{r Mprofile, fig.cap = "Likelihood profile on M from May 2020 and 2021; 2022 values of M are circled."}
-knitr::include_graphics("figures/likelihood profile M_2020.png", dpi = 125)
-```
-
-It appears that the maximum likelihood value is achieved with a base M of 0.31 for males and 0.321 for females.
+As a reference, we copied the likelihood profile computed in May 2020 below. Model 19.6 uses male base M of 0.257 estimated by Then et al. (2015), and the likelihood profile of base M from 0.1 to 0.4 was presented in previous SAFE versions. It appears that the maximum likelihood value is achieved with a base M of 0.31 for males and 0.321 for females.
 
 In May 2023, models 23.0, 23.0a, 23.0b, and 23.3 all involve variations of higher base M values for males. Higher base M values do not appear to improve the plus group fittings. In Sept 2023, the accepted model was 23.0a which estimates M for males with a tight prior. This was an increase in M (~0.23) from previous fixed values of 0.18 and is thought to be more appropriate for king crab stocks.  
 
@@ -502,10 +497,10 @@ Harvest strategies for the Bristol Bay RKC fishery have changed over time. Two m
 # D. Data {-}
 
 ## 1. Summary of New Information {-}
-a.	Updated groundfish fisheries bycatch data during 1986-2022.
-b.  Updated crab fishery data: directed, cost-recovery, and bycatch data for 2022/2023
-c.	Updated survey data for 2023
-d.	Updated length-frequencies distributions for all data sets for 2022/2023
+a.	Updated groundfish fisheries bycatch data during 1986-2023.
+b.  Updated crab fishery data: directed, cost-recovery, and bycatch data for 2023/2024
+c.	Updated survey data for 2024
+d.	Updated length-frequencies distributions for all data sets for 2023/2024
 
 Data types and availability periods are illustrated in Figure \@ref(fig:data-extent).  
 
@@ -787,12 +782,12 @@ Status and catch specifications (1,000 t) (model 23.0a):
   & & Biomass & & Retained & Total & & \\
   Year & MSST & ($\mathit{MMB}_\text{mating}$) & TAC & Catch & Catch & OFL & ABC \\
   \hline
-  2019/20 & 12.72 & 14.24 & 1.72 & 1.78 & 2.22 & 3.40 & 2.72 \\
   2020/21 & 12.12 & 13.96 & 1.20 & 1.26 & 1.57 & 2.14 & 1.61 \\
   2021/22 & 12.01 & 16.64 & 0 & 0.02 & 0.10 & 2.23 & 1.78 \\
-  2022/23 & `r msst_2223` & `r mmb_2223` & 0 & 0.02 & 0.07 & 3.04 & 2.43 \\
-  2023/24 &               & `r mmb_2324` &   &      &      & `r ofl_2324` & `r abc_2324` \\
-  \hline
+  2022/23 & 9.68 & 18.34 & 0 & 0.02 & 0.07 & 3.04 & 2.43 \\
+  2023/24 & `r msst_2324` & `r mmb_2324` & XX  & 0.96 & 1.34 & 4.42 & 3.54 \\
+  
+  \hline2024/25 &               & `r mmb_2425` &   &  &  & `r ofl_2425` & `r abc_2425` \\
 \end{tabular}
 \end{table}
 
@@ -806,11 +801,11 @@ Status and catch specifications (million lb, model 23.0a):
   & & Biomass & & Retained & Total & & \\
   Year & MSST & ($\mathit{MMB}_\text{mating}$) & TAC & Catch & Catch & OFL & ABC \\
   \hline
-  2019/20 & 28.0 & 31.4 & 3.80 & 3.91 & 4.89 & 7.50 & 6.00 \\
   2020/21 & 26.7 & 30.8 & 2.77 & 2.65 & 3.47 & 4.72 & 3.54 \\
   2021/22 & 26.5 & 36.7 & 0 & 0.04 & 0.22 & 4.91 & 3.92 \\
-  2022/23 & `r msst_2223_lb` & `r mmb_2223_lb` & 0 & 0.05 & 0.16 & 6.70 & 5.35 \\
-  2023/24 &               & `r mmb_2324_lb` &   &      &      & `r ofl_2324_lb` & `r abc_2324_lb` \\
+  2022/23 & 21.34 & 40.44 & 0 & 0.05 & 0.24 & 6.70 & 5.35 \\
+  2023/24 & `r msst_2324_lb` & `r mmb_2324_lb` & XX & 2.12 & 2.96 & 9.75 & 7.8 \\
+  2024/25 &               & `r mmb_2425_lb` &   &  &  & `r ofl_2425_lb` & `r abc_2425_lb` \\
   \hline
 \end{tabular}
 \end{table}
@@ -825,11 +820,11 @@ Status and catch specifications (million lb, model 23.0a):
   & & & Biomass & & & & Natural \\ 
   Year & Tier & $B_\mathit{MSY}$ & ($\mathit{MMB}_\text{mating}$) & $B/B_\mathit{MSY}$ & $F_\mathit{OFL}$ & Basis for $B_\mathit{MSY}$ & mortality \\ 
   \hline
-  2019/20 & 3b & 21.2 & 16.0 & 0.75 & 0.22 & 1984-2018 & 0.18 \\ 
   2020/21 & 3b & 25.4 & 14.9 & 0.59 & 0.16 & 1984-2019 & 0.18 \\
   2021/22 & 3b & 24.2 & 14.9 & 0.62 & 0.17 & 1984-2020 & 0.18 \\
   2022/23 & 3b & 24.03 & 17.0 & 0.71 & 0.20 & 1984-2021 & 0.18 \\
-  2023/24 & 3b & `r bmsy_cur` & `r mmb_2324` & `r ratio_bmsy` & `r fofl` & 1984-2022 & 0.18\\
+  2023/24 & 3b & 19.36 & 14.98 & 0.77 & 0.30 & 1984-2022 & 0.23\\
+  2024/25 & 3b & `r bmsy_cur` & `r mmb_2324` & `r ratio_bmsy` & `r fofl` & 1984-2023 & 0.23\\
   \hline
 \end{tabular}
 \end{table}
@@ -844,11 +839,11 @@ Status and catch specifications (million lb, model 23.0a):
   & & & Biomass & & & & Natural \\ 
   Year & Tier & $B_\mathit{MSY}$ & ($\mathit{MMB}_\text{mating}$) & $B/B_\mathit{MSY}$ & $F_\mathit{OFL}$ & Basis for $B_\mathit{MSY}$ & mortality \\ 
   \hline
-  2019/20 & 3b & 46.8 & 35.2 & 0.75 & 0.22 & 1984-2018 & 0.18 \\ 
   2020/21 & 3b & 56.1 & 32.9 & 0.59 & 0.16 & 1984-2019 & 0.18 \\
   2021/22 & 3b & 53.4 & 33.0 & 0.62 & 0.17 & 1984-2020 & 0.18 \\
   2022/23 & 3b & 53.0 & 37.4 & 0.71 & 0.20 & 1984-2021 & 0.18 \\
-  2023/24 & 3b & `r bmsy_cur_lb` & `r mmb_2324_lb` & `r ratio_bmsy` & `r fofl` & 1984-2022 & 0.18\\
+  2023/24 & 3b & 42.7 & 33.0 & 0.77 & 0.30 & 1984-2022 & 0.23 \\
+  2024/25 & 3b & `r bmsy_cur_lb` & `r mmb_2425_lb` & `r ratio_bmsy` & `r fofl` & 1984-2023 & 0.23\\
   \hline
 \end{tabular}
 \end{table}    
@@ -992,191 +987,191 @@ Zheng, J., M.C. Murphy, and G.H. Kruse. 1997b. Alternative rebuilding strategies
 # Tables {-}
 
 ```{r totalcatch, results = "asis"}
-df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/catch_all.csv')) # created from table 1a 22f
-#df %>% select(-m22) -> df
-names(df) <- c("Year", "US", "Cost Recovery", "Foreign", "Total", "Females", "Trawl Bycatch", "Fixed Bycatch", "Tanner Bycatch") 
-addtorow <- list()
-addtorow$pos <- list(0, 0)
-addtorow$command <- c("& \\multicolumn{4}{c}{Retained} & \\multicolumn{4}{c}{Bycatch}\\\\\n", 
-                      "Year & US & Cost Recovery & Foreign & Total & Females & Trawl & Fixed & Tanner \\\\\n")
-tab <- xtable(df, caption = "Bristol Bay red king crab annual catch and bycatch mortality biomass (t) from July 1 to June 30. A handling mortality rate of 0.20 for the directed pot, 0.25 for the Tanner fishery, 0.80 for trawl, and 0.50 for fixed gear was assumed to estimate bycatch mortality biomass. The male bycatch biomass in the directed pot fishery is not estimated outside of a model and not included in this Table.  Pot bycatch and Tanner crab fishery bycatch are estimated through expanding the mean observer bycatch per pot to total fishery pot. The pot male bycatch after 2017 is estimated through the subtraction method (B. Daly, ADFG, pers. com.). The trawl and fixed gear fishery bycatches are obtained from the NMFS database. The directed pot bycatch before 1990 and Tanner crab fishery bycatch before 1991 are not available from the observer data and thus not included in this table. These include recently updated estimates from the pot fisheries observer data in 2022.", label = "tab:totalcatch")
-print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
-      tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, 39, nrow(tab)))
+# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/catch_all.csv')) # created from table 1a 22f
+# #df %>% select(-m22) -> df
+# names(df) <- c("Year", "US", "Cost Recovery", "Foreign", "Total", "Females", "Trawl Bycatch", "Fixed Bycatch", "Tanner Bycatch") 
+# addtorow <- list()
+# addtorow$pos <- list(0, 0)
+# addtorow$command <- c("& \\multicolumn{4}{c}{Retained} & \\multicolumn{4}{c}{Bycatch}\\\\\n", 
+#                       "Year & US & Cost Recovery & Foreign & Total & Females & Trawl & Fixed & Tanner \\\\\n")
+# tab <- xtable(df, caption = "Bristol Bay red king crab annual catch and bycatch mortality biomass (t) from July 1 to June 30. A handling mortality rate of 0.20 for the directed pot, 0.25 for the Tanner fishery, 0.80 for trawl, and 0.50 for fixed gear was assumed to estimate bycatch mortality biomass. The male bycatch biomass in the directed pot fishery is not estimated outside of a model and not included in this Table.  Pot bycatch and Tanner crab fishery bycatch are estimated through expanding the mean observer bycatch per pot to total fishery pot. The pot male bycatch after 2017 is estimated through the subtraction method (B. Daly, ADFG, pers. com.). The trawl and fixed gear fishery bycatches are obtained from the NMFS database. The directed pot bycatch before 1990 and Tanner crab fishery bycatch before 1991 are not available from the observer data and thus not included in this table. These include recently updated estimates from the pot fisheries observer data in 2022.", label = "tab:totalcatch")
+# print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
+#       tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, 39, nrow(tab)))
 ```
 
 \newpage
 ```{r retainedcatch, results = "asis"}
-df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/retained_catch.csv')) # created from table 1a 22f
-# update to this data from ???
-#names(df) <- c("Year", "US", "Cost Recovery", "Foreign", "Total", "Females", "Trawl Bycatch", "Fixed Bycatch", "Tanner Bycatch") 
-addtorow <- list()
-addtorow$pos <- list(0, 0)
-addtorow$command <- c("& \\multicolumn{2}{c}{Japanese Tanglenet} & \\multicolumn{2}{c}{Russian Tanglenet} & \\multicolumn{2}{c}{US Pot} & Standardized \\\\\n", 
-                      "Year & Catch & CPUE & Catch & CPUE & Catch & CPUE & CPUE \\\\\n")
-tab <- xtable(df, caption = "Annual retained catch (millions of crab) and catch per unit effort (CPUE) of the Bristol Bay red king crab fishery.", label = "tab:retainedcatch")
-print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
-      tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
+# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/retained_catch.csv')) # created from table 1a 22f
+# # update to this data from ???
+# #names(df) <- c("Year", "US", "Cost Recovery", "Foreign", "Total", "Females", "Trawl Bycatch", "Fixed Bycatch", "Tanner Bycatch") 
+# addtorow <- list()
+# addtorow$pos <- list(0, 0)
+# addtorow$command <- c("& \\multicolumn{2}{c}{Japanese Tanglenet} & \\multicolumn{2}{c}{Russian Tanglenet} & \\multicolumn{2}{c}{US Pot} & Standardized \\\\\n", 
+#                       "Year & Catch & CPUE & Catch & CPUE & Catch & CPUE & CPUE \\\\\n")
+# tab <- xtable(df, caption = "Annual retained catch (millions of crab) and catch per unit effort (CPUE) of the Bristol Bay red king crab fishery.", label = "tab:retainedcatch")
+# print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
+#       tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
 ```
 
 \newpage
 ```{r observercatch, results = "asis"}
-df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/obs_catch.csv')) # created from table 1a 22f
-# update to this data from 'total bycatch-21' tab in "RKC_SAFE23_kjp.xlsx" updated from summaries of observer and AKFIN data
-#names(df) <- c("Year", "US", "Cost Recovery", "Foreign", "Total", "Females", "Trawl Bycatch", "Fixed Bycatch", "Tanner Bycatch") 
-addtorow <- list()
-addtorow$pos <- list(0, 0)
-addtorow$command <- c("& \\multicolumn{2}{c}{Directed Pot Total} & \\multicolumn{3}{c}{Bycatch Fisheries} \\\\\n", 
-                      "Year & Males & Females & Trawl & Fixed & Tanner \\\\\n")
-tab <- xtable(df, caption = "Total observer catch and bycatch (metric ton) of Bristol Bay red king crab. No handling mortality rates are applied. These include recently updated estimates from the pot fishery observer data in 2022. Directed pot fishery data are the result of the cost-recovery fishery since the directed fishery was closed for the 2021/22 and 2022/23 seasons", label = "tab:obscatch")
-print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
-      tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
+# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/obs_catch.csv')) # created from table 1a 22f
+# # update to this data from 'total bycatch-21' tab in "RKC_SAFE23_kjp.xlsx" updated from summaries of observer and AKFIN data
+# #names(df) <- c("Year", "US", "Cost Recovery", "Foreign", "Total", "Females", "Trawl Bycatch", "Fixed Bycatch", "Tanner Bycatch") 
+# addtorow <- list()
+# addtorow$pos <- list(0, 0)
+# addtorow$command <- c("& \\multicolumn{2}{c}{Directed Pot Total} & \\multicolumn{3}{c}{Bycatch Fisheries} \\\\\n", 
+#                       "Year & Males & Females & Trawl & Fixed & Tanner \\\\\n")
+# tab <- xtable(df, caption = "Total observer catch and bycatch (metric ton) of Bristol Bay red king crab. No handling mortality rates are applied. These include recently updated estimates from the pot fishery observer data in 2022. Directed pot fishery data are the result of the cost-recovery fishery since the directed fishery was closed for the 2021/22 and 2022/23 seasons", label = "tab:obscatch")
+# print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
+#       tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
 ```
 
 \newpage
 ```{r samplesize, results = "asis"}
-df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/sample_size.csv')) # created from table 1a 22f
-# update to this data from 'total bycatch-21' tab in "RKC_SAFE23_kjp.xlsx" updated from summaries of observer and AKFIN data
-#names(df) <- c("Year", "US", "Cost Recovery", "Foreign", "Total", "Females", "Trawl Bycatch", "Fixed Bycatch", "Tanner Bycatch") 
-addtorow <- list()
-addtorow$pos <- list(0, 0)
-addtorow$command <- c("& \\multicolumn{2}{c}{Trawl Survey} & Retained & \\multicolumn{2}{c}{Pot Total} & \\multicolumn{3}{c}{Bycatch Combined} \\\\\n", 
-                      "Year & Males & Females & Catch & Males & Females & Trawl & Fixed & Tanner \\\\\n")
-tab <- xtable(df, caption = "Annual sample sizes (>64 mm CL) in numbers of crab for trawl surveys, retained catch, directed pot, Tanner crab, trawl, and fixed gear fishery bycatches of Bristol Bay red king crab.", label = "tab:samplesize")
-print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
-      tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
+# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/sample_size.csv')) # created from table 1a 22f
+# # update to this data from 'total bycatch-21' tab in "RKC_SAFE23_kjp.xlsx" updated from summaries of observer and AKFIN data
+# #names(df) <- c("Year", "US", "Cost Recovery", "Foreign", "Total", "Females", "Trawl Bycatch", "Fixed Bycatch", "Tanner Bycatch") 
+# addtorow <- list()
+# addtorow$pos <- list(0, 0)
+# addtorow$command <- c("& \\multicolumn{2}{c}{Trawl Survey} & Retained & \\multicolumn{2}{c}{Pot Total} & \\multicolumn{3}{c}{Bycatch Combined} \\\\\n", 
+#                       "Year & Males & Females & Catch & Males & Females & Trawl & Fixed & Tanner \\\\\n")
+# tab <- xtable(df, caption = "Annual sample sizes (>64 mm CL) in numbers of crab for trawl surveys, retained catch, directed pot, Tanner crab, trawl, and fixed gear fishery bycatches of Bristol Bay red king crab.", label = "tab:samplesize")
+# print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
+#       tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
 ```
 
 \newpage
 ```{r harmonic, results = "asis"}
-df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/ess_all.csv'))
-#Mname2 <- c("Ref") #, "M0.21" ,"M0.26", "Notimeblock")
-names(df) <- c(" ", "N", "21.1b", "22.0", "23.0a")
-tab       <- xtable(df, caption = "Comparison of harmonic means of implied sample sizes and maximum caps (N) of effective sample sizes for models 21.1b, 22.0, and 23.0a. ", label = "tab:harmonic")
-print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1, 0, nrow(tab)))
+# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/ess_all.csv'))
+# #Mname2 <- c("Ref") #, "M0.21" ,"M0.26", "Notimeblock")
+# names(df) <- c(" ", "N", "21.1b", "22.0", "23.0a")
+# tab       <- xtable(df, caption = "Comparison of harmonic means of implied sample sizes and maximum caps (N) of effective sample sizes for models 21.1b, 22.0, and 23.0a. ", label = "tab:harmonic")
+# print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1, 0, nrow(tab)))
 ```
   
     
     
 ```{r Natmort, results = "asis"}
-df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/M_out.csv'))
-#Mname2 <- c("Ref") #, "M0.21" ,"M0.26", "Notimeblock")
-names(df) <- c("Model", "Sex", "baseM", "1980-84", "1985-22")
-tab       <- xtable(df, caption = "Natural mortality estimates for model scenarios during different year blocks.", label = "tab:Natmort")
-print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,2,4,nrow(tab)))
+# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/M_out.csv'))
+# #Mname2 <- c("Ref") #, "M0.21" ,"M0.26", "Notimeblock")
+# names(df) <- c("Model", "Sex", "baseM", "1980-84", "1985-22")
+# tab       <- xtable(df, caption = "Natural mortality estimates for model scenarios during different year blocks.", label = "tab:Natmort")
+# print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,2,4,nrow(tab)))
 ```
   
     
     
 ```{r specs, results = "asis"}
-df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/specs_all_mods_detailed.csv'))
-df <- df[2:4, ]
-names(df) <- c("Model", "Current MMB", "B35", "$MMB/B_\\text{MSY}$", "F35", "$F_\\text{OFL}$", "OFL", "Avg Rec", "Male M")
-tab       <- xtable(df, caption = "Management quantities for all models. Report quantities are derived from maximum likelihood estimates. Average recruitment (Avg Rec) is males and females combined in millions of animals.", label = "tab:specs", align = "lccccccccc")
-print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,nrow(tab)))
+# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/specs_all_mods_detailed.csv'))
+# df <- df[2:4, ]
+# names(df) <- c("Model", "Current MMB", "B35", "$MMB/B_\\text{MSY}$", "F35", "$F_\\text{OFL}$", "OFL", "Avg Rec", "Male M")
+# tab       <- xtable(df, caption = "Management quantities for all models. Report quantities are derived from maximum likelihood estimates. Average recruitment (Avg Rec) is males and females combined in millions of animals.", label = "tab:specs", align = "lccccccccc")
+# print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,nrow(tab)))
 ```
 
 \newpage 
 ```{r LBA-out, results = "asis"}
-df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/table8_female_spawningB.csv'))
-
-#names(df) <- c("Year", "Mature Female Abundance", "Effective Spawning Biomass")
-addtorow <- list()
-addtorow$pos <- list(0, 0)
-addtorow$command <- c("& \\multicolumn{1}{c}{Mature Female} & \\multicolumn{1}{c}{Effective Spawning} \\\\\n", 
-                      "Year & Abundance & Biomass (1000t) \\\\\n")
-tab       <- xtable(df, caption = "Area-swept estimates of mature female abundance (million crab >89mm) and model estimates of effective spawning biomass (ESB, LBA model from Zheng et al. 1995b; 1000 t) during 2011-2023 for groundfish fisheries bycatch (prohibited species catch, PSC) calculation. (*mature female abundance in 2020 is the model projected value). Note that PSC limits apply to previous-year ESB.", label = "tab:LBA-out", align = "lccc")
-print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,nrow(tab)))
+# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/table8_female_spawningB.csv'))
+# 
+# #names(df) <- c("Year", "Mature Female Abundance", "Effective Spawning Biomass")
+# addtorow <- list()
+# addtorow$pos <- list(0, 0)
+# addtorow$command <- c("& \\multicolumn{1}{c}{Mature Female} & \\multicolumn{1}{c}{Effective Spawning} \\\\\n", 
+#                       "Year & Abundance & Biomass (1000t) \\\\\n")
+# tab       <- xtable(df, caption = "Area-swept estimates of mature female abundance (million crab >89mm) and model estimates of effective spawning biomass (ESB, LBA model from Zheng et al. 1995b; 1000 t) during 2011-2023 for groundfish fisheries bycatch (prohibited species catch, PSC) calculation. (*mature female abundance in 2020 is the model projected value). Note that PSC limits apply to previous-year ESB.", label = "tab:LBA-out", align = "lccc")
+# print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,nrow(tab)))
 ```
 \pagebreak 
 \newpage\clearpage
 
 ```{r likelihood-components, results = "asis"}
-df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/likelihood_edited23.csv')) # table 5a in Jie_cmn_files.R edited csv in excel prior to import, see differences between this and the 'likelihood.csv' file
-#df %>% select(-m22) -> df
-names(df) <- c("Component", "base m21.1b", "m23.0a", "m22.0") #, "M0.21" ,"M0.26", "Notimeblock")
-tab <- xtable(df, caption = "Comparisons of negative log-likelihood values and some parameters for all model scenarios.", label = "tab:likelihood-components")
-print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,27,nrow(tab)))
+# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/likelihood_edited23.csv')) # table 5a in Jie_cmn_files.R edited csv in excel prior to import, see differences between this and the 'likelihood.csv' file
+# #df %>% select(-m22) -> df
+# names(df) <- c("Component", "base m21.1b", "m23.0a", "m22.0") #, "M0.21" ,"M0.26", "Notimeblock")
+# tab <- xtable(df, caption = "Comparisons of negative log-likelihood values and some parameters for all model scenarios.", label = "tab:likelihood-components")
+# print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,27,nrow(tab)))
 ```
 
 \newpage
 
 ```{r parm-std211b, results = "asis"}
-df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/gmacs-para_model211b_ed23.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated AND to adjust names and formatting
-# get ride of everything afer "log-add-cv"
-# no underscores need dashes
-#df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
-names(df) <- c("Index", "Name", "Value", "StdDev", "index", "name", "value", "stddev" ) #, "M0.21" ,"M0.26", "Notimeblock")
-tab <- xtable(df, caption = "Summary of estimated model parameter values and standard deviations for model 21.1b for Bristol Bay red king crab.", label = "tab:parm-std211b", digits = c(0, 0,0,4,4,0,0,4,4))
-print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, 46, 96, 147,nrow(tab)))
+# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/gmacs-para_model211b_ed23.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated AND to adjust names and formatting
+# # get ride of everything afer "log-add-cv"
+# # no underscores need dashes
+# #df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
+# names(df) <- c("Index", "Name", "Value", "StdDev", "index", "name", "value", "stddev" ) #, "M0.21" ,"M0.26", "Notimeblock")
+# tab <- xtable(df, caption = "Summary of estimated model parameter values and standard deviations for model 21.1b for Bristol Bay red king crab.", label = "tab:parm-std211b", digits = c(0, 0,0,4,4,0,0,4,4))
+# print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, 46, 96, 147,nrow(tab)))
 ```
 
 \pagebreak 
 \newpage\clearpage
 ```{r parm-std230a, results = "asis"}
-df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/gmacs-para_model23a_ed23.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
-#df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
-names(df) <- c("Index", "Name", "Value", "StdDev", "index", "name", "value", "stddev" ) #, "M0.21" ,"M0.26", "Notimeblock")
-tab <- xtable(df, caption = "Summary of estimated model parameter values and standard deviations for model 23.0a for Bristol Bay red king crab.", label = "tab:parm-std230a", digits = c(0, 0,0,4,4,0,0,4,4))
-print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, 46, 96, 147,nrow(tab)))
+# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/gmacs-para_model23a_ed23.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
+# #df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
+# names(df) <- c("Index", "Name", "Value", "StdDev", "index", "name", "value", "stddev" ) #, "M0.21" ,"M0.26", "Notimeblock")
+# tab <- xtable(df, caption = "Summary of estimated model parameter values and standard deviations for model 23.0a for Bristol Bay red king crab.", label = "tab:parm-std230a", digits = c(0, 0,0,4,4,0,0,4,4))
+# print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, 46, 96, 147,nrow(tab)))
 ```
 
 \pagebreak 
 \newpage\clearpage
 
 ```{r parm-std22, results = "asis"}
-df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/gmacs-para_model22_ed23.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
-#df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
-names(df) <- c("Index", "Name", "Value", "StdDev", "index", "name", "value", "stddev" ) #, "M0.21" ,"M0.26", "Notimeblock")
-tab <- xtable(df, caption = "Summary of estimated model parameter values and standard deviations for model 22.0 for Bristol Bay red king crab.", label = "tab:parm-std22", digits = c(0, 0,0,4,4,0,0,4,4))
-print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, 46, 96, 146,nrow(tab)))
+# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/gmacs-para_model22_ed23.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
+# #df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
+# names(df) <- c("Index", "Name", "Value", "StdDev", "index", "name", "value", "stddev" ) #, "M0.21" ,"M0.26", "Notimeblock")
+# tab <- xtable(df, caption = "Summary of estimated model parameter values and standard deviations for model 22.0 for Bristol Bay red king crab.", label = "tab:parm-std22", digits = c(0, 0,0,4,4,0,0,4,4))
+# print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, 46, 96, 146,nrow(tab)))
 ```
 
 \pagebreak 
 \newpage\clearpage
 ```{r est-m211b, results = "asis"}
-df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/gmacs-sum_model211b_ed23.csv')) # 
-# table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated 
-names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) 
-addtorow <- list()
-addtorow$pos <- list(0, 0, 0)
-addtorow$command <- c(paste("& \\multicolumn{4}{c}{Males} & Females & Total & \\multicolumn{2}{c}{Total Survey Biomass } \\\\\n" , "\\cmidrule(l){2-5}                   \\cmidrule(l){8-9}\n"), 
-                      "Year & Mature & Legal  & MMB & sd & Mature & Recruits & Model Est & Area-Swept \\\\\n", 
-                      "& >119mm & >134mm & >119mm & MMB & >89mm & & >64mm & >64mm \\\\\n")
-tab <- xtable(df, caption = "Annual abundance estimates (mature males, legal males, and mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 21.1b during 1975-2022. MMB for year t (2023) is on Feb. 15, year t+1 (Feb. 15th, 2024).", label = "tab:est-m211b", digits = c(0,0,3,3,3,3,3,3,3,3))
-print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
-      tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
+# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/gmacs-sum_model211b_ed23.csv')) # 
+# # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated 
+# names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) 
+# addtorow <- list()
+# addtorow$pos <- list(0, 0, 0)
+# addtorow$command <- c(paste("& \\multicolumn{4}{c}{Males} & Females & Total & \\multicolumn{2}{c}{Total Survey Biomass } \\\\\n" , "\\cmidrule(l){2-5}                   \\cmidrule(l){8-9}\n"), 
+#                       "Year & Mature & Legal  & MMB & sd & Mature & Recruits & Model Est & Area-Swept \\\\\n", 
+#                       "& >119mm & >134mm & >119mm & MMB & >89mm & & >64mm & >64mm \\\\\n")
+# tab <- xtable(df, caption = "Annual abundance estimates (mature males, legal males, and mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 21.1b during 1975-2022. MMB for year t (2023) is on Feb. 15, year t+1 (Feb. 15th, 2024).", label = "tab:est-m211b", digits = c(0,0,3,3,3,3,3,3,3,3))
+# print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
+#       tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
 ```
 
 \pagebreak 
 \newpage\clearpage
 ```{r est-m230a, results = "asis"}
-df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/gmacs-sum_model_23_0a_ed23.csv')) # 
-# table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated 
-names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) 
-addtorow <- list()
-addtorow$pos <- list(0, 0, 0)
-addtorow$command <- c(paste("& \\multicolumn{4}{c}{Males} & Females & Total & \\multicolumn{2}{c}{Total Survey Biomass } \\\\\n" , "\\cmidrule(l){2-5}                   \\cmidrule(l){8-9}\n"), 
-                      "Year & Mature & Legal  & MMB & sd & Mature & Recruits & Model Est & Area-Swept \\\\\n", 
-                      "& >119mm & >134mm & >119mm & MMB & >89mm & & >64mm & >64mm \\\\\n")
-tab <- xtable(df, caption = "Annual abundance estimates (mature males, legal males, and mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 23.0a during 1975-2022. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m230a", digits = c(0,0,3,3,3,3,3,3,3,3))
-print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
-      tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
+# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/gmacs-sum_model_23_0a_ed23.csv')) # 
+# # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated 
+# names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) 
+# addtorow <- list()
+# addtorow$pos <- list(0, 0, 0)
+# addtorow$command <- c(paste("& \\multicolumn{4}{c}{Males} & Females & Total & \\multicolumn{2}{c}{Total Survey Biomass } \\\\\n" , "\\cmidrule(l){2-5}                   \\cmidrule(l){8-9}\n"), 
+#                       "Year & Mature & Legal  & MMB & sd & Mature & Recruits & Model Est & Area-Swept \\\\\n", 
+#                       "& >119mm & >134mm & >119mm & MMB & >89mm & & >64mm & >64mm \\\\\n")
+# tab <- xtable(df, caption = "Annual abundance estimates (mature males, legal males, and mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 23.0a during 1975-2022. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m230a", digits = c(0,0,3,3,3,3,3,3,3,3))
+# print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
+#       tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
 ```
 
 \pagebreak 
 \newpage\clearpage
 ```{r est-m22, results = "asis"}
-df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/gmacs-sum_model22_ed23.csv')) # 
-# table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated 
-names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) 
-addtorow <- list()
-addtorow$pos <- list(0, 0, 0)
-addtorow$command <- c(paste("& \\multicolumn{4}{c}{Males} & Females & Total & \\multicolumn{2}{c}{Total Survey Biomass } \\\\\n" , "\\cmidrule(l){2-5}                   \\cmidrule(l){8-9}\n"), 
-                      "Year & Mature & Legal  & MMB & sd & Mature & Recruits & Model Est & Area-Swept \\\\\n", 
-                      "& >119mm & >134mm & >119mm & MMB & >89mm & & >64mm & >64mm \\\\\n")
-tab <- xtable(df, caption = "Annual abundance estimates (mature males, legal males, and mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 22.0 during 1975-2022. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m22", digits = c(0,0,3,3,3,3,3,3,3,3))
-print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
-      tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
+# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/gmacs-sum_model22_ed23.csv')) # 
+# # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated 
+# names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) 
+# addtorow <- list()
+# addtorow$pos <- list(0, 0, 0)
+# addtorow$command <- c(paste("& \\multicolumn{4}{c}{Males} & Females & Total & \\multicolumn{2}{c}{Total Survey Biomass } \\\\\n" , "\\cmidrule(l){2-5}                   \\cmidrule(l){8-9}\n"), 
+#                       "Year & Mature & Legal  & MMB & sd & Mature & Recruits & Model Est & Area-Swept \\\\\n", 
+#                       "& >119mm & >134mm & >119mm & MMB & >89mm & & >64mm & >64mm \\\\\n")
+# tab <- xtable(df, caption = "Annual abundance estimates (mature males, legal males, and mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 22.0 during 1975-2022. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m22", digits = c(0,0,3,3,3,3,3,3,3,3))
+# print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
+#       tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
 ```
 
 \newpage
@@ -1195,11 +1190,11 @@ knitr::include_graphics("figures/m23.0a_data_range.png", dpi = 125)
 ```
 
 ```{r catch, fig.cap = "Retained catch biomass and bycatch mortality biomass (t) for Bristol Bay red king crab from 1953 to 2022. Directed pot bycatch data were not available from the observer program before 1990 and are not included in this figure."}
-knitr::include_graphics("figures/catch.png", dpi = 200)
+#knitr::include_graphics("figures/catch.png", dpi = 200)
 ```
 
 ```{r cpue-catch, out.width = "75%", fig.cap = "Comparison of survey legal male abundances and catches per unit effort for Bristol Bay red king crab from 1968 to 2023."}
-knitr::include_graphics("figures/cpue_catch.png", dpi = 150)
+#knitr::include_graphics("figures/cpue_catch.png", dpi = 150)
 ```
 
 ```{r male-comps, fig.cap = "Survey abundances by 5-mm carapace length bin for male Bristol Bay red king crab from 1975 to 2023."}
@@ -1244,7 +1239,7 @@ knitr::include_graphics("figures/nmfs_trawl_slx_capture.png", dpi = 200)
 ```
 
 ```{r molt, fig.cap = "Comparison of estimated probabilities of molting of male red king crab in Bristol Bay for different periods with model 21.1b. Molting probabilities for periods 1954-1961 and 1966-1969 were estimated by Balsiger (1974) from tagging data. Molting probabilities for 1975-1979 and 1980-2024 were estimated with a length-based model."}
-knitr::include_graphics("figures/molt_tagging_males_base.png", dpi = 200)
+#knitr::include_graphics("figures/molt_tagging_males_base.png", dpi = 200)
 ```
 
 ```{r molt2, fig.cap = "Comparison of estimated probabilities of molting of male red king crab in Bristol Bay with models 21.1b, 22.0, and 23.0a. Molting probability for 1975-1979, 1980-2023, and 1985-2023 were estimated with a length-based model."}
@@ -1344,19 +1339,19 @@ knitr::include_graphics("figures/catch_fit.png", dpi = 200)
 ```
 
 ```{r sc-pot, out.width="100%", fig.cap = "Observed and model estimated total observer length-frequencies of male BBRKC by year in the directed pot fishery for all model scenarios."}
-knitr::include_graphics("figures/lf_pot_total_M.png", dpi = 450)
+#knitr::include_graphics("figures/lf_pot_total_M.png", dpi = 450)
 ```
 
 ```{r sc-potR, out.width="100%", fig.cap = "Observed and model estimated retained length-frequencies of male BBRKC by year in the directed pot fishery for all model scenarios."}
-knitr::include_graphics("figures/lf_1_retained_pot.png", dpi = 450)
+#knitr::include_graphics("figures/lf_1_retained_pot.png", dpi = 450)
 ```
 
 ```{r sc-potF, out.width="100%", fig.cap = "Observed and model estimated total observer length-frequencies of discarded female BBRKC by year in the directed pot fishery for all model scenarios."}
-knitr::include_graphics("figures/lf_pot_Females.png", dpi = 450)
+#knitr::include_graphics("figures/lf_pot_Females.png", dpi = 450)
 ```
 
 ```{r sc-trawl1, out.width="100%", fig.cap = "Comparison of area-swept and model estimated NMFS survey length frequencies of Bristol Bay male (1) and female (2) red king crab by year for all model scenarios."}
-knitr::include_graphics("figures/comp_fit_nmfs_trawl_male_total.png", dpi = 450)
+#knitr::include_graphics("figures/comp_fit_nmfs_trawl_male_total.png", dpi = 450)
 ```
 
 ```{r sc-trawl1F, out.width="100%", fig.cap = "Comparison of area-swept and model estimated NMFS survey length frequencies of Bristol Bay FEMALE red king crab by year for all model scenarios."}
@@ -1365,116 +1360,116 @@ knitr::include_graphics("figures/comp_fit_nmfs_trawl_male_total.png", dpi = 450)
 
 
 ```{r sc-trawlbyM, out.width="100%", fig.cap = "Comparison of observer and model estimated discarded length frequencies of Bristol Bay male red king crab by year in the groundfish trawl fisheries for all model scenarios."}
-knitr::include_graphics("figures/lf_trawl_bycatch_m.png", dpi = 450)
+#knitr::include_graphics("figures/lf_trawl_bycatch_m.png", dpi = 450)
 ```
 
 ```{r sc-trawlbyF, out.width="100%", fig.cap = "Comparison of observer and model estimated discarded length frequencies of Bristol Bay female red king crab by year in the groundfish trawl fisheries for all model scenarios."}
-knitr::include_graphics("figures/lf_trawl_bycatch_f.png", dpi = 450)
+#knitr::include_graphics("figures/lf_trawl_bycatch_f.png", dpi = 450)
 ```
 
 ```{r sc-fixedbyM, out.width="100%", fig.cap = "Comparison of observer and model estimated discarded length frequencies of Bristol Bay male red king crab by year in the groundfish fixed gear fisheries for all model scenarios."}
-knitr::include_graphics("figures/lf_fixed_bycatch_m.png", dpi = 450)
+#knitr::include_graphics("figures/lf_fixed_bycatch_m.png", dpi = 450)
 ```
 
 ```{r sc-fixedbyF, out.width="100%", fig.cap = "Comparison of observer and model estimated discarded length frequencies of Bristol Bay female red king crab by year in the groundfish fixed gear fisheries for all model scenarios."}
-knitr::include_graphics("figures/lf_fixed_bycatch_f.png", dpi = 450)
+#knitr::include_graphics("figures/lf_fixed_bycatch_f.png", dpi = 450)
 ```
 
 ```{r sc-tannerM, out.width="100%", fig.cap = "Comparison of observer and model estimated discarded length frequencies of Bristol Bay male red king crab by year in the groundfish fixed gear fisheries for all model scenarios."}
-knitr::include_graphics("figures/lf_tanner_males.png", dpi = 450)
+#knitr::include_graphics("figures/lf_tanner_males.png", dpi = 450)
 ```
 
 ```{r sc-tannerF, out.width="100%", fig.cap = "Comparison of observer and model estimated discarded length frequencies of Bristol Bay female red king crab by year in the groundfish fixed gear fisheries for all model scenarios."}
-knitr::include_graphics("figures/lf_tanner_females.png", dpi = 450)
+#knitr::include_graphics("figures/lf_tanner_females.png", dpi = 450)
 ```
 
 ```{r sc-res-ref-M, out.width="100%", fig.cap = "Residuals of proportions of NMFS survey male red king crab by year and carapace length (mm) under model 21.1b. Green circles are positive residuals, and red circles are negative residuals."}
-knitr::include_graphics("figures/length_resid_211b_males.png", dpi = 100)
+#knitr::include_graphics("figures/length_resid_211b_males.png", dpi = 100)
 ```
 
 \newpage 
 
 ```{r sc-res-M3, out.width="100%", fig.cap = "Residuals of proportions of NMFS survey male red king crab by year and carapace length (mm) under model 22.0. Green circles are positive residuals, and red circles are negative residuals."}
-knitr::include_graphics("figures/length_resid_22_males.png", dpi = 100)
+#knitr::include_graphics("figures/length_resid_22_males.png", dpi = 100)
 ```
 
 \newpage 
 
 ```{r sc-res-M4, out.width="100%", fig.cap = "Residuals of proportions of NMFS survey male red king crab by year and carapace length (mm) under model 23.0a. Green circles are positive residuals, and red circles are negative residuals."}
-knitr::include_graphics("figures/length_resid_23a_males.png", dpi = 100)
+#knitr::include_graphics("figures/length_resid_23a_males.png", dpi = 100)
 ```
 
 \newpage 
 ```{r sc-res-ref-F, out.width="100%", fig.cap = "Residuals of proportions of NMFS survey female red king crab by year and carapace length (mm) under model 21.1b. Green circles are positive residuals, and red circles are negative residuals."}
-knitr::include_graphics("figures/length_resid_211b_females.png", dpi = 100)
+#knitr::include_graphics("figures/length_resid_211b_females.png", dpi = 100)
 ```
 
 \newpage 
 
 ```{r sc-res-F3, out.width="100%", fig.cap = "Residuals of proportions of NMFS survey female red king crab by year and carapace length (mm) under model 22.0. Green circles are positive residuals, and red circles are negative residuals."}
-knitr::include_graphics("figures/length_resid_22_females.png", dpi = 100)
+#knitr::include_graphics("figures/length_resid_22_females.png", dpi = 100)
 ```
 
 \newpage 
 
 ```{r sc-res-F4, out.width="100%", fig.cap = "Residuals of proportions of NMFS survey male red king crab by year and carapace length (mm) under model 23.0a. Green circles are positive residuals, and red circles are negative residuals."}
-knitr::include_graphics("figures/length_resid_23a_females.png", dpi = 100)
+#knitr::include_graphics("figures/length_resid_23a_females.png", dpi = 100)
 ```
 
 ```{r retro211b, out.width="100%", fig.cap = "Comparison of hindcast estimates of mature male biomass on Feb. 15 of Bristol Bay red king crab with terminal years 2013-2023 using model 21.1b. These are results of the 2023 model. Legend shows the terminal year."}
-knitr::include_graphics("figures/ssb_retrospective_model211b.png", dpi = 200)
+#knitr::include_graphics("figures/ssb_retrospective_model211b.png", dpi = 200)
 ```
 
 \newpage 
 ```{r retro22, out.width="100%", fig.cap = "Comparison of hindcast estimates of mature male biomass on Feb. 15 of Bristol Bay red king crab with terminal years 2013-2023 using model 22.0. These are results of the 2023 model. Legend shows the terminal year."}
-knitr::include_graphics("figures/ssb_retrospective_model_22.png", dpi = 200)
+#knitr::include_graphics("figures/ssb_retrospective_model_22.png", dpi = 200)
 ```
 
 ```{r retro230a, out.width="100%", fig.cap = "Comparison of hindcast estimates of mature male biomass on Feb. 15 of Bristol Bay red king crab with terminal years 2013-2023 using model 23.0a. These are results of the 2023 model. Legend shows the terminal year."}
-knitr::include_graphics("figures/ssb_retrospective_model_23_0a.png", dpi = 200)
+#knitr::include_graphics("figures/ssb_retrospective_model_23_0a.png", dpi = 200)
 ```
 
 \newpage
 ```{r retroRec, out.width="100%", fig.cap = "Comparison of hindcast estimates of total recruitment for model 21.1b of Bristol Bay red king crab from 1976 to 2023 made with terminal years 2013-2023. These are results of the model 21.1b. Legend shows the terminal year."}
-knitr::include_graphics("figures/recruitment_retrospective_model211b.png", dpi = 200)
+#knitr::include_graphics("figures/recruitment_retrospective_model211b.png", dpi = 200)
 ```
 
 \newpage 
 ```{r retroRec2, out.width="100%", fig.cap = "Evaluation of Bristol Bay red king crab retrospective errors on recruitment estimates as a function of the number of years in the model for model 21.1b."}
-knitr::include_graphics("figures/ratio_to_terminal_yr_model211b.png", dpi = 200)
+#knitr::include_graphics("figures/ratio_to_terminal_yr_model211b.png", dpi = 200)
 ```
 
 ```{r retroRec3, out.width="100%", fig.cap = "Mean ratios of retrospective estimates of recruitments to those estimated in the most recent year (2023) and standard deviations (red line) of the ratios as a function of the number of years in the model for model 21.1b. "}
-knitr::include_graphics("figures/Recruitment_Mean_sd_ratio_model211b.png", dpi = 200)
+#knitr::include_graphics("figures/Recruitment_Mean_sd_ratio_model211b.png", dpi = 200)
 ```
 
 \newpage \clearpage
 \pagebreak
 ```{r hist-mmb, fig.cap = "Histogram of estimated mature male biomass on Feb. 15, 2024, under model 21.1b with the MCMC approach."}
-knitr::include_graphics("figures/proj_MMB_histogram_model_211b.png", dpi = 200)
+#knitr::include_graphics("figures/proj_MMB_histogram_model_211b.png", dpi = 200)
 ```
 
 ```{r hist-ofl, fig.cap = "Histogram of the 2023/24 estimated OFL under model 21.1b with the MCMC approach."}
-knitr::include_graphics("figures/proj_OFL_histogram_model_211b.png", dpi = 200)
+#knitr::include_graphics("figures/proj_OFL_histogram_model_211b.png", dpi = 200)
 ```
 
 ```{r cum-mmb, fig.cap = "Cumulative probabilities of estimated ratios of MMB on Feb. 15, 2024, to corresponding estimated B35 values under model 21.1b with the MCMC approach. Zero probability is below the estimated minimum thresholds."}
-knitr::include_graphics("figures/proj_CDF_MMB_model_211b.png", dpi = 200)
+#knitr::include_graphics("figures/proj_CDF_MMB_model_211b.png", dpi = 200)
 ```
 
 \newpage 
 ```{r proj-mmb, fig.cap = "Projected mature male biomass (MMB) on Feb. 15 with four fishing mortalities in the directed fishery: F = 0, F = 0.083, F = 0.167, and F = 0.25, during 2023-2033. Input parameter estimates are based on model 21.1b. Crab year “2023” represents Feb. 15, 2024. Shaded areas represent a 0.05 to 0.95 limits. "}
-knitr::include_graphics("figures/proj_ssb_model_211b.png", dpi = 200)
+#knitr::include_graphics("figures/proj_ssb_model_211b.png", dpi = 200)
 ```
 
 \newpage 
 ```{r cum-mmbyrs, fig.cap = "Cumulative probabilities of estimated ratios of MMB during 2023-2026, as represented by projected biomass on Feb.15th in year t+1, to corresponding estimated B35 values under model 21.1b with the MCMC approach and four fishing mortality values. Feb. 15, 2024 represents crab year “2023”."}
-knitr::include_graphics("figures/proj_CDF_MMB_by_year_model_211b.png", dpi = 200)
+#knitr::include_graphics("figures/proj_CDF_MMB_by_year_model_211b.png", dpi = 200)
 ```
 
 \newpage 
 ```{r proj-mmb2, fig.cap = "Projected mature male biomass on Feb. 15 with four fishing mortalities in the directed fishery: F = 0, F = 0.083, F = 0.167, and F = 0.25, during 2023-2033. Input parameter estimates are based on model 23.0a. Crab year “2023” represents Feb. 15, 2024. Shaded areas represent a 0.05 to 0.95 limits. "}
-knitr::include_graphics("figures/proj_ssb_model_230a.png", dpi = 200)
+#knitr::include_graphics("figures/proj_ssb_model_230a.png", dpi = 200)
 ```
 
 \newpage 
@@ -1487,17 +1482,17 @@ knitr::include_graphics("figures/size_bins_comp_Kodiak_f_5mm_LAST5.png", dpi = 2
 ```
 
 ```{r northBB1F, fig.cap = "Comparisons of NMFS survey area-swept estimates of total female crab <90 mm CL abundance in Bristol Bay area (BB) and north of Bristol Bay area (North) during 1985-2023. "}
-knitr::include_graphics("figures/FEMALES_figure_35a.png", dpi = 200)
+#knitr::include_graphics("figures/FEMALES_figure_35a.png", dpi = 200)
 ```
 
 ```{r northBB2F, fig.cap = "Comparisons of NMFS survey area-swept estimates of mature female crab abundance in Bristol Bay area (BB) and north of Bristol Bay area (North) during 1985-2023. "}
-knitr::include_graphics("figures/FEMALES_figure_35b.png", dpi = 200)
+#knitr::include_graphics("figures/FEMALES_figure_35b.png", dpi = 200)
 ```
 
 \newpage
 
 ```{r northBB1M, fig.cap = "Comparisons of NMFS survey area-swept estimates of mature and legal male abundances in Bristol Bay area (BB) and north of Bristol Bay area (North) during 1985-2023. NOTE the large scale differences between panels 1 and 2."}
-knitr::include_graphics("figures/figure_35_alternate.png", dpi = 200)
+#knitr::include_graphics("figures/figure_35_alternate.png", dpi = 200)
 ```
 
 
