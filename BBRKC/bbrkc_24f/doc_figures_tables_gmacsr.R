@@ -86,21 +86,53 @@ gmacs_get_slx(all_out = base_models) %>%
                                    fleet == "Pot_Fishery" ~ "1975 - 2022",
                                    fleet == "Trawl_Bycatch" ~ "1975 - 2022")) %>%
   gmacs_plot_slx(data_summary = ., save_plot = T, plot_dir = plot_save)
+
 # need retained and discarded for pot fishery --- **fix **
 
-# molt and tagging data plots ------
+# molt  plots ------
 gmacs_plot_molt_probability(all_out = base_models, save_plot = T, plot_dir = plot_save)
 
 #gmacs_plot_molt_probability(all_out = list(m211b_p7, m230a_p7, m24, m24b, m24c, m24d), save_plot = T, plot_dir = plot_save)
 
-# Molt and tagging plot **fix**--------
+# Molt and tagging plot --------
+# molt with tag data base
+mdf <- gmacs_get_molt_probability(all_out = base_models)
+#mdf <- .get_molt_prob_df(M[rec_mod])
 
+tag_molt <- read.csv(paste0(here::here(), '/BBRKC/data/tagging_data_molt_males.csv'))
+tag_molt %>% 
+  mutate(year = as.factor(year)) %>% 
+  mutate(model = block) -> tag_molt
+
+year_list <- c(1975, 2023)
+mdf %>% 
+  filter(sex == "male") %>% 
+  mutate(year = as.factor(year)) %>% 
+  filter(year %in% year_list) %>% 
+  select(-sex) %>% 
+  select(size, molt_probability, year, block, model)-> mdf_temp
+
+mdf_temp %>% 
+  rbind(tag_molt) -> molt_tag_data
+
+molt_tag_data %>% 
+  ggplot(aes(x = size, y = molt_probability)) + 
+  expand_limits(y = c(0, 1)) + 
+  labs(x = "Length(mm)", y = "Molting probabilities (males)") +
+  geom_line(aes(linetype = model, col = year)) +
+  geom_point(aes(linetype = model, col = year)) + .THEME +
+  #scale_color_discrete(name = "Year Range", labels = c("1975-1979", "1980-2023", "1954-1961", "1966-1969"))+
+  scale_color_manual(values = c("#999999", "#E69F00", "#56B4E9", "#009E73"), 
+                     name = "Year Range", labels = c("1975-1979", "1980-2023", "1954-1961", "1966-1969"))-> p
+# add in year range as labels. 
+print(p)
+ggsave(paste0(.FIGS, "molt_tagging_males_base.png"), width = 6*1.15, height = 1.25*5)
 
 # plot indices ------------
 #gmacs_plot_index(all_out = list(m211b, m211b_p7, m230a, m230a_p7), plot_dir = plot_save)
 ## ************!!!!!!!!!!!!!!! load one from "working doc_tables.R" here
 gmacs_plot_index(all_out = base_models, plot_dir = plot_save)
-gmacs_plot_index(all_out = comp_models, plot_dir = plot_save_newD)
+gmacs_plot_index(all_out = newD_models, plot_dir = plot_save_newD)
 
 
 temp <- gmacs_get_index_summary(all_out = list(m230a_p7, m230a_24, m24c))
@@ -148,6 +180,8 @@ gmacs_plot_m(all_out = base_models, save_plot = T, plot_dir = plot_save)
 
 # catch ----------------
 gmacs_plot_catch(all_out = base_models, save_plot = T, plot_dir = plot_save)
+gmacs_plot_catch_kjp(all_out = base_models, save_plot = T, plot_dir = plot_save) 
+# load from "bbrkc_functions_gmacsr.R"
 #gmacs_plot_catch(all_out = molt_models, save_plot = T, plot_dir = plot_save_molt)
 ## ** fix ** so that all directed catch is on the same scale and showing the entire time series - like old plot.
 
