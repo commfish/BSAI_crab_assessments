@@ -371,7 +371,8 @@ write.csv(like_all_out, paste0(.TABS, "likelihood.csv"), row.names = FALSE)
 # stop here
 
 # parameter tables -------------
-base_m230a_parm <- gmacs_get_pars(all_out = list(m230a_p7))
+# model 23.0a for 2024 
+base_m230a_parm <- gmacs_get_pars(all_out = list(m230a_24))
 base_m230a_parm %>% 
   filter(standard_error != "NA") %>% # get only estimated parameters not the fixed ones
   select(model, parameter_count, parameter, estimate, standard_error) -> parm1
@@ -380,18 +381,8 @@ write.csv(parm1, paste0(.TABS, "para_model_23_0a.csv")) # use row names as index
 # IMPORTANT - need to edit in excel right now to remove "_" - can't have "_" in names...
 # 
 
-# 21.1b.p7
-base_211b_parm <- gmacs_get_pars(all_out = list(m211b_p7))
-base_211b_parm %>% 
-  filter(standard_error != "NA") %>% # get only estimated parameters not the fixed ones
-  select(model, parameter_count, parameter, estimate, standard_error) -> parm1
-
-write.csv(parm1, paste0(.TABS, "para_model_21_1b_p7.csv")) # use row names as index - don't need parameter count
-# IMPORTANT - need to edit in excel right now to remove "_" - can't have "_" in names...
-# 
-
 # model 24.0
-base_24_parm <- gmacs_get_pars(all_out = list(m24))
+base_24_parm <- gmacs_get_pars(all_out = list(m24c))
 base_24_parm %>% 
   filter(standard_error != "NA") %>% # get only estimated parameters not the fixed ones
   select(model, parameter_count, parameter, estimate, standard_error) -> parm1
@@ -423,20 +414,11 @@ write.csv(parm1, paste0(.TABS, "para_model_24c.csv")) # use row names as index -
 # Jie's old code 
 source("./BBRKC/code/bbrkc_functions.R")
 # model 21.1b.p7
-model <- "m211b_p7"
-W <- m211b_p7 ### CHANGE HERE
-Y <- m211b_p7_std ### change here 
-A <- read_rep("./BBRKC/bbrkc_24s/ADJ_model_211b_ph7/gmacs.rep")
 
-model <- "m230a_p7"
-W <- m230a_p7 ### CHANGE HERE
-Y <- m230a_p7_std ### change here 
-A <- read_rep("./BBRKC/bbrkc_24s/ADJ_model_23_0a_ph7/gmacs.rep")
-
-model <- "m24"
-W <- m24 ### CHANGE HERE
-Y <- m24_std ### change here 
-A <- read_rep("./BBRKC/bbrkc_24s/ADJ_model_24_0/gmacs.rep")
+model <- "m230a_24"
+W <- m230a_24 ### CHANGE HERE
+Y <- m230a_24_std ### change here 
+A <- read_rep("./BBRKC/bbrkc_24f/model_23_0a_ph7_24/gmacs.rep")
 
 model <- "m24c"
 W <- m24c ### CHANGE HERE
@@ -462,6 +444,15 @@ temp2 %>%
          MMB = ssb/1000, # mmb
          sd_mmb = MMB*(exp(sd_log_ssb^2)-1)^0.5) %>% # sd mmb
   select(year, MMB, sd_mmb) -> derived_m
+# need to add projection here
+Y %>% filter(par == "sd_last_ssb") %>% 
+  mutate(MMB = est/1000, 
+         sd_mmb = se/1000) %>%
+  mutate(year = 2024) %>% 
+  select(year, MMB, sd_mmb) -> ref_prj
+
+derived_m %>% 
+  merge(ref_prj, all = T) -> derived_m
 # recruits needs to be moved down one year 
 temp2 %>% 
   select(year, recruit_male, recruit_female) %>% 
@@ -483,34 +474,10 @@ temp3 %>%
 survey_est %>% #[1:47, ] %>% 
   merge(derived_m, all = T) %>% 
   merge(fmales1, all = T) %>% 
-  merge(recruits, all = T) %>% 
-  filter(year <= 2022) -> abun_tab2
-# doesn't have 2023 values for anything but the survey 
-mat_fem1 <- as.data.frame(A$N_females[ , 6:16]) # need only mature females 
-mat_fem1 %>% 
-  rowwise() %>% 
-  mutate(mat_fem = sum(V6+V7+V8+V9+V10+V11+V12+V13+V14+V15+V16)/1000000) -> mat_fem2
-# values match so really just need 2023 value saved here 
-#mat_fem2[49,12] # 2023 projected mature females
-mat_mal <- as.data.frame(A$N_males[ , 12:20]) # need only mature males 
-mat_mal %>% 
-  rowwise() %>% 
-  mutate(mat_males = sum(V12+V13+V14+V15+V16+V17+V18+V19+V20)/1000000, 
-         leg_males = sum(V15+V16+V17+V18+V19+V20)/1000000) -> mat_mal2
-# values match so really just need 2023 value saved here 
-#mat_mal2[49,10:11] # 2023 projected mature females
-#mmb_proj = W$bmsy * W$b_bmsy
-Y %>% filter(par == "sd_last_ssb") %>% 
-  mutate(MMB = est/1000, 
-         sd_mmb = se/1000) %>% 
-  select(MMB, sd_mmb) -> ref_prj
-
-# 2023 vector 
-vec1 <- cbind(year = 2023, survey_est[48, 2:3] , ref_prj, mat_mal2[49,10:11], 
-              mat_fem2[49,12], recruits[48,2])
+  merge(recruits, all = T) -> abun_tab2
 
 abun_tab2 %>% 
-  merge(vec1, all = T) %>% 
+  #merge(vec1, all = T, by = year) %>% 
   select(year, mat_males, leg_males, MMB, sd_mmb, mat_fem, recruits, total_pred, total_obs) -> abun_tab3
 
 write.csv(abun_tab3, paste0(.TABS, "_", model, "gmacs_sum_abun.csv"), row.names = FALSE)
