@@ -986,58 +986,58 @@ Zheng, J., M.C. Murphy, and G.H. Kruse. 1997b. Alternative rebuilding strategies
 # Tables {-}
 
 ```{r totalcatch, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/catch_all.csv')) # created from table 1a 22f
-# #df %>% select(-m22) -> df
-# names(df) <- c("Year", "US", "Cost Recovery", "Foreign", "Total", "Females", "Trawl Bycatch", "Fixed Bycatch", "Tanner Bycatch") 
-# addtorow <- list()
-# addtorow$pos <- list(0, 0)
-# addtorow$command <- c("& \\multicolumn{4}{c}{Retained} & \\multicolumn{4}{c}{Bycatch}\\\\\n", 
-#                       "Year & US & Cost Recovery & Foreign & Total & Females & Trawl & Fixed & Tanner \\\\\n")
-# tab <- xtable(df, caption = "Bristol Bay red king crab annual catch and bycatch mortality biomass (t) from July 1 to June 30. A handling mortality rate of 0.20 for the directed pot, 0.25 for the Tanner fishery, 0.80 for trawl, and 0.50 for fixed gear was assumed to estimate bycatch mortality biomass. The male bycatch biomass in the directed pot fishery is not estimated outside of a model and not included in this Table.  Pot bycatch and Tanner crab fishery bycatch are estimated through expanding the mean observer bycatch per pot to total fishery pot. The pot male bycatch after 2017 is estimated through the subtraction method (B. Daly, ADFG, pers. com.). The trawl and fixed gear fishery bycatches are obtained from the NMFS database. The directed pot bycatch before 1990 and Tanner crab fishery bycatch before 1991 are not available from the observer data and thus not included in this table. These include recently updated estimates from the pot fisheries observer data in 2022.", label = "tab:totalcatch")
-# print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
-#       tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, 39, nrow(tab)))
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/catch_all.csv')) # created from table 1a 22f; updated from Jie's excel workbook
+#df %>% select(-m22) -> df
+names(df) <- c("Year", "US", "Cost Recovery", "Foreign", "Total", "Females", "Trawl Bycatch", "Fixed Bycatch", "Tanner Bycatch")
+addtorow <- list()
+addtorow$pos <- list(0, 0)
+addtorow$command <- c("& \\multicolumn{4}{c}{Retained} & \\multicolumn{4}{c}{Bycatch}\\\\\n",
+                      "Year & US & Cost Recovery & Foreign & Total & Females & Trawl & Fixed & Tanner \\\\\n")
+tab <- xtable(df, caption = "Bristol Bay red king crab annual catch and bycatch mortality biomass (t) from July 1 to June 30. A handling mortality rate of 0.20 for the directed pot, 0.25 for the Tanner fishery, 0.80 for trawl, and 0.50 for fixed gear was assumed to estimate bycatch mortality biomass. The male bycatch biomass in the directed pot fishery is not estimated outside of a model and not included in this Table.  Pot bycatch and Tanner crab fishery bycatch are estimated through expanding the mean observer bycatch per pot to total fishery pot. The pot male bycatch after 2017 is estimated through the subtraction method (B. Daly, ADFG, pers. com.). The trawl and fixed gear fishery bycatches are obtained from the NMFS database. The directed pot bycatch before 1990 and Tanner crab fishery bycatch before 1991 are not available from the observer data and thus not included in this table. These include recently updated estimates from the pot fisheries observer data in 2022.", label = "tab:totalcatch")
+print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
+      tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, 39, nrow(tab)))
 ```
 
 \newpage
 ```{r retainedcatch, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/retained_catch.csv')) # created from table 1a 22f
-# # update to this data from ???
-# #names(df) <- c("Year", "US", "Cost Recovery", "Foreign", "Total", "Females", "Trawl Bycatch", "Fixed Bycatch", "Tanner Bycatch") 
-# addtorow <- list()
-# addtorow$pos <- list(0, 0)
-# addtorow$command <- c("& \\multicolumn{2}{c}{Japanese Tanglenet} & \\multicolumn{2}{c}{Russian Tanglenet} & \\multicolumn{2}{c}{US Pot} & Standardized \\\\\n", 
-#                       "Year & Catch & CPUE & Catch & CPUE & Catch & CPUE & CPUE \\\\\n")
-# tab <- xtable(df, caption = "Annual retained catch (millions of crab) and catch per unit effort (CPUE) of the Bristol Bay red king crab fishery.", label = "tab:retainedcatch")
-# print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
-#       tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/retained_catch.csv')) # created from table 1a 22f
+# update to this data from ???
+#names(df) <- c("Year", "US", "Cost Recovery", "Foreign", "Total", "Females", "Trawl Bycatch", "Fixed Bycatch", "Tanner Bycatch")
+addtorow <- list()
+addtorow$pos <- list(0, 0)
+addtorow$command <- c("& \\multicolumn{2}{c}{Japanese Tanglenet} & \\multicolumn{2}{c}{Russian Tanglenet} & \\multicolumn{2}{c}{US Pot} & Standardized \\\\\n",
+                      "Year & Catch & CPUE & Catch & CPUE & Catch & CPUE & CPUE \\\\\n")
+tab <- xtable(df, caption = "Annual retained catch (millions of crab) and catch per unit effort (CPUE) of the Bristol Bay red king crab fishery.", label = "tab:retainedcatch")
+print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
+      tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
 ```
 
 \newpage
 ```{r observercatch, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/obs_catch.csv')) # created from table 1a 22f
-# # update to this data from 'total bycatch-21' tab in "RKC_SAFE23_kjp.xlsx" updated from summaries of observer and AKFIN data
-# #names(df) <- c("Year", "US", "Cost Recovery", "Foreign", "Total", "Females", "Trawl Bycatch", "Fixed Bycatch", "Tanner Bycatch") 
-# addtorow <- list()
-# addtorow$pos <- list(0, 0)
-# addtorow$command <- c("& \\multicolumn{2}{c}{Directed Pot Total} & \\multicolumn{3}{c}{Bycatch Fisheries} \\\\\n", 
-#                       "Year & Males & Females & Trawl & Fixed & Tanner \\\\\n")
-# tab <- xtable(df, caption = "Total observer catch and bycatch (metric ton) of Bristol Bay red king crab. No handling mortality rates are applied. These include recently updated estimates from the pot fishery observer data in 2022. Directed pot fishery data are the result of the cost-recovery fishery since the directed fishery was closed for the 2021/22 and 2022/23 seasons", label = "tab:obscatch")
-# print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
-#       tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/obs_catch.csv')) # created from table 1a 22f; Jie excel sheet - total-bycatch-21
+# update to this data from 'total bycatch-21' tab in "RKC_SAFE23_kjp.xlsx" updated from summaries of observer and AKFIN data
+#names(df) <- c("Year", "US", "Cost Recovery", "Foreign", "Total", "Females", "Trawl Bycatch", "Fixed Bycatch", "Tanner Bycatch")
+addtorow <- list()
+addtorow$pos <- list(0, 0)
+addtorow$command <- c("& \\multicolumn{2}{c}{Directed Pot Total} & \\multicolumn{3}{c}{Bycatch Fisheries} \\\\\n",
+                      "Year & Males & Females & Trawl & Fixed & Tanner \\\\\n")
+tab <- xtable(df, caption = "Total observer catch and bycatch (metric ton) of Bristol Bay red king crab. No handling mortality rates are applied. These include recently updated estimates from the pot fishery observer data in 2022. Directed pot fishery data are the result of the cost-recovery fishery when the directed fishery was closed for the 2021/22 and 2022/23 seasons", label = "tab:obscatch")
+print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
+      tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
 ```
 
 \newpage
 ```{r samplesize, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/sample_size.csv')) # created from table 1a 22f
-# # update to this data from 'total bycatch-21' tab in "RKC_SAFE23_kjp.xlsx" updated from summaries of observer and AKFIN data
-# #names(df) <- c("Year", "US", "Cost Recovery", "Foreign", "Total", "Females", "Trawl Bycatch", "Fixed Bycatch", "Tanner Bycatch") 
-# addtorow <- list()
-# addtorow$pos <- list(0, 0)
-# addtorow$command <- c("& \\multicolumn{2}{c}{Trawl Survey} & Retained & \\multicolumn{2}{c}{Pot Total} & \\multicolumn{3}{c}{Bycatch Combined} \\\\\n", 
-#                       "Year & Males & Females & Catch & Males & Females & Trawl & Fixed & Tanner \\\\\n")
-# tab <- xtable(df, caption = "Annual sample sizes (>64 mm CL) in numbers of crab for trawl surveys, retained catch, directed pot, Tanner crab, trawl, and fixed gear fishery bycatches of Bristol Bay red king crab.", label = "tab:samplesize")
-# print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
-#       tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/sample_size.csv')) # created from table 1a 22f
+# update to this data from 'total bycatch-21' tab in "RKC_SAFE23_kjp.xlsx" updated from summaries of observer and AKFIN data
+#names(df) <- c("Year", "US", "Cost Recovery", "Foreign", "Total", "Females", "Trawl Bycatch", "Fixed Bycatch", "Tanner Bycatch")
+addtorow <- list()
+addtorow$pos <- list(0, 0)
+addtorow$command <- c("& \\multicolumn{2}{c}{Trawl Survey} & Retained & \\multicolumn{2}{c}{Pot Total} & \\multicolumn{3}{c}{Bycatch Combined} \\\\\n",
+                      "Year & Males & Females & Catch & Males & Females & Trawl & Fixed & Tanner \\\\\n")
+tab <- xtable(df, caption = "Annual sample sizes (>64 mm CL) in numbers of crab for trawl surveys, retained catch, directed pot, Tanner crab, trawl, and fixed gear fishery bycatches of Bristol Bay red king crab.", label = "tab:samplesize")
+print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
+      tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
 ```
 
 \newpage
@@ -1052,126 +1052,104 @@ Zheng, J., M.C. Murphy, and G.H. Kruse. 1997b. Alternative rebuilding strategies
     
     
 ```{r Natmort, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/M_out.csv'))
-# #Mname2 <- c("Ref") #, "M0.21" ,"M0.26", "Notimeblock")
-# names(df) <- c("Model", "Sex", "baseM", "1980-84", "1985-22")
-# tab       <- xtable(df, caption = "Natural mortality estimates for model scenarios during different year blocks.", label = "tab:Natmort")
-# print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,2,4,nrow(tab)))
+ df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/M_out.csv'))
+#Mname2 <- c("Ref") #, "M0.21" ,"M0.26", "Notimeblock")
+names(df) <- c("Model", "Sex", "baseM", "1980-84")
+tab       <- xtable(df, caption = "Natural mortality estimates for model scenarios during different year blocks.", label = "tab:Natmort")
+print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,2,nrow(tab)))
 ```
   
     
-    
 ```{r specs, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/specs_all_mods_detailed.csv'))
-# df <- df[2:4, ]
-# names(df) <- c("Model", "Current MMB", "B35", "$MMB/B_\\text{MSY}$", "F35", "$F_\\text{OFL}$", "OFL", "Avg Rec", "Male M")
-# tab       <- xtable(df, caption = "Management quantities for all models. Report quantities are derived from maximum likelihood estimates. Average recruitment (Avg Rec) is males and females combined in millions of animals.", label = "tab:specs", align = "lccccccccc")
-# print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,nrow(tab)))
+ df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/specs_all_mods_detailed.csv'))
+names(df) <- c("Model", "Current MMB", "B35", "$MMB/B_\\text{MSY}$", "F35", "$F_\\text{OFL}$", "OFL", "Avg Male Rec", "Male M")
+#names(df) <- c("Model", "Current MMB", "B35", "F35", "$F_\\text{OFL}$", "OFL", "avg male rec")
+tab       <- xtable(df, caption = "Changes in management quantities for each scenario explored. Report quantities are derived from maximum likelihood estimates. Average recruitment is males and females combined in millions of animals.", label = "tab:specs", align = "lccccccccc")
+print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,nrow(tab)))
 ```
+
 
 \newpage 
 ```{r LBA-out, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/table8_female_spawningB.csv'))
-# 
-# #names(df) <- c("Year", "Mature Female Abundance", "Effective Spawning Biomass")
-# addtorow <- list()
-# addtorow$pos <- list(0, 0)
-# addtorow$command <- c("& \\multicolumn{1}{c}{Mature Female} & \\multicolumn{1}{c}{Effective Spawning} \\\\\n", 
-#                       "Year & Abundance & Biomass (1000t) \\\\\n")
-# tab       <- xtable(df, caption = "Area-swept estimates of mature female abundance (million crab >89mm) and model estimates of effective spawning biomass (ESB, LBA model from Zheng et al. 1995b; 1000 t) during 2011-2023 for groundfish fisheries bycatch (prohibited species catch, PSC) calculation. (*mature female abundance in 2020 is the model projected value). Note that PSC limits apply to previous-year ESB.", label = "tab:LBA-out", align = "lccc")
-# print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,nrow(tab)))
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/table8_female_spawningB.csv')) # updated from?
+
+#names(df) <- c("Year", "Mature Female Abundance", "Effective Spawning Biomass")
+addtorow <- list()
+addtorow$pos <- list(0, 0)
+addtorow$command <- c("& \\multicolumn{1}{c}{Mature Female} & \\multicolumn{1}{c}{Effective Spawning} \\\\\n",
+                      "Year & Abundance & Biomass (1000t) \\\\\n")
+tab       <- xtable(df, caption = "Area-swept estimates of mature female abundance (million crab >89mm) and model estimates of effective spawning biomass (ESB, LBA model from Zheng et al. 1995b; 1000 t) during 2011-2023 for groundfish fisheries bycatch (prohibited species catch, PSC) calculation. (*mature female abundance in 2020 is the model projected value). Note that PSC limits apply to previous-year ESB.", label = "tab:LBA-out", align = "lccc")
+print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,nrow(tab)))
 ```
 \pagebreak 
 \newpage\clearpage
 
 ```{r likelihood-components, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/likelihood_edited23.csv')) # table 5a in Jie_cmn_files.R edited csv in excel prior to import, see differences between this and the 'likelihood.csv' file
-# #df %>% select(-m22) -> df
-# names(df) <- c("Component", "base m21.1b", "m23.0a", "m22.0") #, "M0.21" ,"M0.26", "Notimeblock")
-# tab <- xtable(df, caption = "Comparisons of negative log-likelihood values and some parameters for all model scenarios.", label = "tab:likelihood-components")
-# print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,27,nrow(tab)))
+ df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/likelihood.csv')) # from doc_figures_tables_gmacsr.R saved in "likelihood.csv' file
+df %>% select(-process) -> df
+names(df) <- c("Component", "m23.0a(ref)", "m24.0c") #, "M0.21" ,"M0.26", "Notimeblock")
+ tab <- xtable(df, caption = "Comparisons of negative log-likelihood values and some parameters for all model scenarios. Reference models are versions with MMB estimated in season 7.", label = "tab:likelihood-components")
+ print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,25,nrow(tab)))
 ```
+
 
 \newpage
 
-```{r parm-std211b, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/gmacs-para_model211b_ed23.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated AND to adjust names and formatting
-# # get ride of everything afer "log-add-cv"
-# # no underscores need dashes
-# #df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
-# names(df) <- c("Index", "Name", "Value", "StdDev", "index", "name", "value", "stddev" ) #, "M0.21" ,"M0.26", "Notimeblock")
-# tab <- xtable(df, caption = "Summary of estimated model parameter values and standard deviations for model 21.1b for Bristol Bay red king crab.", label = "tab:parm-std211b", digits = c(0, 0,0,4,4,0,0,4,4))
-# print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, 46, 96, 147,nrow(tab)))
-```
-
 \pagebreak 
 \newpage\clearpage
+
 ```{r parm-std230a, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/gmacs-para_model23a_ed23.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
-# #df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
-# names(df) <- c("Index", "Name", "Value", "StdDev", "index", "name", "value", "stddev" ) #, "M0.21" ,"M0.26", "Notimeblock")
-# tab <- xtable(df, caption = "Summary of estimated model parameter values and standard deviations for model 23.0a for Bristol Bay red king crab.", label = "tab:parm-std230a", digits = c(0, 0,0,4,4,0,0,4,4))
-# print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, 46, 96, 147,nrow(tab)))
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/para_model_23_0a_ed.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
+df %>% select(-model, -parameter_count) ->df
+names(df) <- c("Index", "Name", "Value", "StdDev") #, "index", "name", "value", "stddev" ) 
+tab <- xtable(df, caption = "Summary of estimated model parameter values and standard deviations for model 23.0a for Bristol Bay red king crab.", label = "tab:parm-std230a", digits = c(0, 0,0,4,4))#, 0,0,4,4))
+print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, 50, 103, 156, 209, 262, 315, 368, nrow(tab)))
 ```
+
 
 \pagebreak 
 \newpage\clearpage
 
-```{r parm-std22, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/gmacs-para_model22_ed23.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
-# #df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
-# names(df) <- c("Index", "Name", "Value", "StdDev", "index", "name", "value", "stddev" ) #, "M0.21" ,"M0.26", "Notimeblock")
-# tab <- xtable(df, caption = "Summary of estimated model parameter values and standard deviations for model 22.0 for Bristol Bay red king crab.", label = "tab:parm-std22", digits = c(0, 0,0,4,4,0,0,4,4))
-# print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, 46, 96, 146,nrow(tab)))
-```
-
-\pagebreak 
-\newpage\clearpage
-```{r est-m211b, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/gmacs-sum_model211b_ed23.csv')) # 
-# # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated 
-# names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) 
-# addtorow <- list()
-# addtorow$pos <- list(0, 0, 0)
-# addtorow$command <- c(paste("& \\multicolumn{4}{c}{Males} & Females & Total & \\multicolumn{2}{c}{Total Survey Biomass } \\\\\n" , "\\cmidrule(l){2-5}                   \\cmidrule(l){8-9}\n"), 
-#                       "Year & Mature & Legal  & MMB & sd & Mature & Recruits & Model Est & Area-Swept \\\\\n", 
-#                       "& >119mm & >134mm & >119mm & MMB & >89mm & & >64mm & >64mm \\\\\n")
-# tab <- xtable(df, caption = "Annual abundance estimates (mature males, legal males, and mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 21.1b during 1975-2022. MMB for year t (2023) is on Feb. 15, year t+1 (Feb. 15th, 2024).", label = "tab:est-m211b", digits = c(0,0,3,3,3,3,3,3,3,3))
-# print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
-#       tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
+```{r parm-std24c, results = "asis"}
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/para_model_24_ed.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
+df %>% select(-model, -parameter_count) ->df
+names(df) <- c("Index", "Name", "Value", "StdDev") #, "index", "name", "value", "stddev" ) 
+tab <- xtable(df, caption = "Summary of estimated model parameter values and standard deviations for model 24.0c for Bristol Bay red king crab.", label = "tab:parm-std24c", digits = c(0, 0,0,4,4))#, 0,0,4,4))
+print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, 50, 103, 156, 209, 262, 315, 368, nrow(tab)))
 ```
 
 \pagebreak 
 \newpage\clearpage
 ```{r est-m230a, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/gmacs-sum_model_23_0a_ed23.csv')) # 
-# # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated 
-# names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) 
-# addtorow <- list()
-# addtorow$pos <- list(0, 0, 0)
-# addtorow$command <- c(paste("& \\multicolumn{4}{c}{Males} & Females & Total & \\multicolumn{2}{c}{Total Survey Biomass } \\\\\n" , "\\cmidrule(l){2-5}                   \\cmidrule(l){8-9}\n"), 
-#                       "Year & Mature & Legal  & MMB & sd & Mature & Recruits & Model Est & Area-Swept \\\\\n", 
-#                       "& >119mm & >134mm & >119mm & MMB & >89mm & & >64mm & >64mm \\\\\n")
-# tab <- xtable(df, caption = "Annual abundance estimates (mature males, legal males, and mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 23.0a during 1975-2022. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m230a", digits = c(0,0,3,3,3,3,3,3,3,3))
-# print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
-#       tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/_m230a_24gmacs_sum_abun.csv')) # 
+# table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated 
+names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) 
+addtorow <- list()
+addtorow$pos <- list(0, 0, 0)
+addtorow$command <- c(paste("& \\multicolumn{4}{c}{Males} & Females & Total & \\multicolumn{2}{c}{Total Survey Biomass } \\\\\n" , "\\cmidrule(l){2-5}                   \\cmidrule(l){8-9}\n"), 
+                      "Year & Mature & Legal  & MMB & sd & Mature & Recruits & Model Est & Area-Swept \\\\\n", 
+                      "& >119mm & >134mm & >119mm & MMB & >89mm & & >64mm & >64mm \\\\\n")
+tab <- xtable(df, caption = "Annual abundance estimates (mature males, legal males, and mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 23.0a during 1975-2022. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m230a", digits = c(0,0,3,3,3,3,3,3,3,3))
+print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
+      tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
 ```
 
 \pagebreak 
 \newpage\clearpage
-```{r est-m22, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/gmacs-sum_model22_ed23.csv')) # 
-# # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated 
-# names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) 
-# addtorow <- list()
-# addtorow$pos <- list(0, 0, 0)
-# addtorow$command <- c(paste("& \\multicolumn{4}{c}{Males} & Females & Total & \\multicolumn{2}{c}{Total Survey Biomass } \\\\\n" , "\\cmidrule(l){2-5}                   \\cmidrule(l){8-9}\n"), 
-#                       "Year & Mature & Legal  & MMB & sd & Mature & Recruits & Model Est & Area-Swept \\\\\n", 
-#                       "& >119mm & >134mm & >119mm & MMB & >89mm & & >64mm & >64mm \\\\\n")
-# tab <- xtable(df, caption = "Annual abundance estimates (mature males, legal males, and mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 22.0 during 1975-2022. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m22", digits = c(0,0,3,3,3,3,3,3,3,3))
-# print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
-#       tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
+```{r est-m24c, results = "asis"}
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/_m24cgmacs_sum_abun.csv')) # 
+# table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated 
+names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) 
+addtorow <- list()
+addtorow$pos <- list(0, 0, 0)
+addtorow$command <- c(paste("& \\multicolumn{4}{c}{Males} & Females & Total & \\multicolumn{2}{c}{Total Survey Biomass } \\\\\n" , "\\cmidrule(l){2-5}                   \\cmidrule(l){8-9}\n"), 
+                      "Year & Mature & Legal  & MMB & sd & Mature & Recruits & Model Est & Area-Swept \\\\\n", 
+                      "& >119mm & >134mm & >119mm & MMB & >89mm & & >64mm & >64mm \\\\\n")
+tab <- xtable(df, caption = "Annual abundance estimates (mature males, legal males, and mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 24.0c during 1975-2022. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m24c", digits = c(0,0,3,3,3,3,3,3,3,3))
+print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
+      tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
 ```
+
 
 \newpage
 
