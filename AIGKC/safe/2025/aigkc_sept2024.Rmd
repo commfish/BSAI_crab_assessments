@@ -232,11 +232,14 @@ Models explored in this document are:
 
 \item \textbf{25.0}: Model 23.1, with  non-equilibrium initial conditions, starting in 1981;
 
-\item \textbf{25.0a}: Model 25.0, with bootstrap estimated stage 1 effective sample sizes;
+\item \textbf{25.0a}: Model 25.0, with equal emphasis factors on all likelihood components;
+
+\item \textbf{25.0b}: Model 25.0a, with bootstrap estimated stage 1 effective sample sizes;
+
+\item \textbf{25.1}: Model 25.0b, using the Dirichlet multinomial likelihood for size composition data;
+
 
 \item \textbf{25.0b (EAG Only)}: Model 25.0 , with cooperative survey index and size composition data;
-
-\item \textbf{25.1}: Model 25.0, using the Dirichlet multinomial likelihood for size composition data;
 
 \item \textbf{25.1b (EAG Only)}: Model 25.1, with cooperative survey index and size composition data;
 
@@ -288,7 +291,7 @@ Previous assessment models started in 1960 assuming in the population was in an 
 
 The AIGKC cooperative pot survey was initiated in 2015 and has continued every year since, with the exception of 2020. The survey has been confined to the EAG in all years but 2018, when it was extended to the WAG. Appendix A details the survey design and analytical approach. Briefly, an index of total male abundance was estimated from a Tweedie GLMM that included fixed, parametric effects of soak time (days) and depth with string as a random effect nested within survey subarea. Survey size composition was estimated by the same method as observer data, and effective sampling size was estimated using the bootstrap approach described below (see Dirichlet Multinomial section).
 
-Model 25.0a represents the base model with non-equilibrium initial conditions (model 25.0) with the cooperative survey incorporated as an separate fleet. Model assumptions relating to survey data include:
+Model 25.0XXXXX represents the base model with non-equilibrium initial conditions (model 25.0XXXXXX) with the cooperative survey incorporated as an separate fleet. Model assumptions relating to survey data include:
 
 \begin{itemize}
 
@@ -336,19 +339,33 @@ Likelihood emphasis for total catch was $\lambda$ = 2. Groundfish bycatch $cv$ i
 
 \end{itemize}
 
-### Dirichlet Multinomial {-}
+### Likelihood Emphasis {-}
 
-Model 25.1 assumes the Dirichlet multinomial error distribution for both series of size composition data (Thorson et al. 2017). Observed sample sizes were estimated using a bootstrap approach based on Stewart and Hamel (2014). Bootstrap sampling design was two-staged, first within the primary sampling unit (delivery or observer pot) and second by individual crab. Resampling was done with replacement to observed sample sizes. Effective sample size for a given year was estimated as 
+Likelihood emphasis factors ($\lambda$) provide a means of weighting the sum of likelihood components to influence the overall model fit. The accepted model (23.1) assigns the most weight to retained ($\lambda_{ret}$ = 4) and total ($\lambda_{tot}$ = 2) catch data. Model 25.0a evaluated resetting all likelihood emphasis factors equal to 1 (i.e., all data sources weighted equally).
+
+### Multinomial Effective Sample Size {-}
+
+Model 25.0b evaluates Francis weighting of size composition data using sample sizes based on variability in the data. Stage 1 effective sample sizes $N_{eff}$ were estimated using a bootstrap approach based on Stewart and Hamel (2014). The resampling design was two-staged, first within the primary sampling unit (delivery or observer pot) and second by individual crab. Resampling was done with replacement to observed sample sizes. Effective sample size for a given year was estimated as 
 
 \begin{equation}
 N_{eff} = \frac{ \sum_{l} {P_{l}(1 - P_{l})}}{\sum_{l}{(P_{l} - B_{l})^{2}}}
 \end{equation}
 
-where $P_{l}$ and $B_{l}$ are the observed and bootstrap proportion of crab measured in length bin, $l$, respectively. Annual estimates of effective sample size were computed as the mean of 500 replicates for each year for the retained size composition and 100 replicates for each year for the total size composition. Bootstrap sample sizes were low due to computational needs. Since estimated $N_{eff}$ was still quite large for many years observed sample sizes were reduced to 
+where $P_{l}$ and $B_{l}$ are the observed and bootstrap proportion of crab measured in length bin, $l$, respectively. Annual estimates of effective sample size were computed as the mean of 500 replicates for each year for the retained size composition and 100 replicates for each year for the total size composition. Resampling iterations were low due to computational needs. Estimated $N_{eff}$ are in Table \ref{table:retneff} and \ref{table:totneff}. Since estimated $N_{eff}$ was quite large for many years, observed stage 1 sample sizes were reduced to 
 
 \begin{equation}
 N_{eff}^{\prime} = \text{min}(2000,N_{eff})
 \end{equation}
+
+
+
+
+### Dirichlet Multinomial {-}
+
+Model 25.1 assumes the Dirichlet multinomial error distribution for both series of size composition data (Thorson et al. 2017). Stage 1 effective sample sizes were the same as model 25.0b.
+
+
+
 
 ### Extra CV on Index Data {-}
 

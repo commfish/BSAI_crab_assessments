@@ -238,7 +238,7 @@ EAG25.0$penalties
 EAG23.1c$priorDensity
 EAG25.0$priorDensity
 
-# dirichlet and survey ----
+# data weighting models 25.0a to 25.0b ----
 
 # plot of bootstrap stage 1 neff
 boot_eag_ret <- lapply(grep("eag_retained_comp_boot", list.files("./AIGKC/output/observer", full.names = T), value = T), 
@@ -309,27 +309,67 @@ ggsave("./AIGKC/figures/models/2025/sept/boot_neff.png",
 
 EAG25.0 <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.0/Gmacsall.out", "25.0")
 EAG25.0a <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.0a/Gmacsall.out", "25.0a")
-EAG25.0ac <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.0a - Copy/Gmacsall.out", "25.0ac")
-EAG25.0a <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.0b/Gmacsall.out", "25.0b")
-EAG25.1 <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.1/Gmacsall.out", "25.1")
-EAG25.1.2 <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.1.2/Gmacsall.out", "25.1.2")
-EAG25.1b <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.1b/Gmacsall.out", "25.1b")
-EAG25.1b2 <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.1b2/Gmacsall.out", "25.1b2")
+EAG25.0b <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.0b/Gmacsall.out", "25.0b")
+EAG25.0b2 <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.0b2/Gmacsall.out", "25.0b2")
+EAG25.0c <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.0c/Gmacsall.out", "25.0c")
+EAG25.0c2 <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.0c2/Gmacsall.out", "25.0c2")
 
 WAG25.0 <- gmacs_read_allout("./AIGKC/models/2025/sept/WAG/25.0/Gmacsall.out", "25.0")
-WAG25.1 <- gmacs_read_allout("./AIGKC/models/2025/sept/WAG/25.1/Gmacsall.out", "25.1")
-WAG25.1.2 <- gmacs_read_allout("./AIGKC/models/2025/sept/WAG/25.1.2/Gmacsall.out", "25.1.2")
+WAG25.0a <- gmacs_read_allout("./AIGKC/models/2025/sept/WAG/25.0a/Gmacsall.out", "25.0a")
+WAG25.0b <- gmacs_read_allout("./AIGKC/models/2025/sept/WAG/25.0b/Gmacsall.out", "25.0b")
 
 # plot fits to data eag
-gmacs_plot_catch(list(EAG25.0, EAG25.0a, EAG25.1, EAG25.1a, EAG25.1a2), save_plot = F)
+gmacs_plot_catch(list(EAG25.0, EAG25.0a, EAG25.0b, EAG25.0b2), save_plot = F)
+gmacs_plot_mmb(list(EAG25.0, EAG25.0c, EAG25.0a, EAG25.0b, EAG25.0b2), save_plot = F)
+gmacs_plot_recruitment(list(EAG25.0, EAG25.0a, EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0c2), save_plot = F)
 
-gmacs_plot_index(list(EAG25.0, EAG25.0a, EAG25.0ac, EAG25.0b, EAG25.1, EAG25.1.2,EAG25.1b, EAG25.1b2 ), save_plot = F)
+gmacs_plot_index(list(EAG25.0, EAG25.0a, EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0c2), save_plot = F)
+gmacs_get_size_summary(list(EAG25.0, EAG25.0a,  EAG25.0b, EAG25.0b2)) %>%
+  filter(type == "retained") %>%
+  group_by(model, size) %>%
+  summarise(obs = sum(obs), pred = sum(pred)) %>%
+  ggplot()+
+  geom_bar(aes(x = size, y = obs), fill = "grey70", position = "identity", stat = "identity", alpha = 0.5, width = 5)+
+  geom_line(aes(x = size, y = pred, color = model, group = model))+
+  labs(x = "Carapace Length (mm)", y = NULL, color = NULL, fill = NULL, title = "EAG Retained Size Composition")+
+  scale_color_manual(values = cbpalette)+
+  theme(panel.spacing.x = unit(0.2, "lines"),
+        panel.spacing.y = unit(0, "lines"),
+        panel.border = element_blank(),
+        axis.line.x = element_line(color = "grey70", size = 0.2),
+        axis.ticks.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.text.x = element_text(size = 8),
+        plot.title = element_text(hjust = 0.5),
+        strip.background = element_blank(),
+        strip.text.x = element_blank(),
+        panel.background = element_blank(),
+        title = element_text(hjust = 0.5))
+gmacs_get_size_summary(list(EAG25.0, EAG25.0a,  EAG25.0b, EAG25.0b2)) %>%
+  filter(type == "total") %>%
+  group_by(model, size) %>%
+  summarise(obs = sum(obs), pred = sum(pred)) %>%
+  ggplot()+
+  geom_bar(aes(x = size, y = obs), fill = "grey70", position = "identity", stat = "identity", alpha = 0.5, width = 5)+
+  geom_line(aes(x = size, y = pred, color = model, group = model))+
+  labs(x = "Carapace Length (mm)", y = NULL, color = NULL, fill = NULL, title = "EAG Retained Size Composition")+
+  scale_color_manual(values = cbpalette)+
+  theme(panel.spacing.x = unit(0.2, "lines"),
+        panel.spacing.y = unit(0, "lines"),
+        panel.border = element_blank(),
+        axis.line.x = element_line(color = "grey70", size = 0.2),
+        axis.ticks.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.text.x = element_text(size = 8),
+        plot.title = element_text(hjust = 0.5),
+        strip.background = element_blank(),
+        strip.text.x = element_blank(),
+        panel.background = element_blank(),
+        title = element_text(hjust = 0.5))
 
-, 
-                          y_labs = c("Observer CPUE", "Observer CPUE", "Fish Ticket CPUE", "Survey CPUE"),
-                          plot_dir = "./AIGKC/figures/models/2025/sept")
 
-gmacs_get_size_summary(list(EAG25.0, EAG25.0a, EAG25.1, EAG25.1a, EAG25.1a2)) %>%
+
+gmacs_get_size_summary(list(EAG25.0, EAG25.0a, EAG25.0b, EAG25.0b2)) %>%
   filter(type == "retained") %>%
   ggplot()+
   geom_bar(aes(x = size, y = obs), fill = "grey70", position = "identity", stat = "identity", alpha = 0.5, width = 5)+
@@ -352,7 +392,7 @@ gmacs_get_size_summary(list(EAG25.0, EAG25.0a, EAG25.1, EAG25.1a, EAG25.1a2)) %>
         title = element_text(hjust = 0.5)) -> x
 ggsave("./AIGKC/figures/models/2025/sept/eag_retained_comp_fit.png", plot = x, height = 6, width = 6, units = "in")
 
-gmacs_get_size_summary(list(EAG25.0, EAG25.0a, EAG25.1, EAG25.1a, EAG25.1a2)) %>%
+gmacs_get_size_summary(list(EAG25.0, EAG25.0a, EAG25.0b, EAG25.0b2)) %>%
   filter(type == "total") %>%
   ggplot()+
   geom_bar(aes(x = size, y = obs), fill = "grey70", position = "identity", stat = "identity", alpha = 0.5, width = 5)+
