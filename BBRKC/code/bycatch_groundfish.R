@@ -93,7 +93,7 @@ gf_length_bb %>%
   mutate(Type = ifelse(Gear == 1 | Gear == 2, "TRW", 
                        ifelse(Gear == 6| Gear == 8, "FIX", "NA"))) %>% 
   group_by(Year, Type) %>% 
-  summarise(Nsamp = n()) -> samp_by_gear
+  summarise(Nsamp = n()) -> samp_by_gear # put this in table using "sample_size.csv"
 
 # effective sample size------
 samp_by_gear %>% 

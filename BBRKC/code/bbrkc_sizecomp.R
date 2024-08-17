@@ -51,7 +51,7 @@ specimen %>%
   #filter(mid_latitude < 58.65 & mid_longitude < -168) %>% 
   filter(length >= 65) %>% 
   group_by(akfin_survey_year, sex) %>%
-  summarise(total_samp = n()) #-> samp_by_year
+  summarise(total_samp = n()) #-> samp_by_year # used in "sample_size.csv"
 
 # akfin abundance report ----
 read.csv(paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/EBSCrab_Abundance_Biomass.csv'), 
