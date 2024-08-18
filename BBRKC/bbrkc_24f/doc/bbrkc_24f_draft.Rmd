@@ -1240,12 +1240,9 @@ knitr::include_graphics("figures/bsfrf_slx_capture.png", dpi = 200)
 ```
 
 ```{r sc-bsfrfM, out.width="100%", fig.cap = "Comparisons of length compositions for males (1) and females (2) for the BSFRF survey and the model estimates during 2007-2008 and 2013-2016 for all model scenarios."}
-#knitr::include_graphics("figures/comp_fit_bsfrf_male_total.png", dpi = 450)
+knitr::include_graphics("figures/comp_fit_bsfrf_male_total.png", dpi = 450)
 ```
 
-```{r sc-bsfrfF, out.width="100%", fig.cap = "Comparisons of length compositions for females for the BSFRF survey and the model estimates during 2007-2008 and 2013-2016 for all model scenarios."}
-#knitr::include_graphics("figures/lf_BSFRF_f.png", dpi = 450)
-```
 
 \newpage 
 
@@ -1316,33 +1313,25 @@ knitr::include_graphics("figures/catch_fit.png", dpi = 200)
 #knitr::include_graphics("figures/trawl_biomass_mod_scen_residuals.png", dpi = 200)
 ```
 
+```{r sc-potR, out.width="100%", fig.cap = "Observed and model estimated length-frequencies of male BBRKC by year retained in the directed pot fishery for the base model and model scenarios 23.0a and 24.0c."}
+knitr::include_graphics("figures/comp_fit_pot_fishery_male_retained.png", dpi = 450)
+```
+
 ```{r sc-pot, out.width="100%", fig.cap = "Observed and model estimated total observer length-frequencies of male BBRKC by year in the directed pot fishery for all model scenarios."}
 #knitr::include_graphics("figures/lf_pot_total_M.png", dpi = 450)
 ```
 
-```{r sc-potR, out.width="100%", fig.cap = "Observed and model estimated retained length-frequencies of male BBRKC by year in the directed pot fishery for all model scenarios."}
-#knitr::include_graphics("figures/lf_1_retained_pot.png", dpi = 450)
-```
-
 ```{r sc-potF, out.width="100%", fig.cap = "Observed and model estimated total observer length-frequencies of discarded female BBRKC by year in the directed pot fishery for all model scenarios."}
-#knitr::include_graphics("figures/lf_pot_Females.png", dpi = 450)
+knitr::include_graphics("figures/comp_fit_pot_fishery_female_total.png", dpi = 450)
 ```
 
-```{r sc-trawl1, out.width="100%", fig.cap = "Comparison of area-swept and model estimated NMFS survey length frequencies of Bristol Bay male (1) and female (2) red king crab by year for all model scenarios."}
-#knitr::include_graphics("figures/comp_fit_nmfs_trawl_male_total.png", dpi = 450)
-```
-
-```{r sc-trawl1F, out.width="100%", fig.cap = "Comparison of area-swept and model estimated NMFS survey length frequencies of Bristol Bay FEMALE red king crab by year for all model scenarios."}
-#knitr::include_graphics("figures/lf_NMFS_f.png", dpi = 450)
+```{r sc-trawl1, out.width="100%", fig.cap = "Comparison of area-swept and model estimated NMFS survey length frequencies of Bristol Bay male (black) and female (gray) red king crab by year for the base models and model scenarios 23.0a and 24.0c."}
+knitr::include_graphics("figures/comp_fit_nmfs_trawl_male_total.png", dpi = 450)
 ```
 
 
-```{r sc-trawlbyM, out.width="100%", fig.cap = "Comparison of observer and model estimated discarded length frequencies of Bristol Bay male red king crab by year in the groundfish trawl fisheries for all model scenarios."}
-#knitr::include_graphics("figures/lf_trawl_bycatch_m.png", dpi = 450)
-```
-
-```{r sc-trawlbyF, out.width="100%", fig.cap = "Comparison of observer and model estimated discarded length frequencies of Bristol Bay female red king crab by year in the groundfish trawl fisheries for all model scenarios."}
-#knitr::include_graphics("figures/lf_trawl_bycatch_f.png", dpi = 450)
+```{r sc-trawlbyM, out.width="100%", fig.cap = "Comparison of observer and model estimated discarded length frequencies of Bristol Bay male (black) and female (gray) red king crab by year in the groundfish trawl fisheries for all model scenarios."}
+knitr::include_graphics("figures/comp_fit_trawl_bycatch_male_total.png", dpi = 450)
 ```
 
 ```{r sc-fixedbyM, out.width="100%", fig.cap = "Comparison of observer and model estimated discarded length frequencies of Bristol Bay male red king crab by year in the groundfish fixed gear fisheries for all model scenarios."}
