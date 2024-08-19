@@ -75,7 +75,9 @@ cbpalette <- c(cbpalette, "tomato3", "turquoise4", "orangered4")
 ## example: gmacs_read_allout(file = "./AIGKC/models/2024/may/EAG/23.1b/Gmacsall.out", model_name = "23.1b")
 ## version: character string denoting gmacs version
 
-gmacs_read_allout <- function(file, model_name = NULL, version = "2.20.16") {
+gmacs_read_allout <- function(file, model_name = NULL, version = NULL) {
+  
+  if(is.null(version)){version = "2.20.16"}
   
   if(version == "2.01.M.10"){
   # setup ----
@@ -2013,8 +2015,8 @@ gmacs_do_exe <- function(gmacs.dat, pin = F, wait = T, reweight = T, level = 0.0
 ### plot_dir - file directory in which to save plots
 ### model_name - character string to save as object in output, later to be used for plot legends. example: "23.1b"
 
-gmacs_do_jitter <- function(gmacs.dat, sd, iter, ref_points = T, pin = F, wait = T,
-                            save_csv = T, csv_dir = NULL, save_plot = T, plot_dir = NULL, model_name = NULL, plot_only = F) {
+gmacs_do_jitter <- function(gmacs.dat, sd, iter, ref_points = T, wait = T,
+                            save_csv = T, csv_dir = NULL, save_plot = T, plot_dir = NULL, model_name = NULL, plot_only = F, version = NULL) {
   
   # create output directories
   if(save_csv == T & is.null(csv_dir)) {csv_dir <- file.path(dirname(gmacs.dat), "output"); dir.create(csv_dir, showWarnings = F, recursive = TRUE)}
@@ -2038,20 +2040,13 @@ gmacs_do_jitter <- function(gmacs.dat, sd, iter, ref_points = T, pin = F, wait =
     # check for other needed inputs
     if(!file.exists("gmacs.exe")){setwd(wd); stop("Cannot find gmacs.exe!!")}
     # look for gmacs_file_in.dat - if not present, run gmacs
-    if(!file.exists("./gmacs_files_in.dat")) {setwd(wd); gmacs_do_exe(gmacs.dat, pin = pin, reweight = F)}
+    if(!file.exists("./gmacs_files_in.dat")) {setwd(wd); gmacs_do_exe(gmacs.dat, pin = F, reweight = F)}
     dat <- readLines("./gmacs_files_in.dat")
     if(!file.exists(file.path(dat[grep("\\.dat", dat)]))) {setwd(wd); stop(paste("Cannot find", file.path(dat[grep("\\.dat", dat)]), "!!"))}
     if(!file.exists(file.path(dat[grep("\\.ctl", dat)]))) {setwd(wd); stop(paste("Cannot find", file.path(dat[grep("\\.ctl", dat)]), "!!"))}
     if(!file.exists(file.path(dat[grep("\\.prj", dat)]))) {setwd(wd); stop(paste("Cannot find", file.path(dat[grep("\\.prj", dat)]), "!!"))}
-    # make sure pin file is being used as expected
-    if(pin == T){
-      dat[grep("use pin file", dat)] <- "1 # use pin file (0=no, 1=yes)"   
-      if(!file.exists("gmacs.pin")) {stop(paste("Cannot find gmacs.pin!!"))}
-    }
-    if(pin == F){
-      dat[grep("use pin file", dat)] <- "0 # use pin file (0=no, 1=yes)"   
-      
-    }
+    # make sure pin file is being not being usedused as expected
+    dat[grep("use pin file", dat)] <- "0 # use pin file (0=no, 1=yes)"   
     
     # do jitter ----
     
@@ -2088,7 +2083,7 @@ gmacs_do_jitter <- function(gmacs.dat, sd, iter, ref_points = T, pin = F, wait =
       # do gmacs run
       setwd(rundir)
       while(!("gmacs.rep" %in% list.files())){shell("gmacs.exe", wait = wait)}
-      ao <- gmacs_read_allout("./Gmacsall.out")
+      ao <- gmacs_read_allout("./Gmacsall.out", version = version)
       out$obj_function[i] <- ao$objective_function
       out$max_gradient[i] <- ao$max_gradient
       out$catch_lik[i] <- ao$likelihoods_by_type$net_lik[ao$likelihoods_by_type$process == "catch"]
@@ -2107,7 +2102,7 @@ gmacs_do_jitter <- function(gmacs.dat, sd, iter, ref_points = T, pin = F, wait =
   }
   
   # get mle estimates of objects
-  mle_ao <- gmacs_read_allout("./Gmacsall.out", model_name = model_name)
+  mle_ao <- gmacs_read_allout("./Gmacsall.out", model_name = model_name, version = version)
   # set wd back to original
   setwd(wd)
   
@@ -2177,7 +2172,7 @@ gmacs_do_jitter <- function(gmacs.dat, sd, iter, ref_points = T, pin = F, wait =
 ### model_name - character string to save as object in output, later to be used for plot legends. example: "23.1b"
 
 gmacs_do_retrospective <- function(gmacs.dat, n_peel, wait = T, pin = F, plot_only = F, plot_mmb = T, save_plot = T, 
-                                   plot_dir = NULL, model_name = NULL) {
+                                   plot_dir = NULL, model_name = NULL, version = NULL) {
   # create output directories
   if(save_plot == T & is.null(plot_dir)) {plot_dir <- file.path(dirname(gmacs.dat), "plots"); dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
   if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
@@ -2236,7 +2231,7 @@ gmacs_do_retrospective <- function(gmacs.dat, n_peel, wait = T, pin = F, plot_on
   }
   
   if(plot_only == T) {
-    ao_full <- gmacs_read_allout("Gmacsall.out")
+    ao_full <- gmacs_read_allout("Gmacsall.out", version = version)
     setwd("./retrospectives")  
   }
 
@@ -2248,7 +2243,7 @@ gmacs_do_retrospective <- function(gmacs.dat, n_peel, wait = T, pin = F, plot_on
   if(plot_mmb == T){
     ao <- list()
     for(i in 1:n_peel){
-      ao[[i]] <- gmacs_read_allout(file.path(paste0("retro_", i), "Gmacsall.out"), i)
+      ao[[i]] <- gmacs_read_allout(file.path(paste0("retro_", i), "Gmacsall.out"), i, version = version)
     }
     setwd(wd) # return to base working directory
     data_summary <- gmacs_get_derived_quantity_summary(ao)
@@ -2412,9 +2407,10 @@ gmacs_get_effective_n <- function(all_out = NULL, file = NULL, model_name = NULL
          all_out = all_out) %>% 
     mutate(data = purrr::map(all_out, function(x) {
       x$effective_sample_size %>% 
-        mutate(model = as.character(x$model_name))
+        mutate(model = as.character(x$model_name)) %>%
+        bind_cols(distinct(x$size_fit_summary, mod_series, year) %>% transmute(year))
     })) %>% transmute(data) %>% unnest(data) %>%
-    dplyr::select(ncol(.), 1:(ncol(.)-1)) -> out
+    dplyr::select(ncol(.) - 1, ncol(.),  1:(ncol(.)-2)) -> out
   
   
   return(out)
@@ -3121,6 +3117,8 @@ gmacs_plot_index <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_l
   } else {return(plots$plot)}
   
 }
+
+
 
 # gmacs_plot_sizecomp() ----
 
