@@ -2194,7 +2194,7 @@ gmacs_do_retrospective <- function(gmacs.dat, n_peel, wait = T, pin = F, plot_on
     if(!file.exists("gmacs.exe")){setwd(wd); stop("Cannot find gmacs.exe!!")}
     # look for gmacs_file_in.dat - if not present, run gmacs
     if(!file.exists("./gmacs_files_in.dat")) {setwd(wd); gmacs_do_exe(gmacs.dat, pin = pin, reweight = F)}
-    ao_full <- gmacs_read_allout("Gmacsall.out")
+    ao_full <- gmacs_read_allout("Gmacsall.out", version = version)
     dat <- readLines("./gmacs_files_in.dat")
     if(!file.exists(file.path(dat[grep("\\.dat", dat)]))) {setwd(wd); stop(paste("Cannot find", file.path(dat[grep("\\.dat", dat)]), "!!"))}
     if(!file.exists(file.path(dat[grep("\\.ctl", dat)]))) {setwd(wd); stop(paste("Cannot find", file.path(dat[grep("\\.ctl", dat)]), "!!"))}
