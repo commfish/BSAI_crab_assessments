@@ -238,7 +238,7 @@ EAG25.0$penalties
 EAG23.1c$priorDensity
 EAG25.0$priorDensity
 
-# data weighting models 25.0a to 25.0b ----
+# bootstrap neff ----
 
 # plot of bootstrap stage 1 neff
 boot_eag_ret <- lapply(grep("eag_retained_comp_boot", list.files("./AIGKC/output/observer", full.names = T), value = T), 
@@ -305,34 +305,57 @@ boot_wag_tot %>%
 ggsave("./AIGKC/figures/models/2025/sept/boot_neff.png", 
        plot = (eag_ret_p + eag_tot_p) / (wag_ret_p + wag_tot_p), height = 6, width = 9, units = "in")
 
-
+# data weighting models 25.0a to 25.0b ----
 
 EAG25.0 <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.0/Gmacsall.out", "25.0")
 EAG25.0a <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.0a/Gmacsall.out", "25.0a")
 EAG25.0b <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.0b/Gmacsall.out", "25.0b")
 EAG25.0b2 <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.0b2/Gmacsall.out", "25.0b2")
 EAG25.0c <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.0c/Gmacsall.out", "25.0c")
-EAG25.0c2 <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.0c2/Gmacsall.out", "25.0c2")
+EAG25.0d <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.0d/Gmacsall.out", "25.0d")
 
 WAG25.0 <- gmacs_read_allout("./AIGKC/models/2025/sept/WAG/25.0/Gmacsall.out", "25.0")
 WAG25.0a <- gmacs_read_allout("./AIGKC/models/2025/sept/WAG/25.0a/Gmacsall.out", "25.0a")
 WAG25.0b <- gmacs_read_allout("./AIGKC/models/2025/sept/WAG/25.0b/Gmacsall.out", "25.0b")
+WAG25.0b2 <- gmacs_read_allout("./AIGKC/models/2025/sept/WAG/25.0b2/Gmacsall.out", "25.0b2")
+WAG25.0c <- gmacs_read_allout("./AIGKC/models/2025/sept/WAG/25.0c/Gmacsall.out", "25.0c")
+WAG25.0d <- gmacs_read_allout("./AIGKC/models/2025/sept/WAG/25.0d/Gmacsall.out", "25.0d")
 
 # plot fits to data eag
-gmacs_plot_catch(list(EAG25.0, EAG25.0a, EAG25.0b, EAG25.0b2), save_plot = F)
-gmacs_plot_mmb(list(EAG25.0, EAG25.0c, EAG25.0a, EAG25.0b, EAG25.0b2), save_plot = F)
-gmacs_plot_recruitment(list(EAG25.0, EAG25.0a, EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0c2), save_plot = F)
+gmacs_plot_catch(list(EAG25.0, EAG25.0a, EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0d), save_plot = F)
+gmacs_get_index_summary(list(EAG25.0, EAG25.0a, EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0d)) %>%
+  mutate(index = case_when(series == 1 ~ "Pre-Rationalized Observer",
+                           series == 2 ~ "Post-Rationalized Observer",
+                           series == 3 ~ "Early Fish Ticket"),
+         index = factor(index, levels = c("Early Fish Ticket", "Pre-Rationalized Observer", "Post-Rationalized Observer"))) %>%
+  mutate(obs_l95 = obs_index * exp(-1.96 * sqrt(log(1 + obs_cv^2))),
+         obs_u95 = obs_index * exp(1.96 * sqrt(log(1 + obs_cv^2))),
+         tot_l95 = obs_index * exp(-1.96 * sqrt(log(1 + tot_cv^2))),
+         tot_u95 = obs_index * exp(1.96 * sqrt(log(1 + tot_cv^2)))) %>%
+  ggplot()+
+  geom_errorbar(aes(x = factor(year), ymin = tot_l95, ymax = tot_u95), width = 0, color = "grey70")+
+  geom_errorbar(aes(x = factor(year), ymin = obs_l95, ymax = obs_u95), width = 0, color = "grey20")+
+  geom_point(aes(x = factor(year), y = obs_index), color = "grey20")+
+  geom_line(aes(x = factor(year), y = pred_index, group = model, color = model))+
+  labs(x = NULL, color = NULL, y = "Standardized Index")+
+  scale_y_continuous(labels = scales::comma)+
+  scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels)+
+  scale_color_manual(values = cbpalette)+
+  coord_cartesian(ylim = c(0, NA))+
+  facet_wrap(~index, scales = "free_x", ncol = 2) -> x
+ggsave(plot = x, filename = "./AIGKC/figures/models/2025/sept/eag_data_wt_index_fit.png", height = 6, width = 8, units = "in") 
 
-gmacs_plot_index(list(EAG25.0, EAG25.0a, EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0c2), save_plot = F)
-gmacs_get_size_summary(list(EAG25.0, EAG25.0a,  EAG25.0b, EAG25.0b2)) %>%
-  filter(type == "retained") %>%
-  group_by(model, size) %>%
+gmacs_get_size_summary(list(EAG25.0, EAG25.0a,  EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0d)) %>% mutate(fishery = "EAG") %>%
+  bind_rows(gmacs_get_size_summary(list(WAG25.0, WAG25.0a,  WAG25.0b, WAG25.0b2, WAG25.0c, WAG25.0d)) %>% mutate(fishery = "WAG")) %>%
+  mutate(type = str_to_title(type)) %>%
+  group_by(fishery, model, type, size) %>%
   summarise(obs = sum(obs), pred = sum(pred)) %>%
   ggplot()+
-  geom_bar(aes(x = size, y = obs), fill = "grey70", position = "identity", stat = "identity", alpha = 0.5, width = 5)+
+  geom_bar(aes(x = size, y = obs), fill = "grey70", position = "identity", stat = "identity", alpha = 0.1, width = 5)+
   geom_line(aes(x = size, y = pred, color = model, group = model))+
-  labs(x = "Carapace Length (mm)", y = NULL, color = NULL, fill = NULL, title = "EAG Retained Size Composition")+
+  labs(x = "Carapace Length (mm)", y = NULL, color = NULL, fill = NULL)+
   scale_color_manual(values = cbpalette)+
+  facet_wrap(fishery~type, ncol = 2, dir = "v")+
   theme(panel.spacing.x = unit(0.2, "lines"),
         panel.spacing.y = unit(0, "lines"),
         panel.border = element_blank(),
@@ -342,79 +365,134 @@ gmacs_get_size_summary(list(EAG25.0, EAG25.0a,  EAG25.0b, EAG25.0b2)) %>%
         axis.text.x = element_text(size = 8),
         plot.title = element_text(hjust = 0.5),
         strip.background = element_blank(),
-        strip.text.x = element_blank(),
+        #strip.text.x = element_blank(),
         panel.background = element_blank(),
-        title = element_text(hjust = 0.5))
-gmacs_get_size_summary(list(EAG25.0, EAG25.0a,  EAG25.0b, EAG25.0b2)) %>%
-  filter(type == "total") %>%
-  group_by(model, size) %>%
-  summarise(obs = sum(obs), pred = sum(pred)) %>%
-  ggplot()+
-  geom_bar(aes(x = size, y = obs), fill = "grey70", position = "identity", stat = "identity", alpha = 0.5, width = 5)+
-  geom_line(aes(x = size, y = pred, color = model, group = model))+
-  labs(x = "Carapace Length (mm)", y = NULL, color = NULL, fill = NULL, title = "EAG Retained Size Composition")+
-  scale_color_manual(values = cbpalette)+
-  theme(panel.spacing.x = unit(0.2, "lines"),
-        panel.spacing.y = unit(0, "lines"),
-        panel.border = element_blank(),
-        axis.line.x = element_line(color = "grey70", size = 0.2),
-        axis.ticks.y = element_blank(),
-        axis.text.y = element_blank(),
-        axis.text.x = element_text(size = 8),
-        plot.title = element_text(hjust = 0.5),
-        strip.background = element_blank(),
-        strip.text.x = element_blank(),
-        panel.background = element_blank(),
-        title = element_text(hjust = 0.5))
+        title = element_text(hjust = 0.5)) -> x
+ggsave("./AIGKC/figures/models/2025/sept/data_wt_agg_comp_fit.png", plot = x, height = 5, width = 6, units = "in")
 
 
-
-gmacs_get_size_summary(list(EAG25.0, EAG25.0a, EAG25.0b, EAG25.0b2)) %>%
+gmacs_get_size_summary(list(EAG25.0, EAG25.0a,  EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0d)) %>%
+  dplyr::select(-nsamp_est) %>%
+  bind_cols(gmacs_get_effective_n(list(EAG25.0, EAG25.0a,  EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0d)) %>%
+              expand_grid(., size = seq(103, 183, 5)) %>%
+              transmute(nsamp_est)) %>%
   filter(type == "retained") %>%
+  group_by(model, year) %>%
+  summarise(obs_mean_size = weighted.mean(size, obs),
+            pred_mean_size = weighted.mean(size, pred), 
+            sd = sqrt(sum((size - pred_mean_size)^2 * pred) / sum(pred)) / sqrt(mean(nsamp_obs)),
+            l95 = pred_mean_size + sd * qnorm(0.025),
+            u95 = pred_mean_size + sd * qnorm(0.975),
+            sd_est = sqrt(sum((size - pred_mean_size)^2 * pred) / sum(pred)) / sqrt(mean(nsamp_est)),
+            l95_est = pred_mean_size + sd_est * qnorm(0.025),
+            u95_est = pred_mean_size + sd_est * qnorm(0.975)) %>% ungroup %>%
   ggplot()+
-  geom_bar(aes(x = size, y = obs), fill = "grey70", position = "identity", stat = "identity", alpha = 0.5, width = 5)+
-  geom_line(aes(x = size, y = pred, color = model, group = model))+
-  labs(x = "Carapace Length (mm)", y = NULL, color = NULL, fill = NULL, title = "EAG Retained Size Composition")+
-  geom_text_npc(aes(npcx = "right", npcy = 0.6, label = year), check_overlap = T, size = 3)+
-  scale_color_manual(values = cbpalette)+
-  facet_wrap(~year, ncol = 4, dir = "v")+
-  theme(panel.spacing.x = unit(0.2, "lines"),
-        panel.spacing.y = unit(0, "lines"),
-        panel.border = element_blank(),
-        axis.line.x = element_line(color = "grey70", size = 0.2),
-        axis.ticks.y = element_blank(),
-        axis.text.y = element_blank(),
-        axis.text.x = element_text(size = 8),
-        plot.title = element_text(hjust = 0.5),
-        strip.background = element_blank(),
-        strip.text.x = element_blank(),
-        panel.background = element_blank(),
-        title = element_text(hjust = 0.5)) -> x
-ggsave("./AIGKC/figures/models/2025/sept/eag_retained_comp_fit.png", plot = x, height = 6, width = 6, units = "in")
+  geom_ribbon(aes(x = year, ymin = l95_est, ymax = u95_est, group = 1), fill = "grey80", alpha = 0.5)+
+  geom_ribbon(aes(x = year, ymin = l95, ymax = u95, group = 1), fill = "grey60", alpha = 0.5)+
+  geom_line(aes(x = year, y = pred_mean_size, group = 1))+
+  geom_vline(xintercept = 2004.5, linetype = 2)+
+  geom_point(aes(x = year, y = obs_mean_size))+
+  scale_x_continuous(breaks = yraxis$breaks, labels = yraxis$labels)+
+  facet_wrap(~model, ncol = 2)+
+  labs(x = NULL, y = paste0("Retained Mean CL (mm)")) -> x
+ggsave("./AIGKC/figures/models/2025/sept/eag_data_wt_francis_plot_retained.png", plot = x, height = 7, width = 8, units = "in")
 
-gmacs_get_size_summary(list(EAG25.0, EAG25.0a, EAG25.0b, EAG25.0b2)) %>%
+gmacs_get_size_summary(list(EAG25.0, EAG25.0a,  EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0d)) %>%
+  dplyr::select(-nsamp_est) %>%
+  bind_cols(gmacs_get_effective_n(list(EAG25.0, EAG25.0a,  EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0d)) %>%
+              expand_grid(., size = seq(103, 183, 5)) %>%
+              transmute(nsamp_est)) %>%
   filter(type == "total") %>%
+  group_by(model, year) %>%
+  summarise(obs_mean_size = weighted.mean(size, obs),
+            pred_mean_size = weighted.mean(size, pred), 
+            sd = sqrt(sum((size - pred_mean_size)^2 * pred) / sum(pred)) / sqrt(mean(nsamp_obs)),
+            l95 = pred_mean_size + sd * qnorm(0.025),
+            u95 = pred_mean_size + sd * qnorm(0.975),
+            sd_est = sqrt(sum((size - pred_mean_size)^2 * pred) / sum(pred)) / sqrt(mean(nsamp_est)),
+            l95_est = pred_mean_size + sd_est * qnorm(0.025),
+            u95_est = pred_mean_size + sd_est * qnorm(0.975)) %>% ungroup %>%
   ggplot()+
-  geom_bar(aes(x = size, y = obs), fill = "grey70", position = "identity", stat = "identity", alpha = 0.5, width = 5)+
-  geom_line(aes(x = size, y = pred, color = model, group = model))+
-  labs(x = "Carapace Length (mm)", y = NULL, color = NULL, fill = NULL, title = "EAG Total Size Composition")+
-  geom_text_npc(aes(npcx = "right", npcy = 0.6, label = year), check_overlap = T, size = 3)+
-  scale_color_manual(values = cbpalette)+
-  facet_wrap(~year, ncol = 4, dir = "v")+
-  theme(panel.spacing.x = unit(0.2, "lines"),
-        panel.spacing.y = unit(0, "lines"),
-        panel.border = element_blank(),
-        axis.line.x = element_line(color = "grey70", size = 0.2),
-        axis.ticks.y = element_blank(),
-        axis.text.y = element_blank(),
-        axis.text.x = element_text(size = 8),
-        plot.title = element_text(hjust = 0.5),
-        strip.background = element_blank(),
-        strip.text.x = element_blank(),
-        panel.background = element_blank(),
-        title = element_text(hjust = 0.5)) -> x
-ggsave("./AIGKC/figures/models/2025/sept/eag_total_comp_fit.png", plot = x, height = 6, width = 6, units = "in")
+  geom_ribbon(aes(x = year, ymin = l95_est, ymax = u95_est, group = 1), fill = "grey80", alpha = 0.5)+
+  geom_ribbon(aes(x = year, ymin = l95, ymax = u95, group = 1), fill = "grey60", alpha = 0.5)+
+  geom_line(aes(x = year, y = pred_mean_size, group = 1))+
+  geom_vline(xintercept = 2004.5, linetype = 2)+
+  geom_point(aes(x = year, y = obs_mean_size))+
+  scale_x_continuous(breaks = yraxis$breaks, labels = yraxis$labels)+
+  facet_wrap(~model, ncol = 2)+
+  labs(x = NULL, y = paste0("Total Mean CL (mm)")) -> x
+ggsave("./AIGKC/figures/models/2025/sept/eag_data_wt_francis_plot_total.png.png", plot = x, height = 7, width = 8, units = "in")
 
+gmacs_get_effective_n(list(EAG25.0, EAG25.0a,  EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0d)) %>%
+  mutate(type = case_when(mod_series == 1 ~ "Retained", 
+                          mod_series == 2 ~ "Total")) %>%
+  ggplot()+
+  geom_line(aes(x = year, y = nsamp_est, color = model))+
+  scale_color_manual(values = cbpalette)+
+  scale_x_continuous(breaks = yraxis$breaks, labels = yraxis$labels)+
+  labs(x = NULL, y = "Effective Sample Size", color = NULL)+
+  facet_wrap(~type, ncol = 1) -> x
+ggsave("./AIGKC/figures/models/2025/sept/eag_data_wt_neff.png.png", plot = x, height = 5, width = 7, units = "in")
+  
+gmacs_get_derived_quantity_summary(list(EAG25.0, EAG25.0a,  EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0d)) %>% mutate(fishery = "EAG") %>%
+  bind_rows(gmacs_get_derived_quantity_summary(list(WAG25.0, WAG25.0a, WAG25.0b, WAG25.0b2, WAG25.0c, WAG25.0d)) %>% mutate(fishery = "WAG")) %>%
+  ggplot()+
+  geom_line(aes(x = factor(year), y = recruit_male, group = model, color = model))+
+  scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels)+
+  scale_y_continuous(labels = scales::comma, limits = c(0, NA))+
+  labs(x = NULL, y = "Recruitment (1,000s)", color = NULL)+
+  facet_wrap(~fishery, ncol = 1)+
+  scale_color_manual(values = cbpalette) -> x
+ggsave("./AIGKC/figures/models/2025/sept/data_wt_rec.png.png", plot = x, height = 5, width = 7, units = "in")
+
+# plot MMB
+eag_std <- gmacs_read_std("./AIGKC/models/2025/sept/EAG/25.0a/gmacs.std", sub_text = "log_ssb") %>%
+  transmute(ssb_se = se / (1 / exp(est)), 
+            ssb_lci = exp(est) + ssb_se * qnorm(0.05 / 2), 
+            ssb_uci = exp(est) + ssb_se * qnorm(1 - 0.05 / 2))
+
+wag_std <- gmacs_read_std("./AIGKC/models/2025/sept/WAG/25.0a/gmacs.std", sub_text = "log_ssb") %>%
+  transmute(ssb_se = se / (1 / exp(est)), 
+            ssb_lci = exp(est) + ssb_se * qnorm(0.05 / 2), 
+            ssb_uci = exp(est) + ssb_se * qnorm(1 - 0.05 / 2))
+
+tibble(mod = names(list(EAG25.0, EAG25.0a,  EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0d)),
+       all_out = list(EAG25.0, EAG25.0a,  EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0d)) %>% 
+  mutate(data = purrr::map(all_out, function(x) {
+    x$derived_quant_summary %>%
+                  mutate(model = as.character(x$model_name), 
+                         mmb_curr = NA) %>%
+                  add_row(year= max(.$year)+1,
+                          mmb_curr = x$mmb_curr) %>%
+      bind_cols(eag_std)
+  })) %>% transmute(data) %>% unnest(data) %>% mutate(fishery = "EAG") %>%
+  
+  bind_rows(tibble(mod = names(list(WAG25.0, WAG25.0a,  WAG25.0b, WAG25.0b2, WAG25.0c, WAG25.0d)),
+                   all_out = list(WAG25.0, WAG25.0a,  WAG25.0b, WAG25.0b2, WAG25.0c, WAG25.0d)) %>% 
+              mutate(data = purrr::map(all_out, function(x) {
+                x$derived_quant_summary %>%
+                  mutate(model = as.character(x$model_name), 
+                         mmb_curr = NA) %>%
+                  add_row(year= max(.$year)+1,
+                          mmb_curr = x$mmb_curr) %>%
+                  bind_cols(wag_std)
+              })) %>% transmute(data) %>% unnest(data) %>% mutate(fishery = "WAG")) %>%
+  ggplot()+
+  geom_ribbon(aes(x = factor(year), ymin = ssb_lci, ymax = ssb_uci, group = model), fill = "grey90", alpha = 0.2, show.legend = F)+
+  geom_line(aes(x = factor(year), y = ssb, group = model, color = model))+
+  geom_point(aes(x = factor(year), y = mmb_curr, color = model))+
+  scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels)+
+  scale_y_continuous(labels = scales::comma, limits = c(0, NA))+
+  scale_color_manual(values = cbpalette)+
+  scale_fill_manual(values = cbpalette)+
+  facet_wrap(~fishery, ncol = 1)+
+  labs(x = NULL, y = paste0("MMB (t)"), color = NULL)
+
+gmacs_plot_mmb(list(EAG25.0, EAG25.0a,  EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0d), save_plot = F, plot_ci = T, ci_alpha = 0.05, 
+               std_file = "./AIGKC/models/2025/sept/EAG/25.0a/gmacs.std")[[1]]+
+  labs(title = "EAG")+
+  theme(legend.position = "right", legend.justification = c(0.5, 0.5), plot.title = element_text(hjust = 0.5)) -> x
+ggsave("./AIGKC/figures/models/2025/sept/eag_data_wt_mmb.png.png", plot = x, height = 3, width = 6, units = "in")
 
 
 # plot fits to data wag
@@ -424,38 +502,170 @@ gmacs_plot_index(list(WAG25.0, WAG25.1, WAG25.1.2), save_plot = T,
                  y_labs = c("Observer CPUE", "Observer CPUE", "Fish Ticket CPUE"),
                  plot_dir = "./AIGKC/figures/models/2025/sept")
 
-gmacs_get_size_summary(list(EAG25.0, EAG25.0a, EAG25.1, EAG25.1a, EAG25.1a2)) %>%
+# gmacs_get_size_summary(list(EAG25.0, EAG25.0a, EAG25.1, EAG25.1a, EAG25.1a2)) %>%
+#   filter(type == "retained") %>%
+#   ggplot()+
+#   geom_bar(aes(x = size, y = obs), fill = "grey70", position = "identity", stat = "identity", alpha = 0.5, width = 5)+
+#   geom_line(aes(x = size, y = pred, color = model, group = model))+
+#   labs(x = "Carapace Length (mm)", y = NULL, color = NULL, fill = NULL, title = "EAG Retained Size Composition")+
+#   geom_text_npc(aes(npcx = "right", npcy = 0.6, label = year), check_overlap = T, size = 3)+
+#   scale_color_manual(values = cbpalette)+
+#   facet_wrap(~year, ncol = 4, dir = "v")+
+#   theme(panel.spacing.x = unit(0.2, "lines"),
+#         panel.spacing.y = unit(0, "lines"),
+#         panel.border = element_blank(),
+#         axis.line.x = element_line(color = "grey70", size = 0.2),
+#         axis.ticks.y = element_blank(),
+#         axis.text.y = element_blank(),
+#         axis.text.x = element_text(size = 8),
+#         plot.title = element_text(hjust = 0.5),
+#         strip.background = element_blank(),
+#         strip.text.x = element_blank(),
+#         panel.background = element_blank(),
+#         title = element_text(hjust = 0.5)) -> x
+# ggsave("./AIGKC/figures/models/2025/sept/eag_retained_comp_fit.png", plot = x, height = 6, width = 6, units = "in")
+# 
+
+# plot fits to data wag
+gmacs_plot_catch(list(WAG25.0, WAG25.0a, WAG25.0b, WAG25.0b2, WAG25.0c, WAG25.0d), save_plot = F)
+gmacs_get_index_summary(list(WAG25.0, WAG25.0a, WAG25.0b, WAG25.0b2, WAG25.0c, WAG25.0d)) %>%
+  mutate(index = case_when(series == 1 ~ "Pre-Rationalized Observer",
+                           series == 2 ~ "Post-Rationalized Observer",
+                           series == 3 ~ "Early Fish Ticket"),
+         index = factor(index, levels = c("Early Fish Ticket", "Pre-Rationalized Observer", "Post-Rationalized Observer"))) %>%
+  mutate(obs_l95 = obs_index * exp(-1.96 * sqrt(log(1 + obs_cv^2))),
+         obs_u95 = obs_index * exp(1.96 * sqrt(log(1 + obs_cv^2))),
+         tot_l95 = obs_index * exp(-1.96 * sqrt(log(1 + tot_cv^2))),
+         tot_u95 = obs_index * exp(1.96 * sqrt(log(1 + tot_cv^2)))) %>%
+  ggplot()+
+  geom_errorbar(aes(x = factor(year), ymin = tot_l95, ymax = tot_u95), width = 0, color = "grey70")+
+  geom_errorbar(aes(x = factor(year), ymin = obs_l95, ymax = obs_u95), width = 0, color = "grey20")+
+  geom_point(aes(x = factor(year), y = obs_index), color = "grey20")+
+  geom_line(aes(x = factor(year), y = pred_index, group = model, color = model))+
+  labs(x = NULL, color = NULL, y = "Standardized Index")+
+  scale_y_continuous(labels = scales::comma)+
+  scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels)+
+  scale_color_manual(values = cbpalette)+
+  coord_cartesian(ylim = c(0, NA))+
+  facet_wrap(~index, scales = "free_x", ncol = 2) -> x
+ggsave(plot = x, filename = "./AIGKC/figures/models/2025/sept/wag_data_wt_index_fit.png", height = 6, width = 8, units = "in") 
+
+gmacs_get_size_summary(list(WAG25.0, WAG25.0a,  WAG25.0b, WAG25.0b2, WAG25.0c, WAG25.0d)) %>%
+  dplyr::select(-nsamp_est) %>%
+  bind_cols(gmacs_get_effective_n(list(WAG25.0, WAG25.0a,  WAG25.0b, WAG25.0b2, WAG25.0c, WAG25.0d)) %>%
+              expand_grid(., size = seq(103, 183, 5)) %>%
+              transmute(nsamp_est)) %>%
   filter(type == "retained") %>%
+  group_by(model, year) %>%
+  summarise(obs_mean_size = weighted.mean(size, obs),
+            pred_mean_size = weighted.mean(size, pred), 
+            sd = sqrt(sum((size - pred_mean_size)^2 * pred) / sum(pred)) / sqrt(mean(nsamp_obs)),
+            l95 = pred_mean_size + sd * qnorm(0.025),
+            u95 = pred_mean_size + sd * qnorm(0.975),
+            sd_est = sqrt(sum((size - pred_mean_size)^2 * pred) / sum(pred)) / sqrt(mean(nsamp_est)),
+            l95_est = pred_mean_size + sd_est * qnorm(0.025),
+            u95_est = pred_mean_size + sd_est * qnorm(0.975)) %>% ungroup %>%
   ggplot()+
-  geom_bar(aes(x = size, y = obs), fill = "grey70", position = "identity", stat = "identity", alpha = 0.5, width = 5)+
-  geom_line(aes(x = size, y = pred, color = model, group = model))+
-  labs(x = "Carapace Length (mm)", y = NULL, color = NULL, fill = NULL, title = "EAG Retained Size Composition")+
-  geom_text_npc(aes(npcx = "right", npcy = 0.6, label = year), check_overlap = T, size = 3)+
-  scale_color_manual(values = cbpalette)+
-  facet_wrap(~year, ncol = 4, dir = "v")+
-  theme(panel.spacing.x = unit(0.2, "lines"),
-        panel.spacing.y = unit(0, "lines"),
-        panel.border = element_blank(),
-        axis.line.x = element_line(color = "grey70", size = 0.2),
-        axis.ticks.y = element_blank(),
-        axis.text.y = element_blank(),
-        axis.text.x = element_text(size = 8),
-        plot.title = element_text(hjust = 0.5),
-        strip.background = element_blank(),
-        strip.text.x = element_blank(),
-        panel.background = element_blank(),
-        title = element_text(hjust = 0.5)) -> x
-ggsave("./AIGKC/figures/models/2025/sept/eag_retained_comp_fit.png", plot = x, height = 6, width = 6, units = "in")
+  geom_ribbon(aes(x = year, ymin = l95_est, ymax = u95_est, group = 1), fill = "grey80", alpha = 0.5)+
+  geom_ribbon(aes(x = year, ymin = l95, ymax = u95, group = 1), fill = "grey60", alpha = 0.5)+
+  geom_line(aes(x = year, y = pred_mean_size, group = 1))+
+  geom_vline(xintercept = 2004.5, linetype = 2)+
+  geom_point(aes(x = year, y = obs_mean_size))+
+  scale_x_continuous(breaks = yraxis$breaks, labels = yraxis$labels)+
+  facet_wrap(~model, ncol = 2)+
+  labs(x = NULL, y = paste0("Retained Mean CL (mm)")) -> x
+ggsave("./AIGKC/figures/models/2025/sept/wag_data_wt_francis_plot_retained.png", plot = x, height = 7, width = 8, units = "in")
 
-gmacs_get_size_summary(list(EAG25.0, EAG25.0a, EAG25.1, EAG25.1a, EAG25.1a2)) %>%
+gmacs_get_size_summary(list(WAG25.0, WAG25.0a,  WAG25.0b, WAG25.0b2, WAG25.0c, WAG25.0d)) %>%
+  dplyr::select(-nsamp_est) %>%
+  bind_cols(gmacs_get_effective_n(list(WAG25.0, WAG25.0a,  WAG25.0b, WAG25.0b2, WAG25.0c, WAG25.0d)) %>%
+              expand_grid(., size = seq(103, 183, 5)) %>%
+              transmute(nsamp_est)) %>%
   filter(type == "total") %>%
+  group_by(model, year) %>%
+  summarise(obs_mean_size = weighted.mean(size, obs),
+            pred_mean_size = weighted.mean(size, pred), 
+            sd = sqrt(sum((size - pred_mean_size)^2 * pred) / sum(pred)) / sqrt(mean(nsamp_obs)),
+            l95 = pred_mean_size + sd * qnorm(0.025),
+            u95 = pred_mean_size + sd * qnorm(0.975),
+            sd_est = sqrt(sum((size - pred_mean_size)^2 * pred) / sum(pred)) / sqrt(mean(nsamp_est)),
+            l95_est = pred_mean_size + sd_est * qnorm(0.025),
+            u95_est = pred_mean_size + sd_est * qnorm(0.975)) %>% ungroup %>%
   ggplot()+
-  geom_bar(aes(x = size, y = obs), fill = "grey70", position = "identity", stat = "identity", alpha = 0.5, width = 5)+
-  geom_line(aes(x = size, y = pred, color = model, group = model))+
-  labs(x = "Carapace Length (mm)", y = NULL, color = NULL, fill = NULL, title = "EAG Total Size Composition")+
-  geom_text_npc(aes(npcx = "right", npcy = 0.6, label = year), check_overlap = T, size = 3)+
+  geom_ribbon(aes(x = year, ymin = l95_est, ymax = u95_est, group = 1), fill = "grey80", alpha = 0.5)+
+  geom_ribbon(aes(x = year, ymin = l95, ymax = u95, group = 1), fill = "grey60", alpha = 0.5)+
+  geom_line(aes(x = year, y = pred_mean_size, group = 1))+
+  geom_vline(xintercept = 2004.5, linetype = 2)+
+  geom_point(aes(x = year, y = obs_mean_size))+
+  scale_x_continuous(breaks = yraxis$breaks, labels = yraxis$labels)+
+  facet_wrap(~model, ncol = 2)+
+  labs(x = NULL, y = paste0("Total Mean CL (mm)")) -> x
+ggsave("./AIGKC/figures/models/2025/sept/wag_data_wt_francis_plot_total.png.png", plot = x, height = 7, width = 8, units = "in")
+
+gmacs_get_effective_n(list(WAG25.0, WAG25.0a,  WAG25.0b, WAG25.0b2, WAG25.0c, WAG25.0d)) %>%
+  mutate(type = case_when(mod_series == 1 ~ "Retained", 
+                          mod_series == 2 ~ "Total")) %>%
+  ggplot()+
+  geom_line(aes(x = year, y = nsamp_est, color = model))+
   scale_color_manual(values = cbpalette)+
-  facet_wrap(~year, ncol = 4, dir = "v")+
+  scale_x_continuous(breaks = yraxis$breaks, labels = yraxis$labels)+
+  labs(x = NULL, y = "Effective Sample Size", color = NULL)+
+  facet_wrap(~type, ncol = 1) -> x
+ggsave("./AIGKC/figures/models/2025/sept/wag_data_wt_neff.png.png", plot = x, height = 5, width = 7, units = "in")
+
+gmacs_plot_recruitment(list(WAG25.0, WAG25.0a,  WAG25.0b, WAG25.0b2, WAG25.0c, WAG25.0d), save_plot = F)+
+  theme(legend.position = "right", legend.justification = c(0.5, 0.5)) -> x
+ggsave("./AIGKC/figures/models/2025/sept/wag_data_wt_rec.png.png", plot = x, height = 3, width = 6, units = "in")
+
+gmacs_plot_mmb(list(WAG25.0, WAG25.0a,  WAG25.0b, WAG25.0b2, WAG25.0c, WAG25.0d), save_plot = F)[[1]]+
+  theme(legend.position = "right", legend.justification = c(0.5, 0.5)) -> x
+ggsave("./AIGKC/figures/models/2025/sept/wag_data_wt_mmb.png.png", plot = x, height = 3, width = 6, units = "in")
+
+
+# eag survey ----
+
+EAG23.1 <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/23.1_data/Gmacsall.out", "23.1")
+EAG25.0a <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.0a/Gmacsall.out", "25.0a")
+EAG25.1 <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.1/Gmacsall.out", "25.1")
+EAG25.1b <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.1b/Gmacsall.out", "25.1b")
+EAG25.1c <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.1c/Gmacsall.out", "25.1c")
+
+gmacs_plot_catch(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b), save_plot = F)
+gmacs_get_index_summary(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b)) %>%
+  mutate(index = case_when(series == 1 ~ "Pre-Rationalized Observer",
+                           series == 2 ~ "Post-Rationalized Observer",
+                           series == 3 ~ "Early Fish Ticket",
+                           series == 4 ~ "Cooperative Survey"),
+         index = factor(index, levels = c("Early Fish Ticket", "Pre-Rationalized Observer", "Post-Rationalized Observer", "Cooperative Survey"))) %>%
+  mutate(obs_l95 = obs_index * exp(-1.96 * sqrt(log(1 + obs_cv^2))),
+         obs_u95 = obs_index * exp(1.96 * sqrt(log(1 + obs_cv^2))),
+         tot_l95 = obs_index * exp(-1.96 * sqrt(log(1 + tot_cv^2))),
+         tot_u95 = obs_index * exp(1.96 * sqrt(log(1 + tot_cv^2)))) %>%
+  ggplot()+
+  geom_errorbar(aes(x = year, ymin = tot_l95, ymax = tot_u95), width = 0, color = "grey70")+
+  geom_errorbar(aes(x = year, ymin = obs_l95, ymax = obs_u95), width = 0, color = "grey20")+
+  geom_point(aes(x = year, y = obs_index), color = "grey20")+
+  geom_line(aes(x = year, y = pred_index, group = model, color = model))+
+  labs(x = NULL, color = NULL, y = "Standardized Index")+
+  scale_y_continuous(labels = scales::comma)+
+  scale_x_continuous(breaks = yraxis$breaks, labels = yraxis$labels)+
+  scale_color_manual(values = cbpalette)+
+  coord_cartesian(ylim = c(0, NA))+
+  facet_wrap(~index, scales = "free_x", ncol = 2) -> x
+ggsave(plot = x, filename = "./AIGKC/figures/models/2025/sept/eag_survey_index_fit.png", height = 6, width = 8, units = "in") 
+
+
+gmacs_get_size_summary(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b)) %>%
+  filter(fleet == "Directed_Fishery") %>%
+  mutate(type = str_to_title(type)) %>%
+  group_by(model, type, size) %>%
+  summarise(obs = sum(obs), pred = sum(pred)) %>%
+  ggplot()+
+  geom_bar(aes(x = size, y = obs), fill = "grey70", position = "identity", stat = "identity", alpha = 0.1, width = 5)+
+  geom_line(aes(x = size, y = pred, color = model, group = model))+
+  labs(x = "Carapace Length (mm)", y = NULL, color = NULL, fill = NULL)+
+  scale_color_manual(values = cbpalette)+
+  facet_wrap(~type, ncol = 1)+
   theme(panel.spacing.x = unit(0.2, "lines"),
         panel.spacing.y = unit(0, "lines"),
         panel.border = element_blank(),
@@ -465,17 +675,111 @@ gmacs_get_size_summary(list(EAG25.0, EAG25.0a, EAG25.1, EAG25.1a, EAG25.1a2)) %>
         axis.text.x = element_text(size = 8),
         plot.title = element_text(hjust = 0.5),
         strip.background = element_blank(),
-        strip.text.x = element_blank(),
+        #strip.text.x = element_blank(),
         panel.background = element_blank(),
         title = element_text(hjust = 0.5)) -> x
-ggsave("./AIGKC/figures/models/2025/sept/eag_total_comp_fit.png", plot = x, height = 6, width = 6, units = "in")
+ggsave("./AIGKC/figures/models/2025/sept/eag_survey_comp_fit.png", plot = x, height = 4, width = 5, units = "in")
+
+gmacs_get_size_summary(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b)) %>% 
+  filter(fleet == "Coop_Survey") %>%
+  ggplot()+
+  geom_bar(aes(x = size, y = obs), fill = "grey60", position = "identity", stat = "identity", alpha = 0.1, width = 5)+
+  geom_line(aes(x = size, y = pred, color = model, group = model))+
+  labs(x = "Carapace Length (mm)", y = NULL, color = NULL, fill = NULL)+
+  scale_color_manual(values = cbpalette)+
+  facet_wrap(~year, ncol = 1)+
+  theme(panel.spacing.x = unit(0.2, "lines"),
+        panel.spacing.y = unit(0, "lines"),
+        panel.border = element_blank(),
+        axis.line.x = element_line(color = "grey70", size = 0.2),
+        axis.ticks.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.text.x = element_text(size = 8),
+        plot.title = element_text(hjust = 0.5),
+        strip.background = element_blank(),
+        #strip.text.x = element_blank(),
+        panel.background = element_blank(),
+        title = element_text(hjust = 0.5)) -> x
+ggsave("./AIGKC/figures/models/2025/sept/eag_survey_comp_fit_survey.png", plot = x, height = 7, width = 4, units = "in") 
+
+gmacs_get_size_summary(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b)) %>%
+  dplyr::select(-nsamp_est) %>%
+  bind_cols(gmacs_get_effective_n(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b)) %>%
+              expand_grid(., size = seq(103, 183, 5)) %>%
+              transmute(nsamp_est)) %>%
+  filter(fleet == "Coop_Survey", type == "total") %>%
+  group_by(model, year) %>%
+  summarise(obs_mean_size = weighted.mean(size, obs),
+            pred_mean_size = weighted.mean(size, pred), 
+            sd = sqrt(sum((size - pred_mean_size)^2 * pred) / sum(pred)) / sqrt(mean(nsamp_obs)),
+            l95 = pred_mean_size + sd * qnorm(0.025),
+            u95 = pred_mean_size + sd * qnorm(0.975),
+            sd_est = sqrt(sum((size - pred_mean_size)^2 * pred) / sum(pred)) / sqrt(mean(nsamp_est)),
+            l95_est = pred_mean_size + sd_est * qnorm(0.025),
+            u95_est = pred_mean_size + sd_est * qnorm(0.975)) %>% ungroup %>%
+  ggplot()+
+  geom_ribbon(aes(x = year, ymin = l95_est, ymax = u95_est, group = 1), fill = "grey80", alpha = 0.5)+
+  geom_ribbon(aes(x = year, ymin = l95, ymax = u95, group = 1), fill = "grey60", alpha = 0.5)+
+  geom_line(aes(x = year, y = pred_mean_size, group = 1))+
+  #geom_vline(xintercept = 2004.5, linetype = 2)+
+  geom_point(aes(x = year, y = obs_mean_size))+
+  scale_x_continuous(breaks = yraxis$breaks, labels = yraxis$labels)+
+  facet_wrap(~model, ncol = 2)+
+  labs(x = NULL, y = paste0("Survey Mean CL (mm)")) -> x
+ggsave("./AIGKC/figures/models/2025/sept/eag_survey_francis_plot_total.png.png", plot = x, height = 7, width = 8, units = "in")
 
 
+gmacs_get_slx(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b)) %>%
+  filter(fleet %in% c("Directed_Fishery", "Coop_Survey"),
+         !(fleet == "Coop_Survey" & year < 2005)) %>% 
+  mutate(block = ifelse(year <= 2004, "Pre-Rationalization", "Post-Rationalization"),
+         block = factor(block, levels = c("Pre-Rationalization", "Post-Rationalization"))) %>%
+  ggplot()+
+  geom_line(aes(x = size, y = slx_capture, color = model, linetype = fleet))+
+  scale_color_manual(values = cbpalette)+
+  facet_wrap(~block)+
+  labs(x = "Carapace Length (mm)", y = "Selectivity", linetype = NULL, color = NULL) -> x
+ggsave("./AIGKC/figures/models/2025/sept/eag_survey_slx.png.png", plot = x, height = 3, width = 6, units = "in")
 
 
+gmacs_plot_recruitment(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b), save_plot = F)+
+  theme(legend.position = "right", legend.justification = c(0.5, 0.5)) -> x
+ggsave("./AIGKC/figures/models/2025/sept/eag_survey_rec.png.png", plot = x, height = 3, width = 6, units = "in")
 
-gmacs_plot_mmb(list(EAG23.1c, EAG25.0, EAG25.1, EAG25.1a), save_plot = F)
-gmacs_plot_recruitment(list(EAG23.1c, EAG25.0, EAG25.1, EAG25.1a), save_plot = F)
+gmacs_plot_mmb(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b), save_plot = F)[[1]]+
+  theme(legend.position = "right", legend.justification = c(0.5, 0.5)) -> x
+ggsave("./AIGKC/figures/models/2025/sept/eag_survey_mmb.png.png", plot = x, height = 3, width = 6, units = "in")
+
+
+ 
+# tables ----
+
+gmacs_get_pars(list(EAG23.1, EAG25.0, EAG25.0a, EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0d, EAG25.1, EAG25.1b)) %>%
+  filter(grepl("add_cv", parameter)) %>%
+  mutate(series = substring(parameter, 20, 20),
+         series = case_when(series == 1 ~ "Pre-Rat. Observer CPUE",
+                            series == 2 ~ "Post-Rat. Observer CPUE", 
+                            series == 3 ~ "Early Fish Ticket CPUE"),
+         est = exp(estimate)) %>%
+  filter(!is.na(series)) %>%
+  transmute(model, series, est = round(est, 2)) %>%
+  pivot_wider(names_from = model, values_from = est) %>%
+  mutate(fishery = "EAG") %>% dplyr::select(ncol(.), 1:(ncol(.)-1)) %>%
+  write_csv("./AIGKC/output/models/2025/sept/eag_index_add_cv.csv")
+  
+
+gmacs_get_pars(list(WAG23.1, WAG25.0, WAG25.0a, WAG25.0b, WAG25.0b2, WAG25.0c, WAG25.0d)) %>%
+  filter(grepl("add_cv", parameter)) %>%
+  mutate(series = substring(parameter, 20, 20),
+         series = case_when(series == 1 ~ "Pre-Rat. Observer CPUE",
+                            series == 2 ~ "Post-Rat. Observer CPUE", 
+                            series == 3 ~ "Early Fish Ticket CPUE"),
+         est = exp(estimate)) %>%
+  filter(!is.na(series)) %>%
+  transmute(model, series, est = round(est, 2)) %>%
+  pivot_wider(names_from = model, values_from = est) %>%
+  mutate(fishery = "WAG") %>% dplyr::select(ncol(.), 1:(ncol(.)-1)) %>%
+  write_csv("./AIGKC/output/models/2025/sept/wag_index_add_cv.csv")
 
 # retrospective issues ----
 
