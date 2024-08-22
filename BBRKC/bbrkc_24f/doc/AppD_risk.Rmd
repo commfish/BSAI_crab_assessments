@@ -1,0 +1,33 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+
+\pagenumbering{arabic}
+
+```{r global_options2, include=FALSE, echo = FALSE, message = FALSE, warning=FALSE}
+#library(knitr) # don't need these if this is a "child" of the larger doc
+#opts_chunk$set(fig.width = 12, fig.height = 7, fig.align = "left", echo = FALSE, warning = FALSE, message = FALSE,  dpi=300)
+#\pagenumbering{gobble}
+#library(xtable)
+#options(xtable.comment = FALSE)
+```
+
+# Appendix D. Draft Risk Table for BBRKC 2024 {-}
+
+During the 2023 fall assessment cycle for BSAI crab stocks the SSC requested that the CPT take up risk tables again for crab stocks. The CPT recommended bringing forwad a draft risk table for the "big three" stocks for the 2024 assessment cycle. 
+
+The risk table approach, currently used in the groundfish assessments, highlights external factors to the assessment performance across four categories: assessment-related, population dynamics, environmental/ecosystem, and fishery performance. The risk table would highlight potential issues in these four areas that should be considered when applying a buffer to the OFL to determine a recommended ABC. Currently, ABC buffers for crab stocks are set using uncertainties about the stock and assessment process that are not incorporated into the assessment model. These are documented in the SAFE reports in each year. The goal of incorporating the risk table process is to use this tool to organize the information that is currently used in ABC buffer considerations. 
+
+
+## Assessment related considerations {-}
+
+## Population dynamic considerations {-}
+
+## Environmental/Ecosystem considerations {-}
+
+## Fishery performance considerations {-}
+
+
+
