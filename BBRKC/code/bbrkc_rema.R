@@ -1,7 +1,7 @@
 # notes ----
 # REMA for BBRKC MMB 
 # tyler jackson
-# 5/2/2023 / 8-28-2023
+# 5/2/2023 / 8-28-2023 / 8-17-2024
 
 # load ----
 
@@ -109,15 +109,16 @@ f_plot_rema_fit <- function(fits, confint = T) {
 }
 
 # data ----
-
+cur_yr = 2024
 # specimen data (haul data dump)
 #read.csv("./BBRKC/data/2022/survey/rkc_specimen.csv", skip = 5) %>%
-read.csv("./BBRKC/data/2023/survey/EBSCrab_Haul.csv", skip = 5) %>%
+read.csv(paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/EBSCrab_Haul.csv'), 
+         skip = 5) %>% 
   rename_all(tolower) -> specimen
 
 # strata file (strata dump)
 #read.csv("./BBRKC/data/2022/survey/rkc_strata.csv") %>%
-read.csv("./BBRKC/data/2023/survey/EBSCRAB - Strata Report_all.csv") %>%
+read.csv(paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/EBSCRAB - Strata Report_all.csv')) %>%
   rename_all(tolower) %>%
   rename_at(1, ~"station_id") -> strata
 
@@ -177,7 +178,7 @@ specimen %>%
             cpue_wt = wt_crab / mean(area_swept)) %>%
   # join to all hauls, fill in zero catches
   right_join(hauls) %>%
-  replace_na(list(wt_crab= 0, cpue_wt = 0)) %>%
+  tidyr::replace_na(list(wt_crab= 0, cpue_wt = 0)) %>%
   # scale to abundance
   group_by(akfin_survey_year) %>%
   summarise(biomass_t = mean(cpue_wt) * mean(total_area_sq_nm),
@@ -196,7 +197,7 @@ mmb %>%
 ## fit base rema model
 prepare_rema_input(model_name = "BBRKC_REMA23.4",
                    start_year = 1975,
-                   end_year = 2023,
+                   end_year = 2024,
                    biomass_dat = rema_in) %>%
   fit_rema(do.check = T) -> BBRKC_REMA23.4
 
@@ -206,21 +207,25 @@ prepare_rema_input(model_name = "BBRKC_REMA23.4",
 tidy_rema(BBRKC_REMA23.4)$biomass_by_strata %>%
   transmute(year, pred_t = pred, pred_l95 = pred_lci, pred_u95 = pred_uci,
             obs_t = obs, obs_l95 = obs_lci, obs_u95 = obs_uci) %>%
-  write.csv("./BBRKC/bbrkc_23f/doc/figures/REMA/rema_fit.csv")
+  write.csv(paste0(here::here(), "./BBRKC/bbrkc_24f/doc/figures/REMA/rema_fit.csv"))
 
 # plot mmb fit
 p1 <- f_plot_rema_fit(list(BBRKC_REMA23.4))
 
-ggsave("./BBRKC/bbrkc_23f/doc/figures/REMA/mmbfit.png", plot = p1, height = 4, width = 6, units = "in")
+ggsave(paste0(here::here(), "./BBRKC/bbrkc_24f/doc/figures/REMA/mmbfit.png"), plot = p1, height = 4, width = 6, units = "in")
 
 # estimate OFL and ABC using tier 4/5 ----
 ## mmb timeseries fit ----
 tidy_rema(BBRKC_REMA23.4)$biomass_by_strata %>% 
-  select(year, pred) -> predicted_mmb
+  select(year, pred, sd_log_pred) %>% 
+  mutate(sd_pred = pred*(exp(sd_log_pred^2)-1)^0.5, 
+         CV_pred = sd_pred/pred) -> predicted_mmb
+
+#sd_mmb = MMB*(exp(sd_log_ssb^2)-1)^0.5) %>% # sd mmb
 
 # average B from 1984 to 2022
 predicted_mmb %>% 
-  filter(year >=1984 & year <= 2022) %>% # change year here to 2022
+  filter(year >=1984 & year <= 2023) %>% # change year here to 2022
   summarise(averageB = mean(pred)) %>% 
   as.numeric -> avg_B
 
@@ -233,7 +238,7 @@ tidy_rema(BBRKC_REMA23.4)$biomass_by_strata %>%
 status <- MMB/avg_B
 
 # natural mortality
-M <- 0.18
+M <- 0.23
 
 # Fofl
 Fofl <- (M*(status - 0.1))/(1-0.1) # where alpha = 0.1 Tier 4 OFL
@@ -244,14 +249,18 @@ OFL <- MMB*Fofl
 
 # ABC 
 ABC <- (1 - 0.20) * OFL
+predicted_mmb %>% 
+  select(CV_pred) %>% 
+  tail(1) -> abc_buck
+abc_buck
+ABC_2 <- (1-0.15)*OFL
 
-
-specs <- round(c(avg_B, MMB, status, M, Fofl, OFL, ABC), 2)
-cnames <- c("avgB", "MMB", "B/Bmsy","M", "Fofl", "OFL", "ABC")
+specs <- round(c(avg_B, MMB, status, M, Fofl, OFL, ABC, ABC_2), 2)
+cnames <- c("avgB", "MMB", "B/Bmsy","M", "Fofl", "OFL", "ABC", "ABC_2")
 df <- data.frame(cnames, specs) 
 df %>% 
   spread(cnames, specs) %>% 
-  select(avgB, MMB, `B/Bmsy`, M, Fofl, OFL, ABC)-> df
-write.csv(df, "./BBRKC/bbrkc_23f/doc/figures/REMA/specs_REMA.csv", row.names = FALSE)
+  select(avgB, MMB, `B/Bmsy`, M, Fofl, OFL, ABC, ABC_2)-> df
+write.csv(df, paste0(here::here(), "./BBRKC/bbrkc_24f/doc/figures/REMA/specs_REMA.csv"), row.names = FALSE)
 
 
