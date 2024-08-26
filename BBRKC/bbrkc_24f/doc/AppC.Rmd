@@ -29,7 +29,7 @@ This is a Tier 4 approach where:
 
 ## REMA model for BBRKC {-}
 For BBRKC the male biomass that is determined to be vulnerable to the directed and incidental catch fisheries is the mature male biomass, crab > 119mm CL. Crab at this size are approximately one or more molt increments away from legal size and therefore are likely to be found with legal size male crab and be vulnerable to discard mortality.
-This modeling exercise applies a an ABC buffer similar to the 2023 Tanner crab REMA model, where the ABC buffer is estimated to be the CV of the final year of the REMA output rounded to the nearest 5%.
+This modeling exercise applies two ABC buffers - one similar to the 2023 Tanner crab REMA model, where the ABC buffer is estimated to be the CV of the final year of the REMA output rounded to the nearest 5% (which for 2024 is 15%), and the Tier 3 20% buffer. The Tier 3 resulting ABC (using a buffer of 20%) is labeled ABC in the table below, and the alternative buffer calculation is labeled ABC_2.
 
 As defined by the Crab FMP stock status is determined by the current years biomass (B) compared to the average biomass over a period of time. For consistencies with the current modeling approaches for BBRKC the time period used is 1984 to 2023, this is the same time period that is used in the Tier 3 model for calculation status determination.
 
@@ -46,14 +46,14 @@ M & MMB > B_{MSY}\\[10pt]
 \end{cases}
 \end{equation}
 
-where MMB is quantified at the mean time of mating date (15 February), $B_{MSY}$ is defined as the average MMB for a specified period, $M$ = 0.18 yr$^{-1}$, and $\alpha$ = 0.1. The Tier 4 OFL (Table \@ref(tab:specs-rema)) was calculated by applying a fishing mortality determined by the harvest control rule (above) to the mature male biomass at the time of mating (B$_{proj}$ or Current B).
+where MMB is quantified at the mean time of mating date (15 February), $B_{MSY}$ is defined as the average MMB for a specified period, $M$ = 0.23 yr$^{-1}$, and $\alpha$ = 0.1. The Tier 4 OFL (Table \@ref(tab:specs-rema)) was calculated by applying a fishing mortality determined by the harvest control rule (above) to the mature male biomass at the time of mating (B$_{proj}$ or Current B).
 
 ```{r specs-rema, results = "asis"}
 
-#df <- read.csv(paste0(here::here(), '/BBRKC/bbrkc_24f/doc/figures/REMA/specs_REMA.csv'))
-#names(df) <- c("avgB", "Current B", "$MMB/B_\\text{MSY}$", "M", "$F_\\text{OFL}$", "OFL", "ABC")
-#tab       <- xtable(df, caption = "Specificatoins using the REMA output on mature male NFMS trawl survey area-swept biomass.", label = "tab:specs-rema")
-#print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,nrow(tab)))
+df <- read.csv(paste0(here::here(), '/BBRKC/bbrkc_24f/doc/figures/REMA/specs_REMA.csv'))
+names(df) <- c("avgB", "Current B", "$MMB/B_\\text{MSY}$", "M", "$F_\\text{OFL}$", "OFL", "ABC", "ABC 2")
+tab       <- xtable(df, caption = "Specificatoins using the REMA output on mature male NFMS trawl survey area-swept biomass.", label = "tab:specs-rema")
+print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,nrow(tab)))
 ```
 
 \pagebreak 

@@ -170,6 +170,22 @@ gmacs_plot_f_mmb_dir(all_out = list(m230a_24, m24c), save_plot = T, plot_dir = p
 gmacs_plot_f(all_out = base_models, save_plot = T, plot_dir = plot_save)
 #gmacs_plot_f(all_out = sel_models, save_plot = T, plot_dir = plot_save_sel)
 #gmacs_plot_f(all_out = molt_models, save_plot = T, plot_dir = plot_save_molt)
+ftemp <- gmacs_get_f(all_out = list(m230a_24, m24c))
+ftemp %>%
+  group_by(model, year, sex, fleet, n_sex) %>%
+  summarize(f = sum(`F`)) -> ftemp2
+ftemp2 %>% 
+  filter(fleet == "Pot_Fishery", sex == "male") %>% 
+  filter(f >= 0.4) %>% print(n = 100)
+
+ftemp2 %>% 
+  filter(fleet == "Pot_Fishery", sex == "female") %>% 
+  print(n = 100)
+
+ftemp2 %>% 
+  filter(fleet == "Trawl_Bycatch") %>% print(n=100)
+  group_by(fleet) %>% 
+  summarise(max(f, na.rm = TRUE))
 # fishing mortality panel ??? **fix**
 
 # plot M nat mort -----------
@@ -232,6 +248,59 @@ ggsave(paste0(.FIGS, "mature_female_abundance_mod_scen.png"), width = 6*1.3, hei
 # here here 
 # get derived quantity summary
 deriv.quant <- gmacs_get_derived_quantity_summary(all_out = list(m230a_23, m230a_24, m24c))
+
+# stock recruit "stock_recruit_XX.png" ------
+dquant230a <- gmacs_get_derived_quantity_summary(all_out = list(m230a_24))
+b35 <- m230a_24$bmsy/1000
+
+dquant230a %>% 
+  select(year, ssb, recruit_male, recruit_female) %>% 
+  mutate(ssb = ssb/1000, 
+         recruits = (recruit_male + recruit_female)/1000000) %>% 
+  mutate(recruit_lag6 = dplyr::lead(recruits, n=6)) -> temp1
+
+temp1 %>% 
+  ggplot() +
+  geom_text(aes(x = ssb, y = recruit_lag6, label = substring(year, 3, 4)), size = 2.5) +
+  ylim(0, 200) +
+  geom_segment(aes(x= b35, y = 0, xend = b35, yend = 150), linetype = "dashed", color = "red", 
+               size = 1.5) +
+  geom_text(aes(x=b35+10, y = 150), label = "B35%", size = 4.75) +
+  expand_limits(x = 0, y = 0) +
+  xlab("Mature male biomass on 2/15 (1000 t)") +
+  ylab("Total Recruits (millions)") +
+  theme_sleek()
+ggsave(paste0(here::here(), "/BBRKC/", folder, "/doc/figures/stock_recruit_230a.png"), width = 6, height = 5*1.35)
+
+# stock recruit "log_stock_recruit_XX.png" ------
+dquant230a <- gmacs_get_derived_quantity_summary(all_out = list(m230a_24))
+b35 <- m230a_24$bmsy/1000
+
+dquant230a %>% 
+  select(year, ssb, recruit_male, recruit_female) %>% 
+  mutate(ssb = ssb/1000, 
+         recruits = (recruit_male + recruit_female)/1000000) %>% 
+  mutate(recruit_lag6 = dplyr::lead(recruits, n=6), 
+         r_mmb = recruit_lag6/ssb, 
+         l_r_mmb = log(r_mmb)) -> temp1
+
+temp2 <- lm(r_mmb~ssb, data = temp1)
+
+temp1 %>% 
+  ggplot() +
+  geom_text_repel(aes(x = ssb, y = r_mmb, label = substring(year, 3, 4)), size = 2.5) +
+  #ylim(0, 200) +
+  #geom_segment(aes(x= b35, y = 0, xend = b35, yend = 150), linetype = "dashed", color = "red", 
+  #             size = 1.5) +
+  #geom_text(aes(x=b35+10, y = 150), label = "B35%", size = 4.75) +
+  expand_limits(x = 0, y = 0) +
+  geom_smooth(aes(x = ssb, y = r_mmb) ,method = "lm")+
+  xlab("Mature male biomass on 2/15 (1000 t)") +
+  ylab("Total Recruits/MMB") +
+  theme_sleek()
+ggsave(paste0(here::here(), "/BBRKC/", folder, "/doc/figures/stock_recruit2_230a.png"), width = 6, height = 5*1.35)
+
+#ggsave(paste0(here::here(), "/BBRKC/", folder, "/doc/figures/log_stock_recruit_230a.png"), width = 6, height = 5*1.35)
 
 
 ## TABLES ====================================
@@ -469,7 +538,7 @@ temp3 %>%
   summarise(total_obs = round(sum(obs_index)/1000, 2), # total area swept
             total_pred = round(sum(pred_index)/1000, 2)) -> survey_est # total model est survey
 
-# put them in the correct order for tables in doc -------
+###### put them in the correct order for tables in doc -------
 #abun_tab <- cbind(fmales1[ ,1:3], derived_m[ ,2:3], recruit_tab, survey_est[ ,c(3,2)])
 survey_est %>% #[1:47, ] %>% 
   merge(derived_m, all = T) %>% 
@@ -482,3 +551,8 @@ abun_tab2 %>%
 
 write.csv(abun_tab3, paste0(.TABS, "_", model, "gmacs_sum_abun.csv"), row.names = FALSE)
 
+# jitter runs ----------------------
+gmacs_do_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_24f/model_23_0a_ph7_24/gmacs.dat", 
+                0.1, 24, ref_points = T, save_csv = T, save_plot = T, version1 = "2.20.14")
+# test to see if it works.
+#f_run_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_24f/model_23_0a_ph7_24", 0.1, 1, ref_points = F)  
