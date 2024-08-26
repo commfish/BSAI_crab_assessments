@@ -430,9 +430,10 @@ gmacs_get_effective_n(list(EAG25.0, EAG25.0a,  EAG25.0b, EAG25.0b2, EAG25.0c, EA
   geom_line(aes(x = year, y = nsamp_est, color = model))+
   scale_color_manual(values = cbpalette)+
   scale_x_continuous(breaks = yraxis$breaks, labels = yraxis$labels)+
+  scale_y_continuous(labels = scales::comma)+
   labs(x = NULL, y = "Effective Sample Size", color = NULL)+
   facet_wrap(~type, ncol = 1) -> x
-ggsave("./AIGKC/figures/models/2025/sept/eag_data_wt_neff.png.png", plot = x, height = 5, width = 7, units = "in")
+ggsave("./AIGKC/figures/models/2025/sept/eag_data_wt_neff.png", plot = x, height = 5, width = 7, units = "in")
   
 gmacs_get_derived_quantity_summary(list(EAG25.0, EAG25.0a,  EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0d)) %>% mutate(fishery = "EAG") %>%
   bind_rows(gmacs_get_derived_quantity_summary(list(WAG25.0, WAG25.0a, WAG25.0b, WAG25.0b2, WAG25.0c, WAG25.0d)) %>% mutate(fishery = "WAG")) %>%
@@ -443,7 +444,7 @@ gmacs_get_derived_quantity_summary(list(EAG25.0, EAG25.0a,  EAG25.0b, EAG25.0b2,
   labs(x = NULL, y = "Recruitment (1,000s)", color = NULL)+
   facet_wrap(~fishery, ncol = 1)+
   scale_color_manual(values = cbpalette) -> x
-ggsave("./AIGKC/figures/models/2025/sept/data_wt_rec.png.png", plot = x, height = 5, width = 7, units = "in")
+ggsave("./AIGKC/figures/models/2025/sept/data_wt_rec.png", plot = x, height = 5, width = 7, units = "in")
 
 # plot MMB
 eag_std <- gmacs_read_std("./AIGKC/models/2025/sept/EAG/25.0a/gmacs.std", sub_text = "log_ssb") %>%
@@ -456,43 +457,67 @@ wag_std <- gmacs_read_std("./AIGKC/models/2025/sept/WAG/25.0a/gmacs.std", sub_te
             ssb_lci = exp(est) + ssb_se * qnorm(0.05 / 2), 
             ssb_uci = exp(est) + ssb_se * qnorm(1 - 0.05 / 2))
 
-tibble(mod = names(list(EAG25.0, EAG25.0a,  EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0d)),
-       all_out = list(EAG25.0, EAG25.0a,  EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0d)) %>% 
-  mutate(data = purrr::map(all_out, function(x) {
-    x$derived_quant_summary %>%
-                  mutate(model = as.character(x$model_name), 
-                         mmb_curr = NA) %>%
-                  add_row(year= max(.$year)+1,
-                          mmb_curr = x$mmb_curr) %>%
-      bind_cols(eag_std)
-  })) %>% transmute(data) %>% unnest(data) %>% mutate(fishery = "EAG") %>%
+tibble(ao = list(EAG25.0, EAG25.0a, EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0d),
+       std = file.path("./AIGKC/models/2025/sept/EAG", 
+                       c("25.0", "25.0a", "25.0b", "25.0b2", "25.0c", "25.0d"), 
+                       "gmacs.std")) %>% #pull(ao) %>% .[[1]] -> ao
+  mutate(out = purrr::map2(ao, std, function(ao, std) {
+    se <- gmacs_read_std(std, sub_text = "log_ssb") %>% 
+      transmute(ssb_se = se / (1 / exp(est)), 
+                ssb_lci = exp(est) + ssb_se * qnorm(0.05 / 2), 
+                ssb_uci = exp(est) + ssb_se * qnorm(1 - 0.05 / 2)) %>%
+      bind_rows(gmacs_read_std(std, sub_text = "last_ssb") %>%
+                  transmute(ssb_se = se, 
+                            ssb_lci = est + ssb_se * qnorm(0.05 / 2), 
+                            ssb_uci = est + ssb_se * qnorm(1 - 0.05 / 2)) ) %>%
+      mutate(year = c(ao$mod_yrs, max(ao$mod_yrs)+1))
+    ao$derived_quant_summary %>% 
+      mutate(model = as.character(ao$model_name)) %>%
+      add_row(year = max(ao$mod_yrs)+1,
+              model = as.character(ao$model_name),
+              ssb = ao$mmb_curr) %>%
+      left_join(se)
+    
+  })) %>%
+  transmute(out) %>% unnest %>%
+  mutate(fishery = "EAG") %>%
   
-  bind_rows(tibble(mod = names(list(WAG25.0, WAG25.0a,  WAG25.0b, WAG25.0b2, WAG25.0c, WAG25.0d)),
-                   all_out = list(WAG25.0, WAG25.0a,  WAG25.0b, WAG25.0b2, WAG25.0c, WAG25.0d)) %>% 
-              mutate(data = purrr::map(all_out, function(x) {
-                x$derived_quant_summary %>%
-                  mutate(model = as.character(x$model_name), 
-                         mmb_curr = NA) %>%
-                  add_row(year= max(.$year)+1,
-                          mmb_curr = x$mmb_curr) %>%
-                  bind_cols(wag_std)
-              })) %>% transmute(data) %>% unnest(data) %>% mutate(fishery = "WAG")) %>%
+  bind_rows(tibble(ao = list(WAG25.0, WAG25.0a, WAG25.0b, WAG25.0b2, WAG25.0c, WAG25.0d),
+                   std = file.path("./AIGKC/models/2025/sept/WAG", 
+                                   c("25.0", "25.0a", "25.0b", "25.0b2", "25.0c", "25.0d"), 
+                                   "gmacs.std")) %>% #pull(ao) %>% .[[1]] -> ao
+              mutate(out = purrr::map2(ao, std, function(ao, std) {
+                se <- gmacs_read_std(std, sub_text = "log_ssb") %>% 
+                  transmute(ssb_se = se / (1 / exp(est)), 
+                            ssb_lci = exp(est) + ssb_se * qnorm(0.05 / 2), 
+                            ssb_uci = exp(est) + ssb_se * qnorm(1 - 0.05 / 2)) %>%
+                  bind_rows(gmacs_read_std(std, sub_text = "last_ssb") %>%
+                              transmute(ssb_se = se, 
+                                        ssb_lci = est + ssb_se * qnorm(0.05 / 2), 
+                                        ssb_uci = est + ssb_se * qnorm(1 - 0.05 / 2)) ) %>%
+                  mutate(year = c(ao$mod_yrs, max(ao$mod_yrs)+1))
+                ao$derived_quant_summary %>% 
+                  mutate(model = as.character(ao$model_name)) %>%
+                  add_row(year = max(ao$mod_yrs)+1,
+                          model = as.character(ao$model_name),
+                          ssb = ao$mmb_curr) %>%
+                  left_join(se)
+                
+              })) %>%
+              transmute(out) %>% unnest %>%
+              mutate(fishery = "WAG")) %>%
+  
   ggplot()+
-  geom_ribbon(aes(x = factor(year), ymin = ssb_lci, ymax = ssb_uci, group = model), fill = "grey90", alpha = 0.2, show.legend = F)+
-  geom_line(aes(x = factor(year), y = ssb, group = model, color = model))+
-  geom_point(aes(x = factor(year), y = mmb_curr, color = model))+
+  geom_ribbon(data = ~filter(.x, model == "25.0a"), aes(x = factor(year), ymin = ssb_lci, ymax = ssb_uci, group = model), fill = "grey70", alpha = 0.2, show.legend = F)+
+  geom_line(data = ~filter(.x, year != max(year)), aes(x = factor(year), y = ssb, group = model, color = model)) +
+  geom_point(data = ~filter(.x, year == max(year)), aes(x = factor(year), y = ssb, color = model))+
   scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels)+
   scale_y_continuous(labels = scales::comma, limits = c(0, NA))+
   scale_color_manual(values = cbpalette)+
   scale_fill_manual(values = cbpalette)+
   facet_wrap(~fishery, ncol = 1)+
-  labs(x = NULL, y = paste0("MMB (t)"), color = NULL)
-
-gmacs_plot_mmb(list(EAG25.0, EAG25.0a,  EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0d), save_plot = F, plot_ci = T, ci_alpha = 0.05, 
-               std_file = "./AIGKC/models/2025/sept/EAG/25.0a/gmacs.std")[[1]]+
-  labs(title = "EAG")+
-  theme(legend.position = "right", legend.justification = c(0.5, 0.5), plot.title = element_text(hjust = 0.5)) -> x
-ggsave("./AIGKC/figures/models/2025/sept/eag_data_wt_mmb.png.png", plot = x, height = 3, width = 6, units = "in")
+  labs(x = NULL, y = paste0("MMB (t)"), color = NULL) -> x
+ggsave("./AIGKC/figures/models/2025/sept/data_wt_mmb.png", plot = x, height = 5, width = 6, units = "in")
 
 
 # plot fits to data wag
@@ -600,7 +625,7 @@ gmacs_get_size_summary(list(WAG25.0, WAG25.0a,  WAG25.0b, WAG25.0b2, WAG25.0c, W
   scale_x_continuous(breaks = yraxis$breaks, labels = yraxis$labels)+
   facet_wrap(~model, ncol = 2)+
   labs(x = NULL, y = paste0("Total Mean CL (mm)")) -> x
-ggsave("./AIGKC/figures/models/2025/sept/wag_data_wt_francis_plot_total.png.png", plot = x, height = 7, width = 8, units = "in")
+ggsave("./AIGKC/figures/models/2025/sept/wag_data_wt_francis_plot_total.png", plot = x, height = 7, width = 8, units = "in")
 
 gmacs_get_effective_n(list(WAG25.0, WAG25.0a,  WAG25.0b, WAG25.0b2, WAG25.0c, WAG25.0d)) %>%
   mutate(type = case_when(mod_series == 1 ~ "Retained", 
@@ -611,15 +636,15 @@ gmacs_get_effective_n(list(WAG25.0, WAG25.0a,  WAG25.0b, WAG25.0b2, WAG25.0c, WA
   scale_x_continuous(breaks = yraxis$breaks, labels = yraxis$labels)+
   labs(x = NULL, y = "Effective Sample Size", color = NULL)+
   facet_wrap(~type, ncol = 1) -> x
-ggsave("./AIGKC/figures/models/2025/sept/wag_data_wt_neff.png.png", plot = x, height = 5, width = 7, units = "in")
+ggsave("./AIGKC/figures/models/2025/sept/wag_data_wt_neff.png", plot = x, height = 5, width = 7, units = "in")
 
 gmacs_plot_recruitment(list(WAG25.0, WAG25.0a,  WAG25.0b, WAG25.0b2, WAG25.0c, WAG25.0d), save_plot = F)+
   theme(legend.position = "right", legend.justification = c(0.5, 0.5)) -> x
-ggsave("./AIGKC/figures/models/2025/sept/wag_data_wt_rec.png.png", plot = x, height = 3, width = 6, units = "in")
+ggsave("./AIGKC/figures/models/2025/sept/wag_data_wt_rec.png", plot = x, height = 3, width = 6, units = "in")
 
 gmacs_plot_mmb(list(WAG25.0, WAG25.0a,  WAG25.0b, WAG25.0b2, WAG25.0c, WAG25.0d), save_plot = F)[[1]]+
   theme(legend.position = "right", legend.justification = c(0.5, 0.5)) -> x
-ggsave("./AIGKC/figures/models/2025/sept/wag_data_wt_mmb.png.png", plot = x, height = 3, width = 6, units = "in")
+ggsave("./AIGKC/figures/models/2025/sept/wag_data_wt_mmb.png", plot = x, height = 3, width = 6, units = "in")
 
 
 # eag survey ----
@@ -628,7 +653,6 @@ EAG23.1 <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/23.1_data/Gmacsall.ou
 EAG25.0a <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.0a/Gmacsall.out", "25.0a")
 EAG25.1 <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.1/Gmacsall.out", "25.1")
 EAG25.1b <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.1b/Gmacsall.out", "25.1b")
-EAG25.1c <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.1c/Gmacsall.out", "25.1c")
 
 gmacs_plot_catch(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b), save_plot = F)
 gmacs_get_index_summary(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b)) %>%
@@ -744,7 +768,7 @@ ggsave("./AIGKC/figures/models/2025/sept/eag_survey_slx.png.png", plot = x, heig
 
 gmacs_plot_recruitment(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b), save_plot = F)+
   theme(legend.position = "right", legend.justification = c(0.5, 0.5)) -> x
-ggsave("./AIGKC/figures/models/2025/sept/eag_survey_rec.png.png", plot = x, height = 3, width = 6, units = "in")
+ggsave("./AIGKC/figures/models/2025/sept/eag_survey_rec.png", plot = x, height = 3, width = 6, units = "in")
 
 gmacs_plot_mmb(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b), save_plot = F)[[1]]+
   theme(legend.position = "right", legend.justification = c(0.5, 0.5)) -> x
@@ -754,7 +778,8 @@ ggsave("./AIGKC/figures/models/2025/sept/eag_survey_mmb.png.png", plot = x, heig
  
 # tables ----
 
-gmacs_get_pars(list(EAG23.1, EAG25.0, EAG25.0a, EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0d, EAG25.1, EAG25.1b)) %>%
+# added CV
+gmacs_get_pars(list(EAG23.1, EAG23.1c, EAG25.0, EAG25.0a, EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0d, EAG25.1, EAG25.1b)) %>%
   filter(grepl("add_cv", parameter)) %>%
   mutate(series = substring(parameter, 20, 20),
          series = case_when(series == 1 ~ "Pre-Rat. Observer CPUE",
@@ -768,7 +793,7 @@ gmacs_get_pars(list(EAG23.1, EAG25.0, EAG25.0a, EAG25.0b, EAG25.0b2, EAG25.0c, E
   write_csv("./AIGKC/output/models/2025/sept/eag_index_add_cv.csv")
   
 
-gmacs_get_pars(list(WAG23.1, WAG25.0, WAG25.0a, WAG25.0b, WAG25.0b2, WAG25.0c, WAG25.0d)) %>%
+gmacs_get_pars(list(WAG23.1, WAG23.1c, WAG25.0, WAG25.0a, WAG25.0b, WAG25.0b2, WAG25.0c, WAG25.0d)) %>%
   filter(grepl("add_cv", parameter)) %>%
   mutate(series = substring(parameter, 20, 20),
          series = case_when(series == 1 ~ "Pre-Rat. Observer CPUE",
@@ -780,6 +805,30 @@ gmacs_get_pars(list(WAG23.1, WAG25.0, WAG25.0a, WAG25.0b, WAG25.0b2, WAG25.0c, W
   pivot_wider(names_from = model, values_from = est) %>%
   mutate(fishery = "WAG") %>% dplyr::select(ncol(.), 1:(ncol(.)-1)) %>%
   write_csv("./AIGKC/output/models/2025/sept/wag_index_add_cv.csv")
+
+# likelihoods
+gmacs_get_lik(list(EAG23.1, EAG23.1c, EAG25.0, EAG25.0a, EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0d, EAG25.1, EAG25.1b)) %>%
+  dplyr::slice(1:6, 16, 7:8, 17, 9, 12, 14, 15) %>%
+  mutate(process = c("Retained Catch", "Total Catch", "GF Bycatch", "Pre-Rat. Obs CPUE", "Post Rat. Obs CPUE", "Fish Ticket CPUE",
+                     "Coop. Survey CPUE", "Retained Size", "Total Size", "Coop. Survey Size", "Recruitment Penalties", "Tagging",
+                     "Number of Parameters", "Objective Functions")) %>%
+  write_csv("./AIGKC/output/models/2025/sept/eag_likelihood.csv")
+
+gmacs_get_lik(list(WAG23.1, WAG23.1c, WAG25.0, WAG25.0a, WAG25.0b, WAG25.0b2, WAG25.0c, WAG25.0d)) %>%
+  dplyr::slice(1:9, 12, 14:15) %>%
+  mutate(process = c("Retained Catch", "Total Catch", "GF Bycatch", "Pre-Rat. Obs CPUE", "Post Rat. Obs CPUE", "Fish Ticket CPUE",
+                     "Retained Size", "Total Size", "Recruitment Penalties", "Tagging",
+                     "Number of Parameters", "Objective Functions")) %>%
+  write_csv("./AIGKC/output/models/2025/sept/wag_likelihood.csv")
+
+# reference points
+gmacs_get_ref_points(list(EAG23.1, EAG23.1c, EAG25.0, EAG25.0a, EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0d, EAG25.1, EAG25.1b)) %>%
+  write_csv("./AIGKC/output/models/2025/sept/eag_ref_point.csv")
+
+gmacs_get_ref_points(list(WAG23.1, WAG23.1c, WAG25.0, WAG25.0a, WAG25.0b, WAG25.0b2, WAG25.0c, WAG25.0d)) %>%
+  write_csv("./AIGKC/output/models/2025/sept/wag_ref_point.csv")
+
+
 
 # retrospective issues ----
 
