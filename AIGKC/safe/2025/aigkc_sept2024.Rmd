@@ -365,23 +365,46 @@ Model assumptions relating to survey data include:
 
 ## Initial Conitions {-}
 
-Changing the basis correction on recruitment proceeding 1981 (model 23.1c) resulted in a flatter MMB trend in years preceding data, but did not totally eliminate the decreasing ramp in the EAG (\ref{fig:icmmb}). Changes in recruitment bias correction had only marginal effect, if any, on other model processes. Starting the model in 1981 increased recruitment in the starting year in both subdistricts, and to a lesser extent from 2017 - 2023 in the EAG. The size distribution of recruits was the same among models. The 1981 recruitment estimate has little effect on other model processes. The only data pre-1985 are retained catch data. Retained size composition data starts in 1985 and total catch data begins in 1990. Differences in fits to size composition and index data were minimal, though present in several years in both subdistricts. There was an increase in $MMB_{prj}$ in the EAG for model 25.0 (Table XXX), owing to the small increase in recruitment and MMB towards the end of the time series.
-
-Something about justifying moving to the the reduced model dispite not knowing why the difference in recruitment happens....
+Changing the basis correction on recruitment proceeding 1981 (model 23.1c) resulted in a flatter MMB trend in years preceding data, but did not totally eliminate the decreasing ramp in the EAG (\ref{fig:icmmb}). Changes in recruitment bias correction had only marginal effect, if any, on other model processes. Starting the model in 1981 increased recruitment in the starting year in both subdistricts, and to a lesser extent from 2017 - 2023 in the EAG. The size distribution of recruits was the same among models. The 1981 recruitment estimate has little effect on other model processes. The only data pre-1985 are retained catch data. Retained size composition data starts in 1985 and total catch data begins in 1990. Differences in fits to size composition and index data were minimal, though present in several years in both subdistricts. There was an increase in $MMB_{prj}$ in the EAG for model 25.0 (Table XXX), owing to the small increase in recruitment and MMB towards the end of the time series. Despite there being a small change in recruitment, starting the model in 1981 is preferred as it slightly reduces the number of estimable parameters and eliminates the issue of decreasing MMB and recruitment before the data time series.
 
 ## Data Weighting {-}
 
 Reducing the emphasis on retained and total catch data so that likelihood component are equally weighted had little impact on model results in either subdistrict. Bootstrap estimated $N_{eff}$ for size composition data were highly variable and larger than the observed number of crab measured in many cases. This is possible when bootstrap proportion at size approximates observed size composition with high precision. Annual mean of bootstrap $N_{eff}$ were less than observed sample sizes in all years. Sample sizes were largest for the retained catch in the 1990s and have stabilized since the 2000s when sampling design restricted effort. Observer sample size tended to align With the ......(Table XXX; Figure XXX). 
 
-Francis weighting with bootstrap estimated stage one $N_{eff}$ (model 25.0b) had little impact on fits to catch and size composition data in both subdistricts. Francis weights were smaller than in model 25.0a and resulted in a similar stage two $N_{eff}$ for retained size composition and an approximate time series average for total size composition (most years had stage one $N_{eff}$ capped at 2000) (Table XXX; Figure XXX). Model 25.0b estimated slightly lower recruitment from 2020 - 2023, which is reflected in fit to index data and estimated MMB (Figure XXX and XXX).  
+Francis weighting with bootstrap estimated stage one $N_{eff}$ (model 25.0b) had little impact on fits to catch and size composition data in both subdistricts. Francis weights were smaller than in model 25.0a and resulted in a similar stage two $N_{eff}$ for retained size composition and an approximate time series average of model 25.0a for total size composition (most years had stage one $N_{eff}$ capped at 2000) (Figure \ref{fig:wtneff}). Model 25.0b estimated slightly lower recruitment from 2020 - 2023, which is reflected in fit to index data and estimated MMB (Figure \ref{fig:wtrec} and \ref{fig:wtmmb}).  
 
-Model 25.0c estimated $N_{eff}$ for both retained and total size composition data considerably larger than models that used Francis weighting (Figure XXX). Estimated $N_{eff}$ for model 25.0d was the same as stage one sample sizes since overdispersion ($\beta_{DM}$) reached its upper bound for both size composition series. Increased weighting of size composition data by Dirichlet multinomial models resulted in larger estimates of added $CV$ on post-rationalized observer CPUE data, down weighting those data (Table \ref{table:addcv}). Naturally, fits to index data in the EAG were worse for models 25.0c and 25.0d (Figure \ref{fig:wteagindex}). This was also the case in the WAG to a lesser degree (Figure \ref{fig:wtwagindex}). Increasing emphasis on index data (model 25.0b2) resulted in much lower Francis weights than model 25.0b and near zero additional CV on post-rationalized index data for the EAG (Table \ref{table:addcv}; Figure \ref{fig:wteagindex}) (i.e., the tuning process down weighted size composition and further increased weight on index data, fitting the data near exactly). Weights tuning was less sensitive to increasing index likelihood emphasis in the WAG, but had the same general effect.
+Model 25.0c estimated $N_{eff}$ for both retained and total size composition data considerably higher than models that used Francis weighting (Figure \ref{fig:wtneff}). Estimated $N_{eff}$ for model 25.0d was the same as stage one sample sizes since overdispersion ($\beta_{DM}$) reached its upper bound for both size composition series. Increased weighting of size composition data by Dirichlet multinomial models resulted in larger estimates of added $CV$ on post-rationalized observer CPUE data, thus down weighting those data (Table \ref{table:addcv}). Naturally, fits to index data in the EAG were worse for models 25.0c and 25.0d (Figure \ref{fig:wteagindex}). This was also the case in the WAG to a lesser degree (Figure \ref{fig:wtwagindex}). Increasing emphasis on index data (model 25.0b2) resulted in much lower Francis weights than model 25.0b and near zero additional CV on post-rationalized index data for the EAG (Table \ref{table:addcv}; Figure \ref{fig:wteagindex}) (i.e., the tuning process down weighted size composition and further increased weight on index data, fitting the data near exactly). Weights tuning was less sensitive to increasing index likelihood emphasis in the WAG, but had the same general effect.
 
-Fits to size composition data were good and differed little among models (Figure \ref{fig:wtcomp}). All models characterize mean size of the retained catch reasonably well in the first half of the time series, and then tended to under predict and then over predict mean size during stretches of years in both subdistricts (Figure \ref{fig:wteagretsize} and \ref{fig:wtwagretsize}). This pattern was least prevalent in model 25.0c and 25.0d, as those models weighted size composition data more. All models except 25.0b2 in the EAG characterized mean carapace length of the total size composition well (Figure \ref{fig:wteagtotsize} and \ref{fig:wtwagtotsize}).  
+Fits to size composition data were good and differed little among models (Figure \ref{fig:wtcomp}). All models characterize mean size of the retained catch well in the first half of the time series, and then tended to under predict and then over predict mean size during stretches of years in both subdistricts (Figure \ref{fig:wteagretsize} and \ref{fig:wtwagretsize}). This pattern was least prevalent in model 25.0c and 25.0d, as those models weighted size composition data more. All models except 25.0b2 in the EAG characterized mean carapace length of the total size composition well (Figure \ref{fig:wteagtotsize} and \ref{fig:wtwagtotsize}).  
 
-Model 25.0c estimated lower recruitment from 2014 - 2023 in the EAG, but not the WAG. Forcing a better fit to post-rationalized observer CPUE (model 23.0b2) resulted in large, annual swings in recruitment in the EAG (Figure \ref{fig:wtrec}). Such large annual fluctuations are likely implausible. In general, WAG recruitment was less sensitive to data weight in the latter part of the time series that in the EAG. 
+Model 25.0c estimated lower recruitment from 2014 - 2023 in the EAG, but not the WAG. Forcing a better fit to post-rationalized observer CPUE (model 23.0b2) resulted in large, annual swings in recruitment in the EAG (Figure \ref{fig:wtrec}). Such large annual fluctuations are likely implausible. In general, WAG recruitment was less sensitive to data weight in the latter part of the time series that in the EAG. Model 25.0c estimated lower MMB from 2014 - 2023 in the EAG, following the same trend in recruitment (i.e., recruitment can occur at maturity). Model 25.0b2 estimated a different MMB trajectory than other models in the EAG, and inter-annual differences were somewhat erratic (Figure \ref{fig:mmb}). All other EAG models had similar MMB estimates, with models 25.0 and 25.0a being slightly greater than models 25.0b and 25.0d (models with bootstrap $N_{eff}$) at the end of the time series. MMB was less sensitive to data weighting in the WAG (Figure \ref{fig:mmb}). 
+
+## Cooperative Survey {-}
+
+Models 25.1 and 25.1b added the EAG cooperative survey as an additional fleet. Appendix A details estimation of the cooperative survey index and size composition data. Fits to survey index roughly followed the average survey index from 2015 - 2019, and decreased in 2022 and 2023. Predicted survey index did not capture the large decrease in 2021 (Figure \ref{fig:surveyindex}). Both models that included the cooperative survey fit post-rationalized observer CPUE similar to model 25.0c (Figure \ref{fig:surveyindex}). Estimates of additional $CV$ were larger than models without survey data (Table \ref{table:addcv}).
+
+Both models fit survey size composition data reasonably well, except for in 2018 - the only year in which survey size composition substantially deviates from the fishery total size composition (Figure \ref{fig:surveycomp}; Appendix A Figure XXX). Francis weighting (model 25.1) resulted in lower weights on size composition survey size composition data than the Dirichlet multinomial (model 25.1b), though predicted proportions at size were not very different. 
+
+Recruitment estimates tended to align closely with model the parent model (25.0a or 25.0c) until the beginning of the survey time series, at which both models 25.1 and 25.1b undergo a steeper decline mirroring model 25.0c (Figure \ref{fig:surveyrec}). Estimated MMB followed a similar trajectory, with both models estimating terminal year MMB considerably lower than the base model (Figure \ref{fig:surveymmb}).
+
+Previous efforts to incorporate the cooperative survey spliced survey CPUE into the observer time series (Siddeek et al. 2023) and included the survey as a separate fleet, but allowed for estimation of additional $CV$ on index data (Jackson 2024). Models 25.1 and 25.1b are the most appropriate use of the survey data that have been presented thus far. Including the survey data does not appear to necessarily improve overall model performance (as mentioned above it actually results in down weighting and poorer fit to index data). Since MMB and management quantities do appear to be sensitive to the addition of survey data, there should be careful consideration of whether the survey design appropriately captures population trends. Scrutiny should be paid to 
+
+\begin{itemize}
+
+\item {\textbf{Primary Sampling}: The current survey analysis post-stratified survey stations (i.e., strings) based on the three strata design implemented since 2022. Number of stations per stratum has varied annually, as has ability to pick strings set at all selected stations. Further vessels tend to not overlap in the survey footprint, so vessel effects would be masked by spatial variability, or vice versa.  
+
+The 2024 survey was the first year in the survey time series where the spatial footprint did not span the entire EAG - how to best incorporate those data is yet to be determined.}
+
+\item {\textbf{Secondary Sampling}: The target number of pots to sample per string is 5 - 7, avoiding first and last. In YYYY, were a number of strings that sampled a more than 7 pots, in which that string also had several zero pots or otherwise low CPUE.}
+
+\item {\textbf{Tertiary Sampling}: }
 
 
+\end{itemize}
+
+# Author Recommendation {-}
+
+Three models should be brought forward for the final May 2025 assessment: 23.1c, 25.0a, and 25.1. Model 23.1c should replace the 2024 accepted model in the 2025 final assessment. There is negligible difference between models after the start of the data time series in 1981, and removing bias correction pre-1981 is correct given the lack of data. Relative to 23.1c, model 25.0a starts the model in a non-equilibrium state and uses equal emphasis factors ($\lambda = 1$) on all likelihood components. Reducing emphasis on retained and total catch had minimal impact on model fit and establishes a level platform for further exploring model misspecification and data weighting. Model 25.1 is evaluated for the EAG only and uses the cooperative survey as an additional fleet. The cooperative survey time series has been developing since 2015 and this analysis is the most appropriate use of survey data presented, thus far.
 
 # Literature Cited {-}
 Jackson 2024a January 2024
@@ -589,13 +612,13 @@ print(xtable(x, align="lcccccccccc", digits=c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)),
 \centering
 \caption{Estimated additional $CV$ by index series and model in the EAG and WAG.}
 \label{table:addcv}
-\begin{tabular}{llcccccccccc}
-&& 23.1 & 25.0 & 25.0a & 25.0b & 25.0b2 & 25.0c & 25.0d & 25.1 & 25.1b\\
+\begin{tabular}{llcccccccccccc}
+&& 23.1 & 23.1c & 25.0 & 25.0a & 25.0b & 25.0b2 & 25.0c & 25.0d & 25.1 & 25.1b\\
 \hline
 ```{r addcveag, results='asis', eval = T}
 x <- read_csv("../../output/models/2025/sept/eag_index_add_cv.csv")
 # print table
-print(xtable(x, align="llcccccccccc", digits=c(0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2)),
+print(xtable(x, align="llccccccccccc", digits=c(0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2)),
 			     only.contents=TRUE,
 			     include.rownames=FALSE,
 			     floating=FALSE,
@@ -609,7 +632,7 @@ print(xtable(x, align="llcccccccccc", digits=c(0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 
 x <- read_csv("../../output/models/2025/sept/wag_index_add_cv.csv") %>%
   mutate(x = NA, y = NA)
 # print table
-print(xtable(x, align="llcccccccccc", digits=c(0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2)),
+print(xtable(x, align="llccccccccccc", digits=c(0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2)),
 			     only.contents=TRUE,
 			     include.rownames=FALSE,
 			     floating=FALSE,
@@ -622,6 +645,97 @@ print(xtable(x, align="llcccccccccc", digits=c(0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 
 \end{tabular}
 \end{table}
 
+
+
+#### {-}
+
+\begin{table}[H]
+\centering
+\caption{Comparison of biological reference points for EAG models.}
+
+\label{table:eagref}
+\begin{tabular}{lcccccccc}
+
+Model & MMB (t) & B$_{35\%}$ (t) & $\frac{MMB}{B_{35\%}}$ & $\bar{\text{R}}_{1987-2017}$ & F$_{35\%}$ & F$_{\text{OFL}}$ & OFL (t)\\
+\hline
+```{r eagspecst, results='asis', eval = T}
+x <- read_csv("../../../AIGKC/output/models/2025/sept/eag_ref_point.csv")
+
+# print table
+print(xtable(x[,-6], align="lcccccccc", digits=c(0, 0, 0, 0, 2, 0, 2, 2, 0)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+&&&&&&&\\
+Model & MMB (mil lb) & B$_{35\%}$ (mil lb) & $\frac{MMB}{B_{35\%}}$ & $\bar{\text{R}}_{1987-2017}$ & F$_{35\%}$ & F$_{\text{OFL}}$ & OFL (mil lb)\\
+\hline
+```{r eagspecsmillb, results='asis', eval = T}
+x <- read_csv("../../../AIGKC/output/models/2025/sept/eag_ref_point.csv") %>%
+  mutate(across(c(mmb, b35, ofl_tot), ~. * 2204.62 / 1e6))
+
+# print table
+print(xtable(x[-6], align="lcccccccc", digits=c(0, 2, 2, 2, 2, 0, 2, 2, 2)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Comparison of biological reference points for WAG models.}
+
+\label{table:wagref}
+\begin{tabular}{lcccccccc}
+
+Model & MMB (t) & B$_{35\%}$ (t) & $\frac{MMB}{B_{35\%}}$ & $\bar{\text{R}}_{1987-2017}$ & F$_{35\%}$ & F$_{\text{OFL}}$ & OFL (t)\\
+\hline
+```{r wagspecst, results='asis', eval = T}
+x <- read_csv("../../../AIGKC/output/models/2025/sept/wag_ref_point.csv")
+
+# print table
+print(xtable(x[,-6], align="lcccccccc", digits=c(0, 0, 0, 0, 2, 0, 2, 2, 0)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+&&&&&&&\\
+Model & MMB (mil lb) & B$_{35\%}$ (mil lb) & $\frac{MMB}{B_{35\%}}$ & $\bar{\text{R}}_{1987-2017}$ & F$_{35\%}$ & F$_{\text{OFL}}$ & OFL (mil lb)\\
+\hline
+```{r wagspecsmillb, results='asis', eval = T}
+x <- read_csv("../../../AIGKC/output/models/2025/sept/wag_ref_point.csv") %>%
+  mutate(across(c(mmb, b35, ofl_tot), ~. * 2204.62 / 1e6))
+
+# print table
+print(xtable(x[-6], align="lcccccccc", digits=c(0, 2, 2, 2, 2, 0, 2, 2, 2)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
 
 # Figures {-}
 
@@ -668,6 +782,10 @@ knitr::include_graphics("../../figures/models/2025/sept/wag_data_wt_index_fit.pn
 knitr::include_graphics("../../figures/models/2025/sept/data_wt_agg_comp_fit.png")
 ```
 
+```{r wtneff, fig.align='center', fig.cap="Stage two effective sample size for retained and total size composition data. Models 25.0, 25.0a, 25.0b, and 25.0b2 use a multinomial likelihood with sample sizes tuned using Francis weighting and models 25.0c and 25.0d use a Dirichlet multinomial likelihood.  ", eval = T, fig.height = 4, fig.width = 6}
+knitr::include_graphics("../../figures/models/2025/sept/eag_data_wt_neff.png")
+```
+
 ```{r wteagretsize, fig.align='center', fig.cap="EAG observed (dots) and predicted (lines) mean carapace length (mm) of the retained size composiion. Grey bands indicate 95\\% confidence interval assuming stage one (darker) and stage 2 (lighter) effective sample sizes.", eval = T, fig.height = 4, fig.width = 6}
 knitr::include_graphics("../../figures/models/2025/sept/eag_data_wt_francis_plot_retained.png")
 ```
@@ -687,7 +805,21 @@ knitr::include_graphics("../../figures/models/2025/sept/wag_data_wt_francis_plot
 #### {-}
 
 ```{r wtrec, fig.align='center', fig.cap="Recruitment trajectory for models that explored data weighting. Models 25.0 - 25.0b tune size composition weights using Francis weighting and models 25.0c and 25.0d use the Dirichlet multinomial. ", eval = T, fig.height = 6, fig.width = 6}
-knitr::include_graphics("../../figures/models/2025/sept/data_wt_rec.png.png")
+knitr::include_graphics("../../figures/models/2025/sept/data_wt_rec.png")
+```
+
+```{r wtmmb, fig.align='center', fig.cap="Mature male biomass trajectory for models that explored data weighting. Error bars represents a 95\\% confidence interval for model 25.0a. Models 25.0 - 25.0b tune size composition weights using Francis weighting and models 25.0c and 25.0d use the Dirichlet multinomial. ", eval = T, fig.height = 6, fig.width = 6}
+knitr::include_graphics("../../figures/models/2025/sept/data_wt_mmb.png")
+```
+
+#### {-} 
+
+```{r surveyindex, fig.align='center', fig.cap="Fits to index data among EAG models.  Black bars indicate observed 95\\% confidence intervals, grey bars indicate estimated additional error for which model was greatest for each index. Estimated added CV by model is in Table \\ref{table:addcv}. Models 25.1 and 25.1b incorporate the cooperative survey. ", eval = T, fig.height = 6, fig.width = 6}
+knitr::include_graphics("../../figures/models/2025/sept/eag_survey_index_fit.png")
+```
+
+```{r surveycomp, fig.align='center', fig.cap="Fits to cooperative survey size composition data EAG models 25.1 and 25.1b.  ", eval = T, fig.height = 6, fig.width = 6}
+knitr::include_graphics("../../figures/models/2025/sept/eag_survey_comp_fit_survey.png")
 ```
 
 # Previously Addressed Comments {-}
