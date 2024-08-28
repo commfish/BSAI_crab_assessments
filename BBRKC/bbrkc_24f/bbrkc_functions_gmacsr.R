@@ -3,170 +3,6 @@
 # 7-31-24
 
 # ideally would source this R doc at beginning 
-# gmacs_do_jitter() ----
-
-# do gmacs jitter runs
-
-### gmacs.dat - file path to gmacs.dat file
-### sd - jitter standard deviation
-### iter - number of iteration of jittering to run
-### ref_points - T/F calculate reference points, add mmb and b35 to jittering results, default = T
-### pin - T/F use pin file
-### wait - passed to shell(): a logical (not NA) indicating whether the R interpreter should wait for the command to finish, or run it asynchronously.
-### save_csv - T/F, save csv file output
-### csv_dir - file directory in which to save output
-### save_plot - T/F, create histograms, default = T
-### plot_dir - file directory in which to save plots
-### model_name - character string to save as object in output, later to be used for plot legends. example: "23.1b"
-
-gmacs_do_jitter <- function(gmacs.dat, sd, iter, ref_points = T, pin = F, wait = T,
-                            save_csv = T, csv_dir = NULL, save_plot = T, plot_dir = NULL, model_name = NULL, plot_only = F, version1 = "2.20.16") {
-  
-  # create output directories
-  if(save_csv == T & is.null(csv_dir)) {csv_dir <- file.path(dirname(gmacs.dat), "output"); dir.create(csv_dir, showWarnings = F, recursive = TRUE)}
-  if(!is.null(csv_dir) && !file.exists(csv_dir)) {dir.create(csv_dir, showWarnings = F, recursive = TRUE)}
-  if(save_plot == T & is.null(plot_dir)) {plot_dir <- file.path(dirname(gmacs.dat), "plots"); dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
-  if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
-  
-  # directory ----
-  
-  options(warn = -1) 
-  # get parent directory
-  dir <- dirname(gmacs.dat)
-  # save working dir
-  wd <- getwd()
-  setwd(dir) # change wd
-  
-  if(plot_only == F){
-    
-    # set up ----
-    
-    # check for other needed inputs
-    if(!file.exists("gmacs.exe")){setwd(wd); stop("Cannot find gmacs.exe!!")}
-    # look for gmacs_file_in.dat - if not present, run gmacs
-    if(!file.exists("./gmacs_files_in.dat")) {setwd(wd); gmacs_do_exe(gmacs.dat, pin = pin, reweight = F)}
-    dat <- readLines("./gmacs_files_in.dat")
-    if(!file.exists(file.path(dat[grep("\\.dat", dat)]))) {setwd(wd); stop(paste("Cannot find", file.path(dat[grep("\\.dat", dat)]), "!!"))}
-    if(!file.exists(file.path(dat[grep("\\.ctl", dat)]))) {setwd(wd); stop(paste("Cannot find", file.path(dat[grep("\\.ctl", dat)]), "!!"))}
-    if(!file.exists(file.path(dat[grep("\\.prj", dat)]))) {setwd(wd); stop(paste("Cannot find", file.path(dat[grep("\\.prj", dat)]), "!!"))}
-    # make sure pin file is being used as expected
-    if(pin == T){
-      dat[grep("use pin file", dat)] <- "1 # use pin file (0=no, 1=yes)"   
-      if(!file.exists("gmacs.pin")) {stop(paste("Cannot find gmacs.pin!!"))}
-    }
-    if(pin == F){
-      dat[grep("use pin file", dat)] <- "0 # use pin file (0=no, 1=yes)"   
-      
-    }
-    
-    # do jitter ----
-    
-    # create subdirectory for jitter run files
-    dir.create("./jitter")
-    # put files in - this likely will not work with relative pathes
-    file.copy(c(dat[grep("\\.dat", dat)], dat[grep("\\.ctl", dat)], dat[grep("\\.prj", dat)], "gmacs.exe", "gmacs_files_in.dat"), 
-              to = "./jitter")
-    # set working 
-    setwd("./jitter")
-    # turn on reference points
-    if(ref_points == T){dat[33] <- "1 # Calculate reference points (0=no)"}
-    if(ref_points == F){dat[33] <- "0 # Calculate reference points (0=no)"}
-    # set up jitter
-    dat[16] <- 1
-    dat[18] <- sd
-    # write gmacs.dat file
-    writeLines(dat, "gmacs.dat"); file.remove("gmacs_files_in.dat")
-    gfiles <- list.files()
-    
-    # do jitter runs
-    out <- tibble(iteration = 1:iter,
-                  obj_function = NA,
-                  max_gradient = NA,
-                  catch_lik = NA,
-                  index_lik = NA,
-                  size_lik = NA,
-                  mmb_curr = NA,
-                  bmsy = NA)
-    for (i in 1:iter) {
-      rundir <- paste0("./run_", i)
-      dir.create(rundir)
-      file.copy(from = gfiles, to = rundir)
-      # do gmacs run
-      setwd(rundir)
-      while(!("gmacs.rep" %in% list.files())){shell("gmacs.exe", wait = wait)}
-      ao <- gmacs_read_allout("./Gmacsall.out", version = version1)
-      out$obj_function[i] <- ao$objective_function
-      out$max_gradient[i] <- ao$max_gradient
-      out$catch_lik[i] <- ao$likelihoods_by_type$net_lik[ao$likelihoods_by_type$process == "catch"]
-      out$index_lik[i] <- ao$likelihoods_by_type$net_lik[ao$likelihoods_by_type$process == "index"]
-      out$size_lik[i] <- ao$likelihoods_by_type$net_lik[ao$likelihoods_by_type$process == "size"]
-      if(ref_points == T) {
-        out$mmb_curr[i] <- ao$mmb_curr
-        out$bmsy[i] <- ao$bmsy
-      }
-      setwd("..")
-    }
-    out <- out %>% dplyr::select(where(function(x) !all(is.na(x))))
-    # return to model directory
-    setwd("..")
-    
-  }
-  
-  # get mle estimates of objects
-  mle_ao <- gmacs_read_allout("./Gmacsall.out", model_name = model_name, version = version1)
-  # set wd back to original
-  setwd(wd)
-  
-  # plots ----
-  
-  if(plot_only == T){out <- read_csv(paste0(csv_dir, "/", mle_ao$model_name, "_jitter_sd_", sd, ".csv"))}
-  
-  # obj fxn
-  ggplot()+
-    geom_histogram(data = out, aes(x = obj_function), color = 1, fill = "grey80", 
-                   width = 1)+
-    geom_vline(xintercept = mle_ao$objective_function, linetype = 2, color = 2)+
-    scale_x_continuous(labels = scales::comma)+
-    labs(x = "Negative Log-likelihood", y = "Jitter Runs") -> p_obj
-  
-  if(save_plot == T){ggsave(filename = paste0(plot_dir, "/", mle_ao$model_name, "_obj_fxn_jitter_sd_", sd, ".png"),
-                            plot = p_obj,
-                            height = 3, width = 5, units = "in")}
-  
-  if(ref_points == T){
-    # mmb
-    ggplot()+
-      geom_histogram(data = out, aes(x = mmb_curr), color = 1, fill = "grey80", 
-                     width = 1)+
-      geom_vline(xintercept = mle_ao$mmb_curr, linetype = 2, color = 2)+
-      scale_x_continuous(labels = scales::comma)+
-      labs(x = paste0("MMB (", mle_ao$wt_units, ")") , y = "Jitter Runs") -> p_mmb
-    
-    if(save_plot == T){ggsave(filename = paste0(plot_dir, "/", mle_ao$model_name, "_mmb_jitter_sd_", sd, ".png"),
-                              plot = p_mmb,
-                              height = 3, width = 5, units = "in")}  
-    
-    # b35
-    ggplot()+
-      geom_histogram(data = out, aes(x = bmsy), color = 1, fill = "grey80", 
-                     width = 1)+
-      geom_vline(xintercept = mle_ao$bmsy, linetype = 2, color = 2)+
-      scale_x_continuous(labels = scales::comma)+
-      labs(x = bquote(B["35%"]~"("~.(mle_ao$wt_units)~")"), y = "Jitter Runs") -> p_bmsy
-    
-    if(save_plot == T){ggsave(filename = paste0(plot_dir, "/", mle_ao$model_name, "_b35_jitter_sd_", sd, ".png"),
-                              plot = p_bmsy,
-                              height = 3, width = 5, units = "in")}
-  }
-  
-  # output ----
-  if(ref_points == T){plots <- list(p_obj, p_mmb, p_bmsy)}else{plots <- list(p_obj)}
-  if(save_csv == T) {write_csv(out, paste0(csv_dir, "/", mle_ao$model_name, "_jitter_sd_", sd, ".csv"))}
-  
-  if(save_plot == F){return(c(list(out), plots))}else{return(out)}
-  
-}
-
 
 # gmacs_plot_catch_kjp() ----
 
@@ -257,7 +93,7 @@ gmacs_plot_catch_kjp <- function(all_out = NULL, save_plot = T, plot_dir = NULL,
 
 
 
-#gmacs_plot_f_mmb() ----
+#gmacs_plot_f_mmb_dir() ----
   
   ## plot relationship between f and mmb
   
@@ -359,6 +195,12 @@ gmacs_plot_catch_kjp <- function(all_out = NULL, save_plot = T, plot_dir = NULL,
 
   
   
+  
+  
+  
+  
+  
+
 # exploratory area --------------
   # gmacs_plot_sizecomp() ----
   
@@ -829,7 +671,171 @@ gmacs_plot_catch_kjp <- function(all_out = NULL, save_plot = T, plot_dir = NULL,
   # these appear to match 2023 values from figure ....but not newly created figure....
   
   
-
+  # gmacs_do_jitter() ----
+  
+  # do gmacs jitter runs
+  
+  ### gmacs.dat - file path to gmacs.dat file
+  ### sd - jitter standard deviation
+  ### iter - number of iteration of jittering to run
+  ### ref_points - T/F calculate reference points, add mmb and b35 to jittering results, default = T
+  ### pin - T/F use pin file
+  ### wait - passed to shell(): a logical (not NA) indicating whether the R interpreter should wait for the command to finish, or run it asynchronously.
+  ### save_csv - T/F, save csv file output
+  ### csv_dir - file directory in which to save output
+  ### save_plot - T/F, create histograms, default = T
+  ### plot_dir - file directory in which to save plots
+  ### model_name - character string to save as object in output, later to be used for plot legends. example: "23.1b"
+  
+  gmacs_do_jitter <- function(gmacs.dat, sd, iter, ref_points = T, pin = F, wait = T,
+                              save_csv = T, csv_dir = NULL, save_plot = T, plot_dir = NULL, model_name = NULL, plot_only = F, version1 = "2.20.16") {
+    
+    # create output directories
+    if(save_csv == T & is.null(csv_dir)) {csv_dir <- file.path(dirname(gmacs.dat), "output"); dir.create(csv_dir, showWarnings = F, recursive = TRUE)}
+    if(!is.null(csv_dir) && !file.exists(csv_dir)) {dir.create(csv_dir, showWarnings = F, recursive = TRUE)}
+    if(save_plot == T & is.null(plot_dir)) {plot_dir <- file.path(dirname(gmacs.dat), "plots"); dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
+    if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
+    
+    # directory ----
+    
+    options(warn = -1) 
+    # get parent directory
+    dir <- dirname(gmacs.dat)
+    # save working dir
+    wd <- getwd()
+    setwd(dir) # change wd
+    
+    if(plot_only == F){
+      
+      # set up ----
+      
+      # check for other needed inputs
+      if(!file.exists("gmacs.exe")){setwd(wd); stop("Cannot find gmacs.exe!!")}
+      # look for gmacs_file_in.dat - if not present, run gmacs
+      if(!file.exists("./gmacs_files_in.dat")) {setwd(wd); gmacs_do_exe(gmacs.dat, pin = pin, reweight = F)}
+      dat <- readLines("./gmacs_files_in.dat")
+      if(!file.exists(file.path(dat[grep("\\.dat", dat)]))) {setwd(wd); stop(paste("Cannot find", file.path(dat[grep("\\.dat", dat)]), "!!"))}
+      if(!file.exists(file.path(dat[grep("\\.ctl", dat)]))) {setwd(wd); stop(paste("Cannot find", file.path(dat[grep("\\.ctl", dat)]), "!!"))}
+      if(!file.exists(file.path(dat[grep("\\.prj", dat)]))) {setwd(wd); stop(paste("Cannot find", file.path(dat[grep("\\.prj", dat)]), "!!"))}
+      # make sure pin file is being used as expected
+      if(pin == T){
+        dat[grep("use pin file", dat)] <- "1 # use pin file (0=no, 1=yes)"   
+        if(!file.exists("gmacs.pin")) {stop(paste("Cannot find gmacs.pin!!"))}
+      }
+      if(pin == F){
+        dat[grep("use pin file", dat)] <- "0 # use pin file (0=no, 1=yes)"   
+        
+      }
+      
+      # do jitter ----
+      
+      # create subdirectory for jitter run files
+      dir.create("./jitter")
+      # put files in - this likely will not work with relative pathes
+      file.copy(c(dat[grep("\\.dat", dat)], dat[grep("\\.ctl", dat)], dat[grep("\\.prj", dat)], "gmacs.exe", "gmacs_files_in.dat"), 
+                to = "./jitter")
+      # set working 
+      setwd("./jitter")
+      # turn on reference points
+      if(ref_points == T){dat[33] <- "1 # Calculate reference points (0=no)"}
+      if(ref_points == F){dat[33] <- "0 # Calculate reference points (0=no)"}
+      # set up jitter
+      dat[16] <- 1
+      dat[18] <- sd
+      # write gmacs.dat file
+      writeLines(dat, "gmacs.dat"); file.remove("gmacs_files_in.dat")
+      gfiles <- list.files()
+      
+      # do jitter runs
+      out <- tibble(iteration = 1:iter,
+                    obj_function = NA,
+                    max_gradient = NA,
+                    catch_lik = NA,
+                    index_lik = NA,
+                    size_lik = NA,
+                    mmb_curr = NA,
+                    bmsy = NA)
+      for (i in 1:iter) {
+        rundir <- paste0("./run_", i)
+        dir.create(rundir)
+        file.copy(from = gfiles, to = rundir)
+        # do gmacs run
+        setwd(rundir)
+        while(!("gmacs.rep" %in% list.files())){shell("gmacs.exe", wait = wait)}
+        ao <- gmacs_read_allout("./Gmacsall.out", version = version1)
+        out$obj_function[i] <- ao$objective_function
+        out$max_gradient[i] <- ao$max_gradient
+        out$catch_lik[i] <- ao$likelihoods_by_type$net_lik[ao$likelihoods_by_type$process == "catch"]
+        out$index_lik[i] <- ao$likelihoods_by_type$net_lik[ao$likelihoods_by_type$process == "index"]
+        out$size_lik[i] <- ao$likelihoods_by_type$net_lik[ao$likelihoods_by_type$process == "size"]
+        if(ref_points == T) {
+          out$mmb_curr[i] <- ao$mmb_curr
+          out$bmsy[i] <- ao$bmsy
+        }
+        setwd("..")
+      }
+      out <- out %>% dplyr::select(where(function(x) !all(is.na(x))))
+      # return to model directory
+      setwd("..")
+      
+    }
+    
+    # get mle estimates of objects
+    mle_ao <- gmacs_read_allout("./Gmacsall.out", model_name = model_name, version = version1)
+    # set wd back to original
+    setwd(wd)
+    
+    # plots ----
+    
+    if(plot_only == T){out <- read_csv(paste0(csv_dir, "/", mle_ao$model_name, "_jitter_sd_", sd, ".csv"))}
+    
+    # obj fxn
+    ggplot()+
+      geom_histogram(data = out, aes(x = obj_function), color = 1, fill = "grey80", 
+                     width = 1)+
+      geom_vline(xintercept = mle_ao$objective_function, linetype = 2, color = 2)+
+      scale_x_continuous(labels = scales::comma)+
+      labs(x = "Negative Log-likelihood", y = "Jitter Runs") -> p_obj
+    
+    if(save_plot == T){ggsave(filename = paste0(plot_dir, "/", mle_ao$model_name, "_obj_fxn_jitter_sd_", sd, ".png"),
+                              plot = p_obj,
+                              height = 3, width = 5, units = "in")}
+    
+    if(ref_points == T){
+      # mmb
+      ggplot()+
+        geom_histogram(data = out, aes(x = mmb_curr), color = 1, fill = "grey80", 
+                       width = 1)+
+        geom_vline(xintercept = mle_ao$mmb_curr, linetype = 2, color = 2)+
+        scale_x_continuous(labels = scales::comma)+
+        labs(x = paste0("MMB (", mle_ao$wt_units, ")") , y = "Jitter Runs") -> p_mmb
+      
+      if(save_plot == T){ggsave(filename = paste0(plot_dir, "/", mle_ao$model_name, "_mmb_jitter_sd_", sd, ".png"),
+                                plot = p_mmb,
+                                height = 3, width = 5, units = "in")}  
+      
+      # b35
+      ggplot()+
+        geom_histogram(data = out, aes(x = bmsy), color = 1, fill = "grey80", 
+                       width = 1)+
+        geom_vline(xintercept = mle_ao$bmsy, linetype = 2, color = 2)+
+        scale_x_continuous(labels = scales::comma)+
+        labs(x = bquote(B["35%"]~"("~.(mle_ao$wt_units)~")"), y = "Jitter Runs") -> p_bmsy
+      
+      if(save_plot == T){ggsave(filename = paste0(plot_dir, "/", mle_ao$model_name, "_b35_jitter_sd_", sd, ".png"),
+                                plot = p_bmsy,
+                                height = 3, width = 5, units = "in")}
+    }
+    
+    # output ----
+    if(ref_points == T){plots <- list(p_obj, p_mmb, p_bmsy)}else{plots <- list(p_obj)}
+    if(save_csv == T) {write_csv(out, paste0(csv_dir, "/", mle_ao$model_name, "_jitter_sd_", sd, ".csv"))}
+    
+    if(save_plot == F){return(c(list(out), plots))}else{return(out)}
+    
+  }
+  
+  
 #  mature female abundance **fix ** not working------------------------------
 gmacs_plot_matfem <- function(all_out = NULL, save_plot = T, plot_dir = NULL) {
   

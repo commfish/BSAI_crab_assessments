@@ -145,6 +145,14 @@ gmacs_plot_sizecomp(all_out = base_models, save_plot = T, plot_dir = plot_save)
 #gmacs_plot_sizecomp(all_out = sel_models, save_plot = T, plot_dir = plot_save_sel)
 #gmacs_plot_sizecomp(all_out = molt_models, save_plot = T, plot_dir = plot_save_molt)
 
+# issues with tanner size comps because they are getting lumped with directed pot so remove those before plotting
+# **fix** fix the call to data summary to figure this out... I think season needs to be included.
+Sdata_summary <- gmacs_get_size_summary(all_out = base_models)
+
+Sdata_summary %>% 
+  filter(org_series != 6) -> Sdata_summary
+
+gmacs_plot_sizecomp(save_plot = T, plot_dir = plot_save_newD, data_summary = Sdata_summary)
 
 # plot mmb ------------
 gmacs_plot_mmb(all_out = base_models, save_plot = T, plot_dir = plot_save, plot_ci = T, std_list = base_std)
@@ -155,6 +163,9 @@ gmacs_plot_mmb(all_out = newD_models, plot_dir = plot_save_newD, plot_ci = T, st
 # recruitment ------
 gmacs_plot_recruitment(all_out = list(m230a_23, m230a_24, m24c), save_plot = T, plot_dir = plot_save_newD)
 gmacs_plot_recruitment(all_out = list(m230a_24, m24c), save_plot = T, plot_dir = plot_save)
+
+gmacs_plot_recruitment(all_out = list(m230a_24), save_plot = T, plot_dir = plot_save, 
+                       plot_ci = T, std_list = list(m230a_24_std))
 #gmacs_plot_recruitment(all_out = list(m211b_p7, m230a_p7, m24c, m24d), plot_dir = plot_save_molt)
 
 #gmacs_plot_recruitment(all_out = base_models, save_plot = T, plot_dir = plot_save, 
@@ -177,6 +188,12 @@ ftemp %>%
 ftemp2 %>% 
   filter(fleet == "Pot_Fishery", sex == "male") %>% 
   filter(f >= 0.4) %>% print(n = 100)
+
+ftemp2 %>% 
+  filter(fleet == "Pot_Fishery", sex == "male") %>% 
+  filter(year >= 2000) %>% print(n = 100)
+# last two open years 2020/21 - 0.146
+# 2023/24 - 0.067
 
 ftemp2 %>% 
   filter(fleet == "Pot_Fishery", sex == "female") %>% 
@@ -556,3 +573,5 @@ gmacs_do_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_24
                 0.1, 24, ref_points = T, save_csv = T, save_plot = T, version1 = "2.20.14")
 # test to see if it works.
 #f_run_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_24f/model_23_0a_ph7_24", 0.1, 1, ref_points = F)  
+gmacs_do_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_24f/model_24_0c/gmacs.dat", 
+                0.1, 20, ref_points = T, save_csv = T, save_plot = T, version = "2.20.14")
