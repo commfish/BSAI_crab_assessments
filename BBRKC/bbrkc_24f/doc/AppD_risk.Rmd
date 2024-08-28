@@ -18,16 +18,38 @@ output:
 
 During the 2023 fall assessment cycle for BSAI crab stocks the SSC requested that the CPT take up risk tables again for crab stocks. The CPT recommended bringing forwad a draft risk table for the "big three" stocks for the 2024 assessment cycle. 
 
-The risk table approach, currently used in the groundfish assessments, highlights external factors to the assessment performance across four categories: assessment-related, population dynamics, environmental/ecosystem, and fishery performance. The risk table would highlight potential issues in these four areas that should be considered when applying a buffer to the OFL to determine a recommended ABC. Currently, ABC buffers for crab stocks are set using uncertainties about the stock and assessment process that are not incorporated into the assessment model. These are documented in the SAFE reports in each year. The goal of incorporating the risk table process is to use this tool to organize the information that is currently used in ABC buffer considerations. 
+The risk table approach, currently used in the groundfish assessments, highlights external factors to the assessment performance across four categories: assessment-related, population dynamics, environmental/ecosystem, and fishery performance. The risk table highlights potential issues in these four areas that should be considered when applying a buffer to the OFL to determine a recommended ABC. Currently, ABC buffers for crab stocks are set using uncertainties about the stock and assessment process that are not incorporated into the assessment model. These are documented in the SAFE reports in each year. The goal of incorporating the risk table process is to use this tool to organize the information that is currently used in ABC buffer considerations. 
 
 
 ## Assessment related considerations {-}
 
+- Strong retrospective pattern in MMB (high Mohn's rho)
+- Stable GMACS reference model
+- Historic natural mortality event (early 80s)
+
+
+Level of concern: Level 1 No concern, no new issues
+
 ## Population dynamic considerations {-}
+
+- Low, recent recruitment
+- Potential shifting spatial distributions and habitat considerations
+- Unknown reasons behind recruitment failure
+
+Level of concern: Level 2 Increased concern
 
 ## Environmental/Ecosystem considerations {-}
 
+- Steady decline in bottom water pH in last two decades
+- Predation risk higher for juvenile crab (sockeye salmon)
+
+
+Level of concern: Level 1 No new concern
+
 ## Fishery performance considerations {-}
 
+- Directed fishery was closed 2021/22 and 2022/23 seasons
+- 2023/24 fishery CPUE was 20.54 similar to the last open season 2020/21
+- Bycatch at recent average levels
 
-
+Level of concern: Level 1 No new concern
