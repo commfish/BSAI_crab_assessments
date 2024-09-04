@@ -106,16 +106,16 @@ round(M$f_ofl_tot, 2) -> fofl
 # Executive Summary {-}
 1.	**Stock**: Red king crab (RKC), *Paralithodes camtschaticus*, in Bristol Bay, Alaska.
 
-2.	**Catches**: The domestic RKC fishery began to expand in the late 1960s and peaked in 1980 with a catch of 129.95 million lb (58,943 t). The catch declined dramatically in the early 1980s and remained at low levels during the last three decades. After rationalization, catches were relatively high before the 2010/11 season but have been on a declining trend since 2014. The retained catch in 2023/24 was approximately 2.12 million lb (960 t), similar to the last open fishery in 2020/21 were retained catch was approximately 2.65 million lb (1,257 t), both of these follow a steady decline in total allowable catch (TAC) from 2016 on. The directed pot fishery was closed in 2021/22 and 2022/23 due to low mature female abundance in accordance with the State of Alaska harvest strategy. The magnitude of bycatch from groundfish trawl and fixed gear fisheries has been stable and small relative to stock abundance during the last 10 years. The decline of the directed pot fishery crab/pot lift (CPUE) has been much less than the retained catch decline, with the 2020/21 CPUE having about 12.5% reduction from the average CPUE during the recent 20 years. The 2023/24 CPUE of 20.54 crab/potlift was approximately a 13.7% decline from the average since 2000.
+2.	**Catches**: The domestic RKC fishery began to expand in the late 1960s and peaked in 1980 with a catch of 129.95 million lb (58,943 t). The catch declined dramatically in the early 1980s and remained at low levels during the last three decades. After rationalization, catches were relatively high before the 2010/11 season but have been on a declining trend since 2014. The retained catch in 2023/24 was approximately 2.12 million lb (960 t), similar to the last open fishery in 2020/21 when retained catch was approximately 2.65 million lb (1,257 t). These season harvests follow a steady decline in total allowable catch (TAC) from 2016 on. The directed pot fishery was closed in 2021/22 and 2022/23 due to low mature female abundance in accordance with the State of Alaska harvest strategy. The magnitude of bycatch from groundfish trawl and fixed gear fisheries has been stable and small relative to stock abundance during the last 10 years. The decline of the directed pot fishery crab/pot lift (CPUE) has been much less than the retained catch decline, with the 2020/21 CPUE having about 12.5% reduction from the average CPUE during the recent 20 years. The 2023/24 CPUE of 20.54 crab/potlift was approximately a 13.7% decline from the average since 2000.
 
-3.  **Data sources**: Data extent is provided visually in Figure (\@ref(fig:data-extent)).
+3.  **Data sources**: Data extent is provided visually in Figure \@ref(fig:data-extent).
 
 4.	**Stock biomass**: Estimated mature biomass increased dramatically in the mid-1970s, then decreased precipitously in the early 1980s. Estimated mature crab abundance increased during 1985-2007 with mature females being about four times more abundant in 2007 than in 1985 and mature males being about two times more abundant in 2007 than in 1985. Estimated mature abundance was steadily declining since 2017, but appears to be increasing slowly in the last few years.The projected mature male survey biomass in 2024 is approximately 51.4% of the estimated mean survey biomass for the entire time series, which includes many periods of low biomass throughout history. The estimated mature female survey biomass was low from 2018 to 2022, but the 2024 estimated value increased to approximately 46.9% of the mean.
 
-5.	**Recruitment**: Estimated recruitment was high during the 1970s and early 1980s and has generally been low since 1985 (1979-year class). During 1984-2023, estimated recruitment was above the historical average (1976-2023 reference years) only in 1984, 1986, 1990, 1995, 1999, 2002, 2005, 2006, and 2010. Estimated recruitment was extremely low during the last 14 years, and even lower during the recent nine years. With the low recruitment in recent years, the projected mature biomass is expected to decline during the next few years with a below-average fishing mortality of 0.167 to 0.25 $yr^{-1}$.
+5.	**Recruitment**: Estimated recruitment was high during the 1970s and early 1980s and has generally been low since 1985 (1979 year class). During 1984-2023, estimated recruitment was above the historical average (1976-2023 reference years) only in 1984, 1986, 1990, 1995, 1999, 2002, 2005, 2006, and 2010. Estimated recruitment was extremely low during the last 14 years, and even lower during the recent nine years. With the low recruitment in recent years, the projected mature biomass is expected to decline during the next few years with a below-average fishing mortality of 0.167 to 0.25 $yr^{-1}$.
 
-6.	**Management performance**: The stock was above Minimum Stock Size Threshold (MSST) in 2023/24 (99% of $B_{MSY}$) and hence was not overfished. Since total catch was below the OFL (overfishing limit), overfishing did not occur. The projection using the lowest recruitment periods during 2013-2023 would not likely result in “approaching an overfished condition” based on the current harvest strategy. The current version of GMACS uses an average of sex ratios of recruitment during the reference period to estimate B~35%~, which results in a stable sex ratio (about 50%) for the reference point calculation.   
-The ABC (acceptable biological catch) buffer was increased from 10% to 20% in 2018, and an additional buffer of 5% was added in 2020 due to the lack of a 2020 survey. A 20% buffer was recommended by the Crab Plan Team (CPT) and Scientific and Statistical Committee (SSC) for ABC estimation since 2021/22. Reoccurring concerns for this stock are still present (cold pool distributional shifts, declining trends in mature biomass, lack of large recruitment pulses, retrospective patterns), as well as low mature female biomass the last few years, all contribute to a recommended 20% buffer for 2024/25. Tables below represent the status and catch specifications for model 24.0c in 1,000 t and million lb (Tables \@ref(tab:status) and \@ref(tab:statuslb)).
+6.	**Management performance**: The stock was above Minimum Stock Size Threshold (MSST) in 2023/24 (99% of $B_{MSY}$) and hence was not overfished. Since total catch was below the OFL (overfishing limit), overfishing did not occur. The projection using the lowest recruitment periods during 2013-2023 would not likely result in “approaching an overfished condition” based on the current harvest strategy. The current version of GMACS uses an average of sex ratios of recruitment during the reference period to estimate B~35%~, which results in a stable sex ratio (about 50%) for the reference point calculation.  A 20% buffer was suggested by the CPT and SSC for 2021 - 2023, and is recommended by the author in 2024 for similar reasons to previous years. 
+Tables below represent the status and catch specifications for model 24.0c in 1,000 t and million lb (Tables \@ref(tab:status) and \@ref(tab:statuslb)).
 
 
 
@@ -198,11 +198,11 @@ The ABC (acceptable biological catch) buffer was increased from 10% to 20% in 20
 
 \pagebreak
 
-8. **Probability density function of the OFL**: The estimated probability distributions of MMB and OFL in 2024 are illustrated in Figures \@ref(fig:hist-mmb) and \@ref(fig:hist-ofl) for models 23.0a and 24.0c. 
+8. **Probability density function of the OFL**: The estimated probability distributions of MMB and OFL in 2024 are illustrated in Figures \@ref(fig:hist-mmb), \@ref(fig:hist-ofl), and \@ref(fig:hist-ofl2) for models 23.0a and 24.0c. 
 
 9. **Basis for ABC recommendation**:
-A 20% buffer was suggested by the CPT and SSC for 2021 - 2023, and is recommended by the author in 2024 for similar reasons to previous years.
-These considerations include: lack of recent recruitment, poor and variable environmental conditions, low recent mature female abundance, and strong retrospective patterns. 
+The ABC (acceptable biological catch) buffer was increased from 10% to 20% in 2018, and an additional buffer of 5% was added in 2020 due to the lack of a 2020 survey. A 20% buffer was recommended by the Crab Plan Team (CPT) and Scientific and Statistical Committee (SSC) for ABC estimation since 2021/22. Reoccurring concerns for this stock are still present (cold pool distributional shifts, declining trends in mature biomass, lack of large recruitment pulses, retrospective patterns), as well as low mature female biomass the last few years, all contribute to a recommended 20% buffer for 2024/25. 
+A draft risk table is provided in Appendix D. This document details some of the same concerns for the stock that has been considered in the ABC buffer discussion but does not raise any new concerns. The process for using risk tables to assist in ABC buffer determination is under development for BSAI crab stocks.
 
 
 
@@ -234,15 +234,15 @@ c. Two models are compared in this report (See Section E.3.a for details). These
 
 Two model scenarios are compared in this report. In the May 2024 draft report the accepted model in 2023 (23.0a) was presented using an updated GMACS version and with MMB estimated in the correct season of the model (refer to May 2024 document for more details, this reflects a timing of MMB estimation within the year as a correction to model output). Model versions have minimal impact on model results and are vetted as they are updated to ensure this. Model 23.0a is considered the base model and was used to compare to the other model scenarios (labeled model 23.0.p7 in the May 2024 report to reflect the comparison of the season estimation change for MMB). The additional model considered in this document is model 24.0c, which is model 23.0a with constant molt probability for males and females for the entire time series. 
 
-Model explorations look to balance realism with parsimony or simplicity and model 24.0c reflects this. This model produces very similar results to the base model, 23.0a, including a nearly MMB projection for 2024/25 and resulting OFL. Difference between these two models primarily occur in the very early part of the time series and do not affect the most recent projections, status, or specifications for this stock. Retrospective patterns for both models are similar and improved from the previous base model of 21.1b.
+Model explorations look to balance realism with parsimony or simplicity and model 24.0c reflects this. This model produces very similar results to the base model, 23.0a, including a nearly identical MMB projection for 2024/25 and resulting OFL. Difference between these two models primarily occur in the very early part of the time series and do not affect the most recent projections, status, or specifications for this stock. Retrospective patterns for both models are similar and improved from the previous base model of 21.1b.
 
-For specification in 2024/25, model 24.0c is recommended due to parsimony and reduction in parameters. The base model - 23.0a - would also be appropriate for consideration if the molt probability time block was considered to be of historical importance. Results for the author recommended model, 24.0c, are presented in the specification tables in the executive summary but values for management-related quantities for all models are summarized in Tables \@ref(tab:status), \@ref(tab:specs), and \@ref(tab:likelihood-components).
+For specification in 2024/25, model 24.0c is recommended due to parsimony and reduction in the number of parameters. The base model - 23.0a - would also be appropriate for consideration if the molt probability time block was considered to be of historical importance. Results for the author-recommended model, 24.0c, are presented in the specification tables in the executive summary but values for management-related quantities for all models are summarized in Tables \@ref(tab:status), \@ref(tab:specs), and \@ref(tab:likelihood-components).
 
 
 # B. Responses to SSC and CPT  {-}
 ## CPT and SSC Comments on Assessments in General {-}
 \noindent\rule{\textwidth}{0.4pt}
-**Responses to SSC Comments (June 2024):**
+**Response to SSC Comments (June 2024):**
 
 *"The SSC requests the authors and CPT consider coordinating the approach to analyzing the Bering Sea Fisheries Research Foundation (BSFRF) data for the two Chionoecetes crab and Bristol Bay red king crab (BBRKC) stocks, and specifically consider developing the results as a prior on selectivity for use in the models."*
 
@@ -250,7 +250,7 @@ Response: The CPT plans on taking up this topic during the Jan 2025 modeling wor
 
 \noindent\rule{\textwidth}{0.4pt}
 
-**Response to SSC Comments (June 2023, Oct 2023):**
+**Responses to SSC Comments (June 2023, Oct 2023):**
      
 *"The SSC recommends that a "fallback" Tier 4 alternative be provided, as recommended by the Simpler Modeling workshop. When doing so the SSC asks the authors to provide plots to compare OFLs with the status quo Tier 3 models for previous years, justification for the time series used for status determination and a recommended ABC buffer."*
 
@@ -262,9 +262,9 @@ Response: This was addressed by the CPT at our Jan 2024 meeting. See meeting min
 
 *"The SSC recommends the crab stocks begin using the established risk table format from groundfish for assessing uncertainty around buffer considerations"*
 
-Response: The CPT discussed picking up risk tables for the three main stocks at our Jan 2024 meeting. It was decided that authors would provide draft risk tables for the Sept. 2024 assessments. 
+Response: The CPT discussed picking up risk tables for the three main stocks at our Jan 2024 meeting. It was decided that authors would provide draft risk tables for the Sept. 2024 assessments. A draft risk table is provided here in Appendix D.
 
-*"The SSC recommends that uncertainty intervals be included when showing time series of biomass/abundance estimated by models.*
+*"The SSC recommends that uncertainty intervals be included when showing time series of biomass/abundance estimated by models."*
 
 Response: These are provided in this document.
 \noindent\rule{\textwidth}{0.4pt}
@@ -279,7 +279,7 @@ Response: These are provided in this document.
 
 Response: This is planned for May 2025.
 
-*"The SSC agrees with the additional considerations by the CPT in their minutes prioritizing; 1) considerations of selectivity time periods based on gear types and 2) considerations of time-varying selectivity in the fishery data relative to teh survey data."*
+*"The SSC agrees with the additional considerations by the CPT in their minutes prioritizing; 1) considerations of selectivity time periods based on gear types and 2) considerations of time-varying selectivity in the fishery data relative to the survey data."*
 
 Response: These will be considered, as time allows, for May 2025.
 \noindent\rule{\textwidth}{0.4pt}
@@ -318,19 +318,19 @@ Response: This is planned for May 2025 model explorations.
 
 *Consider tracking Dungeness crab abundance in the EBS and how this might affect BBRKC dynamics.*
   
-  Response: Currently there is no abundance estimate of Dungeness crab in the EBS. Conversations have occurred between the author and regional biologist on possible general affects, with the overall consensus that these two species are likely not occupying the same habitat as juveniles/adults. However, the early life spatial occupation for both of these stocks is unknown, so there may be competition for food in these stages. Trends of Dungeness catch over time are being obtained and will be explored in future work.
+  Response: Currently there is no abundance estimate of Dungeness crab in the EBS. Conversations have occurred between the author and regional biologist on possible general effects, with the overall consensus that these two species are likely not occupying the same habitat as juveniles/adults. However, the early life spatial occupation for both of these stocks is unknown, so there may be competition for food in these stages. Trends of Dungeness catch over time are being obtained and will be explored in future work.
 
 *Explain why equal sample sizes are used for male and female size composition data.*
   
-  Response: The size composition data for surveys is entered into the model as aggregate data since they are derived from the same survey samples. Therefore the sample size for each is based on the total number of crab measured not those measured by sex. 
+  Response: The size composition data for surveys are entered into the model as aggregate data since they are derived from the same survey samples. Therefore the sample size for each is based on the total number of crab measured not those measured by sex. 
 
 *MCMC output diagnostics, autocorrelation plots and parameter chains*
   
-  Response: These will be provided in Sept 2024 when a full MCMC is performed on the preferred models. 
+  Response: Due to changes in GMACS and modeling output the diagnostic plots were delayed for this document, but the author plans to create them for next Sept. 
 
-*Possible effect of high 2011 recruitment as scene in survey size composition figures*
+*Possible effect of high 2011 recruitment as seen in survey size composition figures*
   
-  Response: Size composition plots in Sept 2023 highlighted a potential recruitment event in 2011 for both males and females from the NMFS survey data (Figures 6 and 7 - Sept 2023 SAFE). This peak occurs as size classes that are not included in the assessment model (< 65mm, figures 43 and 44 - Sept 2023 SAFE), therefore this recruitment likely plays little role in the model estimates and resulting retrospective pattern since it is not seen in subsequent years to be included in the model. 
+  Response: Size composition plots in Sept 2023 highlighted a potential recruitment event in 2011 for both males and females from the NMFS survey data (Figures 6 and 7 - Sept 2023 SAFE). This peak occurs for size classes that are not included in the assessment model (< 65mm, figures 43 and 44 - Sept 2023 SAFE), therefore this recruitment likely plays little role in the model estimates and resulting retrospective pattern since it is not seen in subsequent years to be included in the model. 
 
 \noindent\rule{\textwidth}{0.4pt}
 
@@ -349,7 +349,7 @@ Response: This is planned for May 2025 model explorations.
   Response: The blocking of molt probability for males reflects changes in the Bristol Bay ecosystem in the early 80s and has been a historic component of the current model. Models 24.0c and 24.0d reflect removing this blocking to estimate one molting probability for the entire time series. 
 
 \noindent\rule{\textwidth}{0.4pt}
-**Response to SSC Comments specific to this assessment (from October 2022):**
+**Response to SSC comments specific to this assessment (from October 2022):**
   
 *"The SSC recommends that a high priority be placed on trying to isolate factors that reduce the retrospective bias in mature male biomass."*
   
@@ -377,7 +377,7 @@ Response: This is planned for May 2025 model explorations.
 
 *"The SSC recommends exploring how to estimate both catchabilities (NMFS trawl survey and BSFRF survey), but with a linked prior to influence them to scale together (i.e., assume some approximate value of how much higher q is for that survey)."*
   
-  Response: This is on the authors list of future work to be addressed with explorations of catchability for both surveys, but has not been explored in this document.
+  Response: This is on the author's list of future work to be addressed with explorations of catchability for both surveys, but has not been explored in this document.
   
 \noindent\rule{\textwidth}{0.4pt}
 
@@ -440,7 +440,7 @@ Response: This is planned for May 2025 model explorations.
   
   Response: Based on our past modelling experience, when M values for males and females are estimated separately, estimated M values tended to be always higher for females than for males. The likelihood profile was created through fixing M values for males and estimating M values for females, and when the fixed M values for males were very high, estimated M values for females tended to be similar to M values for males. The increase in F35% but not a commensurate increase in OFL is due to reduction of mature male biomass caused by the high M. 
 
-As a reference, we copied the likelihood profile computed in May 2020 below. Model 19.6 uses male base M of 0.257 estimated by Then et al. (2015), and the likelihood profile of base M from 0.1 to 0.4 was presented in previous SAFE versions. It appears that the maximum likelihood value is achieved with a base M of 0.31 for males and 0.321 for females.
+The last likelihood profile on M was computed in May 2020 and can be found in the 2023 SAFE document comments. Model 19.6 uses male base M of 0.257 estimated by Then et al. (2015), and the likelihood profile of base M from 0.1 to 0.4 was presented in previous SAFE versions. It appears that the maximum likelihood value is achieved with a base M of 0.31 for males and 0.321 for females.
 
 In May 2023, models 23.0, 23.0a, 23.0b, and 23.3 all involve variations of higher base M values for males. Higher base M values do not appear to improve the plus group fittings. In Sept 2023, the accepted model was 23.0a which estimates M for males with a tight prior. This was an increase in M (~0.23) from previous fixed values of 0.18 and is thought to be more appropriate for king crab stocks.  
 
@@ -468,9 +468,7 @@ In May 2023, models 23.0, 23.0a, 23.0b, and 23.3 all involve variations of highe
   
   Response: Model runs in May 2022/2023 addressed some variations on M. Estimated M values in the length-based crab models tend to have higher values than the other approaches, and confounding among estimated M, survey selectivity/catchability, and recruitment in a length-based model makes it difficult to accurately estimate M in the model. The base model accepted in fall 2023 (model 23.0a) includes an estimated M for males using a tight prior. Further exploration of the appropriateness of this prior are planned. 
 
-*“The CPT was interested in more exploration of the retrospective patterns, which seem to have increased since the last assessment despite no new data being added. Reported Mohn’s rhos were starting to reach concerning magnitudes in the proposed models?”*
-  
-  Response: Higher than expected BSFRF survey biomass during 2007-2008 and 2013-2016 and NMFS survey biomass in 2014 are likely behind some of these retrospective patterns. Also, much lower than expected NMFS survey biomass during 2018-2019 and 2021-2022 results in lower biomass estimates in recent years. The biases for total abundance are much smaller than mature male biomass. As other model explorations are tackled retrospective patterns will be considered. 
+
 \noindent\rule{\textwidth}{0.4pt}
 
 
@@ -487,10 +485,10 @@ Red king crab inhabit intertidal waters to depths >200 m of the North Pacific Oc
 
 ## 3. Stock Structure {-}
 The State of Alaska divides the Aleutian Islands and eastern Bering Sea into three management registration areas to manage RKC fisheries: Aleutian Islands, Bristol Bay, and Bering Sea (ADF&G 2012). The Bristol Bay area includes all waters north of the latitude of Cape Sarichef (54°36' N lat.), east of 168°00' W long., and south of the latitude of Cape Newenham (58°39' N lat.) and the fishery for RKC in this area is managed separately from fisheries for RKC outside of this area; i.e., the red king crab in the Bristol Bay area are assumed to be a separate stock from red king crab outside of this area. This report summarizes the stock assessment results for the Bristol Bay RKC stock.
-In 2023 a stock structure template was developed for red king crab in the Bering Sea and can be found on the NPFMC website ([**RKC stock structure tmeplate**](https://meetings.npfmc.org/CommentReview/DownloadFile?p=800ee36b-3651-481d-aa67-9da28a650bf6.pdf&fileName=BS%20red%20crab%20stock%20structure%20template_2023.pdf)).
+In 2023 a stock structure template was developed for red king crab in the Bering Sea and can be found on the NPFMC website ([**RKC Bering Sea stock structure**](https://meetings.npfmc.org/CommentReview/DownloadFile?p=800ee36b-3651-481d-aa67-9da28a650bf6.pdf&fileName=BS%20red%20crab%20stock%20structure%20template_2023.pdf)).
 
 ## 4. Life History {-}
-Red king crab have a complex life history. Fecundity is a function of female size, ranging from tens of thousands to hundreds of thousands (Haynes 1968; Swiney et al. 2012). The eggs are extruded by females, fertilized in the spring, and held by females for about 11 months (Powell and Nickerson 1965). Fertilized eggs are hatched in the spring, most during April-June (Weber 1967). Primiparous females are bred a few weeks earlier in the season than multiparous females.
+Red king crab have a complex life history. Fecundity is a function of female size, ranging from tens of thousands to hundreds of thousands of eggs produced (Haynes 1968; Swiney et al. 2012). The eggs are extruded by females, fertilized in the spring, and held by females for about 11 months (Powell and Nickerson 1965). Fertilized eggs are hatched in the spring, most during April-June (Weber 1967). Primiparous females are bred a few weeks earlier in the season than multiparous females.
 Larval duration and juvenile crab growth depend on temperature (Stevens 1990; Stevens and Swiney 2007). Male and female RKC mature at 5–12 years old, depending on stock and temperature (Stevens 1990; Loher et al. 2001) and may live >20 years (Matsuura and Takeshita 1990). Males and females attain a maximum size of 227 mm and 195 mm carapace length (CL), respectively (Powell and Nickerson 1965). Female maturity is evaluated by the size at which females are observed to carry egg clutches. Male maturity can be defined by multiple criteria including spermataphore production and size, chelae vs. carapace allometry, and participation in mating in situ (reviewed by Webb 2014). For management purposes, females >89 mm CL and males >119 mm CL are assumed to be mature for Bristol Bay RKC. Juvenile RKC molt multiple times per year until age 3 or 4; thereafter, molting continues annually in females for life and in males until maturity. Male molting frequency declines after attaining functional maturity.
 
 ## 5. Fishery {-}
@@ -531,12 +529,12 @@ The NMFS has conducted annual trawl surveys of the eastern Bering Sea since 1968
 
 Abundance estimates by sex, carapace length, and shell condition were derived from survey data using an area-swept approach (Figure \@ref(fig:male-comps) and \@ref(fig:female-comps)). Until the late 1980s, NMFS used a post-stratification approach, but subsequently treated Bristol Bay as a single stratum; the estimates shown for Bristol Bay in Figures \@ref(fig:cpue-catch) -- \@ref(fig:female-comps) were made without post-stratification. If multiple tows were made at a single station in a given year, the average of the abundances from all tows within that station was used as the estimate of abundance for that station. The new time series since 2015 discards all “hot spot” tows. The VAST estimated biomasses were not considered in this year’s assessment but may be considered in the future.
 
-In addition to the standard surveys conducted in early June (late May to early June in 1999 and 2000), a portion of the distribution of Bristol Bay RKC was resurveyed in 1999, 2000, 2006-2012, and 2021 to better assess mature female abundance. Resurveys performed in late July, about six weeks after the standard survey, included 31 stations (1999), 23 stations (2000), 31 stations (2006, 1 bad tow and 30 valid tows), 32 stations (2007-2009), 23 stations (2010), and 20 stations (2011, 2012, and 2021) with high female densities. The resurveys were necessary because a high proportion of mature females had not yet molted or mated when sampled during the standard survey time. Differences in area-swept estimates of abundance between the standard surveys and resurveys of these same stations are attributed to survey measurement errors or to seasonal changes in distribution between survey and resurvey periods. More large females were observed in the resurveys than during the standard surveys in 1999 and 2000, presumably because most mature females had not molted prior to the standard surveys. As in 2006, area-swept estimates of males >89 mm CL, mature males, and legal males within the 32 resurvey stations in 2007 were not significantly different (P=0.74, 0.74 and 0.95; paired t-test of sample means) between the standard survey and resurvey tows. However, similar to 2006, area-swept estimates of mature females within the 32 resurvey stations in 2007 were significantly different (P=0.03; paired t-test) between the standard survey and resurvey tows. Resurvey stations were close to shore during 2010-2012, and mature and legal male abundance estimates were lower for the re-tow than the standard survey. Following the CPT recommendation, we used the standard survey data for male abundance estimates and only the resurvey data, plus the standard survey data outside the resurveyed stations, to assess female abundances during resurvey years.
+In addition to the standard surveys conducted in early June (late May to early June in 1999 and 2000), a portion of the distribution of Bristol Bay RKC was resurveyed in 1999, 2000, 2006-2012, and 2021 to better assess mature female abundance. Resurveys performed in late July, about six weeks after the standard survey, included 31 stations (1999), 23 stations (2000), 31 stations (2006, 1 bad tow and 30 valid tows), 32 stations (2007-2009), 23 stations (2010), and 20 stations (2011, 2012, and 2021) with high female densities. The resurveys were necessary because a high proportion of mature females had not yet molted or mated when sampled during the standard survey time. Differences in area-swept estimates of abundance between the standard surveys and resurveys of these same stations are attributed to survey measurement errors or to seasonal changes in distribution between survey and resurvey periods. More large females were observed in the resurveys than during the standard surveys in 1999 and 2000, presumably because most mature females had not molted prior to the standard surveys. As in 2006, area-swept estimates of males >89 mm CL, mature males, and legal males within the 32 resurvey stations in 2007 were not significantly different (p = 0.74, 0.74 and 0.95; paired t-test of sample means) between the standard survey and resurvey tows. However, similar to 2006, area-swept estimates of mature females within the 32 resurvey stations in 2007 were significantly different (p = 0.03; paired t-test) between the standard survey and resurvey tows. Resurvey stations were close to shore during 2010-2012, and mature and legal male abundance estimates were lower for the re-tow than the standard survey. Following the CPT recommendation, we used the standard survey data for male abundance estimates and only the resurvey data, plus the standard survey data outside the resurveyed stations, to assess female abundances during resurvey years.
 
 ## 4. Bering Sea Fisheries Research Foundation Survey Data (BSFRF) {-}
 The BSFRF conducted trawl surveys for Bristol Bay RKC in 2007 and 2008 with a small-mesh trawl net and 5-minute tows (S. Goodman, BSFRF, pers. com.). The surveys occurred at similar times as the NMFS standard surveys and covered about 97% of the Bristol Bay survey area. Few Bristol Bay RKC were found outside the BSFRF survey area. Because of the small mesh size, the BSFRF surveys were expected to catch more RKC within the swept area. Crab abundances of different size groups were estimated by the kriging method. Mature male abundances were estimated to be 22.331 million crab (CV = 0.0634) in 2007 and 19.747 million crab (CV = 0.0765) in 2008. BSFRF also conducted a side-by-side survey concurrent with the NMFS trawl survey during 2013-2016 in Bristol Bay. In May 2017, survey biomass and size composition estimates from 2016 BSFRF side-by-side trawl survey data were updated. Ratios of NMFS survey abundances/total NMFS and BSFRF side-by-side trawl survey abundances are illustrated in Figures \@ref(fig:bsfrf-compare1) and \@ref(fig:bsfrf-compare1f), and ratios of NMFS survey abundances/BSFRF side-by-side trawl survey abundances are shown in Figures \@ref(fig:bsfrf-compare2) -- \@ref(fig:bsfrf-compare3).  
 
-As a comparison to the estimated NMFS survey catchability (0.896) at 162.5 mm CL by the double-bag experiment (Weinberg et al. 2004), we computed an overall ratio (q=0.891) of NMFS survey abundances/BSFRF side-by-side trawl survey abundances for legal crab ($\geq$ 135mm carapace length) as follow:
+As a comparison to the estimated NMFS survey catchability (0.896) at 162.5 mm CL by the double-bag experiment (Weinberg et al. 2004), we computed an overall ratio (q=0.891) of NMFS survey abundances/BSFRF side-by-side trawl survey abundances for legal crab ($\geq$ 135mm carapace length) as follows:
 
 
 $$q= \frac {\sum_{y=2013,l=135mm}^{y=2016,l=\infty}{r_{y,l}}n_{y,l}}{\sum_{y=2013,l=135mm}^{y=2016,l=\infty}{n_{y,l}}}$$
@@ -556,7 +554,7 @@ The original LBA model was described in detail by Zheng et al. (1995a, 1995b) an
 ### a-f. See Appendix A {-}
 
 ### g.	Critical assumptions of the model: {-}
-i.	The base natural mortality is estimated with a tight prior, a log-normal prior with a mean of 0.18 $yr_1$ for males and a CV of 0.04, the mean value was estimated assuming a maximum age of 25 and applying the 1% rule (Zheng 2005). A fixed base M of 0.18 $yr_1$ for males has been used in accepted model until Sept. 2023, when the current estimated base M was adopted. 
+i.	The base natural mortality is estimated with a tight prior, a log-normal prior with a mean of 0.18 $yr_1$ for males and a CV of 0.04. The mean value was estimated assuming a maximum age of 25 and applying the 1% rule (Zheng 2005). A fixed base M of 0.18 $yr_1$ for males has been used in accepted model until Sept. 2023, when the current estimated base M was adopted. 
 ii.	Survey and fisheries selectivities are a function of length and were constant over shell condition. Selectivities may or may not be a function of sex except for groundfish fisheries bycatch selectivities, which are the same for both sexes. Two different NMFS survey selectivities were estimated: (1) 1975-1981 and (2) 1982-2023, based on modifications to the trawl gear used in the assessment survey.
 iii.	Growth is a function of length. For females, growth-per-molt increments as a function of length are estimated for three periods (1975-1982, 1983-1993, and 1994-2023) based on sizes at maturity. Once mature, female red king crab have a much smaller growth increment per molt.
 iv.	Annual molting probabilities are an inverse logistic function of length for males. Females are assumed to molt annually.
@@ -666,11 +664,11 @@ i.	Estimated selectivities by length are provided in Figures \@ref(fig:surv-sel)
 
 One of the most important results is estimated trawl survey selectivity (Figures \@ref(fig:surv-sel)). Survey selectivity affects not only the fitting of the data but also the absolute abundance estimates. These estimated survey selectivities are generally smaller than the capture probabilities in Figure A1 because survey selectivities include capture probabilities and crab availability. The NMFS survey catchability is estimated to be 0.896 from the trawl experiment. The reliability of estimated survey selectivities will greatly affect the application of the model to fisheries management. Under- or over-estimates of survey selectivities will cause a systematic upward or downward bias of abundance estimates, respectively. Information about crab availability in the survey area at survey times will help estimate the survey selectivities. Higher estimated natural mortalities generally result in lower NMFS survey selectivities, while the estimated survey selectivities after 1981 are similar among the models. 
 
-For all models, estimated molting probabilities during 1975-2023 (Figures \@ref(fig:molt) and \@ref(fig:molt2)) are generally lower than those estimated from the 1954-1961 tagging data, but are similar to the  and 1966-1969 tagging data (Balsiger 1974). Lower molting probabilities mean more oldshell crab, possibly due to changes in molting probabilities over time or shell aging errors. Overestimates or underestimates of oldshell crab will result in lower or higher estimates of male molting probabilities. Molt probabilities between models 23.0a and 24.0c are similar the majority of the time series (Figure \@ref(fig:molt2)). 
+For all models, estimated molting probabilities during 1975-2023 (Figures \@ref(fig:molt) and \@ref(fig:molt2)) are generally lower than those estimated from the 1954-1961 tagging data, but are similar to the 1966-1969 tagging data (Balsiger 1974). Lower molting probabilities mean more oldshell crab, possibly due to changes in molting probabilities over time or shell aging errors. Overestimates or underestimates of oldshell crab will result in lower or higher estimates of male molting probabilities. Molt probabilities between models 23.0a and 24.0c are similar for the majority of the time series (Figure \@ref(fig:molt2)). 
 
-ii.	Estimated male and female survey biomasses are shown for NMFS surveys (Figures \@ref(fig:surv1) and \@ref(fig:surv1b)) and BSFRF surveys (\@ref(fig:surv2) and \@ref(fig:surv2b)). Absolute mature male biomasses are illustrated in Figures \@ref(fig:mmb1) and \@ref(fig:mmb2). Mature female abundance (a trigger in the State harvest strategy) is illustrated in Figure \@ref(fig:mature-fem-abun).   
+ii.	Estimated male and female survey biomasses are shown for NMFS surveys (Figures \@ref(fig:surv1) and \@ref(fig:surv1b)) and BSFRF surveys (Figures \@ref(fig:surv2) and \@ref(fig:surv2b)). Absolute mature male biomasses are illustrated in Figures \@ref(fig:mmb1) and \@ref(fig:mmb2). Mature female abundance (a trigger in the State harvest strategy) is illustrated in Figure \@ref(fig:mature-fem-abun).   
 
-The survey male biomass estimates in 2024 increased from those in 2023, reaching higher levels than have been observed since 2015. Survey female biomass estimates decreased some from 2023, however still remains higher than most values since 2018. Estimated population biomass increased dramatically in the mid-1970s then decreased precipitously in the early 1980s. Estimated biomass generally increased during 1985-2003 for males and during 1985-2007 for females, then declined, and have steadily declined since the late 2000s (Figures \@ref(fig:surv1), \@ref(fig:surv1b), \@ref(fig:mmb1), and \@ref(fig:mmb2)). Absolute mature male biomasses for all models have a similar trend over time (Figures \@ref(fig:mmb1) and \@ref(fig:mmb2)). All models fit the catch and bycatch biomasses very well.  
+The survey male biomass estimates in 2024 increased from those in 2023, reaching higher levels than have been observed since 2015. Survey female biomass estimates decreased some from 2023, but is higher than most values since 2018. Estimated population biomass increased dramatically in the mid-1970s then decreased precipitously in the early 1980s. Estimated biomass generally increased during 1985-2003 for males and during 1985-2007 for females, then declined, and has steadily declined since the late 2000s (Figures \@ref(fig:surv1), \@ref(fig:surv1b), \@ref(fig:mmb1), and \@ref(fig:mmb2)). Absolute mature male biomasses for all models have a similar trend over time (Figures \@ref(fig:mmb1) and \@ref(fig:mmb2)). All models fit the catch and bycatch biomasses very well.  
 
 The fit to BSFRF survey data and estimated survey selectivities are illustrated in Figures \@ref(fig:surv2) and \@ref(fig:surv2b), but are all similar in their results.  
 
@@ -709,8 +707,8 @@ Residuals of survey biomasses and proportions of length are plotted to examine t
 Retrospective analyses were conducted for this report using the 2024 models. The 2024 model hindcast results are based on sequentially excluding one-year of data to evaluate the current model performance with fewer data.   
 
 i.	Retrospective analysis (retrospective bias in base model or models).  
-The performance of the 2024 model includes sequentially excluding one-year of data. Model 23.0a produces some upward biases during 2013-2020 with higher terminal year estimates of mature male biomass in 2014-2020 (Figure \@ref(fig:retro230a)). Higher than expected BSFRF survey biomass during 2007-2008 and 2013-2016 and NMFS survey biomass in 2014 likely caused these biases. Also, much lower than expected NMFS survey biomass during 2018-2019 results in lower biomass estimates in 2020 and 2021. Model 24.0c had similar results. Mohn’s rho calculations for these retrospective runs were the same for both models and genearlly considered high (mohn's rho = 0.23).   
-Ratios of estimated retrospective recruitments to terminal estimates in 2024 as a function of number of years estimated in the model show converging to 1.0 as the number of years increases (Figures \@ref(fig:retroRec2) and \@ref(fig:retroRec2a)). Standard deviations of the ratios drop sharply from one year estimated in the model to two years (Figures \@ref(fig:retroRec3) and \@ref(fig:retroRec3a)), showing great uncertainty of recruitment estimates for terminal years. Based on these results, we suggest not using recruitment estimates in a terminal year for overfishing/overfished determination.  
+The performance of the 2024 model includes sequentially excluding one-year of data. Model 23.0a produces some upward biases during 2013-2020 with higher terminal year estimates of mature male biomass in 2014-2020 (Figure \@ref(fig:retro230a)). Higher than expected BSFRF survey biomass during 2007-2008 and 2013-2016 and NMFS survey biomass in 2014 likely caused these biases. Also, much lower than expected NMFS survey biomass during 2018-2019 results in lower biomass estimates in 2020 and 2021. Model 24.0c had similar results. Mohn’s rho calculations for these retrospective runs were the same for both models and generally considered high (Mohn's rho = 0.23).   
+Ratios of estimated retrospective recruitments to terminal estimates in 2024 as a function of number of years estimated in the model converge to 1.0 as the number of years increases (Figures \@ref(fig:retroRec2) and \@ref(fig:retroRec2a)). Standard deviations of the ratios drop sharply from one year estimated in the model to two years (Figures \@ref(fig:retroRec3) and \@ref(fig:retroRec3a)), showing great uncertainty of recruitment estimates for terminal years. Based on these results, we suggest not using recruitment estimates in a terminal year for overfishing/overfished determination.  
 
 
 ### f. Uncertainty and sensitivity analyses.{-}
@@ -740,7 +738,7 @@ Model 23.0a - which was the accepted model in 2023 - is considered the "base" mo
 
 Model 24.0c is based on model 23.0a with the removal of the time block for molt probability, where the model has a constant molt probability over the entire time series for both males and females. The time block removed in this model was in the earliest part of the time series and does not appear to have a significant affect on model output, with the resulting terminal year MMB and B~35%~ being very similar between these two models and the resulting OFL is nearly identical (Table \@ref(tab:specs)).
 
-Based on the model results, it appears that the choice of preferred models leans towards parsimony and simplification, recommending model 24.0c for specification setting in September 2024. However, model 23.0a would also be an acceptable alternative if the goal was to keep the historic mot probability change in place within the model strucutre.  Values for specifications are presented for model 24.0c (Tables \@ref(tab:status) and \@ref(tab:ofl-basis)), but values for the other models are presented in Table \@ref(tab:specs).
+Based on the model results, it appears that the choice of preferred models leans towards parsimony and simplification, recommending model 24.0c for specification setting in September 2024. However, model 23.0a would also be an acceptable alternative if the goal was to keep the historic molt probability change in place within the model structure.  Values for specifications are presented for model 24.0c (Tables \@ref(tab:status) and \@ref(tab:ofl-basis)), but values for the other models are presented in Table \@ref(tab:specs).
 
 
 
@@ -779,10 +777,8 @@ Average recruitments during 1984-2023 are used to estimate B~35%~ (Figure \@ref(
 
 The control rule is used for stock status determination. If total catch exceeds OFL estimated at $B$, then “overfishing” occurs. If $B$ equals or declines below ~50%~ $B_{{MSY}}$ (i.e., MSST), the stock is “overfished.” If $B/B_{{MSY}}$ or $B/B_{{MSYproxy}}$ equals or declines below $\beta$, then the stock productivity is severely depleted, and the directed fishery is closed. 
 
-The estimated probability distributions of MMB and OFL in 2024 are illustrated in Figures \@ref(fig:hist-mmb) and \@ref(fig:hist-ofl) for models 23.0a and 24.0c. Based on SSC suggestions in 2011, $ABC = 0.9*OFL$ and in October 2018, $ABC = 0.8*OFL$. The CPT then recommended $ABC = 0.8*OFL$ in May 2018 (accepted by the SSC), which is used to estimate ABC in this report. Due to the stock being at low levels and the lack of a 2020 survey, the CPT recommended an additional 5% buffer in September 2020, resulting in $ABC = 0.75*OFL$ for 2020. A 20% buffer was suggested by the CPT for 2021 - 2023, and is recommended by the author in 2024 for similar reasons to previous years.
-
-
-Risk table considerations **fix**
+The estimated probability distributions of MMB and OFL in 2024 are illustrated in Figures \@ref(fig:hist-mmb), \@ref(fig:hist-ofl) and \@ref(fig:hist-ofl2) for models 23.0a and 24.0c. Based on SSC suggestions in 2011, $ABC = 0.9*OFL$ and in October 2018, $ABC = 0.8*OFL$. The CPT then recommended $ABC = 0.8*OFL$ in May 2018 (accepted by the SSC), which is used to estimate ABC in this report. Due to the stock being at low levels and the lack of a 2020 survey, the CPT recommended an additional 5% buffer in September 2020, resulting in $ABC = 0.75*OFL$ for 2020. A 20% buffer was suggested by the CPT for 2021 - 2023, and is recommended by the author in 2024 for similar reasons to previous years.
+A draft risk table is provided in appendix D, which details concerns for this stock which are similar to those listed above. 
 
 MCMC runs with 500,000 replicates and 500 draws with model 23.0a and 24.0c are used for estimating the probability of estimated mature male biomass being below the minimum threshold $(0.5*B_{35})$ (Figure \@ref(fig:cum-mmb)). The probability (converted to a percentage) is estimated to be about 0% for model 24.0c (Figure \@ref(fig:proj-mmb)).
 
@@ -804,8 +800,8 @@ Status and catch specifications (1,000 t) (model 24.0c):
   2021/22 & 12.01 & 16.64 & 0 & 0.02 & 0.10 & 2.23 & 1.78 \\
   2022/23 & 9.68 & 18.34 & 0 & 0.02 & 0.07 & 3.04 & 2.43 \\
   2023/24 & `r msst_2324` & `r mmb_2324` & 0.975  & 0.96 & 1.34 & 4.42 & 3.54 \\
-  
-  \hline2024/25 &               & `r mmb_2425` &   &  &  & `r ofl_2425` & `r abc_2425` \\
+  2024/25 &               & `r mmb_2425` &   &  &  & `r ofl_2425` & `r abc_2425` \\
+  \hline
 \end{tabular}
 \end{table}
 
@@ -880,7 +876,7 @@ NA, not applicable for this stock
 # H. Data Gaps and Research Priorities {-}
 ## 1. The following data gaps exist for this stock:{-}
 a.	Information about changes in natural mortality in the early 1980s,
-b.	Un-observed trawl bycatch in the early 1980s,
+b.	Unobserved trawl bycatch in the early 1980s,
 c.	Natural mortality,
 d.	Crab availability to the trawl surveys,
 e.	Juvenile crab abundance,
@@ -1233,19 +1229,19 @@ knitr::include_graphics("figures/nmfs_trawl_slx_capture.png", dpi = 200)
 #knitr::include_graphics("figures/figure1.jpg", dpi = 200)
 ```
 
-```{r molt, fig.cap = "Comparison of estimated probabilities of molting of male red king crab in Bristol Bay for different periods with models 23.0a and 24.0c, the 1980 to 2023 molt probability for model 24.0c reflects the entire time series from 1975 to 2023. Molting probabilities for periods 1954-1961 and 1966-1969 were estimated by Balsiger (1974) from tagging data. Molting probabilities for 1975-1979 and 1980-2024 were estimated with a length-based model."}
+```{r molt, fig.cap = "Comparison of estimated probabilities of molting of male red king crab in Bristol Bay for different periods with models 23.0a and 24.0c, the 1980 to 2023 molt probability for model 24.0c reflects the entire time series from 1975 to 2023. Molting probabilities for periods 1954-1961 and 1966-1969 were estimated by Balsiger (1974) from tagging data. Molting probabilities for 1975-1979 and 1980-2024 were estimated with a length-based model. "}
 knitr::include_graphics("figures/molt_tagging_males_base.png", dpi = 200)
 ```
 
-```{r molt2, fig.cap = "Comparison of estimated probabilities of molting of male red king crab in Bristol Bay with models 23.0a and 24.0c. Molting probability for 1975-1979, 1980-2023 reflect the historic time block for molt proability.", out.width="90%"}
+```{r molt2, fig.cap = "Comparison of estimated probabilities of molting of male red king crab in Bristol Bay with models 23.0a and 24.0c. Molting probability for 1975-1979, 1980-2023 reflect the historic time block for molt proability. The first panel should read 1975 - 1979.", out.width="90%"}
 knitr::include_graphics("figures/male_molt_probability.png", dpi = 200)
 ```
 
-```{r surv1, out.width="100%", fig.cap = "Comparisons of area-swept estimates of total male NMFS survey biomass and model prediction for model estimates in 2024 under models 23.0a and 24.0c, also included is model 23.0a from 2023 for reference. The error bars are plus and minus 2 standard deviations of model 23.0a (2024)."} 
+```{r surv1, out.width="100%", fig.cap = "Comparisons of area-swept estimates of total male NMFS survey biomass and model prediction for model estimates in 2024 under models 23.0a and 24.0c; also included is model 23.0a from 2023 for reference. The error bars are plus and minus 2 standard deviations."} 
 knitr::include_graphics("figures/newD/index_fit_nmfs_trawl_male.png", dpi = 200)
 ```
 
-```{r surv1b, out.width="100%", fig.cap = "Comparisons of area-swept estimates of total female NMFS survey biomass and model prediction for model estimates in 2024 under models 23.0a and 24.0c, also included is model 23.0a from 2023 for reference. The error bars are plus and minus 2 standard deviations of model 23.0a."} 
+```{r surv1b, out.width="100%", fig.cap = "Comparisons of area-swept estimates of total female NMFS survey biomass and model prediction for model estimates in 2024 under models 23.0a and 24.0c; also included is model 23.0a from 2023 for reference. The error bars are plus and minus 2 standard deviations."} 
 knitr::include_graphics("figures/newD/index_fit_nmfs_trawl_female.png", dpi = 200)
 ```
 
@@ -1261,7 +1257,7 @@ knitr::include_graphics("figures/index_fit_bsfrf_female.png", dpi = 200)
 knitr::include_graphics("figures/bsfrf_slx_capture.png", dpi = 200)
 ```
 
-```{r sc-bsfrfM, out.width="100%", fig.cap = "Comparisons of length compositions for males (1) and females (2) for the BSFRF survey and the model estimates during 2007-2008 and 2013-2016 for all model scenarios."}
+```{r sc-bsfrfM, out.width="100%", fig.cap = "Comparisons of length compositions for males (1) and females (2) for the BSFRF survey and the model estimates during 2007-2008 and 2013-2016 for both model scenarios."}
 knitr::include_graphics("figures/newD/comp_fit_bsfrf_male_total.png", dpi = 450)
 ```
 
@@ -1410,36 +1406,36 @@ knitr::include_graphics("figures/retro24c/mmb_trajectory.png", dpi = 200)
 ```
 
 \newpage
-```{r retroRec, out.width="100%", fig.cap = "Comparison of retrospective estimates of total recruitment for model 23.0a of Bristol Bay red king crab from 1976 to 2024 made with terminal years 2014-2024. Legend shows the terminal year."}
+```{r retroRec, out.width="100%", fig.cap = "Comparison of retrospective estimates of total recruitment for model 23.0a of Bristol Bay red king crab from 1976 to 2024 made with terminal years 2014-2024. Legend shows the terminal year." }
 knitr::include_graphics("figures/retro230a/recruitment_retrospective_model_230a.png", dpi = 200)
 ```
 
 \newpage 
-```{r retroRec2, out.width="100%", fig.cap = "Evaluation of Bristol Bay red king crab retrospective errors on recruitment estimates as a function of the number of years in the model for model 23.0a."}
+```{r retroRec2, out.width="100%", fig.cap = "Evaluation of Bristol Bay red king crab retrospective errors on recruitment estimates as a function of the number of years in the model for model 23.0a.", out.width="90%"}
 knitr::include_graphics("figures/retro230a/ratio_to_terminal_yr_model230a.png", dpi = 200)
 ```
 
-```{r retroRec3, out.width="100%", fig.cap = "Mean ratios of retrospective estimates of recruitments to those estimated in the most recent year (2023) and standard deviations (red line) of the ratios as a function of the number of years in the model for model 23.0a. "}
+```{r retroRec3, out.width="100%", fig.cap = "Mean ratios of retrospective estimates of recruitments to those estimated in the most recent year (2023) and standard deviations (red line) of the ratios as a function of the number of years in the model for model 23.0a. ", out.width="90%"}
 knitr::include_graphics("figures/retro230a/Recruitment_Mean_sd_ratio_model230a.png", dpi = 200)
 ```
 
 \newpage 
-```{r retroRec2a, out.width="100%", fig.cap = "Evaluation of Bristol Bay red king crab retrospective errors on recruitment estimates as a function of the number of years in the model for model 24.0c."}
+```{r retroRec2a, out.width="100%", fig.cap = "Evaluation of Bristol Bay red king crab retrospective errors on recruitment estimates as a function of the number of years in the model for model 24.0c.", out.width="90%"}
 knitr::include_graphics("figures/retro24c/ratio_to_terminal_yr_model_24c.png", dpi = 200)
 ```
 
-```{r retroRec3a, out.width="100%", fig.cap = "Mean ratios of retrospective estimates of recruitments to those estimated in the most recent year (2023) and standard deviations (red line) of the ratios as a function of the number of years in the model for model 24.0c. "}
+```{r retroRec3a, out.width="100%", fig.cap = "Mean ratios of retrospective estimates of recruitments to those estimated in the most recent year (2023) and standard deviations (red line) of the ratios as a function of the number of years in the model for model 24.0c. ", out.width="90%"}
 knitr::include_graphics("figures/retro24c/Recruitment_Mean_sd_ratio_model_24c.png", dpi = 200)
 ```
 
 \newpage \clearpage
 \pagebreak
-```{r hist-mmb, fig.cap = "Histogram of estimated mature male biomass on Feb. 15, 2025, under model 24.0c with the MCMC approach."}
-knitr::include_graphics("figures/proj_MMB_histogram_m24.0c.png", dpi = 200)
+```{r hist-mmb, fig.cap = "Histogram of estimated mature male biomass on Feb. 15, 2025, under model 24.0c with the MCMC approach.", out.width="90%"}
+knitr::include_graphics("figures/proj_MMB_density_plot_model_m24.0c.png", dpi = 200)
 ```
 
-```{r hist-ofl, fig.cap = "Histogram of the 2024/25 estimated OFL under model 24.0c with the MCMC approach."}
-knitr::include_graphics("figures/proj_OFL_histogram_model_m24.0c.png", dpi = 200)
+```{r hist-ofl, fig.cap = "Histogram of the 2024/25 estimated OFL under model 24.0c with the MCMC approach.", out.width="90%"}
+knitr::include_graphics("figures/proj_OFL_density_plot_model_m24.0c.png", dpi = 200)
 ```
 
 ```{r cum-mmb, fig.cap = "Cumulative probabilities of estimated ratios of MMB on Feb. 15, 2025, to corresponding estimated B35 values under model 24.0c with the MCMC approach. Zero probability is below the estimated minimum thresholds."}
@@ -1458,16 +1454,22 @@ knitr::include_graphics("figures/proj_CDF_MMB_by_year_model_m24.0c.png", dpi = 2
 ```
 
 \newpage 
-```{r proj-mmb2, fig.cap = "Projected mature male biomass on Feb. 15 with four fishing mortalities in the directed fishery: F = 0, F = 0.083, F = 0.167, and F = 0.25, during 2024-2034. Input parameter estimates are based on model 23.0a. Crab year “2024” represents Feb. 15, 2025. Shaded areas represent a 0.05 to 0.95 limits. "}
+
+```{r hist-ofl2, fig.cap = "Histogram of the 2024/25 estimated OFL under model 23.0a with the MCMC approach.", out.width="90%"}
+knitr::include_graphics("figures/proj_OFL_density_plot_model_m23.0a.png", dpi = 200)
+```
+
+
+```{r proj-mmb2, fig.cap = "Projected mature male biomass on Feb. 15 with four fishing mortalities in the directed fishery: F = 0, F = 0.083, F = 0.167, and F = 0.25, during 2024-2034. Input parameter estimates are based on model 23.0a. Crab year “2024” represents Feb. 15, 2025. Shaded areas represent 0.05 to 0.95 limits. "}
 knitr::include_graphics("figures/proj_ssb_model_m23.0a.png", dpi = 200)
 ```
 
 \newpage 
-```{r male-comps2, fig.cap = "Length frequency distributions of male red king crab in Bristol Bay from NMFS trawl surveys during 2017-2024. For purposes of these graphs, abundance estimates are based on area-swept methods."}
+```{r male-comps2, fig.cap = "Length frequency distributions of male red king crab in Bristol Bay from NMFS trawl surveys during 2017-2024. For purposes of these graphs, abundance estimates are based on area-swept methods.", out.width="90%"}
 knitr::include_graphics("figures/size_bins_comp_Kodiak_m_5mm_LAST5.png", dpi = 200)
 ```
 
-```{r female-comps2, fig.cap = "Length frequency distributions of female red king crab in Bristol Bay from NMFS trawl surveys during 2017-2024. For purposes of these graphs, abundance estimates are based on area-swept methods."}
+```{r female-comps2, fig.cap = "Length frequency distributions of female red king crab in Bristol Bay from NMFS trawl surveys during 2017-2024. For purposes of these graphs, abundance estimates are based on area-swept methods.", out.width="90%"}
 knitr::include_graphics("figures/size_bins_comp_Kodiak_f_5mm_LAST5.png", dpi = 200)
 ```
 
@@ -1485,8 +1487,21 @@ knitr::include_graphics("figures/FEMALES_figure_35b.png", dpi = 200)
 knitr::include_graphics("figures/figure_35_alternate.png", dpi = 200)
 ```
 
+\clearpage
+\pagebreak
 
- 
+
+# Appendices {-}
+
+Appendix A, B, and D can be found on the agenda as separate attachments.
+
+Appendix A: Description of GMACS with Bristol Bay Red King Crab Options
+
+Appendix B: Data files for model 23.0a (more readable versions can be requested from teh author - katie.palof@alaska.gov)
+
+Appendix D: Draft Risk Table for BBRKC 2024
+
+
 \clearpage
 \pagebreak
 
