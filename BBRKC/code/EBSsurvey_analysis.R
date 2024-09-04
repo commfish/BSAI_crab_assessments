@@ -130,7 +130,7 @@ size_group %>%
   filter(SIZE_CLASS_MM > 89) %>% 
   mutate(size_bin = ifelse(SIZE_CLASS_MM >140, 140, floor(SIZE_CLASS_MM/5)*5)) %>% 
   group_by(SURVEY_YEAR, size_bin) %>% 
-  summarise(bin_abun = sum(ABUNDANCE)/1000) %>% 
+  summarise(bin_abun = round(sum(ABUNDANCE)/1000, 3)) %>% 
   as.data.frame()
 ## this is input for the LBA model for 'surveyf.dat' !! LBA !!
 
