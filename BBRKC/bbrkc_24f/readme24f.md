@@ -71,7 +71,7 @@ Using 'gmacsr' for figures,etc. See 24s drafts.
 'doc_figures_tables_gmacsr.R'
 - Catch data figures - catch and cpue ????
 - Tagging/molting figure ????
-- Mature female abundance figure ?????
+- Mature female abundance figure  - now in this document
 
 
 
@@ -90,13 +90,6 @@ Performed on all 3 models. Ran with "gmacs -nohess" to avoid errors - need to tr
 Tyler created functions to run jitter code in GMACS and save results, see file 'gmacs_functions.R'
 
 ## model runs - initial to compare to Jie's ------
-### Model 21.1b - run 4-14-23; see gmacs.dat -
-Runtime: 0 hours, 47 minutes, 59 seconds
-Compare to Fall 2022 model 21.1b - no new data just new GMACS version - see if differences in output
-
-
-### Model 22.0 
-updated .dat and .ctl files to reflect new GMACS version. 
 
 ### Model 23.0a
 updated .ctl, .dat file is the same as 21.1b due to same model just estimated M for males here.
@@ -116,6 +109,8 @@ Test mcmc run
 BBRKC 21 :::: # Run mcmc for projections
 Test mcmc run (see above)
 
+model 23.0a - siddeek's laptop
+model 24.0c - desktop 
 gmacs -mcmc 500000 -mcsave 1000 -nox (this means don't show vector and gradient values in function minimizer screen report)
 (see below for time)
 
