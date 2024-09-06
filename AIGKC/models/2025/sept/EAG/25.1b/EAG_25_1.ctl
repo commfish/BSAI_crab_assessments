@@ -334,15 +334,15 @@
  0.0000 0.0000 0.0000 # Auto tail compression (pmin)
       1      2      3 # Composition aggregator codes
       1      1      2 # Set to 1 for catch-based predictions; 2 for survey or total catch predictions
-1 1 1 # Lambda for effective sample size
+ 1.0000 1.0000 1.0000 # Lambda for effective sample size
  1.0000 1.0000 1.0000 # Lambda for overall likelihood
       0      0      0 # Survey to set Q for this comp
 
 # Effective sample size parameters (number matches max(Composition Aggregator code)) 
 #      Initial    Lower_bound    Upper_bound  Prior_type        Prior_1        Prior_2  Phase 
-    1.00000000     0.10000000     5.00000000           0     0.00000000   999.00000000     4 # Overdispersion_parameter_for_size_comp_1(possibly extended)
-    1.00000000     0.10000000     5.00000000           0     0.00000000   999.00000000     4 # Overdispersion_parameter_for_size_comp_2(possibly extended)
-    1.00000000     0.10000000     5.00000000           0     0.00000000   999.00000000     4 # Overdispersion_parameter_for_size_comp_3(possibly extended)
+    1.00000000     0.10000000     5.00000000           0     0.00000000   999.00000000      4 # Overdispersion_parameter_for_size_comp_1(possibly extended)
+    1.00000000     0.10000000     5.00000000           0     0.00000000   999.00000000      4 # Overdispersion_parameter_for_size_comp_2(possibly extended)
+    1.00000000     0.10000000     5.00000000           0     0.00000000   999.00000000      4 # Overdispersion_parameter_for_size_comp_3(possibly extended)
 
 ## ==================================================================================== ##
 ## EMPHASIS FACTORS                                                                     ##
