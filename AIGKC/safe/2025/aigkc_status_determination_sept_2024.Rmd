@@ -1,0 +1,100 @@
+---
+title: "2023/24 Stock Status Determination for Aleutian Islands Golden King Crab"
+author: |
+  | Tyler Jackson
+  | Alaska Department of Fish and Game, tyler.jackson@alaska.gov
+date: "`r format(Sys.time(), '%B %Y')`"
+output:
+  bookdown::pdf_document2:
+    toc: no
+header-includes:
+   - \usepackage{float}
+   - \usepackage{hanging}
+---
+
+```{r, echo = F, message = F, warning = F}
+library(tidyverse)
+library(xtable)
+
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, fig.pos='H',
+                      out.height = "\\textheight", out.width = "\\textwidth")
+
+eag_ret <- read_delim("../../../AIGKC/data/gmacs/2024_may/eag_retained_1985_present.txt")
+eag_tot <- read_delim("../../../AIGKC/data/gmacs/2024_may/eag_total_catch.txt")
+eag_gf <- read_delim("../../../AIGKC/data/gmacs/2025_may/eag_gf_bycatch.txt")
+
+wag_ret <- read_delim("../../../AIGKC/data/gmacs/2024_may/wag_retained_1985_present.txt")
+wag_tot <- read_delim("../../../AIGKC/data/gmacs/2024_may/wag_total_catch.txt")
+wag_gf <- read_delim("../../../AIGKC/data/gmacs/2024_may/wag_gf_bycatch.txt")
+
+
+ret <- eag_ret %>% filter(`#year` == 2023) %>% pull(obs) + wag_ret %>% filter(`#year` == 2023) %>% pull(obs)
+tot <- eag_tot %>% filter(`#year` == 2023) %>% pull(obs) + wag_tot %>% filter(`#year` == 2023) %>% pull(obs)
+tot_m <- (tot-ret)*0.2
+gf_m <- eag_gf %>% filter(`#year` == 2023) %>% transmute(mort = obs * discard_motality) %>% pull(mort) + wag_gf %>% filter(`#year` == 2023) %>% transmute(mort = obs * discard_motality) %>% pull(mort)
+```
+
+# Summary {-}
+
+The full assessment of Aleutian Islands golden king crab (AIGKC) was conducted in May 2024 (Jackson 2024) prior to the completion of the groundfish bycatch fisheries. This document updates the full assessment with final stock status determination for the 2023/24 crab year (July 1, 2023 - June 30, 2024) relative to completed estimates of fishing mortality and associated biological reference points. The May 2023 assessment determined the overfishing limit (OFL) for 2023/24 season to be 4.182 t (9.220 million lb) with an acceptable biological catch (ABC) of 3.137 t (6.916 million lb). Completed total fishery removals for the 2023/24 season were 2,761 t (6.087 million lb), consisting of 2,578 t (5.684 million lb) retained catch, 171.1 t (0.377 million lb) discard mortality in the directed fishery, and 11.4 t (0.025 million lb) bycatch mortality in groundfish fisheries. Since total fishery-related mortality was less than the OFL for 2023/24, \textbf{overfishing did not occur} on this stock in 2022/23.  
+
+The following two tables update the management performance tables presented in the May 2024 SAFE Report with completed fishery estimates of retained and total catch for 2023/24
+
+  \begin{center}
+\begin{tabular}{lcccccccc}
+
+\multicolumn{8}{l}{Status and catch specifications for models EAG and WAG combined. Model 23.1}\\
+\multicolumn{8}{l}{was used for 2024/25 reference points.}\\
+\multicolumn{8}{l}{1000 t}\\
+\hline
+&& Biomass && Retained & Total &&\\
+Year & MSST & (MMB$_{\text{mating}}$) & TAC & Catch & Catch & OFL & ABC\\
+\hline
+```{r statust, results='asis', eval = T}
+read_csv("../../../AIGKC/data/safe/stock_status_table.csv") %>%
+  tail(5) %>%
+  dplyr::select(-model) -> x
+
+print(xtable(x, align="lcccccccc", digits=3),
+      only.contents=TRUE,
+      include.rownames=FALSE,
+      floating=FALSE,
+      include.colnames=FALSE,
+      hline.after=NULL,
+      format.args = list(big.mark = ","))
+
+```
+\hline
+\multicolumn{8}{l}{ }\\
+\multicolumn{8}{l}{Million lb}\\
+\hline
+&& Biomass && Retained & Total &&\\
+Year & MSST & (MMB$_{\text{mating}}$) & TAC & Catch & Catch & OFL & ABC\\
+\hline
+```{r statuslb, results='asis', eval = T}
+read_csv("../../../AIGKC/data/safe/stock_status_table.csv") %>%
+  mutate_at(2:8, function(x){x / 0.000453592 / 1e3}) %>%
+  # fix two years
+  mutate(tac = ifelse(season == "2020/21", 6.610, tac),
+         tac = ifelse(season == "2023/24", 5.530, tac)) %>%
+  tail(5) %>%
+  dplyr::select(-model) -> x
+
+print(xtable(x, align="lcccccccc", digits=3),
+      only.contents=TRUE,
+      include.rownames=FALSE,
+      floating=FALSE,
+      include.colnames=FALSE,
+      hline.after=NULL,
+      format.args = list(big.mark = ","))
+
+```
+\hline
+\multicolumn{8}{l}{\textit{2022/23 refence points were estimated before the WAG fishery was completed.}}\\
+\multicolumn{8}{l}{\textit{2023/24 refence points were estimated before EAG and WAG fisheries were completed.}}\\
+\end{tabular}
+\end{center}
+
+# Literature {-}
+
+Jackson, T. 2024. Aleutian Islands golden king crab stock assessment 2024. North Pacific Fishery Management Council, Anchorage, AK.
