@@ -61,7 +61,7 @@ yraxis <- tickr(tibble(yr = 1900:2100), yr, 5)
 
 # custom color scale
 cbpalette <- colorRampPalette(colors = c("#009E73", "#0072B2","#E69F00" , "#56B4E9", "#D55E00", "#CC79A7","#F0E442", "black", "grey"))(9)
-cbpalette <- c(cbpalette, "tomato3", "turquoise4", "orangered4")
+cbpalette <- c(cbpalette, "tomato3", "turquoise4", "orangered4", "pink", "green", "red")
 
 # gmacs_read_allout() ----
 
@@ -2288,14 +2288,14 @@ gmacs_do_retrospective <- function(gmacs.dat, n_peel, wait = T, pin = F, plot_on
 ### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 ### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 
-gmacs_get_catch_summary <- function(all_out = NULL, file = NULL, model_name = NULL){
+gmacs_get_catch_summary <- function(all_out = NULL, file = NULL, model_name = NULL, version = NULL){
   
   # bring in all out data ----
   
   if(!is.null(file) && is.null(all_out)) {
     if(is.null(model_name)) {stop("Must supply model name(s)!!")}
     # read all out file
-    all_out <- purrr::map2(file, model_name, gmacs_read_allout); names(all_out) <- paste0("model", model_name)
+    all_out <- purrr::map2(file, model_name, gmacs_read_allout, version = version); names(all_out) <- paste0("model", model_name)
   }
   # extract catch data ----
   
@@ -2427,14 +2427,14 @@ gmacs_get_effective_n <- function(all_out = NULL, file = NULL, model_name = NULL
 ### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 ### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 
-gmacs_get_derived_quantity_summary <- function(all_out = NULL, file = NULL, model_name = NULL){
+gmacs_get_derived_quantity_summary <- function(all_out = NULL, file = NULL, model_name = NULL, version = NULL){
   
   # bring in all out data ----
   
   if(!is.null(file) && is.null(all_out)) {
     if(is.null(model_name)) {stop("Must supply model name(s)!!")}
     # read all out file
-    all_out <- purrr::map2(file, model_name, gmacs_read_allout); names(all_out) <- paste0("model", model_name)
+    all_out <- purrr::map2(file, model_name, gmacs_read_allout, version = version); names(all_out) <- paste0("model", model_name)
   }
   
   # extract data ----
@@ -2631,14 +2631,14 @@ gmacs_get_slx <- function(all_out = NULL, file = NULL, model_name = NULL){
 ### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 ### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 
-gmacs_get_pars <- function(all_out = NULL, file = NULL, model_name = NULL){
+gmacs_get_pars <- function(all_out = NULL, file = NULL, model_name = NULL, version = NULL){
   
   # bring in all out data ----
   
   if(!is.null(file) && is.null(all_out)) {
     if(is.null(model_name)) {stop("Must supply model name(s)!!")}
     # read all out file
-    all_out <- purrr::map2(file, model_name, gmacs_read_allout); names(all_out) <- paste0("model", model_name)
+    all_out <- purrr::map2(file, model_name, gmacs_read_allout, version = version); names(all_out) <- paste0("model", model_name)
   }
   
   # extract catch data ----
@@ -2708,14 +2708,14 @@ gmacs_get_ref_points <- function(all_out = NULL, file = NULL, model_name = NULL)
 ### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 ### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 
-gmacs_get_lik <- function(all_out = NULL, file = NULL, model_name = NULL){
+gmacs_get_lik <- function(all_out = NULL, file = NULL, model_name = NULL, version = NULL){
   
   # bring in all out data ----
   
   if(!is.null(file) && is.null(all_out)) {
     if(is.null(model_name)) {stop("Must supply model name(s)!!")}
     # read all out file
-    all_out <- purrr::map2(file, model_name, gmacs_read_allout); names(all_out) <- paste0("model", model_name)
+    all_out <- purrr::map2(file, model_name, gmacs_read_allout, version = version); names(all_out) <- paste0("model", model_name)
   }
   
   # extract catch data ----
@@ -2968,10 +2968,10 @@ gmacs_plot_data_range <- function(all_out = NULL, save_plot = T, plot_dir = NULL
 ## example: gmacs_plot_catch(all_out = list(mod_23.1b), plot_dir = "./put/file/here")
 
 gmacs_plot_catch <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_labs = NULL, 
-                             data_summary = NULL, file = NULL, model_name = NULL) {
+                             data_summary = NULL, file = NULL, model_name = NULL, version = NULL) {
   
   # get summary data
-  if(is.null(data_summary)){data_summary <- gmacs_get_catch_summary(all_out, file, model_name)}
+  if(is.null(data_summary)){data_summary <- gmacs_get_catch_summary(all_out, file, model_name, version = version)}
   
   # plots 
   
@@ -3595,10 +3595,10 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
 ### std_list -  output from gmacs_read_std() as nested list, e.g., std = list(std.24.0, std.16.0). Optional, if plot_ci = T, both std_file and std_list cannot be NULL.
 
 gmacs_plot_mmb <- function(all_out = NULL, save_plot = T, plot_ci = F, ci_alpha = 0.05, yrs = NULL, plot_proj = T, plot_dir = NULL, data_summary = NULL, 
-                           file = NULL, model_name = NULL, std_file = NULL, std_list = NULL) {
+                           file = NULL, model_name = NULL, version = NULL, std_file = NULL, std_list = NULL) {
   
   # get summary data
-  if(is.null(data_summary)){data_summary <- gmacs_get_derived_quantity_summary(all_out, file, model_name)}
+  if(is.null(data_summary)){data_summary <- gmacs_get_derived_quantity_summary(all_out, file, model_name, version)}
   
   # plots ----
   if(save_plot == T & is.null(plot_dir)) {plot_dir <- file.path(getwd(), "plots"); dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
@@ -3678,10 +3678,10 @@ gmacs_plot_mmb <- function(all_out = NULL, save_plot = T, plot_ci = F, ci_alpha 
 ### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 ### std_file - file path to gmacs.std file. Optional, if plot_ci = T, both std_file and std_list cannot be NULL.
 ### std_list -  output from gmacs_read_std() as nested list, e.g., std = list(std.24.0, std.16.0). Optional, if plot_ci = T, both std_file and std_list cannot be NULL.
-gmacs_plot_recruitment <- function(all_out = NULL, save_plot = T, plot_ci = F, ci_alpha = 0.05, yrs = NULL, plot_dir = NULL, data_summary = NULL, file = NULL, model_name = NULL, std_file = NULL, std_list = NULL) {
+gmacs_plot_recruitment <- function(all_out = NULL, save_plot = T, plot_ci = F, ci_alpha = 0.05, yrs = NULL, plot_dir = NULL, data_summary = NULL, file = NULL, model_name = NULL, std_file = NULL, std_list = NULL, version = NULL) {
   
   # get summary data
-  if(is.null(data_summary)){data_summary <- gmacs_get_derived_quantity_summary(all_out, file, model_name)}
+  if(is.null(data_summary)){data_summary <- gmacs_get_derived_quantity_summary(all_out, file, model_name, version)}
   
   # plots ----
   if(save_plot == T & is.null(plot_dir)) {plot_dir <- file.path(getwd(), "plots"); dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
