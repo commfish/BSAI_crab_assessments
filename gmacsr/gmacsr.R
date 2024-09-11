@@ -1,7 +1,7 @@
 ## gmacs R functions
-## updated to GMACS 2.01.M.10; Compiled 2024-02-27
+## updated to GMACS 2.20.16; Compiled 2024-09-11
 ## tyler jackson, caitlin stern
-## last update - 7/19/2024
+## last update - 9/11/2024
 
 # load ----
 
