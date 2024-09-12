@@ -2184,6 +2184,81 @@ gmacs_read_dat <- function(file, model_name = NULL, version = NULL) {
   
 }
 
+# gmacs_read_files_dat() ----
+
+## read gmacs.dat file
+
+## args:
+### file - file path to gmacs.dat
+### model_name - character string to save as object in output, later to be used for plot legends. example: "23.1b"
+### version - GMACS version, default latest
+
+## output: list object
+## example: gmacs_read_dat(file = "./AIGKC/models/2024/may/EAG/23.1b/gmacs.dat", model_name = "23.1b")
+
+gmacs_read_files_dat <- function(file, model_name = NULL, version = NULL) {
+  
+  if(is.null(version)){version = "2.20.16"}
+  if(version == "2.20.16"){
+    # setup ---- 
+    
+    # Suppress the NA message in the coercion to double
+    options(warn = -1) 
+    
+    # read text file
+    dat <- read.delim(file, sep = "", header = F, col.names = c(1:1000), fill = T, 
+                      na.strings = "", colClasses = "character", comment.char = "#")
+    # create out object
+    out <- list()
+    
+    # model dimensions ----
+    
+    ## version 
+    out$version <- version
+    ## model_name 
+    out$model_name <- model_name
+    
+    # files ----
+    out$dat_file <- dat[1,1]
+    out$ctl_file <- dat[2,1]
+    out$prj_file <- dat[3,1]
+    
+    # units ----
+    out$wt_unit <- dat[4,1]
+    out$n_unit <- dat[5,1]
+    
+    # stock ----
+    out$stock <- dat[6,1]
+    
+    # jittering ----
+    out$jitter <- as.numeric(dat[7,1])
+    out$jitter_sd <- as.numeric(dat[8,1])
+    
+    # out options ----
+    out$out_ref_pars <- as.numeric(dat[9,1])
+    out$out_recruit <- as.numeric(dat[10,1])
+    out$out_ssb <- as.numeric(dat[11,1])
+    out$out_fbar <- as.numeric(dat[12,1])
+    out$out_dynb0 <- as.numeric(dat[13,1])
+    
+    # retro peels ----
+    out$nyr_retro <- as.numeric(dat[14,1])
+    
+    # run options ----
+    out$max_phase <- as.numeric(dat[15,1])
+    out$max_function_calls <- as.numeric(dat[16,1])
+    out$calc_ref_points <- as.numeric(dat[17,1])
+    out$use_pin <- as.numeric(dat[18,1])
+    out$verbose <- as.numeric(dat[19,1])
+    
+    ## eof
+    if(as.numeric(dat[20,1]) == 9999){return(out)} else{stop("end of file not correct, debug")}
+    
+    
+  }  
+  
+}
+
 # gmacs_read_rep() ----
 
 ## args: file = file path to report file from GMACS, gmacs.rep (from Jie Zheng)
@@ -2284,7 +2359,7 @@ gmacs_read_mcoutREF <- function(file, model_name = NULL){
 ## write .dat file
 
 ## args:
-### input - named list of data needed to write file (need more info here)
+### input - named list of data needed to write file (need more info here), look at output of gmacs_read_dat()
 ### file - file path to write .dat file
 
 ## output: file saved in specified location
@@ -2480,7 +2555,100 @@ gmacs_write_dat <- function(input, file){
   
   out[last + 1,] <- "eof"; last <- last + 1
   out[last + 1,] <- "9999"; last <- last + 1
-  # right
+  # write
+  writeLines(out[!is.na(out[,1]),], file)
+  
+}
+
+# gmacs_write_files_dat() ----
+
+## write gmacs.dat file
+
+## args:
+### input - named list of data needed to write file (need more info here), look at output of gmacs_read_files_dat()
+### file - file path to write .dat file
+
+## output: file saved in specified location
+## example: gmacs_write_files_dat(input, file = "./AIGKC/models/2024/may/EAG/23.1b/EAG_23_1b.dat")
+
+gmacs_write_files_dat <- function(input, file) {
+  
+  if(is.null(input$version)){input$version = "2.20.16"}
+  if(input$version == "2.20.16"){
+    # setup ---- 
+    
+    # create output matrix
+    out <- matrix(nrow = 1e6)
+    last <- 0 # location tracker
+    
+    # version ----
+    out[last + 1,] <- "##==============================================================="; last <- last + 1
+    out[last + 1,] <- paste("# GMACS", input$version, "Setup File"); last <- last + 1
+    if(!is.null(input$model_name)){out[last + 1,] <- paste("# Model", input$model_name); last <- last + 1}
+    out[last + 1,] <- "##==============================================================="; last <- last + 1
+    out[last + 1,] <- " "; last <- last + 1
+    out[last + 1,] <- " "; last <- last + 1
+    
+    # files ----
+    out[last + 1,] <- "# datafile"; last <- last + 1
+    out[last + 1,] <- input$dat_file; last <- last + 1
+    out[last + 1,] <- "# controlfile"; last <- last + 1
+    out[last + 1,] <- input$ctl_file; last <- last + 1
+    out[last + 1,] <- "# projectfile"; last <- last + 1
+    out[last + 1,] <- input$prj_file; last <- last + 1
+    
+    # units ----
+    out[last + 1,] <- "# weightunit"; last <- last + 1
+    out[last + 1,] <- input$wt_unit; last <- last + 1
+    out[last + 1,] <- "# numbersunit"; last <- last + 1
+    out[last + 1,] <- input$n_unit; last <- last + 1
+    
+    # stock ----
+    out[last + 1,] <- "# StockName"; last <- last + 1
+    out[last + 1,] <- input$stock; last <- last + 1
+    
+    # jittering ----
+    out[last + 1,] <- "# IsJittered"; last <- last + 1
+    out[last + 1,] <- input$jitter; last <- last + 1
+    out[last + 1,] <- "# sdJitter"; last <- last + 1
+    out[last + 1,] <- input$jitter_sd; last <- last + 1
+    
+    # out options ----
+    out[last + 1,] <- "# OutRefPars"; last <- last + 1
+    out[last + 1,] <- input$out_ref_pars; last <- last + 1
+    out[last + 1,] <- "# OutRecruit"; last <- last + 1
+    out[last + 1,] <- input$out_recruit; last <- last + 1
+    out[last + 1,] <- "# OutSSB"; last <- last + 1
+    out[last + 1,] <- input$out_ssb; last <- last + 1
+    out[last + 1,] <- "# Outfbar"; last <- last + 1
+    out[last + 1,] <- input$out_fbar; last <- last + 1
+    out[last + 1,] <- "# OutDynB0"; last <- last + 1
+    out[last + 1,] <- input$out_dynb0; last <- last + 1
+    
+    
+    # retro peels ----
+    out[last + 1,] <- "# nyrRetro"; last <- last + 1
+    out[last + 1,] <- input$nyr_retro; last <- last + 1
+    
+    # run options ----
+    out[last + 1,] <- paste(input$max_phase, "# Maximum phase (stop the estimation after this phase)", sep = " "); last <- last + 1
+    if(is.null(input$max_function_calls)){input$max_function_calls <- -1}
+    out[last + 1,] <- paste(input$max_function_calls, "# Maximum number of function calls", sep = " "); last <- last + 1
+    if(is.null(input$calc_ref_points)){input$calc_ref_points <- 1}
+    out[last + 1,] <- paste(input$calc_ref_points, "# Calculate reference points (0=no)", sep = " "); last <- last + 1
+    if(is.null(input$use_pin)){input$use_pin <- 0}
+    out[last + 1,] <- paste(input$use_pin, "# use pin file (0=no, 1=yes)", sep = " "); last <- last + 1
+    if(is.null(input$verbose)){input$verbose <- 1}
+    out[last + 1,] <- paste(input$verbose, "# VERBOSE FLAG (0 = off, 1 = on, 2 = objective func; 3 diagnostics)", sep = " "); last <- last + 1
+    
+    ## eof
+    out[last + 1,] <- "eof"
+    out[last + 1,] <- "9999"
+    
+    
+  }  
+  
+  # write
   writeLines(out[!is.na(out[,1]),], file)
   
 }
