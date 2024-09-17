@@ -1,7 +1,7 @@
 ## gmacs R functions
-## updated to GMACS 2.01.M.10; Compiled 2024-02-27
+## updated to GMACS 2.20.16; Compiled 2024-09-11
 ## tyler jackson, caitlin stern
-## last update - 7/19/2024
+## last update - 9/11/2024
 
 # load ----
 
@@ -61,7 +61,7 @@ yraxis <- tickr(tibble(yr = 1900:2100), yr, 5)
 
 # custom color scale
 cbpalette <- colorRampPalette(colors = c("#009E73", "#0072B2","#E69F00" , "#56B4E9", "#D55E00", "#CC79A7","#F0E442", "black", "grey"))(9)
-cbpalette <- c(cbpalette, "tomato3", "turquoise4", "orangered4")
+cbpalette <- c(cbpalette, "tomato3", "turquoise4", "orangered4", "pink", "green", "red")
 
 # gmacs_read_allout() ----
 
@@ -1806,6 +1806,459 @@ gmacs_read_allout <- function(file, model_name = NULL, version = NULL) {
   return(out)
 }
 
+
+# gmacs_read_dat() ----
+
+## read .dat file
+
+## args:
+### file - file path to .dat
+### model_name - character string to save as object in output, later to be used for plot legends. example: "23.1b"
+### version - GMACS version, default latest
+
+## output: list object
+## example: gmacs_read_dat(file = "./AIGKC/models/2024/may/EAG/23.1b/EAG_23_1b.dat", model_name = "23.1b")
+## version: character string denoting gmacs version
+
+gmacs_read_dat <- function(file, model_name = NULL, version = NULL) {
+  
+  if(is.null(version)){version = "2.20.16"}
+  if(version == "2.20.16"){
+    # setup ---- 
+    
+    # Suppress the NA message in the coercion to double
+    options(warn = -1) 
+    
+    # read text file
+    dat <- read.delim(file, sep = "", header = F, col.names = c(1:1000), fill = T, na.strings = "", colClasses = "character")
+    # create out object
+    out <- list()
+    
+    # get only data that rows start with a number
+    dat_alpha <- filter(dat, grepl("^[A-Za-z]", dat[,1]))
+    dat <- filter(dat, !is.na(as.numeric(dat[,1])))
+    
+    # model dimensions ----
+    ## version 
+    out$version <- version
+    ## model_name 
+    out$model_name <- model_name
+    ## start year
+    out$start_year <- as.numeric(dat[1, 1]); last <- 2
+    ## terminal year
+    out$terminal_year <- as.numeric(dat[last, 1]); last <- last + 1
+    ## projection year
+    ### need to add...
+    ## number of seasons
+    out$n_season <- as.numeric(dat[last, 1]); last <- last + 1
+    ## number of fleets
+    out$n_fleets <-  as.numeric(dat[last, 1]); last <- last + 1
+    ## number of sexes
+    out$n_sex <-  as.numeric(dat[last, 1]); last <- last + 1
+    ## number of shell condition types
+    out$n_shell <-  as.numeric(dat[last, 1]); last <- last + 1
+    ## number of maturity types
+    out$n_maturity <-  as.numeric(dat[last, 1]); last <- last + 1
+    ## number of size classes
+    out$n_size_bins <-  as.numeric(dat[last, 1]); last <- last + 1
+    ## season recruitment occurs
+    out$recruitment_season <-  as.numeric(dat[last, 1]); last <- last + 1
+    ## season molt / growth occurs
+    out$growth_season <-  as.numeric(dat[last, 1]); last <- last + 1
+    ## season to calc mmb
+    out$ssb_season <-  as.numeric(dat[last, 1]); last <- last + 1
+    ## season to output N matrix
+    out$n_matrix_season <-  as.numeric(dat[last, 1]); last <- last + 1
+    ## max size class
+    if(out$n_sex == 1) {out$max_size_bin <-  as.numeric(dat[last, 1]); last <- last + 1}
+    if(out$n_sex == 2 & length(na.omit(as.numeric(dat[last,]))) > 1){
+      out$max_size_bin <- as.numeric(c(dat[last,1], dat[last,2])); last <- last + 1
+    }
+    if(out$n_sex == 2 & length(na.omit(as.numeric(dat[last,]))) == 1){
+      out$max_size_bin[1] <- as.numeric(dat[last, 1]); last <- last + 1
+      out$max_size_bin[2] <- as.numeric(dat[last, 1]); last <- last + 1
+    }
+    ## size bin
+    out$size_bins <- as.numeric(dat[last, 1:(out$n_size_bins+1)]); last <- last + 1
+    
+    # natural mortality taus ----
+    
+    ## natural mortality per season input
+    out$nat_m_input_type <- as.numeric(dat[last, 1])
+    tmp <- matrix(nrow = length(out$start_year:out$terminal_year), ncol = out$n_season)
+    for(i in 1:nrow(tmp)){
+      tmp[i,] <- as.numeric(dat[last+i, 1:out$n_season])
+    }
+    as_tibble(tmp) %>%
+      mutate(year = out$start_year:out$terminal_year) %>%
+      dplyr::select(ncol(.), 1:out$n_season) %>%
+      rename_all(~c("year", paste("season", 1:out$n_season, sep = "_"))) -> out$tau; last <- last + i
+    
+    # fleets ----
+    
+    out$fleet_names <- as.character(na.omit(as.character(as.matrix(dat_alpha[,1:6]))))
+    
+    # season instant vs contin ----
+    
+    out$season_type <- as.numeric(dat[last+1, 1:out$n_season]); last <- last + 1
+    
+    # catch data ----
+    
+    ## input format
+    out$catch_input_format <- as.numeric(dat[last+1, 1]); last <- last + 1
+    ## now of catch series
+    out$n_catch_series <- as.numeric(dat[last+1, 1]); last <- last + 1
+    ## number of rows in each frame
+    out$n_catch_rows <- as.numeric(dat[last+1, 1:out$n_catch_series]); last <- last + 1
+    ## catch data
+    tmp <- matrix(ncol = 11, nrow = sum(out$n_catch_rows))
+    for(i in 1:nrow(tmp)){
+      tmp[i,] <- as.numeric(dat[last + i, 1:11])
+    }
+    as_tibble(tmp) %>%
+      rename_all(~c("year", "season", "fleet", "sex", "obs", "cv", "type", "units", "mult", "effort", "disc_m")) -> out$catch
+    last <- last + nrow(tmp)
+    
+    
+    # index data ----
+    
+    ## input format
+    out$index_input_format <- as.numeric(dat[last+1, 1]); last <- last + 1
+    ## number of index series
+    out$n_index_series <- as.numeric(dat[last+1, 1]); last <- last + 1
+    ## index type
+    out$index_type <- as.numeric(dat[last+1, 1:out$n_index_series]); last <- last + 1
+    ## number of rows in total
+    out$n_index_rows <- as.numeric(dat[last+1, 1]); last <- last + 1
+    ## index data
+    tmp <- matrix(ncol = 10, nrow = out$n_index_rows)
+    for(i in 1:nrow(tmp)){
+      tmp[i,] <- as.numeric(dat[last + i, 1:10])
+    }
+    as_tibble(tmp) %>%
+      rename_all(~c("series", "year", "season", "fleet", "sex", "maturity", "obs", "cv", "units", "timing")) -> out$index
+    last <- last + nrow(tmp)
+    
+    # size comps ----
+    
+    ## input format
+    out$size_input_format <- as.numeric(dat[last+1, 1]); last <- last + 1
+    ## number of index series
+    out$n_size_series <- as.numeric(dat[last+1, 1]); last <- last + 1
+    ## number of rows in each series
+    out$n_size_rows <- as.numeric(dat[last+1, 1:out$n_size_series]); last <- last + 1
+    ## number of bins in each series
+    out$n_size_bin_series <- as.numeric(dat[last+1, 1:out$n_size_series]); last <- last + 1
+    org_series <- rep(1:out$n_size_series,out$n_size_rows)
+    tmp <- matrix(nrow = sum(out$n_size_rows), ncol = 8 + max(out$n_size_bin_series))
+    for(i in 1:nrow(tmp)){
+      tmp[i,] <- as.numeric(dat[last + i, 1:ncol(tmp)])
+    }
+    as_tibble(tmp) %>%
+      rename_all(~c("year", "season", "fleet", "sex", "type", "shell", "maturity",
+                    "nsamp", out$size_bins[-length(out$size_bins)])) %>%
+      mutate(org_series = org_series) %>%
+      pivot_longer(9:(ncol(.)-1), names_to = "size", values_to = "obs") %>%
+      transmute(org_series, year, season, fleet, sex, type, shell, maturity, nsamp, size, obs) -> out$size_comp
+    
+    last <- last + nrow(tmp)
+    
+    # growth data ----
+    
+    ## input format
+    out$growth_data_type <- as.numeric(dat[last+1, 1]); last <- last + 1
+    ## input format
+    out$n_growth_obs <- as.numeric(dat[last+1, 1]); last <- last + 1
+    ## growth data
+    ### tagging data
+    if(out$growth_data_type == 0){out$growth <- NULL}
+    if(out$growth_data_type == 1){
+      tmp <- matrix(nrow = out$n_growth_obs, ncol = 4)
+      for(i in 1:nrow(tmp)){
+        tmp[i,] <- as.numeric(dat[last+i, 1:4])
+      }
+      as_tibble(tmp) %>%
+        rename_all(~c("size", "increment", "sex", "cv")) -> out$growth
+      last <- last + nrow(tmp)
+    }
+    if(out$growth_data_type == 3){
+      tmp <- matrix(nrow = out$n_growth_obs, ncol = 8)
+      for(i in 1:nrow(tmp)){
+        tmp[i,] <- as.numeric(dat[last+i, 1:8])
+      }
+      as_tibble(tmp) %>%
+        rename_all(~c("release_class", "sex", "recapture_class", "years_at_liberty", "transition_matrix", 
+                      "recapture_fleet", "recapture_year", "nsamp")) -> out$growth
+      last <- last + nrow(tmp)
+    }
+    
+    # environmental data ----
+    
+    ## input format
+    out$env_format <- as.numeric(dat[last+1, 1]); last <- last + 1
+    ## number of series
+    out$n_env_series <- as.numeric(dat[last+1, 1]); last <- last + 1
+    ## eof
+    if(as.numeric(dat[last+1, 1]) == 9999){return(out)} else{stop("end of file not correct, debug")}
+    
+    
+  }  
+  if(version == "2.20.14"){
+    # setup ---- 
+    
+    # Suppress the NA message in the coercion to double
+    options(warn = -1) 
+    
+    # read text file
+    dat <- read.delim(file, sep = "", header = F, col.names = c(1:1000), fill = T, na.strings = "", colClasses = "character")
+    # create out object
+    out <- list()
+    
+    # get only data that rows start with a number
+    dat_alpha <- filter(dat, grepl("^[A-Za-z]", dat[,1]))
+    dat <- filter(dat, !is.na(as.numeric(dat[,1])))
+    
+    # model dimensions ----
+    ## version 
+    out$version <- version
+    ## model_name 
+    out$model_name <- model_name
+    ## start year
+    out$start_year <- as.numeric(dat[1, 1]); last <- 2
+    ## terminal year
+    out$terminal_year <- as.numeric(dat[last, 1]); last <- last + 1
+    ## projection year
+    ### need to add...
+    ## number of seasons
+    out$n_season <- as.numeric(dat[last, 1]); last <- last + 1
+    ## number of fleets
+    out$n_fleets <-  as.numeric(dat[last, 1]); last <- last + 1
+    ## number of sexes
+    out$n_sex <-  as.numeric(dat[last, 1]); last <- last + 1
+    ## number of shell condition types
+    out$n_shell <-  as.numeric(dat[last, 1]); last <- last + 1
+    ## number of maturity types
+    out$n_maturity <-  as.numeric(dat[last, 1]); last <- last + 1
+    ## number of size classes
+    out$n_size_bins <-  as.numeric(dat[last, 1]); last <- last + 1
+    ## season recruitment occurs
+    out$recruitment_season <-  as.numeric(dat[last, 1]); last <- last + 1
+    ## season molt / growth occurs
+    out$growth_season <-  as.numeric(dat[last, 1]); last <- last + 1
+    ## season to calc mmb
+    out$mmb_season <-  as.numeric(dat[last, 1]); last <- last + 1
+    ## season to output N matrix
+    out$n_matrix_season <-  as.numeric(dat[last, 1]); last <- last + 1
+    ## max size class
+    if(out$n_sex == 1) {out$max_size_bin <-  as.numeric(dat[last, 1]); last <- last + 1}
+    if(out$n_sex == 2 & length(na.omit(as.numeric(dat[last,]))) > 1){
+      out$max_size_bin <- as.numeric(c(dat[last,1], dat[last,2])); last <- last + 1
+    }
+    if(out$n_sex == 2 & length(na.omit(as.numeric(dat[last,]))) == 1){
+      out$max_size_bin[1] <- as.numeric(dat[last, 1]); last <- last + 1
+      out$max_size_bin[2] <- as.numeric(dat[last, 1]); last <- last + 1
+    }
+    ## size bin
+    out$size_bins <- as.numeric(dat[last, 1:(out$n_size_bins+1)]); last <- last + 1
+    
+    # natural mortality taus ----
+    
+    ## natural mortality per season input
+    out$nat_m_input_type <- as.numeric(dat[last, 1])
+    tmp <- matrix(nrow = length(out$start_year:out$terminal_year), ncol = out$n_season)
+    for(i in 1:nrow(tmp)){
+      tmp[i,] <- as.numeric(dat[last+i, 1:out$n_season])
+    }
+    as_tibble(tmp) %>%
+      mutate(year = out$start_year:out$terminal_year) %>%
+      dplyr::select(ncol(.), 1:out$n_season) %>%
+      rename_all(~c("year", paste("season", 1:out$n_season, sep = "_"))) -> out$tau; last <- last + i
+    
+    # fleets ----
+    
+    out$fleet_names <- as.character(na.omit(as.character(as.matrix(dat_alpha[,1:6]))))
+    
+    # season instant vs contin ----
+    
+    out$season_type <- as.numeric(dat[last+1, 1:out$n_season]); last <- last + 1
+    
+    # catch data ----
+    
+    ## input format
+    out$catch_input_format <- as.numeric(dat[last+1, 1]); last <- last + 1
+    ## now of catch series
+    out$n_catch_series <- as.numeric(dat[last+1, 1]); last <- last + 1
+    ## number of rows in each frame
+    out$n_catch_rows <- as.numeric(dat[last+1, 1:out$n_catch_series]); last <- last + 1
+    ## catch data
+    tmp <- matrix(ncol = 11, nrow = sum(out$n_catch_rows))
+    for(i in 1:nrow(tmp)){
+      tmp[i,] <- as.numeric(dat[last + i, 1:11])
+    }
+    as_tibble(tmp) %>%
+      rename_all(~c("year", "season", "fleet", "sex", "obs", "cv", "type", "units", "mult", "effort", "disc_m")) -> out$catch
+    last <- last + nrow(tmp)
+    
+    
+    # index data ----
+    
+    ## input format
+    out$index_input_format <- as.numeric(dat[last+1, 1]); last <- last + 1
+    ## number of index series
+    out$n_index_series <- as.numeric(dat[last+1, 1]); last <- last + 1
+    ## index type
+    out$index_type <- as.numeric(dat[last+1, 1:out$n_index_series]); last <- last + 1
+    ## number of rows in total
+    out$n_index_rows <- as.numeric(dat[last+1, 1]); last <- last + 1
+    ## index data
+    tmp <- matrix(ncol = 10, nrow = out$n_index_rows)
+    for(i in 1:nrow(tmp)){
+      tmp[i,] <- as.numeric(dat[last + i, 1:10])
+    }
+    as_tibble(tmp) %>%
+      rename_all(~c("series", "year", "season", "fleet", "sex", "maturity", "obs", "cv", "units", "timing")) -> out$index
+    last <- last + nrow(tmp)
+    
+    # size comps ----
+    
+    ## input format
+    out$size_input_format <- as.numeric(dat[last+1, 1]); last <- last + 1
+    ## number of index series
+    out$n_size_series <- as.numeric(dat[last+1, 1]); last <- last + 1
+    ## number of rows in each series
+    out$n_size_rows <- as.numeric(dat[last+1, 1:out$n_size_series]); last <- last + 1
+    ## number of bins in each series
+    out$n_size_bin_series <- as.numeric(dat[last+1, 1:out$n_size_series]); last <- last + 1
+    org_series <- rep(1:out$n_size_series,out$n_size_rows)
+    tmp <- matrix(nrow = sum(out$n_size_rows), ncol = 8 + max(out$n_size_bin_series))
+    for(i in 1:nrow(tmp)){
+      tmp[i,] <- as.numeric(dat[last + i, 1:ncol(tmp)])
+    }
+    as_tibble(tmp) %>%
+      rename_all(~c("year", "season", "fleet", "sex", "type", "shell", "maturity",
+                    "nsamp", out$size_bins[-length(out$size_bins)])) %>%
+      mutate(org_series = org_series) %>%
+      pivot_longer(9:(ncol(.)-1), names_to = "size", values_to = "obs") %>%
+      transmute(org_series, year, season, fleet, sex, type, shell, maturity, nsamp, size, obs) -> out$size_comp
+    
+    last <- last + nrow(tmp)
+    
+    # growth data ----
+    
+    ## input format
+    out$growth_data_type <- as.numeric(dat[last+1, 1]); last <- last + 1
+    ## input format
+    out$n_growth_obs <- as.numeric(dat[last+1, 1]); last <- last + 1
+    ## growth data
+    ### tagging data
+    if(out$growth_data_type == 0){out$growth <- NULL}
+    if(out$growth_data_type == 1){
+      tmp <- matrix(nrow = out$n_growth_obs, ncol = 4)
+      for(i in 1:nrow(tmp)){
+        tmp[i,] <- as.numeric(dat[last+i, 1:4])
+      }
+      as_tibble(tmp) %>%
+        rename_all(~c("size", "increment", "sex", "cv")) -> out$growth
+      last <- last + nrow(tmp)
+    }
+    if(out$growth_data_type == 3){
+      tmp <- matrix(nrow = out$n_growth_obs, ncol = 8)
+      for(i in 1:nrow(tmp)){
+        tmp[i,] <- as.numeric(dat[last+i, 1:8])
+      }
+      as_tibble(tmp) %>%
+        rename_all(~c("release_class", "sex", "recapture_class", "years_at_liberty", "transition_matrix", 
+                      "recapture_fleet", "recapture_year", "nsamp")) -> out$growth
+      last <- last + nrow(tmp)
+    }
+    
+    # environmental data ----
+    
+    ## number of series
+    out$n_env_series <- as.numeric(dat[last+1, 1]); last <- last + 1
+    ## eof
+    if(as.numeric(dat[last+1, 1]) == 9999){return(out)} else{stop("end of file not correct, debug")}
+    
+    
+  }  
+  
+}
+
+# gmacs_read_files_dat() ----
+
+## read gmacs.dat file
+
+## args:
+### file - file path to gmacs.dat
+### model_name - character string to save as object in output, later to be used for plot legends. example: "23.1b"
+### version - GMACS version, default latest
+
+## output: list object
+## example: gmacs_read_dat(file = "./AIGKC/models/2024/may/EAG/23.1b/gmacs.dat", model_name = "23.1b")
+
+gmacs_read_files_dat <- function(file, model_name = NULL, version = NULL) {
+  
+  if(is.null(version)){version = "2.20.16"}
+  if(version == "2.20.16"){
+    # setup ---- 
+    
+    # Suppress the NA message in the coercion to double
+    options(warn = -1) 
+    
+    # read text file
+    dat <- read.delim(file, sep = "", header = F, col.names = c(1:1000), fill = T, 
+                      na.strings = "", colClasses = "character", comment.char = "#")
+    # create out object
+    out <- list()
+    
+    # model dimensions ----
+    
+    ## version 
+    out$version <- version
+    ## model_name 
+    out$model_name <- model_name
+    
+    # files ----
+    out$dat_file <- dat[1,1]
+    out$ctl_file <- dat[2,1]
+    out$prj_file <- dat[3,1]
+    
+    # units ----
+    out$wt_unit <- dat[4,1]
+    out$n_unit <- dat[5,1]
+    
+    # stock ----
+    out$stock <- dat[6,1]
+    
+    # jittering ----
+    out$jitter <- as.numeric(dat[7,1])
+    out$jitter_sd <- as.numeric(dat[8,1])
+    
+    # out options ----
+    out$out_ref_pars <- as.numeric(dat[9,1])
+    out$out_recruit <- as.numeric(dat[10,1])
+    out$out_ssb <- as.numeric(dat[11,1])
+    out$out_fbar <- as.numeric(dat[12,1])
+    out$out_dynb0 <- as.numeric(dat[13,1])
+    
+    # retro peels ----
+    out$nyr_retro <- as.numeric(dat[14,1])
+    
+    # run options ----
+    out$max_phase <- as.numeric(dat[15,1])
+    out$max_function_calls <- as.numeric(dat[16,1])
+    out$calc_ref_points <- as.numeric(dat[17,1])
+    out$use_pin <- as.numeric(dat[18,1])
+    out$verbose <- as.numeric(dat[19,1])
+    
+    ## eof
+    if(as.numeric(dat[20,1]) == 9999){return(out)} else{stop("end of file not correct, debug")}
+    
+    
+  }  
+  
+}
+
 # gmacs_read_rep() ----
 
 ## args: file = file path to report file from GMACS, gmacs.rep (from Jie Zheng)
@@ -1899,6 +2352,304 @@ gmacs_read_mcoutREF <- function(file, model_name = NULL){
                   paste0("fmsy_", ao$fleet_names), paste0("fofl_", ao$fleet_names))) -> out
   
   return(out)
+  
+}
+
+# gmacs_write_dat() ----
+## write .dat file
+
+## args:
+### input - named list of data needed to write file (need more info here), look at output of gmacs_read_dat()
+### file - file path to write .dat file
+
+## output: file saved in specified location
+## example: gmacs_write_dat(input, file = "./AIGKC/models/2024/may/EAG/23.1b/EAG_23_1b.dat")
+
+gmacs_write_dat <- function(input, file){
+  
+  # create output matrix
+  out <- matrix(nrow = 1e6)
+  last <- 0 # location tracker
+  
+  # version ----
+  out[last + 1,] <- "##==============================================================="; last <- last + 1
+  if(!is.null(input$version)){out[last + 1,] <- paste("# GMACS", input$version, "Data File"); last <- last + 1}
+  if(!is.null(input$model_name)){out[last + 1,] <- paste("# Model", input$model_name); last <- last + 1}
+  if(is.null(version)){out[last + 1,] <- "GMACS Data File"; last <- last + 1}
+  out[last + 1,] <- "##==============================================================="; last <- last + 1
+  # dimensions ---- 
+  out[last + 1,] <- "  "; last <- last + 1
+  out[last + 1,] <- "  "; last <- last + 1
+  out[last + 1,] <- paste(input$start_year, "# initial (start year)"); last <- last + 1
+  out[last + 1,] <- paste(input$terminal_year, "# terminal (end year)"); last <- last + 1
+  out[last + 1,] <- paste(input$n_season, "# Number of seasons"); last <- last + 1
+  out[last + 1,] <- paste(input$n_fleets, "# Number of distinct data groups (fleet, among fishing fleets and surveys)"); last <- last + 1
+  out[last + 1,] <- paste(input$n_sex, "# Number of sexes"); last <- last + 1
+  out[last + 1,] <- paste(input$n_shell, "# Number of shell condition types"); last <- last + 1
+  out[last + 1,] <- paste(input$n_maturity, "# Number of maturity types"); last <- last + 1
+  out[last + 1,] <- paste(input$n_size_bins, "# Number of size-classes in the model"); last <- last + 1
+  out[last + 1,] <- paste(input$recruitment_season, "# Season recruitment occurs"); last <- last + 1
+  out[last + 1,] <- paste(input$growth_season, "# Season molting and growth occurs"); last <- last + 1
+  out[last + 1,] <- paste(input$ssb_season, "# Season to calculate SSB (changed to match Feb mating)"); last <- last + 1
+  out[last + 1,] <- paste(input$n_matrix_season, "# Season for N output"); last <- last + 1
+  out[last + 1,] <- "# maximum size-class (males then females)"; last <- last + 1
+  out[last + 1,] <- input$max_size_bin; last <- last + 1
+  out[last + 1,] <- "# size_breaks (a vector giving the break points between size intervals with dimension nclass+1, lower limits of bins)"; last <- last + 1
+  out[last + 1,] <- paste(input$size_bins, collapse = " "); last <- last + 1
+  
+  # taus ----
+  out[last + 1,] <- "# Natural mortality per season input type (1 = vector by season, 2 = matrix by season/year)"; last <- last + 1
+  out[last + 1,] <- input$nat_m_input_type; last <- last + 1
+  out[last + 1,] <- "# Proportion of the total natural mortality to be applied each season"; last <- last + 1
+  for (i in 1:nrow(input$tau)){
+    
+    input$tau %>%
+      dplyr::select(2:ncol(.), year) %>%
+      mutate(year = paste("#", year)) %>%
+      t %>%
+      .[,i] %>%
+      str_c(., collapse = " ") -> out[last + i,]
+  }
+  last <- last + nrow(input$tau)
+  
+  # fleet names ----
+  out[last + 1,] <- "# fleetname"; last <- last + 1
+  out[last + 1,] <- paste(input$fleet_names, collapse = " "); last <- last + 1
+  
+  # season type ----
+  out[last + 1,] <- "#Season type: Set to 1 for continuous F and 0 for instantanous F"; last <- last + 1
+  out[last + 1,] <- paste(input$season_type, collapse = " "); last <- last + 1
+  
+  # catch data ----
+  out[last + 1,] <- "  "; last <- last + 1
+  out[last + 1,] <- "  "; last <- last + 1
+  out[last + 1,] <- "##------------------------------------------------------------"; last <- last + 1
+  out[last + 1,] <- "##--CATCH DATA------------------------------------------------"; last <- last + 1
+  out[last + 1,] <- "##------------------------------------------------------------"; last <- last + 1
+  out[last + 1,] <- paste(input$catch_input_format, "#--input catch data format (0: old format, 1: new format)"); last <- last + 1
+  out[last + 1,] <- paste(input$n_catch_series, "#--Number of catch data frames"); last <- last + 1
+  out[last + 1,] <- "# Number of lines for each dataframe (this is not correct for retrospective analyses)"; last <- last + 1
+  out[last + 1,] <- paste(input$n_catch_rows, collapse = " "); last <- last + 1
+  out[last + 1,] <- "##  Type of catch: 1 = retained, 2 = discard, 0= total "; last <- last + 1
+  out[last + 1,] <- "##  Units of catch: 1 = biomass, 2 = numbers"; last <- last + 1
+  out[last + 1,] <- "## Mult: 1= use data as thy are, 2 = multiply by this number (e.g., lbs to kg)"; last <- last + 1
+  # catch data frame
+  if(input$catch_input_format == 0){
+    #for(i in 1:input$n_catch_series){
+    for(i in 1:input$n_catch_series){
+      out[last + 1,] <- "#year season fleet sex obs cv type units mult effort discard_mortality"; last <- last + 1
+      for(j in 1:input$n_catch_rows[i]){
+        
+        input$catch %>%
+          mutate(series =  rep(1:input$n_catch_series, input$n_catch_rows)) %>%
+          filter(series == i) %>%
+          dplyr::select(-series) %>%
+          t %>%
+          .[,j] %>%
+          str_c(., collapse = " ") -> out[last + j,]
+        
+      }
+      last <- last + input$n_catch_rows[i]
+    }
+  }
+  
+  # index data ----
+  
+  out[last + 1,] <- "  "; last <- last + 1
+  out[last + 1,] <- "  "; last <- last + 1
+  out[last + 1,] <- "##------------------------------------------------------------"; last <- last + 1
+  out[last + 1,] <- "##--RELATIVE ABUNDANCE DATA-----------------------------------"; last <- last + 1
+  out[last + 1,] <- "##------------------------------------------------------------"; last <- last + 1
+  out[last + 1,] <- paste(input$index_input_format, "#--input format type (0: old format, 1: new format)"); last <- last + 1
+  out[last + 1,] <- paste(input$n_index_series, "#--Number of dataframes"); last <- last + 1
+  out[last + 1,] <- "# Type of 'survey' catchability (1=Selectivity; 2=Selectivity+Retention), by data frame"; last <- last + 1
+  out[last + 1,] <- paste(input$index_type, collapse = " "); last <- last + 1
+  out[last + 1,] <- "# Number of data rows, by data frame"; last <- last + 1
+  out[last + 1,] <- "#   NOTE: this is not correct for retrospective analyses"; last <- last + 1
+  out[last + 1,] <- paste(input$n_index_rows, collapse = " "); last <- last + 1
+  out[last + 1,] <- "#series year season fleet sex maturity obs cv units timing"; last <- last + 1
+  # index data frame
+  if(input$index_input_format == 0){
+    for(i in 1:input$n_index_rows){
+      input$index %>%
+        t %>%
+        .[,i] %>%
+        str_c(., collapse = " ") -> out[last + i,]
+    }
+  }
+  last <- last + nrow(input$index)
+  
+  # size data ----
+  
+  out[last + 1,] <- "  "; last <- last + 1
+  out[last + 1,] <- "  "; last <- last + 1
+  out[last + 1,] <- "##------------------------------------------------------------"; last <- last + 1
+  out[last + 1,] <- "##--SIZE COMPOSITION DATA-------------------------------------"; last <- last + 1
+  out[last + 1,] <- "##------------------------------------------------------------"; last <- last + 1
+  out[last + 1,] <- paste(input$size_input_format, "#--input format type (0: old format, 1: new format)"); last <- last + 1
+  out[last + 1,] <- paste(input$n_size_series, "#--Number of dataframes"); last <- last + 1
+  out[last + 1,] <- "# nSizeCompRows_in"; last <- last + 1
+  out[last + 1,] <- paste(input$n_size_rows, collapse = " "); last <- last + 1
+  out[last + 1,] <- "# nSizeCompCols_in"; last <- last + 1
+  out[last + 1,] <- paste(input$n_size_bin_series, collapse = " "); last <- last + 1
+  out[last + 1,] <- "## Sex: 1 = male, 2 = female, 0 = both"; last <- last + 1
+  out[last + 1,] <- "## Type of catch: 1 = retained, 2 = discard, 0 = total"; last <- last + 1
+  out[last + 1,] <- "## Shell: 1 = newshell, 2 = oldshell, 0 = both"; last <- last + 1
+  out[last + 1,] <- "## Maturity: 1 = immature, 2 = mature, 0 = both"; last <- last + 1
+  out[last + 1,] <- "## Stage1_EffN (nsamp): the stage-1 effective sample size (this can be modified in the CTL file)"; last <- last + 1
+  out[last + 1,] <- " "; last <- last + 1
+  
+  # size data frame
+  if(input$size_input_format == 0){
+    for(i in 1:input$n_size_series){
+      out[last + 1,] <- "# year season fleet sex type shell maturity nsamp data"; last <- last + 1
+      for(j in 1:input$n_size_rows[i]){
+        
+        input$size_comp %>%
+          pivot_wider(names_from = size, values_from = obs) %>%
+          filter(org_series == i) %>%
+          dplyr::select(-org_series) %>%
+          t %>%
+          .[,j] %>%
+          str_c(., collapse = " ") -> out[last + j,]
+        
+      }
+      last <- last + input$n_size_rows[i]
+    }
+  }
+  
+  # growth data ----
+  
+  out[last + 1,] <- "  "; last <- last + 1
+  out[last + 1,] <- "  "; last <- last + 1
+  out[last + 1,] <- "##------------------------------------------------------------"; last <- last + 1
+  out[last + 1,] <- "##--GROWTH DATA-----------------------------------------------"; last <- last + 1
+  out[last + 1,] <- "##------------------------------------------------------------"; last <- last + 1
+  out[last + 1,] <- paste(input$growth_data_type, "# GrowthObsType"); last <- last + 1
+  out[last + 1,] <- paste(input$n_growth_obs, "# nGrowthObs"); last <- last + 1
+  # growth data frame
+  if(input$growth_data_type == 3){
+    out[last + 1,] <- "# size-class-at-release, sex, size-class-at-recapture, and time-at-liberty fleet recapture_year number"; last <- last + 1
+    for(i in 1:input$n_growth_obs){
+      input$growth %>%
+        t %>%
+        .[,i] %>%
+        str_c(., collapse = " ") -> out[last + i,]
+    }
+    last <- last + nrow(input$growth)
+  }
+  
+  # environmental data ----
+  
+  out[last + 1,] <- "  "; last <- last + 1
+  out[last + 1,] <- "  "; last <- last + 1
+  out[last + 1,] <- "##------------------------------------------------------------"; last <- last + 1
+  out[last + 1,] <- "##--ENVIRONMENTAL DATA----------------------------------------"; last <- last + 1
+  out[last + 1,] <- "##------------------------------------------------------------"; last <- last + 1
+  out[last + 1,] <- paste(input$env_format, "#--input format type (0: old format, 1: new format)"); last <- last + 1
+  out[last + 1,] <- paste(input$n_env_series, "#--number of environmental indices "); last <- last + 1
+  
+  if(input$n_env_series > 0) {stop("Don't know how to read environmental indices!!!")}
+  
+  # eof ----
+  
+  out[last + 1,] <- "eof"; last <- last + 1
+  out[last + 1,] <- "9999"; last <- last + 1
+  # write
+  writeLines(out[!is.na(out[,1]),], file)
+  
+}
+
+# gmacs_write_files_dat() ----
+
+## write gmacs.dat file
+
+## args:
+### input - named list of data needed to write file (need more info here), look at output of gmacs_read_files_dat()
+### file - file path to write .dat file
+
+## output: file saved in specified location
+## example: gmacs_write_files_dat(input, file = "./AIGKC/models/2024/may/EAG/23.1b/EAG_23_1b.dat")
+
+gmacs_write_files_dat <- function(input, file) {
+  
+  if(is.null(input$version)){input$version = "2.20.16"}
+  if(input$version == "2.20.16"){
+    # setup ---- 
+    
+    # create output matrix
+    out <- matrix(nrow = 1e6)
+    last <- 0 # location tracker
+    
+    # version ----
+    out[last + 1,] <- "##==============================================================="; last <- last + 1
+    out[last + 1,] <- paste("# GMACS", input$version, "Setup File"); last <- last + 1
+    if(!is.null(input$model_name)){out[last + 1,] <- paste("# Model", input$model_name); last <- last + 1}
+    out[last + 1,] <- "##==============================================================="; last <- last + 1
+    out[last + 1,] <- " "; last <- last + 1
+    out[last + 1,] <- " "; last <- last + 1
+    
+    # files ----
+    out[last + 1,] <- "# datafile"; last <- last + 1
+    out[last + 1,] <- input$dat_file; last <- last + 1
+    out[last + 1,] <- "# controlfile"; last <- last + 1
+    out[last + 1,] <- input$ctl_file; last <- last + 1
+    out[last + 1,] <- "# projectfile"; last <- last + 1
+    out[last + 1,] <- input$prj_file; last <- last + 1
+    
+    # units ----
+    out[last + 1,] <- "# weightunit"; last <- last + 1
+    out[last + 1,] <- input$wt_unit; last <- last + 1
+    out[last + 1,] <- "# numbersunit"; last <- last + 1
+    out[last + 1,] <- input$n_unit; last <- last + 1
+    
+    # stock ----
+    out[last + 1,] <- "# StockName"; last <- last + 1
+    out[last + 1,] <- input$stock; last <- last + 1
+    
+    # jittering ----
+    out[last + 1,] <- "# IsJittered"; last <- last + 1
+    out[last + 1,] <- input$jitter; last <- last + 1
+    out[last + 1,] <- "# sdJitter"; last <- last + 1
+    out[last + 1,] <- input$jitter_sd; last <- last + 1
+    
+    # out options ----
+    out[last + 1,] <- "# OutRefPars"; last <- last + 1
+    out[last + 1,] <- input$out_ref_pars; last <- last + 1
+    out[last + 1,] <- "# OutRecruit"; last <- last + 1
+    out[last + 1,] <- input$out_recruit; last <- last + 1
+    out[last + 1,] <- "# OutSSB"; last <- last + 1
+    out[last + 1,] <- input$out_ssb; last <- last + 1
+    out[last + 1,] <- "# Outfbar"; last <- last + 1
+    out[last + 1,] <- input$out_fbar; last <- last + 1
+    out[last + 1,] <- "# OutDynB0"; last <- last + 1
+    out[last + 1,] <- input$out_dynb0; last <- last + 1
+    
+    
+    # retro peels ----
+    out[last + 1,] <- "# nyrRetro"; last <- last + 1
+    out[last + 1,] <- input$nyr_retro; last <- last + 1
+    
+    # run options ----
+    out[last + 1,] <- paste(input$max_phase, "# Maximum phase (stop the estimation after this phase)", sep = " "); last <- last + 1
+    if(is.null(input$max_function_calls)){input$max_function_calls <- -1}
+    out[last + 1,] <- paste(input$max_function_calls, "# Maximum number of function calls", sep = " "); last <- last + 1
+    if(is.null(input$calc_ref_points)){input$calc_ref_points <- 1}
+    out[last + 1,] <- paste(input$calc_ref_points, "# Calculate reference points (0=no)", sep = " "); last <- last + 1
+    if(is.null(input$use_pin)){input$use_pin <- 0}
+    out[last + 1,] <- paste(input$use_pin, "# use pin file (0=no, 1=yes)", sep = " "); last <- last + 1
+    if(is.null(input$verbose)){input$verbose <- 1}
+    out[last + 1,] <- paste(input$verbose, "# VERBOSE FLAG (0 = off, 1 = on, 2 = objective func; 3 diagnostics)", sep = " "); last <- last + 1
+    
+    ## eof
+    out[last + 1,] <- "eof"
+    out[last + 1,] <- "9999"
+    
+    
+  }  
+  
+  # write
+  writeLines(out[!is.na(out[,1]),], file)
   
 }
 
@@ -2288,14 +3039,14 @@ gmacs_do_retrospective <- function(gmacs.dat, n_peel, wait = T, pin = F, plot_on
 ### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 ### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 
-gmacs_get_catch_summary <- function(all_out = NULL, file = NULL, model_name = NULL){
+gmacs_get_catch_summary <- function(all_out = NULL, file = NULL, model_name = NULL, version = NULL){
   
   # bring in all out data ----
   
   if(!is.null(file) && is.null(all_out)) {
     if(is.null(model_name)) {stop("Must supply model name(s)!!")}
     # read all out file
-    all_out <- purrr::map2(file, model_name, gmacs_read_allout); names(all_out) <- paste0("model", model_name)
+    all_out <- purrr::map2(file, model_name, gmacs_read_allout, version = version); names(all_out) <- paste0("model", model_name)
   }
   # extract catch data ----
   
@@ -2427,14 +3178,14 @@ gmacs_get_effective_n <- function(all_out = NULL, file = NULL, model_name = NULL
 ### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 ### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 
-gmacs_get_derived_quantity_summary <- function(all_out = NULL, file = NULL, model_name = NULL){
+gmacs_get_derived_quantity_summary <- function(all_out = NULL, file = NULL, model_name = NULL, version = NULL){
   
   # bring in all out data ----
   
   if(!is.null(file) && is.null(all_out)) {
     if(is.null(model_name)) {stop("Must supply model name(s)!!")}
     # read all out file
-    all_out <- purrr::map2(file, model_name, gmacs_read_allout); names(all_out) <- paste0("model", model_name)
+    all_out <- purrr::map2(file, model_name, gmacs_read_allout, version = version); names(all_out) <- paste0("model", model_name)
   }
   
   # extract data ----
@@ -2631,14 +3382,14 @@ gmacs_get_slx <- function(all_out = NULL, file = NULL, model_name = NULL){
 ### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 ### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 
-gmacs_get_pars <- function(all_out = NULL, file = NULL, model_name = NULL){
+gmacs_get_pars <- function(all_out = NULL, file = NULL, model_name = NULL, version = NULL){
   
   # bring in all out data ----
   
   if(!is.null(file) && is.null(all_out)) {
     if(is.null(model_name)) {stop("Must supply model name(s)!!")}
     # read all out file
-    all_out <- purrr::map2(file, model_name, gmacs_read_allout); names(all_out) <- paste0("model", model_name)
+    all_out <- purrr::map2(file, model_name, gmacs_read_allout, version = version); names(all_out) <- paste0("model", model_name)
   }
   
   # extract catch data ----
@@ -2708,14 +3459,14 @@ gmacs_get_ref_points <- function(all_out = NULL, file = NULL, model_name = NULL)
 ### file - file paths to Gmacsall.out for each model to compare, passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 ### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 
-gmacs_get_lik <- function(all_out = NULL, file = NULL, model_name = NULL){
+gmacs_get_lik <- function(all_out = NULL, file = NULL, model_name = NULL, version = NULL){
   
   # bring in all out data ----
   
   if(!is.null(file) && is.null(all_out)) {
     if(is.null(model_name)) {stop("Must supply model name(s)!!")}
     # read all out file
-    all_out <- purrr::map2(file, model_name, gmacs_read_allout); names(all_out) <- paste0("model", model_name)
+    all_out <- purrr::map2(file, model_name, gmacs_read_allout, version = version); names(all_out) <- paste0("model", model_name)
   }
   
   # extract catch data ----
@@ -2968,10 +3719,10 @@ gmacs_plot_data_range <- function(all_out = NULL, save_plot = T, plot_dir = NULL
 ## example: gmacs_plot_catch(all_out = list(mod_23.1b), plot_dir = "./put/file/here")
 
 gmacs_plot_catch <- function(all_out = NULL, save_plot = T, plot_dir = NULL, y_labs = NULL, 
-                             data_summary = NULL, file = NULL, model_name = NULL) {
+                             data_summary = NULL, file = NULL, model_name = NULL, version = NULL) {
   
   # get summary data
-  if(is.null(data_summary)){data_summary <- gmacs_get_catch_summary(all_out, file, model_name)}
+  if(is.null(data_summary)){data_summary <- gmacs_get_catch_summary(all_out, file, model_name, version = version)}
   
   # plots 
   
@@ -3595,10 +4346,10 @@ gmacs_plot_sizecomp <- function(all_out = NULL, save_plot = T, plot_dir = NULL, 
 ### std_list -  output from gmacs_read_std() as nested list, e.g., std = list(std.24.0, std.16.0). Optional, if plot_ci = T, both std_file and std_list cannot be NULL.
 
 gmacs_plot_mmb <- function(all_out = NULL, save_plot = T, plot_ci = F, ci_alpha = 0.05, yrs = NULL, plot_proj = T, plot_dir = NULL, data_summary = NULL, 
-                           file = NULL, model_name = NULL, std_file = NULL, std_list = NULL) {
+                           file = NULL, model_name = NULL, version = NULL, std_file = NULL, std_list = NULL) {
   
   # get summary data
-  if(is.null(data_summary)){data_summary <- gmacs_get_derived_quantity_summary(all_out, file, model_name)}
+  if(is.null(data_summary)){data_summary <- gmacs_get_derived_quantity_summary(all_out, file, model_name, version)}
   
   # plots ----
   if(save_plot == T & is.null(plot_dir)) {plot_dir <- file.path(getwd(), "plots"); dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
@@ -3678,10 +4429,10 @@ gmacs_plot_mmb <- function(all_out = NULL, save_plot = T, plot_ci = F, ci_alpha 
 ### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
 ### std_file - file path to gmacs.std file. Optional, if plot_ci = T, both std_file and std_list cannot be NULL.
 ### std_list -  output from gmacs_read_std() as nested list, e.g., std = list(std.24.0, std.16.0). Optional, if plot_ci = T, both std_file and std_list cannot be NULL.
-gmacs_plot_recruitment <- function(all_out = NULL, save_plot = T, plot_ci = F, ci_alpha = 0.05, yrs = NULL, plot_dir = NULL, data_summary = NULL, file = NULL, model_name = NULL, std_file = NULL, std_list = NULL) {
+gmacs_plot_recruitment <- function(all_out = NULL, save_plot = T, plot_ci = F, ci_alpha = 0.05, yrs = NULL, plot_dir = NULL, data_summary = NULL, file = NULL, model_name = NULL, std_file = NULL, std_list = NULL, version = NULL) {
   
   # get summary data
-  if(is.null(data_summary)){data_summary <- gmacs_get_derived_quantity_summary(all_out, file, model_name)}
+  if(is.null(data_summary)){data_summary <- gmacs_get_derived_quantity_summary(all_out, file, model_name, version)}
   
   # plots ----
   if(save_plot == T & is.null(plot_dir)) {plot_dir <- file.path(getwd(), "plots"); dir.create(plot_dir, showWarnings = F, recursive = TRUE)}

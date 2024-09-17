@@ -116,7 +116,7 @@ ggplot()+
   facet_wrap(~year, ncol = 2, dir = "v")+
   theme(legend.position = "bottom") -> p1
 
-ggsave("./AIGKC/figures/coop_survey/2025/sept/eag_string_map.png",
+ggsave("./AIGKC/figures/coop_survey/2025/sept/eag_string_map_2024.png",
        plot = p1,
        height = 8, width = 7, units = "in")
 
@@ -352,7 +352,8 @@ ggsave("./AIGKC/figures/coop_survey/2025/sept/index_plot_w_obs.png",
 
 # total male size composition ----
 
-survey_raw %>% 
+survey_raw %>%
+  filter(grepl("large", mesh_size)) %>%
   filter(soaktime <= 25, sex == 1) %>%
   group_by(fishery, year, size) %>%
   summarise(n = sum(subsample_rate, na.rm = T),
@@ -361,7 +362,94 @@ survey_raw %>%
          total_n_meas = sum(n_meas),
          prop = n / total_n) -> survey_size_comp
   
-write_csv(survey_size_comp, "./AIGKC/output/coop_survey/survey_size_comp.csv")
+write_csv(survey_size_comp, "./AIGKC/output/coop_survey/2025/sept/survey_size_comp.csv")
+
+# bootstrap sample size
+yrs <- c(2015:2019, 2021:2024)
+
+for (i in yrs){
+  # random number seed
+  set.seed(1624)
+  
+  survey_raw %>%
+    filter(fishery == "EAG") %>%
+    filter(year == i) %>%
+    filter(grepl("large", mesh_size)) %>%
+    mutate(lat = (start_lat + end_lat) / 2,
+           lon = (start_lon + end_lon) / 2,
+           string_id = paste0(year, adfg, string, lon, lat),
+           n_strings =  length(unique(string_id))) %>%
+    # bootstrap pots
+    expand_grid(., string_boot = 1:500) %>%
+    nest_by(year, string_boot, n_strings, .keep = T) %>% ungroup() %>% #pull(data) %>% .[[5]] -> data
+    # resample crab
+    mutate(data = purrr::map2(data, n_strings, function(data, n_strings){
+      
+      
+      data %>% group_by(string_id) %>% nest %>% ungroup %>%
+        sample_n(., n_strings, replace = T) %>%
+        mutate(string_samp = 1:n_strings) %>%
+        unnest(data) %>%
+        group_by(string_samp, string_id) %>% 
+        mutate(n_pots = length(unique(pot_id))) %>%
+        group_by(string_samp, string_id, n_pots) %>%
+        nest %>% ungroup %>%              #pull(data) %>% .[[1]] -> data
+        # sample pots
+        mutate(pot_sample = purrr::map2(n_pots, data, function(n_pots, data) {
+          data %>%
+            group_by(pot_id) %>%
+            nest() %>% ungroup %>%
+            sample_n(., n_pots, replace = T) %>% unnest(data)
+        })) %>%
+        # sample crab
+        mutate(crab_sample = purrr::map(pot_sample, function(pot_sample) {
+          pot_sample %>%
+            sample_n(., nrow(.), replace = T)
+        })) %>%
+        transmute(string_id, crab_sample) %>% unnest(crab_sample)
+      
+      
+    })) %>%
+    ungroup %>%
+    # compute neff
+    mutate(n = purrr::map_dbl(data, function(data){
+      data %>%
+        filter(size > 100) %>%
+        group_by(year) %>%
+        mutate(bin = ifelse(size <= 183, ceiling(size / 5) * 5 - 2, 183),
+               total = n()) %>%
+        group_by(year, bin) %>%
+        summarise(p = n() / mean(total)) %>% 
+        left_join(survey_size_comp %>% 
+                    ungroup %>%
+                    filter(size > 100,
+                           fishery == "EAG") %>%
+                    mutate(bin = ifelse(size <= 183, ceiling(size / 5) * 5 - 2, 183)) %>%
+                    group_by(year, bin) %>%
+                    summarise(obs_prop = sum(prop)) %>% ungroup,
+                  by = c("year", "bin")) %>% ungroup %>%
+        summarise(n = sum(obs_prop * (1 - obs_prop)) / sum((obs_prop - p)^2)) %>% pull(n)
+      
+    })) -> out
+  
+  saveRDS(out, paste0("./AIGKC/output/coop_survey/eag_survey_comp_boot_", i, ".RDS"))
+  
+}
+
+survey_size_comp %>% 
+  filter(size > 100,
+         fishery == "EAG") %>%
+  group_by(year) %>%
+  summarise(n_meas = sum(n_meas)) %>%
+  left_join(., lapply(list.files("./AIGKC/output/coop_survey", pattern = "eag_survey_comp_boot", full.names = T), readRDS) %>%
+              bind_rows %>%
+              dplyr::select(-data) %>%
+              group_by(year) %>% 
+              summarise(min = min(n),
+                        mean = mean(n),
+                        max = max(n))) -> survey_n_samp
+write_csv(survey_n_samp, "./AIGKC/output/coop_survey/2025/sept/survey_n_samp_boot.csv")
+
 
 # plot size composition EAG
 survey_size_comp %>%
@@ -401,7 +489,7 @@ survey_size_comp %>%
 
 ggsave("./AIGKC/figures/coop_survey/2025/sept/size_comp_plot.png",
        plot = p1,
-       height = 6, width = 5, units = "in")
+       height = 7, width = 5, units = "in")
 
 
 # sample statistics ----
@@ -414,19 +502,18 @@ pot_cpue %>%
   summarise(n_strings = length(unique(vesstring)),
             n_pots = n()) %>%
   left_join(survey_size_comp %>% filter(fishery == "EAG") %>% distinct(year, total_n_meas)) %>%
-  transmute(year, n_strings, n_pots, total_n_meas) %>% ungroup %>%
+  transmute(year, n_strings, n_pots) %>% ungroup %>%
   left_join(
   # join to proportion measured by size catagory
   survey_raw %>% 
   filter(fishery == "EAG", sex == 1, legal %in% 1:2) %>%
   group_by(fishery, year, legal) %>%
   summarise(n = sum(subsample_rate, na.rm = T),
-            n_meas = n(),
-            prop = round(n_meas / n, 2)) %>% ungroup %>%
-  transmute(year, legal, prop) %>%
-  pivot_wider(names_from = legal, values_from = prop) 
+            n_meas = n()) %>% ungroup %>%
+  transmute(year, legal, n, n_meas) %>%
+  pivot_wider(names_from = legal, values_from = c(n, n_meas)) 
   ) %>%
-  transmute(year, n_strings, n_pots, total_n_meas, legal = `1`, sublegal = `2`) %>%
+  transmute(year, n_strings, n_pots, n_legal = n_1, legal_meas = n_meas_1, n_sub = n_2, sub_nmeas = n_meas_2) %>%
   
   
   write_csv(., "./AIGKC/output/coop_survey/2025/sept/survey_sample_stats.csv")
@@ -443,7 +530,7 @@ pot_cpue %>%
   mutate(type = ifelse(pots > 8, "> 8 pots", "< 8 pots")) %>%
   
   ggplot()+
-  geom_histogram(aes(x = n_males, y = ..density.., fill = type), alpha = 0.5, position = "identity")+
+  geom_histogram(aes(x = n_males, fill = type), alpha = 0.5, position = "identity")+
   facet_grid(vars(year), vars(fishery))+
   labs(x = "CPUE", y = "Density", fill = NULL)
 

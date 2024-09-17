@@ -171,8 +171,8 @@ read_csv("./AIGKC/data/observer/item8_retained_size_comp.csv") %>%
   mutate(prop  = n / nmeas) %>%
   # join to stage 1 neff
   group_by(fishery, crab_year) %>%
-  mutate(neff = min(nmeas * 0.05, 100)) %>% ungroup %>%
-  #left_join(read_csv("./AIGKC/data/observer/item6_vessel_days.csv")) %>%
+  #mutate(neff = min(nmeas * 0.05, 100)) %>% ungroup %>%
+  left_join(read_csv("./AIGKC/data/observer/item6_vessel_days.csv")) %>%
   # gmacs retained composition
   filter(fishery == "EAG") %>% ungroup %>%
   arrange(bin) %>%
@@ -183,8 +183,8 @@ read_csv("./AIGKC/data/observer/item8_retained_size_comp.csv") %>%
             type = 1,
             shell = 0,
             maturity = 0, 
-            nsamp = neff,
-            #nsamp = n_days,
+            #nsamp = neff,
+            nsamp = n_days,
             bin = paste0("l", bin), 
             prop = sprintf("%.5f", prop)) %>%
   pivot_wider(names_from = bin, values_from = prop) %>%
@@ -209,8 +209,8 @@ read_csv("./AIGKC/data/observer/item8_retained_size_comp.csv") %>%
   mutate(prop  = n / nmeas) %>%
   # join to stage 1 neff
   group_by(fishery, crab_year) %>%
-  mutate(neff = min(nmeas * 0.05, 100)) %>% ungroup %>%
-  #left_join(read_csv("./AIGKC/data/observer/item6_vessel_days.csv")) %>%
+  #mutate(neff = min(nmeas * 0.05, 100)) %>% ungroup %>%
+  left_join(read_csv("./AIGKC/data/observer/item6_vessel_days.csv")) %>%
   # gmacs retained composition
   filter(fishery == "WAG") %>% ungroup %>%
   arrange(bin) %>%
@@ -221,8 +221,8 @@ read_csv("./AIGKC/data/observer/item8_retained_size_comp.csv") %>%
             type = 1,
             shell = 0,
             maturity = 0, 
-            nsamp = neff,
-            #nsamp = n_days,
+            #nsamp = neff,
+            nsamp = n_days,
             bin = paste0("l", bin), 
             prop = sprintf("%.5f", prop)) %>%
   pivot_wider(names_from = bin, values_from = prop) %>%
@@ -253,9 +253,9 @@ read_csv("./AIGKC/data/observer/item9_directed_observer_size_comp.csv") %>%
   ungroup %>%
   mutate(prop  = n / nmeas) %>%
   group_by(crab_year, fishery) %>%
-  mutate(neff = round(min(nmeas * 0.05, 100))) %>%
+  #mutate(neff = round(min(nmeas * 0.05, 100))) %>%
   # join to stage 1 neff
-  #left_join(read_csv("./AIGKC/data/observer/item7_observed_vessel_days.csv")) %>%
+  left_join(read_csv("./AIGKC/data/observer/item7_observed_vessel_days.csv")) %>%
   # gmacs retained composition
   filter(fishery == "EAG") %>% ungroup %>%
   arrange(bin, crab_year) %>%
@@ -266,10 +266,10 @@ read_csv("./AIGKC/data/observer/item9_directed_observer_size_comp.csv") %>%
             type = 0,
             shell = 0,
             maturity = 0, 
-            nsamp = neff,
-            #nsamp = n_days,
+            #nsamp = neff,
+            nsamp = n_days,
             bin = paste0("l", bin), 
-            prop = sprintf("%.5f", prop)) %>%
+            prop = sprintf("%.5f", prop)) %>% 
   pivot_wider(names_from = bin, values_from = prop) %>%
   replace(is.na(.), "0.00000") %>%
   # save gmacs output
@@ -294,9 +294,9 @@ read_csv("./AIGKC/data/observer/item9_directed_observer_size_comp.csv") %>%
   ungroup %>%
   mutate(prop  = n / nmeas) %>%
   group_by(crab_year, fishery) %>%
-  mutate(neff = round(min(nmeas * 0.05, 100))) %>%
+  #mutate(neff = round(min(nmeas * 0.05, 100))) %>%
   # join to stage 1 neff
-  #left_join(read_csv("./AIGKC/data/observer/item7_observed_vessel_days.csv")) %>%
+  left_join(read_csv("./AIGKC/data/observer/item7_observed_vessel_days.csv")) %>%
   # gmacs retained composition
   filter(fishery == "WAG") %>% ungroup %>%
   arrange(bin, crab_year) %>%
@@ -307,8 +307,8 @@ read_csv("./AIGKC/data/observer/item9_directed_observer_size_comp.csv") %>%
             type = 0,
             shell = 0,
             maturity = 0, 
-            nsamp = neff,
-            #nsamp = n_days,
+            #nsamp = neff,
+            nsamp = n_days,
             bin = paste0("l", bin), 
             prop = sprintf("%.5f", prop)) %>%
   pivot_wider(names_from = bin, values_from = prop) %>%
@@ -317,7 +317,7 @@ read_csv("./AIGKC/data/observer/item9_directed_observer_size_comp.csv") %>%
   write_delim(., "./AIGKC/data/gmacs/2025_sept/wag_total_composition_trunc.txt", delim = "\t")
 
 
-# retained size composition, dirichlet ----
+# retained size composition, neff ----
 
 # eag
 read_csv("./AIGKC/data/observer/item8_retained_size_comp.csv") %>%
@@ -335,6 +335,7 @@ read_csv("./AIGKC/data/observer/item8_retained_size_comp.csv") %>%
   mutate(prop  = n / nmeas) %>%
   # join to stage 1 neff
   group_by(fishery, crab_year) %>%
+  #mutate(neff = round(min(nmeas * 0.05, 100))) %>%
   left_join(read_csv("./AIGKC/output/observer/retained_neff_boot_table.csv") %>%
               transmute(crab_year, neff = round(eag_neff_mean))) %>%
   mutate(neff = min(neff, 2000)) %>% ungroup %>%
@@ -399,7 +400,7 @@ read_csv("./AIGKC/data/observer/item8_retained_size_comp.csv") %>%
 
 
 
-# total size composition, dirichlet ----
+# total size composition, neff ----
 
 # eag
 read_csv("./AIGKC/data/observer/item9_directed_observer_size_comp.csv") %>%
@@ -435,7 +436,7 @@ read_csv("./AIGKC/data/observer/item9_directed_observer_size_comp.csv") %>%
             nsamp = neff,
             #nsamp = n_days,
             bin = paste0("l", bin), 
-            prop = sprintf("%.5f", prop)) %>%
+            prop = sprintf("%.5f", prop)) %>% #filter(`#year` == 2017, bin == "l133")
   pivot_wider(names_from = bin, values_from = prop) %>%
   replace(is.na(.), "0.00000") %>%
   # save gmacs output
@@ -546,18 +547,18 @@ read_csv("./AIGKC/output/cpue_std/wag_fish_tickets_85_98_std_index_may2024.csv")
 
 # eag
 ## gamm total male
-read_csv("./AIGKC/output/coop_survey/gamm_survey_index.csv") %>%
+read_csv("./AIGKC/output/coop_survey/2025/sept/glmm_survey_index.csv") %>%
   transmute(`#index` = 4,
             year, season = 3, fleet = 3, sex = 1, maturity = 0, 
             index = round(index, 4), cv = round(se/index, 4), unit = 2, timing = 0.5) %>%
   arrange(year) %>%
   # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/eag_coop_survey_cpue.txt", delim = "\t")
+  write_delim(., "./AIGKC/data/gmacs/2025_sept/eag_coop_survey_cpue.txt", delim = "\t")
 
 
 # survey size comp ----
 # eag
-read_csv("./AIGKC/output/coop_survey/survey_size_comp.csv") %>%
+read_csv("./AIGKC/output/coop_survey/2025/sept/survey_size_comp.csv") %>%
   filter(size >= 100) %>%
   # add length bin
   f_add_len_bin(., .$size) %>%
@@ -569,12 +570,9 @@ read_csv("./AIGKC/output/coop_survey/survey_size_comp.csv") %>%
             total_n = mean(total_n),
             tot_n_meas = mean(total_n_meas)) %>%
   ungroup %>%
-  # join to stage 1 neff
-  group_by(fishery, year) %>%
-  mutate(neff = min(tot_n_meas * 0.05, 100)) %>% ungroup %>%
-  left_join(read_csv("./AIGKC/output/coop_survey/survey_sample_stats.csv") %>%
+  left_join(read_csv("./AIGKC/output/coop_survey/2025/sept/survey_n_samp_boot.csv") %>%
               mutate(fishery = "EAG") %>%
-              transmute(year, fishery, n_pots)) %>%
+              transmute(year, fishery, mean)) %>%
   # gmacs retained composition
   filter(fishery == "EAG") %>% ungroup %>%
   arrange(bin) %>%
@@ -585,12 +583,12 @@ read_csv("./AIGKC/output/coop_survey/survey_size_comp.csv") %>%
             type = 0,
             shell = 0,
             maturity = 0, 
-            nsamp = n_pots,
+            nsamp = round(mean),
             bin = paste0("l", bin), 
             prop = sprintf("%.5f", prop)) %>%
   pivot_wider(names_from = bin, values_from = prop) %>%
   arrange(`#year`) %>%
   replace(is.na(.), "0.00000") %>%
   # save gmacs output
-  write_delim(., "./AIGKC/data/gmacs/2024_jan/eag_coop_survey_composition.txt", delim = "\t")
+  write_delim(., "./AIGKC/data/gmacs/2025_sept/eag_coop_survey_composition.txt", delim = "\t")
 

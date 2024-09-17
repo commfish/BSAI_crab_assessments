@@ -519,14 +519,6 @@ tibble(ao = list(EAG25.0, EAG25.0a, EAG25.0b, EAG25.0b2, EAG25.0c, EAG25.0d),
   labs(x = NULL, y = paste0("MMB (t)"), color = NULL) -> x
 ggsave("./AIGKC/figures/models/2025/sept/data_wt_mmb.png", plot = x, height = 5, width = 6, units = "in")
 
-
-# plot fits to data wag
-gmacs_plot_catch(list(WAG25.0,  WAG25.1, WAG25.1.2), save_plot = F)
-
-gmacs_plot_index(list(WAG25.0, WAG25.1, WAG25.1.2), save_plot = T, 
-                 y_labs = c("Observer CPUE", "Observer CPUE", "Fish Ticket CPUE"),
-                 plot_dir = "./AIGKC/figures/models/2025/sept")
-
 # gmacs_get_size_summary(list(EAG25.0, EAG25.0a, EAG25.1, EAG25.1a, EAG25.1a2)) %>%
 #   filter(type == "retained") %>%
 #   ggplot()+
@@ -646,16 +638,72 @@ gmacs_plot_mmb(list(WAG25.0, WAG25.0a,  WAG25.0b, WAG25.0b2, WAG25.0c, WAG25.0d)
   theme(legend.position = "right", legend.justification = c(0.5, 0.5)) -> x
 ggsave("./AIGKC/figures/models/2025/sept/wag_data_wt_mmb.png", plot = x, height = 3, width = 6, units = "in")
 
+# data conflict ----
+
+# plot data conflict
+
+gmacs_get_size_summary(list(EAG25.0b)) %>%
+  filter(mod_series == 2, size >= 136, year >= 1995) %>%
+  mutate(series = ifelse(year < 2005, 1, 2)) %>%
+  group_by(year, series) %>%
+  summarise(legal = sum(pred)) %>%
+  group_by(series) %>%
+  
+  
+  mutate(legal = legal / prod(legal)^(1 / n())) %>% 
+  right_join(gmacs_get_index_summary(list(EAG25.0b)) %>%
+               filter(series %in% 1:2) %>%
+               transmute(year, series, obs_index, obs_cv, tot_cv, pred_index)) %>%
+  
+  mutate(obs_l95 = obs_index * exp(-1.96 * sqrt(log(1 + obs_cv^2))),
+         obs_u95 = obs_index * exp(1.96 * sqrt(log(1 + obs_cv^2))),
+         tot_l95 = obs_index * exp(-1.96 * sqrt(log(1 + tot_cv^2))),
+         tot_u95 = obs_index * exp(1.96 * sqrt(log(1 + tot_cv^2))),
+         fishery = "EAG") %>%
+  
+  bind_rows(gmacs_get_size_summary(list(WAG25.0b)) %>%
+              filter(mod_series == 2, size >= 136, year >= 1995) %>%
+              mutate(series = ifelse(year < 2005, 1, 2)) %>%
+              group_by(year, series) %>%
+              summarise(legal = sum(pred)) %>%
+              group_by(series) %>%
+              
+              
+              mutate(legal = legal / prod(legal)^(1 / n())) %>% 
+              right_join(gmacs_get_index_summary(list(WAG25.0b)) %>%
+                           filter(series %in% 1:2) %>%
+                           transmute(year, series, obs_index, obs_cv, tot_cv, pred_index)) %>%
+              
+              mutate(obs_l95 = obs_index * exp(-1.96 * sqrt(log(1 + obs_cv^2))),
+                     obs_u95 = obs_index * exp(1.96 * sqrt(log(1 + obs_cv^2))),
+                     tot_l95 = obs_index * exp(-1.96 * sqrt(log(1 + tot_cv^2))),
+                     tot_u95 = obs_index * exp(1.96 * sqrt(log(1 + tot_cv^2))),
+                     fishery = "WAG")) %>%
+  mutate(series = ifelse(series == 1, "Pre-Rationalization", "Post-Rationalization"),
+         series = factor(series, levels = c("Pre-Rationalization", "Post-Rationalization"))) %>%
+  
+  ggplot()+
+  geom_errorbar(aes(x = year, ymin = tot_l95, ymax = tot_u95), width = 0, color = "grey70")+
+  geom_errorbar(aes(x = year, ymin = obs_l95, ymax = obs_u95), width = 0, color = "grey20")+
+  geom_point(aes(x = year, y = obs_index))+
+  geom_point(aes(x = year, y = legal), color = "3")+
+  geom_line(aes(x = year, y = pred_index))+
+  scale_x_continuous(breaks = yraxis$breaks, labels = yraxis$labels)+
+  facet_wrap(fishery~series, scales = "free_x")+
+  labs(x = NULL, y = "CPUE Index") -> x
+ggsave("./AIGKC/figures/models/2025/sept/data_conflict_index.png", plot = x, height = 5, width = 6, units = "in")
 
 # eag survey ----
 
-EAG23.1 <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/23.1_data/Gmacsall.out", "23.1")
-EAG25.0a <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.0a/Gmacsall.out", "25.0a")
+EAG23.1c <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/23.1c/Gmacsall.out", "23.1c")
+EAG25.0b <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.0b/Gmacsall.out", "25.0b")
+EAG25.0c <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.0c/Gmacsall.out", "25.0c")
 EAG25.1 <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.1/Gmacsall.out", "25.1")
 EAG25.1b <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.1b/Gmacsall.out", "25.1b")
+EAG25.1c <- gmacs_read_allout("./AIGKC/models/2025/sept/EAG/25.1c/Gmacsall.out", "25.1c")
 
-gmacs_plot_catch(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b), save_plot = F)
-gmacs_get_index_summary(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b)) %>%
+gmacs_plot_catch(list(EAG23.1c, EAG25.0b, EAG25.0c, EAG25.1, EAG25.1b), save_plot = F)
+gmacs_get_index_summary(list(EAG23.1c, EAG25.0b, EAG25.0c, EAG25.1, EAG25.1b)) %>%
   mutate(index = case_when(series == 1 ~ "Pre-Rationalized Observer",
                            series == 2 ~ "Post-Rationalized Observer",
                            series == 3 ~ "Early Fish Ticket",
@@ -679,7 +727,33 @@ gmacs_get_index_summary(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b)) %>
 ggsave(plot = x, filename = "./AIGKC/figures/models/2025/sept/eag_survey_index_fit.png", height = 6, width = 8, units = "in") 
 
 
-gmacs_get_size_summary(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b)) %>%
+# compare size comp data
+gmacs_get_size_summary(list(EAG25.1)) %>%
+  filter(type == "total", year >= 2015) %>% 
+  mutate(fleet = case_when(fleet == "Coop_Survey" ~ "Survey",
+                        fleet == "Directed_Fishery" ~ "Observer")) %>%
+  ggplot()+
+  geom_bar(aes(x = size, y = obs, fill = fleet), position = "identity", stat = "identity", alpha = 0.5, width = 5)+
+  labs(x = "Carapace Length (mm)", y = NULL, color = NULL, fill = NULL)+
+  scale_color_manual(values = cbpalette)+
+  facet_wrap(~year, ncol = 1)+
+  scale_fill_manual(values = cbpalette[c(1, 3)])+
+  theme(panel.spacing.x = unit(0.2, "lines"),
+        panel.spacing.y = unit(0, "lines"),
+        panel.border = element_blank(),
+        axis.line.x = element_line(color = "grey70", size = 0.2),
+        axis.ticks.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.text.x = element_text(size = 8),
+        plot.title = element_text(hjust = 0.5),
+        strip.background = element_blank(),
+        #strip.text.x = element_blank(),
+        panel.background = element_blank(),
+        title = element_text(hjust = 0.5)) -> x
+  ggsave("./AIGKC/figures/models/2025/sept/eag_survey_comp_compare.png", plot = x, height = 7, width = 4, units = "in")
+
+
+gmacs_get_size_summary(list(EAG23.1c, EAG25.0b, EAG25.0c, EAG25.1, EAG25.1b)) %>%
   filter(fleet == "Directed_Fishery") %>%
   mutate(type = str_to_title(type)) %>%
   group_by(model, type, size) %>%
@@ -704,7 +778,7 @@ gmacs_get_size_summary(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b)) %>%
         title = element_text(hjust = 0.5)) -> x
 ggsave("./AIGKC/figures/models/2025/sept/eag_survey_comp_fit.png", plot = x, height = 4, width = 5, units = "in")
 
-gmacs_get_size_summary(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b)) %>% 
+gmacs_get_size_summary(list(EAG23.1c, EAG25.0b, EAG25.0c, EAG25.1, EAG25.1b)) %>% 
   filter(fleet == "Coop_Survey") %>%
   ggplot()+
   geom_bar(aes(x = size, y = obs), fill = "grey60", position = "identity", stat = "identity", alpha = 0.1, width = 5)+
@@ -726,9 +800,9 @@ gmacs_get_size_summary(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b)) %>%
         title = element_text(hjust = 0.5)) -> x
 ggsave("./AIGKC/figures/models/2025/sept/eag_survey_comp_fit_survey.png", plot = x, height = 7, width = 4, units = "in") 
 
-gmacs_get_size_summary(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b)) %>%
+gmacs_get_size_summary(list(EAG23.1c, EAG25.0b, EAG25.0c, EAG25.1, EAG25.1b)) %>%
   dplyr::select(-nsamp_est) %>%
-  bind_cols(gmacs_get_effective_n(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b)) %>%
+  bind_cols(gmacs_get_effective_n(list(EAG23.1c, EAG25.0b, EAG25.0c, EAG25.1, EAG25.1b)) %>%
               expand_grid(., size = seq(103, 183, 5)) %>%
               transmute(nsamp_est)) %>%
   filter(fleet == "Coop_Survey", type == "total") %>%
@@ -753,7 +827,7 @@ gmacs_get_size_summary(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b)) %>%
 ggsave("./AIGKC/figures/models/2025/sept/eag_survey_francis_plot_total.png.png", plot = x, height = 7, width = 8, units = "in")
 
 
-gmacs_get_slx(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b)) %>%
+gmacs_get_slx(list(EAG23.1c, EAG25.0b, EAG25.0c, EAG25.1, EAG25.1b)) %>%
   filter(fleet %in% c("Directed_Fishery", "Coop_Survey"),
          !(fleet == "Coop_Survey" & year < 2005)) %>% 
   mutate(block = ifelse(year <= 2004, "Pre-Rationalization", "Post-Rationalization"),
@@ -766,15 +840,46 @@ gmacs_get_slx(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b)) %>%
 ggsave("./AIGKC/figures/models/2025/sept/eag_survey_slx.png.png", plot = x, height = 3, width = 6, units = "in")
 
 
-gmacs_plot_recruitment(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b), save_plot = F)+
-  theme(legend.position = "right", legend.justification = c(0.5, 0.5)) -> x
+gmacs_plot_recruitment(list(EAG23.1c, EAG25.0b, EAG25.0c, EAG25.1, EAG25.1b), save_plot = F)+
+  theme(legend.position = c(0, 1), legend.justification = c(0, 1)) -> x
 ggsave("./AIGKC/figures/models/2025/sept/eag_survey_rec.png", plot = x, height = 3, width = 6, units = "in")
 
-gmacs_plot_mmb(list(EAG23.1, EAG25.0a, EAG25.0c, EAG25.1, EAG25.1b), save_plot = F)[[1]]+
-  theme(legend.position = "right", legend.justification = c(0.5, 0.5)) -> x
-ggsave("./AIGKC/figures/models/2025/sept/eag_survey_mmb.png.png", plot = x, height = 3, width = 6, units = "in")
-
-
+# plot MMB
+tibble(ao = list(EAG23.1c, EAG25.0b, EAG25.0c, EAG25.1, EAG25.1b),
+       std = file.path("./AIGKC/models/2025/sept/EAG", 
+                       c("23.1c", "25.0b", "25.0c", "25.1", "25.1b"), 
+                       "gmacs.std")) %>% #pull(ao) %>% .[[1]] -> ao
+  mutate(out = purrr::map2(ao, std, function(ao, std) {
+    se <- gmacs_read_std(std, sub_text = "log_ssb") %>% 
+      transmute(ssb_se = se / (1 / exp(est)), 
+                ssb_lci = exp(est) + ssb_se * qnorm(0.05 / 2), 
+                ssb_uci = exp(est) + ssb_se * qnorm(1 - 0.05 / 2)) %>%
+      bind_rows(gmacs_read_std(std, sub_text = "last_ssb") %>%
+                  transmute(ssb_se = se, 
+                            ssb_lci = est + ssb_se * qnorm(0.05 / 2), 
+                            ssb_uci = est + ssb_se * qnorm(1 - 0.05 / 2)) ) %>%
+      mutate(year = c(ao$mod_yrs, max(ao$mod_yrs)+1))
+    ao$derived_quant_summary %>% 
+      mutate(model = as.character(ao$model_name)) %>%
+      add_row(year = max(ao$mod_yrs)+1,
+              model = as.character(ao$model_name),
+              ssb = ao$mmb_curr) %>%
+      left_join(se)
+    
+  })) %>%
+  transmute(out) %>% unnest %>%
+  
+  ggplot()+
+  geom_ribbon(data = ~filter(.x, model %in% c("25.0b", "25.1")), aes(x = year, ymin = ssb_lci, ymax = ssb_uci, group = model, fill = model), alpha = 0.1, show.legend = F)+
+  geom_line(data = ~filter(.x, year != max(year)), aes(x = year, y = ssb, group = model, color = model)) +
+  geom_point(data = ~filter(.x, year == max(year)), aes(x = year, y = ssb, color = model))+
+  scale_x_continuous(breaks = yraxis$breaks, labels = yraxis$labels, expand = c(0.01, 0.01))+
+  scale_y_continuous(labels = scales::comma, limits = c(0, NA))+
+  scale_color_manual(values = cbpalette)+
+  scale_fill_manual(values = cbpalette)+
+  labs(x = NULL, y = paste0("MMB (t)"), color = NULL)+
+  theme(legend.position = c(0, 0), legend.justification = c(0, 0)) -> x
+ggsave("./AIGKC/figures/models/2025/sept/eag_survey_mmb.png", plot = x, height = 3, width = 6, units = "in")
  
 # tables ----
 
@@ -833,22 +938,57 @@ gmacs_get_ref_points(list(WAG23.1, WAG23.1c, WAG25.0, WAG25.0a, WAG25.0b, WAG25.
 # retrospective issues ----
 
 # cause of retrospective biasS
-tibble(file = paste0("./AIGKC/models/2024/may/EAG/23.1/retrospectives/retro_", 1:10, "/Gmacsall.out"),
+tibble(file = paste0("./AIGKC/models/2025/sept/EAG/25.0b/retrospectives/retro_", 1:10, "/Gmacsall.out"),
        model_name = as.character(2022:2013)) %>%
-  mutate(allout = purrr::map2(file, model_name, gmacs_read_allout, version = "2.01.M.10")) -> eag_retro
+  mutate(allout = purrr::map2(file, model_name, gmacs_read_allout, version = "2.20.16")) -> eag_retro
 
 gmacs_get_index_summary(eag_retro$allout) %>%
   filter(pred_index > 0) %>%
   gmacs_plot_index(data_summary = ., save_plot = F) %>% .[[2]]+
   labs(y = "CPUE Index", color = "Terminal Year")+
-  theme(legend.position = "none") -> retro_index
+  theme(legend.position = "none") -> eag_retro_index
 
 gmacs_plot_mmb(eag_retro$allout, save_plot = F, plot_proj = F)[[1]]+
-  scale_x_discrete(limits = 2005:2023)+
-  theme(legend.position = "none") -> retro_mmb
+  theme(legend.position = "none")+
+  ggtitle("EAG")+theme(plot.title = element_text(hjust = 0.5)) -> eag_retro_mmb
 
-gmacs_plot_catch(eag_retro$allout, save_plot = F)
+gmacs_plot_recruitment(eag_retro$allout, save_plot = F)+
+  theme(legend.position = "none") -> eag_retro_rec
+
+tibble(file = paste0("./AIGKC/models/2025/sept/WAG/25.0b/retrospectives/retro_", 1:10, "/Gmacsall.out"),
+       model_name = as.character(2022:2013)) %>%
+  mutate(allout = purrr::map2(file, model_name, gmacs_read_allout, version = "2.20.16")) -> wag_retro
+
+gmacs_get_index_summary(wag_retro$allout) %>%
+  filter(pred_index > 0) %>%
+  gmacs_plot_index(data_summary = ., save_plot = F) %>% .[[2]]+
+  labs(y = "CPUE Index", color = "Terminal Year")+
+  theme(legend.position = "none") -> wag_retro_index
+
+gmacs_plot_mmb(wag_retro$allout, save_plot = F, plot_proj = F)[[1]]+
+  theme(legend.position = "none")+
+  ggtitle("WAG")+theme(plot.title = element_text(hjust = 0.5)) -> wag_retro_mmb
+
+gmacs_plot_recruitment(wag_retro$allout, save_plot = F)+
+  theme(legend.position = "none") -> wag_retro_rec
+
+ggsave("./AIGKC/figures/models/2025/sept/retrospective_cause_25_0b.png",
+       plot = (eag_retro_mmb / eag_retro_rec / eag_retro_index) | (wag_retro_mmb / wag_retro_rec / wag_retro_index), height = 7, width = 10, units = "in")
 
 
-ggsave("./AIGKC/figures/models/2025/sept/retrospective_cause_23_1.png", plot = retro_mmb / retro_index, height = 5, width = 5, units = "in")
 
+# plots of retrospectives
+# EAG
+r1 <- gmacs_do_retrospective("./AIGKC/models/2025/sept/EAG/23.1c/gmacs.dat", n_peel = 10, plot_only = T, save_plot = F)[[2]]+
+  ggtitle("23.1c") + theme(plot.title = element_text(hjust = 0.5))
+r2 <- gmacs_do_retrospective("./AIGKC/models/2025/sept/EAG/25.0b/gmacs.dat", n_peel = 10, plot_only = T, save_plot = F)[[2]]+
+  ggtitle("25.0b") + theme(plot.title = element_text(hjust = 0.5))
+r3 <- gmacs_do_retrospective("./AIGKC/models/2025/sept/EAG/25.1/gmacs.dat", n_peel = 8, plot_only = T, save_plot = F)[[2]]+
+  ggtitle("25.1") + theme(plot.title = element_text(hjust = 0.5))
+ggsave("./AIGKC/figures/models/2025/sept/retrospective_eag.png", plot = r1/r2/r3, height = 7, width = 7, units = "in")
+# WAG
+r1 <- gmacs_do_retrospective("./AIGKC/models/2025/sept/WAG/23.1c/gmacs.dat", n_peel = 10, plot_only = T, save_plot = F)[[2]]+
+  ggtitle("23.1c") + theme(plot.title = element_text(hjust = 0.5))
+r2 <- gmacs_do_retrospective("./AIGKC/models/2025/sept/WAG/25.0b/gmacs.dat", n_peel = 10, plot_only = T, save_plot = F)[[2]]+
+  ggtitle("25.0b") + theme(plot.title = element_text(hjust = 0.5))
+ggsave("./AIGKC/figures/models/2025/sept/retrospective_wag.png", plot = r1/r2, height = 5, width = 7, units = "in")

@@ -22,7 +22,7 @@ knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, fig.pos='H',
 ```
 # Background {-}
 
-The AIGKC cooperative pot survey was initiated in 2015 in the EAG and has continued every year since with the exception of 2020. The survey was extended to WAG in 2018. The main purpose of the survey is to generate a cost effective data stream available to the stock assessment that is spatially representative and less susceptible to hyperstability than fishery catch-per-unit-effort (CPUE). The survey has occurred during the beginning of each season, with participating vessels setting pots strings at pre-determined stations and later picking strings with ADF\&G staff on board for collection of biological data. Survey data is available for 2015 - 2023 in the EAG and 2018 and 2019 in the WAG. Since only two years of data are available for the WAG, this appendix only details the preparation of assessment model inputs for the EAG. 
+The AIGKC cooperative pot survey was initiated in 2015 in the EAG and has continued every year since with the exception of 2020. The survey was extended to the WAG in 2018. The main purpose of the survey is to generate a cost effective data stream available to the stock assessment that is spatially representative and less susceptible to hyperstability than fishery catch-per-unit-effort (CPUE). The survey has occurred during the beginning of each season, with participating vessels setting pots strings at pre-determined stations and later hauling strings with ADF\&G staff on board for collection of biological data. Survey data is available for 2015-2023 in the EAG and 2018 and 2019 in the WAG. Since only two years of data are available for the WAG, this appendix only details the preparation of assessment model inputs for the EAG. 
 
 # Methods {-}
 
@@ -30,13 +30,13 @@ The AIGKC cooperative pot survey was initiated in 2015 in the EAG and has contin
 
 The survey area in the EAG consists of a 2x2 nmi grid overlaying the full range of historically fished areas. The survey grid is divided into strata to improve spatial representation. Strata have varied over the time series depending on the vessels participating, but since 2022 the survey design has included three strata (Figure \ref{fig:areamap}). Vessels divided sampling efforts based on their respective fishing grounds. Survey data pre-2022 were stratified to the current design $post$ $hoc$.  
 
-Grid cells were randomly selected among strata, and selections were removed or reallocated as necessary to avoid gear conflicts with groundfish trawl operations. The number of selected cells has varied by year. Since 2022 the initial selection process in the EAG included 25 grid cells per stratum. Vessels set pot strings intersecting grid cells at their digression and there are no specific requirements on string length or soak time (Figure \ref{fig:stringmap}). Biologists systematically sampled 5-7 pots per string, not beginning or ending on the first or last pot of a string. Due to logistical constraints, not all survey strings were sampled during biologist crewed trips.
+Grid cells were randomly selected among strata, and selections were removed or reallocated as necessary to avoid gear conflicts with groundfish trawl operations. The number of selected cells has varied by year. Since 2022 the initial selection process in the EAG included 25 grid cells per stratum. Vessels set pot strings on longlines intersecting grid cells at their digression and there are no specific requirements on string length or soak time (Figure \ref{fig:stringmap}). Biologists systematically sampled 5-7 pots per string, not beginning or ending on the first or last pot of a string. Due to logistical constraints, not all survey strings were sampled during biologist crewed trips.
 
 Carapace lengths (CL) were recorded for legal and sublegal males, as well as females. Unmeasured crab were counted to obtain a catch number per size-sex catagory for each pot. On deck sampling procedure varied among vessels and crew as working conditions allowed, though biologists targeted CL records from at least \~ 30 crab per pot, with at least 10 of which being legal males. Females were given lowest priority and subsampled at a high rate. Sampling statistics from 2015 - 2023 are detailed in Table \ref{table:samplestats}.
 
 ## Survey CPUE {-}
 
-Nominal survey CPUE ($U_{y}$) was computed as 
+Nominal survey CPUE of all male golden king crab ($U_{y}$) was computed as 
 
 \begin{equation}
 U_{y} = \frac{1}{k}\sum^{k}_{h = 1}{U_{h}}
@@ -84,7 +84,7 @@ The annual CPUE index was extracted from model results following the same method
 
 The GAMM fit to the complete data set suggested a dome shaped fit to soak time (EDF = 3.72) with a slow positive increase followed by a sharp decline at the largest values (i.e., roughly at 25 days) (Figure \ref{fig:gammsoaktime}). The marginal effect of depth was also dome shaped (EDF = 2.58), though nearly asymptotic (Figure \ref{fig:gammdepth}). DHARMa residuals indicated heteroscedasticity and further analysis suggested it was due to soak time (Figure \ref{fig:gammdiag1} and \ref{fig:gammdiag2}). 
 
-Removing anomalous soak times (> 25 days) resolved the heteroskedasticity in the negative binomial GAMM, but suggested an excess of zeros for the negative binomial distribution. The updated model also reduced smooth terms to linear fits. DHARMa residuals indicated the Tweedie GLMM (p = 1.3) with linear depth and soak time was a better fit to the data (Figure \ref{fig:glmmdiag}). Marginal effects of soak time and depth are in Figure \ref{fig:glmmsoaktime} and \ref{fig:glmmdepth}, respectively. The resulting index follows a similar trend to the nominal CPUE (Table \ref{table:index}, Figure \ref{fig:indextimeseries}). The survey index is similar to the observer index, though with more extreme increase in 2018 and decrease in 2021 (Figure \ref{fig:indextimeseries}). Refitting and rescaling the observer standardization index with data from only 2015 - 2023 made little difference to the trend (Figure \ref{fig:indextimeseries}). 
+Removing anomalous soak times (> 25 days) resolved the heteroskedasticity in the negative binomial GAMM, but suggested an excess of zeros for the negative binomial distribution. The updated model also reduced smooth terms to linear fits. DHARMa residuals indicated the Tweedie GLMM (p = 1.3) with linear depth and soak time was a better fit to the data (Figure \ref{fig:glmmdiag}). Marginal effects of soak time and depth are in Figure \ref{fig:glmmsoaktime} and \ref{fig:glmmdepth}, respectively. The resulting index follows a similar trend to the nominal CPUE (Table \ref{table:surveyindex}, Figure \ref{fig:indextimeseries}). The survey index is similar to the observer index, though with more extreme increase in 2018 and decrease in 2021 (Figure \ref{fig:indextimeseries}). Refitting and rescaling the observer standardization index with data from only 2015 - 2023 made little difference to the trend (Figure \ref{fig:indextimeseries}). 
 
 Survey size composition showed little variability in the prominent mode, with most individuals measured between 125 - 175 mm CL. Sublegal males were more abundant in 2015 - 2019 surveys (Figure \ref{fig:sizecomp}).
 
@@ -92,18 +92,18 @@ Survey size composition showed little variability in the prominent mode, with mo
 
 \begin{table}[H]
 \centering
-\caption{Number of strings and pots sampled, total number of male crab measured, and proportion of legal and sublegal crab measured (of total caught per catagory) per survey in the EAG.}
+\caption{Number of strings and pots sampled, and total number of male crab caught and measured by legal status.}
 
 \label{table:samplestats}
-\begin{tabular}{lcccccc}
-&&&& \multicolumn{2}{c}{Proportion Measured}\\
-Suvrey Year & Strings Sampled & Pots Sampled & Males Measured & Legal & Sublegal\\
+\begin{tabular}{lccccccc}
+&&& \multicolumn{2}{c}{Legal} & \multicolumn{2}{c}{Sublegal}\\
+Survey Year & Strings Sampled & Pots Sampled & Caught & Measured & Caught & Measured\\
 \hline
 ```{r samplestats, results='asis', eval = T}
 x <- read_csv("../../output/coop_survey/2025/sept/survey_sample_stats.csv") %>% mutate(year = as.character(year))
 
 # print table
-print(xtable(x, align="lcccccc", digits=c(0,0,0,0,0,2,2)),
+print(xtable(x, align="lccccccc", digits=0),
 			     only.contents=TRUE,
 			     include.rownames=FALSE,
 			     floating=FALSE,
@@ -120,7 +120,7 @@ print(xtable(x, align="lcccccc", digits=c(0,0,0,0,0,2,2)),
 
 \begin{table}[H]
 \centering
-\caption{Nominal CPUE and scaled index in comparison to GLMM standardized index and associated CV.}
+\caption{Nominal CPUE of all male GKC and scaled index in comparison to GLMM standardized index and associated CV.}
 
 \label{table:surveyindex}
 \begin{tabular}{lcccccc}
@@ -136,6 +136,33 @@ read_csv("../../output/coop_survey/2025/sept/survey_index.csv") %>%
 
 # print table
 print(xtable(x, align="lcccccc", digits=c(0, 0, 0, 3, 2,3,2)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\caption{Time series of number of crab measured ($N$) by the survey and bootstrap estimated effective sample size ($N_{eff}$). Number of crab measured is restricted to those > 100 mm carapace length.}
+\label{table:neff}
+\begin{tabular}{lccccc}
+& & \multicolumn{3}{c}{Bootstrap $N_{eff}$}\\
+Year & $N$ & Min & Mean & Max\\
+\hline
+```{r neff, results='asis', eval = T}
+x <- read_csv("../../output/coop_survey/2025/sept/survey_n_samp_boot.csv") %>%
+  mutate(year = as.character(year))
+
+# print table
+print(xtable(x, align="lccccc", digits=0),
 			     only.contents=TRUE,
 			     include.rownames=FALSE,
 			     floating=FALSE,
@@ -201,8 +228,12 @@ knitr::include_graphics("../../figures/coop_survey/2025/sept/index_plot_w_obs.pn
 ```
 
 
-```{r sizecomp, fig.align='center', fig.cap="Time series of carapace length composition estimated for the EAG.", eval = T}
+```{r sizecomp, fig.align='center', fig.cap="Time series of carapace length composition estimated for the EAG.", out.height = "480px", eval = T}
 knitr::include_graphics("../../figures/coop_survey/2025/sept/size_comp_plot.png")
+```
+
+```{r sizecompobs, fig.align='center', fig.cap="Comparison of survey and observer size composition truncated to model size bins for the EAG.", out.height = "480px", eval = T}
+knitr::include_graphics("../../figures/models/2025/sept/eag_survey_comp_compare.png")
 ```
 
 # Literature Cited {-}

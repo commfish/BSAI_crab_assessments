@@ -334,7 +334,7 @@
  0.0000 0.0000 0.0000 # Auto tail compression (pmin)
       1      2      3 # Composition aggregator codes
       1      1      2 # Set to 1 for catch-based predictions; 2 for survey or total catch predictions
-0.2662 0.4 0.0842 # Lambda for effective sample size
+0.0905 0.0559 0.0852 # Lambda for effective sample size
  1.0000 1.0000 1.0000 # Lambda for overall likelihood
       0      0      0 # Survey to set Q for this comp
 
