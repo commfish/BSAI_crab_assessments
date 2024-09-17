@@ -30,7 +30,7 @@ The risk table approach, currently used in the NPFMC groundfish assessments, hig
 The BBRKC assessment is has been stable and consistent since its GMACS implementation in 2018. There are no increased levels of concern for this assessment.
 
 
-      **Level of concern: Level 1 No new concern**
+      **Level of concern: Level 2 Increased concern**
 
 ## Population dynamic considerations {-}
 
