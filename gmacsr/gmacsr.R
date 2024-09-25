@@ -3926,6 +3926,8 @@ gmacs_do_retrospective <- function(gmacs.dat, n_peel, wait = T, pin = F, plot_on
 
 # gmacs_do_ofl_dist() ----
 
+## run gmacs with MCMC of reference points
+
 ### gmacs.dat - file path to gmacs.dat file
 ### n_replicates - length of MCMC chain
 ### n_draws - number of draws to save
