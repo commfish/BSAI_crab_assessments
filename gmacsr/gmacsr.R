@@ -3739,11 +3739,10 @@ gmacs_do_jitter <- function(gmacs.dat, sd, iter, wait = T,
       out$catch_lik[i] <- ao$likelihoods_by_type$net_lik[ao$likelihoods_by_type$process == "catch"]
       out$index_lik[i] <- ao$likelihoods_by_type$net_lik[ao$likelihoods_by_type$process == "index"]
       out$size_lik[i] <- ao$likelihoods_by_type$net_lik[ao$likelihoods_by_type$process == "size"]
-      if(ref_points == T) {
-        out$mmb_curr[i] <- ao$mmb_curr
-        out$bmsy[i] <- ao$bmsy
-        out$ofl[i] <- ao$ofl_tot
-      }
+      out$mmb_curr[i] <- ao$mmb_curr
+      out$bmsy[i] <- ao$bmsy
+      out$ofl[i] <- ao$ofl_tot
+      
       setwd("..")
     }
     out <- out %>% dplyr::select(where(function(x) !all(is.na(x))))
