@@ -3772,19 +3772,19 @@ gmacs_do_jitter <- function(gmacs.dat, sd, iter, wait = T,
     geom_point(aes(x = out$obj_function, y = out$mmb_curr))+
     geom_point(aes(x = mle_ao$objective_function, y = mle_ao$mmb_curr), size = 2, shape = 21, fill = "white")+
     scale_y_continuous(labels = scales::comma, limits = c(0, NA))+
-    labs(x = "Negative Log-likelihood", y = paste0("MMB (", gub("_", " ", mle_ao$wt_units), ")") ) -> p_mmb
+    labs(x = "Negative Log-likelihood", y = paste0("MMB (", gsub("_", " ", mle_ao$wt_units), ")") ) -> p_mmb
   
   ggplot()+
     geom_point(aes(x = out$obj_function, y = out$bmsy))+
     geom_point(aes(x = mle_ao$objective_function, y = mle_ao$bmsy), size = 2, shape = 21, fill = "white")+
     scale_y_continuous(labels = scales::comma, limits = c(0, NA))+
-    labs(x = "Negative Log-likelihood", y = bquote(B["MSY"]~"("~.(gub("_", " ", mle_ao$wt_units))~")") ) -> p_bmsy
+    labs(x = "Negative Log-likelihood", y = bquote(B["MSY"]~"("~.(gsub("_", " ", mle_ao$wt_units))~")") ) -> p_bmsy
   
   ggplot()+
     geom_point(aes(x = out$obj_function, y = out$ofl))+
     geom_point(aes(x = mle_ao$objective_function, y = mle_ao$ofl_tot), size = 2, shape = 21, fill = "white")+
     scale_y_continuous(labels = scales::comma, limits = c(0, NA))+
-    labs(x = "Negative Log-likelihood", y = paste0("OFL (", gub("_", " ", mle_ao$wt_units), ")") ) -> p_ofl
+    labs(x = "Negative Log-likelihood", y = paste0("OFL (", gsub("_", " ", mle_ao$wt_units), ")") ) -> p_ofl
   
   
   if(save_plot == T){ggsave(filename = paste0(plot_dir, "/", mle_ao$model_name, "_jitter_sd_", sd, ".png"),
