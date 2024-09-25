@@ -3242,12 +3242,12 @@ gmacs_read_std <- function(file, model_name = NULL, sub_text = NULL) {
 ## args: file = file path to mcoutREF.rep file
 #        sub_text = parameter name string used for filtering, Default = NULL
 
-gmacs_read_mcoutREF <- function(file, model_name = NULL){
+gmacs_read_mcoutREF <- function(file, model_name = NULL, version = NULL){
   
   mcout <- read.delim(file, sep = "", skip = 1, header = F)
-  ao <- gmacs_read_allout(file.path(dirname(file), "Gmacsall.out"))
+  ao <- gmacs_read_allout(file.path(dirname(file), "Gmacsall.out"), version = version)
   
-  tibble(model = model_name, 
+  tibble(model = ifelse(is.null(model_name), NA, model_name),
          mcout) %>%
     rename_all(~c("model", "draw", "mean_rec", "f", "mmb", "bmsy", "bmsy_b0", "ofl",
                   paste0("fmsy_", ao$fleet_names), paste0("fofl_", ao$fleet_names))) -> out
@@ -3658,7 +3658,6 @@ gmacs_do_exe <- function(gmacs.dat, pin = F, wait = T, reweight = T, level = 0.0
 ### gmacs.dat - file path to gmacs.dat file
 ### sd - jitter standard deviation
 ### iter - number of iteration of jittering to run
-### ref_points - T/F calculate reference points, add mmb and b35 to jittering results, default = T
 ### wait - passed to shell(): a logical (not NA) indicating whether the R interpreter should wait for the command to finish, or run it asynchronously.
 ### save_csv - T/F, save csv file output
 ### csv_dir - file directory in which to save output
@@ -3690,8 +3689,6 @@ gmacs_do_jitter <- function(gmacs.dat, sd, iter, wait = T,
     
     # check for other needed inputs
     if(!file.exists("gmacs.exe")){setwd(wd); stop("Cannot find gmacs.exe!!")}
-    # look for gmacs_file_in.dat - if not present, run gmacs
-    # if(!file.exists("./gmacs_files_in.dat")) {setwd(wd); gmacs_do_exe(gmacs.dat, pin = F, reweight = F)}
     dat <- gmacs_read_files_dat("./gmacs.dat", version = version)
     
     if(!file.exists(file.path(dat[grep("\\.dat", dat)]))) {setwd(wd); stop(paste("Cannot find", file.path(dat[grep("\\.dat", dat)]), "!!"))}
