@@ -10,14 +10,16 @@ source("./SMBKC/code/helper.R")
 cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 .THEME    = list(theme_bw(base_size = 12, base_family = ""), scale_fill_manual(values=cbPalette), 
                  scale_colour_manual(values=cbPalette))
-.FIGS     = c("./BBRKC/bbrkc_24f/doc/figures/")
+#.FIGS     = c("./BBRKC/bbrkc_24f/doc/figures/")
+.FIGS     = c("./BBRKC/bbrkc_24f/doc/figures/state/")
 
 folder = "bbrkc_24f"
-model = "m23.0a"
-folder2 = "model_23_0a_ph7_24_mcmc"
+#model = "m23.0a"
+#folder2 = "model_23_0a_ph7_24_mcmc"
 
-#model = "m24.0c"
+model = "m24.0c"
 #folder2 = "model_24_0c_mcmc"
+folder2 = "model_24_0c_mcmc_statePrj"
 
 ###### data m 21.1b ------
 
@@ -78,7 +80,8 @@ sum1 %>%
            hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 4.0, parse = T) +
   geom_text(aes(x = 0.1, y = B_BMSY$`1`/2, label = "50% Bmsy"), 
             hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 4.0) +
-  scale_fill_discrete(labels = c("F=0", "F=0.083", "F=0.167", "F=0.25"))+
+  scale_fill_discrete(labels = c("F=0", "F=0.07", "F=0.15", "F=0.22"))+
+  #scale_fill_discrete(labels = c("F=0", "F=0.083", "F=0.167", "F=0.25"))+
   #scale_fill_discrete(labels = c("F=0", "F=0.038", "F=0.071", "F=0.107","F=0.143", "F=0.179", "F=0.214", "F=0.25"))+
   labs(fill = "Fishing mortality") +
   guides(color = "none") 

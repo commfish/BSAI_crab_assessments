@@ -103,6 +103,28 @@ biomass2_mt %>%
 write.csv(LBA_survey_CV, paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/LBA_FE_survey_CV.csv'), 
           row.names = FALSE)
 
+# PSC table for SAFE document - ------
+# relies of effective spawning biomass from LBA model so circle 
+#   back to this to convert from million lbs to tons
+# tons to lb convergence
+
+round((22.46)*1e6/2204.62, 2) # this tons
+round((22.46)*1e6/2204.62,5)/1000 # this metric tons
+
+
+
+## CV's for survey data in LBA - >=120 (males)-----
+bbrkc_area_swept %>% 
+  filter(SIZE_CLASS_MM == "GE120") %>% 
+  dplyr::select(SURVEY_YEAR, SPECIES_NAME, SIZE_GROUP, ABUNDANCE, ABUNDANCE_CV, ABUNDANCE_CI, 
+                BIOMASS_LBS, BIOMASS_LBS_CV ,BIOMASS_MT, BIOMASS_MT_CV, BIOMASS_MT_CI) -> Mbiomass2_mt 
+head(Mbiomass2_mt)
+Mbiomass2_mt %>% 
+  select(SURVEY_YEAR, SIZE_GROUP, ABUNDANCE, ABUNDANCE_CV, ABUNDANCE_CI) %>% 
+  mutate(ABUNDANCE = ABUNDANCE/1000000, 
+         ABUNDANCE_CI = ABUNDANCE_CI/1000000) -> M_LBA_survey_CV
+write.csv(M_LBA_survey_CV, paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/LBA_male_survey_CV.csv'), 
+          row.names = FALSE)
 ## sample size for length comps??? ----------------
 head(haul_rkc) # how to determine which ones are bb???
 ## See Jie's notes
@@ -148,6 +170,16 @@ size_group %>%
   filter(SIZE_CLASS_MM > 94) %>% 
   group_by(SURVEY_YEAR) %>% 
   summarise(abun = sum(ABUNDANCE)/1000) -> abund_males
+
+# lba for males see "bbrkc_sizecomp.R"
+size_group %>% 
+  filter(SURVEY_YEAR >= cur_yr-1) %>% 
+  filter(SEX == "MALE") %>% 
+  filter(SIZE_CLASS_MM > 94) %>% 
+  mutate(size_bin = ifelse(SIZE_CLASS_MM >160, 160, floor(SIZE_CLASS_MM/5)*5)) %>% 
+  group_by(SURVEY_YEAR, size_bin) %>% 
+  summarise(bin_abun = round(sum(ABUNDANCE)/1000, 3)) %>% 
+  as.data.frame()
 # use this in bbrkc_sizecomps.R
 # - see bbrkc_sizecomp.R file need haul data for just BB
 # mature and legal 
