@@ -20,6 +20,7 @@ cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#D55E00", "#0072B2",
 #plot.dir <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/")
 plot_save <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/")
 plot_save_newD <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/newD")
+plot_save_state <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/state")
 #plot_save_sel <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/sel_models/")
 #plot_save_molt <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/molt_models/")
 #table directory 
@@ -44,7 +45,8 @@ m230a_24 <- gmacs_read_allout(file = "./BBRKC/bbrkc_24f/model_23_0a_ph7_24/Gmacs
 
 m24c <- gmacs_read_allout(file = "./BBRKC/bbrkc_24f/model_24_0c/Gmacsall.out", model_name = "m24.0c", 
                           version = "2.20.14")
-
+m24c_state <- gmacs_read_allout(file = "./BBRKC/bbrkc_24f/model_24_0c_MAX harvest/Gmacsall.out", model_name = "m24.0c_state", 
+                                version = "2.20.14")
 
  #m24.0 <- gmacs_read_allout(file = "./SMBKC/smbkc_24s/model_16_0_c/Gmacsall.out", model = "smbkc24.0")
 
@@ -53,7 +55,7 @@ m24c <- gmacs_read_allout(file = "./BBRKC/bbrkc_24f/model_24_0c/Gmacsall.out", m
 m230a_23_std <- gmacs_read_std(file = "./BBRKC/bbrkc_24f/model_23_0a_ph7_23/gmacs.std", model_name = "m23.0a_23")
 m230a_24_std <- gmacs_read_std(file = "./BBRKC/bbrkc_24f/model_23_0a_ph7_24/gmacs.std", model_name = "m23.0a")
 m24c_std <- gmacs_read_std(file = "./BBRKC/bbrkc_24f/model_24_0c/gmacs.std", model_name = "m24.0c")
-#m24d_std <- gmacs_read_std(file = "./BBRKC/bbrkc_24s/model_24_0d/gmacs.std", model_name = "m24.0d")
+m24c_state_std <- gmacs_read_std(file = "./BBRKC/bbrkc_24f/model_24_0c_MAX harvest/gmacs.std", model_name = "m24.0d")
 
 # model groupings defined here for future plots ----------------
 base_models <- list(m230a_24, m24c) # models for comparison 2024
@@ -133,7 +135,7 @@ ggsave(paste0(.FIGS, "molt_tagging_males_base.png"), width = 6*1.15, height = 1.
 ## ************!!!!!!!!!!!!!!! load one from "working doc_tables.R" here
 gmacs_plot_index(all_out = base_models, plot_dir = plot_save)
 gmacs_plot_index(all_out = newD_models, plot_dir = plot_save_newD)
-
+gmacs_plot_index(all_out = list(m24c, m24c_state), plot_dir = plot_save_state)
 
 temp <- gmacs_get_index_summary(all_out = list(m230a_p7, m230a_24, m24c))
 
@@ -158,8 +160,11 @@ gmacs_plot_sizecomp(save_plot = T, plot_dir = plot_save_newD, data_summary = Sda
 gmacs_plot_mmb(all_out = base_models, save_plot = T, plot_dir = plot_save, plot_ci = T, std_list = base_std)
 gmacs_plot_mmb(all_out = newD_models, plot_dir = plot_save_newD, plot_ci = T, std_list = newD_std)
 #gmacs_plot_mmb(all_out = molt_models, plot_dir = plot_save_molt, plot_ci = T, std_list = molt_std)
-
-
+gmacs_plot_mmb(all_out = list(m24c, m24c_state), save_plot = T, plot_dir = plot_save_state, 
+               plot_ci = T, std_list = list(m24c_std, m24c_state_std))
+#gmacs_plot_mmb(all_out = list(m24c_state), save_plot = T, 
+#               plot_dir = "C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_24f/doc/figures/state")
+               #plot_ci = F, std_list = list(m24c_std, m24c_state_std))
 # recruitment ------
 gmacs_plot_recruitment(all_out = list(m230a_23, m230a_24, m24c), save_plot = T, plot_dir = plot_save_newD)
 gmacs_plot_recruitment(all_out = list(m230a_24, m24c), save_plot = T, plot_dir = plot_save)

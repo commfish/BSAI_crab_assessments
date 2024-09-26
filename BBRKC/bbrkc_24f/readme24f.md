@@ -34,7 +34,10 @@ Model explorations from comments:
 24.0c [model_24_0c] - 23.0a_ph7 + 1 molt prob time block
 		- using most recent version - changed time block to 0, but wouldn't run when I commented out the extra parameters ....look at results and see (7-28-24)
 
-
+Extra explorations:
+24.0c max harvest is equilvalent to max TAC
+    - from Ben's presentation 4.31 million lbs, which is in 
+4.31*1e6/2204.62 = 1954.98 mt
 
 # Document updates ----------
 SAFE document is in Rmarkdown format. Need to work on all tables, etc.
