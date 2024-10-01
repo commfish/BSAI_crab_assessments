@@ -1,4 +1,4 @@
-# k.palof   9-28-23/ 8-27-24
+# k.palof   9-28-23/ 8-27-24 / 9-30-24
 
 # code to extract values for other uses
 
@@ -17,7 +17,7 @@
 # Over on right in the Build tab (upper right hand side) - 
 # click "install and restart"
 
-library(gmr)#require(gmr)
+#library(gmr)#require(gmr)
 source("./SMBKC/code/functions.R") 
 source("./SMBKC/code/helper.R") 
 source("./SMBKC/code/gmr_functions2020.R") 
@@ -84,7 +84,26 @@ mat_fem %>%
 write.csv(bbrkc_abundance, "./BBRKC/bbrkc_24f/_23_0a_recruit_mfem_out.csv")
 
 
-# legal abundance ------------
+# mature and legal abundance ------------
+deriv.quant <- gmacs_get_derived_quantity_summary(all_out = list(m24c))
+
+head(deriv.quant)
+
+deriv.quant %>% 
+  select(year, ssb, ssa) -> mmb_mma_24c
+
+proj <- gmacs_get_ref_points(all_out = list(m24c))
+N_all <- m24c$n_matrix
+N_all %>% 
+  select(year, size, males) %>% 
+  mutate(size = as.numeric (size)) %>% 
+  filter(size >= 120) %>% 
+  group_by(year) %>% 
+  summarise(mma = sum(males)) -> mma_N_matrix
+
+
+# Jie's old method but doesn't currently work ------
+# legal abundance
 f_temp <- B$N_males
 head(f_temp)
 # V1 to V20 represent size groups, legal is > 134, so V 15 to V20
