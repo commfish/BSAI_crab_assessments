@@ -1,7 +1,7 @@
 ---
-title: "Aleutian Islands Golden King Crab Stock Assessment 2024"
+title: "Aleutian Islands Golden King Crab Stock Assessment 2025"
 author: |
-  | Tyler Jackson and Ben Daly
+  | Tyler Jackson
   | Alaska Department of Fish and Game, tyler.jackson@alaska.gov
 date: "`r format(Sys.time(), '%B %Y')`"
 output:
@@ -15,7 +15,7 @@ header-includes:
 ---
 
 ```{r, echo = F, message = F, warning = F}
-library(tidyverse)
+library(gmacsr)
 library(patchwork)
 library(xtable)
 
@@ -917,7 +917,7 @@ N/A, not applicable for this stock.
 
 # I. Acknowledgements {-}
 
-We thank ADF\&G personnel in Kodiak and Dutch Harbor for preparing/providing various fisheries and biological data for this assessment. Ethan Nichols, Rachel Alinsunurin, Ric Shepard, and Janis Shaisnikoff were helpful in getting needed information for preparing this report. Toshihide Hamazaki and Katie Palof reviewed and earlier draft of this document. We also appreciate technical and editorial input from CPT and SSC members, and industry personnel.
+We thank ADF\&G personnel in Kodiak and Dutch Harbor for preparing/providing various fisheries and biological data for this assessment. Ethan Nichols, Rachel Alinsunurin, Ric Shepard, and Janis Shaisnikoff were helpful in getting needed information for preparing this report. Caitlin Stern and Ben Daly reviewed and earlier draft of this document. We also appreciate technical and editorial input from CPT and SSC members, and industry personnel.
 
 # Tables {-}
 #### {-}
@@ -935,11 +935,21 @@ Year & TAC & Vessels & (t) & (N) & Pots & CPUE & Total Catch & Bycatch & Mortali
 \hline
 ```{r eagcatch, results='asis', eval = T}
 tac <- read_csv("../../../AIGKC/data/tac/aigkc_tac.csv")
-ft <- read_csv("../../../AIGKC/data/observer/item2_linked_fish_ticket_dump.csv")
+ft <- read_csv("../../../AIGKC/data/observer/2025/linked_fish_ticket_dump.csv")
 
-eag_ret <- read_delim("../../../AIGKC/data/gmacs/2024_may/eag_retained_1985_present.txt")
-eag_tot <- read_delim("../../../AIGKC/data/gmacs/2024_may/eag_total_catch.txt")
-eag_gf <- read_delim("../../../AIGKC/data/gmacs/2024_may/eag_gf_bycatch_update.txt")
+gmacs_get_catch_summary(file = "../../../AIGKC/models/2025/may/EAG/23.1c/Gmacsall.out", model = "23.1c") -> cat
+# retained
+cat %>% 
+  filter(series == 1, year >= 1985) %>%
+  transmute(crab_year = year, retained_t = obs_catch) -> eag_ret
+# total
+cat %>% 
+  filter(series == 2) %>%
+  transmute(crab_year = year, total_t = obs_catch, cv) -> eag_tot
+# gf 
+cat %>%
+  filter(series == 3) %>%
+  transmute(crab_year = year, gf_t = obs_catch, gf_discard_mortality = gf_t * disc_m) -> eag_gf
 
 # tac
 tac %>%
@@ -953,23 +963,15 @@ tac %>%
                         retained_n = sum(number_of_crab, na.rm = T),
               n_vessels = length(unique(adfg_number)))) %>%
   ## retained catch
-  left_join(eag_ret %>%
-              transmute(crab_year = `#year`,
-                        retained_t = obs)) %>%
+  left_join(eag_ret) %>%
   ## total catch
-  left_join(eag_tot %>%
-              transmute(crab_year = `#year`,
-                        total_t = obs, 
-                        total_discard_mortality = discard_mortality)) %>%
-  ## bycatch
-  left_join(eag_gf %>%
-              transmute(crab_year = `#year`,
-                        gf_t = obs, 
-                        gf_discard_mortality = discard_motality)) %>%
+  left_join(eag_tot) %>%
+  ## groundfish catch
+  left_join(eag_gf) %>%
   filter(crab_year >= 1985) %>%
   mutate(disc = ifelse(total_t > retained_t, total_t - retained_t , 0)) %>%
-  transmute(crab_year = as.character(crab_year), tac_t, n_vessels, retained_t, retained_n, pots, cpue = retained_n / pots, total_t, gf_t, 
-            total_mort_t = retained_t + disc * total_discard_mortality + gf_t * gf_discard_mortality) -> x
+  transmute(crab_year = as.character(crab_year), tac_t, n_vessels, retained_t, retained_n,             pots, cpue = retained_n / pots, total_t, gf_t, 
+            total_mort_t = retained_t + disc * 0.2 + gf_discard_mortality) -> x
 
 # print table
 print(xtable(x, align="lcccccccccc", digits = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0)),
@@ -996,11 +998,21 @@ Year & TAC & Vessels & (t) & (N) & Pots & CPUE & Total Catch & Bycatch & Mortali
 \hline
 ```{r wagcatch, results='asis', eval = T}
 tac <- read_csv("../../../AIGKC/data/tac/aigkc_tac.csv")
-ft <- read_csv("../../../AIGKC/data/observer/item2_linked_fish_ticket_dump.csv")
+ft <- read_csv("../../../AIGKC/data/observer/2025/linked_fish_ticket_dump.csv")
 
-wag_ret <- read_delim("../../../AIGKC/data/gmacs/2024_may/wag_retained_1985_present.txt")
-wag_tot <- read_delim("../../../AIGKC/data/gmacs/2024_may/wag_total_catch.txt")
-wag_gf <- read_delim("../../../AIGKC/data/gmacs/2024_may/wag_gf_bycatch_update.txt")
+gmacs_get_catch_summary(file = "../../../AIGKC/models/2025/may/WAG/23.1c/Gmacsall.out", model = "23.1c") -> cat
+# retained
+cat %>% 
+  filter(series == 1, year >= 1985) %>%
+  transmute(crab_year = year, retained_t = obs_catch) -> wag_ret
+# total
+cat %>% 
+  filter(series == 2) %>%
+  transmute(crab_year = year, total_t = obs_catch, cv) -> wag_tot
+# gf 
+cat %>%
+  filter(series == 3) %>%
+  transmute(crab_year = year, gf_t = obs_catch, gf_discard_mortality = gf_t * disc_m) -> wag_gf
 
 # tac
 tac %>%
@@ -1014,23 +1026,15 @@ tac %>%
                         retained_n = sum(number_of_crab, na.rm = T),
               n_vessels = length(unique(adfg_number)))) %>%
   ## retained catch
-  left_join(wag_ret %>%
-              transmute(crab_year = `#year`,
-                        retained_t = obs)) %>%
+  left_join(wag_ret) %>%
   ## total catch
-  left_join(wag_tot %>%
-              transmute(crab_year = `#year`,
-                        total_t = obs, 
-                        total_discard_mortality = discard_mortality)) %>%
-  ## total catch
-  left_join(wag_gf %>%
-              transmute(crab_year = `#year`,
-                        gf_t = obs, 
-                        gf_discard_mortality = discard_motality)) %>%
+  left_join(wag_tot) %>%
+  ## groundfish catch
+  left_join(wag_gf) %>%
   filter(crab_year >= 1985) %>%
   mutate(disc = ifelse(total_t > retained_t, total_t - retained_t , 0)) %>%
-  transmute(crab_year = as.character(crab_year), tac_t, n_vessels, retained_t, retained_n, pots, cpue = retained_n / pots, total_t, gf_t, 
-            total_mort_t = retained_t + disc * total_discard_mortality + gf_t * gf_discard_mortality) -> x
+  transmute(crab_year = as.character(crab_year), tac_t, n_vessels, retained_t, retained_n,             pots, cpue = retained_n / pots, total_t, gf_t, 
+            total_mort_t = retained_t + disc * 0.2 + gf_discard_mortality) -> x
 
 # print table
 print(xtable(x, align="lcccccccccc", digits = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0)),
@@ -1056,15 +1060,14 @@ print(xtable(x, align="lcccccccccc", digits = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0)
 Year & Pots$_{nz}$ & CV & Pots$_{nz}$ & CV\\
 \hline
 ```{r totalcv, results='asis', eval = T}
-eag_tot <- read_delim("../../../AIGKC/data/gmacs/2024_may/eag_total_catch.txt")
-wag_tot <- read_delim("../../../AIGKC/data/gmacs/2024_may/wag_total_catch.txt")
-nz_pots <- read_csv("../../../AIGKC/data/observer/item5_nonzero_obs_pots.csv")
+
+nz_pots <- read_csv("../../../AIGKC/data/observer/2025/nonzero_obs_pots.csv")
 
 eag_tot %>%
-  transmute(fishery = "EAG", crab_year = `#year`, cv) %>%
+  transmute(fishery = "EAG", crab_year, cv) %>%
   bind_rows(wag_tot %>%
-  transmute(fishery = "WAG", crab_year = `#year`, cv)) %>%
-  left_join(nz_pots) %>%
+  transmute(fishery = "WAG", crab_year, cv)) %>%
+  left_join(nz_pots %>% transmute(fishery = subdistrict, crab_year, m_nz)) %>%
   filter(!(crab_year == 1993 & fishery == "EAG")) %>%
   pivot_wider(names_from = fishery, values_from = c(cv, m_nz)) %>%
   transmute(crab_year = as.character(crab_year), m_nz_EAG, cv_EAG, m_nz_WAG, cv_WAG) %>%
@@ -1187,27 +1190,29 @@ print(xtable(x, align="lccccc", digits = c(0, 0, 3, 2, 3, 2)),
 
 \begin{table}[H]  
 \centering
-\caption{Observed effective sample size for retained (number of vessel days) and total (number of observer days) catch size composition and stage-2 values estimated by Francis weighting in the EAG.}
+\caption{Input and estimatd effective sample size for retained (number of vessel days) and total (number of observer days) catch size composition for model 23.1c.}
 
-\label{table:eagsampsize}
+\label{table:basesampsize}
 \begin{tabular}{lccccccccc}
-& \multicolumn{4}{c}{Retained Size Comp.} & \multicolumn{4}{c}{Total Size Comp.}\\
-Year & N$_{\text{obs}}$ & 23.0a & 23.1 & 23.1b & N$_{\text{obs}}$ & 23.0a & 23.1 & 23.1b\\
+& \multicolumn{4}{c}{EAG} & \multicolumn{4}{c}{WAG}\\
+& \multicolumn{2}{c}{Retained Size Comp.} & \multicolumn{2}{c}{Total Size Comp.} & \multicolumn{2}{c}{Retained Size Comp.} & \multicolumn{2}{c}{Total Size Comp.}\\
+Year & N$_{\text{obs}}$ & 23.1c & N$_{\text{obs}}$ & 23.1c & N$_{\text{obs}}$ & 23.1c & N$_{\text{obs}}$ & 23.1c\\
 \hline
-```{r eagsampsize, results='asis', eval = T}
+```{r basesampsize, results='asis', eval = T}
 
-eag <- read_csv("../../../AIGKC/output/models/2024/may/eag_eff_sample_size_table.csv")
+eag <- gmacs_get_size_summary(file = "../../../AIGKC/models/2025/may/EAG/23.1c/Gmacsall.out", model = "23.1c") %>%
+  distinct(year, mod_series, nsamp_obs, nsamp_est) %>%
+  pivot_wider(names_from = mod_series, values_from = c(nsamp_obs, nsamp_est)) %>%
+  transmute(year = as.character(year), eagobs1 = nsamp_obs_1, eagest1 = nsamp_est_1, eagobs2 = nsamp_obs_2, eagest2 = nsamp_est_2)
+wag <- gmacs_get_size_summary(file = "../../../AIGKC/models/2025/may/WAG/23.1c/Gmacsall.out", model = "23.1c") %>%
+  distinct(year, mod_series, nsamp_obs, nsamp_est) %>%
+  pivot_wider(names_from = mod_series, values_from = c(nsamp_obs, nsamp_est)) %>%
+  transmute(year = as.character(year), wagobs1 = nsamp_obs_1, wagest1 = nsamp_est_1, wagobs2 = nsamp_obs_2, wagest2 = nsamp_est_2)
 
-eag %>%
-  filter(type == "Retained") %>%
-  dplyr::select(-type) %>%
-  left_join(eag %>%
-  filter(type == "All") %>%
-  dplyr::select(-type), by = "year") %>%
-  mutate(year = as.character(year)) -> x
+full_join(eag, wag) -> x
 
 # print table
-print(xtable(x, align="lccccccccc", digits = c(0, 0, 0, 1, 1, 1, 0, 1, 1, 1)),
+print(xtable(x, align="lccccccccc", digits = 0),
 			     only.contents=TRUE,
 			     include.rownames=FALSE,
 			     floating=FALSE,
@@ -1219,30 +1224,99 @@ print(xtable(x, align="lccccccccc", digits = c(0, 0, 0, 1, 1, 1, 0, 1, 1, 1)),
 \hline
 \end{tabular}
 \end{table}
+
+
+
+\begin{table}[H]
+\centering
+\caption{Time series of number of crab measured ($N$) in retained catch sampling and bootstrap estimated effective sample size ($N_{eff}$). Total measure only includes crab > 100 mm carapace length.}
+\label{table:retneff}
+\begin{tabular}{lcccccccccc}
+& \multicolumn{4}{c}{EAG} & & \multicolumn{4}{c}{WAG}\\ 
+& & \multicolumn{3}{c}{Bootstrap $N_{eff}$} & & & \multicolumn{3}{c}{Bootstrap $N_{eff}$}\\
+Year & $N$ & Min & Mean & Max & & $N$ & Min & Mean & Max\\
+\hline
+```{r retnefftab, results='asis', eval = T}
+wag <- read_csv("../../output/observer/length_comp_boot/retained_neff_boot_table_wag.csv") %>%
+   transmute(crab_year = as.character(crab_year), space = NA, wn_meas = n_meas, wneff_min = neff_min, wneff_mean = neff_mean, wneff_max = neff_max)
+eag <- read_csv("../../output/observer/length_comp_boot/retained_neff_boot_table_eag.csv") %>%
+   transmute(crab_year = as.character(crab_year), en_meas = n_meas, eneff_min = neff_min, eneff_mean = neff_mean, eneff_max = neff_max)
+
+full_join(eag, wag) -> x
+
+# print table
+print(xtable(x, align="lcccccccccc", digits = 0),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\caption{Time series of number of crab measured ($N$) in observer size composition sampling and bootstrap estimated effective sample size ($N_{eff}$).}
+\label{table:totneff}
+\begin{tabular}{lcccccccccc}
+& \multicolumn{4}{c}{EAG} & & \multicolumn{4}{c}{WAG}\\ 
+& & \multicolumn{3}{c}{Bootstrap $N_{eff}$} & & & \multicolumn{3}{c}{Bootstrap $N_{eff}$}\\
+Year & $N$ & Min & Mean & Max & & $N$ & Min & Mean & Max\\
+\hline
+```{r totnefftab, results='asis', eval = T}
+wag <- read_csv("../../output/observer/length_comp_boot/total_neff_boot_table_wag.csv") %>%
+   transmute(crab_year = as.character(crab_year), space = NA, wn_meas = n_meas, wneff_min = neff_min, wneff_mean = neff_mean, wneff_max = neff_max)
+eag <- read_csv("../../output/observer/length_comp_boot/total_neff_boot_table_eag.csv") %>%
+   transmute(crab_year = as.character(crab_year), en_meas = n_meas, eneff_min = neff_min, eneff_mean = neff_mean, eneff_max = neff_max)
+
+full_join(eag, wag) -> x
+
+# print table
+print(xtable(x, align="lcccccccccc", digits=c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
 
 \begin{table}[H]  
 \centering
 \caption{Observed effective sample size for retained (number of vessel days) and total (number of observer days) catch size composition and stage-2 values estimated by Francis weighting in the WAG.}
 
-\label{table:wagsampsize}
+\label{table:bootsampsize}
 \begin{tabular}{lccccccccc}
 & \multicolumn{4}{c}{Retained Size Comp.} & \multicolumn{4}{c}{Total Size Comp.}\\
 Year & N$_{\text{obs}}$ & 23.0a & 23.1 & 23.1b & N$_{\text{obs}}$ & 23.0a & 23.1 & 23.1b\\
 \hline
-```{r wagsampsize, results='asis', eval = T}
+```{r bootsampsize, results='asis', eval = T}
 
-wag <- read_csv("../../../AIGKC/output/models/2024/may/wag_eff_sample_size_table.csv")
+eag <- gmacs_get_size_summary(file = "../../../AIGKC/models/2025/may/EAG/25.0b/Gmacsall.out", model = "25.0b") %>%
+  distinct(year, mod_series, nsamp_obs, nsamp_est) %>%
+  pivot_wider(names_from = mod_series, values_from = c(nsamp_obs, nsamp_est)) %>%
+  transmute(year = as.character(year), eagobs1 = nsamp_obs_1, eagest1 = nsamp_est_1, eagobs2 = nsamp_obs_2, eagest2 = nsamp_est_2)
+wag <- gmacs_get_size_summary(file = "../../../AIGKC/models/2025/may/WAG/25.0b/Gmacsall.out", model = "25.0b") %>%
+  distinct(year, mod_series, nsamp_obs, nsamp_est) %>%
+  pivot_wider(names_from = mod_series, values_from = c(nsamp_obs, nsamp_est)) %>%
+  transmute(year = as.character(year), wagobs1 = nsamp_obs_1, wagest1 = nsamp_est_1, wagobs2 = nsamp_obs_2, wagest2 = nsamp_est_2)
 
-wag %>%
-  filter(type == "Retained") %>%
-  dplyr::select(-type) %>%
-  left_join(eag %>%
-  filter(type == "All") %>%
-  dplyr::select(-type), by = "year") %>%
-  mutate(year = as.character(year)) -> x
+
+full_join(eag, wag) -> x
 
 # print table
-print(xtable(x, align="lccccccccc", digits = c(0, 0, 0, 1, 1, 1, 0, 1, 1, 1)),
+print(xtable(x, align="lccccccccc", digits = 0),
 			     only.contents=TRUE,
 			     include.rownames=FALSE,
 			     floating=FALSE,
@@ -1256,36 +1330,53 @@ print(xtable(x, align="lccccccccc", digits = c(0, 0, 0, 1, 1, 1, 0, 1, 1, 1)),
 \end{table}
 
 #### {-}
+
+<!-- version likelihood tables -->
+
+\begin{table}[H]  
+\centering
+\caption{Comparison of likelihood components for GMACS version 2.20.16 and 2.20.21 based on model 23.1c.}
+
+\label{table:versionlik}
+\begin{tabular}{lcccccc}
+& \multicolumn{2}{c}{EAG} && \multicolumn{2}{c}{WAG}\\
+Component & v2.20.16 & v2.20.21 && v2.20.16 & v2.20.21\\
+\hline
+```{r versionlik, results='asis', eval = T}
+x <- read_csv("../../../AIGKC/output/models/2025/may/version_lik_table.csv")
+
+# print table
+print(xtable(x, align="lcccccc", digits=c(0, 0, 3, 3, 3, 3, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
 
 <!-- likelihood tables -->
 
 \begin{table}[H]  
 \centering
-\caption{Likelihood components for EAG models.}
+\caption{Likelihood components and number of parameters for EAG and WAG models.}
 
-\label{table:eaglik}
-\begin{tabular}{lcccc}
-Component & 23.0a & 23.1 & 23.1b\\
+\label{table:lik}
+\begin{tabular}{lcccccc}
+& \multicolumn{2}{c}{EAG} && \multicolumn{2}{c}{WAG}\\
+Component & 23.1c & 23.1b && 23.1c & 23.1b\\
 \hline
 ```{r eaglik, results='asis', eval = T}
-x <- read_csv("../../../AIGKC/output/models/2024/may/eag_likelihood_table.csv")
+x <- read_csv("../../../AIGKC/output/models/2025/may/lik_table.csv")
 
 # print table
-print(xtable(x[1:10,], align="lcccc", digits=c(0, 0, 3, 3, 3)),
-			     only.contents=TRUE,
-			     include.rownames=FALSE,
-			     floating=FALSE,
-			     include.colnames=FALSE,
-			     hline.after=NULL,
-			     format.args = list(big.mark = ","))
-print(xtable(x[11,], align="lcccc", digits=0),
-			     only.contents=TRUE,
-			     include.rownames=FALSE,
-			     floating=FALSE,
-			     include.colnames=FALSE,
-			     hline.after=NULL,
-			     format.args = list(big.mark = ","))
-print(xtable(x[12:13,], align="lcccc", digits=c(0, 0, 3, 3, 3)),
+print(xtable(x, align="lcccccc", digits=c(0, 0, 3, 3, 3, 3, 3)),
 			     only.contents=TRUE,
 			     include.rownames=FALSE,
 			     floating=FALSE,
@@ -1295,47 +1386,6 @@ print(xtable(x[12:13,], align="lcccc", digits=c(0, 0, 3, 3, 3)),
 
 ```
 \hline
-\multicolumn{4}{l}{*Only models 23.1 and 23.1b have all the same data and likeihood function.} \\
-\end{tabular}
-\end{table}
-
-\begin{table}[H]  
-\centering
-\caption{Likelihood components for WAG models.}
-
-\label{table:waglik}
-\begin{tabular}{lcccc}
-Component & 23.0a & 23.1 & 23.1b\\
-\hline
-```{r waglik, results='asis', eval = T}
-x <- read_csv("../../../AIGKC/output/models/2024/may/wag_likelihood_table.csv")
-
-# print table
-print(xtable(x[1:10,], align="lcccc", digits=c(0, 0, 3, 3, 3)),
-			     only.contents=TRUE,
-			     include.rownames=FALSE,
-			     floating=FALSE,
-			     include.colnames=FALSE,
-			     hline.after=NULL,
-			     format.args = list(big.mark = ","))
-print(xtable(x[11,], align="lcccc", digits=0),
-			     only.contents=TRUE,
-			     include.rownames=FALSE,
-			     floating=FALSE,
-			     include.colnames=FALSE,
-			     hline.after=NULL,
-			     format.args = list(big.mark = ","))
-print(xtable(x[12:13,], align="lcccc", digits=c(0, 0, 3, 3, 3)),
-			     only.contents=TRUE,
-			     include.rownames=FALSE,
-			     floating=FALSE,
-			     include.colnames=FALSE,
-			     hline.after=NULL,
-			     format.args = list(big.mark = ","))
-
-```
-\hline
-\multicolumn{4}{l}{*Only models 23.1 and 23.1b have all the same data and likeihood function.} \\
 \end{tabular}
 \end{table}
 
@@ -1343,45 +1393,21 @@ print(xtable(x[12:13,], align="lcccc", digits=c(0, 0, 3, 3, 3)),
 
 #### {-}
 
-<!-- parameter tables -->
+<!-- parameter table -->
 
 \begin{table}[H]  
 \centering
-\caption{Parameter estimates (standard error) among EAG models, except annual deviations.}
-\label{table:eagpars}
-\begin{tabular}{lcccc}
-Parameter & 23.0a & 23.1 & 23.1b\\
-\hline
-```{r eagpars, results='asis', eval = T}
-x <- read_csv("../../../AIGKC/output/models/2024/may/eag_pars_table.csv")
-
-# print table
-print(xtable(x, align="lcccc", digits=c(2)),
-			     only.contents=TRUE,
-			     include.rownames=FALSE,
-			     floating=FALSE,
-			     include.colnames=FALSE,
-			     hline.after=NULL,
-			     format.args = list(big.mark = ","),
-			     sanitize.text.function = function(x){x})
-
-```
-\hline
-\end{tabular}
-\end{table}
-
-\begin{table}[H]  
-\centering
-\caption{Parameter estimates (standard error) among WAG models, except annual deviations.}
+\caption{Parameter estimates (standard error) among models, except annual deviations and initial numbers at size.}
 \label{table:wagpars}
-\begin{tabular}{lcccc}
-Parameter & 23.0a & 23.1 & 23.1b\\
+\begin{tabular}{lcccccc}
+& \multicolumn{2}{c}{EAG} && \multicolumn{2}{c}{WAG}\\
+Parameter & 23.1c & 25.0b && 23.1c & 25.0b\\
 \hline
-```{r wagpars, results='asis', eval = T}
-x <- read_csv("../../../AIGKC/output/models/2024/may/wag_pars_table.csv")
+```{r pars, results='asis', eval = T}
+x <- read_csv("../../../AIGKC/output/models/2025/may/parameter_est.csv")
 
 # print table
-print(xtable(x, align="lcccc", digits=c(2)),
+print(xtable(x, align="lcccccc", digits=c(0)),
 			     only.contents=TRUE,
 			     include.rownames=FALSE,
 			     floating=FALSE,
@@ -1398,20 +1424,19 @@ print(xtable(x, align="lcccc", digits=c(2)),
 
 #### {-}
 
-<!-- recruitment and mmb -->
+<!-- recruitment -->
 
 \begin{longtable}{lcccccc}
-\caption{Recruitment, MMB estimates, and associated standard errors (in parentheses) for EAG models 23.0a, 23.1, and 23.1b.} \tabularnewline
-\label{table:eagmmb}
-                                                                               
-& \multicolumn{3}{c}{Recruitment (1,000s)} & \multicolumn{3}{c}{MMB (t)}\\ 
+\caption{Recruitment estimates and associated standard errors (in parentheses) for models 23.1c and 25.0b.} \tabularnewline
+\label{table:rec}
+& \multicolumn{2}{c}{EAG} && \multicolumn{2}{c}{WAG}\\                                                                    
 Year & 23.0a & 23.1 & 23.1b & 23.0a & 23.1 & 23.1b\\
 \hline
-```{r eagrecmmb, results='asis', eval = T}
-x <- read_csv("../../../AIGKC/output/models/2024/may/eag_rec_mmb.csv") %>% mutate(year = as.character(year))
+```{r rec, results='asis', eval = T}
+x <- read_csv("../../../AIGKC/output/models/2025/may/recruitment_est.csv") %>% mutate(year = as.character(year))
 
 # print table
-print(xtable(x, align="lccccccc", digits=c(0)),
+print(xtable(x, align="lcccccc", digits=c(0)),
 			     only.contents=TRUE,
 			     include.rownames=FALSE,
 			     floating=FALSE,
@@ -1424,18 +1449,19 @@ print(xtable(x, align="lccccccc", digits=c(0)),
 \hline
 \end{longtable}
 
+<!-- mmb -->
+
 \begin{longtable}{lcccccc}
-\caption{Recruitment, MMB estimates, and associated standard errors (in parentheses) for WAG models 23.0a, 23.1, and 23.1b.} \tabularnewline
-\label{table:wagmmb}
-                                                                               
-& \multicolumn{3}{c}{Recruitment (1,000s)} & \multicolumn{3}{c}{MMB (t)}\\ 
+\caption{MMB estimates and associated standard errors (in parentheses) for models 23.1c and 25.0b.} \tabularnewline
+\label{table:mmb}
+& \multicolumn{2}{c}{EAG} && \multicolumn{2}{c}{WAG}\\                                                                    
 Year & 23.0a & 23.1 & 23.1b & 23.0a & 23.1 & 23.1b\\
 \hline
-```{r wagrecmmb, results='asis', eval = T}
-x <- read_csv("../../../AIGKC/output/models/2024/may/wag_rec_mmb.csv") %>% mutate(year = as.character(year))
+```{r mmb, results='asis', eval = T}
+x <- read_csv("../../../AIGKC/output/models/2025/may/mmb_est.csv") %>% mutate(year = as.character(year))
 
 # print table
-print(xtable(x, align="lccccccc", digits=c(0)),
+print(xtable(x, align="lcccccc", digits=c(0)),
 			     only.contents=TRUE,
 			     include.rownames=FALSE,
 			     floating=FALSE,
@@ -1447,6 +1473,8 @@ print(xtable(x, align="lccccccc", digits=c(0)),
 ```
 \hline
 \end{longtable}
+
+
 
 #### {-}
 
@@ -1454,18 +1482,18 @@ print(xtable(x, align="lccccccc", digits=c(0)),
 
 \begin{table}[H]
 \centering
-\caption{Comparison of biological reference points for EAG models.}
+\caption{Comparison of biological reference points for models 23.1c and 25.0b.}
 
-\label{table:eagref}
-\begin{tabular}{lcccccccc}
+\label{table:ref}
+\begin{tabular}{lccccccccc}
 
-Model & MMB (t) & B$_{35\%}$ (t) & $\frac{MMB}{B_{35\%}}$ & $\bar{\text{R}}_{1987-2017}$ & F$_{35\%}$ & F$_{\text{OFL}}$ & OFL (t)\\
+Subdistrict & Model & MMB (t) & B$_{35\%}$ (t) & $\frac{MMB}{B_{35\%}}$ & $\bar{\text{R}}_{1987-2020}$ & F$_{35\%}$ & F$_{\text{OFL}}$ & OFL (t)\\
 \hline
-```{r eagspecst, results='asis', eval = T}
-x <- read_csv("../../../AIGKC/output/models/2024/may/eag_reference_points_table.csv")
+```{r specst, results='asis', eval = T}
+x <- read_csv("../../../AIGKC/output/models/2025/may/reference_points_table.csv")
 
 # print table
-print(xtable(x[,-6], align="lcccccccc", digits=c(0, 0, 0, 0, 2, 0, 2, 2, 0)),
+print(xtable(x[,-7], align="lccccccccc", digits=c(0, 0,0, 0, 0, 2, 0, 2, 2, 0)),
 			     only.contents=TRUE,
 			     include.rownames=FALSE,
 			     floating=FALSE,
@@ -1475,15 +1503,15 @@ print(xtable(x[,-6], align="lcccccccc", digits=c(0, 0, 0, 0, 2, 0, 2, 2, 0)),
 
 ```
 \hline
-&&&&&&&\\
-Model & MMB (mil lb) & B$_{35\%}$ (mil lb) & $\frac{MMB}{B_{35\%}}$ & $\bar{\text{R}}_{1987-2017}$ & F$_{35\%}$ & F$_{\text{OFL}}$ & OFL (mil lb)\\
+&&&&&&&&\\
+Subdistrict & Model & MMB (mil lb) & B$_{35\%}$ (mil lb) & $\frac{MMB}{B_{35\%}}$ & $\bar{\text{R}}_{1987-2017}$ & F$_{35\%}$ & F$_{\text{OFL}}$ & OFL (mil lb)\\
 \hline
-```{r eagspecsmillb, results='asis', eval = T}
-x <- read_csv("../../../AIGKC/output/models/2024/may/eag_reference_points_table.csv") %>%
+```{r specsmillb, results='asis', eval = T}
+x <- read_csv("../../../AIGKC/output/models/2025/may/reference_points_table.csv") %>%
   mutate(across(c(mmb, b35, ofl_tot), ~. * 2204.62 / 1e6))
 
 # print table
-print(xtable(x[-6], align="lcccccccc", digits=c(0, 2, 2, 2, 2, 0, 2, 2, 2)),
+print(xtable(x[-7], align="lccccccccc", digits=c(0, 0, 2, 2, 2, 2, 0, 2, 2, 2)),
 			     only.contents=TRUE,
 			     include.rownames=FALSE,
 			     floating=FALSE,
@@ -1498,49 +1526,7 @@ print(xtable(x[-6], align="lcccccccc", digits=c(0, 2, 2, 2, 2, 0, 2, 2, 2)),
 
 
 
-\begin{table}[H]
-\centering
-\caption{Comparison of biological reference points for WAG models.}
 
-\label{table:wagref}
-\begin{tabular}{lcccccccc}
-
-Model & MMB (t) & B$_{35\%}$ (t) & $\frac{MMB}{B_{35\%}}$ & $\bar{\text{R}}_{1987-2017}$ & F$_{35\%}$ & F$_{\text{OFL}}$ & OFL (t)\\
-\hline
-```{r wagspecst, results='asis', eval = T}
-x <- read_csv("../../../AIGKC/output/models/2024/may/wag_reference_points_table.csv")
-
-# print table
-print(xtable(x[,-6], align="lcccccccc", digits=c(0, 0, 0, 0, 2, 0, 2, 2, 0)),
-			     only.contents=TRUE,
-			     include.rownames=FALSE,
-			     floating=FALSE,
-			     include.colnames=FALSE,
-			     hline.after=NULL,
-			     format.args = list(big.mark = ","))
-
-```
-\hline
-&&&&&&&\\
-Model & MMB (mil lb) & B$_{35\%}$ (mil lb) & $\frac{MMB}{B_{35\%}}$ & $\bar{\text{R}}_{1987-2017}$ & F$_{35\%}$ & F$_{\text{OFL}}$ & OFL (mil lb)\\
-\hline
-```{r wagspecsmillb, results='asis', eval = T}
-x <- read_csv("../../../AIGKC/output/models/2024/may/wag_reference_points_table.csv") %>%
-  mutate(across(c(mmb, b35, ofl_tot), ~. * 2204.62 / 1e6))
-
-# print table
-print(xtable(x[-6], align="lcccccccc", digits=c(0, 2, 2, 2, 2, 0, 2, 2, 2)),
-			     only.contents=TRUE,
-			     include.rownames=FALSE,
-			     floating=FALSE,
-			     include.colnames=FALSE,
-			     hline.after=NULL,
-			     format.args = list(big.mark = ","))
-
-```
-\hline
-\end{tabular}
-\end{table}
 
 
 # Figures {-}
@@ -1551,36 +1537,35 @@ knitr::include_graphics("../../figures/safe/area_o.png")
 ```
 
 #### {-}
+
 <!-- catch time series -->
-````{r peagcatch, fig.align='center', fig.cap="Time series of retained catch (t), directed fishery discard mortality (t), and the total allowable catch (t; red line) in the EAG.", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/EAG/eag_catch_time_series.png")
+````{r peagcatch, fig.align='center', fig.cap="Time series of retained catch (t), directed fishery discard mortality (t), and the total allowable catch (t; red line) in the EAG.", eval = T, fig.height = 3, fig.width = 5}
+knitr::include_graphics("../../figures/models/2025/may/eag_catch_time_series.png")
 ```
 
-````{r pwagcatch, fig.align='center', fig.cap="Time series of retained catch (t), directed fishery discard mortality (t), and the total allowable catch (t; red line) in the WAG.", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/WAG/wag_catch_time_series.png")
+````{r pwagcatch, fig.align='center', fig.cap="Time series of retained catch (t), directed fishery discard mortality (t), and the total allowable catch (t; red line) in the WAG.", eval = T, fig.height = 3, fig.width = 5}
+knitr::include_graphics("../../figures/models/2025/may/wag_catch_time_series.png")
 ```
 
 #### {-}
 
 <!-- model data type -->
-````{r eagdata, fig.align='center', fig.cap="Data range by fleet for EAG models.", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/EAG/23.0a_data_range.png")
+````{r data, fig.align='center', fig.cap="Data range by fleet for EAG models.", eval = T}
+knitr::include_graphics("../../figures/models/2025/may/data_range.png")
 ```
 
-````{r wagdata, fig.align='center', fig.cap="Data range by fleet for WAG models.", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/WAG/23.0a_data_range.png")
-```
+
 
 #### {-}
 
 <!-- fits to catch -->
 
 ````{r eagcatchfit, fig.align='center', fig.cap="Comparison of model fit to retained catch, total catch, and groundfish bycatch moratlity for the EAG. Error bars on observed values represent 95\\% confidence intervals.", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/EAG/catch_fit.png")
+knitr::include_graphics("../../figures/models/2025/may/eag_catch_fit.png")
 ```
 
 ````{r wagcatchfit, fig.align='center', fig.cap="Comparison of model fit to retained catch, total catch, and groundfish bycatch moratlity for the WAG. Error bars on observed values represent 95\\% confidence intervals.", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/WAG/catch_fit.png")
+knitr::include_graphics("../../figures/models/2025/may/wag_catch_fit.png")
 ```
 
 #### {-}
@@ -1588,163 +1573,68 @@ knitr::include_graphics("../../figures/models/2024/may/WAG/catch_fit.png")
 <!-- fits to index -->
 
 ````{r eagindexfit, fig.align='center', fig.cap="Comparison of model fit to CPUE indices for the EAG. Error bars on observed values respresent 95\\% confidence intervals (black) and estimated additional error (grey).", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/EAG/index_fit.png")
+knitr::include_graphics("../../figures/models/2025/may/eag_index_fit.png")
 ```
 
 ````{r wagindexfit, fig.align='center', fig.cap="Comparison of model fit to CPUE indices for the WAG. Error bars on observed values respresent 95\\% confidence intervals (black) and estimated additional error (grey).", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/WAG/index_fit.png")
+knitr::include_graphics("../../figures/models/2025/may/wag_index_fit.png")
 ```
 
 #### {-}
 
 <!-- fits to size -->
 
-````{r eagretaggcompfit, fig.align='center', fig.cap="Comparison of model fit to aggregated retained catch size composition in the EAG. Estimated effective sample sizes are for model 23.1b. ", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/EAG/aggregated_comp_fit_directed_fishery_male_retained.png")
+````{r eagretcompfit, fig.align='center', fig.cap="Comparison of model fit to retained catch size composition in the EAG.", eval = T}
+knitr::include_graphics("../../figures/models/2025/may/eag_retained_comp_fit.png")
 ```
 
-````{r eagtotaggcompfit, fig.align='center', fig.cap="Comparison of model fit to aggregated total catch size composition in the EAG. Estimated effective sample sizes are for model 23.1b. ", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/EAG/aggregated_comp_fit_directed_fishery_male_all.png")
-```
-
-````{r eagretcompfit, fig.align='center', fig.cap="Comparison of model fit to retained catch size composition in the EAG. Estimated effective sample sizes are for model 23.1b. ", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/EAG/comp_fit_directed_fishery_male_retained.png")
-```
-
-````{r eagtotcompfit, fig.align='center', fig.cap="Comparison of model fit to total catch size composition in the EAG. Estimated effective sample sizes are for model 23.1b. ", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/EAG/comp_fit_directed_fishery_male_all.png")
-```
-
-````{r eagretdot, fig.align='center', fig.cap="Dot plot of retained size composition residuals model EAG 23.1b. ", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/EAG/23.1b_resid_dot_directed_fishery_male_retained.png")
-```
-
-````{r eagalldot, fig.align='center', fig.cap="Dot plot of total size composition residuals model EAG 23.1b. ", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/EAG/23.1b_resid_dot_directed_fishery_male_all.png")
-```
-
-````{r eagretmeansize, fig.align='center', fig.cap="Fit to mean size of retained crab and associated 95\\% CI based on observed (dark grey) and estimated (light grey) effective sample sizes for model EAG 23.1b. ", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/EAG/23.1b_mean_size_directed_fishery_male_retained.png")
-```
-
-````{r eagtotmeansize, fig.align='center', fig.cap="Fit to mean size of total catch crab and associated 95\\% CI based on observed (dark grey) and estimated (light grey) effective sample sizes for model EAG 23.1b. ", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/EAG/23.1b_mean_size_directed_fishery_male_all.png")
+````{r eagtotcompfit, fig.align='center', fig.cap="Comparison of model fit to total catch size composition in the EAG.", eval = T}
+knitr::include_graphics("../../figures/models/2025/may/eag_total_comp_fit.png")
 ```
 
 
-````{r wagretaggcompfit, fig.align='center', fig.cap="Comparison of model fit to aggregated retained catch size composition in the WAG. Estimated effective sample sizes are for model 23.1b. ", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/WAG/aggregated_comp_fit_directed_fishery_male_retained.png")
+
+
+
+````{r wagretcompfit, fig.align='center', fig.cap="Comparison of model fit to retained catch size composition in the WAG.", eval = T}
+knitr::include_graphics("../../figures/models/2025/may/wag_retained_comp_fit.png")
 ```
 
-````{r wagtotaggcompfit, fig.align='center', fig.cap="Comparison of model fit to aggregated total catch size composition in the WAG. Estimated effective sample sizes are for model 23.1b. ", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/WAG/aggregated_comp_fit_directed_fishery_male_all.png")
+````{r wagtotcompfit, fig.align='center', fig.cap="Comparison of model fit to total catch size composition in the WAG.", eval = T}
+knitr::include_graphics("../../figures/models/2025/may/wag_total_comp_fit.png")
 ```
 
-````{r wagretcompfit, fig.align='center', fig.cap="Comparison of model fit to retained catch size composition in the WAG. Estimated effective sample sizes are for model 23.1b. ", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/WAG/comp_fit_directed_fishery_male_retained.png")
-```
-
-````{r wagtotcompfit, fig.align='center', fig.cap="Comparison of model fit to total catch size composition in the WAG. Estimated effective sample sizes are for model 23.1b. ", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/WAG/comp_fit_directed_fishery_male_all.png")
-```
-
-````{r wagretdot, fig.align='center', fig.cap="Dot plot of retained size composition residuals model WAG 23.1b. ", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/WAG/23.1b_resid_dot_directed_fishery_male_retained.png")
-```
-
-````{r wagalldot, fig.align='center', fig.cap="Dot plot of total size composition residuals model WAG 23.1b. ", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/WAG/23.1b_resid_dot_directed_fishery_male_all.png")
-```
-
-````{r wagretmeansize, fig.align='center', fig.cap="Fit to mean size of retained crab and associated 95\\% CI based on observed (dark grey) and estimated (light grey) effective sample sizes for model WAG 23.1b. ", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/WAG/23.1b_mean_size_directed_fishery_male_retained.png")
-```
-
-````{r wagtotmeansize, fig.align='center', fig.cap="Fit to mean size of total catch crab and associated 95\\% CI based on observed (dark grey) and estimated (light grey) effective sample sizes for model WAG 23.1b. ", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/WAG/23.1b_mean_size_directed_fishery_male_all.png")
-```
 
 #### {-}
 
 <!-- selectivity -->
 
-```{r eagselex, fig.align='center', fig.cap="Comparison of estimated selectivity for the directed fishery in the EAG. Model 23.0a is the base model with updated data, 23.1 truncates the size composition, 23.0a uses alternative size composition weights, and 23.1b uses an additional selectivity period.", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/EAG/directed_fishery_slx_capture.png")
-```
-
-```{r wagselex, fig.align='center', fig.cap="Comparison of estimated selectivity for the directed fishery in the WAG. Model 23.0a is the base model with updated data, 23.1 truncates the size composition, 23.0a uses alternative size composition weights, and 23.1b uses an additional selectivity period.", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/WAG/directed_fishery_slx_capture.png")
-```
-
-```{r eagreten, fig.align='center', fig.cap="Comparison of estimated retention probability for the directed fishery in the EAG.", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/EAG/directed_fishery_slx_retention.png")
-
-```
-
-```{r wagreten, fig.align='center', fig.cap="Comparison of estimated retention probability for the directed fishery in the WAG.", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/WAG/directed_fishery_slx_retention.png")
-```
-
-#### {-}
-<!-- molt probability -->
-
-````{r eagmoltprob, fig.align='center', fig.cap="Comparison of model estimated molt probability in the EAG.", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/EAG/molt_probability.png")
-```
-
-````{r wagmoltprob, fig.align='center', fig.cap="Comparison of model estimated molt probability in the WAG.", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/WAG/molt_probability.png")
+```{r selex, fig.align='center', fig.cap="Comparison of estimated selectivity for the directed fishery during pre- and post-rationalized eras for models 23.1c and 25.0b.", eval = T}
+knitr::include_graphics("../../figures/models/2025/may/selectivity.png")
 ```
 
 #### {-}
 <!-- recruitment -->
 
-````{r eagrec, fig.align='center', fig.cap="Comparison of model estimated recruitment in the EAG.", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/EAG/recruitment.png")
-```
-
-````{r eagrecdist, fig.align='center', fig.cap="Comparison of model estimated recruitment size distribution in the EAG.", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/EAG/recruitment_distribution.png")
-```
-
-````{r wagrec, fig.align='center', fig.cap="Comparison of model estimated recruitment in the WAG.", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/WAG/recruitment.png")
-```
-
-````{r wagrecdist, fig.align='center', fig.cap="Comparison of model estimated recruitment size distribution in the WAG.", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/WAG/recruitment_distribution.png")
+```{r rec, fig.align='center', fig.cap="Comparison of model estimated recruitment and associated 95\\% CI for models 23.1c (green / light grey) and 25.0b (blue / dark grey).", eval = T}
+knitr::include_graphics("../../figures/models/2025/may/recruitment.png")
 ```
 
 #### {-}
 <!-- mmb -->
 
-````{r eagmmb, fig.align='center', fig.cap="Comparison of model estimated MMB in the EAG. Model 23.0a is the base model with updated data, 23.1 truncates the size composition, 23.0a uses alternative size composition weights, and 23.1b uses an additional selectivity period.", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/EAG/mmb_trajectory.png")
+````{r mmb, fig.align='center', fig.cap="Comparison of model estimated MMB and associated 95\\% CI for models 23.1c (green / light grey) and 25.0b (blue / dark grey). Points indicate projected MMB for Feb 15, 2026.", eval = T}
+knitr::include_graphics("../../figures/models/2025/may/mature_male_biomass.png")
 ```
 
-````{r wagmmb, fig.align='center', fig.cap="Comparison of model estimated MMB in the WAG. Model 23.0a is the base model with updated data, 23.1 truncates the size composition, 23.0a uses alternative size composition weights, and 23.1b uses an additional selectivity period.", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/WAG/mmb_trajectory.png")
-```
 
 #### {-}
+
 <!-- fishing mortality -->
 
-````{r eagfdir, fig.align='center', fig.cap="Comparison of model estimated fully selected fishing mortality for the directed fishery in the EAG", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/EAG/directed_fishery_f.png")
+````{r fmort, fig.align='center', fig.cap="Comparison of model estimated fully selected fishing mortality for models 23.1c and 25.0b by fleet.", eval = T}
+knitr::include_graphics("../../figures/models/2025/may/fishing_mortality.png")
 ```
-
-````{r eagfgf, fig.align='center', fig.cap="Comparison of model estimated fully selected fishing mortality for groundfish bycatch fisheries in the EAG", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/EAG/gf_bycatch_f.png")
-```
-
-````{r wagfdir, fig.align='center', fig.cap="Comparison of model estimated fully selected fishing mortality for the directed fishery in the WAG", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/WAG/directed_fishery_f.png")
-```
-
-````{r wagfgf, fig.align='center', fig.cap="Comparison of model estimated fully selected fishing mortality for groundfish bycatch fisheries in the WAG", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/WAG/gf_bycatch_f.png")
-```
-
 
 #### {-}
 <!-- kobe plots -->

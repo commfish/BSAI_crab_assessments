@@ -1,0 +1,111 @@
+---
+title: "Annual Assessment README"
+author: "Tyler Jackson"
+date: "2025-03-06"
+output: html_document
+
+
+---
+
+### Purpose
+
+This document details the basic routine for completing the annual stock assessment for the Aleutian Islands golden king crab fishery.
+
+### Timeline
+
+The final assessment is due at the time of the May Crab Plan Team Meeting. Data from the most recent fishery are typically available in mid to late March or early April. The Plan Team reviews draft models for the next assessment at the following September meeting. This used to take place in January, but was moved to September in 2024.
+
+### GitHub Repositories
+
+Data preparation will use commfish/adfg_crab_observer and the assessment framework will use commfish/BSAI_crab_assessments.
+
+#### adfg_crab_observer
+
+This repository contains at-sea observer and fish ticket data summaries for all stocks. It is structured by stock and then has the following hierarchy:
+
+- **code**: R code for summarizing data
+- **data**: Raw data files
+- **output**: Output data summaries
+
+Data shared by all stocks (e.g.s fish ticket data) are stored within a subdirectory called 'misc' with the same hierarchy.
+
+#### BSAI_crab_assessments
+
+This repository houses data and R code for stock assessment related analyses. Within the AIGKC subdirectory, the hierarchy includes:
+
+- **code**: R code for summarizing and analyzing data by type.
+- **data**: Raw data or data summaries from adfg_crab_observer organized by type.
+- **models**: Stock assessment models, organized by year, meeting (jan/may/sept/subdistrict).
+- **figures**: Figures organized by analysis type, year.
+- **output**: Output data summaries organized by type and/or year.
+- **safe**: Assessment documents organized by year, meeting.
+
+### Data Access
+
+'Raw' data should be stored within the data hierarchy of the adfg_crab_observer repository.
+
+#### Fish Ticket Data
+
+Fish ticket data is downloaded from OceanAK. It is called **AIGKC FT Dump 1981 - Present.csv**. The ending date must be changed to the end of the current crab year. [Link to query](https://oceanak.adfg.alaska.gov/analytics/saw.dll?PortalGo&Action=prompt&path=%2Fshared%2FCommercial%20Fisheries%2FRegion%20IV%2FUser%20reports%2Fbiometrics%2FAIGKC%20FT%20Dump%201981%20-%20Present).
+
+#### CFEC Permits Data
+
+Permits data are downloaded from the CFEC. From the drop down list select "Permits" and the year. You must have downloaded all years going back to 1981. [Link to data report](https://www.cfec.state.ak.us/plook/#downloads).
+
+#### Observer and Dockside Sampling Data
+
+Observer and dockside sampling data area downloaded in a single step from the Kodiak wiki. Three .csv files are generated that summarize all years from 1990 - present for all fisheries that have caught Aleutian Islands golden king crab. 
+
+- **AIGKC-1990-2024_potsum.csv**: A summary of all observer count pots.
+- **AIGKC-1990-2024_crab_dump.csv**: A summary of all observer measure pots.
+- **AIGKC-1990-2024_retained_size_freq.csv**: A summary of all dockside retained catch size frequency samples.
+
+[Link to observer and dockside data dump](http://kodweb.fishgame.state.ak.us/index/Data_Access:Crab_Observer:Observer_Data_Dumps:)
+
+
+
+
+
+
+
+
+### Data Preparation
+#### Observer and Fish Ticket Data
+
+To summarise observer and fish ticket data for use in stock assessment, or other analyses and reporting, run [**aigkc_BSAIcrabR.R**](https://github.com/commfish/adfg_crab_observer/blob/master/aigkc/code/aigkc_BSAIcrabR.R). Pay attention to input file paths. This R script uses the package [BSAIcrabR](https://commfish.github.io/BSAIcrabR/) and requires little update annually and creates the following outputs:
+
+- **linked_fish_ticket_dump.csv**: Cleaned fish ticket data.
+- **linked_potsum_dump.csv**: Cleaned count pot data dump with permit holder from fish ticket data.
+- **linked_meas_dump.csv**: Cleaned measure pot data dump with permit holder from fish ticket data. 
+- **cleaned_dockside.csv**: Cleaned dockside data dump.
+- **retained_catch.csv**: Time series of retained catch.
+- **total_catch.csv**: Time series of total catch.
+- **nonzero_obs_pots.csv**: Number of positive catch observer pots used for CV estimate on total catch.
+- **retained_catch_comp.csv**: Retained catch size composition by year.
+- **directed_observer_size_comp.csv**: Total catch size composition data in the directed fishery by year.
+- **vessel_days.csv**: Number of fishing days by year, used for retained size composition input sample size.
+- **observed_vessel_days.csv**: Number of observer days by year, used for total size composition input sample size.
+- **deliveries_sampled.csv**: Number of deliveries sampled for size frequency by year.
+- **season_dates.csv**: Fishing start and end dates.
+
+The files are copied to the AIGKC/data/observer directory within BSAI_crab_assessments.
+
+
+
+
+
+#### Size Composition Bootstrapping
+
+September 2024 draft models introduced bootstrap estimated input sample sizes for size composition data ([Jackson 2024](chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://meetings.npfmc.org/CommentReview/DownloadFile?p=63298579-d429-43ed-9ddf-bf73cddad119.pdf&fileName=AIGKC_sept2024.pdf)). Bootstrap resampling of size composition data is very computationally intensive and not practical to repeat on an annual basis. RDS files for bootstrap samples from 1990 - 2023 are stored [here](V:\Biometrics\crabs\aigkc assessment\length_comp_boot).  
+
+To run the bootstrap resampling procedure for new data, refer to [length_comp_bootstrap.R](https://github.com/commfish/BSAI_crab_assessments/blob/master/AIGKC/code/observer/length_comp_bootstrap.R).
+
+#### Observer CPUE Standardization
+
+Standardized fishery CPUE is used as the primary index of abundance for the stock assessment. Currently, the accepted standardization model is a Tweedie GAM that uses the year effect as index method. To run the standardization procedure, refer to [obs_std_gam.R](https://github.com/commfish/BSAI_crab_assessments/blob/master/AIGKC/code/cpue_std/observer/obs_std_gam.R) for the latest analysis. Running this will require having linked/cleaned count pot data as described above.
+
+#### Fish Ticket CPUE Standarization 
+
+Standardized fish ticket CPUE is used as an index of abundance preceding the observer program. This analysis uses the linked/cleaned fish ticket data described above within [obs_std_gam.R](https://github.com/commfish/BSAI_crab_assessments/blob/master/AIGKC/code/cpue_std/fish_ticket/ft_cpue_std.R). This analysis does not need to be updated on an annual basis, unless there is recommendation to evaluate new methodology.
+
+#### GMACS .dat file
