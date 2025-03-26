@@ -1,17 +1,16 @@
 # 2025 AIGKC final assessment
 ## tyler jackson
 ## tyler.jackson@alaska.gov
-## 3/14/2025
+## 3/25/2025
 
 # load ----
 
 library(gmacsr)
-library(patchwork)
 
 # run initial models ----
 
 # gmacs_do_exe(gmacs.dat = "./AIGKC/models/2025/may/WAG/23.1c/gmacs.dat", pin = F, reweight = F)
-gmacs_do_exe(gmacs.dat = "./AIGKC/models/2025/may/WAG/25.0b/gmacs.dat", pin = F, reweight = T, level = 0.001)
+# gmacs_do_exe(gmacs.dat = "./AIGKC/models/2025/may/WAG/25.0b/gmacs.dat", pin = F, reweight = T, level = 0.001)
 
 # jittering ----
 
@@ -302,6 +301,16 @@ gmacs_plot_size_comp(list(wag23.1c, wag25.0b), save_plot = F, add_n = F, add_n_e
 ggsave("AIGKC/figures/models/2025/may/wag_total_comp_fit.png", plot = x, width = 6, height = 6, units = "in")
 
 # wag osa residuals
+wrap_plots(gmacs_plot_osa_residuals(list(wag23.1c), size_lab = "Carapace Length (mm)", save_plot = F)[[1]],
+           gmacs_plot_osa_residuals(list(wag23.1c), size_lab = "Carapace Length (mm)", save_plot = F)[[2]], 
+           ncol = 1)+
+  plot_annotation(tag_levels = "a") -> x
+ggsave("AIGKC/figures/models/2025/may/wag_osa_residuals_23_1c.png", plot = x, width = 10, height = 7, units = "in")
+wrap_plots(gmacs_plot_osa_residuals(list(wag25.0b), size_lab = "Carapace Length (mm)", save_plot = F)[[1]],
+           gmacs_plot_osa_residuals(list(wag25.0b), size_lab = "Carapace Length (mm)", save_plot = F)[[2]], 
+           ncol = 1)+
+  plot_annotation(tag_levels = "a") -> x
+ggsave("AIGKC/figures/models/2025/may/wag_osa_residuals_25_0b.png", plot = x, width = 10, height = 7, units = "in")
 
 # eag
 gmacs_plot_size_comp(list(eag23.1c, eag25.0b), save_plot = F, add_n = F, add_n_est = F)[[1]]+
@@ -311,6 +320,19 @@ gmacs_plot_size_comp(list(eag23.1c, eag25.0b), save_plot = F, add_n = F, add_n_e
   labs(x = "Carapace Width (mm)", title = "EAG Total") -> x
 ggsave("AIGKC/figures/models/2025/may/eag_total_comp_fit.png", plot = x, width = 6, height = 6, units = "in")
 
+# eag osa residuals
+## 23.1c
+wrap_plots(gmacs_plot_osa_residuals(list(eag23.1c), size_lab = "Carapace Length (mm)", save_plot = F)[[1]],
+           gmacs_plot_osa_residuals(list(eag23.1c), size_lab = "Carapace Length (mm)", save_plot = F)[[2]], 
+           ncol = 1)+
+  plot_annotation(tag_levels = "a") -> x
+ggsave("AIGKC/figures/models/2025/may/eag_osa_residuals_23_1c.png", plot = x, width = 10, height = 7, units = "in")
+## 25.0b
+wrap_plots(gmacs_plot_osa_residuals(list(eag25.0b), size_lab = "Carapace Length (mm)", save_plot = F)[[1]],
+           gmacs_plot_osa_residuals(list(eag25.0b), size_lab = "Carapace Length (mm)", save_plot = F)[[2]], 
+           ncol = 1)+
+  plot_annotation(tag_levels = "a") -> x
+ggsave("AIGKC/figures/models/2025/may/eag_osa_residuals_25_0b.png", plot = x, width = 10, height = 7, units = "in")
 
 
 
@@ -460,5 +482,25 @@ ggsave("AIGKC/figures/models/2025/may/kobe_25.0b.png", plot = ekobe + wkobe, wid
 
 # retrospective analysis ----
 
-gmacs_do_retrospective("./AIGKC/models/2025/may/WAG/23.1c/gmacs.dat", n_peel = 10)
-gmacs_do_retrospective("./AIGKC/models/2025/may/WAG/25.0b/gmacs.dat", n_peel = 10)
+# run analysis
+#gmacs_do_retrospective("./AIGKC/models/2025/may/WAG/23.1c/gmacs.dat", n_peel = 10)
+#gmacs_do_retrospective("./AIGKC/models/2025/may/WAG/25.0b/gmacs.dat", n_peel = 10)
+
+# make plots
+gmacs_do_retrospective("./AIGKC/models/2025/may/WAG/23.1c/gmacs.dat", n_peel = 10, plot_only = T, save_plot = F)[[2]]+
+  labs(title = "WAG 23.1c")+theme(plot.title = element_text(hjust = 0.5)) -> retro_w23.1c
+gmacs_do_retrospective("./AIGKC/models/2025/may/WAG/25.0b/gmacs.dat", n_peel = 10, plot_only = T, save_plot = F)[[2]]+
+  labs(title = "WAG 25.0b")+theme(plot.title = element_text(hjust = 0.5)) -> retro_w25.0b
+
+wrap_plots(retro_w23.1c, retro_w25.0b,
+           retro_w23.1c, retro_w25.0b)+
+  plot_layout(guides = 'collect') -> x
+ggsave("AIGKC/figures/models/2025/may/retrospectives.png", plot = x, width = 12, height = 8, units = "in")
+
+
+
+
+
+
+
+

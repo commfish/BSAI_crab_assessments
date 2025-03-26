@@ -1430,7 +1430,7 @@ print(xtable(x, align="lcccccc", digits=c(0)),
 \caption{Recruitment estimates and associated standard errors (in parentheses) for models 23.1c and 25.0b.} \tabularnewline
 \label{table:rec}
 & \multicolumn{2}{c}{EAG} && \multicolumn{2}{c}{WAG}\\                                                                    
-Year & 23.0a & 23.1 & 23.1b & 23.0a & 23.1 & 23.1b\\
+Year & 23.1c & 25.0b && 23.1c & 25.0b\\
 \hline
 ```{r rec, results='asis', eval = T}
 x <- read_csv("../../../AIGKC/output/models/2025/may/recruitment_est.csv") %>% mutate(year = as.character(year))
@@ -1455,7 +1455,7 @@ print(xtable(x, align="lcccccc", digits=c(0)),
 \caption{MMB estimates and associated standard errors (in parentheses) for models 23.1c and 25.0b.} \tabularnewline
 \label{table:mmb}
 & \multicolumn{2}{c}{EAG} && \multicolumn{2}{c}{WAG}\\                                                                    
-Year & 23.0a & 23.1 & 23.1b & 23.0a & 23.1 & 23.1b\\
+Year & 23.1c & 25.0b && 23.1c & 25.0bb\\
 \hline
 ```{r mmb, results='asis', eval = T}
 x <- read_csv("../../../AIGKC/output/models/2025/may/mmb_est.csv") %>% mutate(year = as.character(year))
@@ -1532,25 +1532,25 @@ print(xtable(x[-7], align="lccccccccc", digits=c(0, 0, 2, 2, 2, 2, 0, 2, 2, 2)),
 # Figures {-}
 #### {-}
 <!-- mgmt are maps -->
-````{r areao, fig.align='center', fig.cap="Map of the Aleutian Islands Registration Area (O), divided in to WAG and EAG subdistricts at 174$^\\circ$ west longitude.", eval = T, fig.height = 4, fig.width = 6}
+```{r areao, fig.align='center', fig.cap="Map of the Aleutian Islands Registration Area (O), divided in to WAG and EAG subdistricts at 174$^\\circ$ west longitude.", eval = T, fig.height = 4, fig.width = 6}
 knitr::include_graphics("../../figures/safe/area_o.png")
 ```
 
 #### {-}
 
 <!-- catch time series -->
-````{r peagcatch, fig.align='center', fig.cap="Time series of retained catch (t), directed fishery discard mortality (t), and the total allowable catch (t; red line) in the EAG.", eval = T, fig.height = 3, fig.width = 5}
+```{r peagcatch, fig.align='center', fig.cap="Time series of retained catch (t), directed fishery discard mortality (t), and the total allowable catch (t; red line) in the EAG.", eval = T, fig.height = 3, fig.width = 5}
 knitr::include_graphics("../../figures/models/2025/may/eag_catch_time_series.png")
 ```
 
-````{r pwagcatch, fig.align='center', fig.cap="Time series of retained catch (t), directed fishery discard mortality (t), and the total allowable catch (t; red line) in the WAG.", eval = T, fig.height = 3, fig.width = 5}
+```{r pwagcatch, fig.align='center', fig.cap="Time series of retained catch (t), directed fishery discard mortality (t), and the total allowable catch (t; red line) in the WAG.", eval = T, fig.height = 3, fig.width = 5}
 knitr::include_graphics("../../figures/models/2025/may/wag_catch_time_series.png")
 ```
 
 #### {-}
 
 <!-- model data type -->
-````{r data, fig.align='center', fig.cap="Data range by fleet for EAG models.", eval = T}
+```{r data, fig.align='center', fig.cap="Data range by fleet for EAG models.", eval = T}
 knitr::include_graphics("../../figures/models/2025/may/data_range.png")
 ```
 
@@ -1560,11 +1560,11 @@ knitr::include_graphics("../../figures/models/2025/may/data_range.png")
 
 <!-- fits to catch -->
 
-````{r eagcatchfit, fig.align='center', fig.cap="Comparison of model fit to retained catch, total catch, and groundfish bycatch moratlity for the EAG. Error bars on observed values represent 95\\% confidence intervals.", eval = T}
+```{r eagcatchfit, fig.align='center', fig.cap="Comparison of model fit to retained catch, total catch, and groundfish bycatch moratlity for the EAG. Error bars on observed values represent 95\\% confidence intervals.", eval = T}
 knitr::include_graphics("../../figures/models/2025/may/eag_catch_fit.png")
 ```
 
-````{r wagcatchfit, fig.align='center', fig.cap="Comparison of model fit to retained catch, total catch, and groundfish bycatch moratlity for the WAG. Error bars on observed values represent 95\\% confidence intervals.", eval = T}
+```{r wagcatchfit, fig.align='center', fig.cap="Comparison of model fit to retained catch, total catch, and groundfish bycatch moratlity for the WAG. Error bars on observed values represent 95\\% confidence intervals.", eval = T}
 knitr::include_graphics("../../figures/models/2025/may/wag_catch_fit.png")
 ```
 
@@ -1572,11 +1572,11 @@ knitr::include_graphics("../../figures/models/2025/may/wag_catch_fit.png")
 
 <!-- fits to index -->
 
-````{r eagindexfit, fig.align='center', fig.cap="Comparison of model fit to CPUE indices for the EAG. Error bars on observed values respresent 95\\% confidence intervals (black) and estimated additional error (grey).", eval = T}
+```{r eagindexfit, fig.align='center', fig.cap="Comparison of model fit to CPUE indices for the EAG. Error bars on observed values respresent 95\\% confidence intervals (black) and estimated additional error (grey).", eval = T}
 knitr::include_graphics("../../figures/models/2025/may/eag_index_fit.png")
 ```
 
-````{r wagindexfit, fig.align='center', fig.cap="Comparison of model fit to CPUE indices for the WAG. Error bars on observed values respresent 95\\% confidence intervals (black) and estimated additional error (grey).", eval = T}
+```{r wagindexfit, fig.align='center', fig.cap="Comparison of model fit to CPUE indices for the WAG. Error bars on observed values respresent 95\\% confidence intervals (black) and estimated additional error (grey).", eval = T}
 knitr::include_graphics("../../figures/models/2025/may/wag_index_fit.png")
 ```
 
@@ -1584,26 +1584,38 @@ knitr::include_graphics("../../figures/models/2025/may/wag_index_fit.png")
 
 <!-- fits to size -->
 
-````{r eagretcompfit, fig.align='center', fig.cap="Comparison of model fit to retained catch size composition in the EAG.", eval = T}
+```{r eagretcompfit, fig.align='center', fig.cap="Comparison of model fit to retained catch size composition in the EAG.", eval = T}
 knitr::include_graphics("../../figures/models/2025/may/eag_retained_comp_fit.png")
 ```
 
-````{r eagtotcompfit, fig.align='center', fig.cap="Comparison of model fit to total catch size composition in the EAG.", eval = T}
+```{r eagtotcompfit, fig.align='center', fig.cap="Comparison of model fit to total catch size composition in the EAG.", eval = T}
 knitr::include_graphics("../../figures/models/2025/may/eag_total_comp_fit.png")
 ```
 
+```{r eag231cosa, fig.align='center', fig.cap="QQ plots and bubble plots for one-step-ahead residuals for fits to retained (a, b) and total (c, d) size composition data in model EAG 23.1c.", eval = T, fig.width = 7}
+knitr::include_graphics("../../figures/models/2025/may/eag_osa_residuals_23_1c.png")
+```
+
+```{r eag250bcosa, fig.align='center', fig.cap="QQ plots and bubble plots for one-step-ahead residuals for fits to retained (a, b) and total (c, d) size composition data in model EAG 25.0b.", eval = T, fig.width = 7}
+knitr::include_graphics("../../figures/models/2025/may/eag_osa_residuals_25_0b.png")
+```
 
 
-
-
-````{r wagretcompfit, fig.align='center', fig.cap="Comparison of model fit to retained catch size composition in the WAG.", eval = T}
+```{r wagretcompfit, fig.align='center', fig.cap="Comparison of model fit to retained catch size composition in the WAG.", eval = T}
 knitr::include_graphics("../../figures/models/2025/may/wag_retained_comp_fit.png")
 ```
 
-````{r wagtotcompfit, fig.align='center', fig.cap="Comparison of model fit to total catch size composition in the WAG.", eval = T}
+```{r wagtotcompfit, fig.align='center', fig.cap="Comparison of model fit to total catch size composition in the WAG.", eval = T}
 knitr::include_graphics("../../figures/models/2025/may/wag_total_comp_fit.png")
 ```
 
+```{r wag231cosa, fig.align='center', fig.cap="QQ plots and bubble plots for one-step-ahead residuals for fits to retained (a, b) and total (c, d) size composition data in model WAG 23.1c.", eval = T, fig.width = 7}
+knitr::include_graphics("../../figures/models/2025/may/wag_osa_residuals_23_1c.png")
+```
+
+```{r wag250bcosa, fig.align='center', fig.cap="QQ plots and bubble plots for one-step-ahead residuals for fits to retained (a, b) and total (c, d) size composition data in model WAG 25.0b.", eval = T, fig.width = 7}
+knitr::include_graphics("../../figures/models/2025/may/wag_osa_residuals_25_0b.png")
+```
 
 #### {-}
 
@@ -1623,7 +1635,7 @@ knitr::include_graphics("../../figures/models/2025/may/recruitment.png")
 #### {-}
 <!-- mmb -->
 
-````{r mmb, fig.align='center', fig.cap="Comparison of model estimated MMB and associated 95\\% CI for models 23.1c (green / light grey) and 25.0b (blue / dark grey). Points indicate projected MMB for Feb 15, 2026.", eval = T}
+```{r mmb, fig.align='center', fig.cap="Comparison of model estimated MMB and associated 95\\% CI for models 23.1c (green / light grey) and 25.0b (blue / dark grey). Points indicate projected MMB for Feb 15, 2026.", eval = T}
 knitr::include_graphics("../../figures/models/2025/may/mature_male_biomass.png")
 ```
 
@@ -1632,42 +1644,34 @@ knitr::include_graphics("../../figures/models/2025/may/mature_male_biomass.png")
 
 <!-- fishing mortality -->
 
-````{r fmort, fig.align='center', fig.cap="Comparison of model estimated fully selected fishing mortality for models 23.1c and 25.0b by fleet.", eval = T}
+```{r fmort, fig.align='center', fig.cap="Comparison of model estimated fully selected fishing mortality for models 23.1c and 25.0b by fleet.", eval = T}
 knitr::include_graphics("../../figures/models/2025/may/fishing_mortality.png")
 ```
 
 #### {-}
 <!-- kobe plots -->
 
-````{r eagkobe, fig.align='center', fig.cap="Kobe plot for model EAG 23.1b. Bolded line indicates the tier 3 $F_{\\text{OFL}}$ control rule.", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/EAG/23.1b_kobe.png")
-```
-
-````{r wagkobe, fig.align='center', fig.cap="Kobe plot for model WAG 23.1b. Bolded line indicates the tier 3 $F_{\\text{OFL}}$ control rule.", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/WAG/23.1b_kobe.png")
+```{r kobe, fig.align='center', fig.cap="Kobe plots for models 25.0b. Bolded line indicates the tier 3 $F_{\\text{OFL}}$ control rule.", eval = T}
+knitr::include_graphics("../../figures/models/2025/may/kobe_25.0b.png")
 ```
 
 #### {-}
 
 <!-- retrospective  -->
 
-````{r eagretro, fig.align='center', fig.cap="Estimated MMB and associtated Mohn's $\\rho$ from retrospective analysis of EAG models 23.0a, 23.1, and 23.1b. ", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/EAG/eag_retro.png")
-```
-
-````{r wagretro, fig.align='center', fig.cap="Estimated MMB and associtated Mohn's $\\rho$ from retrospective analysis of WAG models 23.0a, 23.1, and 23.1b. ", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/WAG/wag_retro.png")
+```{r retro, fig.align='center', fig.cap="Estimated MMB and associtated Mohn's $\\rho$ from retrospective analyses of models 23.1c and 25.0b. ", eval = T}
+knitr::include_graphics("../../figures/models/2025/may/retrospectives.png")
 ```
 
 #### {-}
 
 <!-- jittering  -->
 
-````{r eagjitter, fig.align='center', fig.cap="Distrubition of total NLL, mature male biomass, and B$_{35\\%}$ for 100 jitter runs of model EAG 23.1b. ", eval = T}
+```{r eagjitter, fig.align='center', fig.cap="Distrubition of total NLL, mature male biomass, and B$_{35\\%}$ for 100 jitter runs of model EAG 23.1b. ", eval = T}
 knitr::include_graphics("../../figures/models/2024/may/EAG/eag_23_1b_jitter.png")
 ```
 
-````{r wagjitter, fig.align='center', fig.cap="Distrubition of total NLL, mature male biomass, and B$_{35\\%}$ for 100 jitter runs of model WAG 23.1b. ", eval = T}
+```{r wagjitter, fig.align='center', fig.cap="Distrubition of total NLL, mature male biomass, and B$_{35\\%}$ for 100 jitter runs of model WAG 23.1b. ", eval = T}
 knitr::include_graphics("../../figures/models/2024/may/WAG/wag_23_1b_jitter.png")
 ```
 
@@ -1675,11 +1679,11 @@ knitr::include_graphics("../../figures/models/2024/may/WAG/wag_23_1b_jitter.png"
 
 <!-- distribution of ofl  -->
 
-````{r ofldist, fig.align='center', fig.cap="Distrubition of OFL (1000 t) based on MCMC for model 23.1b.", eval = T}
+```{r ofldist, fig.align='center', fig.cap="Distrubition of OFL (1000 t) based on MCMC for model 23.1b.", eval = T}
 knitr::include_graphics("../../figures/models/2024/may/ofl_distribution.png")
 ```
 
-````{r statusecdf, fig.align='center', fig.cap="Cumulative density function of model 23.1b MMB projected to Feb 15, 2025 relative to B$_[35\\%]$ from MCMC draws.", eval = T}
+```{r statusecdf, fig.align='center', fig.cap="Cumulative density function of model 23.1b MMB projected to Feb 15, 2025 relative to B$_[35\\%]$ from MCMC draws.", eval = T}
 knitr::include_graphics("../../figures/models/2024/may/status_ecdf.png")
 ```
 

@@ -1,0 +1,148 @@
+---
+title: "Appendix A: Update to Fishery Data"
+author: |
+  | Tyler Jackson
+  | Alaska Department of Fish and Game, tyler.jackson@alaska.gov
+date: "`r format(Sys.time(), '%B %Y')`"
+output:
+  bookdown::pdf_document2:
+    toc: no
+header-includes:
+   - \usepackage{float}
+   - \usepackage{hanging}
+   - \usepackage{enumerate}
+   - \usepackage{longtable}
+---
+  
+```{r, echo = F, message = F, warning = F}
+library(gmacsr)
+library(patchwork)
+library(xtable)
+
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, fig.pos='H',
+                      out.height = "\\textheight", out.width = "\\textwidth")
+
+# load all out files
+eag_may <- gmacs_read_allout("../../../AIGKC/models/2025/may/EAG/23.1c/Gmacsall.out", model_name = "eag_may", version = "2.20.21")
+eag_sept <- gmacs_read_allout("../../../AIGKC/models/2025/sept/EAG/23.1c/Gmacsall.out", model_name = "eag_sept", version = "2.20.21")
+wag_may <- gmacs_read_allout("../../../AIGKC/models/2025/may/WAG/23.1c/Gmacsall.out", model_name = "wag_may", version = "2.20.21")
+wag_sept <- gmacs_read_allout("../../../AIGKC/models/2025/sept/WAG/23.1c/Gmacsall.out", model_name = "wag_sept", version = "2.20.21")
+
+# get total catch time series
+gmacs_get_catch_summary(list(eag_may, eag_sept, wag_may, wag_sept)) %>%
+  filter(series == 2, year != 2024) %>%
+  transmute(model, year, obs_catch) %>%
+  pivot_wider(names_from = model, values_from = obs_catch) %>%
+  transmute(year, eag_sept, eag_may, wag_sept, wag_may) -> totcatch_tab
+
+# get total catch plot
+gmacs_get_catch_summary(list(eag_may, eag_sept, wag_may, wag_sept)) %>%
+  filter(series == 2, year != 2024) %>%
+  separate(model, sep = "_", into = c("subdistrict", "data")) %>%
+  mutate(subdistrict = toupper(subdistrict),
+         data = ifelse(data == "sept", "Status Quo", "Update")) %>%
+  ggplot()+
+  geom_line(aes(x = factor(year), y = obs_catch, color = data, group = data))+
+  facet_wrap(~subdistrict, ncol = 1)+
+  scale_color_manual(values = cbpalette[c(1, 4)])+
+  scale_y_continuous(labels = scales::comma)+
+  scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels)+
+  labs(x = NULL, y = "Total Catch (t)", color = NULL) -> tot_plot
+
+# plot of total size composition
+gmacs_get_size_summary(list(eag_may, eag_sept)) %>%
+  filter(mod_series == 2, year != 2024) %>%
+  separate(model, sep = "_", into = c("subdistrict", "data")) %>%
+  mutate(subdistrict = toupper(subdistrict),
+         data = ifelse(data == "sept", "Status Quo", "Update")) %>%
+  ggplot()+
+  geom_area(aes(x = size, y = obs, fill = data), position = "identity", color = NA, alpha = 0.5)+
+          scale_y_continuous(expand = expand_scale(mult = c(0, 0.1), add = c(0, 0)))+
+          labs(x = "Carapace Length (mm)", y = NULL, color = NULL, fill = NULL, title = "EAG")+
+          geom_text_npc(aes(npcx = "left", npcy = 0.6, label = year), check_overlap = T, size = 3)+
+          facet_wrap(~year, ncol = 3, dir = "v")+
+           scale_fill_manual(values = cbpalette[c(1, 4)])+
+          theme(panel.spacing.x = unit(0.2, "lines"),
+                panel.spacing.y = unit(0, "lines"),
+                panel.border = element_blank(),
+                axis.line.x = element_line(color = "grey70", size = 0.2),
+                axis.ticks.y = element_blank(),
+                axis.text.y = element_blank(),
+                axis.text.x = element_text(size = 8),
+                plot.title = element_text(hjust = 0.5),
+                strip.background = element_blank(),
+                strip.text.x = element_blank(),
+                panel.background = element_blank()) -> eag_tot_comp_plot
+gmacs_get_size_summary(list(wag_may, wag_sept)) %>%
+  filter(mod_series == 2, year != 2024) %>%
+  separate(model, sep = "_", into = c("subdistrict", "data")) %>%
+  mutate(subdistrict = toupper(subdistrict),
+         data = ifelse(data == "sept", "Status Quo", "Update")) %>%
+  ggplot()+
+  geom_area(aes(x = size, y = obs, fill = data), position = "identity", color = NA, alpha = 0.5)+
+          scale_y_continuous(expand = expand_scale(mult = c(0, 0.1), add = c(0, 0)))+
+          labs(x = "Carapace Length (mm)", y = NULL, color = NULL, fill = NULL, title = "WAG")+
+          geom_text_npc(aes(npcx = "left", npcy = 0.6, label = year), check_overlap = T, size = 3)+
+          facet_wrap(~year, ncol = 3, dir = "v")+
+           scale_fill_manual(values = cbpalette[c(1, 4)])+
+          theme(panel.spacing.x = unit(0.2, "lines"),
+                panel.spacing.y = unit(0, "lines"),
+                panel.border = element_blank(),
+                axis.line.x = element_line(color = "grey70", size = 0.2),
+                axis.ticks.y = element_blank(),
+                axis.text.y = element_blank(),
+                axis.text.x = element_text(size = 8),
+                plot.title = element_text(hjust = 0.5),
+                strip.background = element_blank(),
+                strip.text.x = element_blank(),
+                panel.background = element_blank()) -> wag_tot_comp_plot
+```
+
+# Purpose {-}
+
+Ongoing efforts to standardized methods for summarizing fishery time series data resulted in minor changes to total catch and observer total size composition data for AIGKC. Difference are due to exclusion of pots with compramised biowtine and data filtering associated with estimation of average fishery weight (used in total catch estimation). Standardized methods for fishery data processing are detailed within the R package \textit{BSAIcrabR}, stored at \href{https://github.com/commfish/BSAIcrabR}{\textcolor{blue}{https://github.com/commfish/BSAIcrabR}}. Data processing specific to AIGKC are found here: \href{https://github.com/commfish/adfg_crab_observer/blob/master/aigkc/code/aigkc_BSAIcrabR.R}{\textcolor{blue}{aigkc\_BSAIcrabR.R}}. A comparison of time series data for which changes were made are detailed in table and figures below.
+
+
+#### {-}
+
+<!-- observed catch -->
+
+\begin{table}[H]  
+\centering
+\caption{Comparison of estimates of total catch (t) between status quo and updated data summaries for the EAG and WAG. }
+
+\label{table:totcatch}
+\begin{tabular}{lcccccccccc}
+& \multicolumn{2}{c}{EAG} &&  \multicolumn{2}{c}{WAG}\\
+Year & Status Quo & Updated && Status Quo & Updated\\
+\hline
+```{r totcatch, results='asis', eval = T}
+
+totcatch_tab %>%
+  transmute(year = as.character(year), eag_sept, eag_may, space = NA, wag_sept, wag_may) -> x
+
+# print table
+print(xtable(x, align="lcccccc", digits =0),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+```{r totcatchp, fig.align='center', fig.cap="Comparison of estimates of total catch (t) between status quo and updated data summaries for the EAG and WAG. ", eval = T, fig.width = 6}
+tot_plot
+```
+
+```{r eagtotcomp, fig.align='center', fig.cap="Comparison of estimates of total catch size composition between status quo and updated data summaries for the EAG. ", eval = T, fig.height = 7}
+eag_tot_comp_plot
+```
+
+```{r wagtotcomp, fig.align='center', fig.cap="Comparison of estimates of total catch size composition between status quo and updated data summaries for the WAG. ", eval = T, fig.height = 7}
+wag_tot_comp_plot
+```
