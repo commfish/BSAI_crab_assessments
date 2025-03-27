@@ -1,0 +1,83 @@
+---
+title: "Appendix B: AIGKC Fishery CPUE Standardization"
+author: |
+  | Tyler Jackson
+  | Alaska Department of Fish and Game, tyler.jackson@alaska.gov
+date: "`r format(Sys.time(), '%B %Y')`"
+output:
+  bookdown::pdf_document2:
+    toc: no
+header-includes:
+   - \usepackage{float}
+   - \usepackage{hanging}
+---
+
+```{r, echo = F, message = F, warning = F}
+library(tidyverse)
+library(xtable)
+
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, fig.pos='H',
+                      out.height = "\\textheight", out.width = "\\textwidth")
+
+```
+
+# Background {-}
+
+The AIGKC stock assessment has used catch per unit effort (CPUE) data collected by at-sea observers and fish ticket data as a primary index of stock abundance since model development began (Siddeek et al. 2017 SAFE; Siddeek et al. 2016). Standardized indices are estimated for three periods: 1) fish ticket CPUE from 1985 - 1998, 2) observer CPUE during the pre-rationalized period (1995 - 2004), and 3) observer CPUE during the post-rationalized period (2005 - 2023). This appendix details updates to the CPUE standardization process for the the post-rationalized period for which there is new observer data. It also includes explorations of CPUE standardization using spatiotemporal models to be further evaluated during the next assessment cycle.
+
+# Major Changes {-}
+
+The only changes in CPUE standardization relative to the 2024 final assessment is the addition of observer data collected during the 2024/25 season.
+
+# Methods {-}
+
+## Core Data Preparation {-}
+
+Observer data sets were limited to pots that represented core fishing effort in attempt to remove observations that may not be indicate of overal fishing performance. Core vessels and permit holders during the pre-rationalized time series were those that participated in more than a single season. The fleet was consolidated enough in the post-rationalized time series that reductions on number of vessels and permit holders were not warranted. Following Siddeek et al. (2016, 2023) several gear types were combined, and pot types not typical to the directed fishery were removed. Since many fishing seasons in the pre-rationalized era did not align with the crab year used in the post-rationalized era (July - June), crab year was assigned to pre-2005 data $post$ $hoc$. Observer pots sampled on dates that fall after June 30 in a given season, were assigned the next crab year (Siddeek et al. 2016, 2023). Soak time and depth data were truncated by removing the outer 5\% and 1\% of distributions, respectively.
+
+## Model Fitting {-}
+
+CPUE standardization models were fit using general additive models (GAM) as implemented in the R package $mgcv$ (Wood 2004). Negative binomial and Tweedie error distributions with a log link were evaluated during the 2024 final assessment (Jackson 2024 Appendix A). Negative binomial GAMs performed best for the pre-rationalized period, while Tweedie GAMs performed better for the post-rationalized period. Since this analysis only updates the standardization of post-rationalized CPUE data, only Tweedie models were considered. The power variable, $p$, that relates the Tweedie mean to its variance was estimated as a model parameter. All splines were fit as thin plate regression splines, with smoothness determined by generalized cross-validation (Wood 2004). 
+
+## Variable Selection {-}
+
+Null models included only crab year as an explanatory variable
+
+\begin{equation}
+\text{ln}(CPUE_{i}) = Year_{y,i}
+\end{equation}
+
+The full scope of models evaluated included gear (i.e., pot size), vessel, permit holder (i.e., proxy for captain), month and block (i.e., discrete geographic subarea, Figure \ref{fig:blockmap}) as factorial variables. Prospective smoothed terms include soak time, depth, and slope angle. Sea floor slope angle (degrees) was computed in ArcGIS (Redlands, 2011) from a 100-m resolution raster surface of Aleutian Islands bathymetry (Zimmermann 2013). Addition of new variables were considered significant if AIC decreased by at least two per degree of freedom lost and R$^2$ increased by at least 0.01. Variables were added (or subtracted) from the model until no candidate variables met AIC and R$^2$ criteria. Consistent AIC (CAIC; -2LogLik+(ln($n$)+1)$p$; Bozdogan 1987) was used instead of the traditional AIC, in which $n$ is the number of observations and $p$ is the number of parameters (Siddeek et al. 2016, 2023).
+
+\begin{equation}
+\text{R}^{2}=\frac{D_{Null} - D_{Resid}}{D_{Null}}
+\end{equation}
+
+## Model Diagnostics {-}
+
+Simulated residuals were calculated using the R package $DHARMa$ (Hartig 2020). $DHARMa$ simulates a cumulative density function for each observation of the response variable for the fitted model and computes the residual as the value of the empirical density function at the value of the observed data. Residuals are standardized from 0 to 1 and distributed uniformly if the model is correctly specified.  
+
+Partial effects were plotted to view the relationship between CPUE and individual variables. Step plots that show the change the standardized index with addition of each explanatory variable were also examined to consider the influence of each variable (Bishop et al. 2008; Bentley et al. 2012).
+## CPUE index {-}
+
+Following Siddeek et al. (2016, 2023) standardized CPUE index was extracted from the models as the year coefficient ($\beta_i$) with the first level set to zero and scaled to canonical coefficients ($\beta^\prime_i$) as 
+
+\begin{equation}
+\beta^{\prime}_{i} = \frac{\beta_{i}}{\bar{\beta}} 
+\end{equation}  
+
+where
+
+\begin{equation}
+\bar{\beta} = \sqrt[n_{j}]{\prod_{j = 1}^{n_j}{\beta_{i,j}}}
+\end{equation}
+  
+and $n_j$ is the number of levels in the year variable. Nominal CPUE was scaled by the same method for comparison. 
+
+# Results {-}
+
+
+
+
+
+
