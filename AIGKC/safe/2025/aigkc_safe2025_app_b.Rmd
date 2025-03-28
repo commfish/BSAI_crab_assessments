@@ -19,27 +19,28 @@ library(xtable)
 knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, fig.pos='H',
                       out.height = "\\textheight", out.width = "\\textwidth")
 
+
 ```
 
 # Background {-}
 
 The AIGKC stock assessment has used catch per unit effort (CPUE) data collected by at-sea observers and fish ticket data as a primary index of stock abundance since model development began (Siddeek et al. 2017 SAFE; Siddeek et al. 2016). Standardized indices are estimated for three periods: 1) fish ticket CPUE from 1985 - 1998, 2) observer CPUE during the pre-rationalized period (1995 - 2004), and 3) observer CPUE during the post-rationalized period (2005 - 2023). This appendix details updates to the CPUE standardization process for the the post-rationalized period for which there is new observer data. It also includes explorations of CPUE standardization using spatiotemporal models to be further evaluated during the next assessment cycle.
 
-# Major Changes {-}
+# Post-Rationalized CPUE Index {-}
+## Major Changes {-}
 
 The only changes in CPUE standardization relative to the 2024 final assessment is the addition of observer data collected during the 2024/25 season.
 
-# Methods {-}
-
-## Core Data Preparation {-}
+## Methods {-}
+### Core Data Preparation {-}
 
 Observer data sets were limited to pots that represented core fishing effort in attempt to remove observations that may not be indicate of overal fishing performance. Core vessels and permit holders during the pre-rationalized time series were those that participated in more than a single season. The fleet was consolidated enough in the post-rationalized time series that reductions on number of vessels and permit holders were not warranted. Following Siddeek et al. (2016, 2023) several gear types were combined, and pot types not typical to the directed fishery were removed. Since many fishing seasons in the pre-rationalized era did not align with the crab year used in the post-rationalized era (July - June), crab year was assigned to pre-2005 data $post$ $hoc$. Observer pots sampled on dates that fall after June 30 in a given season, were assigned the next crab year (Siddeek et al. 2016, 2023). Soak time and depth data were truncated by removing the outer 5\% and 1\% of distributions, respectively.
 
-## Model Fitting {-}
+### Model Fitting {-}
 
 CPUE standardization models were fit using general additive models (GAM) as implemented in the R package $mgcv$ (Wood 2004). Negative binomial and Tweedie error distributions with a log link were evaluated during the 2024 final assessment (Jackson 2024 Appendix A). Negative binomial GAMs performed best for the pre-rationalized period, while Tweedie GAMs performed better for the post-rationalized period. Since this analysis only updates the standardization of post-rationalized CPUE data, only Tweedie models were considered. The power variable, $p$, that relates the Tweedie mean to its variance was estimated as a model parameter. All splines were fit as thin plate regression splines, with smoothness determined by generalized cross-validation (Wood 2004). 
 
-## Variable Selection {-}
+### Variable Selection {-}
 
 Null models included only crab year as an explanatory variable
 
@@ -47,18 +48,18 @@ Null models included only crab year as an explanatory variable
 \text{ln}(CPUE_{i}) = Year_{y,i}
 \end{equation}
 
-The full scope of models evaluated included gear (i.e., pot size), vessel, permit holder (i.e., proxy for captain), month and block (i.e., discrete geographic subarea, Figure \ref{fig:blockmap}) as factorial variables. Prospective smoothed terms include soak time, depth, and slope angle. Sea floor slope angle (degrees) was computed in ArcGIS (Redlands, 2011) from a 100-m resolution raster surface of Aleutian Islands bathymetry (Zimmermann 2013). Addition of new variables were considered significant if AIC decreased by at least two per degree of freedom lost and R$^2$ increased by at least 0.01. Variables were added (or subtracted) from the model until no candidate variables met AIC and R$^2$ criteria. Consistent AIC (CAIC; -2LogLik+(ln($n$)+1)$p$; Bozdogan 1987) was used instead of the traditional AIC, in which $n$ is the number of observations and $p$ is the number of parameters (Siddeek et al. 2016, 2023).
+The full scope of models evaluated included gear (i.e., pot size), vessel, permit holder (i.e., proxy for captain), month and block (i.e., discrete geographic subarea, Figure \ref{fig:blockmap}) as factorial variables. Prospective smoothed terms include soak time, depth, and slope angle. Sea floor slope angle (degrees) was computed in ArcGIS (Redlands, 2011) from a 100-m resolution raster surface of Aleutian Islands bathymetry (Zimmermann 2013). Addition of new variables were considered significant if AIC decreased by at least two per degree of freedom lost and R$^2$ increased by at least 0.01. Variables were added (or subtracted) from the model until no candidate variables met AIC and R$^2$ criteria. Consistent AIC (CAIC; -2LogLik+(ln($n$)+1)$p$; Bozdogan 1987) was used instead of the traditional AIC, in which $n$ is the number of observations and $p$ is the number of parameters (Siddeek et al. 2016, 2023). If forward and backward selection produced conflicting results, the best model was determined by CAIC.
 
 \begin{equation}
 \text{R}^{2}=\frac{D_{Null} - D_{Resid}}{D_{Null}}
 \end{equation}
 
-## Model Diagnostics {-}
+### Model Diagnostics {-}
 
 Simulated residuals were calculated using the R package $DHARMa$ (Hartig 2020). $DHARMa$ simulates a cumulative density function for each observation of the response variable for the fitted model and computes the residual as the value of the empirical density function at the value of the observed data. Residuals are standardized from 0 to 1 and distributed uniformly if the model is correctly specified.  
 
 Partial effects were plotted to view the relationship between CPUE and individual variables. Step plots that show the change the standardized index with addition of each explanatory variable were also examined to consider the influence of each variable (Bishop et al. 2008; Bentley et al. 2012).
-## CPUE index {-}
+### CPUE index {-}
 
 Following Siddeek et al. (2016, 2023) standardized CPUE index was extracted from the models as the year coefficient ($\beta_i$) with the first level set to zero and scaled to canonical coefficients ($\beta^\prime_i$) as 
 
@@ -74,10 +75,227 @@ where
   
 and $n_j$ is the number of levels in the year variable. Nominal CPUE was scaled by the same method for comparison. 
 
-# Results {-}
+## Results {-}
+
+Forward and backward selection resulted in different 'best' models in both subdistricts. The best forward selection model in the EAG included (in addition to year) permit holder, gear type, and soak time, whereas backwards selection included vessel, month, gearcode, and soak time (Table \ref{table:posteagres}). The backward selection model was chosen for index standardization ($\Delta$ AIC = -XXX). In the WAG, forward selection resulted in a model including vessel, gear type, and month, whereas backward selection included permit holder instead of month and was used for index standardization ($\Delta$ AIC = -38.08) (Table \ref{table:postwagres}). Residual diagnostics did not indicate misspecification in best models for either subdistrict (Figure \ref{fig:posteagdharmatw} and \ref{fig:postwagdharmatw}).  
+
+Standardized indices differed minimally from null model indices. Vessel and permit holder appeared to have the largest influence on the resulting index in the EAG and WAG, respectively (Figure\ref{fig:posteagstdstep} and \ref{fig:postwagstdstep}). Standardized indices track nominal indices, as expected. Relative to the 2023/4, both subdistricts underwent a decrease in CPUE (Figure \ref{fig:postindex}).
+
+# Spatiotemporal GAM {-}
+
+Several efforts have been made to account for spatial and spatiotemporal variability in CPUE including specifying large-scale blocks within subdistricts (here; Siddeek et al. 2016), interactions between blocks and year (Jackson 2024, Siddeek et al. 2023), smooth terms including latitude and longitude, and interactions between year and smooth terms (Jackson 2024). 
+
+# Tables {-}
+#### {-}
+\begin{table}[H]
+\centering
+\caption{Total sample size and number of levels for each factor covariate by time period and subdistrict through the 2024/25 season.}
+
+\label{table:factorlevels}
+\begin{tabular}{lcc}
+& EAG & WAG\\
+\hline
+N & 29,895 & 18,060\\
+Permit Holder & 16 & 18\\
+Vessel & 9 & 7\\
+Gear & 4 & 7\\
+Block & 4 & 6\\
+Month & 8 & 10\\
+\hline
+\end{tabular}
+\end{table}
+
+#### {-}
+
+\begin{table}[H]
+\centering
+\caption{Residual degrees of freedom, AIC, and R$^{2}$ for the EAG post-rationalized period best legal CPUE model including year (Yr), gear type (Gr), permit holder (PH), and s(soak time).}
+
+
+\label{table:posteagres}
+\begin{tabular}{lccccc}
+& Residual DF & AIC & R$^{2}$\\
+Form  ($p$ = 1.386) & ($\Delta$ DF) & ($\Delta$ AIC) & ($\Delta$ R$^{2}$)\\
+\hline
+Yr + s(soak time, 4.512) + Mon + Ves + Gr & 10,066.5 & 88,323 & 0.15 \\
+```{r posteagres, results='asis', eval = T}
+x <- readRDS("../../output/cpue_std/2025/may/post_eag_std_tw.RDS")[[2]]
+x <- x %>% transmute(term = ifelse(term == "+ adfg", "+ Vessel", term),
+                     term = ifelse(term == "+ month", "+ Month", term),
+                     term = ifelse(term == "+ block", "+ Block", term),
+               df = -1 * round(df, 2),
+               delta_AIC = round(delta_AIC, 2),
+               delta_r2 = round(delta_r2, 3)) %>% 
+      dplyr::slice(-1, -2)
+
+# print table
+print(xtable(x, align="lcccc", digits=c(0, 0, 2, 2, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+- Permit Holder & -11.19 & 37 & 0.006\\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+
+
+\begin{table}[H]
+\centering
+\caption{Residual degrees of freedom, AIC, and R$^{2}$ for the WAG post-rationalized period best legal CPUE model including year (Yr), gear type (Gr), permit holder (PH), and s(longitude, latitude).}
+
+\label{table:postwagres}
+\begin{tabular}{lccccc}
+& Residual DF & AIC & R$^{2}$\\
+Form ($p$ = 1.495) & ($\Delta$ DF) & ($\Delta$ AIC) & ($\Delta$ R$^{2}$)\\
+\hline
+Yr + Mo + PH + Gr & 17,008 & 142,306 & 0.099 \\
+```{r postwagres, results='asis', eval = T}
+x <- readRDS("../../output/cpue_std/2025/may/post_wag_std_tw.RDS")[[2]]
+x <- x %>% transmute(term = ifelse(term == "+ adfg", "+ Vessel", term),
+                     term = ifelse(term == "+ month", "+ Month", term),
+                     term = ifelse(term == "+ permit_holder", "+ Permit Holder", term),
+                     term = ifelse(term == "+ s(soaktime)", "+ s(soak time)", term),
+                     term = ifelse(term == "+ gearcode", "+ Gear", term),
+                     term = ifelse(term == "+ block", "+ Block", term),
+               df = -1 * round(df, 2),
+               delta_AIC = round(delta_AIC, 2),
+               delta_r2 = round(delta_r2, 3)) %>%
+  dplyr::slice(-2)
+
+# print table
+print(xtable(x, align="lcccc", digits=c(0, 0, 2, 2, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+- Vessel & -2 & -14.9 & 0.000\\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+
+
+#### {-}
+\begin{table}[H]
+\centering
+\caption{Standardized observer CPUE index and associated standard errors for the post-rationalized period in the EAG and WAG.}
+
+\label{table:postindex}
+\begin{tabular}{lccccc}
+& multicolumn{2}{c}{EAG} & multicolumn{2}{c}{WAG}\\
+Year & Index & $\sigma$ & Index & $\sigma$\\
+\hline
+```{r postindex, results='asis', eval = T}
+eag <- read_csv("../../output/cpue_std/2025/may/post_eag_index.csv") %>%
+  transmute(year = as.character(year), eag_index = index, eag_se = se)
+wag <- read_csv("../../output/cpue_std/2025/may/post_wag_index.csv") %>%
+  transmute(year = as.character(year), wag_index = index, wag_se = se)
+
+x = full_join(eag, wag, join_by(year))
+
+# print table
+print(xtable(x, align="lccccc", digits=c(0, 0, 3, 2, 3, 2)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+# Figures {-}
+
+```{r blockmap, fig.align='center', fig.cap="The 1995/96-2022/23 AIGKC observer pot samples enmeshed in 10 blocks.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2024/jan/blocks_map.png")
+```
+
+```{r posteagdharmatw, fig.align='center', fig.cap="DHARMa residual plots for the final Tweedie GAM fit to legal CPUE during the post-rationalized period in the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2025/may/post_eag_std_tw_dharma.png")
+```
+
+```{r postwagdharmatw, fig.align='center', fig.cap="DHARMa residual plots for the final Tweedie GAM fit to legal CPUE during the post-rationalized period in the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2025/may/post_wag_std_tw_dharma.png")
+```
+
+```{r posteagstdeffects, fig.align='center', fig.cap="Marginal effects of month, permit holder, and gear type with associated partial residuals for the final model fit to legal CPUE during post-rationalized period in the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2025/may/post_eag_effects.png")
+```
+
+```{r postwagstdeffects, fig.align='center', fig.cap="Marginal effects of month, permit holder, and gear type with associated partial residuals for the final model fit to legal CPUE during post-rationalized period in the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2025/may/post_wag_effects.png")
+```
+
+```{r posteagstdstep, fig.align='center', fig.cap="Step plot of CPUE index for the final model fit to legal CPUE during post-rationalized period in the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2025/may/post_eag_tw_step.png")
+```
+
+```{r postwagstdstep, fig.align='center', fig.cap="Step plot of CPUE index for the final model fit to legal CPUE during post-rationalized period in the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2025/may/post_wag_tw_step.png")
+```
+
+
+```{r postindex, fig.align='center', fig.cap="Step plot of CPUE index for the final model fit to legal CPUE during post-rationalized period in the WAG.", eval = T, fig.width=6, fig.height=6}
+
+
+eag_nom <- read_csv("../../output/cpue_std/2025/may/post_eag_nominal_index.csv") %>%
+  mutate(year = as.character(year))
+eag24 <- read_csv("../../output/cpue_std/2024/may/post_eag_index.csv") %>%
+  transmute(year = as.character(year), subdistrict = "EAG", `2024 Assessment` = index)
+eag <- read_csv("../../output/cpue_std/2025/may/post_eag_index.csv") %>%
+  transmute(year = as.character(year), subdistrict = "EAG", `2025 Assessment` = index)
+wag_nom <- read_csv("../../output/cpue_std/2025/may/post_wag_nominal_index.csv") %>%
+  mutate(year = as.character(year))
+wag24 <- read_csv("../../output/cpue_std/2024/may/post_wag_index.csv") %>%
+  transmute(year = as.character(year), subdistrict = "WAG", `2024 Assessment` = index)
+wag <- read_csv("../../output/cpue_std/2025/may/post_wag_index.csv") %>%
+  transmute(year = as.character(year), subdistrict = "WAG", `2025 Assessment` = index)
+
+yax <- tickr(tibble(yr = 2005:2024), var = yr, to = 2)
+
+left_join(eag, eag24) %>%
+  bind_rows(left_join(wag, wag24)) %>%
+  pivot_longer(3:4, names_to = "type", values_to = "index") %>%
+  bind_rows(eag_nom) %>% bind_rows(wag_nom) %>%
+  mutate(type = factor(type, levels = c("Nominal", "2024 Assessment", "2025 Assessment"))) %>%
+  ggplot()+
+  geom_line(aes(x = year, y = index, linetype = type, group = type, color = type))+
+  scale_x_discrete(breaks = yax$breaks, labels = yax$labels) +
+  scale_linetype_manual(values = c(1, 2, 1))+
+  scale_color_manual(values = c(cb_palette[1], 1, 1))+
+  facet_wrap(~subdistrict, ncol = 1)+
+  labs(x = NULL, y = "CPUE Index", linetype = NULL, color = NULL)+
+  theme(legend.position = c(0, 1), legend.justification = c(0, 1))
+```
 
 
 
 
 
 
+
+
+
+
+
+
+
+
+# Literature Cited {-}
