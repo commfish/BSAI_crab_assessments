@@ -59,6 +59,7 @@ The full scope of models evaluated included gear (i.e., pot size), vessel, permi
 Simulated residuals were calculated using the R package $DHARMa$ (Hartig 2020). $DHARMa$ simulates a cumulative density function for each observation of the response variable for the fitted model and computes the residual as the value of the empirical density function at the value of the observed data. Residuals are standardized from 0 to 1 and distributed uniformly if the model is correctly specified.  
 
 Partial effects were plotted to view the relationship between CPUE and individual variables. Step plots that show the change the standardized index with addition of each explanatory variable were also examined to consider the influence of each variable (Bishop et al. 2008; Bentley et al. 2012).
+
 ### CPUE index {-}
 
 Following Siddeek et al. (2016, 2023) standardized CPUE index was extracted from the models as the year coefficient ($\beta_i$) with the first level set to zero and scaled to canonical coefficients ($\beta^\prime_i$) as 
@@ -81,9 +82,41 @@ Forward and backward selection resulted in different 'best' models in both subdi
 
 Standardized indices differed minimally from null model indices. Vessel and permit holder appeared to have the largest influence on the resulting index in the EAG and WAG, respectively (Figure\ref{fig:posteagstdstep} and \ref{fig:postwagstdstep}). Standardized indices track nominal indices, as expected. Relative to the 2023/4, both subdistricts underwent a decrease in CPUE (Figure \ref{fig:postindex}).
 
-# Spatiotemporal GAM {-}
+# Spatiotemporal GAMM {-}
 
-Several efforts have been made to account for spatial and spatiotemporal variability in CPUE including specifying large-scale blocks within subdistricts (here; Siddeek et al. 2016), interactions between blocks and year (Jackson 2024, Siddeek et al. 2023), smooth terms including latitude and longitude, and interactions between year and smooth terms (Jackson 2024). 
+Several efforts have been made to account for spatial and spatiotemporal variability in fishing effort and CPUE including specifying large-scale blocks within subdistricts (here; Siddeek et al. 2016), interactions between blocks and year (Jackson 2024, Siddeek et al. 2023), non-parametric smooths of latitude and longitude, and interactions between year and smooth terms (Jackson 2024). Geostatistical models may provide better utility over previous approaches given their ability to estimate spatial correlations and account for varying spatial coverage (Maunder et al. 2020).
+
+## Methods {-}
+
+### Data Preparation {-}
+
+Core observer data preparation was the same as used for the 2025 final assessment CPUE standardization, with some minor changes to gear types included. Pot sizes 4'x4', 10'x10', 8'x8' (EAG only), and 6.5'x7' (WAG only) were removed due to small sample sizes. Pot locations were transforms to UTM coordinates using zone 2N.
+
+### GAMM {-}
+
+Saptiotemporal GAMMs were constructed using the R package \textit{sdmTMB} and \textit{sdmTMBextra} (R Core Team 2024; Anderson et al., 2022; Anderson et al., 2025). This approach models spatial random effects as a series of Gaussian random fields, which are approximated using stochastic partial differential equation matrices (SPDE) (Lindgren et al., 2011). Correlation of spatial random effects is constrained by the Mat$\'{e}$rn covariance function (Anderson et al., 2022).  
+
+The underlying spatial domain of the model was represented by a triangular mesh constructed using k-means clustering with 150 knots. Spatial polygons of the Aleutian Islands were downloaded using the R package \textit{geodata} (Hijmans et al., 2025) and used as barriers to spatial correlation within the mesh. Mesh construction was not rigorously evaluated for these explorations and should be revisited in future analyses.
+
+In addition to year, gear type was included as a factor covariate, soak time and depth were included as smooth splines as described above, and vessel was included as a random effect. Since soak time have increased over time as fishery has become consolidated and competition has decreased, models with a soak time:year interaction were also evaluated. Models assumed a Tweedie error distribution with log link function and estimated power variable, $p$. Spatiotemporal random fields were modeled as independent and identically distributed process. Pre- and post-rationalization periods were fit in a single model to 1) leverage the most available data within the standardization model, and 2) avoid fitting two non-overlapping indices in the assessment model (Hoyle et al., 2024).
+
+### Model Diagnostics {-}
+
+Model diagnosis utilized $DHARMa$ residuals following the approach described above. Several other diagnostics including tests of convergence and range of parameter estimates are built in to $sdmTMB$. Differences between observed and fitted values were also plotted over the spatial domain to identify any patterns.
+
+### Index Prediction {-}
+
+Standardized CPUE index was estimated by constructing a prediction data set based on vertices of the model mesh. Soak time and depth were set to mean values, while gear type and vessel were set to mode values. Predictions were summed across the spatial domain using area weighting.Annual estimates where then scaled to canonical coefficients as described above.
+
+
+
+
+## Results {-}
+
+All models successfully converged and DHARMa residuals did not identify misspecifications. 
+
+
+
 
 # Tables {-}
 #### {-}
@@ -286,12 +319,35 @@ left_join(eag, eag24) %>%
 ```
 
 
+#### {-}
 
+```{r meshmap, fig.align='center', fig.cap="Triangular mesh based on k-means clustering with 150 knots used in spatiotemporal GAMMs for EAG and WAG. Grey points are observer pot locations.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2025/may/mesh.png")
+```
 
+```{r steagdharma, fig.align='center', fig.cap="DHARMa residual plots for the final Tweedie spatiotemporal GAMM fit to legal CPUE in the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2025/may/dharma_eag_full.png")
+```
 
+```{r stwagdharma, fig.align='center', fig.cap="DHARMa residual plots for the final Tweedie spatiotemporal GAMM fit to legal CPUE in the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2025/may/dharma_wag_full.png")
+```
 
+```{r eagsteffects, fig.align='center', fig.cap="Marginal effects of gear type, soak time, and depth for the spatiotemporal model fit to the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2025/may/eag_full_covar_effects.png")
+```
 
+```{r eagstsoakyreffect, fig.align='center', fig.cap="Marginal effect of the interaction between soak time and year for the spatiotemporal model fit to the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2025/may/eag_full_soakyr_marginal_effect.png")
+```
 
+```{r wagsteffects, fig.align='center', fig.cap="Marginal effects of gear type, soak time, and depth for the spatiotemporal model fit to the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2025/may/wag_full_covar_effects.png")
+```
+
+```{r wagstsoakyreffect, fig.align='center', fig.cap="Marginal effect of the interaction between soak time and year for the spatiotemporal model fit to the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2025/may/wag_full_soakyr_marginal_effect.png")
+```
 
 
 
@@ -299,3 +355,14 @@ left_join(eag, eag24) %>%
 
 
 # Literature Cited {-}
+
+Lindgren F, H Rue, and J Lindström. 2011. An explicit link between Gaussian fields and Gaussian markov random fields: The stochastic partial differential equation approach. Journal of the Royal Statistical Society B 73: 423 - 498. 
+
+Hijmans RJ, M Barbosa, A Ghosh, and A Mandel. 2025. geodata: Download Geographic Data. R package version 0.6-3, https://github.com/rspatial/geodata.
+
+Hoyle SD, RA Campbell, ND Ducharme-Barth, A Gr$\"{u}$ss, BR Moore, JT Thorson, L Tremblay-Boyer, H Winker, S Zhou, MN Maunder. 2024. Catch per unit effort modelling for stock assessment: A summary of good practices. Fisheries Research 269: 106860.
+
+Maunder MN, JT Thorson, H Xu, R Oliveros-Ramos, SD Hoyle, L Tremblay-Boyer, HH Lee, M Kai, SK Chang, T Kitakado, CM Albertsen, CV Minte_vera, CE Lennert-Cody, AM Aires-da-Silva, and KR Piner. 2020. The need for spatio-temporal modeling to determine catch-per-unit effort based indices of abundance and associated composition data for inclusion in stock assessment models. Fisheries Research 229: 105594.
+
+
+

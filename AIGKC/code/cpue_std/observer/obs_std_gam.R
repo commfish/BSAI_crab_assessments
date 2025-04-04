@@ -414,15 +414,15 @@ obs_core %>%
 
 
 # tweedie model
-# f_step_gam(null = bam(tot_legal ~ crab_year,
-#                       family = tw(), data = post_eag),
-#            full_scope = list(~(crab_year + s(soaktime) + month + adfg + permit_holder +
-#                                gearcode + s(depth) + s(slope) + block))) -> post_eag_std_tw
-# saveRDS(post_eag_std_tw, "./AIGKC/output/cpue_std/2024/may/post_eag_std_tw.RDS")
-post_eag_tw <- readRDS("./AIGKC/output/cpue_std/2024/may/post_eag_std_tw.RDS")[[1]]
+f_step_gam(null = bam(tot_legal ~ crab_year,
+                      family = tw(), data = post_eag),
+           full_scope = list(~(crab_year + s(soaktime) + month + adfg + permit_holder +
+                               gearcode + s(depth) + s(slope) + block))) -> post_eag_std_tw
+saveRDS(post_eag_std_tw, "./AIGKC/output/cpue_std/2025/may/post_eag_std_tw.RDS")
+post_eag_tw <- readRDS("./AIGKC/output/cpue_std/2025/may/post_eag_std_tw.RDS")[[1]]
 
 # plots of dharma residuals
-f_dharma(post_eag_tw, path = "./AIGKC/figures/cpue_std/2024/may/post_eag_std_tw_dharma.png")
+f_dharma(post_eag_tw, path = "./AIGKC/figures/cpue_std/2025/may/post_eag_std_tw_dharma.png")
 
 # neg biom model
 # f_step_gam(null = bam(tot_legal ~ crab_year,
@@ -464,13 +464,13 @@ plot(sm(post_eag_viz, select = 1)) +
   l_ciLine()+
   labs(x = "Soak Time (hr)", y = "f(Soak Time)") -> st
 
-ggsave("./AIGKC/figures/cpue_std/2024/may/post_eag_effects.png",
+ggsave("./AIGKC/figures/cpue_std/2025/may/post_eag_effects.png",
        plot = gridPrint(mo, vs, gc, st, ncol = 2),
        height = 6, width = 8, units = "in")
 
 # index step plot
 f_step_plot(post_eag_tw, term_labs = c("Year", "+ s(Soak Time)", "+ Month", "+ Vessel", "+ Gear")) -> x
-ggsave("./AIGKC/figures/cpue_std/2024/may/post_eag_tw_step.png",
+ggsave("./AIGKC/figures/cpue_std/2025/may/post_eag_tw_step.png",
        plot = x + scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels),
        height = 8, width = 5, units = "in")
 
@@ -479,8 +479,18 @@ ggsave("./AIGKC/figures/cpue_std/2024/may/post_eag_tw_step.png",
 loc <- grep("year", names(coef(post_eag_tw)))
 yrs <- unique(post_eag$crab_year)
 post_eag_index <- f_getCPUE_gam(post_eag_tw, loc, yrs)
-write_csv(post_eag_index, "./AIGKC/output/cpue_std/2024/may/post_eag_index.csv")
+write_csv(post_eag_index, "./AIGKC/output/cpue_std/2025/may/post_eag_index.csv")
 
+# extract nominal index
+post_eag %>%
+  mutate(year = as.character(crab_year)) %>%
+  group_by(year) %>%
+  summarise(index = mean(tot_legal)) %>% ungroup %>%
+  mutate(index = index / (prod(index)^(1/n())),
+         period = "post",
+         type = "Nominal", 
+         subdistrict = "EAG") %>%
+  write_csv("./AIGKC/output/cpue_std/2025/may/post_eag_nominal_index.csv")
 
 # # post-rationalized eag, ti ----
 # 
@@ -894,6 +904,8 @@ yrs <- unique(pre_wag$crab_year)
 pre_wag_index <- f_getCPUE_gam(pre_wag_nb, loc, yrs)
 write_csv(pre_wag_index, "./AIGKC/output/cpue_std/2025/may/pre_wag_index.csv")
 
+
+
 # # pre-rationalized wag, ti ----
 # 
 # # add tensor interaction
@@ -1055,7 +1067,8 @@ plot(pterm(post_wag_viz, select = 4))+
   l_points(color = "grey70", alpha = 0.5)+
   l_fitPoints()+
   l_ciBar(linetype = 1, width = 0)+
-  labs(x = "Gear", y = "f(Gear)") -> gc
+  labs(x = "Gear", y = "f(Gear)")+
+  scale_x_discrete(labels = c("Round Pot", "10x10", "6.5x7", "5x5", "6x6", "7x7", "8x8")) -> gc
 
 ggsave("./AIGKC/figures/cpue_std/2025/may/post_wag_effects.png",
        plot = gridPrint(mo, ph, gc, ncol = 2),
@@ -1073,6 +1086,15 @@ yrs <- unique(post_wag$crab_year)
 post_wag_index <- f_getCPUE_gam(post_wag_tw, loc, yrs)
 write_csv(post_wag_index, "./AIGKC/output/cpue_std/2025/may/post_wag_index.csv")
 
+# nominal index
+write_csv(post_wag %>%
+            mutate(year = as.character(crab_year)) %>%
+            group_by(year) %>%
+            summarise(index = mean(tot_legal)) %>% ungroup %>%
+            mutate(index = index / (prod(index)^(1/n())),
+                   period = "post",
+                   type = "Nominal", 
+                   subdistrict = "WAG"), "./AIGKC/output/cpue_std/2025/may/post_wag_nominal_index.csv")
 
 # # post-rationalized wag, ti ----
 # 
