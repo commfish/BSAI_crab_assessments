@@ -1,0 +1,88 @@
+---
+title: "Appendix C: Risk Table"
+author: |
+  | Tyler Jackson
+  | Alaska Department of Fish and Game, tyler.jackson@alaska.gov
+date: "`r format(Sys.time(), '%B %Y')`"
+output:
+  bookdown::pdf_document2:
+    toc: no
+header-includes:
+   - \usepackage{float}
+   - \usepackage{hanging}
+   - \usepackage{enumerate}
+   - \usepackage{longtable}
+---
+  
+# Purpose {-}
+
+The ABC buffer for AIGKC is determine qualitatively after assessing model performance and associated uncertainty in management quantities, ecosystem status, and stock trajectory. The below risk table details information considered in that determination.
+
+# Assessment Model {-}
+
+\textbf{Level 1: No \underline{new} concerns}
+
+\begin{itemize}
+
+\item{Poor fit to index data, primarily in the EAG.}
+\item{Considerable retrospective pattern asssociated with MMB in the EAG, due to poor fit to index data.}
+
+\end{itemize}
+
+Fits to index data started showing signs of concern in the 2021 assessment (Siddeek et al. 2021) and have gotten worse in subsequent assessments. This issue is most prominent during the post-rationalized period in the EAG, but applies to all observer CPUE index data to some degree. Retrospective bias in EAG models is likely due in large part to poor fits to post-rationalized index data. EAG models produce a seemingly stable MMB trajectory, but are informed primarily by size composition data and catch. Data conflict is less apparent in WAG models. 
+
+# Population Dynamics {-}
+
+\textbf{Level 2: Substantially increased concerns}
+
+\begin{itemize}
+
+\item{Continuing downward MMB trajectory in the WAG.}
+\item{Recruitment estimates have undergone a slowly decreasing trend in the WAG since prior to rationalization.}
+
+\end{itemize}
+
+Since the early part of the time series, model estimated MMB peaked in 2008 and has undergone a steady decline since. Recruitment estimates appear to be less variable than estimated in the EAG, and have been slowly decreasing since \~ 2005. Since the assessment relies solely on fishery dependent data, there is some nuance to the apparent lack of recruitment. The fishery targets legal males and seeks to reduce bycatch of sublegal crab, a practice which has presumably become more effective as the fishery has become more consolidated after rationalization. It is unclear to what degree bycatch avoidance has on size composition data and resulting recruitment estimates. Nevertheless, the downward MMB is consequent to the decrease in fishery performance observed over the same period.  
+
+The the WAG has been below B$_{\text{MSY}}$ since the 2022/23, while the EAG has remained above B$_{\text{MSY}}$ since the stock has been managed using Tier 3 harvest control rules.
+
+# Ecosystem {-}
+
+\textbf{Level 1: No new concerns}
+
+\begin{itemize}
+
+\item{North Pacific Index returned to neutral conditions in 2024.}
+
+\item{Aleutian Islands ecosystem showed signs of a gradient of poor productivity in the west to high productivity in the east in 2024.}
+
+\item{The western and central Aleutians experienced a marine heat wave at the beginning of the 2024 crab year, though bottom temperatures remained cooler near the 1991 - 2012 average. The eastern Aleutians were less afected.}
+
+\item{Groundfish condition remains low across the ecosystem possibly due to a range of factors including prey quality, availability, competition, and metabolic demands.}
+
+\end{itemize}
+
+
+A gradient of production from west to east aligns with waning fishery performance in the WAG. Ongoing ecosystem conditions resulted in increased risk level in assessments of bottom oriented, groundfish species (e.g., Pacific cod, Atka mackrel), though it's unclear to what degree these conditions extend to golden king crab (Ortiz and Zador 2024). 
+
+# Fishery Performance {-}
+
+\textbf{Level 2: Substantially increased concerns}
+
+\begin{itemize}
+
+\item{Continuing decrease in fishery CPUE in the WAG.}
+
+\end{itemize}
+
+
+Catches in the WAG since rationalization peaked in 2013/14 and have been on a slow downward trend since, with a brief uptick from 2018/19 - 2020/21. Fishery CPUE peaked in 2009/10 and has undergone a similar fluctuation, though has been at or near the post-rationalization low since 2021/22. The author preferred model suggests that recent fishing morality in the WAG has been aggressive relative to the $F_{\text{OFL}}$ control rule. Fishing performance in the EAG is more stable, though concerns of hyperstability persist given the reliance on fishery dependent data.
+
+\begin{hangparas}{.25in}{1}
+
+Ortiz, I and S Zador. 2024. Ecosystem Status Report 2024: Aleutian Islands, Stock Assessment and Fishery Evaluation Report, North Pacific Fishery Management Council, 1007 West Third, Suite 400, Anchorage, Alaska 99501.
+
+Siddeek, MSM, J Zheng, C Siddon, B Daly, MJ Westphal, and L Hulbert. 2021. Aleutian Islands golden king crab stock assessment. North Pacific Fishery Management Council, Anchorage, AK.
+
+\end{hangparas}
+
