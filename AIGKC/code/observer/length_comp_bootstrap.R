@@ -3,6 +3,7 @@
 # bootstrap size composition sample size
 # tyler jackson
 # tyler.jackson@alaska.gov
+# 3/18/2025
 
 # load ----
 
@@ -10,9 +11,9 @@ library(tidyverse)
 
 # data ----
 
-obs_meas <- read_csv("./AIGKC/data/observer/item12_linked_meas_dump.csv")
+obs_meas <- read_csv("./AIGKC/data/observer/2025/linked_meas_dump.csv")
 
-dock <- read_csv("./AIGKC/data/observer/item13_cleaned_dockside.csv")
+dock <- read_csv("./AIGKC/data/observer/2025/cleaned_dockside.csv")
 
 # observed size comp ----
 
@@ -23,7 +24,8 @@ obs_meas %>%
   mutate(bin = ifelse(size <= 183, ceiling(size / 5) * 5 - 2, 183),
          total = n()) %>%
   group_by(crab_year, subdistrict, bin) %>%
-  summarise(obs_p_tot = n() / mean(total)) %>% ungroup -> obs_p_tot
+  summarise(obs_p_tot = n() / mean(total),
+            nmeas = mean(total)) %>% ungroup -> obs_p_tot
 
 # retained size
 dock %>%
@@ -32,15 +34,17 @@ dock %>%
   mutate(bin = ifelse(size <= 183, ceiling(size / 5) * 5 - 2, 183),
          total = n()) %>%
   group_by(crab_year, subdistrict, bin) %>%
-  summarise(obs_p_ret = n() / mean(total)) %>% ungroup -> obs_p_ret
+  summarise(obs_p_ret = n() / mean(total),
+            nmeas = mean(total)) %>% ungroup -> obs_p_ret
 
 # total composition boot ----
 
-yrs <- 1990:2023
+yrs <- 1995:1997
 # eag
+for(z in 1:10){
 for (i in yrs){
   # random number seed
-  set.seed(1624)
+  # set.seed(1624)
   
   obs_meas %>%
     filter(subdistrict == "EAG",
@@ -83,13 +87,14 @@ for (i in yrs){
       
     })) -> out
   
-  saveRDS(out, paste0("./AIGKC/output/observer/eag_total_comp_boot_", i, ".RDS"))
+  saveRDS(out, paste0("./AIGKC/output/observer/length_comp_boot/eag_total_comp_boot_", i, "_", z, ".RDS"))
   
 }
+  }
 # wag
 for (i in yrs){
   # random number seed
-  set.seed(1624)
+  # set.seed(1624)
   
   obs_meas %>%
     filter(subdistrict == "WAG",
@@ -97,7 +102,7 @@ for (i in yrs){
     mutate(pot = paste0(trip, adfg, spn),
            n_meas_pots = length(unique(pot))) %>%
     # bootstrap pots
-    expand_grid(., pot_boot = 1:100) %>%
+    expand_grid(., pot_boot = 1:1000) %>%
     nest_by(crab_year, pot_boot, n_meas_pots, .keep = T) %>% ungroup() %>%  #pull(data) %>% .[[1]] -> data
     # resample crab
     mutate(data = purrr::map2(data, n_meas_pots, function(data, n_meas_pots){
@@ -132,7 +137,7 @@ for (i in yrs){
       
     })) -> out
   
-  saveRDS(out, paste0("./AIGKC/output/observer/wag_total_comp_boot_", i, ".RDS"))
+  saveRDS(out, paste0("./AIGKC/output/observer/length_comp_boot/wag_total_comp_boot_", i, ".RDS"))
   
 }
 
@@ -143,11 +148,11 @@ for (i in yrs){
 
 # retained composition boot ----
 
-yrs <- 1985:2023
+yrs <- 1981:2024
 # eag
 for (i in yrs){
   # random number seed
-  set.seed(1624)
+  #set.seed(1624)
   
   dock %>%
     filter(subdistrict == "EAG",
@@ -155,7 +160,7 @@ for (i in yrs){
     mutate(delivery = paste0(adfg, sample_date),
            n_deliveries =  length(unique(delivery))) %>%
     # bootstrap pots
-    expand_grid(., del_boot = 1:500) %>%
+    expand_grid(., del_boot = 1:1000) %>%
     nest_by(crab_year, del_boot, n_deliveries, .keep = T) %>% ungroup() %>%  #pull(data) %>% .[[1]] -> data
     # resample crab
     mutate(data = purrr::map2(data, n_deliveries, function(data, n_deliveries){
@@ -195,7 +200,7 @@ for (i in yrs){
 # wag
 for (i in yrs){
   # random number seed
-  set.seed(1624)
+  # set.seed(1624)
   
   dock %>%
     filter(subdistrict == "WAG",
@@ -203,7 +208,7 @@ for (i in yrs){
     mutate(delivery = paste0(adfg, sample_date),
            n_deliveries =  length(unique(delivery))) %>%
     # bootstrap pots
-    expand_grid(., del_boot = 1:500) %>%
+    expand_grid(., del_boot = 1:1000) %>%
     nest_by(crab_year, del_boot, n_deliveries, .keep = T) %>% ungroup() %>%  #pull(data) %>% .[[1]] -> data
     # resample crab
     mutate(data = purrr::map2(data, n_deliveries, function(data, n_deliveries){
@@ -241,86 +246,96 @@ for (i in yrs){
   
 }
 
-# table output
+# table output ----
 
-## eag
-lapply(list.files("./AIGKC/output/observer", pattern = "eag_retained_comp_boot", full.names = T), readRDS) %>%
-  bind_rows %>%
-  dplyr::select(-data) %>%
-  mutate(subdistrict = "EAG") %>% 
-  left_join(dock %>% 
-              filter(subdistrict == "EAG") %>%
-              group_by(crab_year) %>%
-              summarise(nmeas = sum(numcrab))) -> eag_ret
 
-## wag
-lapply(list.files("./AIGKC/output/observer", pattern = "wag_retained_comp_boot", full.names = T), readRDS) %>%
-  bind_rows %>%
-  dplyr::select(-data) %>%
-  mutate(subdistrict = "WAG") %>% 
-  left_join(dock %>% 
-              filter(subdistrict == "WAG") %>%
-              group_by(crab_year) %>%
-              summarise(nmeas = sum(numcrab))) -> wag_ret
-
-eag_ret %>%
-  group_by(crab_year) %>%
-  summarise(eag_nmeas = mean(nmeas),
-            eag_neff_min = min(n),
-            eag_neff_mean = mean(n),
-            eag_neff_max = max(n)) %>%
-  mutate(gap = NA) %>%
-  left_join(wag_ret %>%
-              group_by(crab_year) %>%
-              summarise(wag_nmeas = mean(nmeas),
-                        wag_neff_min = min(n),
-                        wag_neff_mean = mean(n),
-                        wag_neff_max = max(n)) ) %>%
-  write_csv("./AIGKC/output/observer/retained_neff_boot_table.csv")
+wag_ret_tab <- data.frame()
+wag_ret_files <- list.files("./AIGKC/output/observer/length_comp_boot", pattern = "wag_retained_comp_boot", full.names = T)
+for(file in 1:length(wag_ret_files)) {
   
+  readRDS(wag_ret_files[file]) %>%
+    mutate(fishery = "WAG") %>%
+    left_join(dock %>%
+                filter(size > 100, subdistrict == "WAG") %>% 
+                group_by(crab_year) %>%
+                summarise(n_meas = n()) %>% ungroup) %>% 
+    group_by(fishery, crab_year) %>%
+    summarise(n_deliveries = mean(n_deliveries),
+              n_meas = mean(n_meas),
+              neff_min = min(n),
+              neff_mean = mean(n),
+              neff_max = max(n)) -> wag_ret_tab[file, 1:7]
   
+}
+write_csv(wag_ret_tab, "./AIGKC/output/observer/length_comp_boot/retained_neff_boot_table_wag.csv")
+
+
+eag_ret_tab <- data.frame()
+eag_ret_files <- list.files("./AIGKC/output/observer/length_comp_boot", pattern = "eag_retained_comp_boot", full.names = T)
+for(file in 1:length(eag_ret_files)) {
+  
+  readRDS(eag_ret_files[file]) %>%
+    mutate(fishery = "EAG") %>%
+    left_join(dock %>%
+                filter(size > 100, subdistrict == "EAG") %>% 
+                group_by(crab_year) %>%
+                summarise(n_meas = n()) %>% ungroup) %>% 
+    group_by(fishery, crab_year) %>%
+    summarise(n_deliveries = mean(n_deliveries),
+              n_meas = mean(n_meas),
+              neff_min = min(n),
+              neff_mean = mean(n),
+              neff_max = max(n)) -> eag_ret_tab[file, 1:7]
+  
+}
+write_csv(eag_ret_tab, "./AIGKC/output/observer/length_comp_boot/retained_neff_boot_table_eag.csv")
 
 
 
-## eag
-lapply(list.files("./AIGKC/output/observer", pattern = "eag_total_comp_boot", full.names = T), readRDS) %>%
-  bind_rows %>%
-  dplyr::select(-data) %>%
-  mutate(subdistrict = "EAG") %>% 
-  left_join(obs_meas %>% 
-              filter(subdistrict == "EAG",
-                     sex == 1, size > 100) %>%
-              group_by(crab_year) %>%
-              summarise(nmeas = n())) -> eag_tot
+wag_tot_tab <- data.frame()
+wag_tot_files <- list.files("./AIGKC/output/observer/length_comp_boot", pattern = "wag_total_comp_boot", full.names = T)
+for(file in 1:length(wag_tot_files)) {
+  
+  readRDS(wag_tot_files[file]) %>%
+    mutate(fishery = "WAG") %>%
+    left_join(obs_meas %>%
+                filter(size > 100, subdistrict == "WAG") %>% 
+                group_by(crab_year) %>%
+                summarise(n_meas = n()) %>% ungroup) %>% 
+    group_by(fishery, crab_year) %>%
+    summarise(n_meas_pots = mean(n_meas_pots),
+              n_meas = mean(n_meas),
+              neff_min = min(n),
+              neff_mean = mean(n),
+              neff_max = max(n)) -> wag_tot_tab[file, 1:7]
+  
+}
+write_csv(wag_tot_tab, "./AIGKC/output/observer/length_comp_boot/total_neff_boot_table_wag.csv")
 
 
-## wag
-lapply(list.files("./AIGKC/output/observer", pattern = "wag_total_comp_boot", full.names = T), readRDS) %>%
-  bind_rows %>%
-  dplyr::select(-data) %>%
-  mutate(subdistrict = "WAG") %>% 
-  left_join(obs_meas %>% 
-              filter(subdistrict == "WAG",
-                     sex == 1, size > 100) %>%
-              group_by(crab_year) %>%
-              summarise(nmeas = n())) -> wag_tot
-
-
-eag_tot %>%
-  group_by(crab_year) %>%
-  summarise(eag_nmeas = mean(nmeas),
-            eag_neff_min = min(n),
-            eag_neff_mean = mean(n),
-            eag_neff_max = max(n)) %>%
-  mutate(gap = NA) %>%
-  left_join(wag_tot %>%
-              group_by(crab_year) %>%
-              summarise(wag_nmeas = mean(nmeas),
-                        wag_neff_min = min(n),
-                        wag_neff_mean = mean(n),
-                        wag_neff_max = max(n)) ) %>%
-  write_csv("./AIGKC/output/observer/total_neff_boot_table.csv")
-
-
-
-
+eag_tot_tab <- data.frame()
+eag_tot_files <- list.files("./AIGKC/output/observer/length_comp_boot", pattern = "eag_total_comp_boot", full.names = T)
+for(file in 1:length(eag_tot_files)) {
+  
+  readRDS(eag_tot_files[file]) %>%
+    mutate(fishery = "EAG") %>%
+    left_join(obs_meas %>%
+                filter(size > 100, subdistrict == "EAG") %>% 
+                group_by(crab_year) %>%
+                summarise(n_meas = n()) %>% ungroup) %>% 
+    group_by(fishery, crab_year) %>%
+    summarise(n_meas_pots = mean(n_meas_pots),
+              n_meas = mean(n_meas),
+              neff_min = min(n),
+              neff_mean = mean(n),
+              neff_max = max(n)) -> eag_tot_tab[file, 1:7]
+  
+}
+eag_tot_tab %>%
+  group_by(fishery, crab_year) %>%
+  summarise(n_meas_pots = mean(n_meas_pots),
+            n_meas = mean(n_meas),
+            neff_min = min(neff_min),
+            neff_mean = mean(neff_mean),
+            neff_max = max(neff_max)) %>% ungroup %>%
+write_csv("./AIGKC/output/observer/length_comp_boot/total_neff_boot_table_eag.csv")

@@ -1,7 +1,7 @@
 # notes ----
 # observer cpue standardization with GAMs
 # tyler jackson
-# 3/27/ 2023
+# 3/7/ 2025
 
 # load ----
 
@@ -14,13 +14,13 @@ library(DHARMa)
 # data ----
 
 # fish ticket data
-ft_raw <- read_csv("./AIGKC/data/observer/item2_linked_fish_ticket_dump.csv")
+ft_raw <- read_csv("./AIGKC/data/observer/2025/linked_fish_ticket_dump.csv")
 
 # observer pots
-obs_raw <- read.csv("./AIGKC/data/observer/item1_linked_potsum_dump.csv", na.strings = -9)
+obs_raw <- read.csv("./AIGKC/data/observer/2025/linked_potsum_dump.csv", na.strings = -9)
 
 # season dates
-season_dates <- readRDS("./AIGKC/data/observer/season_dates.RDS")
+season_dates <- read.csv("./AIGKC/data/observer/2025/season_dates.csv")
 
 # bathy slope
 eag_slope <- readRDS("./AIGKC/data/bathy/eag_bathy_slope.RDS")
@@ -49,7 +49,7 @@ obs_raw %>%
       # remove missing key data
       filter(!is.na(crab_year),
              crab_year >= 1995,
-             !is.na(sampdate),
+             !is.na(sample_date),
              !is.na(permit_holder),
              !is.na(adfg),
              !is.na(soaktime),
@@ -89,12 +89,12 @@ obs_raw %>%
       # join to season start date
       left_join(season_dates %>% rename(subdistrict = fishery)) %>%
       mutate(start_date = mdy(start_date),
-             season_day =  yday(sampdate) - yday(start_date)) %>%
+             season_day =  yday(sample_date) - yday(start_date)) %>%
       arrange(crab_year, adfg, permit_holder) %>%
       # get data
-      transmute(crab_year = factor(crab_year), adfg = factor(adfg), trip, sampdate = as_date(sampdate),
-                month = factor(month(sampdate), levels = c(7:12, 1:6)), 
-                yday = yday(sampdate) - yday(mdy(paste0("7/1/", as.numeric(as.character(crab_year))))),
+      transmute(crab_year = factor(crab_year), adfg = factor(adfg), trip, sample_date = as_date(sample_date),
+                month = factor(month(sample_date), levels = c(7:12, 1:6)), 
+                yday = yday(sample_date) - yday(mdy(paste0("7/1/", as.numeric(as.character(crab_year))))),
                 yday = ifelse(yday < 0, abs(yday) + yday(mdy(paste0("7/1/", as.numeric(as.character(crab_year))))), yday),
                 start_date,
                 season_day,
@@ -129,7 +129,6 @@ obs_raw %>%
     
   })) -> obs_core
   
-
 
 # plot of core data cpue ----
 
@@ -415,15 +414,15 @@ obs_core %>%
 
 
 # tweedie model
-# f_step_gam(null = bam(tot_legal ~ crab_year,
-#                       family = tw(), data = post_eag),
-#            full_scope = list(~(crab_year + s(soaktime) + month + adfg + permit_holder +
-#                                gearcode + s(depth) + s(slope) + block))) -> post_eag_std_tw
-# saveRDS(post_eag_std_tw, "./AIGKC/output/cpue_std/2024/may/post_eag_std_tw.RDS")
-post_eag_tw <- readRDS("./AIGKC/output/cpue_std/2024/may/post_eag_std_tw.RDS")[[1]]
+f_step_gam(null = bam(tot_legal ~ crab_year,
+                      family = tw(), data = post_eag),
+           full_scope = list(~(crab_year + s(soaktime) + month + adfg + permit_holder +
+                               gearcode + s(depth) + s(slope) + block))) -> post_eag_std_tw
+saveRDS(post_eag_std_tw, "./AIGKC/output/cpue_std/2025/may/post_eag_std_tw.RDS")
+post_eag_tw <- readRDS("./AIGKC/output/cpue_std/2025/may/post_eag_std_tw.RDS")[[1]]
 
 # plots of dharma residuals
-f_dharma(post_eag_tw, path = "./AIGKC/figures/cpue_std/2024/may/post_eag_std_tw_dharma.png")
+f_dharma(post_eag_tw, path = "./AIGKC/figures/cpue_std/2025/may/post_eag_std_tw_dharma.png")
 
 # neg biom model
 # f_step_gam(null = bam(tot_legal ~ crab_year,
@@ -465,13 +464,13 @@ plot(sm(post_eag_viz, select = 1)) +
   l_ciLine()+
   labs(x = "Soak Time (hr)", y = "f(Soak Time)") -> st
 
-ggsave("./AIGKC/figures/cpue_std/2024/may/post_eag_effects.png",
+ggsave("./AIGKC/figures/cpue_std/2025/may/post_eag_effects.png",
        plot = gridPrint(mo, vs, gc, st, ncol = 2),
        height = 6, width = 8, units = "in")
 
 # index step plot
 f_step_plot(post_eag_tw, term_labs = c("Year", "+ s(Soak Time)", "+ Month", "+ Vessel", "+ Gear")) -> x
-ggsave("./AIGKC/figures/cpue_std/2024/may/post_eag_tw_step.png",
+ggsave("./AIGKC/figures/cpue_std/2025/may/post_eag_tw_step.png",
        plot = x + scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels),
        height = 8, width = 5, units = "in")
 
@@ -480,8 +479,18 @@ ggsave("./AIGKC/figures/cpue_std/2024/may/post_eag_tw_step.png",
 loc <- grep("year", names(coef(post_eag_tw)))
 yrs <- unique(post_eag$crab_year)
 post_eag_index <- f_getCPUE_gam(post_eag_tw, loc, yrs)
-write_csv(post_eag_index, "./AIGKC/output/cpue_std/2024/may/post_eag_index.csv")
+write_csv(post_eag_index, "./AIGKC/output/cpue_std/2025/may/post_eag_index.csv")
 
+# extract nominal index
+post_eag %>%
+  mutate(year = as.character(crab_year)) %>%
+  group_by(year) %>%
+  summarise(index = mean(tot_legal)) %>% ungroup %>%
+  mutate(index = index / (prod(index)^(1/n())),
+         period = "post",
+         type = "Nominal", 
+         subdistrict = "EAG") %>%
+  write_csv("./AIGKC/output/cpue_std/2025/may/post_eag_nominal_index.csv")
 
 # # post-rationalized eag, ti ----
 # 
@@ -824,26 +833,26 @@ obs_core %>%
 #                       family = tw, data = pre_wag),
 #            full_scope = list(~(crab_year + s(soaktime) + month + adfg + permit_holder +
 #                                gearcode + s(depth) + s(slope) + block))) -> pre_wag_std_tw
-# saveRDS(pre_wag_std_tw, "./AIGKC/output/cpue_std/2024/may/pre_wag_std_tw.RDS")
-pre_wag_tw <- readRDS("./AIGKC/output/cpue_std/2024/may/pre_wag_std_tw.RDS")[[1]]
+# saveRDS(pre_wag_std_tw, "./AIGKC/output/cpue_std/2025/may/pre_wag_std_tw.RDS")
+pre_wag_tw <- readRDS("./AIGKC/output/cpue_std/2025/may/pre_wag_std_tw.RDS")[[1]]
 
 # plots of dharma residuals
-f_dharma(pre_wag_tw, path = "./AIGKC/figures/cpue_std/2024/may/pre_wag_std_tw_dharma.png")
+f_dharma(pre_wag_tw, path = "./AIGKC/figures/cpue_std/2025/may/pre_wag_std_tw_dharma.png")
 
 # # neg biom model
-# f_step_gam(null = bam(tot_legal ~ crab_year,
-#                       family = nb, data = pre_wag),
-#            full_scope = list(~(crab_year + s(soaktime) + month + adfg + permit_holder +
-#                                gearcode + s(depth) + s(slope) + block))) -> pre_wag_std_nb
-# saveRDS(pre_wag_std_nb, "./AIGKC/output/cpue_std/2024/may/pre_wag_std_nb.RDS")
-pre_wag_nb <- readRDS("./AIGKC/output/cpue_std/2024/may/pre_wag_std_nb.RDS")[[1]]
+f_step_gam(null = bam(tot_legal ~ crab_year,
+                      family = nb, data = pre_wag),
+           full_scope = list(~(crab_year + s(soaktime) + month + adfg + permit_holder +
+                               gearcode + s(depth) + s(slope) + block))) -> pre_wag_std_nb
+saveRDS(pre_wag_std_nb, "./AIGKC/output/cpue_std/2025/may/pre_wag_std_nb.RDS")
+pre_wag_nb <- readRDS("./AIGKC/output/cpue_std/2025/may/pre_wag_std_nb.RDS")[[1]]
 
 # plots of dharma residuals
-f_dharma(pre_wag_nb, path = "./AIGKC/figures/cpue_std/2024/may/pre_wag_std_nb_dharma.png")
+f_dharma(pre_wag_nb, path = "./AIGKC/figures/cpue_std/2025/may/pre_wag_std_nb_dharma.png")
 
 # index step plot
 f_step_plot(pre_wag_nb, term_labs = c("Year", "+ Permit Holder", "+ s(Soak Time)", "+ Gear")) -> x
-ggsave("./AIGKC/figures/cpue_std/2024/may/pre_wag_nb_step.png",
+ggsave("./AIGKC/figures/cpue_std/2025/may/pre_wag_nb_step.png",
        plot = x,
        height = 8, width = 5, units = "in")
 
@@ -870,7 +879,7 @@ plot(sm(pre_wag_viz, select = 1)) +
   l_ciLine()+
   labs(x = "Soak Time (hr)", y = "f(Soak Time)") -> st
 
-ggsave("./AIGKC/figures/cpue_std/2024/may/pre_wag_effects.png",
+ggsave("./AIGKC/figures/cpue_std/2025/may/pre_wag_effects.png",
        plot = gridPrint(ph, gc, st, ncol = 2),
        height = 6, width = 8, units = "in")
 
@@ -893,7 +902,9 @@ ggsave("./AIGKC/figures/cpue_std/2024/may/pre_wag_effects.png",
 loc <- grep("year", names(coef(pre_wag_nb)))
 yrs <- unique(pre_wag$crab_year)
 pre_wag_index <- f_getCPUE_gam(pre_wag_nb, loc, yrs)
-write_csv(pre_wag_index, "./AIGKC/output/cpue_std/2024/may/pre_wag_index.csv")
+write_csv(pre_wag_index, "./AIGKC/output/cpue_std/2025/may/pre_wag_index.csv")
+
+
 
 # # pre-rationalized wag, ti ----
 # 
@@ -1013,15 +1024,15 @@ obs_core %>%
   unnest(core) -> post_wag
 
 # tweedie
-# f_step_gam(null = gam(tot_legal ~ crab_year,
-#                       family = tw(), data = post_wag),
-#            full_scope = list(~(crab_year + s(soaktime) + month + adfg + permit_holder +
-#                                  gearcode + s(depth) + s(slope) + block))) -> post_wag_tw
-# saveRDS(post_wag_tw, "./AIGKC/output/cpue_std/2024/may/post_wag_std_tw.RDS")
-post_wag_tw <- readRDS("./AIGKC/output/cpue_std/2024/may/post_wag_std_tw.RDS")[[1]]
+f_step_gam(null = gam(tot_legal ~ crab_year,
+                      family = tw(), data = post_wag),
+           full_scope = list(~(crab_year + s(soaktime) + month + adfg + permit_holder +
+                                 gearcode + s(depth) + s(slope) + block))) -> post_wag_tw
+saveRDS(post_wag_tw, "./AIGKC/output/cpue_std/2025/may/post_wag_std_tw.RDS")
+post_wag_tw <- readRDS("./AIGKC/output/cpue_std/2025/may/post_wag_std_tw.RDS")[[1]]
 
 # plots of dharma residuals
-f_dharma(post_wag_tw, path = "./AIGKC/figures/cpue_std/2024/may/post_wag_std_tw_dharma.png")
+f_dharma(post_wag_tw, path = "./AIGKC/figures/cpue_std/2025/may/post_wag_std_tw_dharma.png")
 
 # fit
 # f_step_gam(null = gam(tot_legal ~ crab_year,
@@ -1051,20 +1062,21 @@ plot(pterm(post_wag_viz, select = 3))+
   l_ciBar(linetype = 1, width = 0)+
   labs(x = "Permit Holder", y = "f(Permit Holder)")+
   theme(axis.text.x = element_blank()) -> ph
-# permit holder
+# gearcode
 plot(pterm(post_wag_viz, select = 4))+ 
   l_points(color = "grey70", alpha = 0.5)+
   l_fitPoints()+
   l_ciBar(linetype = 1, width = 0)+
-  labs(x = "Gear", y = "f(Gear)") -> gc
+  labs(x = "Gear", y = "f(Gear)")+
+  scale_x_discrete(labels = c("Round Pot", "10x10", "6.5x7", "5x5", "6x6", "7x7", "8x8")) -> gc
 
-ggsave("./AIGKC/figures/cpue_std/2024/may/post_wag_effects.png",
+ggsave("./AIGKC/figures/cpue_std/2025/may/post_wag_effects.png",
        plot = gridPrint(mo, ph, gc, ncol = 2),
        height = 6, width = 8, units = "in")
 
 # index step plot
 f_step_plot(post_wag_tw, term_labs = c("Year", "+ Month", "+ Permit Holder", "+ Gear")) -> x
-ggsave("./AIGKC/figures/cpue_std/2024/may/post_wag_tw_step.png",
+ggsave("./AIGKC/figures/cpue_std/2025/may/post_wag_tw_step.png",
        plot = x + scale_x_discrete(breaks = yraxis$breaks, labels = yraxis$labels),
        height = 8, width = 5, units = "in")
 
@@ -1072,8 +1084,17 @@ ggsave("./AIGKC/figures/cpue_std/2024/may/post_wag_tw_step.png",
 loc <- grep("year", names(coef(post_wag_tw)))
 yrs <- unique(post_wag$crab_year)
 post_wag_index <- f_getCPUE_gam(post_wag_tw, loc, yrs)
-write_csv(post_wag_index, "./AIGKC/output/cpue_std/2024/may/post_wag_index.csv")
+write_csv(post_wag_index, "./AIGKC/output/cpue_std/2025/may/post_wag_index.csv")
 
+# nominal index
+write_csv(post_wag %>%
+            mutate(year = as.character(crab_year)) %>%
+            group_by(year) %>%
+            summarise(index = mean(tot_legal)) %>% ungroup %>%
+            mutate(index = index / (prod(index)^(1/n())),
+                   period = "post",
+                   type = "Nominal", 
+                   subdistrict = "WAG"), "./AIGKC/output/cpue_std/2025/may/post_wag_nominal_index.csv")
 
 # # post-rationalized wag, ti ----
 # 
@@ -1319,8 +1340,8 @@ bind_rows(pre_wag %>%
   
   # join to standardized indices
   ## no yrb
-  bind_rows(bind_rows(read_csv("./AIGKC/output/cpue_std/2024/may/pre_wag_index.csv") %>% mutate(period = "pre"),
-                      read_csv("./AIGKC/output/cpue_std/2024/may/post_wag_index.csv") %>% mutate(period = "post")) %>%
+  bind_rows(bind_rows(read_csv("./AIGKC/output/cpue_std/2025/may/pre_wag_index.csv") %>% mutate(period = "pre"),
+                      read_csv("./AIGKC/output/cpue_std/2025/may/post_wag_index.csv") %>% mutate(period = "post")) %>%
               mutate(type = "Standardized")) %>%
   
   mutate(type = factor(type, levels = c("Nominal", "Standardized"))) %>%
@@ -1335,7 +1356,7 @@ bind_rows(pre_wag %>%
   scale_linetype_manual(values = c(1, 1, 1, 2))+
   theme(legend.justification = c(1, 1),
         legend.position = c(1, 1)) -> wag_timserseries
-ggsave("./AIGKC/figures/cpue_std/2024/may/wag_std_cpue_timeseries.png",
+ggsave("./AIGKC/figures/cpue_std/2025/may/wag_std_cpue_timeseries.png",
        plot = wag_timserseries,
        height = 3, width = 6, units = "in")
 
