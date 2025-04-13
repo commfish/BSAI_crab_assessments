@@ -215,13 +215,14 @@ There are no new changes in management of the fishery.
 ## 2. Changes to the input data {-}
 
 \begin{enumerate}[a]
-\item{Updated directed fishery total catch 1990 - 2023 (Appendix A);}
-\item{Updated directed fishery total length composition data 1990 - 2023 (Appendix A);}
+\item{Updated directed fishery total catch 1990 - 2024 (Appendix A);}
+\item{Updated directed fishery total length composition data 1990 - 2024 (Appendix A);}
 \item{Updated observer CPUE index 2005 - 2024 (Appendix B);}
 \item{Retained catch for the directed fishery during the 2024/25 season;}
 \item{Total catch for the directed fishery during the 2024/25 season;}
 \item{Bycatch in groundfish fisheries during the 2024 crab year;}
 \item{Retained and total length composition data for the directed fishery during the 2024/25 season;}
+\item{Observer size composition data include data from all rectangular shaped pots to better estimate total size composition in the WAG in 1993 (Jackson 2024).}
 \end{enumerate}
 
 ## 3. Changes in assessment methodology {-}
@@ -232,13 +233,15 @@ There are no new changes in management of the fishery.
 \item{Two models are compared in this report (See Section E.3.a for details):}
 \begin{itemize}
 \item{\textbf{23.1c}: 2024 base model, with updated time series data, and alternative bias correction on recruitment deviations from 1960 - 1981;}
-\item{\textbf{25.0b}: 23.1c + starting the model in a non-equilbirum condition in 1981, using equal weight among catch data series, and bootstrap estimated stage 1 effective sample sizes for length composition data.}
+\item{\textbf{25.0b}: Model 23.1c + with non-equilibrium initial conditions, starting in 1981, equal emphasis all likelihood components ($\lambda$ = 1), and bootstrap estimated stage-1 effective sample sizes.}
 \end{itemize}
 \end{enumerate}
 
 ## 4. Changes in assessment results {-}
 
-Model 23.0a was recommended by the CPT to replace the 2023 acceptable model as the 'base' model since it improved reproducibility of time series data and made recommended updates to CPUR standardization with little impact to model performance (Jackson 2024). The alternative models reported here (models 23.1 and 23.1b) explore removing minus-sized crab ($\leq$ 100 mm carapace length) from size composition data and the addition of a second pre-rationalization selectivity period, sequentially. Truncating size data resulted in better fits to composition data and lower selectivity in both the EAG and WAG. In the EAG, these models resulted in lower time series MMB estimates and reference points, which was not necessarily the case in the WAG. Model 23.1b corresponds to the use of escape mesh by regulation starting in 1997 (SOA 5 AAC 34.625(b)(1)). Dividing pre-rationalization in to two selectivity periods (1960 - 1994; 1997-2004) improved fits to both retained and total catch size composition data in the EAG, but only retained catch size composition data in the WAG. All models estimated a decreased in MMB at mating in 2023 compared to 2022 in the EAG, and a slight increase in the WAG. The author preferred model was 23.1b.
+Model 23.0a was recommended by the CPT to replace the 2023 acceptable model as the 'base' model since it improved reproducibility of time series data and made recommended updates to CPUR standardization with little impact to model performance (Jackson 2024). 
+
+The alternative models reported here (models 23.1 and 23.1b) explore removing minus-sized crab ($\leq$ 100 mm carapace length) from size composition data and the addition of a second pre-rationalization selectivity period, sequentially. Truncating size data resulted in better fits to composition data and lower selectivity in both the EAG and WAG. In the EAG, these models resulted in lower time series MMB estimates and reference points, which was not necessarily the case in the WAG. Model 23.1b corresponds to the use of escape mesh by regulation starting in 1997 (SOA 5 AAC 34.625(b)(1)). Dividing pre-rationalization in to two selectivity periods (1960 - 1994; 1997-2004) improved fits to both retained and total catch size composition data in the EAG, but only retained catch size composition data in the WAG. All models estimated a decreased in MMB at mating in 2023 compared to 2022 in the EAG, and a slight increase in the WAG. The author preferred model was 23.1b.
 
 Estimated reference points suggested a jdkfds.....
 
@@ -547,7 +550,9 @@ Prior to the crab rationalization, AIGKC regulatory seasons did not conform to t
 
 ### a. Directed fishery catch {-}
 
-Retained catch (t) in the directed fishery was summarized from fish ticket data for 1981 - present. Retained catch is only available in units of numbers from 1981 - 1984. Total catch (t) of male crab was estimated from a combination of fish ticket and observer data for 1990 - present. Handling mortality for directed fishery discards is assumed to be 20$\%$.  
+Retained catch (t) in the directed fishery was summarized from fish ticket data for 1981 - present. Retained catch is only available in units of numbers from 1981 - 1984. Total catch (t) of male crab was estimated from a combination of fish ticket and observer data for 1990 - present (Jackson $in$ $prep$). Handling mortality for directed fishery discards is assumed to be 20$\%$.  
+
+Total catch estimates for 1993/94 are not used in EAG models. The 1993/94 season in the EAG (east of 171$^\circ$ W lon) was open from September 1, 1993 to March 1, 1994, and there was no observer coverage in the EAG during that season. Observer data that are assigned to the 1993/94 EAG season were actually from the easternmost portion (174$^\circ$ W lon - 171$^\circ$ W lon) of the WAG fishery in 1992/93, which ran from November 1, 1992 to August 15, 1993 (i.e., July 1 - August 15, 1993 get assigned to the 1993/94 crab year).
 
 ### b. Bycatch in groundfish fisheries {-}
 
@@ -555,7 +560,9 @@ Bycatch of male GKC in groundfish fisheries was estimated for trawl and fixed ge
 
 ### c. Size composition {-}
 
-Retained and total catch size compositions of males in the directed fishery was estimated from retained catch sampling and on-board observer data. Retained catch size frequencies are available from 1985 - present and observer size frequencies are available from 1990 - present.
+Retained and total catch size compositions of males in the directed fishery was estimated from retained catch sampling and on-board observer data. Retained catch size frequencies are available from 1985 - present and observer size frequencies are available from 1990 - present.  
+
+Previous assessments removed various uncommon or non-target species gear types by recommendation from the fleet (M. Siddeek, ADF\&G personal communication, 2023). Those include: Dungeness crab pots, pyramid pots, conical pots, hair crab pots, snail pots, cods, dome shaped pots, ADF\&G research pots with stretch mesh instead of escape rings, and rectangular pots measuring 9'x 9', 8 1/2' x 8 1/2', 9 1/2' x 9 1/2', 8' x 9', 8' x 10', 9' x 10', 7' x 8', or with unknown dimension. In 1993, nearly all WAG observer (162 / 174) pots belonged to one of those categories, mostly unknown sized rectangular pots (160). Including all rectangular pots has little impact on the size composition in other years in either subdistrict, so the total size composition time series was revised to include all rectangular pots (Jackson 2024).
 
 
 ### d. Catch per unit effort (CPUE) {-}
@@ -564,7 +571,28 @@ Directed fishery catch per unit effort (CPUE) was estimated as the number of cra
 
 ### e. Cooperative survey {-}
 
-The AIGKC cooperative pot survey was initiated in 2015 in the EAG and has continued every year since with the exception of 2020. The survey was extended to WAG in 2018. The main purpose of the survey is to generate a cost effective data stream available to the stock assessment that is spatially representative and less susceptible to hyperstability than fishery CPUE. The survey has occurred during the beginning of each season, with participating vessels setting pots strings at pre-determined stations and later picking strings with ADF\&G staff on board for collection of biological data. Survey data is available for 2015 - 2022 in the EAG and 2018 and 2019 in the WAG. A summary of analysis of cooperative survey data can be found in Appendix C of Jackson (2024). Models utilizing survey CPUE and size composition data were not considered for the 2024 final assessment.
+The AIGKC cooperative pot survey was initiated in 2015 in the EAG and has continued every year since with the exception of 2020. The survey was extended to WAG in 2018. The main purpose of the survey is to generate a cost effective data stream available to the stock assessment that is spatially representative and less susceptible to hyperstability than fishery CPUE. The survey has occurred during the beginning of each season, with participating vessels setting pots strings at pre-determined stations and later picking strings with ADF\&G staff on board for collection of biological data. Survey data is available for 2015 - 2022 in the EAG and 2018 and 2019 in the WAG. A summary of analysis of cooperative survey data can be found in Appendix A of Jackson (2024). Models utilizing survey CPUE and size composition data were not considered for the 2025 final assessment.
+
+
+### f. Incomplete directed fishery {-}
+
+In the even that the most recent directed fishery is not complete by the time data must be prepared for the final assessment, terminal year data are estimated with the following assumptions:
+
+\begin{itemize}
+\item{Retained catch equals the total allowable catch (TAC);}
+\item{Total catch is estimated as usual, though using the observer CPUE ($U_{obs, group}$, crab per pot lift) to-date and total directed effort ($N$) as
+
+\begin{equation}
+N = \frac{\text{TAC}}{wU_{ft}}
+\end{equation}
+
+where $w$ is the average calculated weight of legal males in the fishery based on observer samples to-date, and $U_{ft}$ is the retained legal male CPUE to date;}
+\item{Retained catch size composition is estimated based on dockside samples to-date;}
+\item{Total catch size composition is estimated based on observer samples to-date.}
+
+\end{itemize}
+
+Models are re-run with completed data prior to determining the TAC for the upcoming season. At the time of preparing this document, the 2024/25 fishery in the EAG was incomplete by \~ 50,000 lb (1$\%$ of the TAC).
 
 
 ## 3. Aggregated data {-}
@@ -628,19 +656,19 @@ GMACS code have been check at various times by developers and independent review
 
 ### a. Alternative model configurations {-}
 
-The following three models were evaluated for the EAG and WAG:
+Two models were evaluated for the EAG and WAG:
 
 \begin{itemize}
 
-\item{\textbf{23.0a}: The base model from the 2023 final assessment (22.1e2) with updated time series data and CPUE indices (Appendix A and B, Jackson 2024). This model considers}:
+\item{\textbf{23.1c}: The base model from the 2024 final assessment (23.1) with updated time series data and CPUE indices, and corrected recruitment bias correction from 1960 - 1980 (Jackson 2024). This model considers}:
 
   \begin{enumerate}[(i)]
   
-  \item {Initial abundance by the equilibrium condition considering the mean number of recruits for 1987–2020: The equilibrium abundance was determined for 1960, projected forward with only $M$ and annual recruits until 1980, then retained catch removed during 1981–1984 and projected to obtain the initial abundance in 1985;}
+  \item {Initial abundance by the equilibrium condition considering the mean number of recruits for 1987–2021: The equilibrium abundance was determined for 1960, projected forward with only $M$ and annual recruits until 1980, then retained catch removed during 1981–1984 and projected to obtain the initial abundance in 1985;}
   
   \item	{Fish ticket CPUE index for 1985 - 1998, with index specific catchability and logistic selectivity;}
   
-  \item	{Observer CPUE indices for 1995/96 - 2004/05 and 2005/06 - 2023/24, with index specific catchability and logistic selectivity;}
+  \item	{Observer CPUE indices for 1995/96 - 2004/05 and 2005/06 - 2024/25, with index specific catchability and logistic selectivity;}
   
   \item	{Initial (Stage-1) weighting of effective sample sizes: number of vessel-days for retained and total catch size compositions; and (Stage-2) iterative re-weighting of effective sample sizes by the Francis method;}
   
@@ -650,17 +678,15 @@ The following three models were evaluated for the EAG and WAG:
   
   \item {Knife-edge maturity size of 116 mm CL;}
   
-  \item {Natural mortality, $M$ = 0.22 yr$^{-1}$, directed fishery handling mortality = 0.2 yr$^{-1}$, and mean groundfish bycatch mortality = 0.65 yr$^{-1}$;}
+  \item {Natural mortality, $M$ = 0.22 yr$^{-1}$, directed fishery handling mortality = 0.2 yr$^{-1}$, and weight groundfish bycatch mortality based on the annual proportion of trawl (0.8 yr$^{-1}$) and fixed-gear (0.5 yr$^{-1}$) bycatch;}
   
   \item {Size transition matrix using tagging data estimated by the normal probability function with the logistic molt probability sub-model. The tag-recaptures were treated as Bernoulli trials (i.e., Stage-1 weighting);}
   
-  \item {The period, 1987–2020, was used to determine the mean number of recruits for MMB$_{35\%}$ (a proxy for MMB$_{\text{MSY}}$) estimation under Tier 3.}
+  \item {The period, 1987–2021, was used to determine the mean number of recruits for MMB$_{35\%}$ (a proxy for MMB$_{\text{MSY}}$) estimation under Tier 3.}
   
   \end{enumerate}
 
-\item{\textbf{23.1}: Model 23.0a + truncated size composition (i.e., first bin $\geq$ 101 - 105 mm);}
-
-\item{\textbf{23.1b}: 23.1 + two selectivity periods in pre-rationalized directed fishery (1985 - 1996, 1997 - 2004) corresponding to the introduction of escape mesh.}
+\item{\textbf{25.0b}: Model 23.1c + with non-equilibrium initial conditions, starting in 1981, equal emphasis all likelihood components ($\lambda$ = 1), and bootstrap estimated stage-1 effective sample sizes.}
 
 \end{itemize}
 
@@ -678,7 +704,19 @@ ADMB default convergence criteria.
 
 ### e. Sample sizes for length composition data {-}
 
-The initial input sample sizes (i.e., Stage-1) were estimated either as number of vessel-days for retained, or observer-days for total catch size compositions. Then the Stage-2 effective sample sizes were estimated iteratively from Stage-1 sample sizes using the Francis’ (2011, 2017) mean length-based method (Table \ref{table:eagsampsize} and \ref{table:wagsampsize}).
+The initial input sample sizes (i.e., Stage-1) were estimated either as number of vessel-days for retained, or observer-days for total catch size compositions for model 23.1c. Model 25.0b evaluates sample sizes based on variability in the data. Stage-1 effective sample sizes $N_{eff}$ were estimated using a bootstrap approach based on Stewart and Hamel (2014). The resampling design was two-staged, first within the primary sampling unit (delivery or observer pot) and second by individual crab. Resampling was done with replacement to observed sample sizes. Effective sample size for a given year was estimated as 
+
+\begin{equation}
+N_{eff} = \frac{ \sum_{l} {P_{l}(1 - P_{l})}}{\sum_{l}{(P_{l} - B_{l})^{2}}}
+\end{equation}
+
+where $P_{l}$ and $B_{l}$ are the observed and bootstrap proportion of crab measured in length bin, $l$, respectively. Annual estimates of effective sample size were computed as the mean of 1,000 replicates for each year in both data series. Estimated $N_{eff}$ are in Table \ref{table:retneff} and \ref{table:totneff}. Since estimated $N_{eff}$ was quite large for many years, observed stage-1 sample sizes were reduced to 
+
+\begin{equation}
+N_{eff}^{\prime} = \text{min}(2000,N_{eff})
+\end{equation}
+
+Then effective sample sizes were iteratively re-weighted using the Francis’ (2011, 2017) mean length-based method (Table \ref{table:bootsampsize}).
 
 ### f. Credible parameter estimates {-}
 
@@ -686,11 +724,11 @@ All estimated parameters seem to be credible and within bounds.
 
 ### g. Model selection criteria {-}
 
-The likelihood values are used to select among alternatives that could be legitimately compared by that criterion.
+The likelihood values are used to select among alternatives that could be legitimately compared by that criterion. Total negative log-likelihoods of models 23.1c and 25.0b are not comparable due to differences in data weighting.
 
 ### h. Residual analysis {-}
 
-Residual plots are illustrated in various figures.
+Residual plots are illustrated in various figures for CPUE standardization. One step ahead (OSA) residuals were computed for size composition data using the R package $compResidual$ (Trijoulet and Nielsen 2022). OSA residuals are preferred for diagnosis of multivariate models because they account for correlation among size bins and conform to a standard normal distribution for correctly specified models (Trijoulet et al., 2023). 
 
 ### i. Model evaluation {-}
 
@@ -701,14 +739,14 @@ Provided under Results, below.
 Retrospective bias was evaluated by iteratively re-running a model and 'peeling' (i.e. removing) the terminal year for each iteration. Mohn's $\rho$ (Mohn 1999) was used to compare retrospective bias in MMB between models:
 
 \begin{equation}
-\text{Mohn's }\rho = \frac{1}{n}\sum^{n}_{y = 1}\frac{{|\text{MMB}_y - {MMB}|}}{MMB}
+\text{Mohn's }\rho = \frac{1}{n}\sum^{n}_{y = 1}\frac{{\text{MMB}_y - {MMB}}}{MMB}
 \end{equation}
 
-where $\text{MMB}_y$ is the terminal year mature male biomass for each peel, MMB is the mature male biomass for the full model, and $n$ is the number of peels. Here the difference in MMB was computed using the absolute value to avoid erroneously low $\rho$ estimates since bias can be both possitive and negative.
+where $\text{MMB}_y$ is the terminal year mature male biomass for each peel, MMB is the mature male biomass for the full model, and $n$ is the number of peels.
 
 ### k. Jittering {-}
 
-The Stock Synthesis approach was followed to do 100 jitter runs to assess model stability and to determine whether a global, as opposed to local, minimum has been reached by the search algorithm. A $Jitter$ factor of 0.3 was multiplied by a random normal deviation $rdev$ = $\mathcal N$(0, 1) to create a transformed parameter value based upon the predefined parameter:
+A $Jitter$ factor of 0.3 was multiplied by a random normal deviation $rdev$ = $\mathcal N$(0, 1) to create a transformed parameter value based upon the predefined parameter:
   	 
 \begin{equation}
 temp = 0.5 \cdot rdev \cdot Jitter \cdot \text{ln} (\frac{P_{max} - P_{min} +0.0000002}{P_{val}-P{min} + 0.0000001}-1)
@@ -720,13 +758,13 @@ with the final jittered initial parameter value back transformed as:
 P_{new}=P_{min}+(\frac{P_{max}-P_{min}}{1 + e^{-2 \cdot temp}})
 \end{equation}
                                                                                              
-where $P_{max}$ and $P_{min}$ are upper and lower bounds of parameter search space and $P_{val}$ is the estimated parameter value before the jittering.
+where $P_{max}$ and $P_{min}$ are upper and lower bounds of parameter search space and $P_{val}$ is the estimated parameter value before the jittering. Each model was re-run in 500 iterations and the distributions of resulting objective functions and reference points were examined.
 
 ## 4. Results {-}
 
 ### a. Effective sample sizes and weighting factors {-} 
 
-Weighting factors were used for catch biomass, recruitment deviation, pot fishery $F$, and groundfish fishery $F$. The retained catch biomass weight was set to an arbitrarily large value 500.0 (corresponding to a CV of 0.0316), because retained catch data are more reliable than any other data sets. The total catch biomass weight was scaled in accordance with the observer annual sample sizes (number of non-zero pots) with a maximum of 250.0 (corresponding to variable CV; Table \ref{table:totalcv}). A small groundfish bycatch weight (0.5 corresponding to a CV of 1.3108) was chosen based on the September 2015 CPT suggestion. The CPUE weights were set to 1.0 for all models. A constant (model estimated) variance was included in addition to input CPUE variance for the CPUE fit. Note that the estimated additional variance values were small for both observer and fish ticket CPUE indices for the two subdistricts. Stage 1 and 2 effective sample sizes for retained and total catch size compositions are in Tables \ref{table:eagsampsize} and \ref{table:wagsampsize}.
+Weighting factors were used for catch biomass, recruitment deviation, pot fishery $F$, and groundfish fishery $F$. The retained catch biomass weight was set to an arbitrarily large value 500.0 (corresponding to a CV of 0.0316), because retained catch data are more reliable than any other data sets. The total catch biomass weight was scaled in accordance with the observer annual sample sizes (number of non-zero pots) with a maximum of 250.0 (corresponding to variable CV; Table \ref{table:totalcv}). A small groundfish bycatch weight (0.5 corresponding to a CV of 1.3108) was chosen based on the September 2015 CPT suggestion. The CPUE weights were set to 1.0 for all models. A constant (model estimated) variance was included in addition to input CPUE variance for the CPUE fit. Note that the estimated additional variance values were small for both observer and fish ticket CPUE indices for the two subdistricts. Input and re-weighted effective sample sizes for retained and total catch size compositions are in Tables \ref{table:basesampsize} - \ref{table:bootsampsize}.
 
 ### b. Parameter estimates and tables {-}
 
@@ -734,9 +772,9 @@ Weighting factors were used for catch biomass, recruitment deviation, pot fisher
 
 \item{Time series of retained and total catch in the directed fishery, bycatch in groundfish fisheries, and total fishing mortality is summarized in Tables \ref{table:eagcatch} - \ref{table:wagcatch};}
 
-\item{Negative log-likelihood values and parameter estimates, excluding annual deviations, are summarized in Tables \ref{table:eaglik} - \ref{table:wagpars};}
+\item{Negative log-likelihood values and parameter estimates, excluding annual deviations, are summarized in Tables \ref{table:lik} - \ref{table:pars};}
 
-\item{Estimated recruitment and MMB time series among models are in Tables \ref{table:eagmmb} - \ref{table:wagmmb}.}
+\item{Estimated recruitment and MMB time series among models are in Tables \ref{table:rec} - \ref{table:mmb}.}
 
 \end{enumerate}
 
@@ -744,17 +782,17 @@ Weighting factors were used for catch biomass, recruitment deviation, pot fisher
 
 \begin{enumerate}[i]
 
-\item{Model 23.0a estimated directed fishery selectivity in the EAG pre-rationalized period to be abnormally high and linear (Figure \ref{fig:eagselex}). Model 23.1 resulted in lower selectivity of recruit size classes and a more pronounced sigmodial shape in both subdistricts. As expected, model 23.1b estimated selectivity pre-1996, before escape mesh regulations, to be slight greater than the pre-rationalized period in model 23.1. Estimated selectivity during the pre-rationalized period, 1997 was more similar to the post rationalized period (Figures \ref{fig:eagselex} - \ref{fig:wagselex}). All models estimated similar post-rationalized selectivity. All models assumed full selectivity for groundfish fishery bycatch. Retention probability was similar among models, characterized as a very steep curve, reaching full retention at approximately legal size (~ 152 mm) (Figures \ref{fig:eagreten} - \ref{fig:wagreten}).}
+\item{Models 23.1c and 25.0b estimated similar selectivity in both subdistricts. Selectivity was considerably greater in the post-rationalized period in comparison to the pre-rationalized period, with selectivity in the EAG being slightly greater than in the WAG (Figure \ref{fig:selex}). All models assumed full selectivity for groundfish fishery bycatch. Retention probability was similar among models, characterized as a very steep curve, reaching full retention at approximately legal size (~ 152 mm).}
 
-\item{There was little difference in molt probability among models 23.0a, 23.1, and 23.1b (Figures \ref{fig:eagmoltprob} - \ref{fig:wagmoltprob}).}
+\item{There was little difference in molt probability among models 23.1c and 25.0b.}
 
-\item{Recruitment trends were generally similar among models, with model 23.1b resulting in more variable recruitment swings during the mid-1990s (Figure \ref{fig:eagrec} and \ref{fig:wagrec}). Recruitment in both subdistricts appears to be increasing from recent lows. Models 23.1 and 23.1b (each limiting size data to greater than 100 mm carapace length) estimated recruitment size distributions more skewed towards smaller sizes than model 23.0a (Figure \ref{fig:eagrecdist} and \ref{fig:wagrecdist}).}
+\item{Recruitment trends were similar among models. Model 25.0b estimated more variable recruitment during the early 90s in the EAG, whereas model 23.1c produced slightly more variable estimates during that period in the WAG. Time series in both subdistricts appears to be increasing from recent lows (Figure \ref{fig:rec}).}
 
-\item{Trajectories of mature male biomass (MMB) at mating (Feb 15) are shown in Figures \ref{fig:eagmmb} - \ref{fig:wagmmb}. Models 23.1 and 23.1b estimated lower MMB than model 23.0a in the EAG, likely because model 23.0a includes individuals than are actually observed in the first size bin. MMB trajectory of model 23.1b differs (and was lower) from model 23.1 during the 1997-2004 selectivity period in the EAG. The recent trend in the EAG suggests a minor decrease in MMB from 2022 Figure \ref{fig:eagmmb}. Model estimated MMB was more similar among models in the WAG, with the largest disparity occurring from ~1994-2004. The recent trend in the WAG was increasing since 2021, but an overall decreasing trend since 2008 (Figure \ref{fig:wagmmb}).}
+\item{Trajectories of mature male biomass (MMB) at mating (Feb 15) are shown in Figure \ref{fig:mmb}. Model 23.1c estimated slightly greater MMB since \~ 2000, reflecting differences in selectivity. This disparity is more apparent in the EAG, than in the WAG. Estimated MMB in 2024 (i.e. Feb 15, 2025) for the EAG decreased again from its recent post-rationalization high in 2022 and increased from the 2023 time series low in the WAG (Table \ref{table:mmb}; Figure \ref{fig:mmb}).
 
-\item{Fully selected fishing mortality ($F$) in the directed fishery and groundfish fisheries are shown in Figures \ref{fig:eagfdir} - \ref{fig:wagfgf}). Directed fishing mortality was highest in the early-1990s, then decreased through the early-2000s. Fishing mortality in the EAG fishery steadily increased and peaked in 2019, before sharply decreasing from 2020-2022. WAG $F$ underwent two cyclical peaks in ~2014 and 2020. Groundfish fishery $F$ is low throughout the timeseries, but has had the most prominent pulses in 2016 and 2020 in the EAG, and 2022 in the WAG (Figures \ref{fig:eagfgf} - \ref{fig:wagfgf}).   
+\item{Fully selected fishing mortality ($F$) in the directed fishery and groundfish fisheries are shown in Figure \ref{fig:fmort}. Directed fishing mortality was highest in the early-1990s, then decreased through the early-2000s. Fishing mortality in the EAG fishery steadily increased and peaked in 2019, before sharply decreasing from 2020-2022. WAG $F$ underwent two cyclical peaks in ~2012 and 2020. Groundfish fishery $F$ is low throughout the timeseries, but has had the most prominent pulses in 2016 and 2020 in the EAG, and 2022 in the WAG (Figures \ref{fig:fmort}).   
 
-Model 23.1b suggested EAG total $F$ exceeded the $F_{\text{OFL}}$ control rule throughout much of the 1990s. Since the 2000 MMB has exceeded B$_{35\%}$ and $F$ has been between below $F_{35\%}$ (Figure \ref{fig:eagkobe}). In the WAG, model 23.1b estimated recent total $F$ exceeded the $F_{\text{OFL}}$ control rule, with MMB less than B$_{35\%}$, though 2023 total $F$ was just under the control rule (Figure \ref{fig:wagkobe}).}
+Total $F$ exceeded the $F_{\text{OFL}}$ control rule throughout much of the 1990s. Since the 2000s MMB in the EAG has exceeded B$_{35\%}$ and $F$ has been below $F_{35\%}$ (Figure \ref{fig:kobe}). In the WAG, estimated recent total $F$ exceeded the $F_{\text{OFL}}$ control rule, with MMB less than B$_{35\%}$, though 2024 total $F$ was marginally under the control rule (Figure \ref{fig:kobe}).}
 
 \end{enumerate}
 
@@ -764,30 +802,36 @@ Model 23.1b suggested EAG total $F$ exceeded the $F_{\text{OFL}}$ control rule t
 
 \item{There was very little difference among model fits to catch data (Figures \ref{fig:eagcatchfit} and \ref{fig:wagcatchfit}).}
 
-\item{EAG models did not fit observer CPUE indices particularly well. A change in selectivity in model 23.1b resulted in slightly poorer fit to EAG fish ticket CPUE from 1997-1998 (Figure \ref{fig:eagindexfit}). Model 23.1b improved fit to WAG observer CPUE from 1995-2004, and all models fit post-rationalized observer CPUE reasonably well (Figure \ref{fig:wagindexfit}).}
+\item{Fits to index data for models 23.1c and 25.0b differed slightly, but neither fits EAG data particular well (Figure \ref{fig:eagindexfit}). Model 25.0b improved fit to WAG observer CPUE from 1995-2004, and all models fit post-rationalized observer CPUE reasonably well (Figure \ref{fig:wagindexfit}).}
 
-\item{Models 23.1 and 23.1b fit size composition better than model 23.0a in both subdistricts (Figures \ref{fig:eagretaggcompfit} - \ref{fig:wagtotmeansize}). Differences in fit to size composition were more prominent for total size composition data than retained size composition data. None of the models fit 1993 WAG total size composition well. Those data should be evaluated for appropriateness of use. Model 23.1b further improved fit to total size composition over model 23.1 in both subdistricts, mostly before 1997 (Figure \ref{fig:eagtotcompfit} and \ref{fig:wagtotcompfit}).}
+\item{There was little difference in fits to size composition data (Figures \ref{fig:eagretcompfit} - \ref{fig:eagtotcompfit} and \ref{fig:wagretcompfit} - \ref{fig:wagtotcompfit}). While both models appear to capture total size composition modes reasonably well, residual diagnostics highlighted clear patterns. Middle size bins (i.e., 130 - 150 mm CL) tended to be under predicted across all years, while smaller size bins were over predicted in the latter half of the time series (Figures \ref{fig:eag231cosa} - \ref{fig:eag250bcosa} and \ref{fig:wag231cosa} - \ref{fig:wag250bcosa}).}
 
 \end{enumerate}
 
 ### e. Retrospective analyses {-}
 
-Retrospective analysis was performed by sequentially removing one year of data for ten model runs. All EAG models had similar, most upwards retrospecive bias, with Mohn's $\rho$ ranging from 0.363 - 0.390 (Figure \ref{fig:eagretro}). Retrospective bias likely arises from disagreement between CPUE index and size composition data. WAG models also had similar retrospective patterns, though with smaller bias (Mohn's $\rho$ = 0.102 - 0.138; Figure \ref{fig:wagretro}). Several peels for WAG models 23.0a and 23.1 had spikes in MMB around 1992 - 1995, which is likely owing to an issue of multiple local minima relating to the skewed total size composition data in 1993.
+Retrospective analysis was performed by sequentially removing one year of data for ten model runs. Models 23.1c and 25.0b had considerable, positive retrospective bias in the EAG with Mohn's $\rho$ of $\rho$ = 0.372 and $\rho$ = 0.5, respectively (Figure \ref{fig:retro}). EAG retrospective bias likely arises from model misspecification that results in poor fit to index data. Retrospective bias is less of a concern in the WAG, though models 23.1c and 25.0b have a minor positive pattern (Mohn's $\rho$ = 0.104 and $\rho$ = 0.117, respectively) (Figure \ref{fig:retro}). The 2014 terminal year peel in WAG 23.1c had a large spike in 1995. This issue has been previously encountered with WAG models and is likely due to that peel converging to a local minimum.
 
 ### f. Uncertainty and sensitivity analyses {-}
 
 \begin{enumerate}[i]
 
-\item{Estimated standard errors for estimated parameters are in Tables \ref{table:eagpars} and \ref{table:wagpars}. Uncertainty in estimated MMB and recruitment is detailed in Tables \ref{table:eagmmb} and \ref{table:wagmmb}.}
+\item{Estimated standard errors for estimated parameters are in Table \ref{table:pars}. Uncertainty in estimated MMB and recruitment is detailed in Table \ref{table:mmb}.}
 \item{Distribution of the OFL is shown in Figure \ref{fig:ofldist}.}
 \item{Distribution of terminal year MMB relative to B$_[35\%]$ estimated from MCMC draws is described in Figure \ref{fig:statusecdf}.}
-\item{Jitter distributions of negatve log-likelihood, MMB projected to Feb 15, 2025, and B$_[35\%]$ for model 23.1b are in Table \ref{fig:eagjitter} and \ref{fig:wagjitter}. Jitter analysis results provid strig evidence for convergence to a global minimum.} 
+\item{Jitter distributions of negative log-likelihood, MMB projected to Feb 15, 2025, and B$_[35\%]$ for model 23.1b are in Table \ref{fig:eagjitter} and \ref{fig:wagjitter}. Jitter analysis results provide strong evidence for convergence to a global minimum.} 
 
 \end{enumerate}
 
 ### g. Comparison of alternative models {-}
 
-Model 23.0a is regarded as the base model, which is the 2022 accepted model with updated time series data and updated CPUE standardization (Jackson 2024). Model 23.1 truncates the smallest size bin to remove the minus group (i.e., crab less that 101 mm carapace length) and model 23.1b divides the pre-rationalized period in the directed fishery into two selectivity periods, 1960 - 1996 and 1997 - 2023, corresponding to the introduction of escape mesh regulation. Removing minus-sized crab resulted in better fits to retained and total size composition data (Figure \ref{fig:eagretaggcompfit} - \ref{fig:wagtotmeansize}), and resulted in lower, more realistic, selectivity at smaller size classes (Figures \ref{fig:eagselex} and \ref{fig:wagselex}). Model 23.1b resulted in slight better fit than model 23.1 to both size composition data types in the EAG, but only retained size composition in the WAG. Likewise, model 23.1b had a lower total negative log-likelihood than model 23.1 in the EAG only (Table \ref{table:eaglik} and \ref{table:waglik}). This disparity is possibly due to poorer fits to 1993 total size composition data in the WAG for model 23.1b. Those data were removed from the EAG assessment in prior assessments (Siddeek et al. 2023) and should be critically reviewed for use in the WAG.  
+Model 23.1c is regarded as the base model, which is the 2024 accepted model with updated bias correction of recruitment deviations prior to 1981 and corrected observer size composition data (using all rectangular pots). Model 25.0b starts the model in 1981 in a non-equilibrium state, assumes equal likelihood weighting for catch data series, and uses bootstrap estimated input sample sizes for size composition data. 
+
+HERE
+
+
+
+Model 23.1 truncates the smallest size bin to remove the minus group (i.e., crab less that 101 mm carapace length) and model 23.1b divides the pre-rationalized period in the directed fishery into two selectivity periods, 1960 - 1996 and 1997 - 2023, corresponding to the introduction of escape mesh regulation. Removing minus-sized crab resulted in better fits to retained and total size composition data (Figure \ref{fig:eagretaggcompfit} - \ref{fig:wagtotmeansize}), and resulted in lower, more realistic, selectivity at smaller size classes (Figures \ref{fig:eagselex} and \ref{fig:wagselex}). Model 23.1b resulted in slight better fit than model 23.1 to both size composition data types in the EAG, but only retained size composition in the WAG. Likewise, model 23.1b had a lower total negative log-likelihood than model 23.1 in the EAG only (Table \ref{table:eaglik} and \ref{table:waglik}). This disparity is possibly due to poorer fits to 1993 total size composition data in the WAG for model 23.1b. Those data were removed from the EAG assessment in prior assessments (Siddeek et al. 2023) and should be critically reviewed for use in the WAG.  
 
 Neither alternative model resolved poor fits to observer CPUE data in the EAG (Figure \ref{fig:eagindexfit}) or retrospective bias (Figure \ref{fig:eagretro}). Model 23.1b is the author preferred model despite the inconsistency in results between subdistricts. Dividing the pre-rationalized period into two selectivity time blocks is consistent with the establishment of escape mesh regulation (SOA 5 AAC 34.625(b)(1)) and leads to notably better fit to size composition data in the EAG.
 
@@ -826,13 +870,13 @@ $\beta$ = a parameter with restriction that 0 $\leq$ $\beta$ < 1. A default valu
 
 $\alpha$ = a parameter with restriction that 0 $\leq$ $\alpha$ $\leq$ $\beta$. A default value of 0.1 is used.  
 
-Average recruitment during a period of 1987-2020 was used to estimate B$_{35\%}$. The reference period for average recruitment is based on the time period for which uncertainty in estimated recruitment is below a reasonable threshold. In January 2024, the CPT recommended a 'terminal year minus four' approach to setting the upper bound of the reference period. Because B$_{prj}$ depends on the intervening retained and discard catch (i.e., B$_{prj}$ is estimated after the fishery), an iterative procedure was applied with predicted retained and discard catch, whereby the F$_{\text{OFL}}$ and OFL were estimated using MCMC in GMACS.  
+Average recruitment during a period of 1987-2021 was used to estimate B$_{35\%}$. The reference period for average recruitment is based on the time period for which uncertainty in estimated recruitment is below a reasonable threshold. In January 2024, the CPT recommended a 'terminal year minus four' approach to setting the upper bound of the reference period. Because B$_{prj}$ depends on the intervening retained and discard catch (i.e., B$_{prj}$ is estimated after the fishery), an iterative procedure was applied with predicted retained and discard catch, whereby the F$_{\text{OFL}}$ and OFL were estimated using MCMC in GMACS.  
 
 The control rule is used for stock status determination. If total catch exceeds OFL estimated at B (B$_{prj}$), then “overfishing” occurs. If B equals or declines below 50\% B$_\text{MSY}$ (i.e., MSST), the stock is “overfished.” If B/B$_\text{MSY}$ or B/B$_\text{MSY}$ proxy equals or declines below $\beta$, then the stock productivity is severely depleted, and the directed fishery is closed. Biological reference points for all models evaluated in this assessment are detailed in Table \ref{table:eagref} and \ref{table:wagref}. 
 
 MCMC runs with 100,000 replicates and 100 draws for model 23.1b were performed to estimate the distribution of B$_[35\%]$ and OFL. Probability distribution of estimated OFL for model 23.1b is shown in Figure \ref{fig:ofldist}. The distribution of projected MMB (Feb 15, 2025) to B$_{35\%}$ suggests that probability of the stock being overfished is approximately zero (Figure \ref{fig:statusecdf}). The CPT and SSC recommended the 2023/24 acceptable biological catch (ABC) be set at ABC = 0.25 $\times$ OFL citing continued concerns about poor fits to index data and retrospective patterns in the EAG model. The current assessment did not resolve those issues, so the author recommendation is to continue with a 25\% ABC buffer.
 
-The 2023/24 fishery data indicated that overfishing did not occur. Total fishery mortality in 2023/24 was 2.755 kt (6.073 million lb), which was less than the OFL of 4.182 kt (9.220 million lb). The OFL and ABC values for 2024/25 in the tables below are values estimated by the author-recommended model (23.1b) for consideration. 
+At the time of writing this document, the 2024/25 fishery in the EAG was incomplete by one vessel trip (\~ 50,000 lb). Completed fishery totals are not anticipated to exceed the OFL of 3.725 kt (8.212 mil lb). The OFL and ABC values for 2025/26 in the tables below are values estimated by the author-recommended model (\textcolor{red}{25.0b}) for consideration. 
 
 
 \begin{center}
@@ -887,6 +931,7 @@ print(xtable(x, align="lcccccccc", digits=3),
 \hline
 \multicolumn{8}{l}{\textit{2022/23 refence points were estimated before the WAG fishery was completed.}}\\
 \multicolumn{8}{l}{\textit{2023/24 refence points were estimated before EAG and WAG fisheries were completed.}}\\
+\multicolumn{8}{l}{\textit{2025/26 refence points were estimated before the EAG fishery was completed.}}\\
 \end{tabular}
 \end{center}
 
@@ -1190,7 +1235,7 @@ print(xtable(x, align="lccccc", digits = c(0, 0, 3, 2, 3, 2)),
 
 \begin{table}[H]  
 \centering
-\caption{Input and estimatd effective sample size for retained (number of vessel days) and total (number of observer days) catch size composition for model 23.1c.}
+\caption{Input and re-weighted effective sample size for retained (number of vessel days) and total (number of observer days) catch size composition for model 23.1c.}
 
 \label{table:basesampsize}
 \begin{tabular}{lccccccccc}
@@ -1229,7 +1274,7 @@ print(xtable(x, align="lccccccccc", digits = 0),
 
 \begin{table}[H]
 \centering
-\caption{Time series of number of crab measured ($N$) in retained catch sampling and bootstrap estimated effective sample size ($N_{eff}$). Total measure only includes crab > 100 mm carapace length.}
+\caption{Time series of number of crab measured ($N$) in retained catch sampling and bootstrap estimated effective sample size ($N_{eff}$). Total measured crab includes only those > 100 mm carapace length. Values for 2024 in the EAG were based on an incomplete fishery.}
 \label{table:retneff}
 \begin{tabular}{lcccccccccc}
 & \multicolumn{4}{c}{EAG} & & \multicolumn{4}{c}{WAG}\\ 
@@ -1261,7 +1306,7 @@ print(xtable(x, align="lcccccccccc", digits = 0),
 
 \begin{table}[H]
 \centering
-\caption{Time series of number of crab measured ($N$) in observer size composition sampling and bootstrap estimated effective sample size ($N_{eff}$).}
+\caption{Time series of number of crab measured ($N$) in observer size composition sampling and bootstrap estimated effective sample size ($N_{eff}$).Total measured crab includes only those > 100 mm carapace length. Values for 2024 in the EAG were based on an incomplete fishery.}
 \label{table:totneff}
 \begin{tabular}{lcccccccccc}
 & \multicolumn{4}{c}{EAG} & & \multicolumn{4}{c}{WAG}\\ 
@@ -1294,12 +1339,13 @@ print(xtable(x, align="lcccccccccc", digits=c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)),
 
 \begin{table}[H]  
 \centering
-\caption{Observed effective sample size for retained (number of vessel days) and total (number of observer days) catch size composition and stage-2 values estimated by Francis weighting in the WAG.}
+\caption{Input and re-weighted effective sample size for retained and total catch size composition for model 25.0b.}
 
 \label{table:bootsampsize}
 \begin{tabular}{lccccccccc}
-& \multicolumn{4}{c}{Retained Size Comp.} & \multicolumn{4}{c}{Total Size Comp.}\\
-Year & N$_{\text{obs}}$ & 23.0a & 23.1 & 23.1b & N$_{\text{obs}}$ & 23.0a & 23.1 & 23.1b\\
+& \multicolumn{4}{c}{EAG} & \multicolumn{4}{c}{WAG}\\
+& \multicolumn{2}{c}{Retained Size Comp.} & \multicolumn{2}{c}{Total Size Comp.} & \multicolumn{2}{c}{Retained Size Comp.} & \multicolumn{2}{c}{Total Size Comp.}\\
+Year & N$_{\text{obs}}$ & 25.0b & N$_{\text{obs}}$ & 25.0b & N$_{\text{obs}}$ & 25.0b & N$_{\text{obs}}$ & 25.0b\\
 \hline
 ```{r bootsampsize, results='asis', eval = T}
 
@@ -1398,7 +1444,7 @@ print(xtable(x, align="lcccccc", digits=c(0, 0, 3, 3, 3, 3, 3)),
 \begin{table}[H]  
 \centering
 \caption{Parameter estimates (standard error) among models, except annual deviations and initial numbers at size.}
-\label{table:wagpars}
+\label{table:pars}
 \begin{tabular}{lcccccc}
 & \multicolumn{2}{c}{EAG} && \multicolumn{2}{c}{WAG}\\
 Parameter & 23.1c & 25.0b && 23.1c & 25.0b\\
@@ -1539,7 +1585,7 @@ knitr::include_graphics("../../figures/safe/area_o.png")
 #### {-}
 
 <!-- catch time series -->
-```{r peagcatch, fig.align='center', fig.cap="Time series of retained catch (t), directed fishery discard mortality (t), and the total allowable catch (t; red line) in the EAG.", eval = T, fig.height = 3, fig.width = 5}
+```{r peagcatch, fig.align='center', fig.cap="Time series of retained catch (t), directed fishery discard mortality (t), and the total allowable catch (t; red line) in the EAG. Estimates in 2024 were based on an incomplete fishery (details above).", eval = T, fig.height = 3, fig.width = 5}
 knitr::include_graphics("../../figures/models/2025/may/eag_catch_time_series.png")
 ```
 
@@ -1560,7 +1606,7 @@ knitr::include_graphics("../../figures/models/2025/may/data_range.png")
 
 <!-- fits to catch -->
 
-```{r eagcatchfit, fig.align='center', fig.cap="Comparison of model fit to retained catch, total catch, and groundfish bycatch moratlity for the EAG. Error bars on observed values represent 95\\% confidence intervals.", eval = T}
+```{r eagcatchfit, fig.align='center', fig.cap="Comparison of model fit to retained catch, total catch, and groundfish bycatch moratlity for the EAG. Error bars on observed values represent 95\\% confidence intervals. Observed catch for 2024 was based on an incomplete fishery.", eval = T}
 knitr::include_graphics("../../figures/models/2025/may/eag_catch_fit.png")
 ```
 
@@ -1592,11 +1638,11 @@ knitr::include_graphics("../../figures/models/2025/may/eag_retained_comp_fit.png
 knitr::include_graphics("../../figures/models/2025/may/eag_total_comp_fit.png")
 ```
 
-```{r eag231cosa, fig.align='center', fig.cap="QQ plots and bubble plots for one-step-ahead residuals for fits to retained (a, b) and total (c, d) size composition data in model EAG 23.1c.", eval = T, fig.width = 7}
+```{r eag231cosa, fig.align='center', fig.cap="QQ plots and bubble plots for one step ahead residuals for fits to retained (a, b) and total (c, d) size composition data in model EAG 23.1c.", eval = T, fig.width = 7}
 knitr::include_graphics("../../figures/models/2025/may/eag_osa_residuals_23_1c.png")
 ```
 
-```{r eag250bcosa, fig.align='center', fig.cap="QQ plots and bubble plots for one-step-ahead residuals for fits to retained (a, b) and total (c, d) size composition data in model EAG 25.0b.", eval = T, fig.width = 7}
+```{r eag250bcosa, fig.align='center', fig.cap="QQ plots and bubble plots for one step ahead residuals for fits to retained (a, b) and total (c, d) size composition data in model EAG 25.0b.", eval = T, fig.width = 7}
 knitr::include_graphics("../../figures/models/2025/may/eag_osa_residuals_25_0b.png")
 ```
 
@@ -1609,11 +1655,11 @@ knitr::include_graphics("../../figures/models/2025/may/wag_retained_comp_fit.png
 knitr::include_graphics("../../figures/models/2025/may/wag_total_comp_fit.png")
 ```
 
-```{r wag231cosa, fig.align='center', fig.cap="QQ plots and bubble plots for one-step-ahead residuals for fits to retained (a, b) and total (c, d) size composition data in model WAG 23.1c.", eval = T, fig.width = 7}
+```{r wag231cosa, fig.align='center', fig.cap="QQ plots and bubble plots for one step ahead residuals for fits to retained (a, b) and total (c, d) size composition data in model WAG 23.1c.", eval = T, fig.width = 7}
 knitr::include_graphics("../../figures/models/2025/may/wag_osa_residuals_23_1c.png")
 ```
 
-```{r wag250bcosa, fig.align='center', fig.cap="QQ plots and bubble plots for one-step-ahead residuals for fits to retained (a, b) and total (c, d) size composition data in model WAG 25.0b.", eval = T, fig.width = 7}
+```{r wag250bcosa, fig.align='center', fig.cap="QQ plots and bubble plots for one step ahead residuals for fits to retained (a, b) and total (c, d) size composition data in model WAG 25.0b.", eval = T, fig.width = 7}
 knitr::include_graphics("../../figures/models/2025/may/wag_osa_residuals_25_0b.png")
 ```
 
@@ -1630,6 +1676,10 @@ knitr::include_graphics("../../figures/models/2025/may/selectivity.png")
 
 ```{r rec, fig.align='center', fig.cap="Comparison of model estimated recruitment and associated 95\\% CI for models 23.1c (green / light grey) and 25.0b (blue / dark grey).", eval = T}
 knitr::include_graphics("../../figures/models/2025/may/recruitment.png")
+```
+
+```{r recse, fig.align='center', fig.cap="Standard errors of recruitment deviations for models 23.1c and 25.0b. Dotted lines indicate the reference time series for mean recruitment used in reference point calculation, 1987 - 2021.", eval = T}
+knitr::include_graphics("../../figures/models/2025/may/rec_dev_se.png")
 ```
 
 #### {-}
@@ -1672,7 +1722,7 @@ knitr::include_graphics("../../figures/models/2024/may/EAG/eag_23_1b_jitter.png"
 ```
 
 ```{r wagjitter, fig.align='center', fig.cap="Distrubition of total NLL, mature male biomass, and B$_{35\\%}$ for 100 jitter runs of model WAG 23.1b. ", eval = T}
-knitr::include_graphics("../../figures/models/2024/may/WAG/wag_23_1b_jitter.png")
+knitr::include_graphics("../../figures/models/2025/may/WAG/wag_23_1b_jitter.png")
 ```
 
 #### {-}
@@ -1691,11 +1741,18 @@ knitr::include_graphics("../../figures/models/2024/may/status_ecdf.png")
 
 \begin{hangparas}{.25in}{1}
 
+Francis, RICC. 2011. Data weighting in statistical fisheries stock assessment models. Canadian Journal of Fisheries and Aquatic Sciences 68: 1124-1138.  
+Francis, RICC. 2017. Revisiting data weighting in fisheries stock assessment models. Fisheries Research 192: 5-15.
+
 Mohn, R. 1999. The retrospective problem in sequential population analysis: An investigation using cod fishery and simulated data. ICES Journal of Marine Science 56: 473-488.
 
-Siddeek, M.S.M., T. Jackson, B. Daly, C. Siddon, M.J. Westphal, and L. Hulbert. 2023. Aleutian Islands golden king crab model scenarios for May 2023 assessment. North Pacific Fishery Management Council, Anchorage, Alaska.   
+Siddeek, MSM, T Jackson, B Daly, C Siddon, MJ Westphal, and L Hulbert. 2023. Aleutian Islands golden king crab model scenarios for May 2023 assessment. North Pacific Fishery Management Council, Anchorage, Alaska.   
 
-Stewart, I.J. and O.S. Hamel. 2014. Bootstrapping of sample sizes for length- or age-composition data used in stock assessments. Canadian Journal of Fisheries and Aquatic Sciences 71: 581-588.  
+Stewart, IJ and OS Hamel. 2014. Bootstrapping of sample sizes for length- or age-composition data used in stock assessments. Canadian Journal of Fisheries and Aquatic Sciences 71: 581-588.  
+
+Trijoulet V, A Nielsen. 2022. compResidual: Residual calculation for compositional observations. R package version 0.0.1, commit d4c74845089074d8016454f235044c5d13ded3a5, https://github.com/fishfollower/compResidual.
+
+Trijoulet V, C Moesgaard Albertsen, K Kristensen, CM Legault, TJ Miller, A Nielsen. 2023. Model validation for compositional data in stock assessment models: Calculating residuals with correct properties. Fisheries Research 257: 106487.
 
 \end{hangparas}
 
