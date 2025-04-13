@@ -469,7 +469,7 @@ A summary of other relevant State of Alaska fishery regulations and management a
 
 Beginning in 2005/06, the Aleutian Islands golden king crab fishery has been prosecuted under the Crab Rationalization Program. Accompanying the adoption of crab rationalization program was implementation of a community development quota (CDQ) fishery for golden king crab in the eastern Aleutians (i.e., EAG) and the Adak Community Allocation (ACA) fishery for golden king crab in the western Aleutians (i.e., WAG; Hartill 2012; Nichols et al. 2021). The CDQ fishery in the eastern Aleutians is allocated 10$\%$ of the golden king crab TAC for the area east of 174$^{\circ}$ W longitude and the ACA fishery in the western Aleutians is allocated 10$\%$ of the golden king crab TAC for the area west of 174$^{\circ}$ W longitude. The CDQ fishery and the ACA fishery are managed by ADF\&G and prosecuted concurrently with the individual fishing quota (IFQ) fishery. 
 
-Golden king crab may be commercially fished only with king crab pots (defined in state regulation 5 AAC 34.050). Pots used to fish for golden king crab in the Aleutian Islands Area must be longlined and, since 1996, each pot must have at least four escape rings of five and one-half inches minimum inside diameter installed on the vertical plane or at least one-third of one vertical surface of the pot composed of not less than nine-inch stretched mesh webbing to permit escapement of undersized golden king crab [5 AAC 34.625 (b)]. Prior to the regulation requiring an escape mechanism on pots, some participants in the Aleutian Islands golden king crab fishery voluntarily sewed escape rings (typically 139 mm [5.5 inches]) into their gear or, more rarely, included panels with escape mesh (Beers 1992). Regarding the gear used since the establishment of 5 AAC 34.625 (b) in 1996, Linda Kozak, a representative of the industry, reported in a 19 September 2008 email to the Crab Plan Team, \textit{“...the golden king crab fleet has modified their gear to allow for small crab sorting,”} and provided a written statement from Lance Nylander, of Dungeness Gear Works (DGW) in Seattle, who \textit{“believes he makes all the gear for the golden king crab harvesting fleet,”} saying that \textit{“Since 1999, DGW has installed 9[inch] escape web on the door of over 95% of Golden Crab pot orders manufactured.”} A study to estimate the contact-selection curve for male golden king crab was conducted aboard one vessel commercial fishing for golden king crab during the 2012/13 season, and found gear and fishing practices used by that vessel were highly effective in reducing bycatch of sublegal-sized males and females (Vanek et al. 2013). In March 2011 (effective for 2011/12), the BOF amended 5 AAC 34.625 (b) to relax the “biotwine” specification for pots used in the Aleutian Islands golden king crab fishery relative to the requirement in 5 AAC 39.145 that \textit{“(1) a sidewall...of all shellfish and bottom fish pots must contain an opening equal to or exceeding 18 inches in length...The opening must be laced, sewn, or secured together by a single length of untreated, 100 percent cotton twine, no larger than 30 thread.”} Regulation 5 AAC 34.625 (b)(1) allows the opening described in 5 AAC 39.145 (1) to be \textit{“laced, sewn, or secured together by a single length of untreated, 100 percent cotton twine, no larger than 60 [rather than 30] thread.”}  
+Golden king crab may be commercially fished only with king crab pots (defined in state regulation 5 AAC 34.050). Pots used to fish for golden king crab in the Aleutian Islands Area must be longlined and, since 1996, each pot must have at least four escape rings of five and one-half inches minimum inside diameter installed on the vertical plane or at least one-third of one vertical surface of the pot composed of not less than nine-inch stretched mesh webbing to permit escapement of undersized golden king crab [5 AAC 34.625 (b)]. Prior to the regulation requiring an escape mechanism on pots, some participants in the Aleutian Islands golden king crab fishery voluntarily sewed escape rings (typically 139 mm [5.5 inches]) into their gear or, more rarely, included panels with escape mesh (Beers 1992). Regarding the gear used since the establishment of 5 AAC 34.625 (b) in 1996, Linda Kozak, a representative of the industry, reported in a 19 September 2008 email to the Crab Plan Team, \textit{“...the golden king crab fleet has modified their gear to allow for small crab sorting,”} and provided a written statement from Lance Nylander, of Dungeness Gear Works (DGW) in Seattle, who \textit{“believes he makes all the gear for the golden king crab harvesting fleet,”} saying that \textit{“Since 1999, DGW has installed 9[inch] escape web on the door of over 95% of Golden Crab pot orders manufactured.”} A study to estimate the contact-selection curve for male golden king crab was conducted aboard one vessel commercial fishing for golden king crab during the 2012/13 season, and found gear and fishing practices used by that vessel were highly effective in reducing bycatch of sublegal-sized males and females (Vanek et al., 2013). In March 2011 (effective for 2011/12), the BOF amended 5 AAC 34.625 (b) to relax the “biotwine” specification for pots used in the Aleutian Islands golden king crab fishery relative to the requirement in 5 AAC 39.145 that \textit{“(1) a sidewall...of all shellfish and bottom fish pots must contain an opening equal to or exceeding 18 inches in length...The opening must be laced, sewn, or secured together by a single length of untreated, 100 percent cotton twine, no larger than 30 thread.”} Regulation 5 AAC 34.625 (b)(1) allows the opening described in 5 AAC 39.145 (1) to be \textit{“laced, sewn, or secured together by a single length of untreated, 100 percent cotton twine, no larger than 60 [rather than 30] thread.”}  
 
 Regulation (5 AAC 34.610 (b)) sets the commercial fishing season for golden king crab in the Aleutian Islands Area as 1 August through 30 April. That regulatory fishing season became effective in 2015/16 (the commercial fishing season was set in regulation as 15 August through 15 May during 2005/06 - 2014/15).  
 
@@ -477,13 +477,13 @@ Current regulations (5 AAC 39.645 (d)(4)(A)) stipulate that onboard observers ar
 
 In addition, the commercial golden king crab fishery in the Aleutian Islands Area may only retain males at least 6.0 inches (152.4 mm) carapace width (CW), including spines [5 AAC 34.620 (b)], which is at least one annual molt increment larger than the 50$\%$ maturity length of 120.8 mm CL for males as estimated by Otto and Cummiskey (1985). A carapace length (CL) $\geq$ 136 mm is used to identify legal-size males when CW measurements are not available (Table 3-5 in NPFMC 2007b). Note that the size limit for golden king crab has been 6 inches (152.4 mm) CW for the entire Aleutian Islands Area since the 1985/86 season. Prior to the 1985/86 season, the legal-size limit was 6.5 inches (165.1 mm) CW for at least one of the now-defunct Adak or Dutch Harbor Registration Areas.  
 
-The male maturity size using 1991 pot survey measurements of carapace length and chela height in EAG and 1984 NMFS measurements in WAG were re-evaluated (Siddeek et al. 2018). Bootstrap analysis of chela height and carapace length data provided the median 50$\%$ male maturity length estimates of 107.02 mm CL in EAG and 107.85 mm CL in WAG. The knife-edge maturity size of 111.0 mm CL, which is the lower limit of the next upper size bin, has been used for mature male biomass (MMB) estimation. Recently collected (2018 to 2020) chela height and carapace length data were analyzed and proposed a higher knife-edge maturity length of 116.0 mm CL for MMB calculation, which was accepted by the CPT/SSC in 2022.  
+The male maturity size using 1991 pot survey measurements of carapace length and chela height in EAG and 1984 NMFS measurements in WAG were re-evaluated (Siddeek et al., 2018). Bootstrap analysis of chela height and carapace length data provided the median 50$\%$ male maturity length estimates of 107.02 mm CL in EAG and 107.85 mm CL in WAG. The knife-edge maturity size of 111.0 mm CL, which is the lower limit of the next upper size bin, has been used for mature male biomass (MMB) estimation. Recently collected (2018 to 2020) chela height and carapace length data were analyzed and proposed a higher knife-edge maturity length of 116.0 mm CL for MMB calculation, which was accepted by the CPT/SSC in 2022 (Siddeek et al., 2022).  
 
-Daily catch and catch-per-unit effort (CPUE) are determined in-season to monitor fishery performance and progress towards the respective TACs. Increases in CPUE were observed during the late 1990s through the early 2000s, and with the implementation of crab rationalization in 2005. This was likely due to changes in gear configurations in the late 1990s (crab harvesters, personal communication, 1 July 2008), and after rationalization due to increased soak time (Siddeek et al. 2015) and decreased competition. Decreased competition could allow crab vessels to target only the most productive fishing areas. Trends in fishery nominal CPUE within the areas EAG and WAG generally paralleled each other during 1985/86 - 2010/11 but diverged thereafter (EAG CPUE exceeded one and half times of that in WAG). A moderate decreasing trend in CPUE was observed since 2014 in EAG and since 2019 in WAG (Table \ref{eagcatch} and \ref{wagcatch}).
+Daily catch and catch-per-unit effort (CPUE) are determined in-season to monitor fishery performance and progress towards the respective TACs. Increases in CPUE were observed during the late 1990s through the early 2000s, and with the implementation of crab rationalization in 2005. This was likely due to changes in gear configurations in the late 1990s (crab harvesters, personal communication, 1 July 2008), and after rationalization due to increased soak time (Siddeek et al., 2015) and decreased competition. Decreased competition could allow crab vessels to target only the most productive fishing areas. Trends in fishery nominal CPUE within the areas EAG and WAG generally paralleled each other during 1985/86 - 2010/11 but diverged thereafter (EAG CPUE exceeded one and half times of that in WAG). A moderate decreasing trend in CPUE was observed since 2014 in EAG and since 2019 in WAG (Table \ref{eagcatch} and \ref{wagcatch}).
 
 ## 6. Brief description of the annual ADF\&G harvest strategy {-}
 
-In March 2019, the BOF adopted a revised harvest strategy (Daly et al. 2019). The annual TAC is set by state regulation, 5 AAC 34.612 (Harvest Levels for Golden King Crab in Registration Area O), per: 
+In March 2019, the BOF adopted a revised harvest strategy (Daly et al., 2019). The annual TAC is set by state regulation, 5 AAC 34.612 (Harvest Levels for Golden King Crab in Registration Area O), per: 
 
 \begin{enumerate}[a.]
 
@@ -617,7 +617,7 @@ Data from triennial ADF\&G pot surveys for Aleutian Islands golden king crab in 
 
 ## 1. History of modeling approaches for this stock {-}
 
-A size structured assessment model (hereafter referred to as the legacy model) based on only fisheries data for the EAG and WAG golden king crab stocks was accepted in 2016, and used to set OFL and ABC for the 2017/18 season (Siddeek et al. 2016). The CPT (January 2017) and SSC (February 2017) recommended using the Tier 3 $F_{\text{OFL}}$ control rules to set the OFL and ABC. The legacy model was used from 2016 - 2022, and transitioned to the GMACS modelling framework. The CPT and SSC adopted a GMACS implementation of the assessment in May 2023. Progress of GMACS development has been documented on the GitHub development site (\href{https://github.com/GMACS-project}{\underline{GMACS-project}}).  
+A size structured assessment model (hereafter referred to as the legacy model) based on only fisheries data for the EAG and WAG golden king crab stocks was accepted in 2016, and used to set OFL and ABC for the 2017/18 season (Siddeek et al., 2017). The CPT (January 2017) and SSC (February 2017) recommended using the Tier 3 $F_{\text{OFL}}$ control rules to set the OFL and ABC. The legacy model was used from 2016 - 2022, and transitioned to the GMACS modelling framework. The CPT and SSC adopted a GMACS implementation of the assessment in May 2023. Progress of GMACS development has been documented on the GitHub development site (\href{https://github.com/GMACS-project}{\underline{GMACS-project}}).  
 
 ## 2. Model Description {-}
 
@@ -660,7 +660,7 @@ Two models were evaluated for the EAG and WAG:
 
 \begin{itemize}
 
-\item{\textbf{23.1c}: The base model from the 2024 final assessment (23.1) with updated time series data and CPUE indices, and corrected recruitment bias correction from 1960 - 1980 (Jackson 2024). This model considers}:
+\item{\textbf{23.1c}: The base model from the 2024 final assessment (23.1) with updated time series data and CPUE indices, and corrected recruitment bias correction from 1960 - 1980 (Jackson 2024b). This model considers}:
 
   \begin{enumerate}[(i)]
   
@@ -1741,18 +1741,77 @@ knitr::include_graphics("../../figures/models/2024/may/status_ecdf.png")
 
 \begin{hangparas}{.25in}{1}
 
+Beers, DE 1992. Annual biological summary of the Westward Region shellfish observer database, 1991. Alaska Department of Fish and game, Division of Commercial Fisheries, Regional Information Report 4K92-33, Kodiak, AK.
+
+Blau, SF, and D Pengilly. 1994. Findings from the 1991 Aleutian Islands golden king crab survey in the Dutch Harbor and Adak management areas including analysis of recovered tagged crab. Alaska Department of Fish and Game, Commercial Fisheries Management and Development Division, Regional Information Report 4K94-35, Kodiak, AK.
+
+Blau, SF, LJ Watson, and I Vining. 1998. The 1997 Aleutian Islands golden king crab survey. Alaska Department of Fish and Game, Commercial Fisheries Management and Development Division, Regional Information Report 4K98-30, Kodiak, AK.
+
+Daly, B, MSM Siddeek, M Stichert, S Martell, and J Zheng. 2019. Recommended harvest strategy for Aleutian Islands golden king crab. Alaska Department of Fish and Game, Fishery Manuscript Series No. 19-03, Anchorage, AK.
+
 Francis, RICC. 2011. Data weighting in statistical fisheries stock assessment models. Canadian Journal of Fisheries and Aquatic Sciences 68: 1124-1138.  
+
 Francis, RICC. 2017. Revisiting data weighting in fisheries stock assessment models. Fisheries Research 192: 5-15.
+
+Gaeuman, WB 2014. Summary of the 2013/2014 mandatory crab observer program database for the Bering Sea/Aleutian Islands commercial crab fisheries. Alaska Department of Fish and Game, Fishery Data Series No. 14-49, Anchorage, AK.
+
+Grant W and C Siddon. 2018. Phylogeography and management of golden king crab populations in Alaska. NPRB Project 1526 Final Report. 42 pp.
+
+Hartill, T. 2012. Annual management report for the community development quota and Adak Community Allocation crab fisheries in the Bering Sea and Aleutian Islands, 2010/11. Pages 177–194 in Fitch, H, M Schwenzfeier, B Baechler, T Hartill, M Salmon, M Deiman, E Evans, E Henry, L Wald, J Shaishnikoff, and K Herring. Annual management report for the commercial and subsistence shellfish fisheries of the Aleutian Islands, Bering Sea, and the Westward Region’s Shellfish Observer Program, 2010/11. Alaska Department of Fish and Game, Fishery Management Report No. 12-22, Anchorage.
+
+Hiramoto, K. 1985. Overview of the golden king crab, $Lithodes$ $aequispina$, fishery and its fishery biology in the Pacific waters of Central Japan. Pages 297–315, in Proceedings of the International King Crab Symposium. Alaska Sea Grant College Program, AK-SG-85-12, Fairbanks, AK.
+
+Jewett, SC, NA Sloan, and DA Somerton. 1985. Size at sexual maturity and fecundity of the fjord-dwelling golden king crab $Lithodes$ $aequispina$ Benedict from northern British Columbia. Journal of Crustacean Biology 5: 377–385.
+
+Koeneman, TM, and DV Buchanan. 1985. Growth of the golden king crab, $Lithodes$ $aequispina$, in Southeast Alaskan waters. Pages 281–297, in Proceedings of the International King Crab Symposium. Alaska Sea Grant College Program, AK-SG-85-12, Fairbanks, AK.
+
+Leon, JM, J Shaishnikoff, E Nichols, and M Westphal. 2017. Annual management report for shellfish fisheries of the Bering Sea–Aleutian Islands management area, 2015/16. Alaska Department of Fish and Game, Fishery Management Report No. 17-10, Anchorage, AK.
 
 Mohn, R. 1999. The retrospective problem in sequential population analysis: An investigation using cod fishery and simulated data. ICES Journal of Marine Science 56: 473-488.
 
-Siddeek, MSM, T Jackson, B Daly, C Siddon, MJ Westphal, and L Hulbert. 2023. Aleutian Islands golden king crab model scenarios for May 2023 assessment. North Pacific Fishery Management Council, Anchorage, Alaska.   
+Nichols, E, J Shaishnikoff, and M Westphal. 2021. Annual management report for shellfish fisheries of the Bering Sea/Aleutian Islands Management Area, 2019/20. Alaska Department of Fish and Game, Fishery Management Report No. 21-06, Anchorage, AK.
+
+North Pacific Fishery Management Council (NPFMC). 2007b. Public Review Draft: Environmental Assessment for proposed Amendment 24 to the Fishery Management Plan for Bering Sea and Aleutian Islands King and Tanner Crabs to Revise Overfishing Definitions. 14 November 2007. North Pacific Fishery Management Council, Anchorage.
+
+Otto, RS, and PA Cummiskey. 1985. Observations on the reproductive biology of golden king crab ($Lithodes$ $aequispina$) in the Bering Sea and Aleutian Islands. Pages 123–136 in Proceedings of the International King Crab Symposium. Alaska Sea Grant College Program, AK-SG-85-12, Fairbanks, AK.
+
+Richards, LJ 1991. Use of contradictory data sources in stock assessments. Fisheries Research 11(3-4): 25–238.
+
+Schnute, JT and R Hilborn. 1993. Analysis of contradictory data sources in fish stock assessment. Canadian Journal of Fisheries and Aquatic Sciences 50(9): 1916–1923.
+
+Shirley, TC, and S Zhou. 1997. Lecithotrophic development of the golden king crab $Lithodes$ $aequispinus$ (Anomura: Lithodidae). Journal of Crustacean Biology 17(2): 207–216.
+
+Siddeek, MSM, J Zheng, and D Pengilly. 2015. Aleutian Islands Golden King Crab (Lithodes aequispinus) Model-Based Stock Assessment in Fall 2015. Draft report submitted for the September 2015 Crab Plan Team Meeting. North Pacific Fishery Management Council, Anchorage, AK.
+
+Siddeek, MSM, J Zheng, C Siddon, B Daly, J Runnebaum, and MJ Westphal. 2018. Aleutian Islands golden king crab model-based stock assessment. North Pacific Fishery Management Council, Anchorage, Alaska.
+
+Siddeek, MSM, J Zheng, C Siddon, B Daly, MJ Westphal, L Hulbert, and T Jackson. 2022. Aleutian Islands golden king crab stock assessment. North Pacific Fishery Management Council, Anchorage, Alaska.
+
+Siddeek, MSM, T Jackson, B Daly, C Siddon, MJ Westphal, and L Hulbert. 2023. Aleutian Islands golden king crab model scenarios for May 2023 assessment. North Pacific Fishery Management Council, Anchorage, Alaska.
+
+Somerton, DA, and RS Otto. 1986. Distribution and reproductive biology of the golden king crab, $Lithodes$ $aequispina$, in the Eastern Bering Sea. Fishery Bulletin, 81(3): 571–584.
 
 Stewart, IJ and OS Hamel. 2014. Bootstrapping of sample sizes for length- or age-composition data used in stock assessments. Canadian Journal of Fisheries and Aquatic Sciences 71: 581-588.  
 
 Trijoulet V, A Nielsen. 2022. compResidual: Residual calculation for compositional observations. R package version 0.0.1, commit d4c74845089074d8016454f235044c5d13ded3a5, https://github.com/fishfollower/compResidual.
 
 Trijoulet V, C Moesgaard Albertsen, K Kristensen, CM Legault, TJ Miller, A Nielsen. 2023. Model validation for compositional data in stock assessment models: Calculating residuals with correct properties. Fisheries Research 257: 106487.
+
+Vanek, V, D Pengilly, and MSM Siddeek. 2013. A study of commercial fishing gear selectivity during the 2012/13 Aleutian Islands golden king crab fishery east of 174W longitude. Alaska Department of Fish and Game, Division of Sport Fish and Commercial Fisheries, Fishery Data Series No. 13-41.
+
+Von Szalay, PG, CN Roper, NW Raring, and MH Martin. 2011. Data report: 2010 Aleutian Islands bottom trawl survey. U.S. Department of Commerce, NOAA Technical Memorandum NMFS-AFSC-215.
+
+Von Szalay, PG, NW Raring, CN Roper, and EA Laman. 2017. Data report: 2016 Aleutian Islands bottom trawl survey. U.S. Department of Commerce, NOAA Technical Memorandum NMFS-AFSC-349.
+
+Watson, LJ. 2004. The 2003 triennial Aleutian Islands golden king crab survey and comparisons to the 1997 and 2000 surveys (revised October 17, 2005). Alaska Department of Fish and Game, Division of Commercial Fisheries, Regional Information Report 4K04-42, Kodiak, AK. [Revised 10/17/2005].
+ 
+Watson, LJ. 2007. The 2006 triennial Aleutian Islands golden king crab survey. Alaska Department of Fish and Game, Fishery Management Report No. 07-07, Anchorage, AK.
+
+Watson, LJ, and RK Gish. 2002. The 2000 Aleutian Islands golden king crab survey and recoveries of tagged crab in the 1997–1999 and 2000–2002 fishing seasons. Alaska Department of Fish and Game, Division of Commercial Fisheries, Regional Information Report 4K02-6, Kodiak, AK.
+
+Watson, LJ, D Pengilly, and SF Blau. 2002. Growth and molting of golden king crab ($Lithodes$ $aequispinus$) in the eastern Aleutian Islands, Alaska. Pages 169–187 in Crabs in cold water regions: biology, management, and economics, Alaska Sea Grant College Program, AK-SG-02-01, Fairbanks, AK.
+
+Webb, J. 2014. Reproductive ecology of commercially important Lithodid crabs. Pages 285–314 in B.G. Stevens (ed.). King Crabs of the World: Biology and Fisheries Management. CRC Press, Taylor & Francis Group, New York.
 
 \end{hangparas}
 
