@@ -104,6 +104,7 @@ ggsave(paste0(here::here(), "/BBRKC/bbrkc_24s/explore/by_haul_SBS_inferred selec
 input_gam2 <- data.frame(size_bin = predict_gam2$x, 
                          mean = predict_gam2$predicted, stdv = predict_gam2$std.error)
 write.csv(input_gam2, paste0(here::here(), "/BBRKC/bbrkc_24s/explore/input_gam2.csv"), row.names = FALSE) 
+# input for prior parameters 
 
 ### 2024 ------
 # notes:
