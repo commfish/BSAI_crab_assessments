@@ -37,7 +37,7 @@ folder <- "bbrkc_25s"
 ```
 
 # Summary {-}
-The model explorations presented here include some of those suggested by CPT and SSC, and updates to GMACS. All GMACS updates were tested to ensure model fit (likelihood values, output, etc.) matched the last accepted base model from September 2024 (model 24.0c GMACS version XXX). These models focus on cleaning up the code and a small dip into selectivity - specifically assumptions for selectivity using the BSFRF data as a prior. The work presented here are the beginning of work to explore these topics and the author acknowledges that further exploration is warranted.
+The model explorations presented here include some of those suggested by CPT and SSC, and updates to GMACS. All GMACS updates were tested to ensure model fit (likelihood values, output, etc.) matched the last accepted base model from September 2024 (model 24.0c GMACS version 2.20.20, 2025-01-30). These models focus on cleaning up the code and a small dip into selectivity - specifically assumptions for selectivity using the BSFRF data as a prior. The work presented here are the beginning of work to explore these topics and the author acknowledges that further exploration is warranted.
 
 The results of these model explorations are presented in this document in section C. Background on the Bristol Bay red king crab modeling approach, modeling framework (GMACS), and history of the stock and fisheries can be found in the last full SAFE published on the NPFMC website and will not be repeated here.
 ([**BBRKC 2024 SAFE**](https://meetings.npfmc.org/CommentReview/DownloadFile?p=7b8e95ba-6182-4a34-b141-92b0f13f5a07.pdf&fileName=BBRKC%20SAFE%202024.pdf))
@@ -54,7 +54,7 @@ The results of these model explorations are presented in this document in sectio
 
 *"The SSC suggests ... guidance for constructing and interpreting jitter analyses..."*
 
-Response: the CPT will review this guidance and establish some SOPs for jitter analysis interpretation at the May 2025 CPT meeting, the author will follow this guidance for Sept. 2025 models.
+Response: The CPT plans to review this guidance and establish some SOPs for jitter analysis interpretation at the May 2025 CPT meeting, the author will follow this guidance for Sept. 2025 models.
 
 *"The SSC would like to see additional residual diagnostics other than raw residuals for length composition data from GMACS models. The SSC encourages crab authors to collaborate with ground fish assessment authors regarding the use of One-Step-Ahead and Pearson residuals."*
 
@@ -76,6 +76,9 @@ Response: The CPT has developed a google sheet to track requests, further action
 
 Response: There was some discussion among authors Jan 2025 modeling workshop, which corresponded to Buck Stockhausen work on this topic. The CPT has not developed a coordinated approach yet to this topic. 
 
+\noindent\rule{\textwidth}{0.4pt}
+
+
 **Response to SSC Comments (June 2023, Oct 2023):**
      
 *"The SSC recommends that a "fallback" Tier 4 alternative be provided, as recommended by the Simpler Modeling workshop. When doing so the SSC asks the authors to provide plots to compare OFLs with the status quo Tier 3 models for previous years, justification for the time series used for status determination and a recommended ABC buffer."*
@@ -95,8 +98,7 @@ Response: After viewing draft risk tables in Sept. 2024 the CPT decided to pick 
 
 Response: These are provided in this document.
 \noindent\rule{\textwidth}{0.4pt}
-
-\newpage
+\newpage\clearpage
 
 ## CPT and SSC Comments on BBRKC assessment {-}
 \noindent\rule{\textwidth}{0.4pt}
@@ -104,11 +106,11 @@ Response: These are provided in this document.
 
 *"The SSC recommends that the author bring forward a model that adds the BSFRF prior on selectivity for the 2025 assessment."*
 
-Response: This is planned for May 2025. **fix**
+Response: Models 25.1a, 25.1b, and 25.1b2 all use the BSFRF data as a prior on selectivity. The author has concerns over moving to these models without further model exploration for the 2025 assessment and this is discussed in this document.
 
 *"The SSC agrees with the additional considerations by the CPT in their minutes prioritizing; 1) considerations of selectivity time periods based on gear types and 2) considerations of time-varying selectivity in the fishery data relative to the survey data."*
 
-Response: These will be considered, as time allows, for May 2025. **fix**
+Response: The selectivity models presented in this document do retain the two time block for survey selectivity for the NMFS time series. However, the author has not yet explored time-varying selectivity in the fishery data relative to the survey data and hopes to have some discussion with the CPT on what this exploration could look like. 
 
 *"The SSC reiterates its request to evaluate whether crab biomass and fishing mortality in the northern district should be included."*
 
@@ -116,12 +118,11 @@ Response: Since 2022 the SAFE document has tracked Northern RKC data from the NM
 An assessment model that includes crab outside the Bristol Bay boundary would have to include updates to data inputs for all catch and survey time series, and also include conversations with managers on the implications of a larger spatial model. Explorations into model based indices for other Bering Sea stocks may provide an option for BBRKC to utilize the Northern district crab to design a model based index that only predicts over the traditional Bristol Bay grid. Work on this is planned for 2025/2026. 
 
 
-*"The SSC recommends the author revisit previous CPT dsicussion and rationale on whether 50% handling mortality is appropriate for both pot and longline (fixed gear) gear and to provide additional information in the next assessment."*
+*"The SSC recommends the author revisit previous CPT discussion and rationale on whether 50% handling mortality is appropriate for both pot and longline (fixed gear) gear and to provide additional information in the next assessment."*
 
-Response: Model 24.0c.1a presented in this document (May 2025) includes a model run with a 20% handling mortality in place of the historical 50%. No measurable changes to model results were observed (**fix**), likely due to the small magnitude of fixed gear catch in the model compared to directed fishery catch. Ultimately a change in the handling mortality rate for fixed gear would have to be approved by the CPT. A review of the data available to inform handling mortality estimations occurred at the May 2022 CPT meeting (**fix** link here). At this time there are no direct research studies conducted on mortality of crab caught as bycatch in the longline or pot groundfish fisheries. Historically ranges of 30 to 50% have been use din various Council analyses and since 2008 a 50% rate has been applied when splitting bycatch between fixed and trawl gear. 
+Response: Model 24.0c.1a presented in this document (May 2025) includes a model run with a 20% handling mortality in place of the historical 50%. No measurable changes to model results were observed (**fix**), likely due to the small magnitude of fixed gear catch in the model compared to directed fishery catch. Ultimately a change in the handling mortality rate for fixed gear would have to be approved by the CPT. A review of the data available to inform handling mortality estimations occurred at the May 2022 CPT meeting ([**HM May 2022**](https://meetings.npfmc.org/CommentReview/DownloadFile?p=000d775c-1ef7-487b-98a7-47c4ce8bfb9b.pdf&fileName=PPT_HM%20rates%20GF%20Fisheries.pdf)). At this time there are no direct research studies conducted on mortality of crab caught as bycatch in the longline or pot groundfish fisheries. Historically ranges of 30 to 50% have been use din various Council analyses and since 2008 a 50% rate has been applied when splitting bycatch between fixed and trawl gear. 
 
 \noindent\rule{\textwidth}{0.4pt}
-
 
 **Response to CPT Comments (from May 2024):** 
   
@@ -131,7 +132,7 @@ Response: Further exploration of the BSFRF data and its use in the BBRKC model i
 
 *Split the selectivity into eras to reflect the change in survey gear, but still use the same priors, perhaps with larger CVs in the early era.*
 
-Response: XXX **fix** for May 2025.
+Response: Models 25.1a, 25.1b, and 25.1b2 all retain the time block for survey selectivity estimation and use the same priors for both periods. Model 25.1b2 has larger CVs for both eras, but this resulted in the same estimation as Model 25.1b.
 
 *Selectivity and retention explorations that may include: exploring parameters that allow for the retention curve to asymptote below one, exploring splines for selectivity, and exploring models using time-varying selectivity to better understand model dynamics.*
 
@@ -140,13 +141,22 @@ Response: Model sensitivity to selectivity and retention assumption should be ex
 
 *Explore including larger size bins in the model to explore dome shaped selectivity.*
 
-Response: Including larger size bins than the current model uses (>160mm for males specifically) would require re-visiting the growth matrix for this stock. This matrix has been established for some time and would require some historic data recovery to determine if larger size bin growth could be determined from the same data. Due to the time intense nature of data recovery this task may not be achievable in May 2025 but will remain on the list for future explorations.**fix**
+Response: Including larger size bins than the current model uses (>160mm for males specifically) would require re-visiting the growth matrix for this stock. This matrix has been established for some time and would require some historic data recovery to determine if larger size bin growth could be determined from the same data. To include larger size bins assumptions would need to be made for the growth matrix unless the historic data was recoverable. 
+Additionally, raw data to add size bins to each of the size comp data sets is still in the process but an initial look at the NMFS data to determine if larger size bins should be incorporate was explored here. Figure xx displays the distribution of size composition for all years of the NMFS data and the associated lower and upper cut offs for the model. Initial exploration does not suggest a large change in size distribution over time, at least for the last 15 years. 
+
+
+```{r sizecomp-explore, out.width="100%", fig.cap = "Size composition for all crab in all years in the NMFS trawl survey in 5mm size bins."}
+knitr::include_graphics("figures/size_comp_over_time_all.png", dpi = 200)
+```
+
 
 *Remove shell condition from the model since it's not being used currently*
 
 Response: Shell condition was removed from the model code, reflected as model 24.0c.2, has has no measurable effect on results since it was not being used in the model.
 
+\newpage
 \noindent\rule{\textwidth}{0.4pt}
+
 **Response to SSC Comments specific to this assessment (from October 2023):**
   
 *Provide basis for the tight prior on M and catchability.*
@@ -189,9 +199,8 @@ Response: Shell condition was removed from the model code, reflected as model 24
 **Response to SSC/CPT comments prior to 2023:** 
 See Fall 2024 document - linked above in intro - for further historical discussion of CPT and SSC comments.
 
+\noindent\rule{\textwidth}{0.4pt}
 
-\pagebreak 
-\newpage\clearpage
 # C. Modeling Approaches and Explorations for spring 2025{-}
 
 
@@ -237,16 +246,16 @@ Changes to the handling mortality rate for fixed gear groundfish bycatch was per
 Refer to the 2024 completed SAFE document for further information on this section.
 
 ### b. Tables of estimates {-}
-- Negative log-likelihood values are summarized in Table \@ref(tab:likelihood-components) for all models, while parameter estimates are summarized in Tables \@ref(tab:parm-std211b) -- \@ref(tab:parm-std24c)  for a few representative models.
+- Negative log-likelihood values are summarized in Table \@ref(tab:likelihood-components) for all models, while parameter estimates are summarized in Tables \@ref(tab:parm-std24c) -- \@ref(tab:parm-std251b)  for a few representative models.
 - Natural mortality estimates are shown in Table \@ref(tab:Natmort).
-- Abundance, MMB, and recruitment time series for a few representative models are found in Tables \@ref(tab:est-m211b) -- \@ref(tab:est-m24c). 
+- Abundance, MMB, and recruitment time series for a few representative models are found in Tables \@ref(tab:est-m24c) -- \@ref(tab:est-m251b). 
 
 ### c. Evaluation of the fit to the data and model estimates.{-}
-- Selectivities by length (Figures \@ref(fig:sel2) and \@ref(fig:sel3))
+- Selectivities by length (Figures \@ref(fig:sel1) and \@ref(fig:sel2))
 
 Model explorations focus on estimated trawl survey selectivity. The use of the BSFRF data as a prior on survey selectivity in models 25.1a and 25.1b resulted in a difference in selectivity, especially for large size bins. However, the overall shape of the selectivity curve for these models is similar to that estimated in the base model. Survey selectivity affects not only the fitting of the data but also the absolute abundance estimates. These estimated survey selectivities are generally smaller than the capture probabilities in Figure A1 (refer to last full SAFE draft) because survey selectivities include capture probabilities and crab availability. The NMFS survey catchability (*Q*) is estimated to be 0.896 from the trawl experiment. The reliability of estimated survey selectivities will greatly affect the application of the model to fisheries management since under- or over-estimates of survey selectivities will cause a systematic upward or downward bias of abundance estimates, respectively. 
 
-- NMFS trawl survey biomass and BSFRF surveys (Figures \@ref(fig:surv1c) -- \@ref(fig:surv2d)).
+- NMFS trawl survey biomass and BSFRF surveys (Figures \@ref(fig:surv1) -- \@ref(fig:surv1c)).
 
 Among the model scenarios, model estimated NMFS survey biomasses are similar, with some changed in scale due to changes in *Q*, which is expected.  
 
@@ -254,7 +263,7 @@ The fit to BSFRF survey data are similar among the models in the base comparison
 
 All models fits the catch and bycatch biomasses very well and similarly so they are not presented in this document. 
 
-- Recruitment (Figures \@ref(fig:rect2) and \@ref(fig:rect3))
+- Recruitment (Figures \@ref(fig:rect1) and \@ref(fig:rect2))
 
 Recruitment time series are plotted for all model scenarios in groups of like models - base models and selectivity models. Recruitment is estimated at the end of year in GMACS. Estimated recruitment time series are generally similar in trends for all models, with those models that use the BSFRF data to estimate selectivity having a difference in the recruitment scale to match the overall scaling of abundance to match the estimated selectivity. 
 
@@ -264,7 +273,7 @@ The full fishing mortalities for the directed pot fishery at the time of fishing
 
 Estimated fishing mortalities for pot female and groundfish fisheries bycatches are generally small and less than 0.07 (not shown in this document but available in last full SAFE). 
 
-- Estimated mature male biomass (Figures \@ref(fig:mmb1), \@ref(fig:mmb2), and \@ref(fig:mmb3))
+- Estimated mature male biomass (Figures \@ref(fig:mmb1), and \@ref(fig:mmb2))
 
 Estimated mature male biomass for all models has a similar trend over time, however the scaling of the biomass is highly dependent, as expected, on estimates of *Q* in the models. Higher estimated selectivity for a majority of size classes in models 25.1a and 25.1b results in a lower overall scale for mature male biomass compared to the base model. These models are consistently lower in overall scale from about 1990 onward.
 
@@ -278,7 +287,7 @@ Retrospective analysis was not performed on these model explorations. Topics exp
 
 
 ### e. Uncertainty and sensitivity analyses.{-}
-- Estimated standard deviations of parameters are summarized in Tables \@ref(tab:parm-std211b) -- \@ref(tab:parm-std24c) for a few representative models. 
+- Estimated standard deviations of parameters are summarized in Tables \@ref(tab:parm-std24c) -- \@ref(tab:parm-std251b) for a few representative models. 
 
 - The last completed SAFE document in 2024 details uncertainty estimates in the current base model parameterization ([**BBRKC 2024 SAFE**](https://meetings.npfmc.org/CommentReview/DownloadFile?p=7b8e95ba-6182-4a34-b141-92b0f13f5a07.pdf&fileName=BBRKC%20SAFE%202024.pdf)).
 
@@ -351,132 +360,105 @@ print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environm
 \newpage\clearpage
 
 ```{r likelihood-components, results = "asis"}
-#  df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/likelihood.csv')) # table 5a in Jie_cmn_files.R edited csv in excel prior to import, see differences between this and the 'likelihood.csv' file
-# df %>% select(-process) -> df
-# names(df) <- c("Component", "m23.0a(ref)", "m24.0", "m24.0c", "m21.1b(ref)", "m24.0b", "m24.0d") #, "M0.21" ,"M0.26", "Notimeblock")
-#  tab <- xtable(df, caption = "Comparisons of negative log-likelihood values and some parameters for all model scenarios. Reference models are versions with MMB estimated in season 7.", label = "tab:likelihood-components")
-#  print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,25,nrow(tab)))
+ df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/likelihood.csv')) # table 5a in Jie_cmn_files.R edited csv in excel prior to import, see differences between this and the 'likelihood.csv' file
+df %>% select(-process) -> df
+names(df) <- c("Component", "m24.0c(ref)", "m24.0c.1", "m24.0c.1a", "m24.0c.2", "m25.1a", "m25.1b") #, "M0.21" ,"M0.26", "Notimeblock")
+ tab <- xtable(df, caption = "Comparisons of negative log-likelihood values and some parameters for all model scenarios.", label = "tab:likelihood-components")
+ print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,25,nrow(tab)))
 ```
 
-
-\pagebreak 
-\newpage\clearpage
-
-```{r parm-std211b, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/para_model_21_1b_p7_ed.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
-# #
-# df %>% select(-model, -parameter_count) ->df
-# names(df) <- c("Index", "Name", "Value", "StdDev") #, "index", "name", "value", "stddev" ) 
-# tab <- xtable(df, caption = "Summary of estimated model parameter values and standard deviations for model 21.1b.p7 for Bristol Bay red king crab.", label = "tab:parm-std211b", digits = c(0, 0,0,4,4))#, 0,0,4,4))
-# print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, 50, 103, 156, 209, 262, 315, 368, nrow(tab)))
-```
-
-\pagebreak 
-\newpage\clearpage
-
-```{r parm-std230a, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/para_model_23_0a_ed.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
-# df %>% select(-model, -parameter_count) ->df
-# names(df) <- c("Index", "Name", "Value", "StdDev") #, "index", "name", "value", "stddev" ) 
-# tab <- xtable(df, caption = "Summary of estimated model parameter values and standard deviations for model 23.0a for Bristol Bay red king crab.", label = "tab:parm-std230a", digits = c(0, 0,0,4,4))#, 0,0,4,4))
-# print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, 50, 103, 156, 209, 262, 315, 368, nrow(tab)))
-```
-
-
-\pagebreak 
-\newpage\clearpage
-
-```{r parm-std24, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/para_model_24_ed.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
-# df %>% select(-model, -parameter_count) ->df
-# names(df) <- c("Index", "Name", "Value", "StdDev") #, "index", "name", "value", "stddev" ) 
-# tab <- xtable(df, caption = "Summary of estimated model parameter values and standard deviations for model 24.0 for Bristol Bay red king crab.", label = "tab:parm-std24", digits = c(0, 0,0,4,4))#, 0,0,4,4))
-# print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, 50, 103, 156, 209, 262, 315, 368, nrow(tab)))
-```
 
 \pagebreak 
 \newpage\clearpage
 
 ```{r parm-std24c, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/para_model_24c_ed.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
-# df %>% select(-model, -parameter_count) ->df
-# names(df) <- c("Index", "Name", "Value", "StdDev") #, "index", "name", "value", "stddev" ) 
-# tab <- xtable(df, caption = "Summary of estimated model parameter values and standard deviations for model 24.0c for Bristol Bay red king crab.", label = "tab:parm-std24c", digits = c(0, 0,0,4,4))#, 0,0,4,4))
-# print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, 50, 103, 156, 209, 262, 315, 368, nrow(tab)))
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/para_model_24c.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
+#
+df %>% select(-model, -parameter_count) ->df
+names(df) <- c("Index", "Name", "Value", "StdDev") #, "index", "name", "value", "stddev" )
+tab <- xtable(df, caption = "Summary of estimated model parameter values and standard deviations for model 24.0c for Bristol Bay red king crab.", label = "tab:parm-std24c", digits = c(0, 0,0,4,4))#, 0,0,4,4))
+print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, 50, 103, 156, 209, 262, 315, 368, nrow(tab)))
 ```
 
 \pagebreak 
 \newpage\clearpage
 
-```{r est-m211b, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/_m211b_p7gmacs_sum_abun.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
-# #df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
-# names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) #, "M0.21" ,"M0.26", "Notimeblock")
-# addtorow <- list()
-# addtorow$pos <- list(0, 0, 0)
-# addtorow$command <- c(paste("& \\multicolumn{4}{c}{Males} & Females & Total & \\multicolumn{2}{c}{Total Survey Biomass } \\\\\n" , "\\cmidrule(l){2-5}    \\cmidrule(l){8-9}\n"), 
-#                       "Year & Mature & Legal  & MMB & sd & Mature & Recruits & Model Est & Area-Swept \\\\\n",                      "& >119mm & >134mm & >119mm & MMB & >89mm & & >64mm & >64mm \\\\\n")
-# tab <- xtable(df, caption = "Annual abundance estimates (mature males, legal males, and mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 21.1b during 1975-2022. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m211b", digits = c(0,0,3,3,3,3,3,3,3,3))
-# print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE, tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
+```{r parm-std24c2, results = "asis"}
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/para_model_24c2.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
+df %>% select(-model, -parameter_count) ->df
+names(df) <- c("Index", "Name", "Value", "StdDev") #, "index", "name", "value", "stddev" )
+tab <- xtable(df, caption = "Summary of estimated model parameter values and standard deviations for model 24.0c2 for Bristol Bay red king crab.", label = "tab:parm-std24c2", digits = c(0, 0,0,4,4))#, 0,0,4,4))
+print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, 50, 103, 156, 209, 262, 315, 368, nrow(tab)))
 ```
+
 
 \pagebreak 
 \newpage\clearpage
 
-
-```{r est-m230a, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/_m230a_p7gmacs_sum_abun.csv')) # 
-# # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated 
-# names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) 
-# addtorow <- list()
-# addtorow$pos <- list(0, 0, 0)
-# addtorow$command <- c(paste("& \\multicolumn{4}{c}{Males} & Females & Total & \\multicolumn{2}{c}{Total Survey Biomass } \\\\\n" , "\\cmidrule(l){2-5}                   \\cmidrule(l){8-9}\n"), 
-#                       "Year & Mature & Legal  & MMB & sd & Mature & Recruits & Model Est & Area-Swept \\\\\n", 
-#                       "& >119mm & >134mm & >119mm & MMB & >89mm & & >64mm & >64mm \\\\\n")
-# tab <- xtable(df, caption = "Annual abundance estimates (mature males, legal males, and mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 23.0a during 1975-2022. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m230a", digits = c(0,0,3,3,3,3,3,3,3,3))
-# print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
-#       tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
+```{r parm-std251b, results = "asis"}
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/para_model_25_1b.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
+df %>% select(-model, -parameter_count) ->df
+names(df) <- c("Index", "Name", "Value", "StdDev") #, "index", "name", "value", "stddev" )
+tab <- xtable(df, caption = "Summary of estimated model parameter values and standard deviations for model 25.1b for Bristol Bay red king crab.", label = "tab:parm-std251b", digits = c(0, 0,0,4,4))#, 0,0,4,4))
+print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environment="longtable", floating=FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, 50, 103, 156, 209, 262, 315, 368, nrow(tab)))
 ```
 
-\pagebreak 
-\newpage\clearpage
-
-```{r est-m24, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/_m24gmacs_sum_abun.csv')) # 
-# # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated 
-# names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) 
-# addtorow <- list()
-# addtorow$pos <- list(0, 0, 0)
-# addtorow$command <- c(paste("& \\multicolumn{4}{c}{Males} & Females & Total & \\multicolumn{2}{c}{Total Survey Biomass } \\\\\n" , "\\cmidrule(l){2-5}                   \\cmidrule(l){8-9}\n"), 
-#                       "Year & Mature & Legal  & MMB & sd & Mature & Recruits & Model Est & Area-Swept \\\\\n", 
-#                       "& >119mm & >134mm & >119mm & MMB & >89mm & & >64mm & >64mm \\\\\n")
-# tab <- xtable(df, caption = "Annual abundance estimates (mature males, legal males, and mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 24.0 during 1975-2022. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m24", digits = c(0,0,3,3,3,3,3,3,3,3))
-# print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
-#       tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
-```
 
 \pagebreak 
 \newpage\clearpage
 
 ```{r est-m24c, results = "asis"}
-# df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/_m24cgmacs_sum_abun.csv')) # 
-# # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated 
-# names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) 
-# addtorow <- list()
-# addtorow$pos <- list(0, 0, 0)
-# addtorow$command <- c(paste("& \\multicolumn{4}{c}{Males} & Females & Total & \\multicolumn{2}{c}{Total Survey Biomass } \\\\\n" , "\\cmidrule(l){2-5}                   \\cmidrule(l){8-9}\n"), 
-#                       "Year & Mature & Legal  & MMB & sd & Mature & Recruits & Model Est & Area-Swept \\\\\n", 
-#                       "& >119mm & >134mm & >119mm & MMB & >89mm & & >64mm & >64mm \\\\\n")
-# tab <- xtable(df, caption = "Annual abundance estimates (mature males, legal males, and mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 24.0c during 1975-2022. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m24c", digits = c(0,0,3,3,3,3,3,3,3,3))
-# print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
-#       tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/_m24c_gmacs_sum_abun.csv')) # table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
+#df %>% select(d3f_names, base22f, base23s, m22, m231a, m233) -> df
+names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" ) #, "M0.21" ,"M0.26", "Notimeblock")
+addtorow <- list()
+addtorow$pos <- list(0, 0, 0)
+addtorow$command <- c(paste("& \\multicolumn{4}{c}{Males} & Females & Total & \\multicolumn{2}{c}{Total Survey Biomass } \\\\\n" , "\\cmidrule(l){2-5}    \\cmidrule(l){8-9}\n"),
+                      "Year & Mature & Legal  & MMB & sd & Mature & Recruits & Model Est & Area-Swept \\\\\n",                      "& >119mm & >134mm & >119mm & MMB & >89mm & & >64mm & >64mm \\\\\n")
+tab <- xtable(df, caption = "Annual abundance estimates (mature males, legal males, and mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 24.0c during 1975-2024. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m24c", digits = c(0,0,3,3,3,3,3,3,3,3))
+print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE, tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
 ```
 
 \pagebreak 
 \newpage\clearpage
 
-# Figures {-}
 
+```{r est-m24c2, results = "asis"}
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/_m24c.2_gmacs_sum_abun.csv')) #
+# table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
+names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" )
+addtorow <- list()
+addtorow$pos <- list(0, 0, 0)
+addtorow$command <- c(paste("& \\multicolumn{4}{c}{Males} & Females & Total & \\multicolumn{2}{c}{Total Survey Biomass } \\\\\n" , "\\cmidrule(l){2-5}                   \\cmidrule(l){8-9}\n"),
+                      "Year & Mature & Legal  & MMB & sd & Mature & Recruits & Model Est & Area-Swept \\\\\n",
+                      "& >119mm & >134mm & >119mm & MMB & >89mm & & >64mm & >64mm \\\\\n")
+tab <- xtable(df, caption = "Annual abundance estimates (mature males, legal males, and mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 24.0c.2 during 1975-2024. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m24c2", digits = c(0,0,3,3,3,3,3,3,3,3))
+print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
+      tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
+```
+
+\pagebreak 
+\newpage\clearpage
+
+```{r est-m251b, results = "asis"}
+df <- read.csv(paste0(here::here(), '/BBRKC/', folder, '/doc/tables/_m25.1b_gmacs_sum_abun.csv')) #
+# table 9 in Jie_cmn_files.R, need to be adjusted manually at current time to only include parameters estimated
+names(df) <- c("Year", "Mature", "Legal", "MMB", "SD", "Mature", "Total", "Total-Model", "Total" )
+addtorow <- list()
+addtorow$pos <- list(0, 0, 0)
+addtorow$command <- c(paste("& \\multicolumn{4}{c}{Males} & Females & Total & \\multicolumn{2}{c}{Total Survey Biomass } \\\\\n" , "\\cmidrule(l){2-5}                   \\cmidrule(l){8-9}\n"),
+                      "Year & Mature & Legal  & MMB & sd & Mature & Recruits & Model Est & Area-Swept \\\\\n",
+                      "& >119mm & >134mm & >119mm & MMB & >89mm & & >64mm & >64mm \\\\\n")
+tab <- xtable(df, caption = "Annual abundance estimates (mature males, legal males, and mature females in million crab), mature male biomass (MMB, 1000 t), and total survey biomass (1000 t) both estimated by the model and area swept calculated for red king crab in Bristol Bay estimated by length-based model 25.1b during 1975-2024. MMB for year t is on Feb. 15, year t+1.", label = "tab:est-m251b", digits = c(0,0,3,3,3,3,3,3,3,3))
+print(tab, caption.placement = "top", add.to.row = addtorow, include.rownames = FALSE, include.colnames = FALSE,
+      tabular.environment="longtable", floating = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0, nrow(tab)))
+```
+
+
+\pagebreak 
+\newpage\clearpage
+
+# Figures {-}
 ```{r exploreS, out.width="100%", fig.cap = "Inferred selectvity estimated from the all BSFRF data by year, with resulting GAM model fit." }
 knitr::include_graphics("figures/inferred selectivity_explore.png", dpi = 200)
 ```
@@ -485,7 +467,7 @@ knitr::include_graphics("figures/inferred selectivity_explore.png", dpi = 200)
 knitr::include_graphics("figures/by_haul_SBS_inferred selectivity_explore.png", dpi = 200)
 ```
 
-
+\newpage
 ```{r sel1, out.width="100%", fig.cap = "Estimated NMFS trawl survey selectivities under base model updates."}
 knitr::include_graphics("figures/Base_models/nmfs_trawl_slx_capture.png", dpi = 200)
 ```
@@ -507,11 +489,11 @@ knitr::include_graphics("figures/Base_models/index_fit.png", dpi = 200)
 #knitr::include_graphics("figures/index_fit.png", dpi = 200)
 ```
 
-```{r surv1b, out.width="100%",fig.cap = "Comparisons of area-swept estimates of total male NMFS survey biomass and model predictions for model estimates in 2023 under models 21.1b.p7, 23.0a.p7, 24.0, 24.0b. The error bars are plus and minus 2 standard deviations of the area swept estimates."} 
+```{r surv1b, out.width="100%",fig.cap = "Comparisons of area-swept estimates of total male NMFS survey biomass and model predictions for model estimates in 2024 under models 24.0c.2, m25.1a, m25.1b, and m25.1b2. The error bars are plus and minus 2 standard deviations of the area swept estimates."} 
 knitr::include_graphics("figures/Model_runs/index_fit_nmfs_trawl_male.png", dpi = 200)
 ```
 
-```{r surv1c, out.width="100%",fig.cap = "Comparisons of area-swept estimates of total female NMFS survey biomass and model predictions for model estimates in 2023 under models 21.1b.p7, 23.0a.p7, 24.0, 24.0b. The error bars are plus and minus 2 standard deviations of the area swept estimates."} 
+```{r surv1c, out.width="100%",fig.cap = "Comparisons of area-swept estimates of total female NMFS survey biomass and model predictions for model estimates in 2024 under models 24.0c.2, m25.1a, m25.1b, and m25.1b2. The error bars are plus and minus 2 standard deviations of the area swept estimates."} 
 knitr::include_graphics("figures/Model_runs/index_fit_nmfs_trawl_female.png", dpi = 200)
 ```
 
@@ -525,54 +507,35 @@ knitr::include_graphics("figures/Model_runs/index_fit_nmfs_trawl_female.png", dp
 #knitr::include_graphics("figures/index_fit_bsfrf_female.png", dpi = 200)
 ```
 
-```{r surv2c, out.width="100%", fig.cap = "Comparisons of survey biomass estimates for males from the BSFRF survey and model predictions for model estimates in 2023 (models 21.1b.p7, 23.0a.p7, 24.0c, 24.0d). The error bars are plus and minus 2 standard deviations of the survey esimates. The BSFRF survey catchability is assumed to be 1.0 for all models."} 
-#knitr::include_graphics("figures/molt_models/index_fit_bsfrf_male.png", dpi = 200)
-```
-
-```{r surv2d, out.width="100%", fig.cap = "Comparisons of survey biomass estimates for females from the BSFRF survey and model predictions for model estimates in 2023 (models 21.1b.p7, 23.0a.p7, 24.0c, 24.0d). The error bars are plus and minus 2 standard deviations of the survey esimates. The BSFRF survey catchability is assumed to be 1.0 for all models."} 
-#knitr::include_graphics("figures/molt_models/index_fit_bsfrf_female.png", dpi = 200)
-```
-
 \pagebreak 
 \newpage\clearpage  
 
-```{r rect1, out.width="100%", fig.cap = "Estimated recruitment (million of individuals) time series during 1976-2022 with models 21.1b, 23.0a, 21.1b.p7, 23.0a.p7. Mean male recruits during 1984-2021 was used to estimate B35. Recruitment estimates in the terminal year (2022) are unreliable."}
-#knitr::include_graphics("figures/total_recruitment.png", dpi = 200)
+```{r rect1, out.width="100%", fig.cap = "Estimated recruitment (million of individuals) time series during 1976-2023 with models 24.0c, 24.0c.1, 24.0c.1a, and 24.0c.2. Mean male recruits during 1984-2022 was used to estimate B35. Recruitment estimates in the terminal year (2023) are unreliable."}
+knitr::include_graphics("figures/Base_models/total_recruitment.png", dpi = 200)
 ```
 
-```{r rect2, out.width="100%", fig.cap = "Estimated recruitment (million of individuals) time series during 1976-2022 with models 21.1b.p7, 23.0a.p7, 24.0, 24.0b (those models that remove BSFRF data and use it as a prior for NMFS q). Mean male recruits during 1984-2021 was used to estimate B35. Recruitment estimates in the terminal year (2022) are unreliable."}
-#knitr::include_graphics("figures/sel_models/total_recruitment.png", dpi = 200)
-```
-
-```{r rect3, out.width="100%", fig.cap = "Estimated recruitment (million of individuals) time series during 1976-2022 with models 21.1b.p7, 23.0a.p7, 24.0c, 24.0d (base models compared with models with 1 molt probability period). Mean male recruits during 1984-2021 was used to estimate B35. Recruitment estimates in the terminal year (2022) are unreliable."}
-#knitr::include_graphics("figures/molt_models/total_recruitment.png", dpi = 200)
+```{r rect2, out.width="100%", fig.cap = "Estimated recruitment (million of individuals) time series during 1976-2023 with models 24.0c.2, m25.1a, m25.1b, and m25.1b2 (those models that remove BSFRF data and use it as a prior for NMFS q). Mean male recruits during 1984-2023 was used to estimate B35. Recruitment estimates in the terminal year (2023) are unreliable."}
+knitr::include_graphics("figures/Model_runs/total_recruitment.png", dpi = 200)
 ```
 
 
-
-```{r Nmort, out.width="90%", fig.cap = "Comparison of natural mortality - either estimated or fixed depending on the model - for models 21.1b.p7, 23.0a.p7, 24.0, and 24.0b. Estimates for models 21.1b and 23.0a were identical to those labeled .p7 here."}
-#knitr::include_graphics("figures/sel_models/natural_mortality.png", dpi = 200)
+```{r Nmort, out.width="90%", fig.cap = "Comparison of natural mortality - either estimated or fixed depending on the model - for models 24.0c.2, m25.1a, m25.1b, and m25.1b2. Estimates for all 24 series models were the same as 24.0c.2."}
+knitr::include_graphics("figures/Model_runs/natural_mortality.png", dpi = 200)
 ```
 
-```{r Nmort2, out.width="100%", fig.cap = "Comparison of natural mortality - either estimated or fixed depending on the model - for models 21.1b.p7, 23.0a.p7, 24.0c, and 24.0d. "}
-#knitr::include_graphics("figures/molt_models/natural_mortality.png", dpi = 200)
+
+```{r fmort, out.width="100%", fig.cap = "Comparison of estimated fishing mortality for models 24.0c.2, m25.1a, m25.1b, and m25.1b2. All other models are similar to the base models shown here. "}
+knitr::include_graphics("figures/Model_runs/pot_fishery_f.png", dpi = 200)
 ```
 
-```{r fmort, out.width="100%", fig.cap = "Comparison of estimated fishing mortality for models 21.1b.p7, 23.0a.p7, 24.0, and 24.0b. All other models are similar to base models shown here. "}
-#knitr::include_graphics("figures/sel_models/pot_fishery_f.png", dpi = 200)
+```{r mmb1, out.width="100%", fig.cap = "Estimated absolute mature male biomasses during 1975-2023 for models 24.0c, 24.0c.1, 24.0c.1a, 24.0c.2. Mature male biomass is estimated on Feb. 15, year+1 (i.e. 2023 value is Feb. 15 2024)."}
+knitr::include_graphics("figures/Base_models/mmb_trajectory.png", dpi = 200)
 ```
 
-```{r mmb1, out.width="100%", fig.cap = "Estimated absolute mature male biomasses during 1975-2022 for models 21.1b, 23.0a, 21.1b.p7, and 23.0a.p7. Mature male biomass is estimated on Feb. 15, year+1 (i.e. 2022 value is Feb. 15 2023)."}
-#knitr::include_graphics("figures/mmb_trajectory.png", dpi = 200)
+```{r mmb2, out.width="100%", fig.cap = "Estimated absolute mature male biomasses during 1975-2023 for models 24.0c.2, m25.1a, m25.1b, and m25.1b2. Mature male biomass is estimated on Feb. 15, year+1 (i.e. 2023 value is Feb. 15 2024)."}
+knitr::include_graphics("figures/Model_runs/mmb_trajectory.png", dpi = 200) 
 ```
 
-```{r mmb2, out.width="100%", fig.cap = "Estimated absolute mature male biomasses during 1975-2022 for models 21.1b.p7, 23.0a.p7, 24.0, and 24.0b. Mature male biomass is estimated on Feb. 15, year+1 (i.e. 2022 value is Feb. 15 2023)."}
-#knitr::include_graphics("figures/sel_models/mmb_trajectory.png", dpi = 200) 
-```
-
-```{r mmb3, out.width="100%", fig.cap = "Estimated absolute mature male biomasses during 1985-2022 for models 21.1b.p7, 23.0a.p7, 24.0c, and 24.0d. Mature male biomass is estimated on Feb. 15, year+1 (i.e. 2022 value is Feb. 15 2023)."}
-#knitr::include_graphics("figures/molt_models/mmb_trajectory.png", dpi = 200)
-```
 
 ```{r sc-pot, out.width="100%", fig.cap = "Observed and model estimated length-frequencies of male BBRKC by year retained in the directed pot fishery for the base model and model scenarios 24.0 and 24.0b."}
 #knitr::include_graphics("figures/sel_models/comp_fit_pot_fishery_male_retained.png", dpi = 450)
