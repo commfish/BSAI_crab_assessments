@@ -165,7 +165,15 @@ gmacs_plot_index(all_out = base_models, plot_dir = plot_save_base)
 # Tyler says this is broken. Need to fix this for what I need. **fix**
 gmacs_plot_size_comp(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD)
 gmacs_plot_size_comp(all_out = base_models, save_plot = T, plot_dir = plot_save_base)
+# load from bbrkc_funcstions_gmacsr.R
+gmacs_plot_sizecomp_kjp(all_out = base_models, save_plot = T, plot_dir = plot_save_base)
+gmacs_plot_sizecomp_kjp(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD)
+
+
 gmacs_plot_size_comp_aggregate(all_out = base_models, save_plot = T, plot_dir = plot_save_base)
+gmacs_plot_size_comp_aggregate(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD)
+gmacs_plot_mean_size(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD)
+
 #gmacs_plot_sizecomp(all_out = sel_models, save_plot = T, plot_dir = plot_save_sel)
 #gmacs_plot_sizecomp(all_out = molt_models, save_plot = T, plot_dir = plot_save_molt)
 

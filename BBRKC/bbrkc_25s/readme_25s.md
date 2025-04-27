@@ -40,7 +40,7 @@ Model explorations from comments:
 24.0c.1a - 24.0c.1 + 20% handling mortality for fixed gear 
 
 24.0c.2 - 24.0c.1 + one shell condition in model
-25.0 - 24.0c.2 + size bin increase for males
+CUT 25.0 - 24.0c.2 + size bin increase for males
 25.1a - 24.0c.2 + BSFRF selectivity prior with two time periods (using old gam model with all data)
 25.1b - 24.0c.2 + BSFRF selectivity prior with two time periods (using SBS subset new gam model)
 25.1b2 - using model 25.1b with 2x sd on prior for selectivity 
@@ -53,6 +53,10 @@ SAFE document is in Rmarkdown format. Need to work on all tables, etc.
 see "figures_tables_create_SAFE.R" and "Jie_figures_tables_create_SAFE.R" for creation of figures and tables. These also refer to some of Jie's code which is in folder 'BBRKC/code/Jie R code'.
 Other code for figures or analysis is found in 'BBRKC/code'
 Full markdown document was successful in 2023 but still some formatting with figures, etc. needed.
+
+## results for this document ----------
+likelihood comparions for all models above
+specific parameters for models - m24c, m24.0c.2 and m25.1b
 
 ## GMACS versions ----
 Last Sept models used version from May 2022 models - gmacs.exe taken from 'BBKRC/src_bbrkc_040622'

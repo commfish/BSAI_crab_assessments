@@ -537,40 +537,40 @@ knitr::include_graphics("figures/Model_runs/mmb_trajectory.png", dpi = 200)
 ```
 
 
-```{r sc-pot, out.width="100%", fig.cap = "Observed and model estimated length-frequencies of male BBRKC by year retained in the directed pot fishery for the base model and model scenarios 24.0 and 24.0b."}
-#knitr::include_graphics("figures/sel_models/comp_fit_pot_fishery_male_retained.png", dpi = 450)
+```{r sc-pot, out.width="100%", fig.cap = "Observed and model estimated length-frequencies of male BBRKC by year retained in the directed pot fishery for models 24.0c.2, 25.1a, 25.1b, and 25.1b2."}
+knitr::include_graphics("figures/Model_runs/comp_fit_series_1_Pot_Fishery_retained_male.png", dpi = 450)
 ```
 
-```{r sc-pot2, out.width="100%", fig.cap = "Observed and model estimated length-frequencies of male BBRKC by year retained in the directed pot fishery for the base models and model scenarios 24.0c and 24.0d."}
-#knitr::include_graphics("figures/molt_models/comp_fit_pot_fishery_male_retained.png", dpi = 450)
+```{r sc-pot2, out.width="100%", fig.cap = "Observed and model estimated length-frequencies of TOTAL male BBRKC by year in the directed pot fishery for models 24.0c.2, 25.1a, 25.1b, and 25.1b2."}
+knitr::include_graphics("figures/Model_runs/comp_fit_series_2_Pot_Fishery_total_male.png", dpi = 450)
 ```
 
-```{r sc-trawl1, out.width="100%", fig.cap = "Comparison of area-swept and model estimated NMFS survey length frequencies of Bristol Bay male (black) and female (gray) red king crab by year for the base models and model scenarios 24.0 and 24.0b, which have changes in selectivity estimation."}
-#knitr::include_graphics("figures/sel_models/comp_fit_nmfs_trawl_male_all.png", dpi = 450)
+```{r sc-trawl1, out.width="100%", fig.cap = "Comparison of area-swept and model estimated NMFS survey length frequencies of Bristol Bay male (black, 1) and female (gray, 2) red king crab by year for models 24.0c.2, 25.1a, 25.1b, and 25.1b2."}
+knitr::include_graphics("figures/Model_runs/comp_fit_series_7_NMFS_Trawl_total_male.png", dpi = 450)
 ```
 
-```{r sc-trawl2, out.width="100%", fig.cap = "Comparison of area-swept and model estimated NMFS survey length frequencies of Bristol Bay male (black) and female (gray) red king crab by year for the base models and model scenarios 24.0c and 24.0d, changes in molt periods."}
-#knitr::include_graphics("figures/molt_models/comp_fit_nmfs_trawl_male_all.png", dpi = 450)
+```{r sc-trawl2, out.width="100%", fig.cap = "Comparison of length compositions from fixed gear groundfish bycatch of Bristol Bay male (black) and female (gray) red king crab by year for the base model scenarios."}
+knitr::include_graphics("figures/Base_models/comp_fit_series_6_Fixed_Gear_total_male.png", dpi = 450)
 ```
 
-```{r sc-bsfrfM, out.width="100%", fig.cap = "Comparisons of length compositions by the BSFRF survey and the model estimates during 2007-2008 and 2013-2016 for most model scenarios (male (black) and female (gray) red king crab)."}
-#knitr::include_graphics("figures/molt_models/comp_fit_bsfrf_male_all.png", dpi = 450)
+```{r sc-bsfrfM, out.width="100%", fig.cap = "Comparisons of length compositions by the BSFRF survey and the model estimates during 2007-2008 and 2013-2016 for base model scenarios (male (black) and female (gray) red king crab)."}
+knitr::include_graphics("figures/Base_models/comp_fit_series_8_BSFRF_total_male.png", dpi = 450)
 ```
 
 ```{r sc-res-ref-nmfs, out.width="100%", fig.cap = "Residual line plot for male (left panel each year) and female (right panel each) size and year for the NMFS trawl survey size composition data sets for models 21.1b and 23.0a, along with 24.0 and 24.0b (models with selectivity priors based on BSFRF)."}
 #knitr::include_graphics("figures/sel_models/resid_line_nmfs_trawl_male_all.png", dpi = 100)
 ```
 
-```{r sc-res-aggregate-nmfs, out.width="100%", fig.cap = "Aggregated size comps over all years for the NMFS survey for males (black) and females (grey) for base models and selectivity models."}
-#knitr::include_graphics("figures/sel_models/aggregated_comp_fit_nmfs_trawl_male_all.png", dpi = 100)
+```{r sc-res-aggregate-nmfs, out.width="100%", fig.cap = "Aggregated size comps over all years for the NMFS survey for males (black) and females (grey) for model runs."}
+knitr::include_graphics("figures/Model_runs/aggregated_comp_fit_series_7.png", dpi = 100)
 ```
 
-```{r sc-res-mean-male-nmfs, out.width="100%", fig.cap = "Mean size over all years for the NMFS survey for males under model 23.0a.p7 (2023 accepted model)."}
-#knitr::include_graphics("figures/sel_models/m23.0a.p7_mean_size_nmfs_trawl_male_all.png", dpi = 100)
+```{r sc-res-mean-male-nmfs, out.width="100%", fig.cap = "Mean size over all years for the NMFS survey for males (1) and females (2) under model 24.0c.2 (updated base model based on 2024 accepted model)."}
+knitr::include_graphics("figures/Model_runs/model_m24.0c.2_mean_size_series_7.png", dpi = 100)
 ```
 
-```{r sc-res-bubble-male-nmfs, out.width="100%", fig.cap = "Bubble plot for residuals of size comps for males (1) and females (2) for the NMFS survey for males under model 23.0a.p7 (2023 accepted model)."}
-#knitr::include_graphics("figures/sel_models/m23.0a.p7_resid_dot_nmfs_trawl_male_all.png", dpi = 100)
+```{r sc-res-bubble-male-nmfs, out.width="100%", fig.cap = "One-step-ahead residuals of size comps for males for the NMFS survey under model 24.0c.2 (updated base model based on 2024 accepted model)."}
+knitr::include_graphics("figures/Base_models/osa_residuals_series_7_1.png", dpi = 100)
 ```
 
 
