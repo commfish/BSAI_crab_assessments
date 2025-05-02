@@ -52,7 +52,7 @@ m24c.2 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25s/m24.0c
 m25.1a <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25s/m25.1a/Gmacsall.out"), model_name = "m25.1a")
 m25.1b <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25s/m25.1b/Gmacsall.out"), model_name = "m25.1b")
 m25.1b2 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25s/m25.1b2/Gmacsall.out"), model_name = "m25.1b2")
-
+#m25.1a2 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25s/m25.1a_v1/Gmacsall.out"), model_name = "m25.1a2")
 #m24c_state <- gmacs_read_allout(file = "./BBRKC/bbrkc_24f/model_24_0c_MAX harvest/Gmacsall.out", model_name = "m24.0c_state", 
 #                                version = "2.20.14")
 
@@ -92,6 +92,14 @@ gmacs_plot_data_range(all_out = newD_models, save_plot = T, plot_dir = plot_save
 #gmacs_plot_slx(all_out = base_models, save_plot = T, plot_dir = plot_save)
 
 # this code works if you load in the gmacs_plot_slx function from 'bbrkc_functions_gmacsr.R'
+gmacs_get_slx(all_out = list(m24c.2, m25.1a, m25.1a2)) %>%
+  mutate(capture_block = case_when(fleet %in% c("BSFRF", "Bairdi_Fishery_Bycatch", "Fixed_Gear") ~ "1975 - 2023",
+                                   fleet == "NMFS_Trawl" & year %in% 1975:1981 ~ "1975 - 1981",
+                                   fleet == "NMFS_Trawl" & year %in% 1982:2023 ~ "1982 - 2023",
+                                   fleet == "Pot_Fishery" ~ "1975 - 2022",
+                                   fleet == "Trawl_Bycatch" ~ "1975 - 2022")) %>%
+  gmacs_plot_slx(data_summary = ., save_plot = F) #, plot_dir = plot_save_newD)
+
 gmacs_get_slx(all_out = newD_models) %>%
   mutate(capture_block = case_when(fleet %in% c("BSFRF", "Bairdi_Fishery_Bycatch", "Fixed_Gear") ~ "1975 - 2023",
                                    fleet == "NMFS_Trawl" & year %in% 1975:1981 ~ "1975 - 1981",
@@ -116,7 +124,9 @@ gmacs_plot_molt_probability(all_out = newD_models, save_plot = T, plot_dir = plo
 
 # Molt and tagging plot --------
 # molt with tag data base
-mdf <- gmacs_get_molt_probability(all_out = base_models)
+#mdf <- gmacs_get_molt_probability(all_out = base_models)
+mdf <- gmacs_get_molt_probability(all_out = list(m24c.2))
+
 #mdf <- .get_molt_prob_df(M[rec_mod])
 
 tag_molt <- read.csv(paste0(here::here(), '/BBRKC/data/tagging_data_molt_males.csv'))
@@ -124,7 +134,7 @@ tag_molt %>%
   mutate(year = as.factor(year)) %>% 
   mutate(model = block) -> tag_molt
 
-year_list <- c(1975, 2023)
+year_list <- c(1975, 2024) # adjust due to error
 mdf %>% 
   filter(sex == "male") %>% 
   mutate(year = as.factor(year)) %>% 
@@ -143,7 +153,7 @@ molt_tag_data %>%
   geom_point(aes(linetype = model, col = year)) + .THEME +
   #scale_color_discrete(name = "Year Range", labels = c("1975-1979", "1980-2023", "1954-1961", "1966-1969"))+
   scale_color_manual(values = c("#999999", "#E69F00", "#56B4E9", "#009E73"), 
-                     name = "Year Range", labels = c("1975-1979", "1980-2023", "1954-1961", "1966-1969"))-> p
+                     name = "Year Range", labels = c("1975-2023", "1954-1961", "1966-1969"))-> p
 # add in year range as labels. 
 print(p)
 ggsave(paste0(.FIGS, "molt_tagging_males_base.png"), width = 6*1.15, height = 1.25*5)
@@ -268,8 +278,9 @@ gmacs_plot_m(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD)
 gmacs_plot_catch(all_out = base_models, save_plot = T, plot_dir = plot_save_base)
 gmacs_plot_catch(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD)
   
-gmacs_plot_catch_kjp(all_out = base_models, save_plot = T, plot_dir = plot_save) 
-# load from "bbrkc_functions_gmacsr.R"
+gmacs_plot_catch_kjp(all_out = base_models, save_plot = T, plot_dir = plot_save_base) 
+gmacs_plot_catch_kjp(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD)
+# load from "bbrkc_functions_gmacsr.R", has correct fleet and component labels
 #gmacs_plot_catch(all_out = molt_models, save_plot = T, plot_dir = plot_save_molt)
 ## ** fix ** so that all directed catch is on the same scale and showing the entire time series - like old plot.
 
@@ -397,7 +408,7 @@ table1specs_t <- c(msst_2324, mmb_2324, mmb_2425, ofl_2425, abc_2425)
 table1specs_t
 
 # use this as starting place for table 1 ----
-refT1 <- gmacs_get_ref_points(all_out = list(m24c, m24c.1, m24c.2, m25.1a, m25.1b))
+refT1 <- gmacs_get_ref_points(all_out = list(m24c, m24c.1, m24c.2, m25.1a, m25.1b, m25.1b2))
 refT1 %>% 
   as.data.frame() %>% 
   mutate(MMB = round(mmb/1000, 2), 
@@ -439,7 +450,7 @@ write.csv(ref_pt_table, paste0(.TABS, "specs_all_mods.csv"), row.names = FALSE)
 
 # Table 7 nat mort----
 #nat_mort <- .get_M_df_kjp(M[2:4]) # bbrkc_functions.R
-nat_mort <- gmacs_get_m(all_out = list(m24c, m24c.1, m24c.2, m25.1a, m25.1b))
+nat_mort <- gmacs_get_m(all_out = list(m24c, m24c.1, m24c.2, m25.1a, m25.1b, m25.1b2))
 #nat_mort <- m230a$M_by_class
 nat_mort %>% 
   distinct(model, sex, M) %>% print(n =100)
@@ -447,6 +458,7 @@ nat_mort %>%
 nat_mort %>% 
   distinct(model, sex, M) %>% 
   mutate(year = c("base", "1980-84", "base", "1980-84",
+                  "base", "1980-84", "base", "1980-84",
                   "base", "1980-84", "base", "1980-84",
                   "base", "1980-84", "base", "1980-84",
                   "base", "1980-84", "base", "1980-84",
@@ -465,17 +477,17 @@ write.csv(natural_mort_all2, paste0(.TABS, "M_out.csv"), row.names = FALSE)
 
 # get likelihood table --------------------
 # spring 25 - which models to include here???
-base_like <- gmacs_get_lik(all_out = list(m24c, m24c.1, m24c.1a, m24c.2, m25.1a, m25.1b)) #base_models <- list(m24c, m24c.1, m24c.1a, m24c.2)
+base_like <- gmacs_get_lik(all_out = list(m24c, m24c.1, m24c.1a, m24c.2, m25.1a, m25.1b, m25.1b2)) #base_models <- list(m24c, m24c.1, m24c.1a, m24c.2)
 #newD_models <- list(m24c.2, m25.1a, m25.1b, m25.1b2) 
 # remove tagging and growth 
 
-base_pen <- gmacs_get_lik_type_pen(all_out = list(m24c, m24c.1, m24c.1a, m24c.2, m25.1a, m25.1b))
+base_pen <- gmacs_get_lik_type_pen(all_out = list(m24c, m24c.1, m24c.1a, m24c.2, m25.1a, m25.1b, m25.1b2))
 
 all_like1 <- base_like[c(1:20), ]
 all_like2 <- base_pen[c(10, 8, 7), ]
 all_like3 <- base_like[c(26,25), ]
 
-ref_all_like4 <- gmacs_get_ref_points(all_out = list(m24c, m24c.1, m24c.1a, m24c.2, m25.1a, m25.1b))
+ref_all_like4 <- gmacs_get_ref_points(all_out = list(m24c, m24c.1, m24c.1a, m24c.2, m25.1a, m25.1b, m25.1b2))
 ref_all_like4 %>% 
   as.data.frame() %>% 
   select(model, b35, mmb, f35, fofl, ofl_tot) %>% 
@@ -484,7 +496,7 @@ ref_all_like4 %>%
          ofl_tot = round(ofl_tot, 2)) %>% 
   select(b35, mmb, f35, fofl, ofl_tot) -> ref_all_like4a
   
-row.names(ref_all_like4a) <- c("m24.0c", "m24.0c.1", "m24.0c.1a", "m24.0c.2", "m25.1a", "m25.1b")
+row.names(ref_all_like4a) <- c("m24.0c", "m24.0c.1", "m24.0c.1a", "m24.0c.2", "m25.1a", "m25.1b", "m25.1b2")
 
 ref_all_like4a %>% 
   rotate_df() %>% 
@@ -524,7 +536,9 @@ base_24c_parm %>%
   filter(standard_error != "NA") %>% # get only estimated parameters not the fixed ones
   select(model, parameter_count, parameter, estimate, standard_error) -> parm1
 
-write.csv(parm1, paste0(.TABS, "para_model_24c.csv")) # use row names as index - don't need parameter count
+parm1_a <- parm1[c(1:4, 40:72, 382:383), ]
+write.csv(parm1_a, paste0(.TABS, "para_model_24c.csv"))
+write.csv(parm1, paste0(.TABS, "para_model_24c_all.csv")) # use row names as index - don't need parameter count
 # IMPORTANT - need to edit in excel right now to remove "_" - can't have "_" in names...
 # 
 
@@ -534,7 +548,9 @@ base_24c2_parm %>%
   filter(standard_error != "NA") %>% # get only estimated parameters not the fixed ones
   select(model, parameter_count, parameter, estimate, standard_error) -> parm1
 
-write.csv(parm1, paste0(.TABS, "para_model_24c2.csv")) # use row names as index - don't need parameter count
+parm1_a <- parm1[c(1:4, 40:72, 382:383), ]
+write.csv(parm1_a, paste0(.TABS, "para_model_24c2.csv"))
+write.csv(parm1, paste0(.TABS, "para_model_24c2_all.csv")) # use row names as index - don't need parameter count
 # IMPORTANT - need to edit in excel right now to remove "_" - can't have "_" in names...
 #
 
@@ -544,7 +560,9 @@ base_25_1b_parm %>%
   filter(standard_error != "NA") %>% # get only estimated parameters not the fixed ones
   select(model, parameter_count, parameter, estimate, standard_error) -> parm1
 
-write.csv(parm1, paste0(.TABS, "para_model_25_1b.csv")) # use row names as index - don't need parameter count
+parm1_a <- parm1[c(1:4, 40:106), ]
+write.csv(parm1_a, paste0(.TABS, "para_model_25_1b.csv"))
+write.csv(parm1, paste0(.TABS, "para_model_25_1b_all.csv")) # use row names as index - don't need parameter count
 # IMPORTANT - need to edit in excel right now to remove "_" - can't have "_" in names...KEEP in column names though
 #
 
