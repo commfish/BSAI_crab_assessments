@@ -24,7 +24,7 @@ opts_chunk$set(fig.width = 12, fig.height = 7, fig.align = "left", echo = FALSE,
 ```
 
 ```{r, load_packages, echo = FALSE, include = FALSE}
-library(gmr)
+#library(gmr)
 library(xtable)
 library(tidyverse)
 source(paste0(here::here(), "./gmacsr/gmacsr.R"))
@@ -1219,7 +1219,7 @@ knitr::include_graphics("figures/bsfrf2male.png", dpi = 200)
 knitr::include_graphics( "figures/bsfrf2.png", dpi = 200)
 ```
 
-```{r bsfrf-compare3, fig.cap = "Comparison of ratios of NMFS survey abundances to BSFRF side-by-side survey abundances during 2013-2016 for male Bristol Bay red king crab. Sizes of circles are proportional to total abundances. The abundance-weighted average ratio is 0.891 for crab ≥135 mm carapace length from all four years of data. The approach to compute this overall ratio is documented in section D. Data, 4. Bering Sea Fisheries Research Foundation Survey Data."}
+```{r bsfrf-compare3, fig.cap = "Comparison of ratios of NMFS survey abundances to BSFRF side-by-side survey abundances during 2013-2016 for male Bristol Bay red king crab. Sizes of circles are proportional to total abundances. The abundance-weighted average ratio is 0.891 for crab GE 135 mm carapace length from all four years of data. The approach to compute this overall ratio is documented in section D. Data, 4. Bering Sea Fisheries Research Foundation Survey Data."}
 knitr::include_graphics("figures/bsfrf3.png", dpi = 200)
 ```
 
