@@ -1,7 +1,7 @@
 # 2025 AIGKC final assessment
 ## tyler jackson
 ## tyler.jackson@alaska.gov
-## 4/11/2025
+## 5/6/2025
 
 # load ----
 
@@ -9,24 +9,75 @@ library(gmacsr)
 
 # run initial models ----
 # gmacs_do_exe(gmacs.dat = "./AIGKC/models/2025/may/EAG/23.1c/gmacs.dat", pin = F, reweight = T, level = 0.001)
+# gmacs_do_exe(gmacs.dat = "./AIGKC/models/2025/may/EAG/23.1c_complete/gmacs.dat", pin = F, reweight = T, level = 0.001)
 # gmacs_do_exe(gmacs.dat = "./AIGKC/models/2025/may/EAG/25.0b/gmacs.dat", pin = F, reweight = T, level = 0.001)
 # gmacs_do_exe(gmacs.dat = "./AIGKC/models/2025/may/EAG/25.0a/gmacs.dat", pin = F, reweight = T, level = 0.001)
 # gmacs_do_exe(gmacs.dat = "./AIGKC/models/2025/may/EAG/25.0/gmacs.dat", pin = F, reweight = T, level = 0.001)
 
-# gmacs_do_exe(gmacs.dat = "./AIGKC/models/2025/may/WAG/23.1c/gmacs.dat", pin = F, reweight = F)
+# gmacs_do_exe(gmacs.dat = "./AIGKC/models/2025/may/WAG/23.1c/gmacs.dat", pin = F, reweight = T, level = 0.001)
 # gmacs_do_exe(gmacs.dat = "./AIGKC/models/2025/may/WAG/25.0b/gmacs.dat", pin = F, reweight = T, level = 0.001)
+
 
 # jittering ----
 
-# gmacs_do_jitter(gmacs.dat = "./AIGKC/models/2025/may/WAG/23.1c/gmacs.dat",
-#                 sd = 0.3, iter = 500, model_name = "23.1c", version = "2.20.20")
-# gmacs_do_jitter(gmacs.dat = "./AIGKC/models/2025/may/WAG/25.0b/gmacs.dat",
-#                 sd = 0.3, iter = 500, model_name = "25.0b", version = "2.20.20")
+gmacs_do_jitter(gmacs.dat = "./AIGKC/models/2025/may/WAG/23.1c/gmacs.dat",
+                sd = 0.3, iter = 500, model_name = "23.1c", version = "2.20.20")
+gmacs_do_jitter(gmacs.dat = "./AIGKC/models/2025/may/WAG/25.0b/gmacs.dat",
+                sd = 0.3, iter = 500, model_name = "25.0b", version = "2.20.20")
 
 gmacs_do_jitter(gmacs.dat = "./AIGKC/models/2025/may/EAG/23.1c/gmacs.dat",
                 sd = 0.3, iter = 500, model_name = "23.1c", version = "2.20.20")
 gmacs_do_jitter(gmacs.dat = "./AIGKC/models/2025/may/EAG/25.0b/gmacs.dat",
                 sd = 0.3, iter = 500, model_name = "25.0b", version = "2.20.20")
+
+read_csv("./AIGKC/models/2025/may/EAG/23.1c/output/23.1c_jitter_sd_0.3.csv") %>%
+  mutate(obj_function = round(obj_function, 3)) %>%
+  group_by(obj_function) %>%
+  summarise(catch_lik = mean(catch_lik), 
+            index_lik = mean(index_lik), 
+            size_lik = mean(size_lik), 
+            mmb_curr = mean(mmb_curr),  
+            bmsy = mean(bmsy),   
+            ofl = mean(ofl),
+    n = n(), prop = n / 500) %>%
+  write_csv("./AIGKC/output/models/2025/may/jitter_eag_23.1c.csv")
+
+read_csv("./AIGKC/models/2025/may/EAG/25.0b/output/25.0b_jitter_sd_0.3.csv") %>%
+  mutate(obj_function = round(obj_function, 3)) %>%
+  group_by(obj_function) %>%
+  summarise(catch_lik = mean(catch_lik), 
+            index_lik = mean(index_lik), 
+            size_lik = mean(size_lik), 
+            mmb_curr = mean(mmb_curr),  
+            bmsy = mean(bmsy),   
+            ofl = mean(ofl),
+            n = n(), prop = n / 500) %>%
+  write_csv("./AIGKC/output/models/2025/may/jitter_eag_25.0b.csv")
+
+# WAG 
+read_csv("./AIGKC/models/2025/may/WAG/23.1c/output/23.1c_jitter_sd_0.3.csv") %>%
+  mutate(obj_function = round(obj_function, 3)) %>%
+  group_by(obj_function) %>%
+  summarise(catch_lik = mean(catch_lik), 
+            index_lik = mean(index_lik), 
+            size_lik = mean(size_lik), 
+            mmb_curr = mean(mmb_curr),  
+            bmsy = mean(bmsy),   
+            ofl = mean(ofl),
+            n = n(), prop = n / 500) %>%
+  write_csv("./AIGKC/output/models/2025/may/jitter_wag_23.1c.csv")
+
+read_csv("./AIGKC/models/2025/may/WAG/25.0b/output/25.0b_jitter_sd_0.3.csv") %>%
+  mutate(obj_function = round(obj_function, 3)) %>%
+  group_by(obj_function) %>%
+  summarise(catch_lik = mean(catch_lik), 
+            index_lik = mean(index_lik), 
+            size_lik = mean(size_lik), 
+            mmb_curr = mean(mmb_curr),  
+            bmsy = mean(bmsy),   
+            ofl = mean(ofl),
+            n = n(), prop = n / 500) %>%
+  write_csv("./AIGKC/output/models/2025/may/jitter_wag_25.0b.csv")
 
 # load outputs ----
 
@@ -39,6 +90,8 @@ wag25.0b <- gmacs_read_allout("./AIGKC/models/2025/may/WAG/25.0b/Gmacsall.out", 
 eag23.1c_v16 <- gmacs_read_allout("./AIGKC/models/2025/may/EAG/23.1c_v16/Gmacsall.out", model_name = "23.1c v16", version = "2.20.16")
 eag23.1c <- gmacs_read_allout(file = "./AIGKC/models/2025/may/EAG/23.1c/Gmacsall.out", model_name = "23.1c", version = "2.20.21")
 eag25.0b <- gmacs_read_allout("./AIGKC/models/2025/may/EAG/25.0b/Gmacsall.out", model_name = "25.0b", version = "2.20.21")
+
+eag23.1c_comp <- gmacs_read_allout(file = "./AIGKC/models/2025/may/EAG/23.1c_complete/Gmacsall.out", model_name = "23.1c Complete", version = "2.20.21")
 
 # gmacs version table ----
 
@@ -208,7 +261,7 @@ eag23.1c_rec %>% full_join(eag25.0b_rec %>% mutate(space = NA)) %>% full_join(wa
 # reference points table ----
 
 gmacs_get_ref_points(list(eag23.1c, eag25.0b, wag23.1c, wag25.0b)) %>%
-  bind_cols(tibble(subdistrict = c("EAG", NA, "WAG", NA)), .) %>% as.data.frame
+  bind_cols(tibble(subdistrict = c("EAG", NA, "WAG", NA)), .) %>% as.data.frame %>%
   write_csv("AIGKC/output/models/2025/may/reference_points_table.csv")
 
 # plot of model data -----
@@ -561,6 +614,8 @@ full_join(wag23.1c_ssb, wag25.0b_ssb) %>%
 
 ggsave("AIGKC/figures/models/2025/may/mature_male_biomass.png", plot = eag_mmb / wag_mmb, width = 7, height = 6, units = "in")
 
+gmacs_plot_mmb(list(eag23.1c, eag23.1c_comp), save_plot = F)
+
 # fishing mortality ----
 
 gmacs_get_f(list(wag23.1c, wag25.0b)) %>%
@@ -585,10 +640,10 @@ ggsave("AIGKC/figures/models/2025/may/fishing_mortality.png", plot = x, width = 
 
 # kobe ----
 
-gmacs_plot_kobe(list(eag25.0b), save_plot = F)[[1]]+
+gmacs_plot_kobe(all_out = list(eag25.0b), save_plot = F)[[1]]+
   labs(title = "EAG")+
   theme(plot.title = element_text(hjust = 0.5)) -> ekobe
-gmacs_plot_kobe(list(wag25.0b), save_plot = F)[[1]]+
+gmacs_plot_kobe(all_out = list(wag25.0b), save_plot = F)[[1]]+
   labs(title = "WAG")+
   theme(plot.title = element_text(hjust = 0.5)) -> wkobe
 ggsave("AIGKC/figures/models/2025/may/kobe_25.0b.png", plot = ekobe + wkobe, width = 8, height = 4, units = "in")
@@ -598,10 +653,10 @@ ggsave("AIGKC/figures/models/2025/may/kobe_25.0b.png", plot = ekobe + wkobe, wid
 # retrospective analysis ----
 
 # run analysis
-# gmacs_do_retrospective("./AIGKC/models/2025/may/EAG/23.1c/gmacs.dat", n_peel = 10)
-# gmacs_do_retrospective("./AIGKC/models/2025/may/EAG/25.0b/gmacs.dat", n_peel = 10)
-# gmacs_do_retrospective("./AIGKC/models/2025/may/WAG/23.1c/gmacs.dat", n_peel = 10)
-# gmacs_do_retrospective("./AIGKC/models/2025/may/WAG/25.0b/gmacs.dat", n_peel = 10)
+gmacs_do_retrospective("./AIGKC/models/2025/may/EAG/23.1c/gmacs.dat", n_peel = 10)
+gmacs_do_retrospective("./AIGKC/models/2025/may/EAG/25.0b/gmacs.dat", n_peel = 10)
+gmacs_do_retrospective("./AIGKC/models/2025/may/WAG/23.1c/gmacs.dat", n_peel = 10)
+gmacs_do_retrospective("./AIGKC/models/2025/may/WAG/25.0b/gmacs.dat", n_peel = 10)
 
 # make plots
 gmacs_do_retrospective("./AIGKC/models/2025/may/EAG/23.1c/gmacs.dat", n_peel = 10, plot_only = T, save_plot = F)[[2]]+
@@ -617,6 +672,22 @@ wrap_plots(retro_e23.1c, retro_e25.0b,
            retro_w23.1c, retro_w25.0b)+
   plot_layout(guides = 'collect') -> x
 ggsave("AIGKC/figures/models/2025/may/retrospectives.png", plot = x, width = 12, height = 8, units = "in")
+
+gmacs_get_derived_quantity_summary(file = list.files("./AIGKC/models/2025/may/WAG/23.1c/retrospectives", "Gmacsall.out", full.names = T, recursive = T),
+                                   model_name = c(1, 10, 2:9)) %>%
+  group_by(model) %>%
+  mutate(terminal_year = max(year)) %>%
+  
+  ggplot()+
+  geom_line(aes(x = year, y = recruit_male, color = factor(terminal_year)))
+
+gmacs_get_derived_quantity_summary(file = list.files("./AIGKC/models/2025/may/EAG/23.1c/retrospectives", "Gmacsall.out", full.names = T, recursive = T),
+                                   model_name = c(1, 10, 2:9)) %>%
+  group_by(model) %>%
+  mutate(terminal_year = max(year)) %>%
+  
+  ggplot()+
+  geom_line(aes(x = year, y = recruit_male, color = factor(terminal_year)))
 
 
 
@@ -634,7 +705,8 @@ read_csv("./AIGKC/data/safe/ofl_basis.csv") %>%
               summarise_if(is.numeric, sum) %>%
               mutate(area = "Combined")
               ) %>%
-  mutate(ass_yr = as.numeric(substring(season, 1, 4))) %>%
+  mutate(ass_yr = as.numeric(substring(season, 1, 4)),
+         status = mmb / bmsy) %>% 
   
   ggplot()+
   geom_point(aes(x = ass_yr, y = mmb/bmsy, color = area))+
@@ -647,4 +719,204 @@ read_csv("./AIGKC/data/safe/ofl_basis.csv") %>%
   theme(legend.position = c(1, 1), legend.justification = c(1, 1)) -> x
 ggsave("AIGKC/figures/models/2025/may/stock_status_history.png", plot = x, width = 6, height = 4, units = "in")
 
+# last season mmb
+gmacs_get_derived_quantity_summary(list(wag23.1c, eag23.1c)) %>%
+  filter(year == 2024) %>%
+  summarise(ssb = sum(ssb) / 1000) %>% as.data.frame()
 
+# mmb prj
+gmacs_get_ref_points(list(wag23.1c, eag23.1c)) %>%
+  summarise(mmb = sum(mmb) / 1000) %>% as.data.frame()
+
+# msst
+gmacs_get_ref_points(list(wag23.1c, eag23.1c)) %>%
+  summarise(msst = sum(b35) / 1000 / 2) %>% as.data.frame()
+
+# tac 
+(3760000 + 1120000) * 0.000453592 / 1000
+
+# retained and total catch
+read_csv("./AIGKC/data/observer/2025/")
+  
+
+
+# wag exploitation rate ----
+
+# LMA on June 30th ~ next fishing season catch
+
+gmacs_get_size_summary(list(wag23.1c)) %>%
+  filter(mod_series == 1) %>% transmute(year, size, obs) %>%
+  left_join(gmacs_get_catch_summary(list(wag23.1c)) %>%
+              filter(series == 1) %>% transmute(year, ret_catch_t = obs_catch)) %>%
+  left_join(eag23.1c$wt_at_size %>% distinct(size, wt) ) %>%
+  filter(size >= 138) %>%
+  mutate(ret_catch_n = (ret_catch_t * obs) / wt) %>%
+  group_by(year) %>%
+  summarise(ret_catch_n = sum(ret_catch_n)) %>%
+  left_join(gmacs_get_n_matrix(list(wag23.1c)) %>%
+               mutate(year = year + 1) %>%
+               filter(size >= 138) %>%
+               group_by(year) %>%
+              # numbers in thousands and weights in t cancel out
+               summarise(lma = sum(total)) ) %>%
+  mutate(expl_catch = ret_catch_n / lma, 
+         subdistrict = "WAG") %>%
+  bind_rows(gmacs_get_size_summary(list(eag23.1c)) %>%
+              filter(mod_series == 1) %>% transmute(year, size, obs) %>%
+              left_join(gmacs_get_catch_summary(list(eag23.1c)) %>%
+                          filter(series == 1) %>% transmute(year, ret_catch_t = obs_catch)) %>%
+              left_join(eag23.1c$wt_at_size %>% distinct(size, wt)) %>%
+              filter(size >= 138) %>%
+              mutate(ret_catch_n = (ret_catch_t * obs) / wt) %>%
+              group_by(year) %>%
+              summarise(ret_catch_n = sum(ret_catch_n)) %>%
+              left_join(gmacs_get_n_matrix(list(eag23.1c)) %>%
+                           mutate(year = year + 1) %>%
+                           filter(size >= 138) %>%
+                           group_by(year) %>%
+                           # numbers in thousands and weights in t cancel out
+                           summarise(lma = sum(total)) ) %>%
+              mutate(expl_catch = ret_catch_n / lma, 
+                     subdistrict = "EAG") ) %>% 
+  
+  ggplot()+
+  geom_line(aes(x = year, y = expl_catch, color = subdistrict))+
+  geom_hline(yintercept = 0.25, linetype = 2)+
+  scale_x_continuous(labels = yraxis$labels, breaks = yraxis$breaks)+
+  scale_color_manual(values = c("black", "grey70"))+
+  labs(color = NULL, x = NULL, y = "Exploitation on LMA")+
+  theme(legend.position = c(1, 1), legend.justification = c(1, 1)) -> x
+ggsave("AIGKC/figures/models/2025/may/lma_exploitation_rate_backcalc_ret.png", plot = x, height = 4, width = 6, units = "in")
+
+# n matrix season difference
+wag23.1c_nseas <- gmacs_read_allout("./AIGKC/models/2025/may/WAG/23.1c_nseas/Gmacsall.out", model_name = "N Mat Jul 1, YY", version = "2.20.21")
+
+gmacs_get_n_matrix(list(wag23.1c, wag23.1c_nseas)) %>%
+  mutate(model = ifelse(model == "23.1c", "N Mat Jul 30, YY+1", model)) %>%
+  filter(size >= 138) %>%
+  group_by(year, model) %>%
+  summarise(LMA = sum(total) ) %>%
+  ggplot()+
+  geom_line(aes(x = year, y = LMA, color = model))
+
+
+read_csv("AIGKC/data/tac/legacy_model_abundance_output.csv") %>%
+  bind_rows(gmacs_get_n_matrix(list(wag23.1c)) %>%
+              mutate(year = year + 1,
+                     assessment = 2025) %>%
+              filter(size >= 138) %>%
+              group_by(year, assessment) %>%
+              # numbers in thousands and weights in t cancel out
+              summarise(lma = sum(total) / 1000,
+                        subdistrict = "WAG") ) %>%
+  bind_rows(gmacs_get_n_matrix(list(eag23.1c)) %>%
+              mutate(year = year + 1,
+                     assessment = 2025) %>%
+              filter(size >= 138) %>%
+              group_by(year, assessment) %>%
+              # numbers in thousands and weights in t cancel out
+              summarise(lma = sum(total) / 1000,
+                        subdistrict = "EAG") ) %>%
+  
+  right_join(read_csv("AIGKC/data/observer/2025/retained_catch.csv") %>%
+              rename(year = crab_year,
+                     subdistrict = fishery)) %>%
+  mutate(exploit = tot_retained_n / 1e6 / lma) %>%
+  filter(year >= 1985) %>%
+  
+  ggplot()+
+  geom_line(aes(x = year, y = exploit, color = factor(assessment)))+
+  geom_hline(yintercept = 0.25, linetype = 2)+
+  scale_x_continuous(labels = yraxis$labels, breaks = yraxis$breaks)+
+  scale_color_manual(values = cbpalette)+
+  labs(color = NULL, x = NULL, y = "Exploitation on LMA")+
+  theme(legend.position = c(1, 1), legend.justification = c(1, 1))+
+  facet_wrap(~subdistrict) -> x
+ggsave("AIGKC/figures/models/2025/may/exploitation_hindsight.png", plot = x, height = 4, width = 8, units = "in")
+
+
+read_csv("AIGKC/data/tac/legacy_model_abundance_output.csv") %>%
+  bind_rows(gmacs_get_n_matrix(list(wag23.1c)) %>%
+              mutate(year = year + 1,
+                     assessment = 2025) %>%
+              filter(size >= 138) %>%
+              group_by(year, assessment) %>%
+              # numbers in thousands and weights in t cancel out
+              summarise(lma = sum(total) / 1000,
+                        subdistrict = "WAG") ) %>%
+  bind_rows(gmacs_get_n_matrix(list(eag23.1c)) %>%
+              mutate(year = year + 1,
+                     assessment = 2025) %>%
+              filter(size >= 138) %>%
+              group_by(year, assessment) %>%
+              # numbers in thousands and weights in t cancel out
+              summarise(lma = sum(total) / 1000,
+                        subdistrict = "EAG") ) %>%
+
+  filter(year >= 1985) %>%
+  
+  ggplot()+
+  geom_line(aes(x = year, y = lma, color = factor(assessment)))+
+  scale_x_continuous(labels = yraxis$labels, breaks = yraxis$breaks)+
+  scale_color_manual(values = cbpalette)+
+  labs(color = NULL, x = NULL, y = "LMA (mil)")+
+  theme(legend.position = c(1, 1), legend.justification = c(1, 1))+
+  facet_wrap(~subdistrict) -> x
+ggsave("AIGKC/figures/models/2025/may/lma_hindsight.png", plot = x, height = 4, width = 8, units = "in")
+
+
+read_csv("AIGKC/data/tac/legacy_model_abundance_output.csv") %>%
+  bind_rows(gmacs_get_derived_quantity_summary(list(wag23.1c)) %>%
+              transmute(year = year + 1,
+                        recruits = recruit_male / 1000,
+                        assessment = 2025, 
+                        subdistrict = "WAG") ) %>%
+  bind_rows(gmacs_get_derived_quantity_summary(list(eag23.1c)) %>%
+              transmute(year = year + 1,
+                        recruits = recruit_male / 1000,
+                        assessment = 2025, 
+                        subdistrict = "EAG") ) %>%
+  
+  filter(year >= 1985) %>%
+  
+  ggplot()+
+  geom_line(aes(x = year, y = recruits, color = factor(assessment)))+
+  scale_x_continuous(labels = yraxis$labels, breaks = yraxis$breaks)+
+  scale_color_manual(values = cbpalette)+
+  labs(color = NULL, x = NULL, y = "Recruitment (mil)")+
+  theme(legend.position = c(1, 1), legend.justification = c(1, 1))+
+  facet_wrap(~subdistrict) -> x
+ggsave("AIGKC/figures/models/2025/may/rec_hindsight.png", plot = x, height = 4, width = 8, units = "in")
+
+# MCMC ----
+
+# do mcmc runs
+gmacs_do_ofl_dist("./AIGKC/models/2025/may/EAG/23.1c/gmacs.dat", n_replicates = 100000, n_draws = 100, save_plot = F)
+gmacs_do_ofl_dist("./AIGKC/models/2025/may/WAG/23.1c/gmacs.dat", n_replicates = 100000, n_draws = 100, save_plot = F)
+
+eagmc <- gmacs_read_mcoutREF("./AIGKC/models/2025/may/EAG/23.1c/ofl_distribution/mcoutREF.rep", model_name = "EAG") 
+wagmc <- gmacs_read_mcoutREF("./AIGKC/models/2025/may/WAG/23.1c/ofl_distribution/mcoutREF.rep", model_name = "WAG") 
+bind_rows(eagmc, wagmc) %>%
+  ggplot()+
+  geom_density(aes(x = ofl / 1000, fill = model), color = "grey30", alpha = 0.5)+
+  scale_x_continuous(labels = scales::comma)+
+  labs(x = "OFL (1,000 t)", y = "Probability Denisty", fill = NULL)+
+  scale_fill_manual(values = cbpalette)+
+  theme(legend.position = c(1, 1),
+        legend.justification = c(1, 1)) -> x
+
+bind_rows(eagmc %>% mutate(mmb_est = eag23.1c$bmsy *  eag23.1c$b_bmsy,
+                           mc_status = mmb_est / bmsy), 
+          
+          wagmc %>% mutate(mmb_est = wag23.1c$bmsy * wag23.1c$b_bmsy,
+                           mc_status = mmb_est / bmsy)) %>%
+  ggplot()+
+  stat_ecdf(aes(x = mc_status, geom = "step", group = model, color = model))+
+  geom_vline(xintercept = 0.5, linetype = 2, color = "firebrick")+
+  geom_text(aes(x = 0.48, y = 0.5, label = "Overfished"), size = 4, angle = 90)+
+  labs(x = bquote(MMB[2024] ~"/"~B["35%"]), y = "Cumulative Density", color = NULL)+
+  scale_color_manual(values = cbpalette)+
+  theme(legend.position = c(0.2, 1),
+        legend.justification = c(0.2, 1)) -> y
+
+ggsave("AIGKC/figures/models/2025/may/ofl_distribution.png", plot = x+y, height = 4, width = 7, units = "in")
