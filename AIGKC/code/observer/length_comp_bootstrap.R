@@ -3,7 +3,7 @@
 # bootstrap size composition sample size
 # tyler jackson
 # tyler.jackson@alaska.gov
-# 3/18/2025
+# 5/1/2025
 
 # load ----
 
@@ -39,9 +39,9 @@ dock %>%
 
 # total composition boot ----
 
-yrs <- 1995:1997
+yrs <- 2024
 # eag
-for(z in 1:10){
+for(z in 1:1){
 for (i in yrs){
   # random number seed
   # set.seed(1624)
@@ -52,7 +52,7 @@ for (i in yrs){
     mutate(pot = paste0(trip, adfg, spn),
            n_meas_pots = length(unique(pot))) %>%
     # bootstrap pots
-    expand_grid(., pot_boot = 1:100) %>%
+    expand_grid(., pot_boot = 1:1000) %>%
     nest_by(crab_year, pot_boot, n_meas_pots, .keep = T) %>% ungroup() %>%  #pull(data) %>% .[[1]] -> data
     # resample crab
     mutate(data = purrr::map2(data, n_meas_pots, function(data, n_meas_pots){
@@ -90,7 +90,9 @@ for (i in yrs){
   saveRDS(out, paste0("./AIGKC/output/observer/length_comp_boot/eag_total_comp_boot_", i, "_", z, ".RDS"))
   
 }
-  }
+}
+
+
 # wag
 for (i in yrs){
   # random number seed
@@ -148,7 +150,7 @@ for (i in yrs){
 
 # retained composition boot ----
 
-yrs <- 1981:2024
+yrs <- 2024
 # eag
 for (i in yrs){
   # random number seed
@@ -339,3 +341,4 @@ eag_tot_tab %>%
             neff_mean = mean(neff_mean),
             neff_max = max(neff_max)) %>% ungroup %>%
 write_csv("./AIGKC/output/observer/length_comp_boot/total_neff_boot_table_eag.csv")
+

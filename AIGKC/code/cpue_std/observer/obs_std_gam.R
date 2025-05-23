@@ -27,7 +27,7 @@ eag_slope <- readRDS("./AIGKC/data/bathy/eag_bathy_slope.RDS")
 wag_slope <- readRDS("./AIGKC/data/bathy/wag_bathy_slope.RDS")
 
 
-ai <- raster::getData("GADM", country = c("USA"), level = 1, path = "./AIGKC/data/maps")
+ai <- geodata::gadm("United States", level = 1, path = "./AIGKC/data/maps")
 ai@data <- filter(ai@data, NAME_1 == "Alaska")
 eag_proj <- coord_quickmap(xlim = c(-173.9, -167.8), ylim = c(51.8, 53.5))
 wag_proj <- coord_quickmap(xlim = c(-189.5, -173.9), ylim = c(51, 55))
@@ -456,7 +456,8 @@ plot(pterm(post_eag_viz, select = 4))+
   l_points(color = "grey70", alpha = 0.5)+
   l_fitPoints()+
   l_ciBar(linetype = 1, width = 0)+
-  labs(x = "Gear Code", y = "f(Gear Code)") -> gc
+  labs(x = "Gear", y = "f(Gear)")+
+  scale_x_discrete(labels = c("5x5", "6x6", "7x7", "8x8")) -> gc
 # soaktime
 plot(sm(post_eag_viz, select = 1)) + 
   l_points(color = "grey70", alpha = 0.5)+
@@ -1068,7 +1069,7 @@ plot(pterm(post_wag_viz, select = 4))+
   l_fitPoints()+
   l_ciBar(linetype = 1, width = 0)+
   labs(x = "Gear", y = "f(Gear)")+
-  scale_x_discrete(labels = c("Round Pot", "10x10", "6.5x7", "5x5", "6x6", "7x7", "8x8")) -> gc
+  scale_x_discrete(labels = c("10x10", "6.5x7", "5x5", "6x6", "7x7", "8x8", "Round Pot")) -> gc
 
 ggsave("./AIGKC/figures/cpue_std/2025/may/post_wag_effects.png",
        plot = gridPrint(mo, ph, gc, ncol = 2),
