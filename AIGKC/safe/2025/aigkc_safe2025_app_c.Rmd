@@ -16,7 +16,7 @@ header-includes:
   
 # Purpose {-}
 
-The ABC buffer for AIGKC is determine qualitatively after assessing model performance and associated uncertainty in management quantities, ecosystem status, and stock trajectory. The below risk table details information considered in that determination.
+The ABC buffer for AIGKC is determined qualitatively after assessing model performance and associated uncertainty in management quantities, ecosystem status, and stock trajectory. The below risk table details information considered in that determination.
 
 # Assessment Model {-}
 
@@ -44,7 +44,7 @@ Fits to index data started showing signs of concern in the 2021 assessment (Sidd
 
 Since the early part of the time series, model estimated MMB peaked in 2008 and has undergone a steady decline since. Recruitment estimates appear to be less variable than estimated in the EAG, and have been slowly decreasing since \~ 2005. Since the assessment relies solely on fishery dependent data, there is some nuance to the apparent lack of recruitment. The fishery targets legal males and seeks to reduce bycatch of sublegal crab, a practice which has presumably become more effective as the fishery has become more consolidated after rationalization. It is unclear to what degree bycatch avoidance has on size composition data and resulting recruitment estimates. Nevertheless, the downward MMB is consequent to the decrease in fishery performance observed over the same period.  
 
-The the WAG has been below B$_{\text{MSY}}$ since the 2022/23, while the EAG has remained above B$_{\text{MSY}}$ since the stock has been managed using Tier 3 harvest control rules.
+The WAG has been below B$_{\text{MSY}}$ since the 2022/23, while the EAG has remained above B$_{\text{MSY}}$ since the stock has been managed using Tier 3 harvest control rules.
 
 # Ecosystem {-}
 
@@ -56,7 +56,7 @@ The the WAG has been below B$_{\text{MSY}}$ since the 2022/23, while the EAG has
 
 \item{Aleutian Islands ecosystem showed signs of a gradient of poor productivity in the west to high productivity in the east in 2024.}
 
-\item{The western and central Aleutians experienced a marine heat wave at the beginning of the 2024 crab year, though bottom temperatures remained cooler near the 1991 - 2012 average. The eastern Aleutians were less afected.}
+\item{The western and central Aleutians experienced a marine heat wave at the beginning of the 2024 crab year, though bottom temperatures remained cooler near the 1991 - 2012 average. The eastern Aleutians were less affected.}
 
 \item{Groundfish condition remains low across the ecosystem possibly due to a range of factors including prey quality, availability, competition, and metabolic demands.}
 
@@ -76,7 +76,7 @@ A gradient of production from west to east aligns with waning fishery performanc
 \end{itemize}
 
 
-Catches in the WAG since rationalization peaked in 2013/14 and have been on a slow downward trend since, with a brief uptick from 2018/19 - 2020/21. Fishery CPUE peaked in 2009/10 and has undergone a similar fluctuation, though has been at or near the post-rationalization low since 2021/22. The author preferred model suggests that recent fishing morality in the WAG has been aggressive relative to the $F_{\text{OFL}}$ control rule. Fishing performance in the EAG is more stable, though concerns of hyperstability persist given the reliance on fishery dependent data.
+Catches in the WAG since rationalization peaked in 2013/14 and have been on a slow downward trend since, with a brief uptick from 2018/19 - 2020/21. Fishery CPUE peaked in 2009/10 and has undergone a similar fluctuation, though it has been at or near the post-rationalization low since 2021/22. The author preferred model suggests that recent fishing morality in the WAG has been aggressive relative to the $F_{\text{OFL}}$ control rule. Fishing performance in the EAG is more stable, though concerns of hyperstability persist given the reliance on fishery dependent data.
 
 \begin{hangparas}{.25in}{1}
 

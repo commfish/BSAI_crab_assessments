@@ -29,15 +29,15 @@ knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, fig.pos='H',
 
 \item{\textbf{Stock}: Golden king crab, $Lithodes$ $aequispinus$, Aleutian Islands, east of 174$^\circ$ W longitude (EAG) and west of 174$^\circ$ W longitude (WAG).}
 
-\item{\textbf{Catch}: The Aleutian Islands golden king crab (AIGKC) commercial fishery has been prosecuted every year since 1981/82. Retained catch peaked in 1986/87 at 2,686 t (5,922,425 lb) and 3,999 t (8,816,319 lb), respectively, for the EAG and WAG, but the retained catch dropped sharply from 1989/90 to 1990/91. The fishery has been managed separately east (EAG) and west (WAG) of 174$^\circ$ W longitude since 1996/97, and Guideline Harvest Levels (GHLs) of 1,452 t (3,200,000 lb) for the EAG and 1,225 t (2,700,000 lb) for the WAG were introduced into management. The GHL was subsequently reduced to 1,361 t (3,000,000 lb) beginning in 1998/99 for the EAG. The reduced harvest levels remained at 1,361 t (3,000,000 lb) for the EAG and 1,225 t (2,700,000 lb) for the WAG through 2007/08 but were increased to 1,429 t (3,150,000 lb) for the EAG and 1,294 t (2,835,000 lb) for WAG beginning with the 2008/09 fishing season following an Alaska Board of Fisheries (BOF) decision. The management specification changed from GHL to TAC (Total Allowable Catch) with adoption of the Crab Rationalization Program in 2005/06 (NPFMC 2007b). The TACs were increased by another BOF decision to 1,501 t (3,310,000 lb) for EAG and 1,352 t (2,980,000 lb) for WAG beginning with the 2012/13 fishing season. The below par fishery performance in WAG in 2014/15 and 2015/16 lead to reduction in TAC to 1,014 t (2,235,000 lb), which reflected a 25\% reduction in the TAC for WAG, while the TAC for EAG was kept at the same level, 1,501 t (3,310,000 lb) for the 2016/17 through 2017/18 fishing seasons. With the improved fishery performance and stock status in 2017/18, the TACs were further increased to 1,134 t (2,500,000 lb) for WAG and 1,749 t (3,856,000 lb) for EAG beginning with the 2018/19 fishing season. With the implementation of a revised state harvest strategy in 2019, the TACs were further increased to 1,302 t (2,870,000 lb) for WAG and 1,955 t (4,310,000 lb) for EAG. In the 2024/25 the TAC was 1,706 t (3,760,000 lb) in the EAG and 508 t (1,120,000 lb) in the WAG. At the time of this report, the EAG fishery was ongoing with \~ 50,000 lb (i.e., one vessel trip) remaining. The WAG closed with 509 t (1,122,793 lb) of retained catch.
+\item{\textbf{Catch}: The Aleutian Islands golden king crab (AIGKC) commercial fishery has been prosecuted every year since 1981/82. Retained catch peaked in 1986/87 at 2,686 t (5,922,425 lb) and 3,999 t (8,816,319 lb), respectively, for the EAG and WAG, but the retained catch dropped sharply from 1989/90 to 1990/91. The fishery has been managed separately east (EAG) and west (WAG) of 174$^\circ$ W longitude since 1996/97, and Guideline Harvest Levels (GHLs) of 1,452 t (3,200,000 lb) for the EAG and 1,225 t (2,700,000 lb) for the WAG were introduced into management. The GHL was subsequently reduced to 1,361 t (3,000,000 lb) beginning in 1998/99 for the EAG. The reduced harvest levels remained at 1,361 t (3,000,000 lb) for the EAG and 1,225 t (2,700,000 lb) for the WAG through 2007/08 but were increased to 1,429 t (3,150,000 lb) for the EAG and 1,294 t (2,835,000 lb) for WAG beginning with the 2008/09 fishing season following an Alaska Board of Fisheries (BOF) decision. The management specification changed from GHL to TAC (Total Allowable Catch) with adoption of the Crab Rationalization Program in 2005/06 (NPFMC 2007b). The TACs were increased by another BOF decision to 1,501 t (3,310,000 lb) for EAG and 1,352 t (2,980,000 lb) for WAG beginning with the 2012/13 fishing season. The below par fishery performance in WAG in 2014/15 and 2015/16 lead to reduction in TAC to 1,014 t (2,235,000 lb), which reflected a 25\% reduction in the TAC for WAG, while the TAC for EAG was kept at the same level, 1,501 t (3,310,000 lb) for the 2016/17 through 2017/18 fishing seasons. With the improved fishery performance and stock status in 2017/18, the TACs were further increased to 1,134 t (2,500,000 lb) for WAG and 1,749 t (3,856,000 lb) for EAG beginning with the 2018/19 fishing season. With the implementation of a revised state harvest strategy in 2019, the TACs were further increased to 1,302 t (2,870,000 lb) for WAG and 1,955 t (4,310,000 lb) for EAG. In the 2024/25 the TAC was 1,706 t (3,760,000 lb) in the EAG and 508 t (1,120,000 lb) in the WAG. At the time of this report, the EAG fishery was ongoing with \~ 23 t (50,000 lb) (i.e., one vessel trip) remaining. The WAG closed with 509 t (1,122,793 lb) of retained catch.
 
-Total catch mortality includes retained catch, discard mortality in the directed fishery, and bycatch mortality in groundfish fixed gear and trawl fisheries. Directed fishery discard mortality and groundfish fishery bycatch have remained low and stable in recent history, with the exception of several pulses in groundfish bycatch during 2016 and 2020 in the EAG and 2022 in the WAG. Catch per unit effort (CPUE, i.e., crab per pot lift) of retained legal males was low from the 1980s into the mid-1990s, but increased after ~1999/00, particularly with the initiation of the Crab Rationalization Program in 2005/06. Although CPUE for the two areas showed similar trends through 2010/11, CPUE trend have since diverged (increasing for the EAG and decreasing for the WAG). CPUE in 2024/25 was 36 crab / pot in the EAG (near time series high) at the time of this report and the WAG closed at 13 crab / pot (near the post-rationalization low).}
+Total catch mortality includes retained catch, discard mortality in the directed fishery, and bycatch mortality in groundfish fixed gear and trawl fisheries. Directed fishery discard mortality and groundfish fishery bycatch have remained low and stable in recent history, with the exception of several pulses in groundfish bycatch during 2016 and 2020 in the EAG and 2022 in the WAG. Catch per unit effort (CPUE, i.e., crab per pot lift) of retained legal males was low from the 1980s into the mid-1990s, but increased after ~1999/00, particularly with the initiation of the Crab Rationalization Program in 2005/06. Although CPUE for the two areas showed similar trends through 2010/11, CPUE trends have since diverged (increasing for the EAG and decreasing for the WAG). CPUE in 2024/25 was 36 crab / pot in the EAG (near time series high) at the time of this report and the WAG closed at 13 crab / pot (near the post-rationalization low).}
 
 \item{\textbf{Stock biomass}: Estimated mature male biomass (MMB) decreased rapidly through 1988 in the EAG and until 1992 in the WAG. MMB remained at low levels for several years before steadily increases starting in 1995 (in both areas) and reaching a peak during the early (EAG) to mid (WAG) 2000s. Since then, estimated MMB has remained somewhat stationary in the EAG, though undergoing a dip from about 2011 - 2020. MMB in the EAG has slightly decreased since 2022, but remains relatively high for the recent time series. MMB in the WAG has steadily decreased since 2008, with a small increase from 2014 - 2017. The most recent several seasons suggest little change since 2020.}
 
-\item{\textbf{Recruitment}: Estimated recruitment has remained stationary in the EAG and has undergone a slow decreasing trend in the WAG since the 1990s. The largest recruitment pulse occurred during the late 1989 in the EAG and 1985 in the WAG, and the lowest in 1985 and 2003 in the EAG, and 2021 in the WAG. Both models suggest decreasing recruitment in the EAG, except during the terminal year, though increasing recruitment in the WAG since 2021.}
+\item{\textbf{Recruitment}: Estimated recruitment has remained stationary in the EAG and has undergone a slow decreasing trend in the WAG since the 1990s. The largest recruitment pulse occurred during 1989 in the EAG and 1985 in the WAG, and the lowest in 1985 and 2003 in the EAG, and 2021 in the WAG. Both models suggest decreasing recruitment in the EAG, except during the terminal year, though increasing recruitment in the WAG since 2021.}
 
-\item{\textbf{Management performance}: AIGKC has been managed as a Tier 3 stock since 2017. Biological reference points computed for EAG and WAG subdistricts separately are summed for the full stock prior to stock status determination. The stock was above Minimum Stock Size Threshold (MMST; 50\% of B$_{35\%}$) in 2024/25, and thus was not overfished, nor has ever been overfished at any point in its history. At the time of writing this document, the 2024/25 fishery in the EAG was incomplete by one vessel trip (\~ 50,000 lb). Completed fishery totals are not anticipated to exceed the OFL of 3.725 kt (8.212 mil lb). Estimated fully selected fishing mortality ($F$) and MMB relative to fishing mortality and biomass targets suggest fishery management has been conservative in recent history in the EAG, and somewhat aggressive in the WAG. Based on all model scenarios, estimated $F$ exceeded the $F_{\text{OFL}}$ control rule in a number of seasons, but most recently 2018/19 - 2023/24.
+\item{\textbf{Management performance}: AIGKC has been managed as a Tier 3 stock since 2017. Biological reference points computed for EAG and WAG subdistricts separately are summed for the full stock prior to stock status determination. The stock was above Minimum Stock Size Threshold (MMST; 50\% of B$_{35\%}$) in 2024/25, and thus was not overfished, nor has ever been overfished at any point in its history. At the time of writing this document, the 2024/25 fishery in the EAG was incomplete by one vessel trip (\~ 23 t; 50,000 lb). Completed fishery totals are not anticipated to exceed the OFL of 3.725 kt (8.212 mil lb). Estimated fully selected fishing mortality ($F$) and MMB relative to fishing mortality and biomass targets suggest fishery management has been conservative in recent history in the EAG, and somewhat aggressive in the WAG. Based on all model scenarios, estimated $F$ exceeded the $F_{\text{OFL}}$ control rule in a number of seasons, but most recently 2018/19 - 2023/24.
 
 \begin{center}
 \begin{tabular}{lcccccccc}
@@ -215,7 +215,7 @@ There are no new changes in management of the fishery.
 
 ## 2. Changes to the input data {-}
 
-\begin{enumerate}[a]
+\begin{enumerate}[a)]
 \item{Updated directed fishery total catch 1990 - 2024 (Appendix A);}
 \item{Updated directed fishery total length composition data 1990 - 2024 (Appendix A);}
 \item{Updated observer CPUE index 2005 - 2024 (Appendix B);}
@@ -223,210 +223,426 @@ There are no new changes in management of the fishery.
 \item{Total catch for the directed fishery during the 2024/25 season;}
 \item{Bycatch in groundfish fisheries during the 2024 crab year;}
 \item{Retained and total length composition data for the directed fishery during the 2024/25 season;}
-\item{Observer size composition data include data from all rectangular shaped pots to better estimate total size composition in the WAG in 1993 (Jackson 2024).}
+\item{Observer size composition data include data from all rectangular shaped pots to better estimate total size composition in the WAG in 1993 (Jackson 2024b).}
 \end{enumerate}
 
 ## 3. Changes in assessment methodology {-}
 
-\begin{enumerate}[a]
+\begin{enumerate}[a)]
 \item{Update to GMACS version 2.20.21;}
 \item{Average recruitment reference period for calculation of B$_{35\%}$ updated to 1987 - 2021;}
 \item{Two models are compared in this report (See Section E.3.a for details):}
 \begin{itemize}
 \item{\textbf{23.1c}: 2024 base model, with updated time series data, and alternative bias correction on recruitment deviations from 1960 - 1981;}
-\item{\textbf{25.0b}: Model 23.1c + with non-equilibrium initial conditions, starting in 1981, equal emphasis all likelihood components ($\lambda$ = 1), and bootstrap estimated stage-1 effective sample sizes.}
+\item{\textbf{25.0b}: Model 23.1c + with non-equilibrium initial conditions, starting in 1981, equal emphasis on all likelihood components ($\lambda$ = 1), and bootstrap estimated stage-1 effective sample sizes.}
 \end{itemize}
 \end{enumerate}
 
 ## 4. Changes in assessment results {-}
 
-Model 23.0a was recommended by the CPT to replace the 2023 acceptable model as the 'base' model since it improved reproducibility of time series data and made recommended updates to CPUR standardization with little impact to model performance (Jackson 2024). 
+Model 23.1c was recommended by the CPT to replace the 2024 acceptable model as the 'base' model since it corrected 1993 size composition data in the WAG and bias correction of recruitment deviations in years preceding data (Jackson 2024b). The alternative model (25.0b) explored non-equilibrium initial conditions, equal likelihood weighting for catch data series, and bootstrap estimated input sample sizes for size composition data. Non-equilibrium initial conditions result in differing numbers at size in both districts during the early time series. Model 25.0b had greater numbers at smaller sizes and fewer numbers at larger sizes in the EAG, whereas the opposite was evident in the WAG. There was little change to fits to any data series, notably, poor fits to post-rationalization observer CPUE data in the EAG remained unresolved.  
 
-The alternative models reported here (models 23.1 and 23.1b) explore removing minus-sized crab ($\leq$ 100 mm carapace length) from size composition data and the addition of a second pre-rationalization selectivity period, sequentially. Truncating size data resulted in better fits to composition data and lower selectivity in both the EAG and WAG. In the EAG, these models resulted in lower time series MMB estimates and reference points, which was not necessarily the case in the WAG. Model 23.1b corresponds to the use of escape mesh by regulation starting in 1997 (SOA 5 AAC 34.625(b)(1)). Dividing pre-rationalization in to two selectivity periods (1960 - 1994; 1997-2004) improved fits to both retained and total catch size composition data in the EAG, but only retained catch size composition data in the WAG. All models estimated a decreased in MMB at mating in 2023 compared to 2022 in the EAG, and a slight increase in the WAG. The author preferred model was 23.1b.
+Bootstrap estimate sample size for size composition data were larger than used for model 23.1c, though Francis re-weighting resulted in lower stage-2 weights for total size composition data compared to model 23.1c in many pre-rationalized years and the greater weights in post-rationalized years. Alternative size composition weighting lead to slightly different recruitment estimates in a number of years, which likely contributed to increased selectivity of the pre-rationalized directed fishery. Model 25.0b resulted in a lower MMB from 1997 onward, following the same trajectory as model 23.1c. Since EAG models appear to be somewhat sensitive to size composition data weighting (here; Jackson 2024b), yet these changes do not improve model performance, the base model is recommended for 2025/26 harvest specifications.
 
-Estimated reference points suggested a jdkfds.....
+# B. Response to Comments {-}
 
-<!-- # B. Response to Comments {-} -->
+## CPT September 2024 {-}
 
-<!-- ## CPT May 2023 {-} -->
+\textbf{Comment}: "\textit{CPT requested that a risk table for AIGKC be brought forward in May }"
 
-<!-- \textbf{Comment}: "\textit{Continue work to obtain an index using the cooperative pot survey data for use in the EAG assessment model.}" -->
+\textbf{Response}: See Appendix C.    
+\makebox[165 mm]{\dotfill}
 
-<!-- \textbf{Response}: Model 23.2 explores the utility of the pot survey as an additional fleet.   -->
-<!-- \makebox[165 mm]{\dotfill} -->
+<!-- ---- -->
 
-<!-- <!-- ---- --> -->
+## SSC June 2024 {-}
 
-<!-- \textbf{Comment}: "\textit{Identify and eliminate the conflict between the model and the data giving rise to the retrospective patterns for EAG models. Revisit the analysis considering a model with time-varying catchability, but impose a penalty on the devs to allow the index data to inform the model.}" -->
+\textbf{Comment}: "\textit{The SSC requests the rationale for using the terminal year minus four year approach to define the reference period for future assessments}"
 
-<!-- \textbf{Response}: We will revisit time varying catchability in a future assessment cycle.    -->
-<!-- \makebox[165 mm]{\dotfill} -->
+\textbf{Response}: See plots below. The CPT recommend using 1987 - 2020 during the May 2024 assessment, and adding a year sequentially after that. The reference time series was chosen because recruitment deviations are estimated with reasonable precision during that time period following the method used for other BSAI crab stocks. There was not rigorous analysis of the optimal reference period.
 
-<!-- <!-- ---- --> -->
+```{r recse2, fig.align='center', fig.cap="Standard errors of recruitment deviations for models 23.1c and 25.0b. Dotted lines indicate the reference time series for mean recruitment used in reference point calculation, 1987 - 2021.", eval = T}
+knitr::include_graphics("../../figures/models/2025/may/rec_dev_se.png")
+```
+\makebox[165 mm]{\dotfill}
 
-<!-- \textbf{Comment}: "\textit{Plot observed vs. predicted values for fitted data to help diagnose misfits.}" -->
+<!-- ---- -->
 
-<!-- \textbf{Response}: It's unclear what model process this is referring to. When applicable, observations are always plotted with fitted data in this document.    -->
-<!-- \makebox[165 mm]{\dotfill} -->
+\textbf{Comment}: "\textit{The SSC recommends that the CPT explore whether to conduct this final assessment on the same cycle as other crab assessments in September/October to better align the assessment with the annual cycle of catch mortality. }"
 
-<!-- <!-- ---- --> -->
+\textbf{Response}: ADF$\&$G and the CPT do not think moving the timing of the final assessment to September would be suitable because the fishery opens in August.    
+\makebox[165 mm]{\dotfill}
 
-<!-- \textbf{Comment}: "\textit{Add confidence intervals to plots of fits to catch data (i.e., retained catch, total catch) reflecting assumed data uncertainty.}" -->
+<!-- ---- -->
 
-<!-- \textbf{Response}: All plots of catch and index data now include confidence intervals.     -->
-<!-- \makebox[165 mm]{\dotfill} -->
+\textbf{Comment}: "\textit{The SSC recommends prioritizing further consideration of data weighting, as the Francis re-weighting continues to be an issue in this assessment.}"
 
-<!-- <!-- ---- --> -->
+\textbf{Response}: This analysis explores data weighting, specifically with respect to size composition data.  
+\makebox[165 mm]{\dotfill}
 
-<!-- \textbf{Comment}: "\textit{Perform retrospective analyses for all models that have the potential to serve as the basis for calculating reference points.}" -->
+<!-- ---- -->
 
-<!-- \textbf{Response}: Retrospective analyses were performed for all EAG and WAG models, and presented for 22.1e2, 23.0a, 23.1, 23.1b, 23.2, and AI 23.1b.     -->
-<!-- \makebox[165 mm]{\dotfill} -->
+\textbf{Comment}: "\textit{The SSC places a high priority on incorporating information from the cooperative survey into the assessment and supports the CPT recommendation to incorporate this survey as a separate fleet.}"
 
-<!-- <!-- ---- --> -->
+\textbf{Response}: See models 25.1 and 25.1b (Jackson 2024b).    
+\makebox[165 mm]{\dotfill}
 
-<!-- \textbf{Comment}: "\textit{Calculate reference points using both combined-area and area-specific size-at-maturity values.}" -->
+<!-- ---- -->
 
-<!-- \textbf{Response}: This can be evaluated in May 2024, or during the next cycle in January.     -->
-<!-- \makebox[165 mm]{\dotfill} -->
+\textbf{Comment}: "\textit{Further examination of the retrospective pattern in terms of magnitude, direction and cause continues to be important.}"
 
-<!-- <!-- ---- --> -->
+\textbf{Response}:
 
-<!-- \textbf{Comment}: "\textit{Re-evaluate the time frame over which to calculate mean recruitment every year by, for example, using a plot of the variance in estimated recruitment deviations.}" -->
+retrospective pattern in MMB appears to arise from data conflict that also results in poor fit to post rationalization observer CPUE in the EAG, which has the same retrospective pattern. Data conflict is less apparent in the WAG. Jackson 2024b discusses model misspecfication, but more work is necessary.   
 
-<!-- \textbf{Response}: See plots below. Standard error of recruitment deviations increases steadily after 2017 in the EAG and after 2019 in the WAG. Though the rate of increase in the EAG in 2019 is greater than pre-2017, the standard error value is not greater than in the beginning of the reference period (1987 - 1988). Retrospective analysis of recruitment uncertainty may provide insight to the most appropriate lag from the terminal year, but it was not conducted here, since retrospective analysis in GMACS did not produce parameter standard errors. This could be re-evaluated in May by constructing retrospective runs manually.     -->
+```{r retrobias, fig.align='center', fig.cap="MMB trajectory, recruitment, and fits to observed CPUE index for EAG retrospective peels up to 10 years.", eval = T, fig.height = 5, fig.width = 5, out.height = "576px"}
+knitr::include_graphics("../../figures/models/2025/sept/retrospective_cause_25_0b.png")
+```
 
-<!-- ```{r eagrecdevse, fig.align='center', fig.cap="Standard errors of recruitment deviations of EAG models 22.1e2, 23.1, 23.1b, and 23.2. Dashed lines indicate bounds of time series used for calculation of mean recruitment. ", eval = T} -->
-<!-- knitr::include_graphics("../../figures/models/2024/jan/eag_rec_se.png") -->
-<!-- ``` -->
+\makebox[165 mm]{\dotfill}
 
-<!-- ```{r wagrecdevse, fig.align='center', fig.cap="Standard errors of recruitment deviations of WAG models 22.1e2, 23.1, and 23.1b. Dashed lines indicate bounds of time series used for calculation of mean recruitment. ", eval = T} -->
-<!-- knitr::include_graphics("../../figures/models/2024/jan/wag_rec_se.png") -->
-<!-- ``` -->
-<!-- \makebox[165 mm]{\dotfill} -->
+<!-- ---- -->
 
-<!-- <!-- ---- --> -->
+\textbf{Comment}: "\textit{The CPT suggested that next year’s model should be 25.0. The SSC reminds the CPT and authors that new model year numbers are only applicable if there is a major structural model change.}"
 
-<!-- \textbf{Comment}: "\textit{Continue work to obtain an index using the cooperative pot survey data for use in the EAG assessment model.}" -->
+\textbf{Response}: Noted.  
+\makebox[165 mm]{\dotfill}
 
-<!-- \textbf{Response}: Analysis of the cooperative pot survey is detailed in Appendix C and model 23.2.   -->
-<!-- \makebox[165 mm]{\dotfill} -->
+<!-- ---- -->
 
-<!-- <!-- ---- --> -->
+\textbf{Comment}: "\textit{The current method of projecting the remaining landings for the current incomplete season seems overly complicated and the SSC recommends a more straightforward method for determining total catch be considered, such as basing it on the average fraction harvested to date. }"
 
-<!-- \textbf{Comment}: "\textit{The cooperative survey should be fit as an additional CPUE index, not substituted for existing indices as was done for models 22.1g and 22.1h.}" -->
+\textbf{Response}: See Section D.2.f of this document.
+\makebox[165 mm]{\dotfill}
 
-<!-- \textbf{Response}: That is what has been explored here.     -->
-<!-- \makebox[165 mm]{\dotfill} -->
+<!-- ---- -->
 
-<!-- <!-- ---- --> -->
 
-<!-- \textbf{Comment}: "\textit{Size-composition data should not include a “minus” group (i.e., crab smaller than the smallest size bin used in the model).}" -->
+## CPT May 2024 {-}
 
-<!-- \textbf{Response}: This is rectified by model 23.1.     -->
-<!-- \makebox[165 mm]{\dotfill} -->
+\textbf{Comment}: "\textit{Use the standard convention for model numbering, i.e. the models for the May 2025 assessment, will be 25.xx and not 24.xx.}"
 
-<!-- <!-- ---- --> -->
+\textbf{Response}: This is done.  
 
-<!-- \textbf{Comment}: "\textit{The data used to determine the total catch size-compositions in the two areas should be re-examined to determine whether the abundances in the smallest size bin from 1990 to 2004 are correct.}" -->
+\makebox[165 mm]{\dotfill}
 
-<!-- \textbf{Response}: Appendix A recomputes size composition time series using data directly pulled from the observer database. Updated time series still appear to contain a disproportionate amount crab 101-105 mm CL, even without minus-sized crab (model 23.1). This is possibly do to escape mesh not being required until the 1997 season.   -->
-<!-- \makebox[165 mm]{\dotfill} -->
+<!-- ---- -->
 
-<!-- <!-- ---- --> -->
+\textbf{Comment}: "\textit{Document why the 1993 bycatch and total catch size-composition data are not included in this and past assessments.}"
 
-<!-- \textbf{Comment}: "\textit{Explore models that provide better fits to EAG CPUE data.}" -->
+\textbf{Response}: Issues with 1993 observer data (not bycatch) have been resolved by model 23.1 (data). There was no observer coverage in the 1993 crab year for EAG directed fishing and for WAG, most pots were previously removed because they were of unknown size. Those pots are now included for size composition data only, which also affects total catch estimation.  
 
-<!-- \textbf{Response}:  More work in this area is needed during the next cycle.     -->
-<!-- \makebox[165 mm]{\dotfill} -->
+\makebox[165 mm]{\dotfill}
 
-<!-- <!-- ---- --> -->
+<!-- ---- -->
 
-<!-- \textbf{Comment}: "\textit{Use GAMs rather than GLMs to standardize the CPUE indices (e.g., use the R package “mgcv”).}" -->
+\textbf{Comment}: "\textit{Explore reasons for the retrospective pattern for the EAG.}"
 
-<!-- \textbf{Response}: All models derivative of 23.0a take this approach.      -->
-<!-- \makebox[165 mm]{\dotfill} -->
+\textbf{Response}: See above. This work is ongoing.  
 
-<!-- <!-- ---- --> -->
+\makebox[165 mm]{\dotfill}
 
-<!-- \textbf{Comment}: "\textit{Show both the original CV’s and effective CV’s (i.e., incorporating additional variance) when showing fits to the CPUE index time series.}" -->
+<!-- ---- -->
 
-<!-- \textbf{Response}: This has been done in all plots showing fits to CPUE index.    -->
-<!-- \makebox[165 mm]{\dotfill} -->
+\textbf{Comment}: "\textit{Consider models for the EAG and WAG that allow for the bias-correction in recruitment, especially given there is virtually no information in the data on the sizes of the recruitments before 1985.}"
 
-<!-- <!-- ---- --> -->
+\textbf{Response}: See model 23.1c.  
 
-<!-- \textbf{Comment}: "\textit{In the SAFE document} -->
-<!-- \begin{itemize} -->
-<!-- \item \textit{Add a note to explain that retained catch can exceed TAC in some years due to the cost recovery fishery associated with the cooperative survey.} -->
-<!-- \item \textit{Drop Appendix D.} -->
-<!-- \item \textit{Remove tier designation from area-specific management Table.} -->
-<!-- \item \textit{Add explanation for extrapolation of total catch in final year"} -->
-<!-- \end{itemize} -->
+\makebox[165 mm]{\dotfill}
 
+<!-- ---- -->
 
-<!-- \textbf{Response}: All items will be addressed in the May 2024 SAFE document.       -->
-<!-- \makebox[165 mm]{\dotfill} -->
+\textbf{Comment}: "\textit{Include the EAG cooperative survey data (index and size-composition) as an additional fleet.}"
 
+\textbf{Response}: See models 25.1 and 25.1b of Jackson (2024b).  
 
+\makebox[165 mm]{\dotfill}
 
+<!-- ---- -->
 
-<!-- <!-- ---- --> -->
+\textbf{Comment}: "\textit{Fit models that assume that the size-composition data are Dirichlet-multinomial distributed instead of Francis weighting the size-composition data.}"
 
-<!-- ## SSC June 2023 {-} -->
+\textbf{Response}: See models 25.0c and 25.0d of Jackson (2024b).  
 
-<!-- \textbf{Comment}: "\textit{The SSC agrees with the CPT recommendation for a 25\% buffer for this assessment and supports the resulting ABC. For the future, the SSC specifically requests that jitter and retrospective analyses be conducted for all final models that have the potential to be used for setting harvest specifications}" -->
+\makebox[165 mm]{\dotfill}
 
-<!-- \textbf{Response}: Retrospective analyses were performed here, and jitter analysis will be performed on the author preferred model in the final assessment.    -->
-<!-- \makebox[165 mm]{\dotfill} -->
+<!-- ---- -->
 
-<!-- <!-- ---- --> -->
+\textbf{Comment}: "\textit{Explore the reasons for the implausible values for groundfish fishing mortality in some years for some of the retrospectives and some of the jitter runs.}"
 
-<!-- \textbf{Comment}: "\textit{The SSC places a high priority on incorporating information from the cooperative survey into the assessment and supports the CPT recommendation that this be incorporated as a separate fleet.}" -->
+\textbf{Response}: This was presented at the May 2024 plan team meeting. The model estimated a large recruitment pulse preceding 1996, which appeared to allow for better fit to 1996 observer index data. Because size composition data in the directed fishery and the base natural mortality rate could not support such a recruitment pulse, the model 'killed off' the extra crab in the bycatch fishery which does not have associated composition data and large CV. Running the model with a .pin file that specifies appropriate starting values for $F$ deviations or increasing the penalty on $F$ deviations in that fleet resolves the issue.  
 
-<!-- \textbf{Response}: Model 23.2 explores the utility of the pot survey as an additional fleet.     -->
-<!-- \makebox[165 mm]{\dotfill} -->
+\makebox[165 mm]{\dotfill}
 
-<!-- <!-- ---- --> -->
+<!-- ---- -->
 
-<!-- \textbf{Comment}: "\textit{Further examination of the retrospective pattern in terms of magnitude, direction and cause continues to be important.}" -->
+\textbf{Comment}: "\textit{Consider starting the model in a non-equilibrium state around 1981.}"
 
-<!-- \textbf{Response}: More work will be done to address the retrospective pattern in the EAG during the next cycle.     -->
-<!-- \makebox[165 mm]{\dotfill} -->
+\textbf{Response}: Model 25.0 and its derivations addresses this Jackson (2024b), and see model 25.0b in this analysis.  
 
-<!-- <!-- ---- --> -->
+\makebox[165 mm]{\dotfill}
 
-<!-- \textbf{Comment}: "\textit{Revisit the choice to maintain the recruitment years at 1987 – 2017 rather than successively adding recent years to the time series, as is done for other crab stocks.}" -->
+<!-- ---- -->
 
-<!-- \textbf{Response}: See response to similar comment above.   -->
-<!-- \makebox[165 mm]{\dotfill} -->
+\textbf{Comment}: "\textit{Revisit estimation of size-at-maturity given the addition of new data.}"
 
-<!-- <!-- ---- --> -->
+\textbf{Response}: This will be revisited during September 2025.  
 
-<!-- \textbf{Comment}: "\textit{The CPT recommended removing the data on the smallest size bin for the total catch prior to 2005/2006. The SSC requests first plotting these data and the model fit and providing further consideration of why these data may or may not be representative of the fishery at that time.}" -->
+\makebox[165 mm]{\dotfill}
 
-<!-- \textbf{Response}: For clarification, the CPT recommended to removed data on crab below the smallest size bin (i.e. $\leq$ 100 mm) that were being included in the 101-105 mm bin.    -->
-<!-- \makebox[165 mm]{\dotfill} -->
+<!-- ---- -->
 
-<!-- <!-- ---- --> -->
+\textbf{Comment}: "\textit{Continue exploration of CPUE standardization, including investigation of models with block:year interactions and using geostatistical methods.}"
 
-<!-- \textbf{Comment}: "\textit{The current method of projecting the remaining landings for the current incomplete season seems overly complicated and the SSC recommends that a more straightforward method for determining total catch be considered, such as basing it on the average fraction harvested to date.}" -->
+\textbf{Response}: CPUE standardization using a spatiotemporal model was explored here, but will be refined and used in the assessment model during the next cycle.  
 
-<!-- \textbf{Response}: In May 2024, total catch will be determined using the effort required to achieve the TAC at current CPUE on the date when data were pulled. See Appendix A for details of total catch estimation.   -->
-<!-- \makebox[165 mm]{\dotfill} -->
+\makebox[165 mm]{\dotfill}
 
-<!-- <!-- ---- --> -->
+<!-- ---- -->
 
-<!-- \textbf{Comment}: "\textit{Further analysis and discussion of the retrospective pattern is needed to justify the size of the buffer used.}" -->
+\textbf{Comment}: "\textit{Explore time-varying catchability (e.g. as blocks) rather than the use of additional variance to reconcile the trends in CPUE and those in abundance. Given the known difficulties estimating time-variation in catchability, this could be explored as part of a simulation study – with initial discussions at the January 2025 modeling workshop.}"
 
-<!-- \textbf{Response}: This will be noted during the final assessment in May 2024.    -->
-<!-- \makebox[165 mm]{\dotfill} -->
+\textbf{Response}: This could be further explored, with some guidance on design of a simulation experiment..  
 
-<!-- <!-- ---- --> -->
+\makebox[165 mm]{\dotfill}
 
-<!-- ## CPT Jan 2024 {-} -->
+<!-- ---- -->
 
-<!-- ## SSC Feb 2024{-} -->
+
+## SSC Feb 2024 {-}
+
+\textbf{Comment}: "\textit{The SSC recommends that any new substantial standardization changes should be reviewed during the next cycle, not during specifications in May/June 2024}
+
+\textbf{Response}: The only revisions to CPUE standardization between model explorations and the final assessment addressed poor model diagnostics, though this will be noted for the future.  
+
+\makebox[165 mm]{\dotfill}
+
+
+## CPT Jan 2024 {-}
+
+\textbf{Comment}: "\textit{The CPT recommends that the CPUE standardization be revised for the 2024 assessment by:}  
+\begin{itemize}
+\item{\textit{exploring the use of a Tweedie instead of the negative binomial distribution;}}
+\item{\textit{dropping the data for gear types 4 and 13 which have few observations;}}
+\item{\textit{reporting DHARMa residuals and providing influence plots as additional diagnostics; and}}
+\item{\textit{exploring the basic data used for the fish ticket CPUE index because the data on which
+the standardization is based for the current analyses include many zero observations –
+this may be because the extracted data may include trips for red king crab in the
+Aleutians. If the residual pattern for the fish ticket analysis (Fig. 44 of Appendix B) is not
+resolved, results should be presented in May 2024 for model runs that use and ignore
+the fish ticket CPUE index.}"}
+\end{itemize}
+
+\textbf{Response}: All of these recommendations were addressed in CPUE standardization except dropping gear types 4 and 13. This recommendation will be followed up in 2025 model explorations.  
+
+\makebox[165 mm]{\dotfill}
+
+\textbf{Comment}: "\textit{Include measures of uncertainty (for at least one model configuration) in the plots for the estimates of recruitment and MMB}
+
+\textbf{Response}: This has been addressed.  
+
+\makebox[165 mm]{\dotfill}
+
+\textbf{Comment}: "\textit{Include a plot of the survey index overlaid on the observer CPUE index (EAG)}
+
+\textbf{Response}: This plot will be included in documents that evaluate models containing survey data.   
+
+\makebox[165 mm]{\dotfill}
+
+\textbf{Comment}: "\textit{Describe why the MMB for the EAG declines substantially before 1980 while this is not the case for the WAG}
+
+\textbf{Response}: This is explained in section 4.g of Jackson (2024).  
+
+\makebox[165 mm]{\dotfill}
+
+\textbf{Comment}: "\textit{Start the y-axis for the plots of recruitment and MMB at zero}
+
+\textbf{Response}: This has been addressed.    
+
+\makebox[165 mm]{\dotfill}
+
+\textbf{Comment}: "\textit{Include the number of parameters in likelihood tables}
+
+\textbf{Response}: This has been addressed.  
+
+\makebox[165 mm]{\dotfill}
+
+\textbf{Comment}: "\textit{Apply jittering to ensure that the reported parameters correspond to the global minimum of the objective function.}
+
+\textbf{Response}: Jitter analysis was performed for the two author preferred model scenarios.  
+
+\makebox[165 mm]{\dotfill}
+
+
+
+
+## SSC June 2023 {-}
+
+\textbf{Comment}: "\textit{The SSC agrees with the CPT recommendation for a 25\% buffer for this assessment and supports the resulting ABC. For the future, the SSC specifically requests that jitter and retrospective analyses be conducted for all final models that have the potential to be used for setting harvest specifications}"
+
+\textbf{Response}: Retrospective and jitter analyses were performed here.
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{The SSC places a high priority on incorporating information from the cooperative survey into the assessment and supports the CPT recommendation that this be incorporated as a separate fleet.}"
+
+\textbf{Response}: Model 23.2, 25.1, and 25.1b explored the utility of the pot survey as an additional fleet. They are not presented here.
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Further examination of the retrospective pattern in terms of magnitude, direction and cause continues to be important.}"
+
+\textbf{Response}: More work will be done to address the retrospective pattern in the EAG during the next cycle.
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Revisit the choice to maintain the recruitment years at 1987 – 2017 rather than successively adding recent years to the time series, as is done for other crab stocks.}"
+
+\textbf{Response}: See response to similar comment above.
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{The CPT recommended removing the data on the smallest size bin for the total catch prior to 2005/2006. The SSC requests first plotting these data and the model fit and providing further consideration of why these data may or may not be representative of the fishery at that time.}"
+
+\textbf{Response}: For clarification, the CPT recommended to remove data on crab below the smallest size bin (i.e. $\leq$ 100 mm) that were being included in the 101-105 mm bin.
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{The current method of projecting the remaining landings for the current incomplete season seems overly complicated and the SSC recommends that a more straightforward method for determining total catch be considered, such as basing it on the average fraction harvested to date.}"
+
+\textbf{Response}: Total catch was determined using the effort required to achieve the TAC at current CPUE on the date when data were pulled. 
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Further analysis and discussion of the retrospective pattern is needed to justify the size of the buffer used.}"
+
+\textbf{Response}: This was noted during the final assessment in May 2024.
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+## CPT May 2023 {-}
+
+\textbf{Comment}: "\textit{Continue work to obtain an index using the cooperative pot survey data for use in the EAG assessment model.}"
+
+\textbf{Response}: Models 23.2, 25.1, and 25.1b explored the utility of the pot survey as an additional fleet, but we not recommended for the 2025 final assessment.
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Identify and eliminate the conflict between the model and the data giving rise to the retrospective patterns for EAG models. Revisit the analysis considering a model with time-varying catchability, but impose a penalty on the devs to allow the index data to inform the model.}"
+
+\textbf{Response}: We will revisit time varying catchability in a future assessment cycle.
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Plot observed vs. predicted values for fitted data to help diagnose misfits.}"
+
+\textbf{Response}: It's unclear what model process this is referring to. When applicable, observations are always plotted with fitted data in this document.
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Add confidence intervals to plots of fits to catch data (i.e., retained catch, total catch) reflecting assumed data uncertainty.}"
+
+\textbf{Response}: All plots of catch and index data now include confidence intervals.
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Perform retrospective analyses for all models that have the potential to serve as the basis for calculating reference points.}"
+
+\textbf{Response}: Retrospective analysis with 10 yr peels have been explored here for all models.
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Calculate reference points using both combined-area and area-specific size-at-maturity values.}"
+
+\textbf{Response}: Combined area models were explored in previous cycles, and area-specific maturity will be re-revaluated in September 2025.
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Re-evaluate the time frame over which to calculate mean recruitment every year by, for example, using a plot of the variance in estimated recruitment deviations.}"
+
+\textbf{Response}: See revised response to SSC comment in June 2024. 
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Continue work to obtain an index using the cooperative pot survey data for use in the EAG assessment model.}"
+
+\textbf{Response}: Analysis of the cooperative pot survey is detailed in Appendix C of Jackson 2024b.
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{The cooperative survey should be fit as an additional CPUE index, not substituted for existing indices as was done for models 22.1g and 22.1h.}"
+
+\textbf{Response}: That is what has been explored by Jackson 2024b.
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Size-composition data should not include a “minus” group (i.e., crab smaller than the smallest size bin used in the model).}"
+
+\textbf{Response}: This is rectified by model 23.1.
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{The data used to determine the total catch size-compositions in the two areas should be re-examined to determine whether the abundances in the smallest size bin from 1990 to 2004 are correct.}"
+
+\textbf{Response}: Appendix A (Jackson 2024) recomputes size composition time series using data directly pulled from the observer database. Updated time series still appear to contain a disproportionate amount of crab 101-105 mm CL, even without minus-sized crab (model 23.1). This is possibly due to escape mesh not being required until the 1997 season.
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Explore models that provide better fits to EAG CPUE data.}"
+
+\textbf{Response}:  More work in this area is needed during the next cycle.
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Use GAMs rather than GLMs to standardize the CPUE indices (e.g., use the R package “mgcv”).}"
+
+\textbf{Response}: All models derivative of 23.0a take this approach.
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{Show both the original CV’s and effective CV’s (i.e., incorporating additional variance) when showing fits to the CPUE index time series.}"
+
+\textbf{Response}: This has been done in all plots showing fits to the CPUE index.
+\makebox[165 mm]{\dotfill}
+
+<!-- ---- -->
+
+\textbf{Comment}: "\textit{In the SAFE document}
+\begin{itemize}
+\item \textit{Add a note to explain that retained catch can exceed TAC in some years due to the cost recovery fishery associated with the cooperative survey.}
+\item \textit{Drop Appendix D.}
+\item \textit{Remove tier designation from area-specific management Table.}
+\item \textit{Add explanation for extrapolation of total catch in final year"}
+\end{itemize}
+
+
+\textbf{Response}: All items have been addressed since the May 2024 SAFE document.
+\makebox[165 mm]{\dotfill}
+
+
+
+
+<!-- ---- -->
 
 
 # C. Introduction {-}
@@ -450,11 +666,11 @@ Commercial fishing for golden king crab in the Aleutian Islands Area typically o
 
 ## 3. Evidence of stock structure {-}
 
-Given the expansiveness of the Aleutian Islands Area and the existence of deep (> 1,000 m) canyons between some islands, at least some weak structuring of the stock within the area would be expected. Data for making inferences on stock structure of golden king crab within the Aleutian Islands are largely limited to the geographic distribution of commercial fishery catch and effort. Catch data by statistical area from fish tickets and catch data by location from pots sampled by observers suggest that habitat for legal-sized males may be continuous throughout the waters adjacent to the islands in the Aleutian chain. However, regions of low fishery catch suggest that availability of suitable habitat, in which golden king crab are present at only low densities, may vary longitudinally. Catch has been low in the fishery in the area between 174$^{\circ}$ W longitude and 176$^{\circ}$ W longitude (the Adak Island area) in comparison to adjacent areas, a pattern that is consistent with low CPUE for golden king crab between 174$^{\circ}$ W longitude and 176$^{\circ}$ W longitude during the 2002, 2004, 2006, 2010, and 2012 NMFS Aleutian Islands bottom trawl surveys (von Szalay et al. 2011, 2017). In addition to longitudinal variation in density, there is also a gap in fishery catch and effort between the Petrel Bank-Petrel Spur area and the Bowers Bank area; both of those areas, which are separated by Bowers Canyon, have reported effort and catch. Recoveries during commercial fisheries of golden king crab tagged during ADF\&G surveys (Blau and Pengilly 1994; Blau et al. 1998; Watson and Gish 2002; Watson 2004, 2007) provided no evidence of substantial movements by crab in the size classes that were tagged (males and females $\geq$ 90 mm carapace length [CL]). Maximum straight-line distance between release and recovery location of 90 golden king crab released prior to the 1991/92 fishery and recovered through the 1992/93 fishery was 61.2 km (Blau and Pengilly 1994). Of the 4,567 recoveries reported through April 12, 2016, for the male and female golden king crab tagged and released between 170.5$^{\circ}$ W longitude and 171.5$^{\circ}$ W longitude during the 1991, 1997, 2000, 2003, and 2006 ADF\&G Aleutian Island golden king pot surveys, none of the 3,807 with recovery locations specified by latitude and longitude were recovered west of 173$^{\circ}$ W longitude and only 15 were recovered west of 172$^{\circ}$ W longitude (V. Vanek, ADF\&G, Kodiak, pers. comm.). Similarly, of 139 recoveries in which only the statistical area of recovery was reported, none were recovered in statistical areas west of 173$^{\circ}$ W longitude and only one was in a statistical area west of 172$^{\circ}$ W longitude. Thus, little mixing of Dutch Harbor and Adak areas provide a reason for undertaking a separate stock assessment in each area.   
+Given the expansiveness of the Aleutian Islands Area and the existence of deep (> 1,000 m) canyons between some islands, at least some weak structuring of the stock within the area would be expected. Data for making inferences on stock structure of golden king crab within the Aleutian Islands are largely limited to the geographic distribution of commercial fishery catch and effort. Catch data by statistical area from fish tickets and catch data by location from pots sampled by observers suggest that habitat for legal-sized males may be continuous throughout the waters adjacent to the islands in the Aleutian chain. However, regions of low fishery catch suggest that availability of suitable habitat, in which golden king crab are present at only low densities, may vary longitudinally. Catch has been low in the fishery in the area between 174$^{\circ}$ W longitude and 176$^{\circ}$ W longitude (the Adak Island area) in comparison to adjacent areas, a pattern that is consistent with low CPUE for golden king crab between 174$^{\circ}$ W longitude and 176$^{\circ}$ W longitude during the 2002, 2004, 2006, 2010, and 2012 NMFS Aleutian Islands bottom trawl surveys (von Szalay et al. 2011, 2017). In addition to longitudinal variation in density, there is also a gap in fishery catch and effort between the Petrel Bank-Petrel Spur area and the Bowers Bank area; both of those areas, which are separated by Bowers Canyon, have reported effort and catch. Recoveries during commercial fisheries of golden king crab tagged during ADF\&G surveys (Blau and Pengilly 1994; Blau et al. 1998; Watson and Gish 2002; Watson 2004, 2007) provided no evidence of substantial movements by crab in the size classes that were tagged (males and females $\geq$ 90 mm carapace length [CL]). Maximum straight-line distance between release and recovery location of 90 golden king crab released prior to the 1991/92 fishery and recovered through the 1992/93 fishery was 61.2 km (Blau and Pengilly 1994). Of the 4,567 recoveries reported through April 12, 2016, for the male and female golden king crab tagged and released between 170.5$^{\circ}$ W longitude and 171.5$^{\circ}$ W longitude during the 1991, 1997, 2000, 2003, and 2006 ADF\&G Aleutian Island golden king pot surveys, none of the 3,807 with recovery locations specified by latitude and longitude were recovered west of 173$^{\circ}$ W longitude and only 15 were recovered west of 172$^{\circ}$ W longitude (V. Vanek, ADF\&G, Kodiak, pers. comm.). Similarly, of 139 recoveries in which only the statistical area of recovery was reported, none were recovered in statistical areas west of 173$^{\circ}$ W longitude and only one was in a statistical area west of 172$^{\circ}$ W longitude. Thus, little mixing of Dutch Harbor and Adak areas provide a reason for undertaking a separate stock assessment in each area. A population genetic study of golden king crab throughout Alaska suggested heterogeneity separating Aleutian and southeast Alaska regions, but no substructuring within the Alteutian Islands (Grant and Siddon 2018).
 
 ## 4. Life history characteristics relevant to management {-}
 
-There is a paucity of information on golden king crab life history characteristics due in part to the deep depth distribution (~200 - 1000 m) and the asynchronous nature of life history events (Otto and Cummiskey 1985; Somerton and Otto 1986). The reproductive cycle is thought to last approximately 24 months and at any time of year ovigerous females can be found carrying egg clutches in highly disparate developmental states (Otto and Cummiskey 1985). Females carry large, yolk-rich, eggs, which hatch into lecithotrophic larvae (i.e., the larvae can develop successfully to juvenile crab without eating; Shirley and Zhou 1997) that are negatively phototactic (Adams and Paul 1999). Molting and mating are also asynchronous and protracted (Otto and Cummiskey 1985; Shirley and Zhou 1997) with some indications of seasonality (Hiramoto 1985). Molt increment for large males (adults) in Southeast Alaska is 16.3 mm CL per molt (Koeneman and Buchanan 1985) and was estimated at 14.4 mm CL for legal males in the eastern Aleutian Islands (Watson et al. 2002). Annual molting probability of males decreases with increasing size, which results in a protracted inter-molt period and creates difficulty in determining annual molt probability (Watson et al. 2002). Male size-at-maturity varies among stocks (Webb 2014) and declines with increasing latitude from about 130 mm CL in the Aleutian Islands to 92 mm CL in Saint Matthew Island section (Somerton and Otto 1986). Along with a lack of annual survey data, limited stock-specific life history stock information prevents development of a comprehensive length-based assessment model.  
+There is a paucity of information on golden king crab life history characteristics due in part to the deep depth distribution (~200 - 1000 m) and the asynchronous nature of life history events (Otto and Cummiskey 1985; Somerton and Otto 1986). The reproductive cycle is thought to last approximately 24 months and at any time of year ovigerous females can be found carrying egg clutches in highly disparate developmental states (Otto and Cummiskey 1985). Females carry large, yolk-rich, eggs, which hatch into lecithotrophic larvae (i.e., the larvae can develop successfully to juvenile crab without eating; Shirley and Zhou 1997) that are negatively phototactic (Adams and Paul 1999). Molting and mating are also asynchronous and protracted (Otto and Cummiskey 1985; Shirley and Zhou 1997) with some indications of seasonality (Hiramoto 1985). Molt increment for large males (adults) in Southeast Alaska is 16.3 mm CL per molt (Koeneman and Buchanan 1985) and was estimated at 14.4 mm CL for legal males in the eastern Aleutian Islands (Watson et al. 2002). Annual molting probability of males decreases with increasing size, which results in a protracted inter-molt period and creates difficulty in determining annual molt probability (Watson et al. 2002). Male size-at-maturity varies among stocks (Webb 2014) and declines with increasing latitude from about 130 mm CL in the Aleutian Islands to 92 mm CL in the Saint Matthew Island section (Somerton and Otto 1986). 
 
 ## 5. Summary of management history {-}
 
@@ -470,7 +686,7 @@ A summary of other relevant State of Alaska fishery regulations and management a
 
 Beginning in 2005/06, the Aleutian Islands golden king crab fishery has been prosecuted under the Crab Rationalization Program. Accompanying the adoption of crab rationalization program was implementation of a community development quota (CDQ) fishery for golden king crab in the eastern Aleutians (i.e., EAG) and the Adak Community Allocation (ACA) fishery for golden king crab in the western Aleutians (i.e., WAG; Hartill 2012; Nichols et al. 2021). The CDQ fishery in the eastern Aleutians is allocated 10$\%$ of the golden king crab TAC for the area east of 174$^{\circ}$ W longitude and the ACA fishery in the western Aleutians is allocated 10$\%$ of the golden king crab TAC for the area west of 174$^{\circ}$ W longitude. The CDQ fishery and the ACA fishery are managed by ADF\&G and prosecuted concurrently with the individual fishing quota (IFQ) fishery. 
 
-Golden king crab may be commercially fished only with king crab pots (defined in state regulation 5 AAC 34.050). Pots used to fish for golden king crab in the Aleutian Islands Area must be longlined and, since 1996, each pot must have at least four escape rings of five and one-half inches minimum inside diameter installed on the vertical plane or at least one-third of one vertical surface of the pot composed of not less than nine-inch stretched mesh webbing to permit escapement of undersized golden king crab [5 AAC 34.625 (b)]. Prior to the regulation requiring an escape mechanism on pots, some participants in the Aleutian Islands golden king crab fishery voluntarily sewed escape rings (typically 139 mm [5.5 inches]) into their gear or, more rarely, included panels with escape mesh (Beers 1992). Regarding the gear used since the establishment of 5 AAC 34.625 (b) in 1996, Linda Kozak, a representative of the industry, reported in a 19 September 2008 email to the Crab Plan Team, \textit{“...the golden king crab fleet has modified their gear to allow for small crab sorting,”} and provided a written statement from Lance Nylander, of Dungeness Gear Works (DGW) in Seattle, who \textit{“believes he makes all the gear for the golden king crab harvesting fleet,”} saying that \textit{“Since 1999, DGW has installed 9[inch] escape web on the door of over 95% of Golden Crab pot orders manufactured.”} A study to estimate the contact-selection curve for male golden king crab was conducted aboard one vessel commercial fishing for golden king crab during the 2012/13 season, and found gear and fishing practices used by that vessel were highly effective in reducing bycatch of sublegal-sized males and females (Vanek et al., 2013). In March 2011 (effective for 2011/12), the BOF amended 5 AAC 34.625 (b) to relax the “biotwine” specification for pots used in the Aleutian Islands golden king crab fishery relative to the requirement in 5 AAC 39.145 that \textit{“(1) a sidewall...of all shellfish and bottom fish pots must contain an opening equal to or exceeding 18 inches in length...The opening must be laced, sewn, or secured together by a single length of untreated, 100 percent cotton twine, no larger than 30 thread.”} Regulation 5 AAC 34.625 (b)(1) allows the opening described in 5 AAC 39.145 (1) to be \textit{“laced, sewn, or secured together by a single length of untreated, 100 percent cotton twine, no larger than 60 [rather than 30] thread.”}  
+Golden king crab may be commercially fished only with king crab pots (defined in state regulation 5 AAC 34.050). Pots used to fish for golden king crab in the Aleutian Islands Area must be longlined and, since 1996, each pot must have at least four escape rings of five and one-half inches minimum inside diameter installed on the vertical plane or at least one-third of one vertical surface of the pot composed of not less than nine-inch stretched mesh webbing to permit escapement of undersized golden king crab [5 AAC 34.625 (b)]. Prior to the regulation requiring an escape mechanism on pots, some participants in the Aleutian Islands golden king crab fishery voluntarily sewed escape rings (typically 139 mm [5.5 inches]) into their gear or, more rarely, included panels with escape mesh (Beers 1992). Regarding the gear used since the establishment of 5 AAC 34.625 (b) in 1996, Linda Kozak, a representative of the industry, reported in a 19 September 2008 email to the Crab Plan Team, \textit{“...the golden king crab fleet has modified their gear to allow for small crab sorting,”} and provided a written statement from Lance Nylander, of Dungeness Gear Works (DGW) in Seattle, who \textit{“believes he makes all the gear for the golden king crab harvesting fleet,”} saying that \textit{“Since 1999, DGW has installed 9[inch] escape web on the door of over 95$\%$ of Golden Crab pot orders manufactured.”} A study to estimate the contact-selection curve for male golden king crab was conducted aboard one vessel commercial fishing for golden king crab during the 2012/13 season, and found gear and fishing practices used by that vessel were highly effective in reducing bycatch of sublegal-sized males and females (Vanek et al. 2013). In March 2011 (effective for 2011/12), the BOF amended 5 AAC 34.625 (b) to relax the “biotwine” specification for pots used in the Aleutian Islands golden king crab fishery relative to the requirement in 5 AAC 39.145 that \textit{“(1) a sidewall...of all shellfish and bottom fish pots must contain an opening equal to or exceeding 18 inches in length...The opening must be laced, sewn, or secured together by a single length of untreated, 100 percent cotton twine, no larger than 30 thread.”} Regulation 5 AAC 34.625 (b)(1) allows the opening described in 5 AAC 39.145 (1) to be \textit{“laced, sewn, or secured together by a single length of untreated, 100 percent cotton twine, no larger than 60 [rather than 30] thread.”}  
 
 Regulation (5 AAC 34.610 (b)) sets the commercial fishing season for golden king crab in the Aleutian Islands Area as 1 August through 30 April. That regulatory fishing season became effective in 2015/16 (the commercial fishing season was set in regulation as 15 August through 15 May during 2005/06 - 2014/15).  
 
@@ -478,13 +694,13 @@ Current regulations (5 AAC 39.645 (d)(4)(A)) stipulate that onboard observers ar
 
 In addition, the commercial golden king crab fishery in the Aleutian Islands Area may only retain males at least 6.0 inches (152.4 mm) carapace width (CW), including spines [5 AAC 34.620 (b)], which is at least one annual molt increment larger than the 50$\%$ maturity length of 120.8 mm CL for males as estimated by Otto and Cummiskey (1985). A carapace length (CL) $\geq$ 136 mm is used to identify legal-size males when CW measurements are not available (Table 3-5 in NPFMC 2007b). Note that the size limit for golden king crab has been 6 inches (152.4 mm) CW for the entire Aleutian Islands Area since the 1985/86 season. Prior to the 1985/86 season, the legal-size limit was 6.5 inches (165.1 mm) CW for at least one of the now-defunct Adak or Dutch Harbor Registration Areas.  
 
-The male maturity size using 1991 pot survey measurements of carapace length and chela height in EAG and 1984 NMFS measurements in WAG were re-evaluated (Siddeek et al., 2018). Bootstrap analysis of chela height and carapace length data provided the median 50$\%$ male maturity length estimates of 107.02 mm CL in EAG and 107.85 mm CL in WAG. The knife-edge maturity size of 111.0 mm CL, which is the lower limit of the next upper size bin, has been used for mature male biomass (MMB) estimation. Recently collected (2018 to 2020) chela height and carapace length data were analyzed and proposed a higher knife-edge maturity length of 116.0 mm CL for MMB calculation, which was accepted by the CPT/SSC in 2022 (Siddeek et al., 2022).  
+The male maturity size using 1991 pot survey measurements of carapace length and chela height in EAG and 1984 NMFS measurements in WAG were re-evaluated (Siddeek et al. 2018). Bootstrap analysis of chela height and carapace length data provided the median 50$\%$ male maturity length estimates of 107.02 mm CL in EAG and 107.85 mm CL in WAG. The knife-edge maturity size of 111.0 mm CL, which is the lower limit of the next upper size bin, has been used for mature male biomass (MMB) estimation. Recently collected (2018 to 2020) chela height and carapace length data were analyzed and proposed a higher knife-edge maturity length of 116.0 mm CL for MMB calculation, which was accepted by the CPT/SSC in 2022 (Siddeek et al. 2022).  
 
-Daily catch and catch-per-unit effort (CPUE) are determined in-season to monitor fishery performance and progress towards the respective TACs. Increases in CPUE were observed during the late 1990s through the early 2000s, and with the implementation of crab rationalization in 2005. This was likely due to changes in gear configurations in the late 1990s (crab harvesters, personal communication, 1 July 2008), and after rationalization due to increased soak time (Siddeek et al., 2015) and decreased competition. Decreased competition could allow crab vessels to target only the most productive fishing areas. Trends in fishery nominal CPUE within the areas EAG and WAG generally paralleled each other during 1985/86 - 2010/11 but diverged thereafter (EAG CPUE exceeded one and half times of that in WAG). A moderate decreasing trend in CPUE was observed since 2014 in EAG and since 2019 in WAG (Table \ref{eagcatch} and \ref{wagcatch}).
+Daily catch and catch-per-unit effort (CPUE) are determined in-season to monitor fishery performance and progress towards the respective TACs. Increases in CPUE were observed during the late 1990s through the early 2000s, and with the implementation of crab rationalization in 2005. This was likely due to changes in gear configurations in the late 1990s (crab harvesters, personal communication, 1 July 2008), and after rationalization due to increased soak time (Siddeek et al. 2015) and decreased competition. Decreased competition could allow crab vessels to target only the most productive fishing areas. Trends in fishery nominal CPUE within the areas EAG and WAG generally paralleled each other during 1985/86 - 2010/11 but diverged thereafter (EAG CPUE exceeded one and half times of that in WAG). A moderate decreasing trend in CPUE was observed since 2014 in EAG and since 2019 in WAG (Table \ref{table:eagcatch} and \ref{table:wagcatch}).
 
 ## 6. Brief description of the annual ADF\&G harvest strategy {-}
 
-In March 2019, the BOF adopted a revised harvest strategy (Daly et al., 2019). The annual TAC is set by state regulation, 5 AAC 34.612 (Harvest Levels for Golden King Crab in Registration Area O), per: 
+In March 2019, the BOF adopted a revised harvest strategy (Daly et al. 2019). The annual TAC is set by state regulation, 5 AAC 34.612 (Harvest Levels for Golden King Crab in Registration Area O), per: 
 
 \begin{enumerate}[a.]
 
@@ -521,18 +737,18 @@ The MMB$^{35\%}$ is estimated as a proxy for MMB$_{MSY}$ using the Tier 3 estima
 
 ## 8. Justification for assessing Aleutian Islands golden king crab as two sub stocks {-}
 
-We modelled EAG and WAG stocks separately for several reasons:
+We modeled EAG and WAG stocks separately for several reasons:
 
 \begin{enumerate}
 \item{Fishery catch data (e.g., CPUE magnitude and CPUE temporal trends) suggest that the productivity is different between the two areas;}
-\item{WAG has wider area of stock distribution compared to limited area distribution in EAG;}
+\item{WAG has a wider area of stock distribution compared to limited area distribution in EAG;}
 \item{The fishing areas are spatially separated with an area gap between EAG and WAG. Regions of low fishery catch suggest that availability of suitable habitat may vary longitudinally;}
 \item{Tagging studies have shown little mixing between the two areas (Watson and Gish 2002);}
 \item{Currents are known to be strong around the Aleutian Islands, thus larval mixing between the two regions may occur. Yet needed data to confirm larval drift trajectories or horizontal displacement are lacking. Unlike other king crabs, golden king crab females carry large, yolk-rich, eggs, which hatch into lecithotrophic (non-feeding) larvae that do not require a pelagic distribution for encountering food items. Depth at larval release, the lecithotrophic nature of larvae, and swimming inactivity in lab studies implies benthic distributions, which may limit larval drift between areas if horizontal current velocities are reduced at depth;}
 \item{Integrating contrasting data in one single model may provide parameter estimates in between the two extremes which would not be applicable to either (Richards 1991; Schnute and Hilborn 1993);}
 \item{Area specific assessment is superior to a holistic approach for this stock because of patchy nature of golden king crab distribution;} 
 \item{Alaska Board of Fisheries decided to manage the two areas with separate total allowable catches;}
-\item{Genetic analysis shows no significant differentiation between areas within the Aleutian Island population (Grant and Siddon 2018), thus there is no genetic support for subdividing this population; however, above listed factors support separate stock assessments in the two regions.}
+\item{Genetic analysis shows no significant differentiation between areas within the Aleutian Island population (Grant and Siddon 2018), thus there is no genetic support for subdividing this population; however, the above listed factors support separate stock assessments in the two regions.}
 \end{enumerate}
 
 
@@ -563,7 +779,7 @@ Bycatch of male GKC in groundfish fisheries was estimated for trawl and fixed ge
 
 Retained and total catch size compositions of males in the directed fishery was estimated from retained catch sampling and on-board observer data. Retained catch size frequencies are available from 1985 - present and observer size frequencies are available from 1990 - present.  
 
-Previous assessments removed various uncommon or non-target species gear types by recommendation from the fleet (M. Siddeek, ADF\&G personal communication, 2023). Those include: Dungeness crab pots, pyramid pots, conical pots, hair crab pots, snail pots, cods, dome shaped pots, ADF\&G research pots with stretch mesh instead of escape rings, and rectangular pots measuring 9'x 9', 8 1/2' x 8 1/2', 9 1/2' x 9 1/2', 8' x 9', 8' x 10', 9' x 10', 7' x 8', or with unknown dimension. In 1993, nearly all WAG observer (162 / 174) pots belonged to one of those categories, mostly unknown sized rectangular pots (160). Including all rectangular pots has little impact on the size composition in other years in either subdistrict, so the total size composition time series was revised to include all rectangular pots (Jackson 2024).
+Previous assessments removed various uncommon or non-target species gear types by recommendation from the fleet (M. Siddeek, ADF\&G personal communication, 2023). Those include: Dungeness crab pots, pyramid pots, conical pots, hair crab pots, snail pots, cods, dome shaped pots, ADF\&G research pots with stretch mesh instead of escape rings, and rectangular pots measuring 9'x 9', 8 1/2' x 8 1/2', 9 1/2' x 9 1/2', 8' x 9', 8' x 10', 9' x 10', 7' x 8', or with unknown dimension. In 1993, nearly all WAG observer (162 / 174) pots belonged to one of those categories, mostly unknown sized rectangular pots (160). Including all rectangular pots has little impact on the size composition in other years in either subdistrict, so the total size composition time series was revised to include all rectangular pots (Jackson 2024b).
 
 
 ### d. Catch per unit effort (CPUE) {-}
@@ -572,12 +788,12 @@ Directed fishery catch per unit effort (CPUE) was estimated as the number of cra
 
 ### e. Cooperative survey {-}
 
-The AIGKC cooperative pot survey was initiated in 2015 in the EAG and has continued every year since with the exception of 2020. The survey was extended to WAG in 2018. The main purpose of the survey is to generate a cost effective data stream available to the stock assessment that is spatially representative and less susceptible to hyperstability than fishery CPUE. The survey has occurred during the beginning of each season, with participating vessels setting pots strings at pre-determined stations and later picking strings with ADF\&G staff on board for collection of biological data. Survey data is available for 2015 - 2022 in the EAG and 2018 and 2019 in the WAG. A summary of analysis of cooperative survey data can be found in Appendix A of Jackson (2024). Models utilizing survey CPUE and size composition data were not considered for the 2025 final assessment.
+The AIGKC cooperative pot survey was initiated in 2015 in the EAG and has continued every year since with the exception of 2020. The survey was extended to WAG in 2018. The main purpose of the survey is to generate a cost effective data stream available to the stock assessment that is spatially representative and less susceptible to hyperstability than fishery CPUE. The survey has occurred during the beginning of each season, with participating vessels setting pots strings at pre-determined stations and later picking strings with ADF\&G staff on board for collection of biological data. Survey data is available for 2015 - 2022 in the EAG and 2018 and 2019 in the WAG. A summary of analysis of cooperative survey data can be found in Appendix A of Jackson (2024). Models utilizing survey CPUE and size composition data were not recommended by the CPT and SSC for the 2025 final assessment due to unresolved misspecification associated with fishery CPUE index data.
 
 
 ### f. Incomplete directed fishery {-}
 
-In the even that the most recent directed fishery is not complete by the time data must be prepared for the final assessment, terminal year data are estimated with the following assumptions:
+In the event that the most recent directed fishery is not complete by the time data must be prepared for the final assessment, terminal year data are estimated with the following assumptions:
 
 \begin{itemize}
 \item{Retained catch equals the total allowable catch (TAC);}
@@ -593,7 +809,7 @@ where $w$ is the average calculated weight of legal males in the fishery based o
 
 \end{itemize}
 
-Models are re-run with completed data prior to determining the TAC for the upcoming season. At the time of preparing this document, the 2024/25 fishery in the EAG was incomplete by \~ 50,000 lb (1$\%$ of the TAC).
+Models are re-run with completed data prior to determining the TAC for the upcoming season. At the time of preparing this document, the 2024/25 fishery in the EAG was incomplete by \~ 23 t (50,000 lb) (1$\%$ of the TAC).
 
 
 ## 3. Aggregated data {-}
@@ -608,17 +824,17 @@ Male length-weight relationship: $W=aL^b$ where $a$ = 1.445e^${-4}$, $b$ = 3.281
 
 ### c. Natural mortality {-} 
 
-Siddeek et al., (2022) used a tag recapture model to estimate fixed natural mortality value of 0.22 yr$^{-1}$. 
+Siddeek et al. (2022) used a tag recapture model to estimate a fixed natural mortality value of 0.22 yr$^{-1}$. 
 
 ## 4. Available data excluded from the assessment {-}
 
-Data from triennial ADF\&G pot surveys for Aleutian Islands golden king crab in a limited area in EAG (between 170$^{circ}$ 21' and 171$^{circ}$ 33' W longitude) that were performed during 1997 (Blau et al. 1998), 2000 (Watson and Gish 2002), 2003 (Watson 2004), and 2006 (Watson 2007) are available, but were not used in this assessment. However, the tag release and recapture data from these surveys were used.
+Data from triennial ADF\&G pot surveys for Aleutian Islands golden king crab in a limited area in EAG (between 170$^{\circ}$ 21' and 171$^{\circ}$ 33' W longitude) that were performed during 1997 (Blau et al. 1998), 2000 (Watson and Gish 2002), 2003 (Watson 2004), and 2006 (Watson 2007) are available, but were not used as index in this assessment. It may be possible to explore the utility of these data as an index of abundance or informing selectivity in future model explorations. Tag release and recapture data from these surveys were used to estimate the model growth matrix.
 
 # E. Analytic Approach {-}
 
 ## 1. History of modeling approaches for this stock {-}
 
-A size structured assessment model (hereafter referred to as the legacy model) based on only fisheries data for the EAG and WAG golden king crab stocks was accepted in 2016, and used to set OFL and ABC for the 2017/18 season (Siddeek et al., 2017). The CPT (January 2017) and SSC (February 2017) recommended using the Tier 3 $F_{\text{OFL}}$ control rules to set the OFL and ABC. The legacy model was used from 2016 - 2022, and transitioned to the GMACS modelling framework. The CPT and SSC adopted a GMACS implementation of the assessment in May 2023. Progress of GMACS development has been documented on the GitHub development site (\href{https://github.com/GMACS-project}{\underline{GMACS-project}}).  
+A size structured assessment model (hereafter referred to as the legacy model) based on only fisheries data for the EAG and WAG golden king crab stocks was accepted in 2016, and used to set OFL and ABC for the 2017/18 season (Siddeek et al. 2017). The CPT (January 2017) and SSC (February 2017) recommended using the Tier 3 $F_{\text{OFL}}$ control rules to set the OFL and ABC. The legacy model was used from 2016 - 2022, and transitioned to the GMACS modelling framework. The CPT and SSC adopted a GMACS implementation of the assessment in May 2023. Progress of GMACS development has been documented on the GitHub development site (\href{https://github.com/GMACS-project}{\underline{GMACS-project}}).  
 
 ## 2. Model Description {-}
 
@@ -629,13 +845,13 @@ A size structured assessment model (hereafter referred to as the legacy model) b
 
 \item{Directed fishery removals occur as a pulse at the mid-point of the season;}
 
-\item{Natural mortality, $M$, was constant at 0.22 yr$^{-1}$ based on analysis of tagging data (Siddeek et al., 2022);} 
+\item{Natural mortality, $M$, was constant at 0.22 yr$^{-1}$ based on analysis of tagging data (Siddeek et al. 2022);} 
 
 \item{Observer and fish ticket CPUE indices were assumed to be linearly related to exploitable abundance. There are three catchability and selectivity time periods (fish ticket data 1985 - 1998, observer data 1995 - 2004 and 2005 - 2023). Selectivity is logistic;} 
 
 \item{Extra variance on GAM standardized CPUE indices was estimated for each catchability period;}
 
-\item{Male maturity was knife-edged, at 116 mm CL based on previous chela height analysis (Siddeek et al., 2018, 2021, 2022);} 
+\item{Male maturity was knife-edged, at 116 mm CL based on previous chela height analysis (Siddeek et al. 2018, 2021, 2022);} 
 
 \item{Discard handling mortality was 0.2 yr$^{-1}$ in the directed fishery;}
 
@@ -651,7 +867,7 @@ None.
 
 ### i. Model code had been checked and validated {-}
 
-GMACS code have been check at various times by developers and independent reviewers. GMACS code and input files used in this report can be accessed here: \href{https://github.com/commfish/BSAI_crab_assessments}{\underline{ADF\&G BSAI Crab Assessments GitHub}}.
+GMACS code has been checked at various times by developers and independent reviewers. GMACS code and input files used in this report can be accessed here: \href{https://github.com/commfish/BSAI_crab_assessments}{\underline{ADF\&G BSAI Crab Assessments GitHub}}.
 
 ## 3. Model Selection and Evaluation {-}
 
@@ -661,7 +877,7 @@ Two models were evaluated for the EAG and WAG:
 
 \begin{itemize}
 
-\item{\textbf{23.1c}: The base model from the 2024 final assessment (23.1) with updated time series data and CPUE indices, and corrected recruitment bias correction from 1960 - 1980 (Jackson 2024b). This model considers}:
+\item{\textbf{23.1c}: The base model from the 2024 final assessment (23.1; Jackson 2024) with updated time series data and CPUE indices, and corrected recruitment bias correction from 1960 - 1980 (Jackson 2024b). This model considers}:
 
   \begin{enumerate}[(i)]
   
@@ -687,7 +903,7 @@ Two models were evaluated for the EAG and WAG:
   
   \end{enumerate}
 
-\item{\textbf{25.0b}: Model 23.1c + with non-equilibrium initial conditions, starting in 1981, equal emphasis all likelihood components ($\lambda$ = 1), and bootstrap estimated stage-1 effective sample sizes.}
+\item{\textbf{25.0b}: Model 23.1c + with non-equilibrium initial conditions, starting in 1981, equal emphasis on all likelihood components ($\lambda$ = 1), and bootstrap estimated stage-1 effective sample sizes.}
 
 \end{itemize}
 
@@ -697,11 +913,11 @@ See the new results at the beginning of the report.
 
 ### c. Evidence of search for balance between realistic and simpler models {-}
 
-Unlike annually surveyed stocks, Aleutian Islands golden king crab stock biomass is difficult to track, and several biological parameters are assumed based on knowledge from red king crab (e.g., handling mortality rate of 0.2 yr$^{-1}$) due to a lack of species/stock specific information. Several model parameters were fixed after initially running the model with free parameters to reduce the number of parameters to be estimated (e.g., groundfish bycatch selectivity parameters were fixed). In CPUE standardization, instead of using the traditional AIC the Consistent Akaike Information Criteria (Bozdogan 1987) was used that considers number of parameters and data points used for fitting models when selecting the final model. The assessment models also considered different configuration of parameters to select parsimonious models. The detailed results of all models are provided in tables and figures. 
+Unlike annually surveyed stocks, Aleutian Islands golden king crab stock biomass is difficult to track, and several biological parameters are assumed based on knowledge from red king crab (e.g., handling mortality rate of 0.2 yr$^{-1}$) due to a lack of species/stock specific information. Several model parameters were fixed after initially running the model with free parameters to reduce the number of parameters to be estimated (e.g., groundfish bycatch selectivity parameters were fixed). In CPUE standardization, instead of using the traditional AIC, the Consistent Akaike Information Criteria (Bozdogan 1987) was used that considers number of parameters and data points used for fitting models when selecting the final model. The assessment models also considered different configuration of parameters to select parsimonious models. The detailed results of all models are provided in tables and figures. 
 
 ### d. Convergence status/criteria {-}
 
-ADMB default convergence criteria.
+ADMB default convergence criteria. A jittering analysis (descried below) was performed to assess convergence to a global minimum.
 
 ### e. Sample sizes for length composition data {-}
 
@@ -729,7 +945,7 @@ The likelihood values are used to select among alternatives that could be legiti
 
 ### h. Residual analysis {-}
 
-Residual plots are illustrated in various figures for CPUE standardization. One step ahead (OSA) residuals were computed for size composition data using the R package $compResidual$ (Trijoulet and Nielsen 2022). OSA residuals are preferred for diagnosis of multivariate models because they account for correlation among size bins and conform to a standard normal distribution for correctly specified models (Trijoulet et al., 2023). 
+Residual plots are illustrated in various figures for CPUE standardization. One step ahead (OSA) residuals were computed for size composition data using the R package $compResidual$ (Trijoulet and Nielsen 2022). OSA residuals are preferred for diagnosis of multivariate models because they account for correlation among size bins and conform to a standard normal distribution for correctly specified models (Trijoulet et al. 2023). 
 
 ### i. Model evaluation {-}
 
@@ -737,13 +953,17 @@ Provided under Results, below.
 
 ### j. Retrospective analysis {-}
 
-Retrospective bias was evaluated by iteratively re-running a model and 'peeling' (i.e. removing) the terminal year for each iteration. Mohn's $\rho$ (Mohn 1999) was used to compare retrospective bias in MMB between models:
+Retrospective patterns were evaluated by iteratively re-running a model and 'peeling' (i.e. removing) the terminal year for each iteration. Mohn's $\rho$ (Mohn 1999) was used to compare retrospective patterns in MMB between models:
 
 \begin{equation}
 \text{Mohn's }\rho = \frac{1}{n}\sum^{n}_{y = 1}\frac{{\text{MMB}_y - {MMB}}}{MMB}
 \end{equation}
 
 where $\text{MMB}_y$ is the terminal year mature male biomass for each peel, MMB is the mature male biomass for the full model, and $n$ is the number of peels.
+
+### k. Historical analysis {-}
+
+Abundance trajectories from previous assessment models were compared to examine the degree of historical bias in derived quantities. Since size at maturity has changed in previous assessments, legal male ($\geq$ 138 mm CL) abundance was plotted here.
 
 ### k. Jittering {-}
 
@@ -765,7 +985,7 @@ where $P_{max}$ and $P_{min}$ are upper and lower bounds of parameter search spa
 
 ### a. Effective sample sizes and weighting factors {-} 
 
-Weighting factors were used for catch biomass, recruitment deviation, pot fishery $F$, and groundfish fishery $F$. The retained catch biomass weight was set to an arbitrarily large value 500.0 (corresponding to a CV of 0.0316), because retained catch data are more reliable than any other data sets. The total catch biomass weight was scaled in accordance with the observer annual sample sizes (number of non-zero pots) with a maximum of 250.0 (corresponding to variable CV; Table \ref{table:totalcv}). A small groundfish bycatch weight (0.5 corresponding to a CV of 1.3108) was chosen based on the September 2015 CPT suggestion. The CPUE weights were set to 1.0 for all models. A constant (model estimated) variance was included in addition to input CPUE variance for the CPUE fit. Note that the estimated additional variance values were small for both observer and fish ticket CPUE indices for the two subdistricts. Input and re-weighted effective sample sizes for retained and total catch size compositions are in Tables \ref{table:basesampsize} - \ref{table:bootsampsize}.
+Weighting factors were used for catch biomass, recruitment deviation, pot fishery $F$, and groundfish fishery $F$. The retained catch biomass weight was set to an arbitrarily large value 500.0 (corresponding to a CV of 0.0316), because retained catch data are more reliable than any other data sets. The total catch biomass weight was scaled in accordance with the observer annual sample sizes (number of non-zero pots) with a maximum of 250.0 (corresponding to variable CV; Table \ref{table:totcatchcv}). A small groundfish bycatch weight (0.5 corresponding to a CV of 1.3108) was chosen based on the September 2015 CPT suggestion. The CPUE weights were set to 1.0 for all models. A constant (model estimated) variance was included in addition to input CPUE variance for the CPUE fit. Note that the estimated additional variance values were small for both observer and fish ticket CPUE indices for the two subdistricts. Input and re-weighted effective sample sizes for retained and total catch size compositions are in Tables \ref{table:basesampsize} - \ref{table:bootsampsize}.
 
 ### b. Parameter estimates and tables {-}
 
@@ -779,17 +999,17 @@ Weighting factors were used for catch biomass, recruitment deviation, pot fisher
 
 \end{enumerate}
 
-### c. Graphes of estimates {-}
+### c. Graphs of estimates {-}
 
 \begin{enumerate}[i]
 
-\item{Models 23.1c and 25.0b estimated similar selectivity in both subdistricts. Selectivity was considerably greater in the post-rationalized period in comparison to the pre-rationalized period, with selectivity in the EAG being slightly greater than in the WAG (Figure \ref{fig:selex}). All models assumed full selectivity for groundfish fishery bycatch. Retention probability was similar among models, characterized as a very steep curve, reaching full retention at approximately legal size (~ 152 mm).}
+\item{Models 23.1c and 25.0b estimated similar selectivity in both subdistricts. Selectivity was considerably greater in the post-rationalized period in comparison to the pre-rationalized period, with selectivity in the EAG being slightly greater than in the WAG (Figure \ref{fig:selex}). All models assumed full selectivity for groundfish fishery bycatch. Retention probability was similar among models, characterized as a very steep curve, reaching full retention at approximately legal size (138 mm CL).}
 
 \item{There was little difference in molt probability among models 23.1c and 25.0b.}
 
-\item{Recruitment trends were similar among models. Model 25.0b estimated more variable recruitment during the early 90s in the EAG, whereas model 23.1c produced slightly more variable estimates during that period in the WAG. Time series in both subdistricts appears to be increasing from recent lows (Figure \ref{fig:recfig}).}
+\item{Recruitment trends were similar among models. Model 25.0b estimated more variable recruitment during the early 90s in the EAG, whereas model 23.1c produced slightly more variable estimates during that period in the WAG. Time series in both subdistricts appear to be increasing from recent lows (Figure \ref{fig:recfig}).}
 
-\item{Trajectories of mature male biomass (MMB) at mating (Feb 15) are shown in Figure \ref{fig:mmbfig}. Model 23.1c estimated slightly greater MMB since \~ 2000, reflecting differences in selectivity. This disparity is more apparent in the EAG, than in the WAG. Estimated MMB in 2024 (i.e. Feb 15, 2025) for the EAG decreased again from its recent post-rationalization high in 2022 and increased from the 2023 time series low in the WAG (Table \ref{table:mmb}; Figure \ref{fig:mmbfig}).}
+\item{Trajectories of mature male biomass (MMB) at mating (Feb 15) are shown in Figure \ref{fig:mmbfig}. Model 23.1c estimated slightly greater MMB since \~ 2000, reflecting differences in selectivity. This disparity is more apparent in the EAG than in the WAG. Estimated MMB in 2024 (i.e. Feb 15, 2025) for the EAG decreased again from its recent post-rationalization high in 2022 and increased from the 2023 time series low in the WAG (Table \ref{table:mmb}; Figure \ref{fig:mmbfig}).}
 
 \item{Fully selected fishing mortality ($F$) in the directed fishery and groundfish fisheries are shown in Figure \ref{fig:fmort}. Directed fishing mortality was highest in the early-1990s, then decreased through the early-2000s. Fishing mortality in the EAG fishery steadily increased and peaked in 2019, before sharply decreasing from 2020-2022. WAG $F$ underwent two cyclical peaks in ~2012 and 2020. Groundfish fishery $F$ is low throughout the timeseries, but has had the most prominent pulses in 2016 and 2020 in the EAG, and 2022 in the WAG (Figures \ref{fig:fmort}). 
 
@@ -809,30 +1029,34 @@ Total $F$ exceeded the $F_{\text{OFL}}$ control rule throughout much of the 1990
 
 \end{enumerate}
 
-### e. Retrospective analyses {-}
+### e. Retrospective analysis {-}
 
-Retrospective analysis was performed by sequentially removing one year of data for ten model runs. Models 23.1c and 25.0b had considerable, positive retrospective bias in the EAG with Mohn's $\rho$ of $\rho$ = 0.372 and $\rho$ = 0.5, respectively (Figure \ref{fig:retro}). EAG retrospective bias likely arises from model misspecification that results in poor fit to index data. Retrospective bias is less of a concern in the WAG, though models 23.1c and 25.0b have a minor positive pattern (Mohn's $\rho$ = 0.104 and $\rho$ = 0.117, respectively) (Figure \ref{fig:retro}). The 2014 terminal year peel in WAG 23.1c had a large spike in 1995. This issue has been previously encountered with WAG models and is likely due to that peel converging to a local minimum.
+Retrospective analysis was performed by sequentially removing one year of data for ten model runs. Models 23.1c and 25.0b had considerable, positive retrospective pattern in the EAG with Mohn's $\rho$ of $\rho$ = 0.372 and $\rho$ = 0.5, respectively (Figure \ref{fig:retro}). EAG retrospective patterns likely arise from model misspecification that results in poor fit to index data. Retrospective pattern is less of a concern in the WAG, though models 23.1c and 25.0b have a minor positive pattern (Mohn's $\rho$ = 0.104 and $\rho$ = 0.117, respectively) (Figure \ref{fig:retro}). The 2014 terminal year peel in WAG 23.1c had a large spike in 1995. This issue has been previously encountered with WAG models and is likely due to that peel converging to a local minimum.
 
-### f. Uncertainty and sensitivity analyses {-}
+### f. Historical analysis {-}
+
+Legal male abundance estimated from previous stock assessments were plotted to assess historical patterns in derived quantities. Legal male trajectories in both areas indicated a downward historical pattern, though the WAG was more severe, particularly in the terminal year (Figure \ref{fig:historical}). Back calculation of exploitation rates computed from the time series of legal male abundance for model 23.1c would suggest that realized exploitation exceeded the maximum cap imposed by the ADF$\&$G harvest strategy (25$\%$) in many years (Figure \ref{fig:exploit}).
+
+### g. Uncertainty and sensitivity analyses {-}
 
 \begin{enumerate}[i]
 
 \item{Estimated standard errors for estimated parameters are in Table \ref{table:pars}. Uncertainty in estimated MMB and recruitment is detailed in Table \ref{table:mmb}.}
 \item{Distribution of the OFL is shown in Figure \ref{fig:ofldist}.}
-\item{Distribution of terminal year MMB relative to B$_[35\%]$ estimated from MCMC draws is described in Figure \ref{fig:statusecdf}.}
+\item{Distribution of terminal year MMB relative to B$_{35\%}$ estimated from MCMC draws is described in Figure \ref{fig:ofldist}.}
 
 
-\item{Jitter distributions of negative log-likelihood, and scatter plots of MMB projected to Feb 15, 2025, B$_[35\%]$, and OFL as a function of jitter NLL for all models are in Figures \ref{fig:eag231cjitter} - \ref{fig:wag250bjitter}. Jitter analysis results identified several local minina and provided strong evidence for convergence to a global minimum.} 
+\item{Jitter distributions of negative log-likelihood, and scatter plots of MMB projected to Feb 15, 2025, B$_{35\%}$, and OFL as a function of jitter NLL for all models are in Figures \ref{fig:eag231cjitter} - \ref{fig:wag250bjitter}. Jitter analysis results identified several local minima and provided strong evidence for convergence to a global minimum (Tables \ref{table:jiteag231c} - \ref{table:jitwag250b}).}
 
 \end{enumerate}
 
-### g. Comparison of alternative models {-}
+### h. Comparison of alternative models {-}
 
 Model 23.1c is regarded as the base model, which is the 2024 accepted model with updated bias correction of recruitment deviations prior to 1981 and corrected observer size composition data (using all rectangular pots). Model 25.0b starts the model in 1981 in a non-equilibrium state, assumes equal likelihood weighting for catch data series, and uses bootstrap estimated input sample sizes for size composition data. Estimated equilibrium numbers at size were greater than at the start of the catch data time series, leading to a decreasing ramp in in recruitment and mature male biomass (Figure \ref{fig:recfig} and \ref{fig:mmbfig}). Non-equilibrium starting conditions resulted in lower numbers at larger sizes, but greater recruitment in the EAG, whereas the opposite is evident in the WAG (Figures \ref{fig:eagn} - \ref{fig:recfig}). Reducing the likelihood emphasis on retained and total catch to $\lambda$ = 1 had negligible impact on fits to catch data in either subdistrict (Figure \ref{fig:eagcatchfit} and \ref{fig:wagcatchfit}). 
 
-Bootstrap estimated $N_{eff}$ for size composition data were highly variable and larger than the observed number of crab measured in many cases. This is possible when bootstrap proportion at size approximates observed size composition with high precision. Annual means of bootstrap $N_{eff}$ were less than observed sample sizes in all years and followed the same trend, though the bootstrap distribution was highly variable (Table \ref{table:retneff} and \ref{table:totneff}). The CPT recommended considering using the harmonic or geometric mean of bootstrap samples opposed to arithmetic mean, though in many cases estimates would have still been large and capped at 2,000. Francis re-weighting considerably reduced input sample sizes in model 25.0b, which resulted lower weights for total size composition data compared to model 23.1c in many pre-rationalized years and the greater weights in post-rationalized years (Table \ref{table:bootsampsize}). 
+Bootstrap estimated $N_{eff}$ for size composition data were highly variable and larger than the observed number of crab measured in many cases. This is possible when bootstrap proportion at size approximates observed size composition with high precision. Annual means of bootstrap $N_{eff}$ were less than observed sample sizes in all years and followed the same trend, though the bootstrap distribution was highly variable (Table \ref{table:retneff} and \ref{table:totneff}). The CPT recommended considering using the harmonic or geometric mean of bootstrap samples opposed to arithmetic mean, though in many cases estimates would have still been large and capped at 2,000. Francis re-weighting considerably reduced input sample sizes in model 25.0b, which resulted in lower weights for total size composition data compared to model 23.1c in many pre-rationalized years and the greater weights in post-rationalized years (Table \ref{table:bootsampsize}). 
 
-Model 25.0b fit pre-rationalized CPUE index marginally better in both subdistricts, but did not resolve poor fits to observer index data in the EAG (Figure \ref{fig:eagindexfit} and \ref{fig:wagindexfit}). Fits to size composition data were negligible, except for the first couple years of the retained composition time series due to differences in initial conditions (Figures \ref{fig:eagretcompfit} and \ref{fig:wag250bcosa}). Recruitment in models 23.1c and 25.0b underwent different trajectories from \~ 1989 - 1993 in both subdistricts (Figure \ref{fig:recfig}), which analysis of intermediate models attributed to size composition weighting (Jackson 2024b). Greater numbers at size for EAG model 25.0b during this time period and earlier may have contributed to the minor increase in pre-rationalization selectivity over model 23.1c (Figure \ref{fig:selex}). 
+Model 25.0b fit the pre-rationalized CPUE index marginally better in both subdistricts, but did not resolve poor fits to observer index data in the EAG (Figure \ref{fig:eagindexfit} and \ref{fig:wagindexfit}). Differences in fits to size composition data were negligible, except for the first couple years of the retained composition time series due to differences in initial conditions (Figures \ref{fig:eagretcompfit} and \ref{fig:wag250bcosa}). Recruitment in models 23.1c and 25.0b underwent different trajectories from \~ 1989 - 1993 in both subdistricts (Figure \ref{fig:recfig}), which analysis of intermediate models attributed to size composition weighting (Jackson 2024b). Greater numbers at size for EAG model 25.0b during this time period and earlier may have contributed to the minor increase in pre-rationalization selectivity over model 23.1c (Figure \ref{fig:selex}). 
 
 EAG models appear to be somewhat sensitive to size composition data weighting (here; Jackson 2024b), yet the alternative weighting scheme explored here did not improve model performance. In fact, model 25.0b increased retrospective bias over the base model. Despite simplified initial conditions and catch data weighting scheme, it would be prudent to remain with the base model during this assessment cycle. Variants of intermediate models (25.0 and 25.0a; Jackson 2024b), which explored initial conditions and catch data weighting, can be revisited in the future.
 
@@ -855,7 +1079,7 @@ The Tier 3 OFL is calculated using the $F_\text{OFL}$ control rule
 F_{\text{OFL}} = 
 \begin{cases}
 0 & \frac{\text{B}_{prj}}{\text{B}_{35\%}} \leq \beta\\[10pt]
-F_{35\%}\frac{(\frac{\text{B}_{prj}}{\text{B}_{35\%}} - \alpha)}{1-\alpha} & \beta < \frac{\text{B}_{prj}}{\text{B}_{35\%}} \leq 1\\[10pt]
+F_{35\%}\frac{(\frac{\text{B}_{prj}}{\text{B}_{35\%}} - aa)}{1-aa} & \beta < \frac{\text{B}_{prj}}{\text{B}_{35\%}} \leq 1\\[10pt]
 F_{35\%} & \text{B}_{prj} > \text{B}_{35\%}\\[10pt]
 \end{cases}
 \end{equation}
@@ -870,15 +1094,15 @@ B$_{35\%}$ = a proxy for B$_{\text{MSY}}$ , which is the value of biomass (MMB) 
 
 $\beta$ = a parameter with restriction that 0 $\leq$ $\beta$ < 1. A default value of 0.25 is used;  
 
-$\alpha$ = a parameter with restriction that 0 $\leq$ $\alpha$ $\leq$ $\beta$. A default value of 0.1 is used.  
+$aa$ = a parameter with restriction that 0 $\leq$ $aa$ $\leq$ $\beta$. A default value of 0.1 is used.  
 
 Average recruitment during a period of 1987-2021 was used to estimate B$_{35\%}$. The reference period for average recruitment is based on the time period for which uncertainty in estimated recruitment is below a reasonable threshold. In January 2024, the CPT recommended a 'terminal year minus four' approach to setting the upper bound of the reference period. Because B$_{prj}$ depends on the intervening retained and discard catch (i.e., B$_{prj}$ is estimated after the fishery), an iterative procedure was applied with predicted retained and discard catch, whereby the F$_{\text{OFL}}$ and OFL were estimated using MCMC in GMACS.  
 
-The control rule is used for stock status determination. If total catch exceeds OFL estimated at B (B$_{prj}$), then “overfishing” occurs. If B equals or declines below 50\% B$_\text{MSY}$ (i.e., MSST), the stock is “overfished.” If B/B$_\text{MSY}$ or B/B$_\text{MSY}$ proxy equals or declines below $\beta$, then the stock productivity is severely depleted, and the directed fishery is closed. Biological reference points for all models evaluated in this assessment are detailed in Table \ref{table:eagref} and \ref{table:wagref}. 
+The control rule is used for stock status determination. If total catch exceeds OFL estimated at B (B$_{prj}$), then “overfishing” occurs. If B equals or declines below 50\% B$_\text{MSY}$ (i.e., MSST), the stock is “overfished.” If B/B$_\text{MSY}$ or B/B$_\text{MSY}$ proxy equals or declines below $\beta$, then the stock productivity is severely depleted, and the directed fishery is closed. Biological reference points for all models evaluated in this assessment are detailed in Table \ref{table:ref}. 
 
-MCMC runs with 100,000 replicates and 100 draws for model 23.1c were performed to estimate the distribution of B$_[35\%]$ and OFL. Probability distribution of estimated OFL for model 23.1c is shown in Figure \ref{fig:ofldist}. The distribution of projected MMB (Feb 15, 2025) to B$_{35\%}$ suggests that probability of the stock being overfished is approximately zero (Figure \ref{fig:statusecdf}). The CPT and SSC recommended the 2023/24 acceptable biological catch (ABC) be set at ABC = 0.25 $\times$ OFL citing continued concerns about poor fits to index data and retrospective patterns in the EAG model. The current assessment did not resolve those issues, so the author recommendation is to continue with a 25\% ABC buffer.
+MCMC runs with 100,000 replicates and 100 draws for model 23.1c were performed to estimate the distribution of B$_{35\%}$ and OFL. Probability distribution of estimated OFL for model 23.1c is shown in Figure \ref{fig:ofldist}. The distribution of projected MMB (Feb 15, 2025) to B$_{35\%}$ suggests that probability of the stock being overfished is approximately zero. The CPT and SSC recommended the 2023/24 acceptable biological catch (ABC) be set at ABC = (1 - 0.25) $\times$ OFL citing continued concerns about poor fits to index data and retrospective patterns in the EAG model. The current assessment did not resolve those issues, so the author recommendation is to continue with a 25\% ABC buffer.
 
-At the time of writing this document, the 2024/25 fishery in the EAG was incomplete by one vessel trip (\~ 50,000 lb). Completed fishery totals are not anticipated to exceed the OFL of 3.725 kt (8.212 mil lb). The OFL and ABC values for 2025/26 in the tables below are values estimated by the author-recommended model (23.1c) for consideration. 
+At the time of writing this document, the 2024/25 fishery in the EAG was incomplete by one vessel trip (\~ 23 t; 50,000 lb). Completed fishery totals are not anticipated to exceed the OFL of 3.725 kt (8.212 mil lb). The OFL and ABC values for 2025/26 in the tables below are values estimated by the author-recommended model (23.1c) for consideration. 
 
 
 \begin{center}
@@ -945,7 +1169,7 @@ N/A, not applicable for this stock.
 
 ## 1. List of variables related to scientific uncertainty {-}
 
-\begin{enumerate}[a]
+\begin{enumerate}[a)]
 \item{Models rely solely on fishery data;}
 \item{Observer and fisheries CPUE indices played a major role in the assessment model;}
 \item{Fixed bycatch mortality rates were used in each fishery (crab fishery and the groundfish fishery) that discarded golden king crab;}
@@ -955,7 +1179,7 @@ N/A, not applicable for this stock.
 
 ## 2. Research priorities {-}
 
-\begin{enumerate}[a]
+\begin{enumerate}[a)]
 \item{Resolve data conflict in EAG models;}
 \item{Continuation of the cooperative pot survey;}
 \item{Male size at maturity;}
@@ -965,7 +1189,7 @@ N/A, not applicable for this stock.
 
 # I. Acknowledgements {-}
 
-We thank ADF\&G personnel in Kodiak and Dutch Harbor for preparing/providing various fisheries and biological data for this assessment. Ethan Nichols, Rachel Alinsunurin, Ric Shepard, and Janis Shaisnikoff were helpful in getting needed information for preparing this report. Caitlin Stern and Ben Daly reviewed and earlier draft of this document. We also appreciate technical and editorial input from CPT and SSC members, and industry personnel.
+We thank ADF\&G personnel in Kodiak and Dutch Harbor for preparing/providing various fisheries and biological data for this assessment. Ethan Nichols, Rachel Alinsunurin, Ric Shepard, and Janis Shaisnikoff were helpful in getting needed information for preparing this report. Caitlin Stern and Ben Daly reviewed an earlier draft of this document. We also appreciate technical and editorial input from CPT and SSC members, and industry personnel.
 
 # Tables {-}
 #### {-}
@@ -1536,7 +1760,7 @@ print(xtable(x, align="lcccccc", digits=c(0)),
 \label{table:ref}
 \begin{tabular}{lccccccccc}
 
-Subdistrict & Model & MMB (t) & B$_{35\%}$ (t) & $\frac{MMB}{B_{35\%}}$ & $\bar{\text{R}}_{1987-2020}$ & F$_{35\%}$ & F$_{\text{OFL}}$ & OFL (t)\\
+Subdistrict & Model & MMB (t) & B$_{35\%}$ (t) & $\frac{MMB}{B_{35\%}}$ & $\bar{\text{R}}_{1987-2021}$ & F$_{35\%}$ & F$_{\text{OFL}}$ & OFL (t)\\
 \hline
 ```{r specst, results='asis', eval = T}
 x <- read_csv("../../../AIGKC/output/models/2025/may/reference_points_table.csv")
@@ -1573,9 +1797,114 @@ print(xtable(x[-7], align="lccccccccc", digits=c(0, 0, 2, 2, 2, 2, 0, 2, 2, 2)),
 \end{tabular}
 \end{table}
 
+#### {-}
+
+<!-- jittering -->
+
+\begin{table}[H]
+\centering
+
+\caption{Objective function, catch, index, and size likelihood components, key management quantities, and frequency of each outcome for 500 jitter runs with jitter factor 0.3 for EAG model 23.1c.  } 
+\label{table:jiteag231c}
+\begin{tabular}{cccccccccc}
+Objective Function & Catch & Index & Size & MMB$_{proj}$ & B$_{35\%}$ & OFL & N & Percent \\
+\hline
+```{r jiteag231c, results='asis', eval = T}
+x <- read_csv("../../../AIGKC/output/models/2025/may/jitter_eag_23.1c.csv")
+
+# print table
+print(xtable(x, align="cccccccccc", digits=c(0,3,3,3,3,0,0,0,0,2)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","),
+			     sanitize.text.function = function(x){x})
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+
+\caption{Objective function, catch, index, and size likelihood components, key management quantities, and frequency of each outcome for 500 jitter runs with jitter factor 0.3 for EAG model 25.0b.  }
+\label{table:jiteag250b}
+\begin{tabular}{cccccccccc}
+Objective Function & Catch & Index & Size & MMB$_{proj}$ & B$_{35\%}$ & OFL & N & Percent \\
+\hline
+```{r jiteag250b, results='asis', eval = T}
+x <- read_csv("../../../AIGKC/output/models/2025/may/jitter_eag_25.0b.csv")
+
+# print table
+print(xtable(x, align="cccccccccc", digits=c(0,3,3,3,3,0,0,0,0,2)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","),
+			     sanitize.text.function = function(x){x})
+
+```
+\hline
+\end{tabular}
+\end{table}
 
 
+\begin{table}[H]
+\centering
 
+\caption{Objective function, catch, index, and size likelihood components, key management quantities, and frequency of each outcome for 500 jitter runs with jitter factor 0.3 for WAG model 23.1c.  }
+\label{table:jitwag231c}
+\begin{tabular}{cccccccccc}
+Objective Function & Catch & Index & Size & MMB$_{proj}$ & B$_{35\%}$ & OFL & N & Percent \\
+\hline
+```{r jitwag231c, results='asis', eval = T}
+x <- read_csv("../../../AIGKC/output/models/2025/may/jitter_wag_23.1c.csv")
+
+# print table
+print(xtable(x, align="cccccccccc", digits=c(0,3,3,3,3,0,0,0,0,2)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","),
+			     sanitize.text.function = function(x){x})
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+
+\caption{Objective function, catch, index, and size likelihood components, key management quantities, and frequency of each outcome for 500 jitter runs with jitter factor 0.3 for WAG model 25.0b.  } 
+\label{table:jitwag250b}
+\begin{tabular}{cccccccccc}
+Objective Function & Catch & Index & Size & MMB$_{proj}$ & B$_{35\%}$ & OFL & N & Percent \\
+\hline
+```{r jitwag250b, results='asis', eval = T}
+x <- read_csv("../../../AIGKC/output/models/2025/may/jitter_wag_25.0b.csv")
+
+# print table
+print(xtable(x, align="cccccccccc", digits=c(0,3,3,3,3,0,0,0,0,2)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","),
+			     sanitize.text.function = function(x){x})
+
+```
+\hline
+\end{tabular}
+\end{table}
 
 
 # Figures {-}
@@ -1599,7 +1928,7 @@ knitr::include_graphics("../../figures/models/2025/may/wag_catch_time_series.png
 #### {-}
 
 <!-- model data type -->
-```{r data, fig.align='center', fig.cap="Data range by fleet for EAG models.", eval = T}
+```{r data, fig.align='center', fig.cap="Data range by fleet for EAG and WAG models.", eval = T}
 knitr::include_graphics("../../figures/models/2025/may/data_range.png")
 ```
 
@@ -1609,11 +1938,11 @@ knitr::include_graphics("../../figures/models/2025/may/data_range.png")
 
 <!-- fits to catch -->
 
-```{r eagcatchfit, fig.align='center', fig.cap="Comparison of model fit to retained catch, total catch, and groundfish bycatch moratlity for the EAG. Error bars on observed values represent 95\\% confidence intervals. Observed catch for 2024 was based on an incomplete fishery.", eval = T}
+```{r eagcatchfit, fig.align='center', fig.cap="Comparison of model fit to retained catch, total catch, and groundfish bycatch for the EAG. Error bars on observed values represent 95\\% confidence intervals. Observed catch for 2024 was based on an incomplete fishery.", eval = T}
 knitr::include_graphics("../../figures/models/2025/may/eag_catch_fit.png")
 ```
 
-```{r wagcatchfit, fig.align='center', fig.cap="Comparison of model fit to retained catch, total catch, and groundfish bycatch moratlity for the WAG. Error bars on observed values represent 95\\% confidence intervals.", eval = T}
+```{r wagcatchfit, fig.align='center', fig.cap="Comparison of model fit to retained catch, total catch, and groundfish bycatch for the WAG. Error bars on observed values represent 95\\% confidence intervals.", eval = T}
 knitr::include_graphics("../../figures/models/2025/may/wag_catch_fit.png")
 ```
 
@@ -1621,11 +1950,11 @@ knitr::include_graphics("../../figures/models/2025/may/wag_catch_fit.png")
 
 <!-- fits to index -->
 
-```{r eagindexfit, fig.align='center', fig.cap="Comparison of model fit to CPUE indices for the EAG. Error bars on observed values respresent 95\\% confidence intervals (black) and estimated additional error (grey).", eval = T}
+```{r eagindexfit, fig.align='center', fig.cap="Comparison of model fit to CPUE indices for the EAG. Error bars on observed values represent 95\\% confidence intervals (black) and estimated additional error (grey).", eval = T}
 knitr::include_graphics("../../figures/models/2025/may/eag_index_fit.png")
 ```
 
-```{r wagindexfit, fig.align='center', fig.cap="Comparison of model fit to CPUE indices for the WAG. Error bars on observed values respresent 95\\% confidence intervals (black) and estimated additional error (grey).", eval = T}
+```{r wagindexfit, fig.align='center', fig.cap="Comparison of model fit to CPUE indices for the WAG. Error bars on observed values represent 95\\% confidence intervals (black) and estimated additional error (grey).", eval = T}
 knitr::include_graphics("../../figures/models/2025/may/wag_index_fit.png")
 ```
 
@@ -1728,6 +2057,14 @@ knitr::include_graphics("../../figures/models/2025/may/kobe_25.0b.png")
 knitr::include_graphics("../../figures/models/2025/may/retrospectives.png")
 ```
 
+```{r historical, fig.align='center', fig.cap="Estimated legal male abundance from 1985 - present by assessment year going back to 2018/19.", eval = T}
+knitr::include_graphics("../../figures/models/2025/may/lma_hindsight.png")
+```
+
+```{r exploit, fig.align='center', fig.cap="Realized exploitation rates based on legal male abundance from model 23.1c and retained catch in the EAG and WAG. The dotted line represents the 25$\\%$ maximum cap on legal male abundance in the ADF$\\&$G harvest strategy.", eval = T}
+knitr::include_graphics("../../figures/models/2025/may/lma_exploitation_rate_ft_ret.png")
+```
+
 #### {-}
 
 <!-- jittering  -->
@@ -1752,13 +2089,9 @@ knitr::include_graphics("../../models/2025/may/WAG/25.0b/plots/25.0b_jitter_sd_0
 
 <!-- distribution of ofl  -->
 
-# ```{r ofldist, fig.align='center', fig.cap="Distrubition of OFL (1000 t) based on MCMC for model 23.1b.", eval = T}
-# knitr::include_graphics("../../figures/models/2024/may/ofl_distribution.png")
-# ```
-
-# ```{r statusecdf, fig.align='center', fig.cap="Cumulative density function of model 23.1b MMB projected to Feb 15, 2025 relative to B$_[35\\%]$ from MCMC draws.", eval = T}
-# knitr::include_graphics("../../figures/models/2024/may/status_ecdf.png")
-# ```
+```{r ofldist, fig.align='center', fig.cap="Distrubition of OFL (1,000 t) and cumulative density function of MMB projected to Feb 15, 2025 relative to B$_[35\\%]$ from MCMC draws on model 23.1c.", eval = T}
+knitr::include_graphics("../../figures/models/2025/may/ofl_distribution.png")
+```
 
 # Literature Cited {-}
 
@@ -1783,6 +2116,10 @@ Grant W and C Siddon. 2018. Phylogeography and management of golden king crab po
 Hartill, T. 2012. Annual management report for the community development quota and Adak Community Allocation crab fisheries in the Bering Sea and Aleutian Islands, 2010/11. Pages 177–194 in Fitch, H, M Schwenzfeier, B Baechler, T Hartill, M Salmon, M Deiman, E Evans, E Henry, L Wald, J Shaishnikoff, and K Herring. Annual management report for the commercial and subsistence shellfish fisheries of the Aleutian Islands, Bering Sea, and the Westward Region’s Shellfish Observer Program, 2010/11. Alaska Department of Fish and Game, Fishery Management Report No. 12-22, Anchorage.
 
 Hiramoto, K. 1985. Overview of the golden king crab, $Lithodes$ $aequispina$, fishery and its fishery biology in the Pacific waters of Central Japan. Pages 297–315, in Proceedings of the International King Crab Symposium. Alaska Sea Grant College Program, AK-SG-85-12, Fairbanks, AK.
+
+Jackson, TM. 2024a. Aleutian Islands golden king crab stock assessment 2024. North Pacific Fishery Management Council, Anchorage, Alaska.
+
+Jackson, TM. 2024b. Aleutian Islands golden king crab draft models. North Pacific Fishery Management Council, Anchorage, Alaska. \href{https://meetings.npfmc.org/CommentReview/DownloadFile?p=63298579-d429-43ed-9ddf-bf73cddad119.pdf&fileName=AIGKC_sept2024.pdf}{\underline{eAgenda Link}}.
 
 Jewett, SC, NA Sloan, and DA Somerton. 1985. Size at sexual maturity and fecundity of the fjord-dwelling golden king crab $Lithodes$ $aequispina$ Benedict from northern British Columbia. Journal of Crustacean Biology 5: 377–385.
 
@@ -1834,7 +2171,7 @@ Watson, LJ, and RK Gish. 2002. The 2000 Aleutian Islands golden king crab survey
 
 Watson, LJ, D Pengilly, and SF Blau. 2002. Growth and molting of golden king crab ($Lithodes$ $aequispinus$) in the eastern Aleutian Islands, Alaska. Pages 169–187 in Crabs in cold water regions: biology, management, and economics, Alaska Sea Grant College Program, AK-SG-02-01, Fairbanks, AK.
 
-Webb, J. 2014. Reproductive ecology of commercially important Lithodid crabs. Pages 285–314 in B.G. Stevens (ed.). King Crabs of the World: Biology and Fisheries Management. CRC Press, Taylor & Francis Group, New York.
+Webb, J. 2014. Reproductive ecology of commercially important Lithodid crabs. Pages 285–314 in B.G. Stevens (ed.). King Crabs of the World: Biology and Fisheries Management. CRC Press, Taylor \& Francis Group, New York.
 
 \end{hangparas}
 

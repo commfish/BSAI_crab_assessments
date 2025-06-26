@@ -2,7 +2,7 @@
 
 # aigkc gmacs .dat file prep
 # tyler jackson
-# 11/29/2024
+# 4/8/2025
 
 # load ----
 library(gmacsr)
@@ -12,20 +12,24 @@ library(gmacsr)
 # current dat file ----
 
 # eag
-eag_dat <- gmacs_read_dat("AIGKC/models/2025/sept/EAG/23.1c/EAG_23.1c.dat")
+eag_dat <- gmacs_read_dat("AIGKC/models/2025/may/EAG/23.1c_complete/EAG_23_1c.dat")
 
 # wag
 wag_dat <- gmacs_read_dat("AIGKC/models/2025/sept/WAG/23.1c/WAG_23_1c.dat")
 
 # dimensions ----
 
+eag_dat$terminal_year <- 2024
 wag_dat$terminal_year <- 2024
 
 # taus ----
 
+eag_complete = T
+
 # eag
-read_csv("./AIGKC/data/observer/season_dates.csv") %>%
-  filter(fishery == "EAG") %>%
+read_csv("./AIGKC/data/observer/2025/season_dates.csv") %>%
+  filter(fishery == "EAG") %>% #print(n = 1000)
+  mutate(end_date = as_date(ifelse((eag_complete == F & crab_year == max(crab_year)), mdy(paste0("4/30/", crab_year+1)), end_date))) %>%
   # calculate mid date
   mutate(midfish = start_date + (end_date - start_date) / 2,
          jul1 = mdy(paste0("7/1/", crab_year)),
@@ -61,17 +65,27 @@ read_csv("./AIGKC/data/observer/2025/season_dates.csv") %>%
 
 # catch data ----
 
+eag_complete = T
+eag_tac = 3760000 * 0.000453592
+eag_legal_cpue_wt <- read_csv("./AIGKC/data/observer/2025/total_catch.csv") %>% 
+  filter(fishery == "EAG",
+         crab_year == max(crab_year),
+         group %in% c("legal_male")) %>% 
+  mutate(cpue_wt = cpue * avg_wt) %>% pull(cpue_wt)
+eag_effort_proj = round(eag_tac / eag_legal_cpue_wt)
+
 ## retained catch
 
 ### eag
 # 1981 - 1984
 eag_dat$catch %>% filter(type == 1, units == 2) %>%
 # 1985 - present
-  bind_rows(read_csv("./AIGKC/data/observer/retained_catch.csv") %>%
+  bind_rows(read_csv("./AIGKC/data/observer/2025/retained_catch.csv") %>%
               filter(fishery == "EAG") %>%
+              mutate(tot_retained_wt = ifelse((eag_complete == F & crab_year == max(crab_year)), round(eag_tac, 2), tot_retained_wt)) %>%
               transmute(year = crab_year,
                         season = 3, fleet = 1, sex = 1,
-                        obs = round(t, 2),
+                        obs = round(tot_retained_wt, 2),
                         cv = 0.0316, type = 1, units = 1, mult = 1, effort = 0, disc_m = 0.2) %>%
               arrange(year) ) -> eag_retained
 
@@ -90,16 +104,18 @@ wag_dat$catch %>% filter(type == 1, units == 2) %>%
 ## total catch
 
 ### eag
-read_csv("./AIGKC/data/observer/total_catch.csv") %>%
-  filter(substring(fishery, 1, 2) == "OB",
+read_csv("./AIGKC/data/observer/2025/total_catch.csv") %>%
+  filter(fishery == "EAG",
          group %in% c("sublegal_male", "legal_male")) %>%
+  mutate(ft_effort = ifelse(eag_complete == F & crab_year == max(crab_year), eag_effort_proj, ft_effort)) %>%
+  
   group_by(fishery, crab_year) %>%
   summarise(total_catch_t = sum(total_catch_wt)) %>% ungroup %>%
   # join to cv
   left_join(.,
             
-            read_csv("./AIGKC/data/observer/nonzero_obs_pots.csv") %>%
-              filter(substring(fishery, 1, 2) == "OB") %>%
+            read_csv("./AIGKC/data/observer/2025/nonzero_obs_pots.csv") %>%
+              filter(subdistrict == "EAG") %>%
               # compute graded weight
               mutate(w = (m_nz * 250) / max(m_nz), 
                      cv = sqrt(exp(1 / (2 * w)) - 1)) %>%
@@ -110,7 +126,8 @@ read_csv("./AIGKC/data/observer/total_catch.csv") %>%
             season = 3, fleet = 1, sex = 1,
             obs = round(total_catch_t, 2),
             cv = round(cv, 3), type = 0, units = 1, mult = 1, effort = 0, disc_m = 0.2) %>%
-  arrange(year) -> eag_total
+  arrange(year) %>%
+  mutate(cv = ifelse(eag_complete == F & year == max(year), 0.2, cv)) -> eag_total
 
 ### wag
 read_csv("./AIGKC/data/observer/2025/total_catch.csv") %>%
@@ -226,6 +243,29 @@ wag_dat$catch <- bind_rows(wag_retained, wag_total, wag_bycatch)
 #             year, 
 #             season = 3, fleet = 1, sex = 1, maturity = 0, 
 #             obs = round(index, 3), cv = round(cv, 3), units = 2, timing = 0.5) -> st_index
+# eag
+
+## cpue index 
+### pre rationalized not updated
+read_csv("./AIGKC/output/cpue_std/2024/may/pre_eag_index.csv") %>%
+  transmute(series = 1,
+            year, season = 3, fleet = 1, sex = 1, maturity = 0, 
+            obs = round(index, 4), cv = round(se / index, 4), units = 2, timing = 0.5) -> eag_pre_cpue_index
+### post rationalized updated
+read_csv("./AIGKC/output/cpue_std/2025/may/post_eag_index.csv") %>%
+  transmute(series = 2,
+            year, season = 3, fleet = 1, sex = 1, maturity = 0, 
+            obs = round(index, 4), cv = round(se / index, 4), units = 2, timing = 0.5) -> eag_post_cpue_index
+## fish ticket index not updated
+read_csv("./AIGKC/output/cpue_std/eag_fish_tickets_85_98_std_index_may2024.csv") %>%
+  transmute(series = 3,
+            year, season = 3, fleet = 1, sex = 1, maturity = 0, 
+            obs = round(index, 4), cv = round(se / index, 4), units = 2, timing = 0.5) -> eag_ft_index
+
+## dimensions
+eag_dat$n_index_series <- 3
+eag_dat$n_index_rows <- nrow(eag_pre_cpue_index) + nrow(eag_post_cpue_index) + nrow(eag_ft_index)
+eag_dat$index <- bind_rows(eag_pre_cpue_index, eag_post_cpue_index, eag_ft_index)
 
 # wag
 
@@ -299,6 +339,25 @@ read_csv("./AIGKC/data/observer/2025/directed_observer_size_comp.csv") %>%
   left_join(read_csv("./AIGKC/data/observer/2025/observed_vessel_days.csv") %>%
               transmute(crab_year, fishery, neff = round(n_days))) %>% ungroup -> total_comp
 
+
+# eag
+retained_comp %>%
+  filter(fishery == "EAG") %>%
+  transmute(org_series = 1, year = crab_year,
+            season = 3, fleet = 1, sex = 1, type = 1, shell = 0, maturity = 0,
+            nsamp = neff, size = bin, obs =  sprintf("%.5f", prop)) -> eag_retained_comp
+total_comp %>%
+  filter(fishery == "EAG") %>%
+  transmute(org_series = 2, year = crab_year,
+            season = 3, fleet = 1, sex = 1, type = 0, shell = 0, maturity = 0,
+            nsamp = neff, size = bin, obs =  sprintf("%.5f", prop)) -> eag_total_comp
+
+## dimensions
+eag_dat$n_size_series <- 2
+eag_dat$n_size_rows <- c(length(unique(eag_retained_comp$year)), length(unique(eag_total_comp$year)))
+eag_dat$n_size_bin_series <- c(17, 17)
+eag_dat$size_comp <- bind_rows(eag_retained_comp, eag_total_comp)
+
 # wag
 retained_comp %>%
   filter(fishery == "WAG") %>%
@@ -338,7 +397,8 @@ read_csv("./AIGKC/data/observer/2025/retained_size_comp.csv") %>%
   mutate(prop  = n / nmeas) %>%
   # join to stage 1 neff
   group_by(fishery, crab_year) %>%
-  left_join(read_csv("./AIGKC/output/observer/length_comp_boot/retained_neff_boot_table_wag.csv") %>%
+  left_join(bind_rows(read_csv("./AIGKC/output/observer/length_comp_boot/retained_neff_boot_table_eag.csv"),
+                      read_csv("./AIGKC/output/observer/length_comp_boot/retained_neff_boot_table_wag.csv")) %>%
               transmute(crab_year, fishery, neff = round(neff_mean)),
             by = join_by(crab_year, fishery)) %>%
   mutate(neff = min(neff, 2000)) %>% ungroup -> retained_comp
@@ -347,7 +407,7 @@ read_csv("./AIGKC/data/observer/2025/retained_size_comp.csv") %>%
 
 read_csv("./AIGKC/data/observer/2025/directed_observer_size_comp.csv") %>%
   filter(size > 100,
-         !(fishery == "EAG" & crab_year != 1993)) %>%
+         !(fishery == "EAG" & crab_year == 1993)) %>%
   # add length bin
   mutate(bin = ceiling(size / 5) * 5 - 2,
          bin = ifelse(bin < 103, 103, bin),
@@ -363,10 +423,29 @@ read_csv("./AIGKC/data/observer/2025/directed_observer_size_comp.csv") %>%
   mutate(prop  = n / nmeas) %>%
   # join to stage 1 neff
   group_by(fishery, crab_year) %>%
-  left_join(read_csv("./AIGKC/output/observer/length_comp_boot/total_neff_boot_table_wag.csv") %>%
+  left_join(bind_rows(read_csv("./AIGKC/output/observer/length_comp_boot/total_neff_boot_table_eag.csv"),
+                      read_csv("./AIGKC/output/observer/length_comp_boot/total_neff_boot_table_wag.csv")) %>%
               transmute(crab_year, fishery, neff = round(neff_mean))) %>%
   mutate(neff = min(neff, 2000)) %>% ungroup -> total_comp
 
+
+# eag
+retained_comp %>%
+  filter(fishery == "EAG") %>%
+  transmute(org_series = 1, year = crab_year,
+            season = 3, fleet = 1, sex = 1, type = 1, shell = 0, maturity = 0,
+            nsamp = neff, size = bin, obs =  sprintf("%.5f", prop)) -> eag_retained_comp
+total_comp %>%
+  filter(fishery == "EAG") %>%
+  transmute(org_series = 2, year = crab_year,
+            season = 3, fleet = 1, sex = 1, type = 0, shell = 0, maturity = 0,
+            nsamp = neff, size = bin, obs =  sprintf("%.5f", prop)) -> eag_total_comp
+
+## dimensions
+eag_dat$n_size_series <- 2
+eag_dat$n_size_rows <- c(length(unique(eag_retained_comp$year)), length(unique(eag_total_comp$year)))
+eag_dat$n_size_bin_series <- c(17, 17)
+eag_dat$size_comp <- bind_rows(eag_retained_comp, eag_total_comp)
 
 # wag
 retained_comp %>%
@@ -387,6 +466,10 @@ wag_dat$n_size_bin_series <- c(17, 17)
 wag_dat$size_comp <- bind_rows(wag_retained_comp, wag_total_comp)
 
 # output dat file ----
+
+# eag
+gmacs_write_dat(eag_dat, "./AIGKC/models/2025/may/EAG/23.1c_complete/EAG_23_1c.dat")
+gmacs_write_dat(eag_dat, "./AIGKC/models/2025/may/EAG/25.0b/EAG_25_0b.dat")
 
 # wag
 gmacs_write_dat(wag_dat, "./AIGKC/models/2025/may/WAG/23.1c/WAG_23_1c.dat")

@@ -277,27 +277,6 @@ bind_rows(eag, wag) %>%
 # mesh ----
 
 ## eag
-
-obs %>% 
-  filter(subdistrict == "EAG",
-         lon < -164.7)  %>% 
-  ggplot()+
-  
-  geom_point(aes(x = lon, y = lat, color = factor(year)))+
-  geom_hline(yintercept = 53.65)+
-  geom_hline(yintercept = 51.75)+
-  #geom_sf(data = eag_land)+
-  #facet_wrap(~year, ncol = 4)+
-  theme(panel.spacing.x = unit(0, "lines"),
-        panel.spacing.y = unit(0, "lines"),
-        panel.border = element_rect(color = "grey30", fill = NA),
-        strip.background = element_blank(),
-        strip.text.x = element_blank(),
-        axis.ticks = element_blank(),
-        panel.background = element_blank(),
-        legend.position = "bottom",
-        legend.key.size = unit(0.25, "in"))
-
 init_eag_mesh <- make_mesh(eag, xy_cols = c("lon", "lat"), n_knots = 150, type = "kmeans")
 eag_mesh <- sdmTMBextra::add_barrier_mesh(
   spde_obj = init_eag_mesh,
@@ -307,7 +286,7 @@ eag_mesh <- sdmTMBextra::add_barrier_mesh(
 )
 
 # plot eag mesh
-as_tibble(eag_mesh$mesh$graph$tv) %>%
+{as_tibble(eag_mesh$mesh$graph$tv) %>%
   mutate(tv = row_number()) %>%
   pivot_longer(1:3, names_to = "corner", values_to = "V") %>%
   left_join(eag_mesh$mesh$loc %>%
@@ -324,8 +303,8 @@ as_tibble(eag_mesh$mesh$graph$tv) %>%
   group_by(tv) %>%  
   summarise(do_union = FALSE) %>% 
   st_cast("POLYGON")  %>%  
-  st_cast("MULTIPOLYGON") %>%
-  {tmp <- .; tmp} %>%
+  st_cast("MULTIPOLYGON") -> eag_mesh_sf
+  eag_mesh_sf %>%
   ggplot()+
   geom_point(data = eag, aes(x = lon, y = lat), color = "grey60", size = 0.2)+
   geom_sf(fill = NA, color = "grey70")+
@@ -334,6 +313,7 @@ as_tibble(eag_mesh$mesh$graph$tv) %>%
   theme(axis.text = element_blank(),
         #axis.ticks = element_blank(),
         plot.title = element_text(hjust = 0.5)) -> eag_mesh_p
+  }
 
 ## wag
 init_wag_mesh <- make_mesh(wag, xy_cols = c("lon", "lat"), n_knots = 150, type = "kmeans")
@@ -362,7 +342,7 @@ as_tibble(wag_mesh$mesh$graph$tv) %>%
   group_by(tv) %>%  
   summarise(do_union = FALSE) %>% 
   st_cast("POLYGON")  %>%  
-  st_cast("MULTIPOLYGON") %>%
+  st_cast("MULTIPOLYGON") -> wag_mesh_sf
   ggplot()+
   geom_point(data = wag, aes(x = lon, y = lat), color = "grey60", size = 0.2)+
   geom_sf(fill = NA, color = "grey70")+
@@ -372,23 +352,21 @@ as_tibble(wag_mesh$mesh$graph$tv) %>%
         #axis.ticks = element_blank(),
         plot.title = element_text(hjust = 0.5)) -> wag_mesh_p
 
-eag_mesh_p / wag_mesh_p
-
 ggsave("./AIGKC/figures/cpue_std/2025/may/mesh.png", plot = eag_mesh_p / wag_mesh_p, height = 6, width = 6, units = "in")
 
 # eag fit ----
 
 ## Null
-eag_fit_null <- sdmTMB(
-  cpue ~ 0 + fyear,
-  data = eag,
-  mesh = eag_mesh,
-  time = "year",
-  spatial = "on",
-  spatiotemporal = "iid",
-  family = tweedie(link = "log")
-)
-saveRDS(eag_fit_null, "./AIGKC/output/cpue_std/2025/may/eag_fit_null.RDS")
+# eag_fit_null <- sdmTMB(
+#   cpue ~ 0 + fyear,
+#   data = eag,
+#   mesh = eag_mesh,
+#   time = "year",
+#   spatial = "on",
+#   spatiotemporal = "iid",
+#   family = tweedie(link = "log")
+# )
+# saveRDS(eag_fit_null, "./AIGKC/output/cpue_std/2025/may/eag_fit_null.RDS")
 eag_fit_null <- readRDS("./AIGKC/output/cpue_std/2025/may/eag_fit_null.RDS")
 
 ## Null + adfg
@@ -454,7 +432,7 @@ eag_fit_3_soakyr <- readRDS("./AIGKC/output/cpue_std/2025/may/eag_fit_3_soakyr.R
 #   family = tweedie(link = "log")
 # )
 # saveRDS(eag_fit_full, "./AIGKC/output/cpue_std/2025/may/eag_fit_full.RDS")
-eag_fit_full <- readRDS("./AIGKC/output/cpue_std/2025/jan/eag_fit_full.RDS")
+eag_fit_full <- readRDS("./AIGKC/output/cpue_std/2025/may/eag_fit_full.RDS")
 
 
 ## Null + adfg + gearcode + soaktime + depth GLMM
@@ -483,7 +461,7 @@ eag_fit_full_glmm <- readRDS("./AIGKC/output/cpue_std/2025/may/eag_fit_full_glmm
 # saveRDS(eag_fit_full_soakyr, "./AIGKC/output/cpue_std/2025/may/eag_fit_full_soakyr.RDS")
 eag_fit_full_soakyr <- readRDS("./AIGKC/output/cpue_std/2025/may/eag_fit_full_soakyr.RDS")
 
-
+sanity(eag_fit_full_soakyr)
 
 # wag fit ----
 
@@ -582,17 +560,18 @@ wag_fit_full_glmm <- readRDS("./AIGKC/output/cpue_std/2025/may/wag_fit_full_glmm
 
 
 ## Null + adfg + gearcode + soaktime + depth
-# wag_fit_full_soakyr <- sdmTMB(
-#   cpue ~ 0 + fyear + (1 | adfg) + s(depth) + s(soaktime, by = fyear) + gearcode,
-#   data = wag,
-#   mesh = wag_mesh,
-#   time = "year",
-#   spatial = "on",
-#   spatiotemporal = "iid",
-#   family = tweedie(link = "log")
-# )
-# saveRDS(wag_fit_full_soakyr, "./AIGKC/output/cpue_std/2025/may/wag_fit_full_soakyr.RDS")
-wag_fit_full_soakyr <- readRDS("./AIGKC/output/cpue_std/2025/may/wag_fit_full_soakyr.RDS")
+wag_fit_full_soakyr <- sdmTMB(
+  cpue ~ 0 + fyear + (1 | adfg) + s(depth) + s(soaktime, by = fyear) + gearcode,
+  data = wag,
+  mesh = wag_mesh,
+  time = "year",
+  spatial = "on",
+  spatiotemporal = "iid",
+  family = tweedie(link = "log"),
+  control = sdmTMBcontrol(nlminb_loops = 2)
+)
+saveRDS(wag_fit_full_soakyr, "./AIGKC/output/cpue_std/2025/may/wag_fit_full_soakyr.RDS")
+# wag_fit_full_soakyr <- readRDS("./AIGKC/output/cpue_std/2025/may/wag_fit_full_soakyr.RDS")
 
 
 
@@ -611,7 +590,7 @@ rf <- patchwork::wrap_elements(panel = ~plotResiduals(dharma_eag_full, smoothSca
 ggsave("./AIGKC/figures/cpue_std/2025/may/dharma_eag_full.png", plot = (qq + rf), height = 4, width = 8, units = "in")
 
 # full st model iid soakyr
-eag_full_tw_sim <- simulate(eag_fit_full_soakyr, nsim = 500, type = "mle-mvn")
+eag_full_tw_sim_soakyr <- simulate(eag_fit_full_soakyr, nsim = 500, type = "mle-mvn")
 dharma_eag_full_soakyr <- dharma_residuals(eag_full_tw_sim_soakyr, eag_fit_full_soakyr, return_DHARMa = TRUE)
 # make qq plot of simulatied residuals
 qq <- patchwork::wrap_elements(panel = ~plotQQunif(dharma_eag_full_soakyr, testUniformity = F, testOutliers = F, testDispersion = F, cex = 0.2), clip = F)
@@ -643,13 +622,13 @@ rf <- patchwork::wrap_elements(panel = ~plotResiduals(dharma_wag_full, smoothSca
 ggsave("./AIGKC/figures/cpue_std/2025/may/dharma_wag_full.png", plot = (qq + rf), height = 4, width = 8, units = "in")
 
 # full st model iid with soakyr
-wag_full_soakyr_sim <- simulate(wag_fit_full_soakyr, nsim = 500, type = "mle-mvn")
-dharma_wag_full_soakyr <- dharma_residuals(wag_full_soakyr_sim, wag_fit_full_soakyr, return_DHARMa = TRUE)
-# make qq plot of simulatied residuals
-qq <- patchwork::wrap_elements(panel = ~plotQQunif(dharma_wag_full_soakyr, testUniformity = F, testOutliers = F, testDispersion = F, cex = 0.2), clip = F)
-# plot residuals against ranked model predictions
-rf <- patchwork::wrap_elements(panel = ~plotResiduals(dharma_wag_full_soakyr, smoothScatter = F, cex = 0.2, pch = 16), clip = F)
-ggsave("./AIGKC/figures/cpue_std/2025/may/dharma_wag_full_soakyr.png", plot = (qq + rf), height = 4, width = 8, units = "in")
+# wag_full_soakyr_sim <- simulate(wag_fit_full_soakyr, nsim = 500, type = "mle-mvn")
+# dharma_wag_full_soakyr <- dharma_residuals(wag_full_soakyr_sim, wag_fit_full_soakyr, return_DHARMa = TRUE)
+# # make qq plot of simulatied residuals
+# qq <- patchwork::wrap_elements(panel = ~plotQQunif(dharma_wag_full_soakyr, testUniformity = F, testOutliers = F, testDispersion = F, cex = 0.2), clip = F)
+# # plot residuals against ranked model predictions
+# rf <- patchwork::wrap_elements(panel = ~plotResiduals(dharma_wag_full_soakyr, smoothScatter = F, cex = 0.2, pch = 16), clip = F)
+# ggsave("./AIGKC/figures/cpue_std/2025/may/dharma_wag_full_soakyr.png", plot = (qq + rf), height = 4, width = 8, units = "in")
 
 # full glmm
 wag_full_glmm_tw_sim <- simulate(wag_fit_full_glmm, nsim = 500, type = "mle-mvn")
@@ -665,17 +644,17 @@ ggsave("./AIGKC/figures/cpue_std/2025/may/dharma_wag_full_glmm.png", plot = (qq 
 
 ## eag
 # gearcode
-ggpredict(eag_fit_full, terms = "gearcode[all]") 
-  as_tibble() %>%
-  mutate(x = case_when(x == 5 ~ "5x5",
-                       x == 6 ~ "6x6",
-                       x == 7 ~ "7x7",
-                       x == 12 ~ "Round")) %>%
+visreg::visreg(eag_fit_full, xvar = "gearcode", plot = F)$fit %>% 
+  mutate(gearcode = case_when(gearcode == 5 ~ "5x5",
+                              gearcode == 6 ~ "6x6",
+                              gearcode == 7 ~ "7x7",
+                              gearcode == 8 ~ "8x8",
+                              gearcode == 12 ~ "Round")) %>%
   ggplot()+
-  geom_errorbar(aes(x = x, ymin = conf.low, ymax = conf.high), width = 0)+
-  geom_point(aes(x = x, y = predicted), fill = "black")+
+  geom_errorbar(aes(x = gearcode, ymin = visregLwr, ymax = visregUpr), width = 0)+
+  geom_point(aes(x = gearcode, y = visregFit), fill = "black")+
   labs(x = "Pot Size", y = "CPUE")  -> p1
-ggsave("./AIGKC/figures/cpue_std/2025/jan/eag_full_gearcode_effect.png", plot = p1, height = 3, width = 4, units = "in")
+ggsave("./AIGKC/figures/cpue_std/2025/may/eag_full_gearcode_effect.png", plot = p1, height = 3, width = 4, units = "in")
 
 # soaktime - conditional effect
 visreg::visreg(eag_fit_full, xvar = "soaktime", plot = F)$fit %>%
@@ -684,7 +663,7 @@ visreg::visreg(eag_fit_full, xvar = "soaktime", plot = F)$fit %>%
   geom_line(aes(x = soaktime/24, y = visregFit))+
   scale_x_continuous(labels = scales::comma)+
   labs(x = "Soak Time (days)", y = "f(Soak Time)") -> p2
-ggsave("./AIGKC/figures/cpue_std/2025/jan/eag_full_soaktime_effect.png", plot = p2, height = 3, width = 4, units = "in")
+ggsave("./AIGKC/figures/cpue_std/2025/may/eag_full_soaktime_effect.png", plot = p2, height = 3, width = 4, units = "in")
 
 #depth - conditional effect
 visreg::visreg(eag_fit_full, xvar = "depth", plot = F)$fit %>%
@@ -693,14 +672,14 @@ visreg::visreg(eag_fit_full, xvar = "depth", plot = F)$fit %>%
   geom_line(aes(x = depth, y = visregFit))+
   scale_x_continuous(labels = scales::comma)+
   labs(x = "Depth (fa)", y = "f(Depth)") -> p3
-ggsave("./AIGKC/figures/cpue_std/2025/jan/eag_full_depth_effect.png", plot = p3, height = 3, width = 4, units = "in")
+ggsave("./AIGKC/figures/cpue_std/2025/may/eag_full_depth_effect.png", plot = p3, height = 3, width = 4, units = "in")
 
-ggsave("./AIGKC/figures/cpue_std/2025/jan/eag_full_covar_effects.png", plot = (p1 + p2) / (p3 + plot_spacer()), height = 8, width = 8, units = "in")
+ggsave("./AIGKC/figures/cpue_std/2025/may/eag_full_covar_effects.png", plot = (p1 + p2) / (p3 + plot_spacer()), height = 8, width = 8, units = "in")
 
 # soaktime by fyear - conditional effect
 eag_soakyr_grid <- expand_grid(as_tibble(eag_mesh$mesh$loc[, 1:2]) %>% rename_all(~c("lon", "lat")) %>% dplyr::slice(1),
                                depth = mean(eag_fit_full_soakyr$data$depth),
-                               soaktime = seq(min(wag_fit_full_soakyr$data$soaktime), max(eag_fit_full_soakyr$data$soaktime), by = 10),
+                               soaktime = seq(min(eag_fit_full_soakyr$data$soaktime), max(eag_fit_full_soakyr$data$soaktime), by = 10),
                                adfg = factor(names(sort(-table(eag_fit_full_soakyr$data$adfg)))[1]),
                                gearcode = factor(names(sort(-table(eag_fit_full_soakyr$data$gearcode)))[1]),
                                eag_fit_full_soakyr$data %>%
@@ -714,7 +693,7 @@ eag_soakyr_pred$data %>%
   geom_text_npc(aes(npcx = "right", npcy = 0.9, label = year),
                 check_overlap = T, size = 3)+
   scale_x_continuous(labels = scales::comma)+
-  labs(x = "Soak Time (hr)", y = "f(Depth)")+
+  labs(x = "Soak Time (hr)", y = "f(Soak Time)")+
   facet_wrap(~fyear)+
   theme(panel.spacing.x = unit(0, "lines"),
         panel.spacing.y = unit(0, "lines"),
@@ -809,7 +788,7 @@ tibble(adfg = sort(unique(eag$adfg)),
   geom_point(aes(x = adfg, y = ranef), fill = "black")+
   labs(x = "Vessel (ADFG Number)", y = "CPUE")+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) -> x
-ggsave("./AIGKC/figures/cpue_std/2025/jan/eag_full_adfg_ranef.png", plot = x, height = 3, width = 4, units = "in")
+ggsave("./AIGKC/figures/cpue_std/2025/may/eag_full_adfg_ranef.png", plot = x, height = 3, width = 4, units = "in")
 
 # wag
 tibble(adfg = sort(unique(wag$adfg)),
@@ -840,10 +819,12 @@ ggsave("./AIGKC/figures/cpue_std/2025/may/wag_full_soakyr_adfg_ranef.png", plot 
 
 # eag make predictions ----
 
+as_tibble(eag_mesh$mesh$loc[, 1:2]) %>% rename_all(~c("lon", "lat")) -> eag_mesh_latlon
+
 ## eag
 # prediction grid for full  model
-eag_full_grid <- expand_grid(lon = seq(min(eag_fit_full$data$lon), max(eag_fit_full$data$lon), by = 10),
-                       lat = seq(min(eag_fit_full$data$lat), max(eag_fit_full$data$lat), by = 10),
+eag_full_grid <- expand_grid(lon = seq(min(eag_mesh_latlon$lon), max(eag_mesh_latlon$lon), length.out = 25),
+                             lat = seq(min(eag_mesh_latlon$lat), max(eag_mesh_latlon$lat), length.out = 15),
                        depth = mean(eag_fit_full$data$depth),
                        soaktime = mean(eag_fit_full$data$soaktime),
                        eag_fit_full$data %>%
@@ -870,16 +851,20 @@ eag3_pred <- predict(eag_fit_3,
 
 # full model predictions                        
 eag_full_pred <- predict(eag_fit_full, newdata = eag_full_grid, return_tmb_object = T)
+eag_full_pred$data$est_se <- predict(eag_fit_full, newdata = eag_full_grid, nsim = 500) %>% apply(., 1, sd)
 
 # full soakyr model predictions                        
-eag_full_soakyr_pred <- predict(eag_fit_full_soakyr, newdata = eag_full_grid, return_tmb_object = T)
+eag_full_soakyr_pred <- predict(eag_fit_full_soakyr, newdata = eag_full_grid, return_tmb_object = T, se_fit = F)
+eag_full_soakyr_pred$data$est_se <- predict(eag_fit_full_soakyr, newdata = eag_full_grid, nsim = 500) %>% apply(., 1, sd)
 
 
 # wag make predictions ----
 
+as_tibble(wag_mesh$mesh$loc[, 1:2]) %>% rename_all(~c("lon", "lat")) -> wag_mesh_latlon
+
 # prediction grid for full  model
-wag_full_grid <- expand_grid(lon = seq(min(wag_fit_full$data$lon), max(wag_fit_full$data$lon), by = 10),
-                         lat = seq(min(wag_fit_full$data$lat), max(wag_fit_full$data$lat), by = 10),
+wag_full_grid <- expand_grid(lon = seq(min(wag_mesh_latlon$lon), max(wag_mesh_latlon$lon), length.out = 55),
+                             lat = seq(min(wag_mesh_latlon$lat), max(wag_mesh_latlon$lat), length.out = 25),
                          depth = mean(wag_fit_full$data$depth),
                          soaktime = mean(wag_fit_full$data$soaktime),
                          wag_fit_full$data %>%
@@ -906,9 +891,12 @@ wag3_pred <- predict(wag_fit_3,
 
 # full model predictions                        
 wag_full_pred <- predict(wag_fit_full, newdata = wag_full_grid, return_tmb_object = T)
+wag_full_pred$data$est_se <- predict(wag_fit_full, newdata = wag_full_grid, nsim = 500) %>% apply(., 1, sd)
 
 # full soakyr model predictions                        
-wag_full_soakyr_pred <- predict(wag_fit_full_soakyr, newdata = wag_full_grid, return_tmb_object = T)
+# wag_full_soakyr_pred <- predict(wag_fit_full_soakyr, newdata = wag_full_grid, return_tmb_object = T)
+# wag_full_soakyr_pred$data$est_se <- predict(wag_fit_full_soakyr, newdata = wag_full_grid, nsim = 500) %>% apply(., 1, sd)
+
 
 # spatial residual patterns ----
 
@@ -949,12 +937,12 @@ ggplot()+
         panel.background = element_blank(),
         legend.position = "bottom",
         legend.key.size = unit(0.25, "in")) -> x
-ggsave("./AIGKC/figures/cpue_std/2025/jan/eag_full_soakyr_spatial_residuals.png", plot = x, height = 8, width = 8, units = "in")
+ggsave("./AIGKC/figures/cpue_std/2025/may/eag_full_soakyr_spatial_residuals.png", plot = x, height = 8, width = 8, units = "in")
 
 
 ## wag
 # add residuals from full model
-wag$residuals <- residuals(wag_fit_full_soakyr) 
+wag$residuals <- residuals(wag_fit_full) 
 
 wag %>% 
   st_as_sf(coords = c("lon", "lat")) %>%
@@ -989,7 +977,7 @@ wag %>%
         panel.background = element_blank(),
         legend.position = "bottom",
         legend.key.size = unit(0.25, "in")) -> x
-ggsave("./AIGKC/figures/cpue_std/2025/may/wag_full_soakyr_spatial_residuals.png", plot = x, height = 8, width = 8, units = "in")
+ggsave("./AIGKC/figures/cpue_std/2025/may/wag_full_spatial_residuals.png", plot = x, height = 8, width = 8, units = "in")
 
 # spatial effects ----
 
@@ -997,6 +985,8 @@ ggsave("./AIGKC/figures/cpue_std/2025/may/wag_full_soakyr_spatial_residuals.png"
 # est
 ggplot(eag_full_soakyr_pred$data)+
   geom_raster(aes(x = lon, y = lat, fill = exp(est)))+
+  geom_sf(data = eag_mesh_sf, fill = NA, color = "grey70")+
+  geom_point(data = eag, aes(x = lon, y = lat), size = 0.2)+
   geom_sf(data = eag_land)+
   scale_fill_viridis_c()+
   coord_sf(expand = 0, ylim = c(NA, max(eag_full_pred$data$lat)), xlim = c(NA, max(eag_full_pred$data$lon)))+
@@ -1014,16 +1004,18 @@ ggplot(eag_full_soakyr_pred$data)+
         panel.background = element_blank(),
         legend.position = "bottom",
         legend.key.size = unit(0.25, "in")) -> x
-ggsave("./AIGKC/figures/cpue_std/2025/jan/eag_full_soakyr_spatial_effect.png", plot = x, height = 8, width = 8, units = "in")
+ggsave("./AIGKC/figures/cpue_std/2025/may/eag_full_soakyr_spatial_effect.png", plot = x, height = 8, width = 8, units = "in")
 
-# est
+# se
 ggplot(eag_full_soakyr_pred$data)+
-  geom_raster(aes(x = lon, y = lat, fill = est))+
+  geom_raster(aes(x = lon, y = lat, fill = est_se))+
+  geom_sf(data = eag_mesh_sf, fill = NA, color = "grey70")+
+  geom_point(data = eag, aes(x = lon, y = lat), size = 0.1)+
   geom_sf(data = eag_land)+
   scale_fill_viridis_c()+
   coord_sf(expand = 0, ylim = c(NA, max(eag_full_pred$data$lat)), xlim = c(NA, max(eag_full_pred$data$lon)))+
   facet_wrap(~year, ncol = 4)+
-  labs(x = NULL, y = NULL)+
+  labs(x = NULL, y = NULL, fill = "SE")+
   geom_text_npc(aes(npcx = "left", npcy = 0.9, label = year),
                 check_overlap = T, size = 3, color = "white")+
   theme(panel.spacing.x = unit(0, "lines"),
@@ -1036,7 +1028,7 @@ ggplot(eag_full_soakyr_pred$data)+
         panel.background = element_blank(),
         legend.position = "bottom",
         legend.key.size = unit(0.25, "in")) -> x
-ggsave("./AIGKC/figures/cpue_std/2025/jan/eag_full_soakyr_spatial_effect_log.png", plot = x, height = 8, width = 8, units = "in")
+ggsave("./AIGKC/figures/cpue_std/2025/may/eag_full_soakyr_spatial_se.png", plot = x, height = 8, width = 8, units = "in")
 
 # omega_s
 eag_full_soakyr_pred$data %>%
@@ -1055,8 +1047,9 @@ eag_full_soakyr_pred$data %>%
         axis.text = element_blank(),
         axis.ticks = element_blank(),
         panel.background = element_blank(),
-        legend.position = "bottom") -> x
-ggsave("./AIGKC/figures/cpue_std/2025/jan/eag_full_soakyr_spatial_ranef.png", plot = x, height = 3, width = 5, units = "in")
+        legend.position = "bottom",
+        legend.text = element_text(size = 5)) -> x
+ggsave("./AIGKC/figures/cpue_std/2025/may/eag_full_soakyr_spatial_ranef.png", plot = x, height = 3, width = 6, units = "in")
 
 # epsilon_st
 ggplot(eag_full_soakyr_pred$data)+
@@ -1078,7 +1071,7 @@ ggplot(eag_full_soakyr_pred$data)+
         panel.background = element_blank(),
         legend.position = "bottom",
         legend.key.size = unit(0.25, "in")) -> x
-ggsave("./AIGKC/figures/cpue_std/2025/jan/eag_full_soakyr_spatiotemporal_ranef.png", plot = x, height = 8, width = 8, units = "in")
+ggsave("./AIGKC/figures/cpue_std/2025/may/eag_full_soakyr_spatiotemporal_ranef.png", plot = x, height = 8, width = 8, units = "in")
 
 # ggplot(eag_full_iid_pred$data)+
 #   geom_raster(aes(x = lon, y = lat, fill = epsilon_st))+
@@ -1104,11 +1097,13 @@ ggsave("./AIGKC/figures/cpue_std/2025/jan/eag_full_soakyr_spatiotemporal_ranef.p
 
 ## wag
 # est
-ggplot(wag_full_soakyr_pred$data)+
+ggplot(wag_full_pred$data)+
   geom_raster(aes(x = lon, y = lat, fill = exp(est)))+
-  geom_sf(data = wag_land)+
+  geom_sf(data = wag_mesh_sf, fill = NA, color = "grey70")+
+  geom_point(data = wag, aes(x = lon, y = lat), size = 0.2)+
+ # geom_sf(data = wag_land)+
   scale_fill_viridis_c()+
-  coord_sf(expand = 0, ylim = c(NA, max(wag_full_soakyr_pred$data$lat)), xlim = c(NA, max(wag_full_soakyr_pred$data$lon)))+
+  #coord_sf(expand = 0, ylim = c(NA, max(wag_mesh_sf$data$lat)), xlim = c(NA, max(wag_full_pred$data$lon)))+
   facet_wrap(~year, ncol = 4)+
   labs(x = NULL, y = NULL)+
   geom_text_npc(aes(npcx = "left", npcy = 0.9, label = year),
@@ -1123,16 +1118,18 @@ ggplot(wag_full_soakyr_pred$data)+
         panel.background = element_blank(),
         legend.position = "bottom",
         legend.key.size = unit(0.25, "in")) -> x
-ggsave("./AIGKC/figures/cpue_std/2025/may/wag_full_soakyr_spatial_effect.png", plot = x, height = 8, width = 8, units = "in")
+ggsave("./AIGKC/figures/cpue_std/2025/may/wag_full_spatial_effect.png", plot = x, height = 8, width = 8, units = "in")
 
-# est
-ggplot(wag_full_soakyr_pred$data)+
-  geom_raster(aes(x = lon, y = lat, fill = est))+
+# se
+ggplot(wag_full_pred$data)+
+  geom_raster(aes(x = lon, y = lat, fill = est_se))+
+  geom_sf(data = wag_mesh_sf, fill = NA, color = "grey70")+
+  geom_point(data = wag, aes(x = lon, y = lat), size = 0.1)+
   geom_sf(data = wag_land)+
   scale_fill_viridis_c()+
   coord_sf(expand = 0, ylim = c(NA, max(wag_full_pred$data$lat)), xlim = c(NA, max(wag_full_pred$data$lon)))+
   facet_wrap(~year, ncol = 4)+
-  labs(x = NULL, y = NULL)+
+  labs(x = NULL, y = NULL, fill = "SE")+
   geom_text_npc(aes(npcx = "left", npcy = 0.9, label = year),
                 check_overlap = T, size = 3, color = "white")+
   theme(panel.spacing.x = unit(0, "lines"),
@@ -1145,16 +1142,17 @@ ggplot(wag_full_soakyr_pred$data)+
         panel.background = element_blank(),
         legend.position = "bottom",
         legend.key.size = unit(0.25, "in")) -> x
-ggsave("./AIGKC/figures/cpue_std/2025/may/wag_full_soakyr_spatial_effect_log.png", plot = x, height = 8, width = 8, units = "in")
+ggsave("./AIGKC/figures/cpue_std/2025/may/wag_full_spatial_se.png", plot = x, height = 8, width = 8, units = "in")
 
 # omega_s
-wag_full_soakyr_pred$data %>%
+wag_full_pred$data %>%
   distinct(lon, lat, omega_s) %>%
   ggplot()+
   geom_raster(aes(x = lon, y = lat, fill = omega_s))+
+  #geom_sf(data = wag_mesh_sf, fill = NA, color = "grey70")+
   geom_sf(data = wag_land)+
   scale_fill_gradient2()+
-  coord_sf(expand = 0, ylim = c(NA, max(wag_full_soakyr_pred$data$lat)), xlim = c(NA, max(wag_full_soakyr_pred$data$lon)))+
+  #coord_sf(expand = 0, ylim = c(NA, max(wag_full_pred$data$lat)), xlim = c(NA, max(wag_full_pred$data$lon)))+
   labs(x = NULL, y = NULL)+
   theme(panel.spacing.x = unit(0, "lines"),
         panel.spacing.y = unit(0, "lines"),
@@ -1164,15 +1162,17 @@ wag_full_soakyr_pred$data %>%
         axis.text = element_blank(),
         axis.ticks = element_blank(),
         panel.background = element_blank(),
-        legend.position = "bottom") -> x
-ggsave("./AIGKC/figures/cpue_std/2025/may/wag_full_soakyr_spatial_ranef.png", plot = x, height = 3, width = 5, units = "in")
+        legend.position = "bottom",
+        legend.text = element_text(size = 5)) -> x
+ggsave("./AIGKC/figures/cpue_std/2025/may/wag_full_spatial_ranef.png", plot = x, height = 3, width = 5, units = "in")
 
 # epsilon_st
-ggplot(wag_full_soakyr_pred$data)+
+ggplot(wag_full_pred$data)+
   geom_raster(aes(x = lon, y = lat, fill = epsilon_st))+
   geom_sf(data = wag_land)+
+  #geom_sf(data = wag_mesh_sf, fill = NA, color = "grey70")+
   scale_fill_gradient2()+
-  coord_sf(expand = 0, ylim = c(NA, max(wag_full_soakyr_pred$data$lat)), xlim = c(NA, max(wag_full_soakyr_pred$data$lon)))+
+  #coord_sf(expand = 0, ylim = c(NA, max(wag_full_pred$data$lat)), xlim = c(NA, max(wag_full_pred$data$lon)))+
   facet_wrap(~year, ncol = 4)+
   labs(x = NULL, y = NULL)+
   geom_text_npc(aes(npcx = "left", npcy = 0.9, label = year),
@@ -1187,7 +1187,7 @@ ggplot(wag_full_soakyr_pred$data)+
         panel.background = element_blank(),
         legend.position = "bottom",
         legend.key.size = unit(0.25, "in")) -> x
-ggsave("./AIGKC/figures/cpue_std/2025/may/wag_full_soakyr_spatiotemporal_ranef.png", plot = x, height = 8, width = 8, units = "in")
+ggsave("./AIGKC/figures/cpue_std/2025/may/wag_full_spatiotemporal_ranef.png", plot = x, height = 8, width = 8, units = "in")
 
 # ggplot(wag_full_iid_pred$data)+
 #   geom_raster(aes(x = lon, y = lat, fill = epsilon_st))+
@@ -1248,21 +1248,7 @@ get_index(predict(eag_fit_1,
          var = "+ (1 | Vessel)",
          order = 2) -> eag1_index_mesh
 
-# null + adfg index, time only
-get_index(predict(eag_fit_1_t, 
-                  newdata =  mesh_grid %>%
-                    distinct(lon, lat, fyear, year, adfg), 
-                  return_tmb_object = T), 
-          area = 1, bias_correct = T) %>%
-  mutate(index = exp(log_est - mean(log_est)),
-         cv = se / log_est,
-         l95 = index * exp(-1.96 * sqrt(log(1 + cv^2))),
-         u95 = index * exp(1.96 * sqrt(log(1 + cv^2))),
-         var = "+ (1 | Vessel)",
-         order = 2) -> eag1_index_mesh_t
-
 # null + adfg + gearcode index
-# null + adfg index
 get_index(predict(eag_fit_2, 
                   newdata =  mesh_grid %>%
                     distinct(lon, lat, fyear, year, adfg, gearcode), 
@@ -1327,17 +1313,21 @@ get_index(predict(eag_fit_full_soakyr,
          u95 = index * exp(1.96 * sqrt(log(1 + cv^2))),
          var = "+ s(depth)",
          which = "soakyr",
-         order = 5) -> eag_index_full_soakyrmesh
+         order = 5) -> eag_index_full_soakyr_mesh
+
+# write and read index by model
+bind_rows(eag_index_null_mesh, eag1_index_mesh, eag2_index_mesh, eag3_index_mesh, eag3_soakyr_index_mesh, eag_index_full_mesh, eag_index_full_soakyr_mesh) %>%
+  write_csv("./AIGKC/output/cpue_std/2025/may/eag_st_index_mesh.RDS")
+eag_index_mesh <- read_csv("./AIGKC/output/cpue_std/2025/may/eag_st_index_mesh.RDS")
 
 eag_index_full_mesh %>%
   transmute(year, index, cv, l95, u95) %>%
-  write_csv("./AIGKC/output/cpue_std/2025/jan/eag_st_ar1_index_mesh.csv")
-eag_index_full_mesh <- read_csv("./AIGKC/output/cpue_std/2025/jan/eag_st_ar1_index_mesh.csv")
+  write_csv("./AIGKC/output/cpue_std/2025/may/eag_st_index_mesh.csv")
 
-# write and read index by model
-bind_rows(eag_index_null_mesh, eag1_index_mesh, eag2_index_mesh, eag3_index_mesh, eag_index_full_mesh) %>%
-  write_csv("./AIGKC/output/cpue_std/2025/jan/eag_st_index_mesh.RDS")
-eag_index_mesh <- read_csv("./AIGKC/output/cpue_std/2025/jan/eag_st_index_mesh.RDS")
+eag_index_full_soakyr_mesh %>%
+  transmute(year, index, cv, l95, u95) %>%
+  write_csv("./AIGKC/output/cpue_std/2025/may/eag_index_full_soakyr_mesh.csv")
+
 
 # step plot
 tibble(mod1 = c(NA, "Year", "+ (1 | Vessel)", "+ Gear", "+ s(soaktime)"),
@@ -1368,7 +1358,8 @@ tibble(mod1 = c(NA, "Year", "+ (1 | Vessel)", "+ Gear", "+ s(soaktime)"),
         strip.background = element_blank(),
         strip.text.x = element_blank(),
         panel.background = element_blank()) -> x
-ggsave("./AIGKC/figures/cpue_std/2025/jan/eag_step_index_mesh.png", plot = x, height = 8, width = 5, units = "in")
+ggsave("./AIGKC/figures/cpue_std/2025/may/eag_step_index_mesh.png", plot = x, height = 8, width = 5, units = "in")
+
 
 # extract index of GLMM and plot with nominal CPUE
 ## nominal index 
@@ -1392,16 +1383,18 @@ get_index(predict(eag_fit_full_glmm,
          cv = se / log_est,
          l95 = index * exp(-1.96 * sqrt(log(1 + cv^2))),
          u95 = index * exp(1.96 * sqrt(log(1 + cv^2))),
-         type = "GLMM") %>%
+         type = "GAMM") %>%
   transmute(year, type, index, cv, l95, u95) -> eag_index_full_glmm_mesh
 
 
 ## plot of full index with and without spatial effect
 eag_index_full_mesh %>%
-  mutate(type = "ST GLMM") %>%
+  mutate(type = "ST GAMM") %>%
+  bind_rows(eag_index_full_soakyr_mesh %>%
+              mutate(type = "ST GAMM + s(soaktime:year)")) %>%
   bind_rows(eag_nominal_index) %>%
   bind_rows(eag_index_full_glmm_mesh) %>%
-  mutate(type = factor(type, levels = c("Nominal", "GLMM", "ST GLMM"))) %>%
+  mutate(type = factor(type, levels = c("Nominal", "GAMM", "ST GAMM", "ST GAMM + s(soaktime:year)"))) %>%
   ggplot()+
   geom_line(aes(x = year, y = index, color = type))+
   labs(x = NULL, y = "Index", color = NULL)+
@@ -1409,7 +1402,7 @@ eag_index_full_mesh %>%
   scale_color_manual(values = cbpalette)+
   theme(legend.position = c(0, 1), 
         legend.justification = c(0, 1)) -> x
-ggsave("./AIGKC/figures/cpue_std/2025/jan/eag_full_index_comparison.png", plot = x, height = 3, width = 5, units = "in")
+ggsave("./AIGKC/figures/cpue_std/2025/may/eag_full_index_comparison.png", plot = x, height = 3, width = 5, units = "in")
 
 
 # wag extract index ----
@@ -1476,18 +1469,18 @@ get_index(predict(wag_fit_3,
          order = 4) -> wag3_index_mesh
 
 # null + adfg + gearcode + soaktime:year index
-get_index(predict(wag_fit_3_soakyr, 
-                  newdata =  mesh_grid %>%
-                    distinct(lon, lat, fyear, year, adfg, gearcode, soaktime), 
-                  return_tmb_object = T), 
-          area = 1, bias_correct = T) %>%
-  mutate(index = exp(log_est - mean(log_est)),
-         cv = se / log_est,
-         l95 = index * exp(-1.96 * sqrt(log(1 + cv^2))),
-         u95 = index * exp(1.96 * sqrt(log(1 + cv^2))),
-         var = "+ s(soaktime)",
-         which = "soakyr",
-         order = 4) -> wag3_soakyr_index_mesh
+# get_index(predict(wag_fit_3_soakyr, 
+#                   newdata =  mesh_grid %>%
+#                     distinct(lon, lat, fyear, year, adfg, gearcode, soaktime), 
+#                   return_tmb_object = T), 
+#           area = 1, bias_correct = T) %>%
+#   mutate(index = exp(log_est - mean(log_est)),
+#          cv = se / log_est,
+#          l95 = index * exp(-1.96 * sqrt(log(1 + cv^2))),
+#          u95 = index * exp(1.96 * sqrt(log(1 + cv^2))),
+#          var = "+ s(soaktime)",
+#          which = "soakyr",
+#          order = 4) -> wag3_soakyr_index_mesh
 
 # full index
 get_index(predict(wag_fit_full, 
@@ -1503,21 +1496,21 @@ get_index(predict(wag_fit_full,
          order = 5) -> wag_index_full_mesh
 
 # full soakyr index
-get_index(predict(wag_fit_full_soakyr, 
-                  newdata =  mesh_grid %>%
-                    distinct(lon, lat, fyear, year, adfg, gearcode, soaktime, depth), 
-                  return_tmb_object = T), 
-          area = 1, bias_correct = T) %>%
-  mutate(index = exp(log_est - mean(log_est)),
-         cv = se / log_est,
-         l95 = index * exp(-1.96 * sqrt(log(1 + cv^2))),
-         u95 = index * exp(1.96 * sqrt(log(1 + cv^2))),
-         var = "+ s(depth)",
-         which = "soakyr",
-         order = 5) -> wag_index_full_soakyr_mesh
+# get_index(predict(wag_fit_full_soakyr, 
+#                   newdata =  mesh_grid %>%
+#                     distinct(lon, lat, fyear, year, adfg, gearcode, soaktime, depth), 
+#                   return_tmb_object = T), 
+#           area = 1, bias_correct = T) %>%
+#   mutate(index = exp(log_est - mean(log_est)),
+#          cv = se / log_est,
+#          l95 = index * exp(-1.96 * sqrt(log(1 + cv^2))),
+#          u95 = index * exp(1.96 * sqrt(log(1 + cv^2))),
+#          var = "+ s(depth)",
+#          which = "soakyr",
+#          order = 5) -> wag_index_full_soakyr_mesh
 
 # write and read index by model
-bind_rows(wag_index_null_mesh, wag1_index_mesh, wag2_index_mesh, wag3_index_mesh, wag3_soakyr_index_mesh, wag_index_full_mesh, wag_index_full_soakyr_mesh) %>%
+bind_rows(wag_index_null_mesh, wag1_index_mesh, wag2_index_mesh, wag3_index_mesh, wag_index_full_mesh) %>%
   write_csv("./AIGKC/output/cpue_std/2025/may/wag_st_index_mesh.RDS")
 wag_index_mesh <- read_csv("./AIGKC/output/cpue_std/2025/may/wag_st_index_mesh.RDS")
 
@@ -1526,9 +1519,9 @@ wag_index_full_mesh %>%
   write_csv("./AIGKC/output/cpue_std/2025/may/wag_st_index_mesh.csv")
 # wag_index_full_mesh <- read_csv("./AIGKC/output/cpue_std/2025/may/wag_st_index_mesh.csv")
 
-wag_index_full_soakyr_mesh %>%
-  transmute(year, index, cv, l95, u95) %>%
-  write_csv("./AIGKC/output/cpue_std/2025/may/wag_index_full_soakyr_mesh.csv")
+# wag_index_full_soakyr_mesh %>%
+#   transmute(year, index, cv, l95, u95) %>%
+#   write_csv("./AIGKC/output/cpue_std/2025/may/wag_index_full_soakyr_mesh.csv")
 # wag_index_full_soakyr_mesh <- read_csv("./AIGKC/output/cpue_std/2025/may/wag_index_full_soakyr_mesh.csv")
 
 
@@ -1544,6 +1537,7 @@ tibble(mod1 = c(NA, "Year", "+ (1 | Vessel)", "+ Gear", "+ s(soaktime)"),
   unnest(data) %>%
   mutate(mod2 = factor(mod2, levels = c("Year", "+ (1 | Vessel)", "+ Gear", "+ s(soaktime)", "+ s(depth)"))) %>% 
   replace_na(list(which = "dummy")) %>%
+  mutate(which = NA) %>%
   ggplot()+
   geom_line(data = . %>% filter(dotted_mod == F, var != mod2), aes(x = year, y = index, group = var), color = "grey90")+
   geom_line(data = . %>% filter(dotted_mod == T), aes(x = year, y = index, group = which, color = which), linetype = 2, show.legend = F)+
@@ -1592,11 +1586,9 @@ get_index(predict(wag_fit_full_glmm,
 ## plot of full index 
 wag_index_full_mesh %>%
   mutate(type = "ST GAMM") %>%
-  bind_rows(wag_index_full_soakyr_mesh  %>%
-              mutate(type = "ST GAMM + s(soak:year)")) %>%
   bind_rows(wag_nominal_index) %>%
   bind_rows(wag_index_full_glmm_mesh) %>%
-  mutate(type = factor(type, levels = c("Nominal", "GAMM", "ST GAMM", "ST GAMM + s(soak:year)"))) %>%
+  mutate(type = factor(type, levels = c("Nominal", "GAMM", "ST GAMM"))) %>%
   ggplot()+
   geom_line(aes(x = year, y = index, color = type))+
   labs(x = NULL, y = "Index", color = NULL)+
@@ -1604,7 +1596,7 @@ wag_index_full_mesh %>%
   scale_color_manual(values = cbpalette)+
   theme(legend.position = c(0, 1), 
         legend.justification = c(0, 1)) -> x
-ggsave("./AIGKC/figures/cpue_std/2025/jan/wag_full_index_comparison.png", plot = x, height = 3, width = 5, units = "in")
+ggsave("./AIGKC/figures/cpue_std/2025/may/wag_full_index_comparison.png", plot = x, height = 3, width = 5, units = "in")
 
 
 # investigate eag vessel effect ----
