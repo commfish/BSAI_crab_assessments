@@ -1,0 +1,71 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+
+\pagenumbering{arabic}
+
+```{r global_options2, include=FALSE, echo = FALSE, message = FALSE, warning=FALSE}
+#library(knitr) # don't need these if this is a "child" of the larger doc
+#opts_chunk$set(fig.width = 12, fig.height = 7, fig.align = "left", echo = FALSE, warning = FALSE, message = FALSE,  dpi=300)
+#\pagenumbering{gobble}
+#library(xtable)
+#options(xtable.comment = FALSE)
+```
+
+# Appendix D. Draft Risk Table for BBRKC 2024 {-}
+
+During the 2023 fall assessment cycle for BSAI crab stocks the SSC requested that the CPT take up risk tables again for crab stocks. The CPT recommended bringing forward a draft risk table for the "big three" stocks - BBRKC, tanner crab, and snow crab - for the 2024 assessment cycle. 
+
+The risk table approach, currently used in the NPFMC groundfish assessments, highlights external factors to the assessment performance across four categories: assessment-related, population dynamics, environmental/ecosystem, and fishery performance. The risk table highlights potential issues in these four areas that should be considered when applying a buffer to the OFL to determine a recommended ABC. Currently, ABC buffers for crab stocks are set using uncertainties about the stock and assessment process that are not incorporated into the assessment model. These are documented in the SAFE reports in each year. The goal of incorporating the risk table process is to use this tool to organize the information that is currently used in ABC buffer considerations. 
+
+
+## Assessment related considerations {-}
+
+- Strong retrospective pattern in MMB (high Mohn's rho). This has been present for the last few years
+- Stable GMACS reference model since 2018
+- Historic natural mortality event (early 80s)
+
+The BBRKC assessment is has been stable and consistent since its GMACS implementation in 2018. There are no increased levels of concern for this assessment.
+
+
+      **Level of concern: Level 2 Increased concern**
+
+## Population dynamic considerations {-}
+
+- Low, recent recruitment (last 10+ years)
+- Unknown reasons behind recruitment failure
+- Potential shifting spatial distributions 
+- Low mature female abundance in the last few years
+
+
+The BBRKC population has not had a substantial recruitment event since 2005, small recruitments observed in survey data in 2011 and 2016 have not progressed through the mature population. Low recent recruitment has created a low, stable population but not allowed for much population growth. The reason behind the recruitment failure are unknown, but it is hypothesized that the changing ecosystem has not created favorable conditions for red king crab juvenile survival. Research is underway to understand more about red king crab life history during the time period between hatching and recruitment to the summer survey. Changing climate within the Bering Sea likely contributes to a potential for shifting spatial distributions for this stock. The stock assessment monitors the proportion of red king crab in the northern unstratified area, and while it is variable from year to year there has been a shift to observing more red king crab in the north in the last 15 years. 
+
+While most of these concerns are not new for the stock, they do rise to an elevated levels of concern since the stock assessment model assumes recruitment is stable over time and that the distribution of the stock remains within the Bristol Bay boundary. 
+
+
+      **Level of concern: Level 2 Increased concern**
+
+## Environmental/Ecosystem considerations {-}
+
+- Steady decline in bottom water pH in last two decades
+- Predation risk higher for juvenile crab (sockeye salmon)
+- Poor larval feeding conditions due to high sockeye salmon and low chlorophyll *a*
+- Increase in mature females with empty clutches
+
+The ESP report card produced for this stock as an appendix to the SAFE details the environmental and ecosystem considerations. The majority of which have been on-going for the last few years and are not new concerns. 
+
+
+      **Level of concern: Level 1 No new concern**
+
+
+## Fishery performance considerations {-}
+
+- Directed fishery was closed 2021/22 and 2022/23 seasons
+- 2023/24 fishery CPUE was 20.54 similar to the last open season 2020/21
+- Bycatch at recent average levels
+
+Fishery performance this last season was expected due to the lower population level and reported bycatch in groundfish fisheries was at average levels. No increased concern.
+
+      **Level of concern: Level 1 No new concern**

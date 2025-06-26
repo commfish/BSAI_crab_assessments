@@ -1,0 +1,27 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Appendix B. Data files for model 23.0a {-}
+
+Data files can be provided by the author in a more readable format, katie.palof@alaska.gov
+
+
+## Model 23.0a data file for 2024 {-}
+
+\fontsize{7}{9}
+```{r data, eval = TRUE, include=TRUE,echo=FALSE, comment=NA, message = FALSE, warning=FALSE}
+library(knitr)
+library(formatR)
+opts_chunk$set(fig.width = 12, fig.height = 8, echo = FALSE, warning = FALSE, message = FALSE, tidy.opts = list(width.cutoff = 60), tidy = TRUE)
+ts <- readLines(here::here("BBRKC/bbrkc_24f/model_23_0a_ph7_24/bbrkc211_24f.dat"))
+for (i in 1:length(ts)) cat(ts[i], "\n")
+```
+## Model 21.1b control file for 2023{-}
+```{r control, eval = TRUE, include=TRUE,echo=FALSE, comment=NA}
+opts_chunk$set(fig.width = 12, fig.height = 8, echo = FALSE, warning = FALSE, message = FALSE)
+ts <- readLines(here::here("BBRKC/bbrkc_24f/model_23_0a_ph7_24/bbrkc230a_sept24_sz1.ctl"))
+for (i in 1:length(ts)) cat(ts[i], "\n")
+```
+
