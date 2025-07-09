@@ -1,0 +1,101 @@
+---
+title: "Appendix XX: AIGKC Size at Maturity"
+author: |
+  | Tyler Jackson
+  | Alaska Department of Fish and Game, tyler.jackson@alaska.gov
+date: "`r format(Sys.time(), '%B %Y')`"
+output:
+  bookdown::pdf_document2:
+    toc: no
+header-includes:
+   - \usepackage{float}
+   - \usepackage{hanging}
+   - \usepackage{enumerate}
+   - \usepackage{longtable}
+---
+  
+# Purpose {-}
+
+May 2024 the CPT requested to revisit male size at maturity given the addition of new data. This document detail progress in estimating area specific size at maturity using the full complement of available data to date.
+
+# Background {-}
+
+Chelae allometry has been used to determine size at morphometric maturity in various crab stocks. Specific to $Lithodes$ spp., male size at maturity has been determined as the point at which the slope of the linear relationship between chela height and carapace length (mm) increases (Jewett et al. 1985; Otto and Cummiskey 1985; Somerton and Otto 1986; Lovrich et al. 2002; Olson et al. 2018; Siddeek et al. 2022). Estimates of size at maturity in Alaska golden king crab stocks have varied across studies and by region.  
+
+Otto and Cumminsky (1985) and Somerton and Otto (1986) used the break point analysis parameterized by Somerton and MacIntosh (1983) on log-transformed allometric data from male crab collected during a tagging study in the Northern EBS, Central EBS, Southern EBS, Bowers Ridge, and Seguam Pass. Estimated size at maturity ranged between 92 - 130 mm CL (Table XXX). Jewett et al. (1985) compared these estimates with and analysis of crab collected in British Columbia, where size at maturity was estimated to be 114 mm CL. Olson et al. (2018) evaluated various southeast Alaska golden king crab stocks and estimated size at maturity to range between 117.9 - 158 mm CL (Table XXX). Additionally, Olson et al. (2018) demonstrated that smaller size at maturity estimates corresponded with higher latitudes across previous studies, including those in Japan (Hiramoto 1985) and Russia (Zhivoglyadova 2004, Nizyaev 2005), though such a latitudinal cline was not evident in southeast AK.
+
+Golden king crab male size at maturity was last assessed during the 2022 AIGKC stock assessment (Siddeek et al. 2022). Siddeek et al. (2022) compiled data collected by various means in both the EAG and WAG including samples from NMFS tagging studies (1984-85; EAG and WAG), ADF$\&$G pot surveys (1991-92; EAG), ADF$\&$G special collections during commercial fishery trips (2018/19 - 2020/21; WAG), at-sea observer deployments (2018/19 - 2019/20; EAG and WAG), and dockside sampling (2018/19 - 2020/21; EAG and WAG). Size data were not log-transformed in all samples, following Olson et al. (2018), and size at maturity was estimated using the R package $segmented$ (Muggeo et al., 2008). Instead of reporting point estimates, Siddeek et al. (2018) bootstrapped the analysis 1,000 times and estimated the mean, median, and associated uncertainty. Data were analyzed by collection effort and subdistrict (EAG/WAG). Bootstrap means ranged from 104.1 - 108.3 mm CL among EAG samples and 108.8 - 120.8 mm CL among WAG samples. When combined, size at maturity estimates ranged from 109 - 122.9 mm CL for the full stock (Table XXX). The CPT and SSC recommended adopting 116 mm CL based on the analysis of combined EAG/WAG data collected from at-sea observers and dockside sampling.
+
+Here, I revisit the data analyzed by Siddeek et al. (2018) with the addition of new data, evaluate the influence of outliers, and examine spatial patterns in size at maturity, including data from the Pribilof Islands.
+
+# Methods {-}
+
+## Data {-}
+
+Chela heights and carapce lengths were recorded during collection efforts described above (Siddeek et al. 2022). In addition, ADF$\&$G special collections during the 2017/18 WAG fishery were added, as were observer collections during the 2021/22 - 2023/24 fisheries (Table XXXX). Chela height data has also been recorded during dockside size frequency sampling, but were excluded here since they only include legal males, the vast majority of which are already mature.
+
+## Estimation Algorithm {-}
+
+Olson et al. (2018) estimated size as maturity using the R package $SiZer$ (Sonderegger 2011), which estimates the break point as 
+
+\begin{equation}
+CH = \beta_{0} + \beta_{1}CL + \beta_{2}(x - \psi)^{+} + \epsilon 
+\end{equation}
+
+where $\psi$ is the break point (i.e. size at maturity), $\beta_{0}$ is the y-intercept, $\beta_{1}$ is the slope when CL < $\psi$, $\beta_{2}$ is the slope when CL > $\psi$, and $(x - \psi)^{+}$ is an indicator function which goes to zero when CL < $\psi$. The optimal break point, $\hat{\psi}$ is estimated via grid search with preliminary estimates of $\beta$ parameters, which are refined once $\hat{\psi}$ is assumed known. Confidence intervals are estimated by bootstrapping. Siddeek et al. (2022) estimated size at maturity using the R package $segmented$ (Muggeo 2008). Muggeo (2008) used the same functional form, but estimated the model using a Newton-Raphson optimization in which an initial value of $\psi$ is iteratively updated until convergence. The breakpoint, $\psi$, is re-parameterized as $\gamma$ which measures the difference between the current value of $\psi$ ($\tilde{\psi}$) and the optimized value ($\hat{\psi}$) such that $\tilde{\psi}$ is updated as $\hat{\psi} = \tilde{\psi} + \hat{\gamma}/\hat{\beta_{2}}$. The standard error of $\hat{\psi}$ is approximated using the Delta method (Muggeo 2008).  
+
+Optimization methods were compared by simulating data sets with varying uncertainty and computing estimates of $\psi$ using each approach. Simulated carapace lengths were drawn from a uniform distribution from 50 - 190 mm. Linear coefficients ($\beta_{i}$) and mean size at maturity ($\bar{\psi}$) were based on the full observed data set. Individual variation in $\bar{\psi}$ was added as $\mathcal{N}(0, \psi_{\sigma^2})$, in which $\psi_{\sigma}$ was either 1, 3, or 6. Residual error was simulated as $\epsilon \sim \mathcal{N}(0, \epsilon_{\sigma}^2)$ where $\epsilon_{\sigma}$ ranged from X to X. Size at maturity was estimated using both Muggeo (2008) and Sonderegger (2011) methods.
+
+## AIGKC Size at Maturity {-}
+
+Size at maturity (i.e., the break point, $\psi$) was first estimated separately by data source and subdistrict. Data were then aggregated and size at maturity was estimated by subdistrict. Estimation used the method by Muggeo et al. (2008), with bootstrap restarting of the initial value of $\psi$ up to 100 iterations. The likelihood profile of $\psi$ was computed over a range of plausible values to determine if the algorithm converged to the minimum. Following Siddeek et al. (2022), the distribution of $\psi$ was evaluated by non-parametric bootstrap resampling at 1,000 iterations. Bootstrap distributions of $\psi$ were generated for estimates by data source and subdistrict, and by subdistrict only.
+
+# Results {-}
+
+Variability in chela height at size was least among NMFS collected samples and slightly greater among ADF$\&$G collect samples. Observer data were most variable and included many potentially erroneous or regenerated claw measurements (i.e., abnormally small chela heights for larger carapace lengths) (Figure XXX). Breakpoint estimates ranged from 117.2 mm CL to 126.5 mm CL among EAG data sources and from 119.7 mm CL to 124.1 mm CL among WAG data soucres (Table XXX; Figure XXX). Likelihood profiles of $\psi$ corroborated estimates were at the optimum for $\psi$ among all data sources except EAG observer samples and WAG ADF$\&$G samples. Likelihood profile optimum breakpoints were $\psi$ = XXX and $\psi$ = XXX, respectively. Boostrap distributions of $\psi$ were very noisy with multiple modes (Figure XXX). When aggregated by subdistrict, estimated size at maturity was 124.5 mm CL in the EAG and 121.6 mm CL in the WAG (Table XXX; Figure XXX). Likelihood profiles suggested estimates were at the optimum values for $\psi$. Bootstrap distributions were unimodal, though for the WAG the majority of bootstrap samples produced a larger value of $\psi$ than the point estimate (Figure XXX).
+
+
+```{r sourcesubfit, fig.align='center', fig.cap="Segmented regression fit to chela height and carapace length data by data source and subdistrict. Yellow shading indicates the 95$\\%$ confidence interval of the breakpoint, $\\psi$.", eval = T}
+knitr::include_graphics("../../figures/maturity/est_by_source_subdistrict.png")
+```
+
+```{r sourcesublik, fig.align='center', fig.cap="Likelihood profile of the breakpoint, $\\psi$, by data source and subdistrict. Solid black lines indicate the optimal value of $\\psi$ given the likelihood profile while the dotted grey line indcates the estimated value of $\\psi$.", eval = T}
+knitr::include_graphics("../../figures/maturity/est_by_source_subdistrict_profile.png")
+```
+
+```{r sourcesubboot, fig.align='center', fig.cap="Distribution of $\\psi$ estimated from 1,000 bootstrap replicates by data source and subdistrict. The dotted line indicates the mean of bootstrap samples while the solid line incates the point estimate of $\\psi$.", eval = T}
+knitr::include_graphics("../../figures/maturity/est_by_source_subdistrict_bootstrap.png")
+```
+
+```{r subfit, fig.align='center', fig.cap="Segmented regression fit to chela height and carapace length data (right) and Likelihood profile of the breakpoint, $\\psi$, (left) by subdistrict. Yellow shading indicates the 95$\\%$ confidence interval of $\\psi$.", eval = T}
+knitr::include_graphics("../../figures/maturity/est_by_subdistrict.png")
+```
+
+```{r subboot, fig.align='center', fig.cap="Distribution of $\\psi$ estimated from 1,000 bootstrap replicates by subdistrict. The dotted line indicates the mean of bootstrap samples while the solid line incates the point estimate of $\\psi$.", eval = T}
+knitr::include_graphics("../../figures/maturity/est_by_subdistrict_bootstrap.png")
+```
+
+<!-- Hiramoto K. 1985 Overview of the golden king crab, -->
+<!-- Lithodes aequispina, fishery and its fisheries biology -->
+<!-- in the Pacific waters of central Japan. In Proc. Int. -->
+<!-- King Crab Symp. (ed. BR Melteff), pp. 297–318. -->
+<!-- Anchorage, AK: University of Alaska, Alaska Sea -->
+<!-- Grant. -->
+
+<!-- Sonderegger D (2022). SiZer: Significant Zero Crossings. R package version 0.1-8. -->
+
+<!-- Zhivoglyadova LA. 2004 The results of investigations -->
+<!-- of golden king crab, Lithodes aequispinus, from -->
+<!-- Eastern Coast of Sakhalin Island. In Proc. 3rd -->
+<!-- Workshop on the Okhotsk Sea and AdjacentWaters -->
+<!-- (ed.SMcKinnell), vol. 26, pp. 210–212, Sidney, B.C., -->
+<!-- Canada: North Pacific Marine Science Organization -->
+<!-- (PICES). -->
+
+
+<!-- Nizyaev SA. 2005 Biology of golden king crab -->
+<!-- (Lithodes aequispinus Benedict) along the islands of -->
+<!-- Kuril Ridge. Yuzhno-Sakhalinsk, Russia: Sakhalin -->
+<!-- Institute of Fishery and Oceanography Publication. -->
+<!-- (in Russian). -->
+
