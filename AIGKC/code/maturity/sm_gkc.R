@@ -8,6 +8,7 @@ library(tidyverse)
 library(RTMB)
 library(segmented)
 library(gmacsr); theme_set(theme_sleek())
+library(sf)
 
 # ols function - this isn't used anymore, but i want to keep the code as written
 seg_ols <- function(data, pars = list(beta0 = 0, beta1 = 0, beta2 = 0, psi = 120)) {
@@ -76,6 +77,38 @@ seg_repar <- function(data, psi_start = 120) {
 
 sm_dat <- readRDS("./AIGKC/data/maturity/aigkc_chela_data_all.RDS") 
 
+# map of data ----
+
+## land boundary
+land <- geodata::gadm("United States", level = 1, path = "./AIGKC/data/maps")
+
+st_as_sf(land) %>%
+  st_shift_longitude() %>% 
+  st_crop(c(xmin = 170, ymin = 51, xmax = 195.27, ymax = 57)) %>% 
+  st_transform(32602) -> aleut
+
+sm_dat %>%
+  filter(!is.na(lon), !is.na(lat)) %>%
+  st_as_sf(coords = c("lon", "lat"), crs = st_crs(land)) %>%
+  st_shift_longitude() %>% 
+  st_transform(32602) -> pts
+
+ggplot()+
+  geom_sf(data = aleut)+
+  geom_sf(data = pts, aes(color = source), alpha = 0.5)+
+  geom_vline(xintercept = 303379.1, linetype = 2)+
+  geom_text_npc(data = pts, aes(npcx = "left", npcy = 0.9, label = crab_year),
+                check_overlap = T, size = 3)+
+  facet_wrap(~crab_year, ncol = 2, dir = "v")+
+  labs(color = NULL)+
+  scale_color_manual(values = cbpalette[1:3])+
+  theme(axis.text = element_blank(),
+        panel.spacing.x = unit(0, "lines"),
+        panel.spacing.y = unit(0, "lines"),
+        strip.background = element_blank(),
+        strip.text.x = element_blank()) -> x
+ggsave("AIGKC/figures/maturity/sample_map.png", plot = x, height = 6, width = 6, units = "in")
+
 # simulation -----
 
 seg_repar(sm_dat)
@@ -128,10 +161,10 @@ for(k in 1:nrow(sim_grid)){
 }
 
 
-saveRDS(sim_data, "./AIGKC/output/maturity/maturity_sim_data_psi_sd6.RDS")
-saveRDS(sim_res, "./AIGKC/output/maturity/maturity_sim_res_psi_sd6.RDS")
+saveRDS(sim_data, "./AIGKC/output/maturity/maturity_sim_data.RDS")
+saveRDS(sim_res, "./AIGKC/output/maturity/maturity_sim_res.RDS")
 
-sim_res1 <- readRDS("./AIGKC/output/maturity/maturity_sim_res_psi_sd1.RDS")
+sim_res <- readRDS("./AIGKC/output/maturity/maturity_sim_res.RDS")
 
 # sim_res %>%
 #   mutate(ols_ci = (psi >= ols_l95 & psi <= ols_u95),
@@ -161,6 +194,13 @@ sim_res %>%
   facet_grid(rows = vars(psi_sig), cols = vars(eps_sig), labeller = label_parsed) -> x
 ggsave("AIGKC/figures/maturity/sim_est_compare.png", plot = x, width = 7, height = 7, units = "in")
 
+# stats
+sim_res %>%
+  mutate(diff = repar - sizer) %>%
+  group_by(eps_sig, psi_sig) %>%
+  summarise(n_same = sum(round(sizer, 1) == round(repar, 1)) / 1000,
+            mean_diff = mean(diff)) %>% ungroup %>%
+  write_csv("AIGKC/output/maturity/sim_res.csv")
 
 # analysis by data source ----
 
@@ -309,9 +349,9 @@ sm_dat %>%
   psi = map_dbl(data, function(data){seg_repar(data, psi_start = 130)$psi})
   ) %>%
   dplyr::select(-data) %>%
-  unnest(prof) -> lik
+  unnest(prof) -> sublik
 
-lik %>%
+sublik %>%
   group_by(subdistrict) %>%
   mutate(psi_opt = psi_fix[nll == min(nll)]) %>%
   mutate(annotation = paste0("\u03C8 = ", round(psi_opt, 1))) %>% 
@@ -386,7 +426,32 @@ subboot %>%
   geom_vline(aes(xintercept = psi))+
   labs(x = "Carapace Length (mm)", y = "Probability Density")+
   facet_wrap(~subdistrict, scales = "free_y", dir = "v") -> x
-ggsave("AIGKC/figures/maturity/est_by_subdistrict_bootstrap.png", plot = x, width = 5, height = 5, units = "in")
+ggsave("AIGKC/figures/maturity/est_by_subdistrict_bootstrap.png", plot = x, width = 6, height = 6, units = "in")
+
+# output tables ----
+
+# psi estimates
+sm_dat %>%
+  filter(source != "Dockside",
+         !(source == "Observer" & cl < 100 & ch > 35),
+         !is.na(cl), !is.na(ch)) %>%
+  count(subdistrict, source) %>%
+  
+  bind_rows(sm_dat %>%
+              filter(source != "Dockside",
+                     !(source == "Observer" & cl < 100 & ch > 35),
+                     !is.na(cl), !is.na(ch)) %>%
+              count(subdistrict) ) %>%
+  
+  left_join(ci %>%
+              left_join(lik %>%
+                          group_by(subdistrict, source) %>%
+                          summarise(lik_psi = psi_fix[nll == min(nll)])) %>%
+              bind_rows(sub_ci %>%
+                          left_join(sublik %>%
+                                      group_by(subdistrict) %>%
+                                      summarise(lik_psi = psi_fix[nll == min(nll)]))) )%>%
+  write_csv("AIGKC/output/maturity/psi_estimates_sept25.csv")
 
 
 # trim probably erroneuous data ----
