@@ -1,7 +1,7 @@
 # k.palof
 # Figure to compare area-swept from survey with model output from LBA model
 
-# created 7-13-22/ 8-18-23 / 7-16-24
+# created 7-13-22/ 8-18-23 / 7-16-24 / 7-23-25
 
 #READ ME:
 # data is from fortran program
@@ -27,7 +27,7 @@ theme_set(theme_bw(base_size=12,base_family='Times New Roman')+
                   panel.grid.minor = element_blank()))
 
 ## setup -------
-folder <- "rk24_prelim"  #"rk23" 
+folder <- "rk25_prelim"  #"rk23" 
 
 # data -----
 # read in area swept from lba data file "survey.dat" and surveyf.dat
@@ -37,7 +37,7 @@ folder <- "rk24_prelim"  #"rk23"
 #years <- as.character(c(1972:2022))
 #out[nrow(out)+1, ] <- years
 
-lba_out <- read.csv(paste0(here::here(), "/BBRKC/LBA_state/", folder, "/prelim_output_v1_24.csv"))
+lba_out <- read.csv(paste0(here::here(), "/BBRKC/LBA_state/", folder, "/combo_output_v1_25_prelim.csv"))
 #lba_out3 <- read.csv("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/rk23_prelim/rk23_avgF_SC.csv")
 #lba_out4 <- read.csv("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/rk23_prelim/rk23_rawSC_manR.csv")
 #lba_out5 <- read.csv("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/rk23_prelim/rk23_wo_large_tow.csv")
@@ -62,7 +62,7 @@ lba_out %>%
   ggtitle("Mature males") + 
   ylab("Millions of crab") +
   xlab("Year") +
-  theme(legend.position = c(0.8,0.8), 
+  theme(legend.position = c(0.7,0.6), 
         axis.text = element_text(size = 12), 
         axis.title=element_text(size=14,face="bold"), 
         axis.text.x = element_text(angle = 45, hjust = 1)) +
@@ -97,7 +97,7 @@ lba_out %>%
   
 # female figure  with ribbons----------
 #v2 -----
-# recalc a confidence band on 2022---------
+# example don't use recalc a confidence band on 2022---------
 lba_out %>% 
     select(Year, model.mf, matf_lower, matf_upper) %>% 
     mutate(model.mf_t = model.mf, 
@@ -115,6 +115,9 @@ lba_out %>%
 # 2024 results for 2022
 #  upper_dif_avg lower_dif_avg
 #  1         0.846        -0.892
+# 2025 results for 2024
+# upper_dif_avg lower_dif_avg
+#  1       0.74575      -0.83725  
 
 lba_out %>% 
   filter(Year == 2022) %>% 
@@ -127,29 +130,31 @@ lba_out %>%
   rbind(lba_out22) -> lba_out2_a
 #write.csv(lba_out22a, "./BBRKC/LBA_state/rk22/rk22_r_input_2022edit.csv")
 
-# same for 2024 -----
-# recalc a confidence band on 2024---------
+# same for 2025 -----
+# recalc a confidence band on 2025---------
 lba_out %>% 
   select(Year, model.mf, matf_lower, matf_upper) %>% 
   mutate(model.mf_t = model.mf, 
          upper_dif = matf_upper-model.mf_t, 
          lower_dif = matf_lower-model.mf_t) %>% 
-  filter(Year >=2018 & Year <=2023) %>% 
+  filter(Year >=2018 & Year <=2024) %>% 
   summarise(upper_dif_avg = mean(upper_dif), 
             lower_dif_avg = mean(lower_dif))
 
 #upper_dif_avg lower_dif_avg
-#1     0.5573333     -1.233667
+#1     0.2167143         -1.59
 
 lba_out %>% 
-  filter(Year == 2024) %>% 
-  select(Year, model.mm, model.mf, survey.m, survey.f, matm_lower, matm_upper, survey.f.CI) %>% 
-  mutate(matf_lower = model.mf-(1.24),#(0.89), 
-         matf_upper = model.mf+(0.557)) -> lba_out24
+  filter(Year == 2025) %>% 
+  select(Year, model.mm, model.mf, survey.m, survey.f, matm_lower, matm_upper, survey.m.CI, survey.f.CI) %>% 
+  mutate(matf_lower = model.mf-(1.59),#(0.89), 
+         matf_upper = model.mf+(0.217)) -> lba_out25
+lba_out %>% 
+  filter(Year != 2025) -> lba_out2_a
 
 lba_out2_a %>% 
-  filter(Year != 2024) %>% 
-  rbind(lba_out24) -> lba_out2_ab
+  filter(Year != 2025) %>% 
+  rbind(lba_out25) -> lba_out2_ab
 
 
 #lba_out2_a %>% 
@@ -161,7 +166,7 @@ lba_out2_ab %>%
     mutate(survey.f_upper = (survey.f + survey.f.CI), survey.f_lower = (survey.f - survey.f.CI)) %>% 
     select(Year, survey.f, model.mf, matf_lower, matf_upper, survey.f_upper, survey.f_lower) %>% 
     gather(type, number, survey.f:model.mf) %>% 
-  #filter(Year >= 2015) %>% 
+  # filter(Year >= 2015) %>% 
    ggplot(aes(Year, number, group = type)) +
     geom_point(aes(shape = type), size = 3) +
     geom_line(aes(group = type, linetype = type), lwd = 1) +
@@ -185,15 +190,15 @@ lba_out2_ab %>%
   #ggsave(paste0('C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/', folder,'/mature_females_recent_ribbons_v2_error.png'), females, dpi = 800, width = 7.5, height = 5.5)
   # to use "recent ribbons" just comment in the filter year line above
   
-
-  
+###############ignore below
+tail(lba_out2_ab)
 # recent figures done above by commented out lines -----------
 ### can run below or just un-comment above line and resave as "recent"
-lba_out22a %>% 
+lba_out2_ab %>% 
   select(Year, survey.f, model.mf, matf_lower, matf_upper) %>% 
   gather(type, number, survey.f:model.mf) %>% 
   filter(Year >= 2015) %>% 
-  ggplot(aes(Year, number/1000, group = type)) +
+  ggplot(aes(Year, number, group = type)) +
   geom_point(aes(shape = type), size = 3) +
   geom_line(aes(group = type, linetype = type), lwd = 1) +
   scale_shape_manual(name = "", values = c(32,19), 

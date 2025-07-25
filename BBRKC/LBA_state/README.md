@@ -1,9 +1,19 @@
-K.Palof 7-13-2022/ 6-26-2023 / 7-16-2024
+K.Palof 7-13-2022/ 6-26-2023 / 7-16-2024 /7-23-25
 
 LBA model for BBRKC used for the harvest strategy
 
 Instructions from Jie in: BBRKC/readme/bbrkc-notes_kjp.docx
 june/july update file to be ready for prelim data
+
+## 2025 notes ----------
+Prelim data from shannonn hennessy (sp?) - stored in folder see "prelim_data_survey_LBA.R"
+open excel file - "LBA file_breakdown ....._2025.xlsx"
+
+# prelim in rk25_prelim
+prelim tabs in the above excel file
+prelim_survey.dat tab - open "prelim_male_size_comp.csv" file - copy prelim size comps into column "BH"
+see notes in file from Jie - 
+
 
 ## 2024 notes -----------
 prelim data in BBRKC/data/survey/2024 but also instructions in "2023 folder" below
