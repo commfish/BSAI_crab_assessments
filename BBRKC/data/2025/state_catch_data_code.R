@@ -58,9 +58,91 @@ tot_catch %>%
   mutate(t_catch_wt = round(t_catch_wt, 2)) %>% as.data.frame()
   
 
+## total size comp -------------------
+# 
+tot_catch_comp <- read_csv(paste0(here::here(), "/BBRKC/data/2025/", folder, "/directed_total_composition.csv"))
+head(tot_catch_comp)
+
+# males
+tot_catch_comp %>% 
+  filter(sex == 1) %>% 
+  filter(size >= 65) %>% 
+  mutate(size_bin = ifelse(size > 160, 160, floor(size/5)*5)) %>% 
+  group_by(crab_year, size_bin, .drop = F) %>% 
+  summarise(y_total = sum(total, na.rm = T)) %>% 
+  # pull in missing bins
+  full_join(expand_grid(size_bin = seq(65, 160, by = 5), 
+                        crab_year = seq(1990, 2024, by = 1)), 
+                        by = c("crab_year", "size_bin")) %>% 
+  replace_na(list(y_total = 0)) %>% 
+  #normalize to sum to 1
+  group_by(crab_year) %>% 
+  mutate(prop =  sprintf('%.4f', y_total / sum(y_total)),
+         nsamp = min(0.05*sum(y_total), 100),
+         ncrab = paste0("#", sum(y_total))) %>%
+  arrange(crab_year, size_bin) %>% 
+  ungroup() %>%
+  # pivot to wide format
+  dplyr::select(-y_total) %>%
+  pivot_wider(names_from = "size_bin", values_from = "prop") %>% 
+  arrange(crab_year) %>% 
+  dplyr::select(crab_year, nsamp, grep("\\d", names(.), value = T), ncrab) %>% 
+  write_delim(here::here("BBRKC/data/2025/item4a_directed_fishery_size_comp_total_males.txt"), delim = "\t", col_names = F, na = "")
+
+# females 
+tot_catch_comp %>% 
+  filter(sex == 2) %>% 
+  filter(size >= 65) %>% 
+  mutate(size_bin = ifelse(size > 140, 140, floor(size/5)*5)) %>% 
+  group_by(crab_year, size_bin, .drop = F) %>% 
+  summarise(y_total = sum(total, na.rm = T)) %>% 
+  # pull in missing bins
+  full_join(expand_grid(size_bin = seq(65, 140, by = 5), 
+                        crab_year = seq(1990, 2024, by = 1)), 
+            by = c("crab_year", "size_bin")) %>% 
+  replace_na(list(y_total = 0)) %>% 
+  #normalize to sum to 1
+  group_by(crab_year) %>% 
+  mutate(prop =  sprintf('%.4f', y_total / sum(y_total)),
+         nsamp = min(round(0.05*sum(y_total), 2), 50),
+         ncrab = paste0("#", sum(y_total))) %>%
+  arrange(crab_year, size_bin) %>% 
+  ungroup() %>%
+  # pivot to wide format
+  dplyr::select(-y_total) %>%
+  pivot_wider(names_from = "size_bin", values_from = "prop") %>% 
+  arrange(crab_year) %>% 
+  dplyr::select(crab_year, nsamp, grep("\\d", names(.), value = T), ncrab) %>% 
+  write_delim(here::here("BBRKC/data/2025/item4b_directed_fishery_size_comp_total_females.txt"), delim = "\t", col_names = F, na = "")
+
 # retained catch comp  ------------------
 ret_catch_comp <- read_csv(paste0(here::here(), "/BBRKC/data/2025/", folder, "/retained_catch_composition.csv"))
 head(ret_catch_comp)
+
+ret_catch_comp %>% 
+  #filter(sex == 1) %>% 
+  filter(size >= 65) %>% 
+  mutate(size_bin = ifelse(size > 160, 160, floor(size/5)*5)) %>% 
+  group_by(crab_year, size_bin, .drop = F) %>% 
+  summarise(y_total = sum(total, na.rm = T)) %>% 
+  # pull in missing bins
+  full_join(expand_grid(size_bin = seq(65, 160, by = 5), 
+                        crab_year = seq(1990, 2024, by = 1)), 
+            by = c("crab_year", "size_bin")) %>% 
+  replace_na(list(y_total = 0)) %>% 
+  #normalize to sum to 1
+  group_by(crab_year) %>% 
+  mutate(prop =  sprintf('%.4f', y_total / sum(y_total)),
+         nsamp = min(round(0.05*sum(y_total),2), 100),
+         ncrab = paste0("#", sum(y_total))) %>%
+  arrange(crab_year, size_bin) %>% 
+  ungroup() %>%
+  # pivot to wide format
+  dplyr::select(-y_total) %>%
+  pivot_wider(names_from = "size_bin", values_from = "prop") %>% 
+  arrange(crab_year) %>% 
+  dplyr::select(crab_year, nsamp, grep("\\d", names(.), value = T), ncrab) %>% 
+  write_delim(here::here("BBRKC/data/2025/item5_directed_fishery_size_comp_retained_males.txt"), delim = "\t", col_names = F, na = "")
 
 ret_catch_comp %>% 
   # filter only for animals in the model
