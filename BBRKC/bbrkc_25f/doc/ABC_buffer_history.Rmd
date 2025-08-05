@@ -1,0 +1,72 @@
+---
+title: "Bristol Bay red king crab stock assessment"
+subtitle: "Appendix E: History of Acceptable Biological Catch buffers and buffer justifications for the Bristol Bay red king crab stock"
+author: |
+  | Katie Palof
+date: "`r format(Sys.time(), '%B %Y')`"
+output:
+  bookdown::pdf_document2:
+    fig_caption: true
+    includes: null
+    toc: no
+header-includes:
+   - \usepackage{caption}
+   - \captionsetup[table]{skip=10pt}
+   - \usepackage{booktabs}
+   - \usepackage{multirow}
+   - \usepackage{array}
+   - \usepackage{longtable}
+   - \usepackage{pdflscape}
+   - \newcommand{\blandscape}{\begin{landscape}}
+   - \newcommand{\elandscape}{\end{landscape}}
+   
+---
+
+\pagenumbering{arabic}
+
+```{r global_options, include=FALSE, echo = FALSE, message = FALSE, warning=FALSE}
+
+library(knitr)
+opts_chunk$set(fig.width = 12, fig.height = 7, fig.align = "left", echo = FALSE, warning = FALSE, message = FALSE,  dpi=300)
+
+```
+
+```{r, load_packages, echo = FALSE, include = FALSE}
+
+library(xtable)
+library(tidyverse)
+
+options(xtable.comment = FALSE)
+
+```
+
+
+```{r abc-buffer, results = "asis"}
+
+options(xtable.sanitize.text.function=identity) # had to comment this out to get it to create pdf, figure out this option
+
+years <- c(2020:2024)
+buffers <- c("25\\%", "20\\%", "20\\%", "20\\%", "20\\%")
+justs <- c( 
+          # 2020
+          "- increased from previous years buffer due to lack of survey data (increase from 20\\% to 25\\%)", 
+          # 2021
+          "- continued lack of recent recruitment \\newline - poor environmental conditions (as reflected in the ESP) \\newline - the continued decline in female survey biomass in 2021  \\newline - the model's lack of fit to the 2018-2021 female survey biomass", 
+          # 2022
+          "- continued lack of recent recruitment \\newline - poor and variable environmental conditions  \\newline - NMFS female survey biomass in 2022 remains at historically low levels  \\newline - the lack of fit to the 2018-2022 NMFS female survey biomass  \\newline - the restrospective patterns exhibited by the recommended model", 
+          # 2023
+          "- continued lack of recent recruitment  \\newline - poor and variable environmental conditions (e.g., cold pool distributional shifts) \\newline  - NMFS female survey biomass in 2023 increased above historically low levels for the first time in 5 years, but this was predicated on a single exceedingly large tow (thus the accompanying uncertainty was large)  \\newline  - the lack of fit to 2018-2023 NMFS female survey biomass \\newline  - the retrospective patterns exhibited by the recommended model, even though this was improved over last year's assessment model (21.1b) ", 
+          # 2024
+           "- continued lack of recent recruitment  \\newline - poor and variable environmental conditions (e.g., cold pool distributional shifts)  \\newline - lack of fit to 2028 to 2024 NMFS female survey biomass  \\newline - the retrospective patterns exhibited by the recommended model")
+abc.buffer <- cbind(years, buffers, justs)
+colnames(abc.buffer) <- c("Year", "ABC buffer", "Justifications")
+
+tab <- xtable(abc.buffer, caption = "History of Acceptable Biological Catch (ABC) buffers and buffer justifications for the Bristol Bay red king crab stock. Source: Crab Stock Assessment and Fishery Evaluation (SAFE) Report Introductions, https:\\///www.npfmc.org\\//library\\//safe-reports\\//.", label = "tab:abc-buffer", digits = 2, align=c(
+             "p{0.05\\textwidth}|",
+               "p{0.05\\textwidth}",
+               "p{0.11\\textwidth}",
+               "p{0.75\\textwidth}"))
+
+print(tab, caption.placement = "top", include.rownames = FALSE, booktabs = TRUE , hline.after=c(-1, 0, 1:nrow(abc.buffer)))
+
+```
