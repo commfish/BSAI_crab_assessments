@@ -26,6 +26,7 @@ cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#D55E00", "#0072B2",
 plot_save <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/")
 plot_save_newD <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/Model_runs/")
 plot_save_base <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/Base_models/")
+plot_save_byC <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/bycatch_models/")
 #plot_save_state <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/state")
 #plot_save_sel <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/sel_models/")
 #plot_save_molt <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/molt_models/")
@@ -68,12 +69,13 @@ m25.1b_std <- gmacs_read_std(file = "./BBRKC/bbrkc_25s/m25.1b/gmacs.std", model_
 m25.1b2_std <- gmacs_read_std(file = "./BBRKC/bbrkc_25s/m25.1b2/gmacs.std", model_name = "m25.1b2")
 # model groupings defined here for future plots ----------------
 base_models1 <- list(m24c.14, m24c) # models for comparison 2024
+bycatch_models <- list(m24c.1a, m24c.2)
 base_std <- list(m24c_std, m24c.1_std, m24c.1a_std, m24c.2_std)
 base_models <- list(m24c, m24c.1, m24c.1a, m24c.2)
 newD_models <- list(m24c.2, m25.1a, m25.1b, m25.1b2) # comparing new data
 
 newD_std <- list(m24c.2_std, m25.1a_std, m25.1b_std, m25.1b2_std)
-
+byC_std <- list(m24c.1a_std, m24c.2_std)
 
 #liklihood ------
 gmacs_get_lik_type_pen(all_out = newD_models)
@@ -81,6 +83,7 @@ temp <- gmacs_get_lik(all_out = newD_models)
 print(temp, n = Inf)
 gmacs_get_pars(all_out = newD_models)
 
+gmacs_get_lik_type_pen(all_out = bycatch_models)
 
 # Order for SAFE R markdown doc #############################
 # data range ------
@@ -216,6 +219,8 @@ gmacs_plot_osa_residuals(all_out = list(m24c.2), save_plot = T, plot_dir = plot_
 ## mmb ------------
 gmacs_plot_mmb(all_out = base_models, save_plot = T, plot_dir = plot_save_base, plot_ci = T, std_list = base_std)
 gmacs_plot_mmb(all_out = newD_models, plot_dir = plot_save_newD, plot_ci = T, std_list = newD_std)
+gmacs_plot_mmb(all_out = bycatch_models, plot_dir = plot_save_byC, plot_ci = T, std_list = byC_std)
+
 #gmacs_plot_mmb(all_out = molt_models, plot_dir = plot_save_molt, plot_ci = T, std_list = molt_std)
 #gmacs_plot_mmb(all_out = list(m24c, m24c_state), save_plot = T, plot_dir = plot_save_state, 
          #      plot_ci = T, std_list = list(m24c_std, m24c_state_std))
