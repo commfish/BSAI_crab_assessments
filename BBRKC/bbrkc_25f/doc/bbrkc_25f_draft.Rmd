@@ -60,7 +60,7 @@ rinline <- function(code){
 
 #alt_mod <- 5 # alt reference time frame
 ref_mod <- 1 # base 2020
-rec_mod <- 3 # not the base going into CPT, CPT picked 23.0a
+rec_mod <- 2 # not the base going into CPT, CPT picked 23.0a
 mod_scen<- 2:3 #scenarios you want graphed together
 
 #mod_q <- c(2,6,8)
@@ -73,26 +73,26 @@ hh <- 5
 ```{r exesum, echo = FALSE}
 ## table 1 ------
 ## table 1 ------
-M <- m24c
-round(M$bmsy/1000*0.5, 2) -> msst_2324
+M <- m24c.2
+round(M$bmsy/1000*0.5, 2) -> msst_2425
 #round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_2223
-round(M$derived_quant_summary$ssb[length(M$derived_quant_summary$ssb)]/1000, 2) -> mmb_2324
+round(M$derived_quant_summary$ssb[length(M$derived_quant_summary$ssb)]/1000, 2) -> mmb_2425
 #round(M[[rec_mod]]$ssb[length(M[[rec_mod]]$ssb)]/1000, 2) -> mmb_2223
-round(M$mmb_curr/1000, 2) -> mmb_2425
+round(M$mmb_curr/1000, 2) -> mmb_2526
 #round(M[[rec_mod]]$spr_bmsy*M[[rec_mod]]$spr_depl/1000, 2) -> mmb_2324
-round(M$ofl_tot/1000, 2) -> ofl_2425
+round(M$ofl_tot/1000, 2) -> ofl_2526
 #round(M[[rec_mod]]$spr_cofl/1000, 2) -> ofl_2324
-round(ofl_2425*.80, 2) -> abc_2425
+round(ofl_2526*.80, 2) -> abc_2526
 #round(M[[rec_mod]]$spr_cofl/1000*0.80, 2) -> abc_2324
-table1specs_t <- c(msst_2324, mmb_2324, mmb_2425, ofl_2425, abc_2425)
+table1specs_t <- c(msst_2425, mmb_2425, mmb_2526, ofl_2526, abc_2526)
 #table1specs_t
 
-round(M$bmsy*0.5*2204.62/1e6, 2) -> msst_2324_lb
-round(M$derived_quant_summary$ssb[length(M$derived_quant_summary$ssb)]* 2204.62/1e6, 2) -> mmb_2324_lb
-round(M$mmb_curr* 2204.62/1e6, 2) -> mmb_2425_lb
-round(M$ofl_tot* 2204.62/1e6, 2) -> ofl_2425_lb
-round(ofl_2425_lb*.80, 2) -> abc_2425_lb
-table1specs_lb <- c(msst_2324_lb, mmb_2324_lb, mmb_2425_lb, ofl_2425_lb, abc_2425_lb)
+round(M$bmsy*0.5*2204.62/1e6, 2) -> msst_2425_lb
+round(M$derived_quant_summary$ssb[length(M$derived_quant_summary$ssb)]* 2204.62/1e6, 2) -> mmb_2425_lb
+round(M$mmb_curr* 2204.62/1e6, 2) -> mmb_2526_lb
+round(M$ofl_tot* 2204.62/1e6, 2) -> ofl_2526_lb
+round(ofl_2526_lb*.80, 2) -> abc_2526_lb
+table1specs_lb <- c(msst_2425_lb, mmb_2425_lb, mmb_2526_lb, ofl_2526_lb, abc_2526_lb)
 
 # ofl and abc basis -------- table 3
 round(M$bmsy/1000, 2) -> bmsy_cur
@@ -109,15 +109,15 @@ round(M$f_ofl_tot, 2) -> fofl
 # Executive Summary {-}
 1.	**Stock**: Red king crab (RKC), *Paralithodes camtschaticus*, in Bristol Bay, Alaska.
 
-2.	**Catches**: The domestic RKC fishery began to expand in the late 1960s and peaked in 1980 with a catch of 129.95 million lb (58,943 t). The catch declined dramatically in the early 1980s and remained at low levels during the last three decades. After rationalization, catches were relatively high before the 2010/11 season but have been on a declining trend since 2014. The retained catch in 2023/24 was approximately 2.12 million lb (960 t), similar to the last open fishery in 2020/21 when retained catch was approximately 2.65 million lb (1,257 t). These season harvests follow a steady decline in total allowable catch (TAC) from 2016 on. The directed pot fishery was closed in 2021/22 and 2022/23 due to low mature female abundance in accordance with the State of Alaska harvest strategy. The magnitude of bycatch from groundfish trawl and fixed gear fisheries has been stable and small relative to stock abundance during the last 10 years. The decline of the directed pot fishery crab/pot lift (CPUE) has been much less than the retained catch decline, with the 2020/21 CPUE having about 12.5% reduction from the average CPUE during the recent 20 years. The 2023/24 CPUE of 20.54 crab/potlift was approximately a 13.7% decline from the average since 2000.
+2.	**Catches**: The domestic RKC fishery began to expand in the late 1960s and peaked in 1980 with a catch of 129.95 million lb (58,943 t). The catch declined dramatically in the early 1980s and remained at low levels during the last three decades. After rationalization, catches were relatively high before the 2010/11 season but have been on a declining trend since 2014. The retained catch in 2023/24 was approximately 2.12 million lb (960 t), similar to the last open fishery in 2020/21 when retained catch was approximately 2.65 million lb (1,257 t). These season harvests follow a steady decline in total allowable catch (TAC) from 2016 on. The directed pot fishery was closed in 2021/22 and 2022/23 due to low mature female abundance in accordance with the State of Alaska harvest strategy. The magnitude of bycatch from groundfish trawl and fixed gear fisheries has been stable and small relative to stock abundance during the last 10 years. The decline of the directed pot fishery crab/pot lift (CPUE) has been much less than the retained catch decline, with the 2020/21 CPUE having about 12.5% reduction from the average CPUE during the recent 20 years. **update** The 2023/24 CPUE of 20.54 crab/potlift was approximately a 13.7% decline from the average since 2000.
 
 3.  **Data sources**: Data extent is provided visually in Figure \@ref(fig:data-extent).
 
-4.	**Stock biomass**: Estimated mature biomass increased dramatically in the mid-1970s, then decreased precipitously in the early 1980s. Estimated mature crab abundance increased during 1985-2007 with mature females being about four times more abundant in 2007 than in 1985 and mature males being about two times more abundant in 2007 than in 1985. Estimated mature abundance was steadily declining since 2017, but appears to be increasing slowly in the last few years.The projected mature male survey biomass in 2024 is approximately 51.4% of the estimated mean survey biomass for the entire time series, which includes many periods of low biomass throughout history. The estimated mature female survey biomass was low from 2018 to 2022, but the 2024 estimated value increased to approximately 46.9% of the mean.
+4.	**Stock biomass**: Estimated mature biomass increased dramatically in the mid-1970s, then decreased precipitously in the early 1980s. Estimated mature crab abundance increased during 1985-2007 with mature females being about four times more abundant in 2007 than in 1985 and mature males being about two times more abundant in 2007 than in 1985. Estimated mature abundance was steadily declining since 2017, but appears to be increasing slowly in the last few years.The projected mature male survey biomass in 2025 is approximately 51.8% of the estimated mean survey biomass for the entire time series, which includes many periods of low biomass throughout history. The estimated mature female survey biomass was low from 2018 to 2022, but has increased since with the 2025 estimated value approximately 56.3% of the mean.
 
 5.	**Recruitment**: Estimated recruitment was high during the 1970s and early 1980s and has generally been low since 1985 (1979 year class). During 1984-2023, estimated recruitment was above the historical average (1976-2023 reference years) only in 1984, 1986, 1990, 1995, 1999, 2002, 2005, 2006, and 2010. Estimated recruitment was extremely low during the last 14 years, and even lower during the recent nine years. With the low recruitment in recent years, the projected mature biomass is expected to decline during the next few years with a below-average fishing mortality of 0.167 to 0.25 $yr^{-1}$.
 
-6.	**Management performance**: The stock was above Minimum Stock Size Threshold (MSST) in 2023/24 (99% of $B_{MSY}$) and hence was not overfished. Since total catch was below the OFL (overfishing limit), overfishing did not occur. The projection using the lowest recruitment periods during 2013-2023 would not likely result in “approaching an overfished condition” based on the current harvest strategy. The current version of GMACS uses an average of sex ratios of recruitment during the reference period to estimate B~35%~, which results in a stable sex ratio (about 50%) for the reference point calculation.  A 20% buffer was suggested by the CPT and SSC for 2021 - 2023, and is recommended by the author in 2024 for similar reasons to previous years. 
+6.	**Management performance**: The stock was above Minimum Stock Size Threshold (MSST) in 2023/24 (99% of $B_{MSY}$) and hence was not overfished. Since total catch was below the OFL (overfishing limit), overfishing did not occur. The projection using the lowest recruitment periods during 2013-2023 would not likely result in “approaching an overfished condition” based on the current harvest strategy. The current version of GMACS uses an average of sex ratios of recruitment during the reference period to estimate B~35%~, which results in a stable sex ratio (about 50%) for the reference point calculation.  A 20% buffer was suggested by the CPT and SSC for 2021 - 2024, and is recommended by the author in 2024 for similar reasons to previous years. 
 Tables below represent the status and catch specifications for model 24.0c in 1,000 t and million lb (Tables \@ref(tab:status) and \@ref(tab:statuslb)).
 
 
@@ -136,6 +136,7 @@ Tables below represent the status and catch specifications for model 24.0c in 1,
   2022/23 & 9.68  & 18.34 & 0 & 0.02 & 0.11 & 3.04 & 2.43 \\
   2023/24 & `r msst_2324` & `r mmb_2324` & 0.975 & 0.96 & 1.34 & 4.42 & 3.54 \\
   2024/25 &               & `r mmb_2425`&   &   &   & `r ofl_2425` & `r abc_2425` \\
+  2025/26  \\
   \hline
 \end{tabular}
 \end{table}
@@ -155,6 +156,7 @@ Tables below represent the status and catch specifications for model 24.0c in 1,
   2022/23 & 21.34 & 40.44 & 0 & 0.05 & 0.24 & 6.70 & 5.35 \\
   2023/24 & `r msst_2324_lb` & `r mmb_2324_lb` & 2.15 & 2.12 & 2.96 & 9.75 & 7.8 \\
   2024/25 &      & `r mmb_2425_lb`&   &   &   & `r ofl_2425_lb` & `r abc_2425_lb` \\
+  2025/26  \\
   \hline
 \end{tabular}
 \end{table}
@@ -217,9 +219,9 @@ A draft risk table is provided in Appendix D. This document details some of the 
 There are no new changes in management of the fishery.
 
 ## 2. Changes to the Input Data {-}
-a.	Updated groundfish fisheries bycatch data during 1986-2023.
-b.  Updated crab fisheries data: directed, cost-recovery, and bycatch.
-c.	Updated NMFS survey data for 2024, biomass and length compositions.
+a.	Updated groundfish fisheries bycatch data during 1986-2024.
+b.  Updated crab fisheries data 2024/25: directed, cost-recovery, and bycatch.
+c.	Updated NMFS survey data for 2025, biomass and length compositions.
 d.	Updated length composition data for directed and non-directed fisheries.
 
 ## 3. Changes in Assessment Methodology {-}
