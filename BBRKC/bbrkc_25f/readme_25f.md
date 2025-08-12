@@ -5,15 +5,9 @@ katie.palof@alaska.gov
 # CPT/SSC comments  -----
 see SAFE document and my notes in OneNote
 
-## 2025 modeling workshop instructions
-Most updated version of GMACS - see 'readme_gmacs_versions.md'
-instructions are different than below 
+June 25 SSC comment 
+- track historic retrospectives - the is the MMB found in "xxxx_gmacs_sum_abun.csv" for every year I did the assessment. Need to find this for Jie's yers
 
-## old instructions---
-## Running model -*fix* update from FEb 24 workshop
-1) Update gmacs.exe with updated version via github. Make sure to update .dat and .ctl files to reflect changes in the program and input files - see "C:\Users\kjpalof\Documents\Rprojects\GMACS-project\GMACS_Assessment_code\GMACS_versions\Latest_Version" for latest version of GMACS. Make sure to "pull" this project first before following "katie" R script in R script file to compile
-2) change the 'XX.prj' files to bbrkc.prj for that model run
-3) update 'gmacs.dat' to reflect the model run files
 
 ## general model run -----
 See instructions under SMBKC
@@ -30,11 +24,42 @@ Model should run if input files are read in correctly.
   - did NOT update size comps
   - did NOT update Tanner
 - Sept 25
-  - updated catch for year 24 - need to update size comps
+  - updated catch for year 24/25 - crab catch data - catch and size comps, survey data, groundfish data
   - survey data - catch and size comps
+  - did NOT update GMACS versions 
 
 ## Model options Sept ---------
+m24.0C - from 2024 final assessment 
 24.0c.2 - 24.0c.1(24.0c +updated catch time series - see above) + one shell condition in model
+
+
+# Document updates ----------
+SAFE document is in Rmarkdown format. Need to work on all tables, etc.
+see "doc_figures_tables_gmacsr.R" and 
+bbrkc_fucntions_gmacsr", "Jie_figures_tables_create_SAFE.R" for creation of figures and tables. 
+These also refer to some of Jie's code which is in folder 'BBRKC/code/Jie R code'.
+Other code for figures or analysis is found in 'BBRKC/code'
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------------
+## 2025 modeling workshop instructions
+Most updated version of GMACS - see 'readme_gmacs_versions.md'
+instructions are different than below 
+
+## old instructions---
+## Running model -*fix* update from FEb 24 workshop
+1) Update gmacs.exe with updated version via github. Make sure to update .dat and .ctl files to reflect changes in the program and input files - see "C:\Users\kjpalof\Documents\Rprojects\GMACS-project\GMACS_Assessment_code\GMACS_versions\Latest_Version" for latest version of GMACS. Make sure to "pull" this project first before following "katie" R script in R script file to compile
+2) change the 'XX.prj' files to bbrkc.prj for that model run
+3) update 'gmacs.dat' to reflect the model run files
 
 
 ## Model options May  ------
@@ -55,14 +80,10 @@ CUT 25.0 - 24.0c.2 + size bin increase for males
 Selectivity explorations found in C:\Users\kjpalof\Documents\BSAI_crab_assessments\BBRKC\bbrkc_24s\explore
 
 
-# Document updates ----------
-SAFE document is in Rmarkdown format. Need to work on all tables, etc.
-see "figures_tables_create_SAFE.R" and "Jie_figures_tables_create_SAFE.R" for creation of figures and tables. These also refer to some of Jie's code which is in folder 'BBRKC/code/Jie R code'.
-Other code for figures or analysis is found in 'BBRKC/code'
-Full markdown document was successful in 2023 but still some formatting with figures, etc. needed.
+
 
 ## results for this document ----------
-likelihood comparions for all models above
+likelihood comparisons for all models above
 specific parameters for models - m24c, m24.0c.2 and m25.1b
 
 ## GMACS versions ----
