@@ -14,9 +14,9 @@ output:
 #options(xtable.comment = FALSE)
 ```
 
-# Appendix D. Draft Risk Table for BBRKC 2024 {-}
+# Appendix D. Draft Risk Table for BBRKC 2025 {-}
 
-During the 2023 fall assessment cycle for BSAI crab stocks the SSC requested that the CPT take up risk tables again for crab stocks. The CPT recommended bringing forward a draft risk table for the "big three" stocks - BBRKC, tanner crab, and snow crab - for the 2024 assessment cycle. 
+In the last year risk tables have been under development for the annual crab stok assessments. During the 2023 fall assessment cycle for BSAI crab stocks the SSC requested that the CPT take up risk tables again for crab stocks. The CPT recommended bringing forward a draft risk table for the "big three" stocks - BBRKC, tanner crab, and snow crab - for the 2024 assessment cycle. 
 
 The risk table approach, currently used in the NPFMC groundfish assessments, highlights external factors to the assessment performance across four categories: assessment-related, population dynamics, environmental/ecosystem, and fishery performance. The risk table highlights potential issues in these four areas that should be considered when applying a buffer to the OFL to determine a recommended ABC. Currently, ABC buffers for crab stocks are set using uncertainties about the stock and assessment process that are not incorporated into the assessment model. These are documented in the SAFE reports in each year. The goal of incorporating the risk table process is to use this tool to organize the information that is currently used in ABC buffer considerations. 
 
