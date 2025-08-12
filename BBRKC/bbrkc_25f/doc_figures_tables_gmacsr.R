@@ -17,7 +17,7 @@ library(sjmisc)
 library(gmacsr)
 #source("./gmacsr/gmacsr.R")
 # **************************************************************************************************
-cur_yr <- 2024 # update annually 
+cur_yr <- 2025 # update annually 
 folder <- "bbrkc_25f" # update annually 
 # The palette with grey:
 cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#D55E00", "#0072B2", "#CC79A7", "#F0E442")
@@ -26,64 +26,52 @@ cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#D55E00", "#0072B2",
 plot_save <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/")
 plot_save_newD <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/Model_runs/")
 plot_save_base <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/Base_models/")
-plot_save_byC <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/bycatch_models/")
+#plot_save_byC <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/bycatch_models/")
 #plot_save_state <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/state")
 #plot_save_sel <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/sel_models/")
 #plot_save_molt <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/molt_models/")
 #table directory 
-.TABS     = c("./BBRKC/bbrkc_25s/doc/tables/")
-.FIGS     = c("./BBRKC/bbrkc_25s/doc/figures/")
+.TABS     = c("./BBRKC/bbrkc_25f/doc/tables/")
+.FIGS     = c("./BBRKC/bbrkc_25f/doc/figures/")
 .THEME    = list(theme_bw(base_size = 12, base_family = ""), scale_fill_manual(values=cbPalette), 
                  scale_colour_manual(values=cbPalette), 
                  update_geom_defaults("line", list(size = 1.75)))
 ## read in models
-# for spring 2025
-##      - 23.0a_p7 as base (2023 and 2024 version)
-##      - 24c base with less molting time period
+# for fall 2025
+##      - 24c 2024 base with less molting time period
+##      - 24.0c.2 - updated base choosen in May 25s
 ##      - REMA model (as appendix look for in script "BBRKC/code/bbrkc_rema.R")
 
 #model 24.0c 
-m24c.14 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_24f/model_24_0c/Gmacsall.out"), model_name = "m24.0c.14", version = "2.20.14")
-m24c <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25s/ver20/v20_24.0c/Gmacsall.out"), model_name = "m24.0c")
+m24c.v14 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_24f/model_24_0c/Gmacsall.out"), model_name = "m24.0c.v14", version = "2.20.14")
+m24c.v20 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25s/ver20/v20_24.0c/Gmacsall.out"), model_name = "m24.0c.v20")
 
 #m24c.20 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25s/ver20/v20_24.0c/Gmacsall.out"), model_name = "m24.0c.20")
-m24c.1 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25s/m24.0c.1/Gmacsall.out"), model_name = "m24.0c.1")
-m24c.1a <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25s/m24.0c.1a/Gmacsall.out"), model_name = "m24.0c.1a")
-m24c.2 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25s/m24.0c.2/Gmacsall.out"), model_name = "m24.0c.2")
-m25.1a <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25s/m25.1a/Gmacsall.out"), model_name = "m25.1a")
-m25.1b <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25s/m25.1b/Gmacsall.out"), model_name = "m25.1b")
-m25.1b2 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25s/m25.1b2/Gmacsall.out"), model_name = "m25.1b2")
-#m25.1a2 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25s/m25.1a_v1/Gmacsall.out"), model_name = "m25.1a2")
-#m24c_state <- gmacs_read_allout(file = "./BBRKC/bbrkc_24f/model_24_0c_MAX harvest/Gmacsall.out", model_name = "m24.0c_state", 
-#                                version = "2.20.14")
+m24c.2_2024 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25s/m24.0c.2/Gmacsall.out"), model_name = "m24.0c.2_2024")
+m24c.2 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25f/m24.0c.2/Gmacsall.out"), model_name = "m24.0c.2")
+
 
 ## read std files -------------------
 #m24c.14_std <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_24f/model_24_0c/gmacs.std"), model_name = "m24.0c.14", 
 #                             version = "2.20.14")
-m24c_std <- gmacs_read_std(file = "./BBRKC/bbrkc_25s/ver20/v20_24.0c/gmacs.std", model_name = "m24.0c")
-m24c.1_std <- gmacs_read_std(file = "./BBRKC/bbrkc_25s/m24.0c.1/gmacs.std", model_name = "m24.0c.1")
-m24c.1a_std <- gmacs_read_std(file = "./BBRKC/bbrkc_25s/m24.0c.1a/gmacs.std", model_name = "m24.0c.1a")
-m24c.2_std <- gmacs_read_std(file = "./BBRKC/bbrkc_25s/m24.0c.2/gmacs.std", model_name = "m24.0c.2")
-m25.1a_std <- gmacs_read_std(file = "./BBRKC/bbrkc_25s/m25.1a/gmacs.std", model_name = "m25.1a")
-m25.1b_std <- gmacs_read_std(file = "./BBRKC/bbrkc_25s/m25.1b/gmacs.std", model_name = "m25.1b")
-m25.1b2_std <- gmacs_read_std(file = "./BBRKC/bbrkc_25s/m25.1b2/gmacs.std", model_name = "m25.1b2")
+m24c.v20_std <- gmacs_read_std(file = "./BBRKC/bbrkc_25s/ver20/v20_24.0c/gmacs.std", model_name = "m24.0c.v20")
+m24c.2_2024_std <- gmacs_read_std(file = "./BBRKC/bbrkc_25f/m24.0c.2/gmacs.std", model_name = "m24.0c.2_2024")
+m24c.2_std <- gmacs_read_std(file = "./BBRKC/bbrkc_25f/m24.0c.2/gmacs.std", model_name = "m24.0c.2")
 # model groupings defined here for future plots ----------------
-base_models1 <- list(m24c.14, m24c) # models for comparison 2024
-bycatch_models <- list(m24c.1a, m24c.2)
-base_std <- list(m24c_std, m24c.1_std, m24c.1a_std, m24c.2_std)
-base_models <- list(m24c, m24c.1, m24c.1a, m24c.2)
-newD_models <- list(m24c.2, m25.1a, m25.1b, m25.1b2) # comparing new data
+base_models <- list(m24c.v14, m24c.v20, m24c.2_2024)
+newD_models <- list(m24c.2_2024, m24c.2) # comparing new data
+base_std <- list(m24c.v20_std, m24c.2_2024_std)
 
-newD_std <- list(m24c.2_std, m25.1a_std, m25.1b_std, m25.1b2_std)
-byC_std <- list(m24c.1a_std, m24c.2_std)
+newD_std <- list(m24c.2_2024_std, m24c.2_std)
+
 
 #liklihood ------
 gmacs_get_lik_type_pen(all_out = newD_models)
 temp <- gmacs_get_lik(all_out = newD_models) 
 print(temp, n = Inf)
-gmacs_get_pars(all_out = newD_models)
+gmacs_get_pars(all_out = newD_models) 
 
-gmacs_get_lik_type_pen(all_out = bycatch_models)
+#gmacs_get_lik_type_pen(all_out = bycatch_models)
 
 # Order for SAFE R markdown doc #############################
 # data range ------
@@ -137,7 +125,7 @@ tag_molt %>%
   mutate(year = as.factor(year)) %>% 
   mutate(model = block) -> tag_molt
 
-year_list <- c(1975, 2024) # adjust due to error
+year_list <- c(1975, 2025) # adjust due to error
 mdf %>% 
   filter(sex == "male") %>% 
   mutate(year = as.factor(year)) %>% 
@@ -156,7 +144,7 @@ molt_tag_data %>%
   geom_point(aes(linetype = model, col = year)) + .THEME +
   #scale_color_discrete(name = "Year Range", labels = c("1975-1979", "1980-2023", "1954-1961", "1966-1969"))+
   scale_color_manual(values = c("#999999", "#E69F00", "#56B4E9", "#009E73"), 
-                     name = "Year Range", labels = c("1975-2023", "1954-1961", "1966-1969"))-> p
+                     name = "Year Range", labels = c("1975-2024", "1954-1961", "1966-1969"))-> p
 # add in year range as labels. 
 print(p)
 ggsave(paste0(.FIGS, "molt_tagging_males_base.png"), width = 6*1.15, height = 1.25*5)
@@ -219,14 +207,15 @@ gmacs_plot_osa_residuals(all_out = list(m24c.2), save_plot = T, plot_dir = plot_
 ## mmb ------------
 gmacs_plot_mmb(all_out = base_models, save_plot = T, plot_dir = plot_save_base, plot_ci = T, std_list = base_std)
 gmacs_plot_mmb(all_out = newD_models, plot_dir = plot_save_newD, plot_ci = T, std_list = newD_std)
-gmacs_plot_mmb(all_out = bycatch_models, plot_dir = plot_save_byC, plot_ci = T, std_list = byC_std)
+gmacs_plot_mmb(all_out = list(m24c.2_2024, m24c.2), save_plot = T, plot_dir = plot_save_newD, 
+               plot_ci = T, std_list = list(m24c.2_2024_std, m24c.2_std))
+# not working need to **FIX** to get confidence intervals
 
 #gmacs_plot_mmb(all_out = molt_models, plot_dir = plot_save_molt, plot_ci = T, std_list = molt_std)
-#gmacs_plot_mmb(all_out = list(m24c, m24c_state), save_plot = T, plot_dir = plot_save_state, 
-         #      plot_ci = T, std_list = list(m24c_std, m24c_state_std))
-#gmacs_plot_mmb(all_out = list(m24c_state), save_plot = T, 
-#               plot_dir = "C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_24f/doc/figures/state")
-               #plot_ci = F, std_list = list(m24c_std, m24c_state_std))
+gmacs_plot_mmb(all_out = list(m24c.2_2024, m24c.2), save_plot = T, plot_dir = plot_save_newD, 
+             plot_ci = F ) #, std_list = list(m24c_std, m24c_state_std))
+gmacs_plot_mmb(all_out = base_models, save_plot = T, plot_dir = plot_save_base, plot_ci = F) #, std_list = base_std)
+
 ## recruitment ------
 #gmacs_plot_recruitment(all_out = list(m230a_23, m230a_24, m24c), save_plot = T, plot_dir = plot_save_newD)
 gmacs_plot_recruitment(all_out = base_models, save_plot = T, plot_dir = plot_save_base)
@@ -249,7 +238,7 @@ gmacs_plot_f_mmb(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD
 gmacs_plot_f(all_out = base_models, save_plot = T, plot_dir = plot_save_base)
 gmacs_plot_f(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD)
 #gmacs_plot_f(all_out = molt_models, save_plot = T, plot_dir = plot_save_molt)
-ftemp <- gmacs_get_f(all_out = list(m24c.2, m25.1a))
+ftemp <- gmacs_get_f(all_out = list(m24c.2))
 ftemp %>%
   group_by(model, year, sex, fleet, n_sex) %>%
   summarize(f = sum(`F`)) -> ftemp2
@@ -260,8 +249,9 @@ ftemp2 %>%
 ftemp2 %>% 
   filter(fleet == "Pot_Fishery", sex == "male") %>% 
   filter(year >= 2000) %>% print(n = 100)
-# last two open years 2020/21 - 0.146
-# 2023/24 - 0.067
+# last two open years 2020/21 - 0.141
+# 2023/24 - 0.064
+# 2024/25 - 0.062
 
 ftemp2 %>% 
   filter(fleet == "Pot_Fishery", sex == "female") %>% 
@@ -293,8 +283,8 @@ gmacs_plot_catch_kjp(all_out = newD_models, save_plot = T, plot_dir = plot_save_
 #gmacs_plot_data_range(all_out = base_models, save_plot = T, plot_dir = plot_save)
 
 #mature female abundance -----------
-fem1 <- as.data.frame(m230a_24$n_matrix)
-fem2 <- as.data.frame(m24c$n_matrix)
+fem1 <- as.data.frame(m24c.2_2024$n_matrix)
+fem2 <- as.data.frame(m24c.2$n_matrix)
 
 fem1 %>% 
   select(year, size, females) %>% 
@@ -302,7 +292,7 @@ fem1 %>%
   filter(size >= 92.5, size < 147.5) %>% # just mature size classes 6 to 16 exclude first 5
   group_by(year) %>% 
   summarise(mat_total = sum(females)/1000000) %>% 
-  mutate(model = "m230a") -> mat_fem
+  mutate(model = "m24c.2_2024") -> mat_fem
 
 fem2 %>% 
   select(year, size, females) %>% 
@@ -310,7 +300,7 @@ fem2 %>%
   filter(size >= 92.5, size < 147.5) %>% # just mature size classes 6 to 16 exclude first 5
   group_by(year) %>% 
   summarise(mat_total = sum(females)/1000000) %>% 
-  mutate(model = "m24c") -> mat_fem2
+  mutate(model = "m24c.2") -> mat_fem2
 
 mat_fem %>% 
   rbind(mat_fem2) -> mat_fem_abn
@@ -396,7 +386,7 @@ ggsave(paste0(here::here(), "/BBRKC/", folder, "/doc/figures/stock_recruit2_230a
 # see EBSsurvey_analysis.R line 301
 
 # Tables 1 to 3 calcs -------
-## table 1 
+##  SKIP table 1 
 # model 21.1b
 M <- m230a_24
 #round(M[[rec_mod]]$spr_bmsy/1000 * 0.5, 2) -> msst_2223
@@ -413,7 +403,7 @@ table1specs_t <- c(msst_2324, mmb_2324, mmb_2425, ofl_2425, abc_2425)
 table1specs_t
 
 # use this as starting place for table 1 ----
-refT1 <- gmacs_get_ref_points(all_out = list(m24c, m24c.1, m24c.2, m25.1a, m25.1b, m25.1b2))
+refT1 <- gmacs_get_ref_points(all_out = list(m24c.v14, m24c.2_2024, m24c.2))
 refT1 %>% 
   as.data.frame() %>% 
   mutate(MMB = round(mmb/1000, 2), 
@@ -423,7 +413,7 @@ refT1 %>%
          OFL = round(ofl_tot/1000, 2), 
          male_rbar = round(male_rbar/1000000, 2), 
          b_b35 = round(b_b35, 2)) %>% 
-  merge(M_tab1) %>% # see below for this data frame
+  merge(M_tab1) %>% # see below for this data frame line 461
   mutate(maleM = round(base, 2)) %>% 
   select(model, MMB, b35, b_b35, f35, fofl, OFL, male_rbar, maleM) -> tab1_ref
 write.csv(tab1_ref, paste0(.TABS, "specs_all_mods_detailed.csv"), row.names = FALSE)
@@ -435,7 +425,7 @@ gmacs_get_ref_points(all_out = newD_models)
 gmacs_get_ref_points(all_out = base_models)
 #base_models <- list(m24c, m24c.1, m24c.1a, m24c.2)
 #newD_models <- list(m24c.2, m25.1a, m25.1b, m25.1b2) # 
-refT1 <- gmacs_get_ref_points(all_out = list(m24c, m24c.1, m24c.1a, m24c.2,m25.1a, m25.1b, m25.1b2 ))
+refT1 <- gmacs_get_ref_points(all_out = list(m24c.v14, m24c.2_2024, m24c.2 ))
 refT1 %>% 
   as.data.frame() %>% 
   mutate(MMB = round(mmb/1000, 2), 
@@ -455,7 +445,7 @@ write.csv(ref_pt_table, paste0(.TABS, "specs_all_mods.csv"), row.names = FALSE)
 
 # Table 7 nat mort----
 #nat_mort <- .get_M_df_kjp(M[2:4]) # bbrkc_functions.R
-nat_mort <- gmacs_get_m(all_out = list(m24c, m24c.1, m24c.2, m25.1a, m25.1b, m25.1b2))
+nat_mort <- gmacs_get_m(all_out = list(m24c.v14, m24c.2_2024, m24c.2))
 #nat_mort <- m230a$M_by_class
 nat_mort %>% 
   distinct(model, sex, M) %>% print(n =100)
@@ -463,9 +453,6 @@ nat_mort %>%
 nat_mort %>% 
   distinct(model, sex, M) %>% 
   mutate(year = c("base", "1980-84", "base", "1980-84",
-                  "base", "1980-84", "base", "1980-84",
-                  "base", "1980-84", "base", "1980-84",
-                  "base", "1980-84", "base", "1980-84",
                   "base", "1980-84", "base", "1980-84",
                   "base", "1980-84", "base", "1980-84"))-> natural_mort_all
 # want to seperate out the year ranges
@@ -482,7 +469,7 @@ write.csv(natural_mort_all2, paste0(.TABS, "M_out.csv"), row.names = FALSE)
 
 # get likelihood table --------------------
 # spring 25 - which models to include here???
-base_like <- gmacs_get_lik(all_out = list(m24c, m24c.1, m24c.1a, m24c.2, m25.1a, m25.1b, m25.1b2)) #base_models <- list(m24c, m24c.1, m24c.1a, m24c.2)
+base_like <- gmacs_get_lik(all_out = list(m24c.v14, m24c.2_2024, m24c.2)) #base_models <- list(m24c, m24c.1, m24c.1a, m24c.2)
 #newD_models <- list(m24c.2, m25.1a, m25.1b, m25.1b2) 
 # remove tagging and growth 
 

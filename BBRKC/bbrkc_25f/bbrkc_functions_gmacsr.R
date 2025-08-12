@@ -294,8 +294,8 @@ gmacs_plot_catch_kjp <- function(all_out = NULL, save_plot = T, plot_dir = NULL,
   
   
 
-# exploratory area --------------
-  # gmacs_plot_sizecomp() ----
+  
+# gmacs_plot_sizecomp_kjp() ----
   
   ## plot fits to gmacs size comp data
   
@@ -313,7 +313,7 @@ gmacs_plot_catch_kjp <- function(all_out = NULL, save_plot = T, plot_dir = NULL,
   ### model_name - character string passed to gmacs_read_allout(), expressed as character vector, not needed if all.out is provided
   
   
-gmacs_plot_sizecomp_kjp <- function (all_out = NULL, save_plot = T, plot_dir = NULL, size_lab = "Size", 
+  gmacs_plot_sizecomp_kjp <- function (all_out = NULL, save_plot = T, plot_dir = NULL, size_lab = "Size", 
                                        add_n = T, add_n_est = T, agg_series = T, agg_series_label = NULL, 
                                        data_summary = NULL, file = NULL, model_name = NULL, version = NULL) 
   {
@@ -454,6 +454,15 @@ gmacs_plot_sizecomp_kjp <- function (all_out = NULL, save_plot = T, plot_dir = N
   }
   
   
+  
+  
+# gmacs_plot_mmb_kjp -------------------------------
+# confidence intervals not working 
+  
+  
+  
+# exploratory area --------------
+ 
   
   # explore f mmb -----
   temp <-  m230a_24$F_by_sex_fleet_year_season
