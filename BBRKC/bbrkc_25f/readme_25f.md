@@ -42,6 +42,41 @@ Other code for figures or analysis is found in 'BBRKC/code'
 
 
 
+###Run mcmc for projections -------------------------
+** add an estimate of catch in 2023/2024 for the forecast year for the projections to work**
+
+#### Test mcmc run
+'gmacs -mcmc 2 -mcsave 1' took 22m - turned off variances in 'gmacs.dat'
+
+'gmacs -mcmc 10 -mcsave 3' make sure .psv file is created (model 24.0c.2 this takes - ? mins.)
+
+BBRKC 21 :::: # Run mcmc for projections
+Test mcmc run (see above)
+
+gmacs -mcmc 500000 -mcsave 1000 -nox (this means don't show vector and gradient values in function minimizer screen report)
+(see below for time)
+
+# for projections
+Need to run mcmc above to get .psv file for projections
+After completion, then run:
+
+1) Update .prj file with the projection that you're running (see .prj file)
+check Jie's prj file from 2021 - see what his parameters are here
+- how many iterations to run? Jie had anywhere from 1,000 to 10,000
+- try 10,000 - how long 21.1b 4:30pm
+
+2) 'gmacs -mceval'
+
+There are five files generated from this run:
+mcount.rep
+mcountPROJ.rep
+mcountREC.rep
+mcountREF.rep
+mcountSSB.rep
+gmacs.hst
+
+#### projection summaries 
+figures, etc. created in BBRKC/code/projection_summary_figures.R
 
 
 

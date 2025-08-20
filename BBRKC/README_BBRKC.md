@@ -26,6 +26,12 @@ data: data foldered by year. Updates from survey, observer data, catch data, gro
 - survey data updated from - EBSsurvey_analysis.R
 - size comps from 'bbrkc_sizecomps.R'
 
+Catch data updates annually:
+- see 'RKC_SAFE25_kjp.xlsx'
+- catch totals are in folder from Tyler (data/2025...) but unsure where the test fishery is here....
+  - Ben sent me catch data (also in same folder) has test fishery but not sure about conversion
+- Where are catch calculations for SAFE intro table?????
+
 
 readme: files from Jie, background files, Excel summary files I inherited from Jie
 
