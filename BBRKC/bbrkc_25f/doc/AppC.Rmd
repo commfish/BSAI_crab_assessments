@@ -12,6 +12,7 @@ output:
 #\pagenumbering{gobble}
 #library(xtable)
 #options(xtable.comment = FALSE)
+#library(tidyverse)
 ```
 
 # Appendix C. Tier 4 fallback REMA exploration {-}
@@ -50,7 +51,7 @@ where MMB is quantified at the mean time of mating date (15 February), $B_{MSY}$
 
 ```{r specs-rema, results = "asis"}
 
-df <- read.csv(paste0(here::here(), '/BBRKC/bbrkc_24f/doc/figures/REMA/specs_REMA.csv'))
+df <- read.csv(paste0(here::here(), '/BBRKC/bbrkc_25f/doc/figures/REMA/specs_REMA.csv'))
 df %>% 
   mutate(avgB = avgB/1000, 
          MMB = MMB/1000, 
