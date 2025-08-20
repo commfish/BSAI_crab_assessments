@@ -5,7 +5,7 @@
 # updated 8-5-2025
 # found in BSAI_crab_assessments/BBRKC/data/2025
 
-devtools::install_github("commfish/BSAIcrabR", force = TRUE)
+#devtools::install_github("commfish/BSAIcrabR", force = TRUE)
 library(BSAIcrabR)
 library(tidyverse)
 
@@ -15,11 +15,17 @@ folder <- "bbrkc_2025 (8 1 2025)"
 # retained catch summary 
 ret_catch <- read_csv(paste0(here::here(), "/BBRKC/data/2025/", folder, "/retained_catch.csv")) 
 
+ret_catch %>% 
+  filter(crab_year >= 2020)
 
 
 #total catch summary
 tot_catch <- read_csv(paste0(here::here(), "/BBRKC/data/2025/", folder, "/total_catch.csv")) 
 
+tot_catch %>% 
+  filter(crab_year >= 2022, target_stock == "BBRKC") %>% 
+  group_by(group)
+         
 # males
 tot_catch %>% 
   as.data.frame() %>% 
@@ -144,6 +150,47 @@ ret_catch_comp %>%
   dplyr::select(crab_year, nsamp, grep("\\d", names(.), value = T), ncrab) %>% 
   write_delim(here::here("BBRKC/data/2025/item5_directed_fishery_size_comp_retained_males.txt"), delim = "\t", col_names = F, na = "")
 
+
+# tanner bycatch size comps -----------------
+## total size comp -------------------
+# 
+tanner_catch_comp <- read_csv(paste0(here::here(), "/BBRKC/data/2025/", folder, "/tanner_bycatch_composition.csv"))
+head(tanner_catch_comp)
+
+# sample size for 2024
+tanner_catch_comp %>% 
+  filter(crab_year == 2024)
+# 1 crab is NOT enough to do size comps.
+# males
+tanner_catch_comp %>% 
+  filter(sex == 1) %>% 
+  filter(size >= 65) %>% 
+  mutate(size_bin = ifelse(size > 160, 160, floor(size/5)*5)) %>% 
+  group_by(crab_year, size_bin, .drop = F) %>% 
+  summarise(y_total = sum(total, na.rm = T)) %>% 
+  # pull in missing bins
+  full_join(expand_grid(size_bin = seq(65, 160, by = 5), 
+                        crab_year = seq(1990, 2024, by = 1)), 
+            by = c("crab_year", "size_bin")) %>% 
+  replace_na(list(y_total = 0)) %>% 
+  #normalize to sum to 1
+  group_by(crab_year) %>% 
+  mutate(prop =  sprintf('%.4f', y_total / sum(y_total)),
+         nsamp = min(0.05*sum(y_total), 25),
+         ncrab = paste0("#", sum(y_total))) %>%
+  arrange(crab_year, size_bin) %>% 
+  ungroup() %>%
+  # pivot to wide format
+  dplyr::select(-y_total) %>%
+  pivot_wider(names_from = "size_bin", values_from = "prop") %>% 
+  arrange(crab_year) %>% 
+  dplyr::select(crab_year, nsamp, grep("\\d", names(.), value = T), ncrab) %>% 
+  write_delim(here::here("BBRKC/data/2025/item6a_tanner_e166_size_comp_males.txt"), delim = "\t", col_names = F, na = "")
+
+
+
+
+### old -----------------------------
 ret_catch_comp %>% 
   # filter only for animals in the model
   filter(size >= 65) %>%

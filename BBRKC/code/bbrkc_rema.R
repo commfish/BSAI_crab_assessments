@@ -1,13 +1,13 @@
 # notes ----
 # REMA for BBRKC MMB 
 # tyler jackson
-# 5/2/2023 / 8-28-2023 / 8-17-2024
+# 5/2/2023 / 8-28-2023 / 8-17-2024 / 8-11-2025
 
 # load ----
 
 # KATIE INSTALLS REMA HERE
 # https://afsc-assessments.github.io/rema/
-#devtools::install_github("afsc-assessments/rema", dependencies = TRUE, build_vignettes = TRUE)
+#devtools::install_github("afsc-assessments/rema", dependencies = TRUE, build_vignettes = TRUE, force = T)
 
 library(rema)
 library(tidyverse)
@@ -109,7 +109,90 @@ f_plot_rema_fit <- function(fits, confint = T) {
 }
 
 # data ----
-cur_yr = 2024
+cur_yr = 2025 # update annually
+
+## see notes in akfin crabpack ------- for input data
+rema_input <- read.csv(paste0("C:/Users/kjpalof/Documents/R projects/akfin_crabpack/results/", cur_yr, "/mmb_rema_input.csv"))
+
+rema_input %>% 
+  mutate(strata = "BBRKC") %>% 
+  select(strata, year = YEAR, biomass = BIOMASS_MT, cv = BIOMASS_MT_CV) -> rema_in2
+
+## fit base rema model
+prepare_rema_input(model_name = "BBRKC_REMA_25",
+                   start_year = 1975,
+                   end_year = 2025,
+                   biomass_dat = rema_in2) %>%
+  fit_rema(do.check = T) -> BBRKC_REMA_25
+
+# plot and save predicted mmb ----
+
+# write csv
+tidy_rema(BBRKC_REMA_25)$biomass_by_strata %>%
+  transmute(year, pred_t = pred, pred_l95 = pred_lci, pred_u95 = pred_uci,
+            obs_t = obs, obs_l95 = obs_lci, obs_u95 = obs_uci) %>%
+  write.csv(paste0(here::here(), "./BBRKC/bbrkc_25f/doc/figures/REMA/rema_fit.csv"))
+
+# plot mmb fit
+p1 <- f_plot_rema_fit(list(BBRKC_REMA_25))
+
+ggsave(paste0(here::here(), "./BBRKC/bbrkc_25f/doc/figures/REMA/mmbfit.png"), plot = p1, height = 4, width = 6, units = "in")
+
+# estimate OFL and ABC using tier 4/5 ----
+## mmb timeseries fit ----
+tidy_rema(BBRKC_REMA_25)$biomass_by_strata %>% 
+  select(year, pred, sd_log_pred) %>% 
+  mutate(sd_pred = pred*(exp(sd_log_pred^2)-1)^0.5, 
+         CV_pred = sd_pred/pred) -> predicted_mmb
+
+#sd_mmb = MMB*(exp(sd_log_ssb^2)-1)^0.5) %>% # sd mmb
+
+# average B from 1984 to 2022
+predicted_mmb %>% 
+  filter(year >=1984 & year <= 2024) %>% # change year here to 2022
+  summarise(averageB = mean(pred)) %>% 
+  as.numeric -> avg_B
+
+# extract MMB
+tidy_rema(BBRKC_REMA_25)$biomass_by_strata %>%
+  filter(year == max(year)) %>%
+  pull(pred) %>% as.numeric -> MMB
+
+# current status 
+status <- MMB/avg_B
+
+# natural mortality
+M <- 0.23
+
+# Fofl
+Fofl <- (M*(status - 0.1))/(1-0.1) # where alpha = 0.1 Tier 4 OFL
+
+# OFL - as adjusted by status
+#OFL <- MMB * M  # not adjusted by status
+OFL <- MMB*Fofl
+
+# ABC 
+ABC <- (1 - 0.20) * OFL
+predicted_mmb %>% 
+  select(CV_pred) %>% 
+  tail(1) -> abc_buck
+abc_buck
+ABC_2 <- (1-0.138)*OFL
+
+specs <- round(c(avg_B, MMB, status, M, Fofl, OFL, ABC, ABC_2), 2)
+cnames <- c("avgB", "MMB", "B/Bmsy","M", "Fofl", "OFL", "ABC", "ABC_2")
+df <- data.frame(cnames, specs) 
+df %>% 
+  spread(cnames, specs) %>% 
+  select(avgB, MMB, `B/Bmsy`, M, Fofl, OFL, ABC, ABC_2)-> df
+write.csv(df, paste0(here::here(), "./BBRKC/bbrkc_25f/doc/figures/REMA/specs_REMA.csv"), row.names = FALSE)
+
+
+
+
+
+
+#Historic workflow prior to crabpack --------------------------
 # specimen data (haul data dump)
 #read.csv("./BBRKC/data/2022/survey/rkc_specimen.csv", skip = 5) %>%
 read.csv(paste0(here::here(), '/BBRKC/data/', cur_yr, '/survey/EBSCrab_Haul.csv'), 
@@ -193,6 +276,7 @@ mmb %>%
             biomass = biomass_t,
             cv = biomass_t_cv) %>%
   as.data.frame() -> rema_in
+write.csv(rema_in, paste0(here::here(), "./BBRKC/bbrkc_24f/doc/rema_input_2024.csv"))
 
 ## fit base rema model
 prepare_rema_input(model_name = "BBRKC_REMA23.4",

@@ -1,5 +1,5 @@
 # k.palof katie.palof@alaska.gov
-# date updated: 8-14-22 / 8-11-23/ 8-11-24
+# date updated: 8-14-22 / 8-11-23/ 8-11-24 /8-6-25
 
 # Data manipulation for bycatch in Groundfish fisheries for BBRKC
 
@@ -24,8 +24,8 @@
 #   
 # load -----
 source("./SMBKC/code/packages.R")
-model_yr = "bbrkc_24f"
-cur_yr = 2024 # need a note here if this should be 2021 or 2022
+model_yr = "bbrkc_25f"
+cur_yr = 2025 # need a note here if this should be 2021 or 2022
 cal_yr = cur_yr
 
 # data -----
@@ -97,7 +97,9 @@ gf_length_bb %>%
 
 # effective sample size------
 samp_by_gear %>% 
-  mutate(eff_samp = 0.05*Nsamp) -> effective_sample # put this in .dat file
+  mutate(eff_samp = 0.05*Nsamp) %>% 
+  mutate(half_eff_samp = 0.5*eff_samp) -> effective_sample # put this in .dat file
+
 
 # male proportions ------
 gf_length_bb %>% 

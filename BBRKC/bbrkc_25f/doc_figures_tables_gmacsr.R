@@ -12,9 +12,10 @@
 # compResidual install
 #TMB:::install.contrib("https://github.com/vtrijoulet/OSA_multivariate_dists/archive/main.zip")
 #remotes::install_github("fishfollower/compResidual/compResidual", force=TRUE)
-#devtools::install_github("commfish/gmacsr")
+#  devtools::install_github("commfish/gmacsr")
 library(sjmisc)
 library(gmacsr)
+library(ggrepel)
 #source("./gmacsr/gmacsr.R")
 # **************************************************************************************************
 cur_yr <- 2025 # update annually 
@@ -44,19 +45,19 @@ plot_save_base <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/Base_mod
 
 #model 24.0c 
 m24c.v14 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_24f/model_24_0c/Gmacsall.out"), model_name = "m24.0c.v14", version = "2.20.14")
-m24c.v20 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25s/ver20/v20_24.0c/Gmacsall.out"), model_name = "m24.0c.v20")
+m24c.v20 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25s/ver20/v20_24.0c/Gmacsall.out"), model_name = "m24.0c.v20", version = "2.20.21")
 
 #m24c.20 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25s/ver20/v20_24.0c/Gmacsall.out"), model_name = "m24.0c.20")
-m24c.2_2024 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25s/m24.0c.2/Gmacsall.out"), model_name = "m24.0c.2_2024")
-m24c.2 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25f/m24.0c.2/Gmacsall.out"), model_name = "m24.0c.2")
+m24c.2_2024 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25s/m24.0c.2/Gmacsall.out"), model_name = "m24.0c.2-2024", version = "2.20.21")
+m24c.2 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25f/m24.0c.2/Gmacsall.out"), model_name = "m24.0c.2", version = "2.20.21")
 
 
 ## read std files -------------------
-#m24c.14_std <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_24f/model_24_0c/gmacs.std"), model_name = "m24.0c.14", 
-#                             version = "2.20.14")
-m24c.v20_std <- gmacs_read_std(file = "./BBRKC/bbrkc_25s/ver20/v20_24.0c/gmacs.std", model_name = "m24.0c.v20")
-m24c.2_2024_std <- gmacs_read_std(file = "./BBRKC/bbrkc_25f/m24.0c.2/gmacs.std", model_name = "m24.0c.2_2024")
-m24c.2_std <- gmacs_read_std(file = "./BBRKC/bbrkc_25f/m24.0c.2/gmacs.std", model_name = "m24.0c.2")
+#m24c.14_std <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_24f/model_24_0c/gmacs.std"), model_name = "m24.0c.14" )
+
+m24c.v20_std <- gmacs_read_std(file = paste0(here::here(),"/BBRKC/bbrkc_25s/ver20/v20_24.0c/gmacs.std"), model_name = "m24.0c.v20")
+m24c.2_2024_std <- gmacs_read_std(file = paste0(here::here(),"/BBRKC/bbrkc_25s/m24.0c.2/gmacs.std"), model_name = "m24.0c.2-2024")
+m24c.2_std <- gmacs_read_std(file = paste0(here::here(),"/BBRKC/bbrkc_25f/m24.0c.2/gmacs.std"), model_name = "m24.0c.2")
 # model groupings defined here for future plots ----------------
 base_models <- list(m24c.v14, m24c.v20, m24c.2_2024)
 newD_models <- list(m24c.2_2024, m24c.2) # comparing new data
@@ -92,20 +93,20 @@ gmacs_get_slx(all_out = list(m24c.2, m25.1a, m25.1a2)) %>%
   gmacs_plot_slx(data_summary = ., save_plot = F) #, plot_dir = plot_save_newD)
 
 gmacs_get_slx(all_out = newD_models) %>%
-  mutate(capture_block = case_when(fleet %in% c("BSFRF", "Bairdi_Fishery_Bycatch", "Fixed_Gear") ~ "1975 - 2023",
+  mutate(capture_block = case_when(fleet %in% c("BSFRF", "Bairdi_Fishery_Bycatch", "Fixed_Gear") ~ "1975 - 2024",
                                    fleet == "NMFS_Trawl" & year %in% 1975:1981 ~ "1975 - 1981",
-                                   fleet == "NMFS_Trawl" & year %in% 1982:2023 ~ "1982 - 2023",
-                                   fleet == "Pot_Fishery" ~ "1975 - 2022",
-                                   fleet == "Trawl_Bycatch" ~ "1975 - 2022")) %>%
+                                   fleet == "NMFS_Trawl" & year %in% 1982:2024 ~ "1982 - 2024",
+                                   fleet == "Pot_Fishery" ~ "1975 - 2024",
+                                   fleet == "Trawl_Bycatch" ~ "1975 - 2024")) %>%
   gmacs_plot_slx(data_summary = ., save_plot = T, plot_dir = plot_save_newD)
 
-gmacs_get_slx(all_out = base_models) %>%
-  mutate(capture_block = case_when(fleet %in% c("BSFRF", "Bairdi_Fishery_Bycatch", "Fixed_Gear") ~ "1975 - 2023",
-                                   fleet == "NMFS_Trawl" & year %in% 1975:1981 ~ "1975 - 1981",
-                                   fleet == "NMFS_Trawl" & year %in% 1982:2023 ~ "1982 - 2023",
-                                   fleet == "Pot_Fishery" ~ "1975 - 2022",
-                                   fleet == "Trawl_Bycatch" ~ "1975 - 2022")) %>%
-  gmacs_plot_slx(data_summary = ., save_plot = T, plot_dir = plot_save_base)
+#gmacs_get_slx(all_out = base_models) %>%
+#  mutate(capture_block = case_when(fleet %in% c("BSFRF", "Bairdi_Fishery_Bycatch", "Fixed_Gear") ~ "1975 - 2023",
+#                                   fleet == "NMFS_Trawl" & year %in% 1975:1981 ~ "1975 - 1981",
+#                                   fleet == "NMFS_Trawl" & year %in% 1982:2023 ~ "1982 - 2023",
+#                                   fleet == "Pot_Fishery" ~ "1975 - 2022",
+#                                   fleet == "Trawl_Bycatch" ~ "1975 - 2022")) %>%
+#  gmacs_plot_slx(data_summary = ., save_plot = T, plot_dir = plot_save_base)
 # need retained and discarded for pot fishery --- **fix **
 
 # molt  plots ------
@@ -201,7 +202,7 @@ gmacs_plot_sizecomp(save_plot = T, plot_dir = plot_save_newD, data_summary = Sda
 # **fix** these to reflect series labels
 
 ## one step ahead residuals --------------
-gmacs_plot_osa_residuals(all_out = list(m24c.2), save_plot = T, plot_dir = plot_save_base )
+gmacs_plot_osa_residuals(all_out = list(m24c.2), save_plot = T, plot_dir = plot_save_newD )
 
 # ** fix ** aggregated size comps where now ???????????
 ## mmb ------------
@@ -213,8 +214,12 @@ gmacs_plot_mmb(all_out = list(m24c.2_2024, m24c.2), save_plot = T, plot_dir = pl
 
 #gmacs_plot_mmb(all_out = molt_models, plot_dir = plot_save_molt, plot_ci = T, std_list = molt_std)
 gmacs_plot_mmb(all_out = list(m24c.2_2024, m24c.2), save_plot = T, plot_dir = plot_save_newD, 
-             plot_ci = F ) #, std_list = list(m24c_std, m24c_state_std))
+             plot_ci = F ) 
+gmacs_plot_mmb(all_out = list(m24c.2_2024, m24c.2), save_plot = T, plot_dir = plot_save_newD, 
+               plot_ci = T, std_list = list(m24c.2_2024_std, m24c.2_std))
+
 gmacs_plot_mmb(all_out = base_models, save_plot = T, plot_dir = plot_save_base, plot_ci = F) #, std_list = base_std)
+gmacs_plot_mmb(all_out = list(m24c.v20, m24c.2_2024), save_plot = T, plot_dir = plot_save_base, plot_ci = T, std_list = list(m24c.v20_std,m24c.2_2024_std))
 
 ## recruitment ------
 #gmacs_plot_recruitment(all_out = list(m230a_23, m230a_24, m24c), save_plot = T, plot_dir = plot_save_newD)
@@ -230,7 +235,7 @@ gmacs_plot_recruitment(all_out = list(m24c.2), save_plot = F, plot_ci = T, std_l
 gmacs_plot_f_mmb(all_out = base_models, save_plot = T, plot_dir = plot_save_base)
 gmacs_plot_f_mmb(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD)
 
-###gmacs_plot_f_mmb_dir(all_out = list(m230a_24, m24c), save_plot = T, plot_dir = plot_save)
+gmacs_plot_f_mmb_dir(all_out = list(m24c.2), save_plot = T, plot_dir = plot_save)
 # load from "bbrkc_functions_gmacs.R" prior to running this 
 # not the same as 2023 figures from Jie's code - look this over **fix**
 
@@ -325,13 +330,13 @@ ggsave(paste0(.FIGS, "mature_female_abundance_mod_scen.png"), width = 6*1.3, hei
 
 # here here 
 # get derived quantity summary
-deriv.quant <- gmacs_get_derived_quantity_summary(all_out = list(m230a_23, m230a_24, m24c))
+deriv.quant <- gmacs_get_derived_quantity_summary(all_out = list(m24c.2))
 
 # stock recruit "stock_recruit_XX.png" ------
-dquant230a <- gmacs_get_derived_quantity_summary(all_out = list(m230a_24))
-b35 <- m230a_24$bmsy/1000
+#dquant230a <- gmacs_get_derived_quantity_summary(all_out = list(m230a_24))
+b35 <- m24c.2$bmsy/1000
 
-dquant230a %>% 
+deriv.quant %>% 
   select(year, ssb, recruit_male, recruit_female) %>% 
   mutate(ssb = ssb/1000, 
          recruits = (recruit_male + recruit_female)/1000000) %>% 
@@ -348,13 +353,13 @@ temp1 %>%
   xlab("Mature male biomass on 2/15 (1000 t)") +
   ylab("Total Recruits (millions)") +
   theme_sleek()
-ggsave(paste0(here::here(), "/BBRKC/", folder, "/doc/figures/stock_recruit_230a.png"), width = 6, height = 5*1.35)
+ggsave(paste0(here::here(), "/BBRKC/", folder, "/doc/figures/stock_recruit_24c2.png"), width = 6, height = 5*1.35)
 
 # stock recruit "log_stock_recruit_XX.png" ------
-dquant230a <- gmacs_get_derived_quantity_summary(all_out = list(m230a_24))
-b35 <- m230a_24$bmsy/1000
+#dquant230a <- gmacs_get_derived_quantity_summary(all_out = list(m230a_24))
+#b35 <- m230a_24$bmsy/1000
 
-dquant230a %>% 
+deriv.quant %>% 
   select(year, ssb, recruit_male, recruit_female) %>% 
   mutate(ssb = ssb/1000, 
          recruits = (recruit_male + recruit_female)/1000000) %>% 
@@ -376,7 +381,7 @@ temp1 %>%
   xlab("Mature male biomass on 2/15 (1000 t)") +
   ylab("Total Recruits/MMB") +
   theme_sleek()
-ggsave(paste0(here::here(), "/BBRKC/", folder, "/doc/figures/stock_recruit2_230a.png"), width = 6, height = 5*1.35)
+ggsave(paste0(here::here(), "/BBRKC/", folder, "/doc/figures/stock_recruit2_24c2.png"), width = 6, height = 5*1.35)
 
 #ggsave(paste0(here::here(), "/BBRKC/", folder, "/doc/figures/log_stock_recruit_230a.png"), width = 6, height = 5*1.35)
 
@@ -437,7 +442,11 @@ refT1 %>%
   select(Model=model, MMB, b35, f35, fofl, OFL, male_rbar) -> ref_pt_table
 write.csv(ref_pt_table, paste0(.TABS, "specs_all_mods.csv"), row.names = FALSE)
 
-
+# 2024/25 B/Bmsy
+gmacs_get_ref_points(all_out = list(m24c.2))
+round(M$bmsy/1000, 2) -> bmsy_2425
+round(M$derived_quant_summary$ssb[length(M$derived_quant_summary$ssb)]/1000, 2) -> mmb_2425
+status_2425 <- (mmb_2425/bmsy_2425)*100
 
 
 # table 2 -----------------------
@@ -473,13 +482,13 @@ base_like <- gmacs_get_lik(all_out = list(m24c.v14, m24c.2_2024, m24c.2)) #base_
 #newD_models <- list(m24c.2, m25.1a, m25.1b, m25.1b2) 
 # remove tagging and growth 
 
-base_pen <- gmacs_get_lik_type_pen(all_out = list(m24c, m24c.1, m24c.1a, m24c.2, m25.1a, m25.1b, m25.1b2))
+base_pen <- gmacs_get_lik_type_pen(all_out = list(m24c.v14, m24c.2_2024, m24c.2))
 
 all_like1 <- base_like[c(1:20), ]
 all_like2 <- base_pen[c(10, 8, 7), ]
 all_like3 <- base_like[c(26,25), ]
 
-ref_all_like4 <- gmacs_get_ref_points(all_out = list(m24c, m24c.1, m24c.1a, m24c.2, m25.1a, m25.1b, m25.1b2))
+ref_all_like4 <- gmacs_get_ref_points(all_out = list(m24c.v14, m24c.2_2024, m24c.2))
 ref_all_like4 %>% 
   as.data.frame() %>% 
   select(model, b35, mmb, f35, fofl, ofl_tot) %>% 
@@ -488,7 +497,7 @@ ref_all_like4 %>%
          ofl_tot = round(ofl_tot, 2)) %>% 
   select(b35, mmb, f35, fofl, ofl_tot) -> ref_all_like4a
   
-row.names(ref_all_like4a) <- c("m24.0c", "m24.0c.1", "m24.0c.1a", "m24.0c.2", "m25.1a", "m25.1b", "m25.1b2")
+row.names(ref_all_like4a) <- c("m24.0c.v14", "m24.0c.2_2024", "m24.0c.2")
 
 ref_all_like4a %>% 
   rotate_df() %>% 
@@ -523,7 +532,7 @@ write.csv(like_all_out, paste0(.TABS, "likelihood.csv"), row.names = FALSE)
 
 # parameter tables -------------
 # model 24.0c from 2024
-base_24c_parm <- gmacs_get_pars(all_out = list(m24c))
+base_24c_parm <- gmacs_get_pars(all_out = list(m24c.v14))
 base_24c_parm %>% 
   filter(standard_error != "NA") %>% # get only estimated parameters not the fixed ones
   select(model, parameter_count, parameter, estimate, standard_error) -> parm1
@@ -534,28 +543,28 @@ write.csv(parm1, paste0(.TABS, "para_model_24c_all.csv")) # use row names as ind
 # IMPORTANT - need to edit in excel right now to remove "_" - can't have "_" in names...
 # 
 
-# model 24.0c.2
+# model 24.0c.2 2024
+base_24c2_parm_2024 <- gmacs_get_pars(all_out = list(m24c.2_2024))
+base_24c2_parm_2024 %>% 
+  filter(standard_error != "NA") %>% # get only estimated parameters not the fixed ones
+  select(model, parameter_count, parameter, estimate, standard_error) -> parm1
+
+parm1_a <- parm1[c(1:4, 40:72, 382:383), ]
+write.csv(parm1_a, paste0(.TABS, "para_model_24c2_2024.csv"))
+write.csv(parm1, paste0(.TABS, "para_model_24c2_all_2024.csv")) # use row names as index - don't need parameter count
+# IMPORTANT - need to edit in excel right now to remove "_" - can't have "_" in names...
+#
+
+# model 24.0c.2 2025
 base_24c2_parm <- gmacs_get_pars(all_out = list(m24c.2))
 base_24c2_parm %>% 
   filter(standard_error != "NA") %>% # get only estimated parameters not the fixed ones
   select(model, parameter_count, parameter, estimate, standard_error) -> parm1
 
-parm1_a <- parm1[c(1:4, 40:72, 382:383), ]
+parm1_a <- parm1[c(1:4, 40:72, 390:391), ] # update the last param rows here
 write.csv(parm1_a, paste0(.TABS, "para_model_24c2.csv"))
 write.csv(parm1, paste0(.TABS, "para_model_24c2_all.csv")) # use row names as index - don't need parameter count
-# IMPORTANT - need to edit in excel right now to remove "_" - can't have "_" in names...
-#
-
-# model 25.1b
-base_25_1b_parm <- gmacs_get_pars(all_out = list(m25.1b))
-base_25_1b_parm %>% 
-  filter(standard_error != "NA") %>% # get only estimated parameters not the fixed ones
-  select(model, parameter_count, parameter, estimate, standard_error) -> parm1
-
-parm1_a <- parm1[c(1:4, 40:106), ]
-write.csv(parm1_a, paste0(.TABS, "para_model_25_1b.csv"))
-write.csv(parm1, paste0(.TABS, "para_model_25_1b_all.csv")) # use row names as index - don't need parameter count
-# IMPORTANT - need to edit in excel right now to remove "_" - can't have "_" in names...KEEP in column names though
+# IMPORTANT - need to edit in excel right now to remove "_" - can't have "_" in names....KEEP in column names though
 #
 
 #sel_models_pars <- gmacs_get_pars(all_out = sel_models)
@@ -571,22 +580,22 @@ write.csv(parm1, paste0(.TABS, "para_model_25_1b_all.csv")) # use row names as i
 # Jie's old code 
 source("./BBRKC/code/bbrkc_functions.R")
 # model m24c
-model <- "m24c"
-W <- m24c ### CHANGE HERE
-Y <- m24c_std ### change here 
-A <- read_rep("./BBRKC/bbrkc_25s/ver20/v20_24.0c/gmacs.rep")
+#model <- "m24c"
+# <- m24c ### CHANGE HERE
+#Y <- m24c_std ### change here 
+#A <- read_rep("./BBRKC/bbrkc_25s/ver20/v20_24.0c/gmacs.rep")
 
 # model 24c.2
 model <- "m24c.2"
 W <- m24c.2 ### CHANGE HERE
 Y <- m24c.2_std ### change here 
-A <- read_rep("./BBRKC/bbrkc_25s/m24.0c.2/gmacs.rep")
+A <- read_rep("./BBRKC/bbrkc_25f/m24.0c.2/gmacs.rep")
 
 # model 25.1b
-model <- "m25.1b"
-W <- m25.1b ### CHANGE HERE
-Y <- m25.1b_std ### change here 
-A <- read_rep("./BBRKC/bbrkc_25s/m25.1b/gmacs.rep")
+#model <- "m25.1b"
+#W <- m25.1b ### CHANGE HERE
+#Y <- m25.1b_std ### change here 
+#A <- read_rep("./BBRKC/bbrkc_25s/m25.1b/gmacs.rep")
 
 # -- males - mature legal, females mature does NOT include projectino year!
 temp <- W$n_matrix
@@ -611,7 +620,7 @@ temp2 %>%
 Y %>% filter(par == "sd_last_ssb") %>% 
   mutate(MMB = est/1000, 
          sd_mmb = se/1000) %>%
-  mutate(year = 2024) %>% 
+  mutate(year = 2025) %>%  ### UPDATE ANNUALLY
   select(year, MMB, sd_mmb) -> ref_prj
 
 derived_m %>% 
@@ -646,9 +655,22 @@ abun_tab2 %>%
 write.csv(abun_tab3, paste0(.TABS, "_", model, "_gmacs_sum_abun.csv"), row.names = FALSE)
 
 # jitter runs ----------------------
-gmacs_do_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_24f/model_23_0a_ph7_24/gmacs.dat", 
-                0.1, 24, ref_points = T, save_csv = T, save_plot = T, version1 = "2.20.14")
+gmacs_do_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_25f/m24.0c.2/gmacs.dat", 
+                0.1, 1, save_csv = T, save_plot = T, version = "2.20.21")
+
+# this took about 20 mins
+gmacs_do_jitter("C:/Users
+                /kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_25f/m24.0c.2/gmacs.dat", 
+                0.1, 40, save_csv = T, save_plot = T, version = "2.20.21")
+
 # test to see if it works.
 #f_run_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_24f/model_23_0a_ph7_24", 0.1, 1, ref_points = F)  
-gmacs_do_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_24f/model_24_0c/gmacs.dat", 
-                0.1, 20, ref_points = T, save_csv = T, save_plot = T, version = "2.20.14")
+
+
+# retrospective ----------
+gmacs_do_retrospective("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_25f/m24.0c.2/gmacs.dat", 
+                       1, version = "2.20.21")
+# confirm it works
+# run 10 peels
+gmacs_do_retrospective("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_25f/m24.0c.2/gmacs.dat", 
+                       10, version = "2.20.21")
