@@ -16,12 +16,13 @@
 library(sjmisc)
 library(gmacsr)
 library(ggrepel)
+library(grid)
 #source("./gmacsr/gmacsr.R")
 # **************************************************************************************************
 cur_yr <- 2025 # update annually 
 folder <- "bbrkc_25f" # update annually 
 # The palette with grey:
-cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#D55E00", "#0072B2", "#CC79A7", "#F0E442")
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#D55E00", "#0072B2", "#CC79A7", "#F0E442", "#C490CF", "#000")
 
 #plot.dir <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/")
 plot_save <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/")
@@ -99,6 +100,27 @@ gmacs_get_slx(all_out = newD_models) %>%
                                    fleet == "Pot_Fishery" ~ "1975 - 2024",
                                    fleet == "Trawl_Bycatch" ~ "1975 - 2024")) %>%
   gmacs_plot_slx(data_summary = ., save_plot = T, plot_dir = plot_save_newD)
+
+gmacs_get_slx(all_out = list(m24c.2)) %>% 
+  mutate(capture_block = case_when(fleet %in% c("BSFRF", "Bairdi_Fishery_Bycatch", "Fixed_Gear") ~ "1975 - 2024",
+                                   fleet == "NMFS_Trawl" & year %in% 1975:1981 ~ "1975 - 1981",
+                                   fleet == "NMFS_Trawl" & year %in% 1982:2024 ~ "1982 - 2024",
+                                   fleet == "Pot_Fishery" ~ "1975 - 2024",
+                                   fleet == "Trawl_Bycatch" ~ "1975 - 2024")) %>% 
+  filter(fleet == "Pot_Fishery", sex == 'male') -> semp
+#Slx ----retained -----
+semp %>% 
+  filter(year == 2023) %>% 
+  select(model, sex, fleet, size, slx_capture, slx_retention, capture_block) %>% 
+  pivot_longer(c(slx_capture, slx_retention)) %>% 
+  ggplot(aes(x = size, y = value, linetype  = name)) +
+  geom_line() +
+  #geom_line(aes(x = size, y = slx_retention), color = "black") +
+  labs(x = "Midpoint of size class (mm)", y = "Selectivity", linetype = NULL, title = "Pot fishery (males) \n Model 24.0c.2")+
+  scale_linetype_manual(values = c(1, 2), labels = c("Capture", "Retention"))+
+  theme(legend.justification = c(0,1), legend.position = c(0,1)) -> x
+ggsave(paste0(plot_save_newD, "pot_fishery_slx_capture_retain.png"), plot = x, height= 3, width = 3, units = "in")
+
 
 #gmacs_get_slx(all_out = base_models) %>%
 #  mutate(capture_block = case_when(fleet %in% c("BSFRF", "Bairdi_Fishery_Bycatch", "Fixed_Gear") ~ "1975 - 2023",
@@ -249,15 +271,22 @@ ftemp %>%
   summarize(f = sum(`F`)) -> ftemp2
 ftemp2 %>% 
   filter(fleet == "Pot_Fishery", sex == "male") %>% 
-  filter(f >= 0.35) %>% print(n = 100) # should this be 35% or 40?
-
-ftemp2 %>% 
+  #filter(f >= 0.35) %>% print(n = 100) # should this be 35% or 40?, run both
+  filter(f >= 0.40) %>% print (n = 100)
+  
+  ftemp2 %>% 
   filter(fleet == "Pot_Fishery", sex == "male") %>% 
   filter(year >= 2000) %>% print(n = 100)
 # last two open years 2020/21 - 0.141
 # 2023/24 - 0.064
 # 2024/25 - 0.062
 
+# SAFE se ction 4c. 
+ftemp2 %>% 
+  filter(fleet == "Pot_Fishery", sex == "male") -> ftemp2_pot
+
+max(ftemp2_pot$f)  
+  
 ftemp2 %>% 
   filter(fleet == "Pot_Fishery", sex == "female") %>% 
   print(n = 100)
@@ -659,10 +688,11 @@ gmacs_do_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_25
                 0.1, 1, save_csv = T, save_plot = T, version = "2.20.21")
 
 # this took about 20 mins
-gmacs_do_jitter("C:/Users
-                /kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_25f/m24.0c.2/gmacs.dat", 
-                0.1, 40, save_csv = T, save_plot = T, version = "2.20.21")
+gmacs_do_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_25f/m24.0c.2/gmacs.dat", 
+                0.1, 45, save_csv = T, save_plot = T, version = "2.20.21")
 
+gmacs_do_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_25f/m24.0c.2/gmacs.dat", 
+                0.3, 45, save_csv = T, save_plot = T, version = "2.20.21")
 # test to see if it works.
 #f_run_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_24f/model_23_0a_ph7_24", 0.1, 1, ref_points = F)  
 
@@ -674,3 +704,26 @@ gmacs_do_retrospective("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/b
 # run 10 peels
 gmacs_do_retrospective("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_25f/m24.0c.2/gmacs.dat", 
                        10, version = "2.20.21")
+
+
+# historic retrospective  ---------------
+# load data 
+hist_mmb <- read_csv(paste0(here::here(), "/BBRKC/data/historic_retro_MMB.csv"))
+yr_axis = tickr(tibble(yr = 1975:2050), yr, 5)
+
+hist_mmb %>% 
+  pivot_longer(MMB_24:MMB_15) %>% 
+  ggplot(aes(x = year, y = value, color = name))+
+  geom_line(lwd = .5)+
+  scale_y_continuous(limit = c(0,130), labels = scales::comma)+
+  scale_x_continuous(labels = yr_axis$labels, breaks = yr_axis$breaks)+
+  labs(x = NULL, y = "Mature Male \n Biomass (MMB, mt)", color = "Assessment Year") +
+  scale_color_discrete(labels = c("2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024")) +
+  theme_bw() +
+  scale_fill_manual(values = cbPalette)+
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.justification = c(.95,.9), legend.position = c(.95,.9)
+  ) -> x
+ggsave(paste0(.FIGS, "historic_retro_mmb.png"), plot = x, height = 4.5, width = 5, units = "in")

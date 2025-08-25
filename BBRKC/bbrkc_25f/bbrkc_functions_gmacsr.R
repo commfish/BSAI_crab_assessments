@@ -455,13 +455,29 @@ gmacs_plot_catch_kjp <- function(all_out = NULL, save_plot = T, plot_dir = NULL,
   
   
   
+# Caitlins --- I'm not using this --------------------
   
-# gmacs_plot_mmb_kjp -------------------------------
-# confidence intervals not working 
+  slx.plot <- function(model_list, model_set){
+    plot <- gmacs_get_slx(all_out = model_list) %>%
+      filter(year == 2023 & fleet %in% c("Subsistence", "Summer_Com", "Winter_Com", "Winter_Pot")) %>%
+      mutate(slx_retention = case_when(
+        is.na(slx_retention) == TRUE & fleet == "Winter_Pot" ~ 0,
+        TRUE ~ slx_retention
+      )) %>%
+      ggplot()+
+      geom_line(aes(x = size, y = slx_capture, color = model))+
+      #geom_line(aes(x = size, y = slx_retention, color = "retained"), linetype = "dotted")+
+      facet_grid(cols = vars(fleet))+
+      scale_color_manual(values = cbpalette9)+
+      labs(x = "Midpoint of size class (mm)", y = "Selectivity", color = NULL)
+    ggsave(plot, filename = paste0(ns.plotdir, "slx_", model_set, ".png"), width = 7.5, height = 4, units = "in")
+  }
+  
+  slx.plot(base, "base")  
   
   
   
-# exploratory area --------------
+#Exploratory area --------------
  
   
   # explore f mmb -----
