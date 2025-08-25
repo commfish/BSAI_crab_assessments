@@ -1,51 +1,98 @@
 ---
 output:
-  pdf_document: default
-  html_document: default
+  bookdown::pdf_document2:
+    fig_caption: true
+    includes: null
+    toc: no
+header-includes:
+   - \usepackage{caption}
+   - \captionsetup[table]{skip=10pt}
+   - \usepackage{booktabs}
+   - \usepackage{multirow}
+   - \usepackage{array}
+   - \usepackage{longtable}
+   - \usepackage{pdflscape}
+   - \newcommand{\blandscape}{\begin{landscape}}
+   - \newcommand{\elandscape}{\end{landscape}}
 ---
 
 \pagenumbering{arabic}
 
 ```{r global_options2, include=FALSE, echo = FALSE, message = FALSE, warning=FALSE}
-#library(knitr) # don't need these if this is a "child" of the larger doc
-#opts_chunk$set(fig.width = 12, fig.height = 7, fig.align = "left", echo = FALSE, warning = FALSE, message = FALSE,  dpi=300)
-#\pagenumbering{gobble}
-#library(xtable)
-#options(xtable.comment = FALSE)
+library(knitr) # don't need these if this is a "child" of the larger doc
+opts_chunk$set(fig.width = 12, fig.height = 7, fig.align = "left", echo = FALSE, warning = FALSE, message = FALSE,  dpi=300)
+```
+
+```{r, load_packages, echo = FALSE, include = FALSE}
+
+library(xtable)
+library(tidyverse)
+
+options(xtable.comment = FALSE)
+
 ```
 
 # Appendix D. Draft Risk Table for BBRKC 2025 {-}
 
-In the last year risk tables have been under development for the annual crab stok assessments. During the 2023 fall assessment cycle for BSAI crab stocks the SSC requested that the CPT take up risk tables again for crab stocks. The CPT recommended bringing forward a draft risk table for the "big three" stocks - BBRKC, tanner crab, and snow crab - for the 2024 assessment cycle. 
+In the last year risk tables have been under development for the annual crab stok assessments. During the 2023 fall assessment cycle for BSAI crab stocks the SSC requested that the CPT take up risk tables again for crab stocks. The CPT recommended bringing forward a draft risk table for the "big three" stocks - BBRKC, tanner crab, and snow crab - for the 2024 assessment cycle. During the May 2025 crab plan team meeting the CPT discussed risk tables for crab and developed some intitial guidelines.
 
-The risk table approach, currently used in the NPFMC groundfish assessments, highlights external factors to the assessment performance across four categories: assessment-related, population dynamics, environmental/ecosystem, and fishery performance. The risk table highlights potential issues in these four areas that should be considered when applying a buffer to the OFL to determine a recommended ABC. Currently, ABC buffers for crab stocks are set using uncertainties about the stock and assessment process that are not incorporated into the assessment model. These are documented in the SAFE reports in each year. The goal of incorporating the risk table process is to use this tool to organize the information that is currently used in ABC buffer considerations. 
+The risk table approach, currently used in the NPFMC groundfish assessments, highlights external factors to the assessment performance across four categories: assessment-related, population dynamics, environmental/ecosystem, and fishery-informed stock considerations. The risk table highlights potential issues in these four areas that should be considered when applying a buffer to the OFL to determine a recommended ABC. Currently, ABC buffers for crab stocks are set using uncertainties about the stock and assessment process that are not incorporated into the assessment model. These are documented in the SAFE reports in each year. The goal of incorporating the risk table process is to use this tool to organize the information that is currently used in ABC buffer considerations. 
+
+
+```{r risk-tab, results = "asis"}
+
+options(xtable.sanitize.text.function=identity) # had to comment this out to get it to create pdf, figure out this option
+
+
+assessment <- c("Level: 1 Normal",
+          # 
+          "- Retrospective pattern in MMB (high Mohn's rho). This has been present for the last few years \\newline - Stable GMACS reference model since 2018 \\newline - Historic natural mortality event (early 80s)")
+
+pop_dy <- c("Level: 1 Normal","- Unknown reasons behind recruitment failure \\newline - Potential shifting spatial distributions ")
+
+Ecosys <- c("Level: 1 Normal", "- Corrosive bottom waters and increased wind stress in Bristol Bay remain a concern for growth and survival of larval and juvenile BBRKC \\newline - BB bottom waters were warm in 2025 but there is uncertainty what impacts this has on the stock")
+
+fish <- c("Level: 1 Normal", "- recent year fishery CPUE was higher than expected")
+
+
+risk_tab <- cbind(assessment, pop_dy, Ecosys, fish)
+colnames(risk_tab) <- c("Assessment-related \n Considerations", "Population Dynamics\n Considerations ", "Ecosystem Considerations ", " Fishery-informed \n Stock Considerations")
+
+tab <- xtable(risk_tab, caption = "Risk Table category summary for BBRKC", label = "tab:risk-tab", align=c(
+            "p{0.05\\textwidth}|",
+              "p{0.20\\textwidth}",
+              "p{0.20\\textwidth}",
+            "p{0.20\\textwidth}",
+               "p{0.20\\textwidth}"))
+
+print(tab, caption.placement = "top", include.rownames = FALSE, booktabs = TRUE , hline.after=c(-1, 0, 1:nrow(risk_tab)))
+
+```
+
 
 
 ## Assessment related considerations {-}
 
-- Strong retrospective pattern in MMB (high Mohn's rho). This has been present for the last few years
+- Retrospective pattern in MMB (high Mohn's rho). This has been present for the last few years
 - Stable GMACS reference model since 2018
 - Historic natural mortality event (early 80s)
 
 The BBRKC assessment is has been stable and consistent since its GMACS implementation in 2018. There are no increased levels of concern for this assessment.
 
 
-      **Level of concern: Level 2 Increased concern**
+      **Level of concern: Level 1 Normal**
 
 ## Population dynamic considerations {-}
 
-- Low, recent recruitment (last 10+ years)
 - Unknown reasons behind recruitment failure
 - Potential shifting spatial distributions 
-- Low mature female abundance in the last few years
-
 
 The BBRKC population has not had a substantial recruitment event since 2005, small recruitments observed in survey data in 2011 and 2016 have not progressed through the mature population. Low recent recruitment has created a low, stable population but not allowed for much population growth. The reason behind the recruitment failure are unknown, but it is hypothesized that the changing ecosystem has not created favorable conditions for red king crab juvenile survival. Research is underway to understand more about red king crab life history during the time period between hatching and recruitment to the summer survey. Changing climate within the Bering Sea likely contributes to a potential for shifting spatial distributions for this stock. The stock assessment monitors the proportion of red king crab in the northern unstratified area, and while it is variable from year to year there has been a shift to observing more red king crab in the north in the last 15 years. 
 
-While most of these concerns are not new for the stock, they do rise to an elevated levels of concern since the stock assessment model assumes recruitment is stable over time and that the distribution of the stock remains within the Bristol Bay boundary. 
+While most of these concerns are not new for the stock, they are concerning since the stock assessment model assumes recruitment is stable over time and that the distribution of the stock remains within the Bristol Bay boundary. 
 
 
-      **Level of concern: Level 2 Increased concern**
+      **Level of concern: Level 1 Normal**
 
 ## Environmental/Ecosystem considerations {-}
 
@@ -57,15 +104,16 @@ While most of these concerns are not new for the stock, they do rise to an eleva
 The ESP report card produced for this stock as an appendix to the SAFE details the environmental and ecosystem considerations. The majority of which have been on-going for the last few years and are not new concerns. 
 
 
-      **Level of concern: Level 1 No new concern**
+      **Level of concern: Level 1 Normal**
 
 
-## Fishery performance considerations {-}
+## Fishery-informed Stock considerations {-}
 
 - Directed fishery was closed 2021/22 and 2022/23 seasons
-- 2023/24 fishery CPUE was 20.54 similar to the last open season 2020/21
+- 2024/25 fishery CPUE was 29.55 higher than the last ten year average
 - Bycatch at recent average levels
 
-Fishery performance this last season was expected due to the lower population level and reported bycatch in groundfish fisheries was at average levels. No increased concern.
+Fishery-informed indicators are generally consistent with stable or mildly improving stock condition relative to recent history of low population density. No considerations observed in the most recent fishery suggest greater than normal risk of overfishing, independent of other considerations captured in the assessment and risk table. 
 
-      **Level of concern: Level 1 No new concern**
+
+      **Level of concern: Level 1 Normal**

@@ -59,7 +59,7 @@ df %>%
          ABC = ABC/1000, 
          ABC_2 = ABC_2/1000) -> df
 names(df) <- c("avgB", "Current B", "$MMB/B_\\text{MSY}$", "M", "$F_\\text{OFL}$", "OFL", "ABC", "ABC 2")
-tab       <- xtable(df, caption = "Specificatoins using the REMA output on mature male NFMS trawl survey area-swept biomass.", label = "tab:specs-rema")
+tab       <- xtable(df, caption = "Specificatoins using the REMA output on mature male NFMS trawl survey area-swept biomass (mt).", label = "tab:specs-rema")
 print(tab, caption.placement = "top", include.rownames = FALSE, sanitize.text.function = function(x){x}, hline.after = c(-1,0,nrow(tab)))
 ```
 
