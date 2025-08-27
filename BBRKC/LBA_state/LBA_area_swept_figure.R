@@ -19,6 +19,7 @@
 
 # load ----
 library(tidyverse)
+library(extrafont)
 loadfonts(device="win")
 windowsFonts(Times=windowsFont("TT Times New Roman"))
 
@@ -27,7 +28,7 @@ theme_set(theme_bw(base_size=12,base_family='Times New Roman')+
                   panel.grid.minor = element_blank()))
 
 ## setup -------
-folder <- "rk25_prelim"  #"rk23" 
+folder <- "rk25" #"rk25_prelim"  #"rk23" 
 
 # data -----
 # read in area swept from lba data file "survey.dat" and surveyf.dat
@@ -37,13 +38,19 @@ folder <- "rk25_prelim"  #"rk23"
 #years <- as.character(c(1972:2022))
 #out[nrow(out)+1, ] <- years
 
-lba_out <- read.csv(paste0(here::here(), "/BBRKC/LBA_state/", folder, "/combo_output_v1_25_prelim.csv"))
+lba_out <- read.csv(paste0(here::here(), "/BBRKC/LBA_state/", folder, "/combo_output_v1_25.csv"))
 #lba_out3 <- read.csv("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/rk23_prelim/rk23_avgF_SC.csv")
 #lba_out4 <- read.csv("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/rk23_prelim/rk23_rawSC_manR.csv")
 #lba_out5 <- read.csv("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/rk23_prelim/rk23_wo_large_tow.csv")
 
 head(lba_out)
 #lba_out <- read.csv("./BBRKC/LBA_state/rk22/rk22_r_input_2022edit.csv")
+ 
+# effective spawning biomass -------
+# conversion
+# 2024 
+23.586*1e6/2204.62/1000
+25.903*1e6/2204.62/1000
 
 ## male figure ------------
 #v2
@@ -132,23 +139,24 @@ lba_out %>%
 
 # same for 2025 -----
 # recalc a confidence band on 2025---------
+# use earlier year range something wrong with bootstrap for recent years...not sure what
 lba_out %>% 
   select(Year, model.mf, matf_lower, matf_upper) %>% 
   mutate(model.mf_t = model.mf, 
          upper_dif = matf_upper-model.mf_t, 
          lower_dif = matf_lower-model.mf_t) %>% 
-  filter(Year >=2018 & Year <=2024) %>% 
+  filter(Year >=2016 & Year <=2019) %>% 
   summarise(upper_dif_avg = mean(upper_dif), 
             lower_dif_avg = mean(lower_dif))
 
 #upper_dif_avg lower_dif_avg
-#1     0.2167143         -1.59
+#1     1.83325         -1.55975
 
 lba_out %>% 
   filter(Year == 2025) %>% 
   select(Year, model.mm, model.mf, survey.m, survey.f, matm_lower, matm_upper, survey.m.CI, survey.f.CI) %>% 
-  mutate(matf_lower = model.mf-(1.59),#(0.89), 
-         matf_upper = model.mf+(0.217)) -> lba_out25
+  mutate(matf_lower = model.mf-(1.56),#(0.89), 
+         matf_upper = model.mf+(1.83)) -> lba_out25
 lba_out %>% 
   filter(Year != 2025) -> lba_out2_a
 
@@ -189,6 +197,56 @@ lba_out2_ab %>%
   ggsave(paste0('C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/', folder,'/mature_females_ribbons_v2_error.png'), females, dpi = 800, width = 7.5, height = 5.5)
   #ggsave(paste0('C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/', folder,'/mature_females_recent_ribbons_v2_error.png'), females, dpi = 800, width = 7.5, height = 5.5)
   # to use "recent ribbons" just comment in the filter year line above
+
+# bootstrap isn't working for females??
+  lba_out %>% 
+    filter(Year <= 1985) %>% 
+    select(Year, model.mm, model.mf, survey.m, survey.f, matm_lower, matm_upper, survey.m.CI, survey.f.CI) %>% 
+    mutate(matf_lower = model.mf-(6.62),#(0.89), 
+           matf_upper = model.mf+(21.29)) -> temp_pre84
+  lba_out %>% 
+    filter(Year >= 1986) %>% 
+    select(Year, model.mm, model.mf, survey.m, survey.f, matm_lower, matm_upper, survey.m.CI, survey.f.CI) %>% 
+    mutate(matf_lower = model.mf-3*(1.56),#(0.89), 
+           matf_upper = model.mf+4*(1.83)) -> temp_post_85
+  
+  
+  temp_pre84 %>% 
+    rbind(temp_post_85) -> lba_out_no_boot_F
+  
+  
+  
+# don't use bootstrap output  
+lba_out_no_boot_F %>% 
+    mutate(survey.f_upper = (survey.f + survey.f.CI), survey.f_lower = (survey.f - survey.f.CI)) %>% 
+    select(Year, survey.f, model.mf, matf_lower, matf_upper, survey.f_upper, survey.f_lower) %>% 
+    gather(type, number, survey.f:model.mf) %>% 
+   # filter(Year >= 2015) %>% 
+    ggplot(aes(Year, number, group = type)) +
+    geom_point(aes(shape = type), size = 3) +
+    geom_line(aes(group = type, linetype = type), lwd = 1) +
+    scale_shape_manual(name = "", values = c(32,19), 
+                       labels = c("Model", "Survey")) + 
+    scale_linetype_manual(name = "", values = c("solid", "blank"), 
+                          labels = c("Model", "Survey")) +
+    scale_x_continuous(breaks = seq(min(1972),max(max(lba_out$Year) + 1), by = 2)) +
+    geom_ribbon(aes(x=Year, ymax = matf_upper, ymin = matf_lower), alpha = 0.2) +
+    geom_errorbar(aes(x=Year, ymax = survey.f_upper, ymin = survey.f_lower), width = 0.3) +
+    geom_hline(yintercept = 8.4, color = "red") +
+    ggtitle("Mature females") + 
+    ylab("Millions of crab") +
+    xlab("Year") +
+    theme(legend.position = c(0.8,0.8), 
+          axis.text = element_text(size = 12), 
+          axis.title=element_text(size=14,face="bold"), 
+          axis.text.x = element_text(angle = 45, hjust = 1)) +
+    theme(plot.title = element_text(hjust =0.5)) -> females 
+  ggsave(paste0('C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/', folder,'/mature_females_ribbons_NO_boot_error.png'), females, dpi = 800, width = 7.5, height = 5.5)
+  #ggsave(paste0('C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/', folder,'/mature_females_recent_ribbons_NO_boot_error.png'), females, dpi = 800, width = 7.5, height = 5.5)
+  # to use "recent ribbons" just comment in the filter year line above
+  
+
+  
   
 ###############ignore below
 tail(lba_out2_ab)
