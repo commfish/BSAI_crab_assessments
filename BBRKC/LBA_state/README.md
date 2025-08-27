@@ -9,6 +9,13 @@ june/july update file to be ready for prelim data
 Prelim data from shannonn hennessy (sp?) - stored in folder see "prelim_data_survey_LBA.R"
 open excel file - "LBA file_breakdown ....._2025.xlsx"
 
+"combo_output.....csv" file creation:
+- take "model.mm"  and model.mf from outputXX
+- survey.m and survey.f from 
+- matm_lower, matm_upper, matf_upper and matf_lower from "rkfreqXX"
+- survey from 'LBA_FE_survey_CV_2025' and similar file for males.
+
+
 # prelim in rk25_prelim
 prelim tabs in the above excel file
 prelim_survey.dat tab - open "prelim_male_size_comp.csv" file - copy prelim size comps into column "BH"
