@@ -431,7 +431,7 @@ NMFS_Trawl BSFRF
 # Data type (1=total selectivity; 2=retention*selectivity)
  1 1
 ##	Number of rows all indices - so both surveys combined (updated annually with NMFS +2 since male and females seperate) 				
-110
+112
 #	Survey	data	(abundance	indices,	units	are	1000	mt)										
 #Index Year	Season	Fleet	Sex	Abundance	CV	Units
 1	1975	1	5	1	0	133084.0 	0.193	1  0
