@@ -34,7 +34,7 @@ options(xtable.comment = FALSE)
 
 # Appendix D. Draft Risk Table for BBRKC 2025 {-}
 
-In the last year risk tables have been under development for the annual crab stok assessments. During the 2023 fall assessment cycle for BSAI crab stocks the SSC requested that the CPT take up risk tables again for crab stocks. The CPT recommended bringing forward a draft risk table for the "big three" stocks - BBRKC, tanner crab, and snow crab - for the 2024 assessment cycle. During the May 2025 crab plan team meeting the CPT discussed risk tables for crab and developed some intitial guidelines.
+In the last year, risk tables have been under development for the annual crab stock assessments. During the 2023 fall assessment cycle for BSAI crab stocks, the SSC requested that the CPT take up risk tables again for crab stocks. The CPT recommended bringing forward a draft risk table for the "big three" stocks - BBRKC, tanner crab, and snow crab - for the 2024 assessment cycle. During the May 2025 crab plan team meeting, the CPT discussed risk tables for crab and developed some intitial guidelines.
 
 The risk table approach, currently used in the NPFMC groundfish assessments, highlights external factors to the assessment performance across four categories: assessment-related, population dynamics, environmental/ecosystem, and fishery-informed stock considerations. The risk table highlights potential issues in these four areas that should be considered when applying a buffer to the OFL to determine a recommended ABC. Currently, ABC buffers for crab stocks are set using uncertainties about the stock and assessment process that are not incorporated into the assessment model. These are documented in the SAFE reports in each year. The goal of incorporating the risk table process is to use this tool to organize the information that is currently used in ABC buffer considerations. 
 
@@ -52,7 +52,7 @@ pop_dy <- c("Level: 1 Normal","- Unknown reasons behind recruitment failure \\ne
 
 Ecosys <- c("Level: 1 Normal", "- Corrosive bottom waters and increased wind stress in Bristol Bay remain a concern for growth and survival of larval and juvenile BBRKC \\newline - BB bottom waters were warm in 2025 but there is uncertainty what impacts this has on the stock")
 
-fish <- c("Level: 1 Normal", "- recent year fishery CPUE was higher than expected")
+fish <- c("Level: 1 Normal", "- Recent year fishery CPUE was higher than last 10 year average  \\newline - Total potlifts and number of active vessels at or near historic lows  \\newline - Skipper survey reported high CPUE and majority saw an increase in legal males")
 
 
 risk_tab <- cbind(assessment, pop_dy, Ecosys, fish)
@@ -77,43 +77,87 @@ print(tab, caption.placement = "top", include.rownames = FALSE, booktabs = TRUE 
 - Stable GMACS reference model since 2018
 - Historic natural mortality event (early 80s)
 
-The BBRKC assessment is has been stable and consistent since its GMACS implementation in 2018. There are no increased levels of concern for this assessment.
+The BBRKC assessment has been stable and consistent since its GMACS implementation in 2018. There are no increased levels of concern for this assessment.
 
 
-      **Level of concern: Level 1 Normal**
+      *Level of concern: Level 1 Normal*
 
 ## Population dynamic considerations {-}
 
 - Unknown reasons behind recruitment failure
 - Potential shifting spatial distributions 
 
-The BBRKC population has not had a substantial recruitment event since 2005, small recruitments observed in survey data in 2011 and 2016 have not progressed through the mature population. Low recent recruitment has created a low, stable population but not allowed for much population growth. The reason behind the recruitment failure are unknown, but it is hypothesized that the changing ecosystem has not created favorable conditions for red king crab juvenile survival. Research is underway to understand more about red king crab life history during the time period between hatching and recruitment to the summer survey. Changing climate within the Bering Sea likely contributes to a potential for shifting spatial distributions for this stock. The stock assessment monitors the proportion of red king crab in the northern unstratified area, and while it is variable from year to year there has been a shift to observing more red king crab in the north in the last 15 years. 
+The BBRKC population has not had a substantial recruitment event since 2005, and small recruitments observed in survey data in 2011 and 2016 have not progressed through the mature population. Low recent recruitment has created a low, stable population but not allowed for much population growth. The reasons behind the recruitment failure are unknown, but it is hypothesized that the changing ecosystem has not created favorable conditions for red king crab juvenile survival. Research is underway to understand more about red king crab life history during the time period between hatching and recruitment to the summer survey. Changing climate within the Bering Sea likely contributes to a potential for shifting spatial distributions for this stock. The stock assessment monitors the proportion of red king crab in the northern unstratified area, and while it is variable from year to year there has been a shift to observing more red king crab in the north in the last 15 years. 
 
 While most of these concerns are not new for the stock, they are concerning since the stock assessment model assumes recruitment is stable over time and that the distribution of the stock remains within the Bristol Bay boundary. 
 
 
-      **Level of concern: Level 1 Normal**
+      *Level of concern: Level 1 Normal*
 
 ## Environmental/Ecosystem considerations {-}
 
 - Steady decline in bottom water pH in last two decades
-- Predation risk higher for juvenile crab (sockeye salmon)
-- Poor larval feeding conditions due to high sockeye salmon and low chlorophyll *a*
-- Increase in mature females with empty clutches
-
-The ESP report card produced for this stock as an appendix to the SAFE details the environmental and ecosystem considerations. The majority of which have been on-going for the last few years and are not new concerns. 
+- Warm bottom waters in 2025, but uncertain the impacts on the stock
 
 
-      **Level of concern: Level 1 Normal**
+The ESP report card produced for this stock as an appendix to the SAFE details the environmental and ecosystem considerations. The majority of these have been on-going for the last few years and are not new concerns. 
+
+Ecosystem indicators are organized into several categories to capture the scope of considerations available in the ESP and ESR reports:
+
+- *Distribution*: Area occupied by mature male BBRKC has expanded with increased bottom temperatures over the past 40 years (ESP: Fedewa et al., 2025). 
+In 2025, 60% of mature male BBRKC were located in closure areas during the summer survey period, although spatial distribution shifts may limit the utility of these closure areas (ESP: Fedewa et al., 2025). 
+
+- The ratio of red king crab in the Northern District relative to Bristol Bay declined from 2024 to 2025, although still remains above the 42-year time series mean. Recent northward stock distribution shifts relative to static management boundaries may have implications for population dynamics and assessment considerations (ESP: Fedewa et al., 2025). 
+
+- *Environmental Processes*: During winter 2024-2025, the NPI was negative (ESR: Siddon, 2025) for the first time in 9 years, an indication of a stronger Aleutian Low Pressure System (ESR: Siddon, 2025). This means the Bering Sea was warm, stormy, and had less sea ice.
+
+- Bottom water pH in Bristol Bay increased in 2024, although red king crab have experienced a steady decline in bottom water pH in the past two decades. Continued declines to pH levels of 7.8 could negatively affect juvenile red king crab growth, shell hardening, and survival.
+
+- Wind stress in Bristol Bay has increased over the past three decades, and the 2025 estimate was well above the 37-year mean. Increased wind stress suggests less suitable conditions for first-feeding success of BBRKC larvae. 
+
+- Summer bottom trawl SSTs in the EBS were slightly cool, while mean bottom water temperature in the BBRKC Management District increased by 0.8°C from 2024 to 2025 (ESP: Fedewa et al., 2025). The extent of the cold pool was below average and a 29% decrease from 2024 (ESR: Siddon, 2025). 
+
+- Sea ice is expected to arrive in the northern Bering Sea later in winter 2025/2026 than 2024/2025 due to comparatively low sea ice extent currently in the Chukchi Sea (ESR: Siddon, 2025 forecast will be updated for final ESR).
+
+- The NMME ensemble forecasts as of today show moderate warm SST anomalies over much of the SEBS (<0.5°C) into fall 2025, except Bristol Bay shows anomalies up to +2 °C. The NBS is projected to have SSTs close to the historical mean (ESR: Siddon, 2025 forecast will be updated for final ESR).
+
+- *Prey*: Diatom abundance anomalies, based on the Continuous Plankton Recorder, remained positive from 2023 to 2024 (ESR: Siddon, 2025), indicating above-average feeding conditions for pelagic crab stages in 2023 and 2024. Benthic prey density for juvenile and adult BBRKC in Bristol Bay increased slightly in 2024, but is still well below the time series mean (ESP: Fedewa et al., 2025; indicator update for 2025 in progress).
+
+- *Competitors*: Over the southern shelf, motile epifauna (e.g., sea stars, brittle stars) biomass increased from 2023 to 2024 and remains above the long term mean (ESR: Siddon, 2024). Benthic forager (i.e., small-mouthed flatfish) biomass increased from 2023 to 2024, but remains below the time series mean, suggesting competition for prey resources remains low in 2024 (ESR: Siddon, 2024). 
+
+- *Predators*: Bristol Bay sockeye salmon run sizes were closer to the long-term average in 2023-2024 (ESR: Siddon, 2024), after multiple years of large run sizes, indicating a decline in predation pressure on larval BBRKC. Pacific cod predator density in Bristol Bay declined slightly in 2024, and remains near-average (ESP: Fedewa et al., 2025; indicator update for 2025 in progress).
+
+
+
+      *Level of concern: Level 1 Normal*
 
 
 ## Fishery-informed Stock considerations {-}
 
 - Directed fishery was closed 2021/22 and 2022/23 seasons
-- 2024/25 fishery CPUE was 29.55 higher than the last ten year average
-- Bycatch at recent average levels
+- 2024/25 fishery CPUE was 29.55 crab per pot, higher than the last ten year average, increased from 20.5 during the previous (2024/25) season (ESP: Fedewa et al., 2025)
+- Metrics of total effort in the fishery, total potlifts (11.5  thousand) and number of active vessels (34), were at or near historical lows during the 2024/25 fishery (ESP: Fedewa et al., 2025)
+- Crab vessel captain observations on fishing conditions in the 2024/35 BBRKC fishery, as reported in the ABSC Skipper Survey (ABSC, 2024), are consistent with high fishery CPUE. The large majority (89%) of captains reported a greater than 10% increase in abundance of legal males relative to the previous open season, with 63% of respondents reporting a 25% or greater increase. Regarding significant changes in fishing practices from the previous season, the majority (52%) of respondents indicated no significant change, with longer soak times being the second most common response (14%); other than no change (44%), the most common reported reason for changing fishing practices, was high CPUE (30%), followed by excessive sorting and discard (15%).
+- Incidental catch of Bristol Bay red king crab in 2024 groundfish fisheries declined from the previous year to 90.9 thousand metric tons, the lowest level since 2012 (ESP: Fedewa et al., 2025)
 
-Fishery-informed indicators are generally consistent with stable or mildly improving stock condition relative to recent history of low population density. No considerations observed in the most recent fishery suggest greater than normal risk of overfishing, independent of other considerations captured in the assessment and risk table. 
+
+Fishery-informed indicators are generally consistent with stable or mildly improving stock condition relative to the recent history of low population density. No considerations observed in the most recent fishery suggest greater than normal risk of overfishing, independent of other considerations captured in the assessment and risk table. 
 
 
-      **Level of concern: Level 1 Normal**
+
+      *Level of concern: Level 1 Normal*
+      
+      
+# Acknowledgements {-}
+Thanks for the ESP (ecosystem and socioeconomic profile) and ESR (ecosystem status report) teams for their contribution to this document. Specifically Elizabeth Siddon, Erin Fedewa, Kalei Shotwell, and Brian Garber-Yonts.
+
+
+# References {-}
+Alaska Bering Sea Crabbers (ABSC), 2024. Bristol Bay Red King Crab Skipper Survey - 2024. Presentation, NPFMC Crab Plan Team meeting, September 2025.
+
+Pilcher, D., J. Cross, N. Monacci, E. Kennedy, E. Siddon, and W.C. Long. 2024. Ocean Acidification. In: Siddon, E. 2024. Ecosystem Status Report 2024: Eastern Bering Sea, Stock Assessment and Fishery Evaluation Report, North Pacific Fishery Management Council, 1007 West 3rd Ave., Suite 400, Anchorage, Alaska 99501.
+
+Siddon, E. 2024. Ecosystem Status Report 2024: Eastern Bering Sea, Stock Assessment and Fishery Evaluation Report, North Pacific Fishery Management Council, 1007 West 3rd Ave., Suite 400, Anchorage, Alaska 99501.
+
+Siddon, E. 2025 (in press). Ecosystem Status Report 2025: Eastern Bering Sea, Stock Assessment and Fishery Evaluation Report, North Pacific Fishery Management Council, 1007 West 3rd Ave., Suite 400, Anchorage, Alaska 99501.
+

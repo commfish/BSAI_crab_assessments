@@ -17,7 +17,7 @@ output:
 
 # Appendix C. Tier 4 fallback REMA exploration {-}
 
-At the March 2023 simpler model working group meeting a "fallback" option for model output was discussed to be used as an alternative option if the current assessment model is not usable. This option is detailed in the working group report under "Proposed "Fallback" model options". 
+At the March 2023 simpler model working group meeting, a "fallback" option for model output was discussed to be used as an alternative option if the current assessment model is not usable. This option is detailed in the working group report under "Proposed Fallback model options". 
 
 This is a Tier 4 approach where:
 
@@ -30,9 +30,9 @@ This is a Tier 4 approach where:
 
 ## REMA model for BBRKC {-}
 For BBRKC the male biomass that is determined to be vulnerable to the directed and incidental catch fisheries is the mature male biomass, crab > 119mm CL. Crab at this size are approximately one or more molt increments away from legal size and therefore are likely to be found with legal size male crab and be vulnerable to discard mortality.
-This modeling exercise applies two ABC buffers - one similar to the 2023 Tanner crab REMA model, where the ABC buffer is estimated to be the CV of the final year of the REMA output rounded to the nearest 5% (which for 2024 is 15%), and the Tier 3 20% buffer. The Tier 3 resulting ABC (using a buffer of 20%) is labeled ABC in the table below, and the alternative buffer calculation (using a buffer of 15%) is labeled ABC_2.
+This modeling exercise applies two ABC buffers - one similar to the 2023 Tanner crab REMA model, where the ABC buffer is estimated to be the CV of the final year of the REMA output rounded to the nearest 5% (which for 2025 is 15%), and the Tier 3 20% buffer. The Tier 3 resulting ABC (using a buffer of 20%) is labeled ABC in the table below, and the alternative buffer calculation (using a buffer of 15%) is labeled ABC_2.
 
-As defined by the Crab FMP stock status is determined by the current years biomass (B) compared to the average biomass over a period of time. For consistencies with the current modeling approaches for BBRKC the time period used is 1984 to 2023, as this is the same time period that is used in the Tier 3 model for calculation status determination.
+As defined by the Crab FMP, stock status is determined by the current years biomass (B) compared to the average biomass over a period of time. For consistencies with the current modeling approaches for BBRKC the time period used is 1984 to 2024, as this is the same time period that is used in the Tier 3 model for status determination.
 
 ## Calculation of Reference Points {-}
 

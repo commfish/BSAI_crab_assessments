@@ -51,13 +51,13 @@ justs <- c(
           # 2020
           "- increased from previous years buffer due to lack of survey data (increase from 20\\% to 25\\%)", 
           # 2021
-          "- continued lack of recent recruitment \\newline - poor environmental conditions (as reflected in the ESP) \\newline - the continued decline in female survey biomass in 2021  \\newline - the model's lack of fit to the 2018-2021 female survey biomass", 
+          "- continued lack of recent recruitment \\newline - poor environmental conditions (as reflected in the ESP) \\newline - continued decline in female survey biomass in 2021  \\newline - model's lack of fit to the 2018-2021 female survey biomass", 
           # 2022
-          "- continued lack of recent recruitment \\newline - poor and variable environmental conditions  \\newline - NMFS female survey biomass in 2022 remains at historically low levels  \\newline - the lack of fit to the 2018-2022 NMFS female survey biomass  \\newline - the restrospective patterns exhibited by the recommended model", 
+          "- continued lack of recent recruitment \\newline - poor and variable environmental conditions  \\newline - NMFS female survey biomass in 2022 remains at historically low levels  \\newline - lack of fit to the 2018-2022 NMFS female survey biomass  \\newline - restrospective patterns exhibited by the recommended model", 
           # 2023
-          "- continued lack of recent recruitment  \\newline - poor and variable environmental conditions (e.g., cold pool distributional shifts) \\newline  - NMFS female survey biomass in 2023 increased above historically low levels for the first time in 5 years, but this was predicated on a single exceedingly large tow (thus the accompanying uncertainty was large)  \\newline  - the lack of fit to 2018-2023 NMFS female survey biomass \\newline  - the retrospective patterns exhibited by the recommended model, even though this was improved over last year's assessment model (21.1b) ", 
+          "- continued lack of recent recruitment  \\newline - poor and variable environmental conditions (e.g., cold pool distributional shifts) \\newline  - NMFS female survey biomass in 2023 increased above historically low levels for the first time in 5 years, but this was predicated on a single exceedingly large tow (thus the accompanying uncertainty was large)  \\newline  - lack of fit to 2018-2023 NMFS female survey biomass \\newline  - retrospective patterns exhibited by the recommended model, even though this was improved over last year's assessment model (21.1b) ", 
           # 2024
-           "- continued lack of recent recruitment  \\newline - poor and variable environmental conditions (e.g., cold pool distributional shifts)  \\newline - lack of fit to 2028 to 2024 NMFS female survey biomass  \\newline - the retrospective patterns exhibited by the recommended model")
+           "- continued lack of recent recruitment  \\newline - poor and variable environmental conditions (e.g., cold pool distributional shifts)  \\newline - lack of fit to 2021 - 2024 NMFS female survey biomass  \\newline - retrospective patterns exhibited by the recommended model")
 abc.buffer <- cbind(years, buffers, justs)
 colnames(abc.buffer) <- c("Year", "ABC buffer", "Justifications")
 
