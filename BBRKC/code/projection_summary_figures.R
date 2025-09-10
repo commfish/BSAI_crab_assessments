@@ -170,7 +170,7 @@ B_ref %>%
   geom_vline(aes(xintercept = m24c.2$mmb_curr/1000), ### change this with 23.0a #m230a_24 m24c
              color="black", linetype="dashed", size=1) +
   xlab("MMB on 2/15 (1000 t)")+
-  ylab("Count") +
+  ylab("Density") +
   ggtitle(paste0("Model ", model)) +
   scale_x_continuous(breaks = 11:21) 
 ggsave(paste0(.FIGS, "proj_MMB_density_plot_model_", model, ".png"), width = 7, height = 3.5)

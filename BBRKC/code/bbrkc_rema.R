@@ -176,8 +176,8 @@ ABC <- (1 - 0.20) * OFL
 predicted_mmb %>% 
   select(CV_pred) %>% 
   tail(1) -> abc_buck
-abc_buck
-ABC_2 <- (1-0.138)*OFL
+abc_buck # round to nearest 5%
+ABC_2 <- (1-0.15)*OFL
 
 specs <- round(c(avg_B, MMB, status, M, Fofl, OFL, ABC, ABC_2), 2)
 cnames <- c("avgB", "MMB", "B/Bmsy","M", "Fofl", "OFL", "ABC", "ABC_2")

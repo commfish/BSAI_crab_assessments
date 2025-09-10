@@ -697,6 +697,42 @@ gmacs_do_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_25
 #f_run_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_24f/model_23_0a_ph7_24", 0.1, 1, ref_points = F)  
 
 
+# jitter combining multiple runs figure ---
+out <- read_csv("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_25f/m24.0c.2/output/_jitter_sd_jitter-results_ALL.csv")
+p_obj <- ggplot() + geom_histogram(data = out, aes(x = obj_function), 
+                                   color = 1, fill = "grey80", width = 1) + geom_vline(xintercept = m24c.2$objective_function, linetype = 2, color = 2) +
+                                  scale_x_continuous(labels = scales::comma) + 
+  labs(x = "Negative Log-likelihood", y = "Jitter Runs")
+p_mmb <- ggplot() + geom_point(aes(x = out$obj_function, 
+                                   y = out$mmb_curr)) + geom_point(aes(x = m24c.2$objective_function, 
+                                   y = m24c.2$mmb_curr), size = 2, shape = 22, fill = "white") + 
+  geom_point(aes(x = m24c.2$objective_function, y = m24c.2$mmb_curr), 
+             size = 2, shape = 21, fill = cbpalette[1]) + scale_y_continuous(labels = scales::comma, 
+                                                                             limits = c(0, NA)) + labs(x = "Negative Log-likelihood", 
+                                                                                                       y = paste0("MMB (", gsub("_", " ", m24c.2$wt_units), 
+                                                                                                                  ")"))
+p_bmsy <- ggplot() + geom_point(aes(x = out$obj_function, 
+                                    y = out$bmsy)) + geom_point(aes(x = m24c.2$objective_function, 
+                                                                    y = m24c.2$bmsy), size = 2, shape = 22, fill = "white") + 
+  geom_point(aes(x = m24c.2$objective_function, y = m24c.2$bmsy), 
+             size = 2, shape = 21, fill = cbpalette[1]) + scale_y_continuous(labels = scales::comma, 
+                                                                             limits = c(0, NA)) + labs(x = "Negative Log-likelihood", 
+                                                                                                       y = bquote(B["MSY"] ~ "(" ~ .(gsub("_", " ", m24c.2$wt_units)) ~ 
+                                                                                                                    ")"))
+p_ofl <- ggplot() + geom_point(aes(x = out$obj_function, 
+                                   y = out$ofl)) + geom_point(aes(x = m24c.2$objective_function, 
+                                                                  y = m24c.2$ofl_tot), size = 2, shape = 22, fill = "white") + 
+  geom_point(aes(x = m24c.2$objective_function, y = m24c.2$ofl_tot), 
+             size = 2, shape = 21, fill = cbpalette[1]) + scale_y_continuous(labels = scales::comma, 
+                                                                             limits = c(0, NA)) + labs(x = "Negative Log-likelihood", 
+                                                                                                       y = paste0("OFL (", gsub("_", " ", m24c.2$wt_units), 
+                                                                                                                  ")"))
+
+ggsave(filename = paste0(here::here(), "/BBRKC/", folder, "/", m24c.2$model_name, "/plots/_jitter_sd_ALL.png"), plot = (p_obj + p_mmb)/(p_bmsy + 
+                                                                                 p_ofl), height = 6, width = 8, units = "in")
+
+plots <- list(p_obj, p_mmb, p_bmsy, p_ofl)
+
 # retrospective ----------
 gmacs_do_retrospective("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_25f/m24.0c.2/gmacs.dat", 
                        1, version = "2.20.21")
