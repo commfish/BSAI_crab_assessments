@@ -1,0 +1,1025 @@
+---
+title: "Aleutian Islands Golden King Crab Stock Assessment Draft Models"
+author: |
+  | Tyler Jackson
+  | Alaska Department of Fish and Game, tyler.jackson@alaska.gov
+date: "`r format(Sys.time(), '%B %Y')`"
+output:
+  bookdown::pdf_document2:
+    toc: no
+header-includes:
+   - \usepackage{float}
+   - \usepackage{hanging}
+
+---
+
+```{r, echo = F, message = F, warning = F}
+library(tidyverse)
+library(patchwork)
+library(xtable)
+
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, fig.pos='H',
+                      out.height = "\\textheight", out.width = "\\textwidth")
+```
+
+# Response to Comments {-}
+
+<!-- # B. Response to Comments {-} -->
+
+<!-- ## SSC June 2025 {-} -->
+
+<!-- \textbf{Comment}: "\textit{The SSC supports the recommended OFL calculation approach as specified in the current assessment. For future consideration, the SSC recommends returning to calculation of a single OFL and ABC for the combined model results (as in 2017)}" -->
+
+<!-- \textbf{Response}:   -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+
+<!-- \textbf{Comment}: "\textit{The SSC recommends continued exploration into either a single-area or a two-area spatially explicit model, noting that a two-area spatially explicit model may serve as a bridge between previous separate model approaches and a combined model approach.}" -->
+
+<!-- \textbf{Response}:  A combined, stock-wide model was not prioritized during this cycle. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+
+<!-- \textbf{Comment}: "\textit{The authors and CPT should provide a table reporting the historical OFL buffers used in this stock to inform future discussions on the incorporation of uncertainty (see General BSAI Crab Comments)}" -->
+
+<!-- \textbf{Response}:   -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+
+<!-- \textbf{Comment}: "\textit{The author and CPT should explore metrics to determine if changes in CPUE are due to changes in fishing behavior (e.g. changes in number of strings or number of pots per boat) as was suggested during public testimony}" -->
+
+<!-- \textbf{Response}:  See Appendix C of this document. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+
+<!-- \textbf{Comment}: "\textit{The author should explore mechanisms for examining the impact on CPUE from within crab fleet gear conflicts or fishing behavior as well as conflicts between crab fleet gear and the gear of the trawl fleet. The current bycatch data in the trawl fisheries may not be sufficient for this, but perhaps could be augmented with data on changes in effort or catch distribution changes}" -->
+
+<!-- \textbf{Response}:  See Appendix C of this document. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+
+<!-- \textbf{Comment}: "\textit{The author is encouraged to work with ESR authors on developing risk recommendations related to environmental changes. The SSC notes there have been long term environmental changes taking place in the Western Aleutian region}" -->
+
+<!-- \textbf{Response}:  The author will coordinate with ESR authors prior to the 2026 final assessment. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+
+<!-- \textbf{Comment}: "\textit{The author should create a timeline of the various model changes that have occurred as the models have evolved to map those changes to the historical retrospective changes (see General BSAI Crab Comments)}" -->
+
+<!-- \textbf{Response}:  This will be provided in the 2026 final assessment. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+
+<!-- \textbf{Comment}: "\textit{A spatio-temporal model is encouraged. However, the inclusion of the interaction term between soak time and year may alias changes in relative abundance. Some rationale should be given as to including that interaction or this element should be eliminated}" -->
+
+<!-- \textbf{Response}:  The CPUE standardization in Appendix A does not consider a soak time:year interaction, but does provide rationale for it. The purpose in estimating the effect of soak time by year is to capture a more meaningful effect of soak time, as the functional form of that relationship changes as vessel dynamics in the fishery change. It is possible that soak time is as much a reflection of fishery dynamics, as it is of relative abundance. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+
+<!-- \textbf{Comment}: "\textit{Keep the SSC informed about future updates on the results from skipper surveys for informing the stock assessment about changes in fishing behavior}" -->
+
+<!-- \textbf{Response}: Updates will be provided when available. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+
+<!-- \textbf{Comment}: "\textit{Continue to work toward developing fishery-independent indices for this stock}" -->
+
+<!-- \textbf{Response}: Development of the 2016 - 2024 fishery independent index was not prioritized in this cycle. There was no 2025 cooperative survey. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+
+<!-- ## CPT May 2025 {-} -->
+
+
+<!-- \textbf{Comment}: "\textit{Examine time-varying selectivity as a possible solution to the retrospective pattern for the EAG}" -->
+
+<!-- \textbf{Response}:   -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+
+<!-- \textbf{Comment}: "\textit{Routinely report “historical analyses” in assessment reports}" -->
+
+<!-- \textbf{Response}: Will present historical analyses in final SAFE documents.   -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+
+<!-- \textbf{Comment}: "\textit{Explore refinement of the estimates of size-at-maturity (separately for the WAG and EAG -->
+<!-- and for both areas combined)}" -->
+
+<!-- \textbf{Response}:  See Appendix B of this document.   -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+
+<!-- \textbf{Comment}: "\textit{Average stage-1 sample sizes using the harmonic mean and not the arithmetic mean -->
+<!-- when calculating inputs for the stock assessment}" -->
+
+<!-- \textbf{Response}: Harmonic mean will be used if bootstrap estimated sample sizes are considered again.   -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+
+<!-- \textbf{Comment}: "\textit{When reporting jitter analyses, restrict the x-axis range so that it is possible to detect non-convergences to objective function values close to the putative MLE}" -->
+
+<!-- \textbf{Response}: This will be done.   -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- \textbf{Comment}: "\textit{Investigate the possible use of the cooperative Aleutian Islands survey in the EAG for inclusion in future assessments}" -->
+
+<!-- \textbf{Response}:  The cooperative survey index was not prioritized this cycle. See models 25.1 and 25.1b in September 2024. \href{https://meetings.npfmc.org/CommentReview/DownloadFile?p=63298579-d429-43ed-9ddf-bf73cddad119.pdf&fileName=AIGKC_sept2024.pdf}{\underline{Link to Document.}} -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+
+<!-- \textbf{Comment}: "\textit{Tyler should meet with the ESR group to identify potential indicators that could be applicable to AI golden king crab}" -->
+
+<!-- \textbf{Response}: The author will coordinate with ESR authors prior to the 2026 final assessment. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+
+<!-- ## CPT September 2024 {-} -->
+
+<!-- \textbf{Comment}: "\textit{CPT requested that a risk table for AIGKC be brought forward in May }" -->
+
+<!-- \textbf{Response}: See Appendix C.     -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- ## SSC June 2024 {-} -->
+
+<!-- \textbf{Comment}: "\textit{The SSC requests the rationale for using the terminal year minus four year approach to define the reference period for future assessments}" -->
+
+<!-- \textbf{Response}: See plots below. The CPT recommend using 1987 - 2020 during the May 2024 assessment, and adding a year sequentially after that. The reference time series was chosen because recruitment deviations are estimated with reasonable precision during that time period following the method used for other BSAI crab stocks. There was not rigorous analysis of the optimal reference period. -->
+
+<!-- ```{r recse2, fig.align='center', fig.cap="Standard errors of recruitment deviations for models 23.1c and 25.0b. Dotted lines indicate the reference time series for mean recruitment used in reference point calculation, 1987 - 2021.", eval = T} -->
+<!-- knitr::include_graphics("../../figures/models/2025/may/rec_dev_se.png") -->
+<!-- ``` -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{The SSC recommends that the CPT explore whether to conduct this final assessment on the same cycle as other crab assessments in September/October to better align the assessment with the annual cycle of catch mortality. }" -->
+
+<!-- \textbf{Response}: ADF$\&$G and the CPT do not think moving the timing of the final assessment to September would be suitable because the fishery opens in August.     -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{The SSC recommends prioritizing further consideration of data weighting, as the Francis re-weighting continues to be an issue in this assessment.}" -->
+
+<!-- \textbf{Response}: This analysis explores data weighting, specifically with respect to size composition data.   -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{The SSC places a high priority on incorporating information from the cooperative survey into the assessment and supports the CPT recommendation to incorporate this survey as a separate fleet.}" -->
+
+<!-- \textbf{Response}: See models 25.1 and 25.1b (Jackson 2024b).     -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{Further examination of the retrospective pattern in terms of magnitude, direction and cause continues to be important.}" -->
+
+<!-- \textbf{Response}: -->
+
+<!-- retrospective pattern in MMB appears to arise from data conflict that also results in poor fit to post rationalization observer CPUE in the EAG, which has the same retrospective pattern. Data conflict is less apparent in the WAG. Jackson 2024b discusses model misspecfication, but more work is necessary.    -->
+
+<!-- ```{r retrobias, fig.align='center', fig.cap="MMB trajectory, recruitment, and fits to observed CPUE index for EAG retrospective peels up to 10 years.", eval = T, fig.height = 5, fig.width = 5, out.height = "576px"} -->
+<!-- knitr::include_graphics("../../figures/models/2025/sept/retrospective_cause_25_0b.png") -->
+<!-- ``` -->
+
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{The CPT suggested that next year’s model should be 25.0. The SSC reminds the CPT and authors that new model year numbers are only applicable if there is a major structural model change.}" -->
+
+<!-- \textbf{Response}: Noted.   -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{The current method of projecting the remaining landings for the current incomplete season seems overly complicated and the SSC recommends a more straightforward method for determining total catch be considered, such as basing it on the average fraction harvested to date. }" -->
+
+<!-- \textbf{Response}: See Section D.2.f of this document. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+
+<!-- ## CPT May 2024 {-} -->
+
+<!-- \textbf{Comment}: "\textit{Use the standard convention for model numbering, i.e. the models for the May 2025 assessment, will be 25.xx and not 24.xx.}" -->
+
+<!-- \textbf{Response}: This is done.   -->
+
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{Document why the 1993 bycatch and total catch size-composition data are not included in this and past assessments.}" -->
+
+<!-- \textbf{Response}: Issues with 1993 observer data (not bycatch) have been resolved by model 23.1 (data). There was no observer coverage in the 1993 crab year for EAG directed fishing and for WAG, most pots were previously removed because they were of unknown size. Those pots are now included for size composition data only, which also affects total catch estimation.   -->
+
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{Explore reasons for the retrospective pattern for the EAG.}" -->
+
+<!-- \textbf{Response}: See above. This work is ongoing.   -->
+
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{Consider models for the EAG and WAG that allow for the bias-correction in recruitment, especially given there is virtually no information in the data on the sizes of the recruitments before 1985.}" -->
+
+<!-- \textbf{Response}: See model 23.1c.   -->
+
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{Include the EAG cooperative survey data (index and size-composition) as an additional fleet.}" -->
+
+<!-- \textbf{Response}: See models 25.1 and 25.1b of Jackson (2024b).   -->
+
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{Fit models that assume that the size-composition data are Dirichlet-multinomial distributed instead of Francis weighting the size-composition data.}" -->
+
+<!-- \textbf{Response}: See models 25.0c and 25.0d of Jackson (2024b).   -->
+
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{Explore the reasons for the implausible values for groundfish fishing mortality in some years for some of the retrospectives and some of the jitter runs.}" -->
+
+<!-- \textbf{Response}: This was presented at the May 2024 plan team meeting. The model estimated a large recruitment pulse preceding 1996, which appeared to allow for better fit to 1996 observer index data. Because size composition data in the directed fishery and the base natural mortality rate could not support such a recruitment pulse, the model 'killed off' the extra crab in the bycatch fishery which does not have associated composition data and large CV. Running the model with a .pin file that specifies appropriate starting values for $F$ deviations or increasing the penalty on $F$ deviations in that fleet resolves the issue.   -->
+
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{Consider starting the model in a non-equilibrium state around 1981.}" -->
+
+<!-- \textbf{Response}: Model 25.0 and its derivations addresses this Jackson (2024b), and see model 25.0b in this analysis.   -->
+
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{Revisit estimation of size-at-maturity given the addition of new data.}" -->
+
+<!-- \textbf{Response}: This will be revisited during September 2025.   -->
+
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{Continue exploration of CPUE standardization, including investigation of models with block:year interactions and using geostatistical methods.}" -->
+
+<!-- \textbf{Response}: CPUE standardization using a spatiotemporal model was explored here, but will be refined and used in the assessment model during the next cycle.   -->
+
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{Explore time-varying catchability (e.g. as blocks) rather than the use of additional variance to reconcile the trends in CPUE and those in abundance. Given the known difficulties estimating time-variation in catchability, this could be explored as part of a simulation study – with initial discussions at the January 2025 modeling workshop.}" -->
+
+<!-- \textbf{Response}: This could be further explored, with some guidance on design of a simulation experiment..   -->
+
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+
+<!-- ## SSC Feb 2024 {-} -->
+
+<!-- \textbf{Comment}: "\textit{The SSC recommends that any new substantial standardization changes should be reviewed during the next cycle, not during specifications in May/June 2024} -->
+
+<!-- \textbf{Response}: The only revisions to CPUE standardization between model explorations and the final assessment addressed poor model diagnostics, though this will be noted for the future.   -->
+
+<!-- \makebox[165 mm]{\dotfill} -->
+
+
+<!-- ## CPT Jan 2024 {-} -->
+
+<!-- \textbf{Comment}: "\textit{The CPT recommends that the CPUE standardization be revised for the 2024 assessment by:}   -->
+<!-- \begin{itemize} -->
+<!-- \item{\textit{exploring the use of a Tweedie instead of the negative binomial distribution;}} -->
+<!-- \item{\textit{dropping the data for gear types 4 and 13 which have few observations;}} -->
+<!-- \item{\textit{reporting DHARMa residuals and providing influence plots as additional diagnostics; and}} -->
+<!-- \item{\textit{exploring the basic data used for the fish ticket CPUE index because the data on which -->
+<!-- the standardization is based for the current analyses include many zero observations – -->
+<!-- this may be because the extracted data may include trips for red king crab in the -->
+<!-- Aleutians. If the residual pattern for the fish ticket analysis (Fig. 44 of Appendix B) is not -->
+<!-- resolved, results should be presented in May 2024 for model runs that use and ignore -->
+<!-- the fish ticket CPUE index.}"} -->
+<!-- \end{itemize} -->
+
+<!-- \textbf{Response}: All of these recommendations were addressed in CPUE standardization except dropping gear types 4 and 13. This recommendation will be followed up in 2025 model explorations.   -->
+
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- \textbf{Comment}: "\textit{Include measures of uncertainty (for at least one model configuration) in the plots for the estimates of recruitment and MMB} -->
+
+<!-- \textbf{Response}: This has been addressed.   -->
+
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- \textbf{Comment}: "\textit{Include a plot of the survey index overlaid on the observer CPUE index (EAG)} -->
+
+<!-- \textbf{Response}: This plot will be included in documents that evaluate models containing survey data.    -->
+
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- \textbf{Comment}: "\textit{Describe why the MMB for the EAG declines substantially before 1980 while this is not the case for the WAG} -->
+
+<!-- \textbf{Response}: This is explained in section 4.g of Jackson (2024).   -->
+
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- \textbf{Comment}: "\textit{Start the y-axis for the plots of recruitment and MMB at zero} -->
+
+<!-- \textbf{Response}: This has been addressed.     -->
+
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- \textbf{Comment}: "\textit{Include the number of parameters in likelihood tables} -->
+
+<!-- \textbf{Response}: This has been addressed.   -->
+
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- \textbf{Comment}: "\textit{Apply jittering to ensure that the reported parameters correspond to the global minimum of the objective function.} -->
+
+<!-- \textbf{Response}: Jitter analysis was performed for the two author preferred model scenarios.   -->
+
+<!-- \makebox[165 mm]{\dotfill} -->
+
+
+
+
+<!-- ## SSC June 2023 {-} -->
+
+<!-- \textbf{Comment}: "\textit{The SSC agrees with the CPT recommendation for a 25\% buffer for this assessment and supports the resulting ABC. For the future, the SSC specifically requests that jitter and retrospective analyses be conducted for all final models that have the potential to be used for setting harvest specifications}" -->
+
+<!-- \textbf{Response}: Retrospective and jitter analyses were performed here. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{The SSC places a high priority on incorporating information from the cooperative survey into the assessment and supports the CPT recommendation that this be incorporated as a separate fleet.}" -->
+
+<!-- \textbf{Response}: Model 23.2, 25.1, and 25.1b explored the utility of the pot survey as an additional fleet. They are not presented here. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{Further examination of the retrospective pattern in terms of magnitude, direction and cause continues to be important.}" -->
+
+<!-- \textbf{Response}: More work will be done to address the retrospective pattern in the EAG during the next cycle. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{Revisit the choice to maintain the recruitment years at 1987 – 2017 rather than successively adding recent years to the time series, as is done for other crab stocks.}" -->
+
+<!-- \textbf{Response}: See response to similar comment above. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{The CPT recommended removing the data on the smallest size bin for the total catch prior to 2005/2006. The SSC requests first plotting these data and the model fit and providing further consideration of why these data may or may not be representative of the fishery at that time.}" -->
+
+<!-- \textbf{Response}: For clarification, the CPT recommended to remove data on crab below the smallest size bin (i.e. $\leq$ 100 mm) that were being included in the 101-105 mm bin. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{The current method of projecting the remaining landings for the current incomplete season seems overly complicated and the SSC recommends that a more straightforward method for determining total catch be considered, such as basing it on the average fraction harvested to date.}" -->
+
+<!-- \textbf{Response}: Total catch was determined using the effort required to achieve the TAC at current CPUE on the date when data were pulled.  -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{Further analysis and discussion of the retrospective pattern is needed to justify the size of the buffer used.}" -->
+
+<!-- \textbf{Response}: This was noted during the final assessment in May 2024. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- ## CPT May 2023 {-} -->
+
+<!-- \textbf{Comment}: "\textit{Continue work to obtain an index using the cooperative pot survey data for use in the EAG assessment model.}" -->
+
+<!-- \textbf{Response}: Models 23.2, 25.1, and 25.1b explored the utility of the pot survey as an additional fleet, but we not recommended for the 2025 final assessment. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{Identify and eliminate the conflict between the model and the data giving rise to the retrospective patterns for EAG models. Revisit the analysis considering a model with time-varying catchability, but impose a penalty on the devs to allow the index data to inform the model.}" -->
+
+<!-- \textbf{Response}: We will revisit time varying catchability in a future assessment cycle. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{Plot observed vs. predicted values for fitted data to help diagnose misfits.}" -->
+
+<!-- \textbf{Response}: It's unclear what model process this is referring to. When applicable, observations are always plotted with fitted data in this document. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{Add confidence intervals to plots of fits to catch data (i.e., retained catch, total catch) reflecting assumed data uncertainty.}" -->
+
+<!-- \textbf{Response}: All plots of catch and index data now include confidence intervals. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{Perform retrospective analyses for all models that have the potential to serve as the basis for calculating reference points.}" -->
+
+<!-- \textbf{Response}: Retrospective analysis with 10 yr peels have been explored here for all models. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{Calculate reference points using both combined-area and area-specific size-at-maturity values.}" -->
+
+<!-- \textbf{Response}: Combined area models were explored in previous cycles, and area-specific maturity will be re-revaluated in September 2025. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{Re-evaluate the time frame over which to calculate mean recruitment every year by, for example, using a plot of the variance in estimated recruitment deviations.}" -->
+
+<!-- \textbf{Response}: See revised response to SSC comment in June 2024.  -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{Continue work to obtain an index using the cooperative pot survey data for use in the EAG assessment model.}" -->
+
+<!-- \textbf{Response}: Analysis of the cooperative pot survey is detailed in Appendix C of Jackson 2024b. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{The cooperative survey should be fit as an additional CPUE index, not substituted for existing indices as was done for models 22.1g and 22.1h.}" -->
+
+<!-- \textbf{Response}: That is what has been explored by Jackson 2024b. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{Size-composition data should not include a “minus” group (i.e., crab smaller than the smallest size bin used in the model).}" -->
+
+<!-- \textbf{Response}: This is rectified by model 23.1. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{The data used to determine the total catch size-compositions in the two areas should be re-examined to determine whether the abundances in the smallest size bin from 1990 to 2004 are correct.}" -->
+
+<!-- \textbf{Response}: Appendix A (Jackson 2024) recomputes size composition time series using data directly pulled from the observer database. Updated time series still appear to contain a disproportionate amount of crab 101-105 mm CL, even without minus-sized crab (model 23.1). This is possibly due to escape mesh not being required until the 1997 season. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{Explore models that provide better fits to EAG CPUE data.}" -->
+
+<!-- \textbf{Response}:  More work in this area is needed during the next cycle. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{Use GAMs rather than GLMs to standardize the CPUE indices (e.g., use the R package “mgcv”).}" -->
+
+<!-- \textbf{Response}: All models derivative of 23.0a take this approach. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{Show both the original CV’s and effective CV’s (i.e., incorporating additional variance) when showing fits to the CPUE index time series.}" -->
+
+<!-- \textbf{Response}: This has been done in all plots showing fits to the CPUE index. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+<!-- <!-- ---- --> -->
+
+<!-- \textbf{Comment}: "\textit{In the SAFE document} -->
+<!-- \begin{itemize} -->
+<!-- \item \textit{Add a note to explain that retained catch can exceed TAC in some years due to the cost recovery fishery associated with the cooperative survey.} -->
+<!-- \item \textit{Drop Appendix D.} -->
+<!-- \item \textit{Remove tier designation from area-specific management Table.} -->
+<!-- \item \textit{Add explanation for extrapolation of total catch in final year"} -->
+<!-- \end{itemize} -->
+
+
+<!-- \textbf{Response}: All items have been addressed since the May 2024 SAFE document. -->
+<!-- \makebox[165 mm]{\dotfill} -->
+
+
+
+
+<!-- <!-- ---- --> -->
+
+
+
+
+
+
+# Model Explorations {-}
+
+Poor fit to the index data in the EAG and the associated retrospective pattern in MMB continues to be the primary issue with the AIGKC assessment. Model explorations during the 2025 assessment cycle focused largely on data weighting, specifically as it relates to size composition and catch data. Alternative input sample sizes and using a Dirichlet multinomial likelihood function did little to resolve apparent data conflict, and an updated version of the 2024 accepted model (23.1c) was used to determine management specifications for 2025/26. Recent CPT recommendations suggest exploring time varying selectivity as a means to address model misspecification. Here, I examine changes in fleet dynamics over time in relation to current assumptions about selectivity and catchability in the directed fishery. In addition, I revisted non-equilibrium initial conditions, a spatiotemporal GLMM approach for CPUE standardization, size at maturity, and a combined EAG / WAG model. Models evaluated in this document include (See Figure \ref{fig:models} for flow chart):
+
+\begin{itemize}
+
+\item \textbf{23.1c}: base model, accepted for specifications in May 2025;
+
+\item \textbf{25.0a}: Model 23.1c, non-equilibrium initial conditions starting in 1981 and equal emphasis factors on all likelihood components;
+
+\item \textbf{26.0}: Model 23.1c, with spatiotemporal standardized CPUE index, catchability time-blocks 1995 - 2004 and 2005 - 2024;
+
+\item \textbf{26.0a}: Model 26.0, non-equilibrium initial conditions starting in 1981 and equal emphasis factors on all likelihood components;
+
+\item \textbf{26.1}: Model 26.0a, with additional subdistrict-specific time blocks on directed fishery selectivity;
+
+\item \textbf{26.1a}: Model 26.0a, with a random walk on directed fishery selectivity from 2005 - 2024;
+
+\item \textbf{26.1b}: Model 26.0a, with additional subdistrict-specific time blocks on directed fishery catchability;
+
+\item \textbf{26.1c}: Model 26.0a, with additional subdistrict-specific time blocks on directed fishery selectivity and catchability.
+
+\end{itemize}
+
+## Updates to Base Model {-}
+
+The 2025 final assessment was conducted using GMACS version 2.20.21. This document uses the updated version 2.20.31. A log of changes made between versions can be found at the bottom of the ADMB 2.20.31 template file (\href{https://github.com/GMACS-project/GMACS_tpl-cpp_code/blob/devel-20250402/gmacsbase.TPL}{\underline{gmacsbase.tpl}}). None of the changes affect features used by the current AIGKC assessment. There are no differences in likelihood components or reference points for model 23.1c (Table \ref{table:versionlik} and \ref{table:versionref}).
+
+## Size at Maturity {-}
+
+Appendix B details an updated analysis on size at maturity. The analysis includes updated data from the at-sea observer program and ADF$\&$G special collections. This analysis also explores differences between estimation methods used by Olson et al. (2018) and Siddeek (2022), as well as likelihood profiles and bootstrap distributions of estimated size at maturity by data source. Since size at maturity is only used for computing harvest specifications and does not influence model performance, no alternative models with varying size at maturity are presented here. The CPT should consider whether it is worth bringing forward harvest specification options with updated size at maturity for the 2026 final assessment, or if the status quo (116 mm CL) should remain until a more refined estimate is available.
+
+## Intitial conditions and catch emphasis {-}
+
+Previous assessment models started in 1960 assuming the population was in an unfished state, with no fishing mortality until 1981 (Jackson 2025). Model 25.0a starts in a non-equilibrium state in 1981 and initial numbers at size were estimated from parameters representing initial recruitment (R$_{init}$) and scaled deviates for each size class. The size bin at which crab first become legally retained, 136 - 140 mm CL, was used as the reference size class. This model previously considered in September 2025, but was not brought forward for the 2025 final assessment. In addition to starting in non-equilibrium conditions, model 25.0a uses equal likelihood emphasis ($\lambda$ = 1) for all catch data series. 
+
+## Spatiotemporal GLMM CPUE index {-}
+
+Appendix A details estimation of an abundance index based on CPUE standardization using a spatiotemporal GLMM in the R package $sdmTMB$ (Anderson et al. 2024). The 'best' model estimated legal male CPUE as a function of gear type (i.e., pot size) and smooth effects of soak time and depth. Vessel was included as a random effect and spatiotemporal random effects were IID. Aside from model parameterization, this approach differs from previous assessments in that does not split CPUE standardization into pre- (1995 - 2004) and post-rationalization (2005 - present) periods. Rather, standardized CPUE is input to GMACS as a single index with time varying selectivity and catchability (detailed below). All 26.x models use the standardized CPUE index estimated in Appendix A.
+
+## Time varying selectivity and catchability {-}
+
+Models 26.0 and 26.0a assumed time blocks for selectivity and catchability corresponding to changes in fishing operations before and after crab rationalization (i.e., 2005). These models differed in initial conditions and emphasis on catch data as described above. In May 2025 the CPT recommended revisiting selectivity time blocks in response to unresolved poor fits to EAG index data. Process error associated with selectivity and catchability here are likely related to changing fleet dynamics (CITATIONS). It is important to clarify that "selectivity" in this context refers to the combination of animal availability to fishing grounds and selectivity by the gear. During the pre-rationalized era there was a greater number and diversity of fishing vessels with more competitive, overlapping fishing grounds and less selective fishing behavior. Crab rationalization resulted in a drastic downsizing of the fleet in both subdistricts initially, and since then there has been further consolidation of vessels and vessel-specific fishing grounds (Figure \ref{fig:obspotheat} - \ref{fig:modeveswag}). These changes in fleet dynamics are clearly evidenced by observer data, but unaccounted for in the post-rationalized era. 
+
+Models in the 26.1 series explored time blocks in the post-rationalization specific to vessel composition of observer data in the EAG and WAG (since CPUE index is computed using observer data). Note that instances exist where vessels may have fulfilled observer coverage requirements in the broader AIGKC fishery, but may not be represented in the observer data at the subdistrict level (e.g., only one trip was made to the EAG and during an unobserved leg of the season). These circumstances were rare and likely not influential. Additional EAG time blocks included the the early post-rationalization fleet consolidation from 2005 - 2007, a period from 2018 - 2013 after further consolidation, a period from 2014 - 2021 corresponding to the swap of the \textit{F/V Aleutian No. 1} and \textit{F/V Patricia Lee}, and from 2022 to present after the departure of those vessels. WAG time blocks include 2005 - 2015 when the fishery was dominated by three vessels, 2016 - 2020 when the \textit{F/V Early Dawn} was present and the \textit{F/V Patricia Lee} was not, and from 2021 to present when most observed data were collected aboard the \textit{F/V Alaska Trojan} and \textit{F/V Aleutian No. 1} (Figure \ref{fig:obspotheat}).
+
+Model 26.1 used the proposed block structure for selectivity, while maintaining a single post-rationalization block for catchability. Model 26.1a was the same as model 26.1, but estimated selectivity as a random walk since crab rationalization. Model 26.1b used the proposed block structure for catchability, while maintaining a single post-rationalization block for selectivity, and model 26.1c used the proposed post-rationalization time blocks for selectivity and catchability. 
+
+## Combined model {-}
+
+Progress toward a combined subdistrict model for AIGKC has been a repeating recommendation by the SSC and was last presented to the CPT in January 2024. Currently, the GMACS framework does not directly accommodate multiple spatial domains. The previous approach integrated subdistricts as different directed fleets with a combined bycatch fleet based on model 23.1b (Jackson 2024 - MODEL EXPLORE DOC). A drawback of this approach is that it does not allow for area specific recruitment deviations, which are evident in the recruitment estimates of each subdistrict. The CPT recommended treating the subdistricts as different sexes as a potential work around allowing some model processes to be shared, while allowing greater flexibility in others.  
+
+Here, the 'base' combined subdistrict model was most closely based on model 25.0a and used the EAG as the reference sex class. The model started in non-equilibrium conditions in 1981 with initial numbers at size estimated using 136 - 140 mm CL in the EAG as the reference class. Recruitment sex ratio deviations were estimated for all years and recruitment size distributions differed between subdistricts. Weight at length, size at maturity, natural mortality were shared. Subdistrict specific models estimate growth using the same tagging data which was collected in the EAG with releases in 1991, 1997, 2000, 2003, and 2006 (Siddeek et al. 2016). The GMACS framework does not allow growth functions to be mirrored between sexes and tagging data cannot be specified as belonging to both sexes. As a stop-gap, the data were simply duplicated so molt probability and growth transition matrices could be estimated separately for either subdistrict. Directed catch, index, and size composition data were input as the same fleet, but different series by subdistrict. Bycatch data were combined because GMACS would not allow different discard moralities by sex for the same year (i.e., discard mortalities are different for EAG and WAG due to differing proportions of trawl and fixed gear bycatch). Selectivities, rentention, and catchability were estimated separately for each subdistrict. The timing of the fishery was recomputed for each year using EAG and WAG start and end dates combined. One small alteration made to GMACS 2.20.31 was to bypass the SPR sex ratio feature during reference point calculation to allow for full contribution of EAG and WAG MMB.
+
+In addition to the model described above (AI 25.0a), model AI 26.1 used directed fishery selectivity time blocks as in EAG/WAG 26.1 and AI 26.1a modeled selectivity in the post-rationalization era as a random walk.
+
+## Retrospective Analysis and Jittering {-}
+
+Retrospective analysis was not performed for 26.x models due to technical difficulties associated with time blocks for catchability. These issues will likely be resolved before the final assessment in May. Previous analyses have demonstrated that strong retrospective patterns in the EAG likely arise from model mispecification that also leads to poor fits to CPUE index data. Thereby, models presented here that better fit index data will presumably also have improved retrospective patterns in May. Jittering was performed for a subset of author recommended models using a jitter factor of 0.3 and 500 iterations as in the 2025 final assessment (Jackson 2025). 
+
+# Model Comparisons {-}
+
+## Intial conditions and catch emphasis {-}
+
+Equal emphasis on catch data series had little impact on fits to data, as expected (Figure \ref{fig:eagcatchfit} and \ref{fig:wagcatchfit}). Small differences in scale of recruitment in the 1990's and since 2019 lead to slight differences in MMB in EAG. There is some difference in recruitment during the 1990's in the WAG, but recent trends are more similar (Figure \ref{fig:recinit} and \ref{fig:mmbinit}). It is unclear why initial conditions lead to different recruitment scales in recent years, but note that this pattern was also present in model 25.0, which weighted catch data similar to model 23.1c (Jackson 2024). Nevertheless, starting the model in 1981 is preferred as it slightly reduces the number of estimable parameters and eliminates the issue of relative high equilibrium MMB and recruitment before the data time series.
+
+## Spatiotemporal GLM CPUE index {-}
+
+## Time varying selectivity and catchability {-}
+
+Models 26.1 - 26.1c explore variability in the fishing process in relation to vessel dynamics. All scenarios that added selectivity blocks during post-rationalization improved fit to CPUE data and reduced observation error in the EAG (Table \ref{table:addcv}, Figure \ref{fig:eagindexfit}). As anticipated, model 26.1a was the most flexible and fit index data best. Models with catchability blocks fit marginally better than model 26.1 (Figure \ref{fig:eagindexfit}). Model 26.1 suggests that selectivity in the EAG was lower in the first half of the rationalized era (2005 - 2013), increased after the introduction of the $F/V$ Patricia Lee (2015), and became steeper when the fleet consolidated to two vessels in 2022. Selectivity in model 26.1a followed a similar pattern, though with more interannual variability, especially during the period from 2008 - 2013 (Figure \ref{fig:postratslx}). Catchability in the EAG increased with each additional time block, while selectivity of model 26.1b was similar to model 26.0, and model 26.1c was less variable (Figure \ref{fig:qslx} and \ref{fig:postratslx}). WAG models fit index data more similarly, and model 26.1a appeared to over fit data. Selectivity time blocks were less variable that in the EAG, and there was less apparent directionality in the selectivity random walk in model 26.0a (Figure \ref{fig:postratslx}). Catchability estimates increased with successive time blocks, as in the EAG, except for model 26.1c during the 2021 - 2024 time block (Figure \ref{fig:qslx}).  
+
+Fits to size composition data were nearly identical among all 26.x models, despite selectivity differences in the EAG (Figure \ref{fig:sizecomp}). All models in both subdistricts underestimate total size composition proportions of 101 - 105 mm CL crab and the first two legal size classes (136 - 145 mm CL)
+
+
+
+
+
+
+
+
+# Combined OFL Calculation {-}
+
+Since the AIGKC is considered a single sock, though separate subdistrict models have been maintained to date, it is necessary to combine subdistrict specific OFL calculations. In 2017 (when the tier 3 assessment was first adopted), the CPT and SSC considered two approaches (\href{https://meetings.npfmc.org/CommentReview/DownloadFile?p=27175b87-79d8-43dd-ae8a-4d16284953b7.pdf\&fileName=C7\%20Crab\%20Plan\%20Team\%20Report\%20May\%202017.pdf}{\underline{May 2017 CPT Report}}):
+
+\begin{enumerate}
+\item{Apply the OFL control rule by area and sum the OFLs by area;}
+\item{Determine stock status for the whole stock by adding the estimates of current MMB and B$_{\text{MSY}}$ by area. This stock status is then used to determine the ratio of F$_{\text{OFL}}$ to F$_{35\%}$ by area, which is then used to calculate the OFLs by area, which are then added together to calculate an OFL for the entire stock.}
+\end{enumerate}
+
+That is, to apply the F$_{\text{OFL}}$ control rule by subdistrict using a combined stock status ($B/B_{35\%}$) and subdistrict specific F$_{35\%}$. The SSC and CPT recommendation in 2017 was to follow the second approach that used a combined stock status. The reasoning for the choice was that the first approach would result in subdistricts being in different tiers of the F$_{\text{OFL}}$ control rule (EAG Tier 3a, WAG Tier 3b). The 2018 final assessment reverted back to applying the F$_{\text{OFL}}$ control rule separately by subdistrict (Siddeek et al. 2018; \href{https://meetings.npfmc.org/CommentReview/DownloadFile?p=f88cf4fb-1701-47da-81ae-e1f50c9bf5b5.pdf\&fileName=MOTION\%20C3.pdf}{\underline{C-3 Council Motion, June 2018}}), which is the approach that seems to have been used since. The SSC recommended returning to the 2017 F$_{\text{OFL}}$ calculation following the 2024 and 2025 final assessments. Table \ref{table:fofl} details F$_{\text{OFL}}$ from the 2025 final assessment using separate and combined stock status.
+
+The choice of which approach to use seems to be a process oriented question. ADF$\&$G treats the EAG and WAG as distinct stocks to practical extent when setting the total allowable catch (TAC). Exploitation rates on mature male abundance are subdistrict specific (EAG 15$\%$; WAG 20$\%$) in the state harvest strategy and distinct TACs are set for each subdistrict. Although TACs for this stock are based solely on assessment model outputs, federal catch limits (i.e., ABC/OFL) rarely limit TAC setting. ADF$\&$G generally has not considered risk of exceeding subdistrict specific reference points in TAC setting to date, though divergent population trends and increased conservation concern in the WAG likely warrants some consideration for the subdistrict specific management advice of the federal control rules. Under present conditions, combining stock status and recomputing F$_{\text{OFL}}$ would have the effect of applying surplus biomass in the EAG to harvest opportunity in the WAG. While a larger F$_{\text{OFL}}$ in the WAG may not necessarily equate to a larger TAC, the logic does not align with precautionary management of the subdistricts individually.
+
+
+
+# Literature Cited {-}
+
+\begin{hangparas}{.25in}{1}
+
+Carvalho F, AE Punt, YJ Chang, MN Maunder, KR Piner. 2017. Can diagnostic tests help identify model misspecification in integrated stock assessments$?$ Fisheries Research 192: 28-40.
+
+Ichinokawa M, H Okamura, Y Takeuchi. 2014. Data conflict caused by model mis-specification of selectivity in an integrated stock assessment model and its potential effects on stock status estimation. Fisheries Research 158: 147-157.
+
+Jackson 2024a. Aleutian Islands golden king crab stock assessment draft models. North Pacific Fishery Management Council, Anchorage, AK. \href{chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://meetings.npfmc.org/CommentReview/DownloadFile?p=2c279ede-351f-47b6-8602-40c3d60c4ef4.pdf&fileName=AIGKC\%20proposed%20model\%20runs.pdf}{\underline{January 2024 eAgenda Document}}
+
+Jackson, T. 2024b. Aleutian Islands golden king crab stock assessment 2024. North Pacific Fishery Management Council, Anchorage, AK.
+
+Maunder MN, KR Piner. 2015. Contemporary fisheries stock assessment: many issues still remain. ICES Journal of Marine Science 72: 7 - 18.
+
+Maunder MN, KR Piner. 2017. Dealing with data conflicts in statistical inference of population assessment models that integrate information from multiple diverse data sets. Fisheries Research 192: 16 - 27.
+
+Siddeek MSM, J Zheng, AE Punt, V Vanek. 2016. Estimation of size–transition matrices with and without molt probability for Alaska golden king crab using tag–recapture data. Fisheries Research 180: 161 - 168.
+
+Siddeek MSM, B Daly, V.Vanek, J Zheng, C Siddon. 2022. Length-based approaches to estimating natural mortality using tagging and fisheries data: The example of the eastern Aleutian Islands, Alaska golden king crab ($Lithodes$ $aequispinus$). Fisheries Research 251: 106304.
+
+Siddeek MSM, B Daly, T Jackson. 2023. Aleutian Islands golden king crab stock assessment. North Pacific Fishery Management Council, Anchorage, AK.
+
+Thorson JT, KF Johnson, RD Methot, IG Taylor. 2017. Model-based estimates of effective sample size in stock assessment models using the Dirichlet-multinomial distribution. Fisheries Research 192: 84 - 93.
+
+Wang SP, MN Maunder, KR Piner, A Aires-da-Silva, HH Lee. 2014. Evaluation of virgin recruitment profiling as a diagnostic for selectivity curve structure in integrated stock assessment models. Fisheries Research 158: 158-164.
+
+\end{hangparas}
+
+# Tables {-}
+
+#### {-}
+\begin{table}[H]  
+\centering
+\caption{Comparison of likelihood components for EAG models 23.1c using GMACS version 2.20.21 and 2.20.31.}
+
+\label{table:versionlik}
+\begin{tabular}{lcccccc}
+& \multicolumn{2}{c}{EAG} && \multicolumn{2}{c}{WAG}\\
+Component & v2.20.21 & v2.20.31 &  & v2.20.21 & v2.20.31\\
+\hline
+```{r versionlik, results='asis', eval = T}
+read_csv("../../../AIGKC/output/models/2026/nov/eag_base_model_version_lik.csv") %>% rename(e23.1c_v21 = `23.1c_v21`, e23.1c = `23.1c`) %>%
+  left_join(read_csv("../../../AIGKC/output/models/2026/nov/wag_base_model_version_lik.csv")) %>%
+  transmute(process = str_to_title(process), e23.1c_v21, e23.1c, space = NA, `23.1c_v21`, `23.1c`) -> x
+
+# print table
+print(xtable(x, align="lcccccc", digits=c(0, 0, 3, 3, 3, 3, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+#### {-}
+\begin{table}[H]  
+\centering
+\caption{Comparison of reference point estimates for EAG and WAG models 23.1c using GMACS version 2.20.21 and 2.20.31.}
+
+\label{table:versionref}
+\begin{tabular}{llcccccccc}
+Subdistrict & Version & MMB (t) & B$_{35\%}$ (t) & $\frac{MMB}{B_{35\%}}$ & $\bar{\text{R}}_{1987-2021}$ & F$_{35\%}$ & F$_{\text{OFL}}$ & OFL (t)\\
+
+\hline
+```{r versionref, results='asis', eval = T}
+eag <- read_csv("../../../AIGKC/output/models/2026/nov/eag_base_model_version_ref.csv") %>%
+  mutate(subdistrict = "EAG", model = c("2.20.21", "2.20.31")) %>% dplyr::select(10, 1:9) %>%
+  dplyr::select(-rbar_yrs)
+
+# print table
+print(xtable(eag, align="llcccccccc", digits=c(0, 0, 0, 0, 0, 2, 0, 2, 2, 0)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+
+&&&&&&&&\\
+```{r versionref2, results='asis', eval = T}
+wag <- read_csv("../../../AIGKC/output/models/2026/nov/wag_base_model_version_ref.csv") %>%
+  mutate(subdistrict = "WAG", model = c("2.20.21", "2.20.31")) %>% dplyr::select(10, 1:9) %>%
+  dplyr::select(-rbar_yrs)
+
+
+# print table
+print(xtable(wag, align="llcccccccc", digits=c(0, 0, 0, 0, 0, 2, 0, 2, 2, 0)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+#### {-}
+\begin{table}[H]  
+\centering
+\caption{Comparison of likelihood components for models 23.1c and 25.0a.}
+
+\label{table:baselik}
+\begin{tabular}{lcccccc}
+& \multicolumn{2}{c}{EAG} && \multicolumn{2}{c}{WAG}\\
+Component & 23.1c & 25.0a &  & 23.1c & 25.0a\\
+\hline
+```{r baselik, results='asis', eval = T}
+read_csv("../../../AIGKC/output/models/2026/nov/base_lik_table.csv") -> x
+
+# print table
+print(xtable(x, align="lcccccc", digits=c(0, 0, 3, 3, 3, 3, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[H]  
+\centering
+\caption{Comparison of likelihood components for EAG models 26.0, 26.0a, 26.1, 26.1a, 26.1b, and 26.1c.}
+
+\label{table:eaglik}
+\begin{tabular}{lccccccc}
+Component & 26.0 & 26.0a & 26.1 & 26.1a & 26.1b & 26.1c\\
+\hline
+```{r eaglik, results='asis', eval = T}
+read_csv("../../../AIGKC/output/models/2026/nov/eag_lik_table.csv") -> x
+
+# print table
+print(xtable(x, align="lccccccc", digits=c(0, 0, 3, 3, 3, 3, 3, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[H]  
+\centering
+\caption{Comparison of likelihood components for WAG models 26.0, 26.0a, 26.1, 26.1a, 26.1b, and 26.1c.}
+
+\label{table:waglik}
+\begin{tabular}{lccccccc}
+Component & 26.0 & 26.0a & 26.1 & 26.1a & 26.1b & 26.1c\\
+\hline
+```{r waglik, results='asis', eval = T}
+read_csv("../../../AIGKC/output/models/2026/nov/wag_lik_table.csv") -> x
+
+# print table
+print(xtable(x, align="lccccccc", digits=c(0, 0, 3, 3, 3, 3, 3, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+#### {-}
+
+\begin{table}[H]  
+\centering
+\caption{Estimates of added CV for observer CPUE index data by model.}
+
+\label{table:addcv}
+\begin{tabular}{lcccccc}
+Subdistrict & 26.0a & 26.1 & 26.1a & 26.1b & 26.1c \\
+\hline
+```{r addcv, results='asis', eval = T}
+read_csv("../../../AIGKC/output/models/2026/nov/add_cv_slx.csv")  -> x
+
+# print table
+print(xtable(x, align="lcccccc", digits=c(0, 0, 2, 2, 2, 2, 2)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+#### {-}
+
+\begin{table}[H]  
+\centering
+\caption{Francis (2011) weights for size composition data by model.}
+
+\label{table:franciswts}
+\begin{tabular}{lccccc}
+& \multicolumn{2}{c}{EAG} & \multicolumn{2}{c}{WAG}\\
+Subdistrict & Retained & Total & Retained & Total\\
+\hline
+```{r franciswts, results='asis', eval = T}
+read_csv("../../../AIGKC/output/models/2026/nov/francis_slx.csv")  -> x
+
+# print table
+print(xtable(x, align="lccccc", digits=c(0, 0, 3, 3, 3, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+#### {-}
+
+\begin{table}[H]  
+\centering
+\caption{MSY proxy reference points from the 2025 final assessment in comparison to the combined approach reccommended by the SSC.}
+
+\label{table:fofl}
+\begin{tabular}{llccccccc}
+Subdistrict & MMB (t) & B$_{35\%}$ (t) & Status & F$_{35\%}$ & F$_{\text{OFL}}$ & Combined Status & F$_{\text{OFL}}$ (Combined) \\
+\hline
+```{r fofl, results='asis', eval = T}
+library(gmacsr)
+eag23.1c <- gmacs_read_allout(file = "../../../AIGKC/models/2026/nov/EAG/23.1c_v31/Gmacsall.out", model_name = "23.1c")
+wag23.1c <- gmacs_read_allout(file = "../../../AIGKC/models/2026/nov/WAG/23.1c_v31/Gmacsall.out", model_name = "23.1c")
+
+gmacs_get_ref_points(list(eag23.1c, wag23.1c)) %>%
+  mutate(model = c("EAG", "WAG"))  %>%
+  transmute(model, mmb, b35, b_b35, f35, fofl, 
+            status = sum(mmb) / sum(b35),
+            fofl_combined = case_when(status >= 1 ~ f35,
+                                      status >= 0.25 & status < 1 ~ f35 * ((status - 0.1) / (1 - 0.1)),
+                                      status < 0.25 ~ 0)) -> x
+
+
+# print table
+print(xtable(x, align="llccccccc", digits=c(0, 0, 0, 0, 3, 3, 3, 3, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+# Figures {-}
+
+<!-- ```{r models, fig.align='center', fig.cap="Flow chart of models evaluated in this analysis. Green indicates updates to the base model, orange evaluates initial conditions, purple explores data weighting, and blue adds the cooperative survey.", eval = T, fig.height = 6, fig.width = 7} -->
+  <!-- knitr::include_graphics("../../figures/models/2025/sept/model_chart.png") -->
+  <!-- ``` -->
+
+#### {-}
+  
+```{r obspotheat, fig.align='center', fig.cap="Proportion of observer pots by vessel and year in the EAG and WAG.", eval = T, fig.height = 9, fig.width = 7}
+knitr::include_graphics("../../figures/fishery_data_maps/2026/proportion_obs_by_vessel.png")
+```
+
+```{r modeveseag, fig.align='center', fig.cap="Vessels fishing the most observed pots within 10 km$^2$ cells in the EAG. Different vessels are denoted by color, and locations have been disorted while preserving clusters to protect data confidentiality.", eval = T, fig.height = 9, fig.width = 7}
+knitr::include_graphics("../../figures/fishery_data_maps/2026/tile_mode_vessel_eag_disguise.png")
+```
+
+```{r modeveswag, fig.align='center', fig.cap="Vessels fishing the most observed pots within 10 km$^2$ cells in the WAG. Different vessels are denoted by color, and locations have been disorted while preserving clusters to protect data confidentiality.", eval = T, fig.height = 9, fig.width = 7}
+knitr::include_graphics("../../figures/fishery_data_maps/2026/tile_mode_vessel_wag_disguise.png")
+```
+
+#### {-}
+
+```{r eagcatchfit, fig.align='center', fig.cap="Fits to catch data and associated Mean Absolute Residual Error and Root Mean Square Error for EAG models 23.1c, 25.0a, 26.0, and 26.0a.", eval = T, fig.height = 9, fig.width = 7}
+knitr::include_graphics("../../figures/models/2026/nov/eag_catch_fit_init_conditions.png")
+```
+
+```{r wagcatchfit, fig.align='center', fig.cap="Fits to catch data and associated Mean Absolute Residual Error and Root Mean Square Error for WAG models 23.1c, 25.0a, 26.0, and 26.0a.", eval = T, fig.height = 9, fig.width = 7}
+knitr::include_graphics("../../figures/models/2026/nov/wag_catch_fit_init_conditions.png")
+```
+
+```{r recinit, fig.align='center', fig.cap="Recruitment estimates for models 23.1c, 25.0a, 26.0, and 26.0a. Shaded area indicates 95//% confidence intervals for model 23.1c and 25.0a.", eval = T, fig.height = 9, fig.width = 7}
+knitr::include_graphics("../../figures/models/2026/nov/recruitment_init_condition.png")
+```
+
+```{r mmbinit, fig.align='center', fig.cap="Mature male biomass estimates for models 23.1c, 25.0a, 26.0, and 26.0a. Shaded area indicates 95//% confidence intervals for model 23.1c and 25.0a.", eval = T, fig.height = 9, fig.width = 7}
+knitr::include_graphics("../../figures/models/2026/nov/mmb_init_condition.png")
+```
+
+#### {-}
+
+```{r eagindexfit, fig.align='center', fig.cap="Fits to index data and associated Mean Absolute Residual Error and Root Mean Square Error for EAG models 26.0a, 26.1, 26.1a, 26.1b, and 26.1c. Addition error (grey bars) is based on model 26.0a.", eval = T, fig.height = 9, fig.width = 7}
+knitr::include_graphics("../../figures/models/2026/nov/eag_index_fit_slx.png")
+```
+
+
+```{r wagindexfit, fig.align='center', fig.cap="Fits to index data and associated Mean Absolute Residual Error and Root Mean Square Error for WAG models  26.0a, 26.1, 26.1a, 26.1b, and 26.1c.", eval = T, fig.height = 9, fig.width = 7}
+knitr::include_graphics("../../figures/models/2026/nov/wag_index_fit_slx.png")
+```
+
+```{r preratslx, fig.align='center', fig.cap="Selectivity in the pre-rationalization era (1981 - 2004) for models  26.0a, 26.1, 26.1a, 26.1b, and 26.1c.", eval = T, fig.height = 9, fig.width = 7}
+knitr::include_graphics("../../figures/models/2026/nov/pre_rat_selectivity_slx.png")
+```
+
+```{r postratslx, fig.align='center', fig.cap="Selectivity in the post-rationalization era (2005 - 2024) for models  26.0a, 26.1, 26.1a, 26.1b, and 26.1c.", eval = T, fig.height = 9, fig.width = 7}
+knitr::include_graphics("../../figures/models/2026/nov/post_rat_selectivity_slx.png")
+```
+
+```{r qslx, fig.align='center', fig.cap="Time blocks in catachability for models  26.0a, 26.1, 26.1a, 26.1b, and 26.1c.", eval = T, fig.height = 9, fig.width = 7}
+knitr::include_graphics("../../figures/models/2026/nov/catchability_slx.png")
+```
+
+```{r sizecomp, fig.align='center', fig.cap="Aggregated size composition and reweighted sample sizes for models  26.0a, 26.1, 26.1a, 26.1b, and 26.1c.", eval = T, fig.height = 9, fig.width = 7}
+knitr::include_graphics("../../figures/models/2026/nov/agg_comp_slx.png")
+```
+
+```{r osaeag26.0a, fig.align='center', fig.cap="One step ahead residual dot plot and QQ plot for retained and total size composition data for model EAG 26.0a.", eval = T, fig.height = 9, fig.width = 7}
+knitr::include_graphics("../../figures/models/2026/nov/osa_res_eag26.0a.png")
+```
+
+```{r osaeag26.1, fig.align='center', fig.cap="One step ahead residual dot plot and QQ plot for retained and total size composition data for model EAG 26.1.", eval = T, fig.height = 9, fig.width = 7}
+knitr::include_graphics("../../figures/models/2026/nov/osa_res_eag26.1.png")
+```
+
+```{r osaeag26.1a, fig.align='center', fig.cap="One step ahead residual dot plot and QQ plot for retained and total size composition data for model EAG 26.1a.", eval = T, fig.height = 9, fig.width = 7}
+knitr::include_graphics("../../figures/models/2026/nov/osa_res_eag26.1a.png")
+```
+
+```{r osaeag26.1b, fig.align='center', fig.cap="One step ahead residual dot plot and QQ plot for retained and total size composition data for model EAG 26.1b.", eval = T, fig.height = 9, fig.width = 7}
+knitr::include_graphics("../../figures/models/2026/nov/osa_res_eag26.1b.png")
+```
+
+```{r osaeag26.1c, fig.align='center', fig.cap="One step ahead residual dot plot and QQ plot for retained and total size composition data for model EAG 26.1c.", eval = T, fig.height = 9, fig.width = 7}
+knitr::include_graphics("../../figures/models/2026/nov/osa_res_eag26.1c.png")
+```
+
+```{r osawag26.0a, fig.align='center', fig.cap="One step ahead residual dot plot and QQ plot for retained and total size composition data for model WAG 26.0a.", eval = T, fig.height = 9, fig.width = 7}
+knitr::include_graphics("../../figures/models/2026/nov/osa_res_wag26.0a.png")
+```
+
+```{r osawag26.1, fig.align='center', fig.cap="One step ahead residual dot plot and QQ plot for retained and total size composition data for model WAG 26.1.", eval = T, fig.height = 9, fig.width = 7}
+knitr::include_graphics("../../figures/models/2026/nov/osa_res_wag26.1.png")
+```
+
+```{r osawag26.1a, fig.align='center', fig.cap="One step ahead residual dot plot and QQ plot for retained and total size composition data for model WAG 26.1a.", eval = T, fig.height = 9, fig.width = 7}
+knitr::include_graphics("../../figures/models/2026/nov/osa_res_wag26.1a.png")
+```
+
+```{r osawag26.1b, fig.align='center', fig.cap="One step ahead residual dot plot and QQ plot for retained and total size composition data for model WAG 26.1b.", eval = T, fig.height = 9, fig.width = 7}
+knitr::include_graphics("../../figures/models/2026/nov/osa_res_wag26.1b.png")
+```
+
+```{r osawag26.1c, fig.align='center', fig.cap="One step ahead residual dot plot and QQ plot for retained and total size composition data for model WAG 26.1c.", eval = T, fig.height = 9, fig.width = 7}
+knitr::include_graphics("../../figures/models/2026/nov/osa_res_wag26.1c.png")
+```
+
+
+
+
