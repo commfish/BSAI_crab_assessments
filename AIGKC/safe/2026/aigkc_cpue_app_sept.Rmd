@@ -1,0 +1,352 @@
+---
+title: "Appendix A: AIGKC Fishery CPUE Standardization"
+author: |
+  | Tyler Jackson
+  | Alaska Department of Fish and Game, tyler.jackson@alaska.gov
+date: "`r format(Sys.time(), '%B %Y')`"
+output:
+  bookdown::pdf_document2:
+    toc: no
+header-includes:
+   - \usepackage{float}
+   - \usepackage{hanging}
+   - \usepackage{enumerate}
+---
+
+```{r, echo = F, message = F, warning = F}
+library(tidyverse)
+library(xtable)
+
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, fig.pos='H',
+                      out.height = "\\textheight", out.width = "\\textwidth")
+
+
+```
+
+# Purpose {-}
+
+The AIGKC stock assessment has used catch per unit effort (CPUE) data collected by at-sea observers and fish ticket data as a primary index of stock abundance since model development began (Siddeek et al. 2017; Siddeek et al. 2016). This appendix details of CPUE standardization using spatiotemporal models.
+
+# Spatiotemporal GLMM {-}
+
+Several efforts have been made to account for spatial and spatiotemporal variability in fishing effort and CPUE including specifying large-scale blocks within subdistricts (here; Siddeek et al. 2016), interactions between blocks and year (Jackson 2024, Siddeek et al. 2023), non-parametric smooths of latitude and longitude, and interactions between year and smooth terms (Jackson 2024). Geostatistical models may provide better utility over previous approaches given their ability to estimate spatial correlations and account for varying spatial coverage (Maunder et al. 2020).
+
+# Methods {-}
+## Core Data Preparation {-}
+
+Observer data sets were limited to pots that represented core fishing effort in an attempt to remove observations that may not be indicative of overall fishing performance. Core vessels and permit holders during the pre-rationalized time series were those that participated in more than a single season. The fleet was consolidated enough in the post-rationalized time series that reductions on number of vessels and permit holders were not warranted. Following Siddeek et al. (2016; 2023) several gear types were combined, and pot types not typical to the directed fishery were removed. Pot sizes 4'x4', 10'x10', 8'x8' (EAG only), and 6.5'x7' (WAG only) were removed due to small sample sizes.  Since many fishing seasons in the pre-rationalized era did not align with the crab year used in the post-rationalized era (July - June), crab year was assigned to pre-2005 data $post$ $hoc$. Observer pots sampled on dates that fall after June 30 in a given season were assigned the next crab year (Siddeek et al. 2016, 2023). Soak time and depth data were truncated by removing the outer 5\% and 1\% of distributions, respectively.
+
+## GLMM {-}
+
+Saptiotemporal GLMMs were constructed using the R package \textit{sdmTMB} and \textit{sdmTMBextra} (R Core Team 2024; Anderson et al., 2024; Anderson et al., 2025). This approach models spatial random effects as a series of Gaussian random fields, which are approximated using stochastic partial differential equation matrices (SPDE) (Lindgren et al., 2011). Correlation of spatial random effects is constrained by the Mat$\'{e}$rn covariance function (Anderson et al., 2022).  
+
+The underlying spatial domain of the model was represented by a triangular mesh constructed using k-means clustering with either 150, 75, or 40 knots. Pot locations were transforms to UTM coordinates using zone 2N. Spatial polygons of the Aleutian Islands were downloaded using the R package \textit{geodata} (Hijmans et al., 2025) and used as barriers to spatial correlation within the mesh.
+
+In addition to year, gear type was included as a factor covariate, soak time and depth were included as smooth splines as described above, and vessel was included as a random effect. Since soak times have increased over time as the fishery has become consolidated and competition has decreased (Figure \ref{soaktime}), models with smoothed soak time before and after rationalization (i.e., 2005) were also evaluated. This is in contrast to models that included a soaktime:year interaction presented in May 2025 that did not converge. Models assumed a Tweedie error distribution with log link function and estimated power variable, $p$. Spatiotemporal random fields were modeled as independent and identically distributed process. Pre- and post-rationalization periods were fit in a single model to 1) leverage the most available data within the standardization model, and 2) avoid fitting two non-overlapping indices in the assessment model (Hoyle et al., 2024).
+
+## Model Diagnostics {-}
+
+Simulated residuals were calculated using the R package $DHARMa$ (Hartig 2020). $DHARMa$ simulates a cumulative density function for each observation of the response variable for the fitted model and computes the residual as the value of the empirical density function at the value of the observed data. Residuals are standardized from 0 to 1 and distributed uniformly if the model is correctly specified. Several other diagnostics including tests of convergence and range of parameter estimates are built in to the `sanity()` function of $sdmTMB$. 
+
+Spatial residual patterns were evaluated using a Moran's $I$ clustering analysis within the spatial domain of each year (Moran 1950; Cacciapaglia et al. 2024). Moran's $I$ was computed via Monte Carlo simulations in the R package $spdep$ (Bivand 2022). Significant Moran's $I$ values indicate non-random, spatial clustering.
+
+Partial effects were plotted to view the relationship between CPUE and individual variables. Step plots that show the change the standardized index with addition of each explanatory variable were also examined to consider the influence of each variable (Bishop et al. 2008; Bentley et al. 2012).  
+
+## Index Prediction {-}
+
+Standardized CPUE index was estimated by constructing a 5 km$^2$ prediction gird within the boundary of the model mesh. Depth for each grid cell was taken from the nearest neighbor in a 100 m resolution raster of bathymetry of the Aleutian Islands (\href{https://www.fisheries.noaa.gov/resource/data/aleutian-island-grid-100m}{\underline{updated version}} of Zimmerman and Prescott 2021). Grid cells were limited to depths up to 1.5 times the maximum depth observed in EAG and WAG observer pots (333 fa and 301 fa, respectively). The bathymetry of the Aleutian Islands is highly complex, and it is worth noting that there is some inconsistency in bathymetric raster and depths of nearby observer pots. That being noted, these data are the best available and depth does not have a strong influence on the resulting CPUE index (Figure \ref{fig:ststepploteag} and \ref{fig:ststepplotwag}). Soak time was set to the mean value while gear type was set to the reference level. Vessel was not included in index prediction.
+
+Predictions were summed across the spatial domain using area weighting. Annual estimates were then scaled to canonical coefficients as 
+
+\begin{equation}
+\beta^{\prime}_{i} = \frac{\beta_{i}}{\bar{\beta}} 
+\end{equation}  
+
+where
+
+\begin{equation}
+\bar{\beta} = \sqrt[n_{j}]{\prod_{j = 1}^{n_j}{\beta_{i,j}}}
+\end{equation}
+  
+and $n_j$ is the number of levels in the year variable. Nominal CPUE was scaled by the same method for comparison.
+
+# Results and Conclusions {-}
+
+Full models successfully converged and DHARMa residuals did not identify misspecifications (Figure \ref{fig:steagdharma} and \ref{fig:stwagdharma}). Moran's $I$ for models with 150 knot mesh ranged from -0.025 - 0.095 in the EAG and -0.022 - 0.067 in the WAG (Table \ref{table:eagmoran} and \ref{table:wagmoran}). Despite apparently weak clustering, many tests in the EAG pre-2009 and many years in the WAG were significant, likely due to the very large sample size. Spatial mesh resolution had little impact on model residuals or the resulting index (Figure \ref{fig:stindexeagknot} and \ref{fig:stindexwagknot}), though, as expected, Moran's $I$ suggested that the 150 knot mesh resolved slightly more spatial autocorrelation than the 75 and 40 knot mesh models. Models that included soak time by rationalization period also resolved slightly more autocorrelation in most years than 150 knot mesh models without that interaction (Table \ref{table:eagmoran} and \ref{table:wagmoran}). 
+
+The effect of gear type suggested increasing CPUE with large pots and considerably lower CPUE for round pots (Figure \ref{fig:eagsteffects} and \ref{fig:wagsteffects}). Smoothed soak time was approximately dome shaped for both subdistricts when considered time invariant. When estimated by rationalization period, the effect of soak time was more asymptotic for the EAG and an retained a similar shape for the WAG (Figure \ref{fig:eagsoakrateffect} and \ref{fig:wagsoakrateffect}). Previous CPUE standardization analyses determined if addition of new variables was significant if AIC decreased by at least two per degree of freedom lost and deviance explained increased by at least 0.01 (Jackson 2025; Siddeek et al. 2016). The addition of a time block on soak time did not improve deviance explained by < 0.001 and had little other impact on model results. Models with 150 knot mesh and time invariant soak time effects were used to compute an index for the assessment model.
+
+Spatial and spatiotemporal random effects are shown in Figures \ref{fig:eagstspatialre} and \ref{fig:wagstspatialre}, and \ref{fig:eagstspatiotemporalre} and \ref{fig:wagstspatiotemporalre}, respectively. Maps of predicted CPUE indicated that in years with higher CPUE, estimated CPUE was higher across the full model domain, not just the areas with data (Figures \ref{fig:eagstspatialeffect} and \ref{fig:wagstspatialeffect}). Spatial estimates were fairly imprecise during 1995 - 1996 in the EAG and 1995 and 1999 in the WAG. Generally, CV's were low throughout much of the prediction grid though there were more 'hotspots' of high uncertainty in the WAG than the EAG (Figure \ref{fig:eagstspatialcv} and \ref{fig:wagstspatialcv}).
+
+Adding vessel as a random effect and smoothed soak time had the greatest impact on the standardized index in both subdistricts (Figures \ref{fig:ststepploteag} and \ref{fig:ststepplotwag}). Ultimately, standardized indices were greater than nominal indices during pre-rationalized years, and less than nominal indices during post-rationalized years. Indices resulting from spatiotemporal GLMMs followed similar trajectories to indices derived from a non-spatial GAMM (Figures \ref{fig:stindexeag} and \ref{fig:stindexwag}).
+
+Spatiotemporal models seem suitable for standardization of AIGKC CPUE data given clear spatial variability in the fishery footprint, though resulting indices were not drastically different than those estimated without spatiotemporal random effects. CPUE standardization has fit separate models to pre- (1995/96 - 2004/05) and post-rationalization (2005/06 - present) data since a length-based assessment model has been used for this stock (Siddeek et al. 2017). Naturally, indices derived from these models have been assigned different catchability parameters within the assessment model. Hoyle et al. (2024) argues that splitting the CPUE time series limits its utility as an index of abundance and that continuity should be preserved when possible. Time blocks for catchability are best addressed within the assessment framework. Here, I leveraged the full time series in index standardization, though it is possible than some effects could be revisited with consideration for rationalization (e.g. soak time).
+
+
+# Tables {-}
+#### {-}
+\begin{table}[H]
+\centering
+\caption{Total sample size and number of levels for each factor covariate by time period and subdistrict through the 2024/25 season.}
+
+\label{table:factorlevels}
+\begin{tabular}{lcc}
+& EAG & WAG\\
+\hline
+N & 10,514 & 18,060\\
+Permit Holder & 16 & 18\\
+Vessel & 9 & 7\\
+Gear & 4 & 7\\
+Block & 4 & 6\\
+Month & 8 & 10\\
+\hline
+\end{tabular}
+\end{table}
+
+#### {-}
+\begin{table}[H]
+\centering
+\caption{Moran's $I$ and associated p-value by year for full models using 150 knot, 75 knot, and 40 knot mesh and the 150 knot mesh model that included a time block for the effect of soak time in the EAG.}
+
+\label{table:eagmoran}
+\begin{tabular}{lccccccccc}
+\\
+& \multicolumn{2}{c}{150 knots} & \multicolumn{2}{c}{75 knots} & \multicolumn{2}{c}{40 knots} & \multicolumn{2}{c}{Soak Time Block}\\
+Year & Moran's $I$ & $p$ & Moran's $I$ & $p$ & Moran's $I$ & $p$ & Moran's $I$ & $p$\\
+\hline
+```{r eagmorantab, results='asis', eval = T}
+x <- read_csv("../../output/cpue_std/2026/sept/eag_morans_i.csv") %>%
+  mutate(year = as.character(year))
+
+
+# print table
+print(xtable(x, align="lccccccccc", digits=c(0, 0, 3, 3, 3, 3, 3, 3, 3, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Moran's $I$ and associated p-value by year for full models using 150 knot, 75 knot, and 40 knot mesh the 150 knot mesh model that included a time block for the effect of soak time in the WAG.}
+
+\label{table:wagmoran}
+\begin{tabular}{lccccccccc}
+\\
+& \multicolumn{2}{c}{150 knots} & \multicolumn{2}{c}{75 knots} & \multicolumn{2}{c}{40 knots} & \multicolumn{2}{c}{Soak Time Block}\\
+Year & Moran's $I$ & $p$ & Moran's $I$ & $p$ & Moran's $I$ & $p$ & Moran's $I$ & $p$\\
+\hline
+```{r wagmorantab, results='asis', eval = T}
+x <- read_csv("../../output/cpue_std/2026/sept/wag_morans_i.csv") %>%
+  mutate(year = as.character(year))
+
+
+# print table
+print(xtable(x, align="lccccccccc", digits=c(0, 0, 3, 3, 3, 3, 3, 3, 3, 3)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+
+
+
+#### {-}
+\begin{table}[H]
+\centering
+\caption{Standardized index and CV for the full model using 150 knot mesh in the EAG and WAG.}
+
+\label{table:stdindex}
+\begin{tabular}{lccccc}
+& \multicolumn{2}{c}{EAG} & \multicolumn{2}{c}{WAG} \\
+Year & Index & CV & Index & CV\\
+\hline
+```{r stdindextab, results='asis', eval = T}
+eag <- read_csv("../../output/cpue_std/2026/sept/eag_st_index.csv") %>%
+  mutate(year = as.character(year))
+wag <- read_csv("../../output/cpue_std/2026/sept/wag_st_index.csv") %>%
+  mutate(year = as.character(year))
+eag %>%
+  transmute(year, index, cv) %>%
+  left_join(wag %>% transmute(year, indexw = index, cvw = cv)) -> x
+
+
+# print table
+print(xtable(x, align="lccccc", digits=c(0, 0, 3, 2, 3, 2)),
+			     only.contents=TRUE,
+			     include.rownames=FALSE,
+			     floating=FALSE,
+			     include.colnames=FALSE,
+			     hline.after=NULL,
+			     format.args = list(big.mark = ","))
+
+```
+\hline
+\end{tabular}
+\end{table}
+
+
+
+
+
+
+
+# Figures {-}
+
+#### {-}
+
+```{r soaktime, fig.align='center', fig.cap= "Median soak time by year and interquartile range (shaded area) (top) and median soak time as a function of the number of vessels (bottom).", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2026/sept/soaktime_year_vessel.png")
+```
+
+```{r meshmap, fig.align='center', fig.cap="Triangular mesh based on k-means clustering with 150, 75, or 40 knots used in spatiotemporal GAMMs for EAG and WAG. Grey points are observer pot locations.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2026/sept/mesh_all.png")
+```
+
+```{r steagdharma, fig.align='center', fig.cap="DHARMa residual QQ plots for the final Tweedie spatiotemporal GLMM with a) 150 knot mesh, b) 75 knot mesh, c) 40 knot mesh, and d) 150 knot mesh with soak time, time block fit to legal CPUE in the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2026/sept/eag_qq_all_mesh.png")
+```
+
+```{r stwagdharma, fig.align='center', fig.cap="DHARMa residual QQ plots for the final Tweedie spatiotemporal GLMM with a) 150 knot mesh, b) 75 knot mesh, c) 40 knot mesh, and d) 150 knot mesh with soak time, time block fit to legal CPUE in the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2026/sept/wag_qq_all_mesh.png")
+```
+
+
+
+```{r eagsteffects, fig.align='center', fig.cap="Marginal effects of gear type, soak time, and depth for the spatiotemporal model fit to the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2026/sept/eag_full_covar_effects.png")
+```
+
+```{r eagsoakrateffect, fig.align='center', fig.cap="Marginal effect of soak time by rationalization period for the spatiotemporal model fit to the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2026/sept/eag_full_soakrat_marginal_effect.png")
+```
+
+
+```{r wagsteffects, fig.align='center', fig.cap="Marginal effects of gear type, soak time, and depth for the spatiotemporal model fit to the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2026/sept/wag_full_covar_effects.png")
+```
+
+```{r wagsoakrateffect, fig.align='center', fig.cap="Marginal effect of soak time by rationalization period for the spatiotemporal model fit to the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2026/sept/wag_full_soakyr_marginal_effect.png")
+```
+
+
+
+
+```{r eagstspatialre, fig.align='center', fig.cap="Spatial random effect for the full model with a 150 knot mesh fit to the EAG.", eval = T, out.height= "400px"}
+knitr::include_graphics("../../figures/cpue_std/2026/sept/eag_full_spatial_ranef.png")
+```
+
+```{r eagstspatiotemporalre, fig.align='center', fig.cap="Spatiotemporal random effect for the full model with a 150 knot mesh fit to the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2026/sept/eag_full_spatiotemporal_ranef.png")
+```
+
+```{r eagstspatialeffect, fig.align='center', fig.cap="Predicted CPUE for the full model with a 150 knot mesh fit to the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2026/sept/eag_full_150knot_spatial_effect.png")
+```
+
+```{r eagstspatialcv, fig.align='center', fig.cap="Coefficient of variation on predicted CPUE for the full model with a 150 knot mesh fit to the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2026/sept/eag_full_150knot_cv.png")
+```
+
+
+
+
+
+```{r wagstspatialre, fig.align='center', fig.cap="Spatial random effect for the full model with a 150 knot mesh fit to the WAG.", eval = T, out.height= "400px"}
+knitr::include_graphics("../../figures/cpue_std/2026/sept/wag_full_spatial_ranef.png")
+```
+
+```{r wagstspatiotemporalre, fig.align='center', fig.cap="Spatiotemporal random effect for the full model with a 150 knot mesh fit to the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2026/sept/wag_full_spatiotemporal_ranef.png")
+```
+
+```{r wagstspatialeffect, fig.align='center', fig.cap="Predicted CPUE for the full model with a 150 knot mesh fit to the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2026/sept/wag_full_150knot_spatial_effect.png")
+```
+
+```{r wagstspatialcv, fig.align='center', fig.cap="Coefficient of variation on predicted CPUE for the full model with a 150 knot mesh fit to the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2026/sept/wag_full_150knot_spatial_cv.png")
+```
+
+
+
+```{r ststepploteag, fig.align='center', fig.cap="Step plot of CPUE index for the spatiotemporal model fit to the EAG. ", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2026/sept/eag_step_index_mesh.png")
+```
+
+```{r stindexeagknot, fig.align='center', fig.cap="Comparison standardized indices from spatiotemporal models with 150 knot, 75 knot, and 40 knot spatial mesh for the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2026/sept/eag_full_index_knot_comparison.png")
+```
+
+```{r stindexeag, fig.align='center', fig.cap="Comparison of nominal CPUE and standardized indices from a GLMM without spatial effects and the spatiotemporal model for the EAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2026/sept/eag_full_index_comparison.png")
+```
+
+```{r ststepplotwag, fig.align='center', fig.cap="Step plot of CPUE index for the spatiotemporal model fit to the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2026/sept/wag_step_index_mesh.png")
+```
+
+```{r stindexwagknot, fig.align='center', fig.cap="Comparison standardized indices from spatiotemporal models with 150 knot, 75 knot, and 40 knot spatial mesh for the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2026/sept/wag_full_index_knot_comparison.png")
+```
+
+```{r stindexwag, fig.align='center', fig.cap="Comparison of nominal CPUE and standardized indices from a GLMM without spatial effects for the WAG.", eval = T}
+knitr::include_graphics("../../figures/cpue_std/2026/sept/wag_full_index_comparison.png")
+```
+
+# Literature Cited {-}
+
+<!-- \begin{hangparas}{.25in}{1} -->
+
+
+Anderson SC. 2025. sdmTMBextra: Extra Functions for Working with 'sdmTMB' Models_. R package version 0.0.4, commit 63f236912e12ce78b5a0529eedf1e11cb93d0a10, https://github.com/pbs-assess/sdmTMBextra.  
+
+Anderson, SC, EJ Ward, PA English, LAK Barnett, JT Thorson. 2024. sdmTMB: an R package for fast, flexible, and user-friendly generalized linear mixed effects models with spatial and spatiotemporal random fields. bioRxiv 2022.03.24.485545.  
+
+Bentley, N, TH Kendrick, PJ Starr, and PA Breen. 2012. Influence plots and metrics: tools for better understanding fisheries catch-per-unit-effort standardizations. ICES Journal of Marine Science, 69: 84-88.  
+
+Bishop, J, WN Venables, CM Dichmont, and DJ Sterling. 2008. Standardizing catch rates: is logbook information by itself enough? ICES Journal of Marine Science 65: 255-266.  
+
+Bivand, RS. 2022. spdep: Spatial Dependence: Weighting Schemes, Statistics. R Package Version 1.2-1,
+https://CRAN.R-project.org/package=spdep.  
+
+Lindgren F, H Rue, and J Lindström. 2011. An explicit link between Gaussian fields and Gaussian markov random fields: The stochastic partial differential equation approach. Journal of the Royal Statistical Society B 73: 423 - 498.   
+
+Hartig, F. 2020. DHARMa: Residual Diagnostics for Hierarchical (multi-Level / Mixed) Regression Models. https://CRAN.R-project.org/package=DHARMa.  
+
+Hijmans RJ, M Barbosa, A Ghosh, and A Mandel. 2025. geodata: Download Geographic Data. R package version 0.6-3, https://github.com/rspatial/geodata.  
+
+Hoyle SD, RA Campbell, ND Ducharme-Barth, A Gr$\"{u}$ss, BR Moore, JT Thorson, L Tremblay-Boyer, H Winker, S Zhou, MN Maunder. 2024. Catch per unit effort modelling for stock assessment: A summary of good practices. Fisheries Research 269: 106860.  
+
+Jackson, TM. 2024a. Aleutian Islands golden king crab stock assessment 2024. North Pacific Fishery Management Council, Anchorage, Alaska.  
+
+Maunder MN, JT Thorson, H Xu, R Oliveros-Ramos, SD Hoyle, L Tremblay-Boyer, HH Lee, M Kai, SK Chang, T Kitakado, CM Albertsen, CV Minte_vera, CE Lennert-Cody, AM Aires-da-Silva, and KR Piner. 2020. The need for spatio-temporal modeling to determine catch-per-unit effort based indices of abundance and associated composition data for inclusion in stock assessment models. Fisheries Research 229: 105594.   
+
+Moran, PA. 1950. Notes on continuous stochastic phenomena. Biometrika 37:17–23. 
+
+Siddeek, MSM, J Zheng, and D Pengilly. 2016. Standardizing CPUE from the Aleutian Islands golden king crab observer data. Pages 97–116 in TJ Quinn II, JL Armstrong, MR Baker, J Heifetz, and D Witherell (eds.), Assessing and Managing Data-Limited Fish Stocks. Alaska Sea Grant, University of Alaska Fairbanks, Alaska.  
+
+Siddeek, MSM, J Zheng, C Siddon, and B Daly. 2017. Aleutian Islands golden king crab ($Lithodes$ $aequispinus$) model-based stock assessment in spring 2017. North Pacific Fishery Management Council, Anchorage, Alaska.   
+
+Siddeek, MSM, T Jackson, B Daly, C Siddon, MJ Westphal, and L Hulbert. 2023. Aleutian Islands golden king crab model scenarios for May 2023 assessment. North Pacific Fishery Management Council, Anchorage, Alaska.  
+
+Zimmermann, M, MM Prescott. Passes of the Aleutian Islands: First detailed description. Fisheries Oceanography 30: 280 - 299.
+
+<!-- \end{hangparas} -->
+
