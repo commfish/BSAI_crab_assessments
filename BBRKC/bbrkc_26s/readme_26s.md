@@ -30,6 +30,8 @@ Model should run if input files are read in correctly.
 ## Model options Sept ---------
 
 24.0c.2 - 24.0c.1(24.0c +updated catch time series - see above) + one shell condition in model - 2025 accepted model
+        - in version 'v34a' folder
+26.0 
 
 
 # Document updates ----------
