@@ -195,10 +195,11 @@ Tables below represent the status and catch specifications for model 24.0c.2 in 
 
 \pagebreak
 
-8. **Probability density function of the OFL**: The estimated probability distributions of MMB and OFL in 2025 are illustrated in Figures \@ref(fig:hist-mmb), \@ref(fig:hist-ofl), and \@ref(fig:hist-ofl2) for model 24.0c.2. 
+8. **Probability density function of the OFL**: The estimated probability distributions of MMB and OFL in 2025 are illustrated in Figures \@ref(fig:hist-mmb) and \@ref(fig:hist-ofl) for model 24.0c.2. 
 
 9. **Basis for ABC recommendation**:
 The ABC (acceptable biological catch) buffer was increased from 10% to 20% in 2018, and an additional buffer of 5% was added in 2020 due to the lack of a 2020 survey. A 20% buffer was recommended by the Crab Plan Team (CPT) and Scientific and Statistical Committee (SSC) for ABC estimation since 2021/22. Concerns for this stock that are still present (cold pool distributional shifts, declining trends in mature biomass, lack of large recruitment pulses, retrospective patterns), as well as low mature female abundance the in some of last few years, all contribute to a recommended 20% buffer for 2025/26. Buffer history is detailed in Appendix E.  
+
 Risk table considerations for the buffer discussion are provided in Appendix D. This document details some of the same concerns for the stock that have been considered in the ABC buffer discussion but does not raise any new concerns. The process for using risk tables to assist in ABC buffer determination is under development for BSAI crab stocks.
 
 
@@ -524,7 +525,7 @@ Basic features of this model include:
 
 (3) Estimating a constant NMFS survey catchability over time in the model and assuming BSFRF survey catchability to be 1.0.
 
-(4) Assuming the BSFRF survey selectivities as the availability to the NMFS trawl survey because the BSFRF survey gear has very small mesh sizes and has tighter contact to the sea floor. This implies that crab occurring in nearshore areas are not available to trawl survey gears. 
+(4) Assuming the BSFRF survey reflects the availability to the NMFS trawl survey because the BSFRF survey gear has very small mesh sizes and has tighter contact to the sea floor. This implies that crab occurring in nearshore areas are not available to trawl survey gears. 
 
 (5) Estimating effective sample size from observed sample sizes. Stage-1 effective sample sizes are estimated as min ($0.25*n$, N) for trawl surveys and min ($0.05*n$, N) for catch and bycatch, where n is the sum of observed sample sizes for two sexes, and N is the maximum sample size (200 for trawl surveys, 150 for retained catch and total males from the directed pot fishery and 50 for females from the pot fishery and for both males and females from the Tanner crab and groundfish fisheries). There is justification for enforcing a maximum limit to effective sample sizes because the number of length measurements is large (Fournier et al. 1998). 
 
@@ -653,7 +654,7 @@ ii.	Model fits to NMFS survey biomass are shown in Figures \@ref(fig:surv1) and 
 iii.	Model fits to catch and survey proportions by length are illustrated in Figures \@ref(fig:sc-pot) -- \@ref(fig:sc-fixedbyM) and one-step-ahead residual plots are shown in Figures \@ref(fig:sc-res-ref-nmfs) -- \@ref(fig:sc-res-bubble-female-nmfs).  
 
 The model fits the fishery biomass data well and the survey biomass reasonably well (Figures \@ref(fig:surv1), \@ref(fig:surv1b), \@ref(fig:est-catch)). Because the model estimates annual fishing mortality for directed pot male catch, pot female bycatch, and trawl and fixed gear bycatch, the deviations of observed and predicted (estimated) fishery biomass are mainly due to size composition differences. Model fits to the NMFS area-swept biomass data are similar to previous year's base model fits (Figures \@ref(fig:surv1) and \@ref(fig:surv1b)).
-Model fit to the length composition data is similar to the previous years (Figures \@ref(fig:sc-pot) -- \@ref(fig:sc-fixedbyM)). Model progressions are tracked well in the trawl survey data, particularly beginning in the mid-1990s (Figures \@ref(fig:sc-trawl1) and \@ref(fig:male-comps). Cohorts first seen in the trawl survey data in 1975, 1986, 1990, 1995, 1999, 2002 and 2005 can be tracked over time. Some cohorts can be tracked over time in the pot bycatch as well (Figure \@ref(fig:sc-pot)), but the bycatch data did not track the cohorts as well as the survey data. Groundfish bycatch data provide little information to track modal progression.     
+Model fit to the length composition data is similar to the previous years (Figures \@ref(fig:sc-pot) -- \@ref(fig:sc-fixedbyM)). Modal progressions are tracked well in the trawl survey data, particularly beginning in the mid-1990s (Figures \@ref(fig:sc-trawl1) and \@ref(fig:male-comps). Cohorts first seen in the trawl survey data in 1975, 1986, 1990, 1995, 1999, 2002 and 2005 can be tracked over time. Some cohorts can be tracked over time in the pot bycatch as well (Figure \@ref(fig:sc-pot)), but the bycatch data did not track the cohorts as well as the survey data. Groundfish bycatch data provide little information to track modal progression.     
 
 One-step ahead residuals of survey size comp proportions at length are plotted to examine their patterns. Generally, residuals of proportions of survey males and females appear to be random over length and year for all models (Figures \@ref(fig:sc-res-ref-nmfs) -- \@ref(fig:sc-res-bubble-female-nmfs)). Models with higher base M values (both models in this document) improve the plus group (males > 160 mm CL and females > 140mm CL) fittings slightly.   
 
@@ -732,10 +733,10 @@ Average recruitments during 1984-2024 are used to estimate B~35%~ (Figure \@ref(
 
 The control rule is used for stock status determination. If total catch exceeds OFL estimated at $B$, then “overfishing” occurs. If $B$ equals or declines below ~50%~ $B_{{MSY}}$ (i.e., MSST), the stock is “overfished.” If $B/B_{{MSY}}$ or $B/B_{{MSYproxy}}$ equals or declines below $\beta$, then the stock productivity is severely depleted, and the directed fishery is closed. 
 
-The estimated probability distributions of MMB and OFL in 2025 are illustrated in Figures \@ref(fig:hist-mmb), \@ref(fig:hist-ofl) and \@ref(fig:hist-ofl2) for model 24.0c.2. Based on SSC suggestions in 2011, $ABC = 0.9*OFL$ and in October 2018, $ABC = 0.8*OFL$. The CPT then recommended $ABC = 0.8*OFL$ in May 2018 (accepted by the SSC), which is used to estimate ABC in this report. Due to the stock being at low levels and the lack of a 2020 survey, the CPT recommended an additional 5% buffer in September 2020, resulting in $ABC = 0.75*OFL$ for 2020. A 20% buffer was suggested by the CPT for 2021 - 2024, and is recommended by the author in 2025 for similar reasons to previous years (Appendix E).
+The estimated probability distributions of MMB and OFL in 2025 are illustrated in Figures \@ref(fig:hist-mmb) and \@ref(fig:hist-ofl) for model 24.0c.2. Based on SSC suggestions in 2011, $ABC = 0.9*OFL$ and in October 2018, $ABC = 0.8*OFL$. The CPT then recommended $ABC = 0.8*OFL$ in May 2018 (accepted by the SSC), which is used to estimate ABC in this report. Due to the stock being at low levels and the lack of a 2020 survey, the CPT recommended an additional 5% buffer in September 2020, resulting in $ABC = 0.75*OFL$ for 2020. A 20% buffer was suggested by the CPT for 2021 - 2024, and is recommended by the author in 2025 for similar reasons to previous years (Appendix E).
 A risk table, which is still under development for crab stocks, is provided in appendix D, which details concerns for this stock which are similar to those listed above. 
 
-MCMC runs with 500,000 replicates and 500 draws with model 24.0c.2 are used for estimating the probability of estimated mature male biomass being below the minimum threshold $(0.5*B_{35})$ (Figure \@ref(fig:cum-mmb)). The probability (converted to a percentage) is estimated to be about 0% for model 24.0c.2 (Figure \@ref(fig:proj-mmb)).
+MCMC runs with 500,000 replicates and 500 draws with model 24.0c.2 are used for estimating the probability of estimated mature male biomass on FEb 15th, 2026 being below the minimum threshold $(0.5*B_{35})$ (Figure \@ref(fig:cum-mmb)). The probability (converted to a percentage) is estimated to be about 0% for model 24.0c.2 (Figure \@ref(fig:proj-mmb)).
 
 
 
@@ -1465,17 +1466,17 @@ knitr::include_graphics("figures/figure_35_alternate.png", dpi = 200)
 
 # Appendices {-}
 
-Appendix A, B, and D can be found on the agenda as separate attachments.
+Appendix A, B, D, and E can be found on the e-agenda as separate attachments.
 
-Appendix A: Description of GMACS with Bristol Bay Red King Crab Options
+Appendix A: Description of GMACS with Bristol Bay Red King Crab Options ([**Appendix A link**](https://meetings.npfmc.org/CommentReview/DownloadFile?p=c50ea262-aca4-46bb-96f7-51be8df2dfe1.pdf&fileName=BBRKC_2025SAFE_AppA_description.pdf))
 
-Appendix B: Data files for model 24.0c.2 (more readable versions can be requested from the author - katie.palof@alaska.gov)
+Appendix B: Data files for model 24.0c.2 (more readable versions can be requested from the author - katie.palof@alaska.gov); ([**Appendix B link**](https://meetings.npfmc.org/CommentReview/DownloadFile?p=34bf8384-272c-4145-9765-2e23a6285d17.pdf&fileName=BBRKC_2025SAFE_AppB.pdf))
 
 Appendix C: Tier 4 fallback REMA exploration
 
-Appendix D: Draft Risk Table for BBRKC 2025
+Appendix D: Draft Risk Table for BBRKC 2025; ([**Appendix D link**](https://meetings.npfmc.org/CommentReview/DownloadFile?p=040e4bcc-2ea4-46d4-90ca-01134d0f2760.pdf&fileName=BBRKC_2025SAFE_AppD_risk_v2.pdf))
 
-Appendix E: History of ABC buffer decisions
+Appendix E: History of ABC buffer decisions; ([**Appendix E link**](https://meetings.npfmc.org/CommentReview/DownloadFile?p=6860257c-3b36-4a76-aa20-93e02a87dd15.pdf&fileName=BBRKC_2025SAFE_AppE.pdf))
 
 \clearpage
 \pagebreak

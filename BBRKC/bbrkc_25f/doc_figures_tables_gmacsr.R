@@ -246,10 +246,12 @@ gmacs_plot_mmb(all_out = list(m24c.v20, m24c.2_2024), save_plot = T, plot_dir = 
 ## recruitment ------
 #gmacs_plot_recruitment(all_out = list(m230a_23, m230a_24, m24c), save_plot = T, plot_dir = plot_save_newD)
 gmacs_plot_recruitment(all_out = base_models, save_plot = T, plot_dir = plot_save_base)
+# look into if I can plot CI
 
 gmacs_plot_recruitment(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD) # plot_ci = T, std_list = newD_std)
 gmacs_plot_recruitment(all_out = list(m24c.2), save_plot = F, plot_ci = T, std_list = list(m24c.2_std))
 # **fix** confidence interval code NOT working 
+
 #gmacs_plot_recruitment(all_out = base_models, save_plot = T, plot_dir = plot_save, 
 #                       data_summary = data_summary)
 
