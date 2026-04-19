@@ -1,7 +1,7 @@
 # Kpalof
 # figures _tables_create SAFE using 'gmacsr'
 
-# 4-12-24 / 6-13-24 / 7-10-24 / 4-22-25 / 8-1-25 / 1-27-26
+# 4-12-24 / 6-13-24 / 7-10-24 / 4-22-25 / 8-1-25 / 1-27-26 / 4-17-26
 # load ----------
 #library(gmr) #require(gmr)
 #source("./SMBKC/code/functions.R") 
@@ -25,9 +25,9 @@ folder <- "bbrkc_26s" # update annually
 cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#D55E00", "#0072B2", "#CC79A7", "#F0E442", "#C490CF", "#000")
 
 #plot.dir <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/")
-plot_save <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/v34a")
+plot_save <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures")
 #plot_save_newD <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/Model_runs/")
-#plot_save_base <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/Base_models/")
+plot_save_base <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/v34a")
 #plot_save_byC <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/bycatch_models/")
 #plot_save_state <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/state")
 #plot_save_sel <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/sel_models/")
@@ -52,7 +52,8 @@ plot_save <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/v34a")
 #m24c.2_2024 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25s/m24.0c.2/Gmacsall.out"), model_name = "m24.0c.2-2024", version = "2.20.21")
 m24c.2 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25f/m24.0c.2/Gmacsall.out"), model_name = "m24.0c.2.v21", version = "2.20.21")
 m24c.2_v34a <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_26s/v34a/Gmacsall.out"), model_name = "m24.0c.2", version = "2.20.34a")
-
+m26.0 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_26s/m26.0/Gmacsall.out"), model_name = "m26.0", version = "2.20.34a")
+  
 ## read std files -------------------
 #m24c.14_std <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_24f/model_24_0c/gmacs.std"), model_name = "m24.0c.14" )
 

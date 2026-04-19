@@ -1,5 +1,5 @@
 ---
-title: "Bristol Bay red king crab (BBRKC) proposed models May 2025"
+title: "Bristol Bay red king crab (BBRKC) proposed models May 2026"
 author: |
   | Katie Palof$^1$, 
   | $^1$Alaska Department of Fish and Game, katie.palof@alaska.gov 
@@ -32,15 +32,15 @@ options(xtable.comment = FALSE)
 ## before running update model specs here and in doc_figures_test.R
 ## run code in that R file with !! to get table and figure input here
 # the model specs
-cur_yr <- 2024 
-folder <- "bbrkc_25s"
+cur_yr <- 2025 
+folder <- "bbrkc_26s"
 ```
 
 # Summary {-}
-This document details model explorations for BBRKC that include some of those suggested by the crab plan team (CPT) and Scientific and Statistical Committee (SSC), and also version updates to the GMACS modeling framework (model 24.0c, GMACS version 2.20.20, 2025-01-30). All GMACS updates were tested to ensure model fit (likelihood values, output, etc.) matched the last accepted base model from September 2024 (version 2.20.14, 2024-05-20). The models here focus on cleaning up the code and a small dip into selectivity - specifically assumptions for selectivity using the BSFRF data as a prior. The work presented here is the beginning of work to explore these topics and the author acknowledges that further exploration is warranted.
+This document details model explorations for BBRKC that include some of those suggested by the crab plan team (CPT) and Scientific and Statistical Committee (SSC), and also version updates to the GMACS modeling framework (model 24.0c.2, GMACS version 2.20.34a. 2026-01-15). All GMACS updates were tested to ensure model fit (likelihood values, output, etc.) matched the last accepted base model from September 2025 (version 2.20.20, 2025-01-30). Model exploration in this document focus on extended size bins in the base model to account for potential shifts in growth over time. The work presented here is the beginning of work to explore this topic, and should be viewed as a sensitivity run due to historic data issues with size composition reconstructions. 
 
 The results of these model explorations are presented in this document in section C. Background on the Bristol Bay red king crab modeling approach, modeling framework (GMACS), and history of the stock and fisheries can be found in the last full SAFE and will not be repeated here.
-([**BBRKC 2024 SAFE**](https://meetings.npfmc.org/CommentReview/DownloadFile?p=7b8e95ba-6182-4a34-b141-92b0f13f5a07.pdf&fileName=BBRKC%20SAFE%202024.pdf))
+([**BBRKC 2025 SAFE**](https://meetings.npfmc.org/CommentReview/DownloadFile?p=6e6d66b7-d1f0-4aa7-931f-473c278aad85.pdf&fileName=C3%20BBRKC%20SAFE.pdf))
 
 \pagebreak
 
@@ -49,6 +49,23 @@ The results of these model explorations are presented in this document in sectio
 
 ## CPT and SSC Comments on Assessments in General {-}
 \noindent\rule{\textwidth}{0.4pt}
+
+**Response to SSC Comments (June 2025, Oct 2025):**
+
+*"The SSC notes that a historical retrospective is different from a within model retrospective and requests that crab assessments include a plot comparing the model-estimated time series of mature male biomass from the current assessment with the time series from the ten previous assessments."* 
+
+Response: This figure was provided in the 2025 SAFE document and will continue to be provided moving foward
+
+*"The SSC recommended that the CPT provide GMACS version updates in each CPT report with information on changes between versions and that authors clearly identify which GMACS versions were used and a brief summary of the effects on the assessment."*
+
+Response: The GMACS version used is clearly defined in "Assessment Methodology" in the full SAFE document, and updates to GMACS versions can be explored in more detail on the ([**GMACS GitHub repo**](https://github.com/GMACS-project)). 
+
+*"The SSC recommends that each crab SAFE chapter include a clear description of the buffers used in harvest specification over the most recent five years, as a basis for comparing the current year’s buffer recommendations."*
+
+Response: Historical considerations for buffers are described in Appendix E of the 2025 SAFE document. 
+
+*** come back here ASAP ****
+
 
 **Response to SSC Comments (June 2024, Oct 2024):**
 
