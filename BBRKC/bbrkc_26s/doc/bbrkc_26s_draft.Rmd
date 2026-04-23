@@ -54,44 +54,46 @@ The results of these model explorations are presented in this document in sectio
 
 *"The SSC notes that a historical retrospective is different from a within model retrospective and requests that crab assessments include a plot comparing the model-estimated time series of mature male biomass from the current assessment with the time series from the ten previous assessments."* 
 
-Response: This figure was provided in the 2025 SAFE document and will continue to be provided moving foward
+Response: This figure was provided in the 2025 SAFE document and will continue to be provided moving forward
 
 *"The SSC recommended that the CPT provide GMACS version updates in each CPT report with information on changes between versions and that authors clearly identify which GMACS versions were used and a brief summary of the effects on the assessment."*
 
-Response: The GMACS version used is clearly defined in "Assessment Methodology" in the full SAFE document, and updates to GMACS versions can be explored in more detail on the ([**GMACS GitHub repo**](https://github.com/GMACS-project)). 
+Response: The GMACS version used is clearly defined in "Assessment Methodology" in the full SAFE document, and updates to GMACS versions can be explored in more detail on the ([**GMACS GitHub repo**](https://github.com/GMACS-project)). Additionally, starting in May 2026 the CPT will include a "GMACS updates" section in the CPT minutes.
 
 *"The SSC recommends that each crab SAFE chapter include a clear description of the buffers used in harvest specification over the most recent five years, as a basis for comparing the current year’s buffer recommendations."*
 
-Response: Historical considerations for buffers are described in Appendix E of the 2025 SAFE document. 
+Response: Historical considerations for buffers are described in Appendix E of the 2025 SAFE document, and will be included as an appendix in the 2026 SAFE. 
 
-*** come back here ASAP ****
+*"The SSC recommends continued progress towards making SAFE documents as consistent in structure and content as practicable."*
 
+Response: CPT is currently working on standardized SAFE formatting. 
 
 **Response to SSC Comments (June 2024, Oct 2024):**
 
 *"The SSC suggests ... guidance for constructing and interpreting jitter analyses..."*
 
-Response: The CPT plans to review this guidance and establish some SOPs for jitter analysis interpretation at the May 2025 CPT meeting; the author will follow this guidance for Sept. 2025 models.
+Response: The CPT discussed jittering guidance in May 2025 and contiunes to improve the interpretation and graphical representation of jitter results, these will be shown in the Sept 2026 models. 
+
 
 *"The SSC would like to see additional residual diagnostics other than raw residuals for length composition data from GMACS models. The SSC encourages crab authors to collaborate with ground fish assessment authors regarding the use of One-Step-Ahead and Pearson residuals."*
 
-Response: One-Step-Ahead residuals were discussed at the Jan 2025 modeling workshop and are being incorporated into GMACS output figures for use in assessment output.
+Response: One-Step-Ahead residuals were incorporated into GMACS output figures for use in assessment output, and are presenting here for the base model, 24.0c.2 and model 26.0.
 
 *"The SSC requests that the CPT consider whether distinguishing between full and update assessments, ..., would be useful for crab assessments."*
 
-Response: The CPT has not yet taken up this topic.
+Response: CPT determined that it utilizes assessment frequency to address prioritization in workload and does not see a need for different assessment types at this time (refer to May and Sept 2025 CPT minutes).
 
 *"The SSC suggests the CPT live link assessments and other documents in their report to facilitate review."*
 
-Response: This will be taken into consideration in spring reports and full SAFEs.
+Response: This has be taken into consideration in spring reports and full SAFEs.
 
 *"The SSC reiterates the request for the CPT to develop a process to ensure the authors have provided responses to all previous SSC recommendations."*
 
-Response: The CPT has developed a google sheet to track requests, further action maybe discussed at the May 2025 meeting.
+Response: The CPT has developed a Google sheet to track requests, further action maybe discussed at the May 2026 meeting.
 
-*"The SSC requests the authors and CPT consider coordinating the approach to analyzing the Bering Sea Fisheries Research Foundation (BSFRF) data for two Chionoecetes crab and Bristol Bay red king crab (BBRKC) stocks, and specifically consider developing the results as a prior on selectivity for use in the models. "*
+*"The SSC requests the authors and CPT consider coordinating the approach to analyzing the Bering Sea Fisheries Research Foundation (BSFRF) data for two Chionoecetes crab and Bristol Bay red king crab (BBRKC) stocks, and specifically consider developing the results as a prior on selectivity for use in the models (also reiterated in Oct 2025 SSC minutes)."*
 
-Response: There was some discussion among authors Jan 2025 modeling workshop, which corresponded to Buck Stockhausen's work on this topic. The CPT has not developed a coordinated approach yet to this topic. 
+Response: There was discussion among authors Jan 2026 modeling workshop, which corresponded to Buck Stockhausen's work on this topic. The CPT has not developed a coordinated approach yet to this topic, and both the tanner and snow crab assessments have higher priority items this develoment cycle. The 2026 modeling workshop results illustrated that BBRKC relationships between the NMFS trawl survey data and the BSFRF data are different from the two Chionoecetes stocks, and therefore a similar approach may not be appropriate for BBRKC. Exploratory work on this topic was started in model runs in May of 2024 and 2025 but the author choose to postpone future work until the following year to allow more time for consistency in approaches if applicable. 
 
 \noindent\rule{\textwidth}{0.4pt}
 
@@ -100,7 +102,7 @@ Response: There was some discussion among authors Jan 2025 modeling workshop, wh
      
 *"The SSC recommends that a "fallback" Tier 4 alternative be provided, as recommended by the Simpler Modeling workshop. When doing so the SSC asks the authors to provide plots to compare OFLs with the status quo Tier 3 models for previous years, justification for the time series used for status determination and a recommended ABC buffer."*
 
-Response: A Tier 4 fallback based on survey data and the REMA model was provided in fall of 2024 and will be provided this Sept. 
+Response: A Tier 4 fallback based on survey data and the REMA model was provided in fall of 2024 and 2025, and will be provided this Sept. 
 
 *"For the inclusion of trawl survey data, the SSC suggests crab assessment authors and the CPT be more explicit about best practices for which standard years are included for bottom trawl survey data."*
 
@@ -108,7 +110,7 @@ Response: This was addressed by the CPT at our Jan 2024 meeting. See meeting min
 
 *"The SSC recommends the crab stocks begin using the established risk table format from groundfish for assessing uncertainty around buffer considerations"*
 
-Response: After viewing draft risk tables in Sept. 2024 the CPT decided to pick up a risk table format for crab stock discussion at the May 2025 meeting. The risk table framework agreed upon at this meeting will be presented with final assessments in Sept. 2025. 
+Response: After viewing draft risk tables in Sept. 2024 the CPT decided to pick up a risk table format for crab stock discussion at the May 2025 meeting. Draft risk tables were presented for all annual stocks at the Sept 2025 meeting, where the CPT determined that work was still needed to come to a "crab centric" framework for risk tables. They will be discussed again at the May 2026 CPT meeting and presented will full assessments in Sept. 2026. 
 
 
 *"The SSC recommends that uncertainty intervals be included when showing time series of biomass/abundance estimated by models.*
@@ -119,25 +121,51 @@ Response: These are provided in this document.
 
 ## CPT and SSC Comments on BBRKC assessment {-}
 \noindent\rule{\textwidth}{0.4pt}
+
+**Responses to SSC Comments (June 2025/Oct 2025):**
+
+**Look at spatial aggregation of the directed fishery and spatial comparison of NMFS survey metrics (such as CPUE, average size, sex ratio) relative to fleet metrics to the extent possible to see what might be influencing increasing CPUE trends in the fishery.**
+
+Response: The author plans to examine this in more detail for the Sept 2026 CPT meeting to include the most recent crab season (crab year 2025/26). Currently, CPUE from the directed fishery is not included as a model input therefore while differences in directed fishery CPUE and survey results are interesting they are not creating any assessment model conflict.
+
+**"Developing additional size bins for the larger females across the entire time series."**
+
+Response: Model 26.0 in this document explores an increased size bin range for both males and females. This document details this model run with results discussed in the Results and Discussion sections of this document. 
+
+**"Continued evaluation of the Northern District data in the stock assessment."**
+
+Response: The author will continue to provide comparisons of sex and maturity groupings from both BB and the Northern Unstratified Area in the final SAFE document. Additionally, the author has preliminary work on a sdmTMB model that incorporates all red king crab caught in the NMFS trawl survey but only predicts abundance within the BB area in an attempt to determine potential influence of movement in / out of Bristol Bay on the biomass and abundance estimates used in the stock assessment. **fix** 
+
+
+```{r sizecomp-explore, out.width="100%", fig.cap = "Size composition for all crab in all years in the NMFS trawl survey in 5mm size bins."}
+#knitr::include_graphics("figures/size_comp_over_time_all.png", dpi = 200)
+```
+
+
+**"Consideration of Bristol Bay and Pribilof Islands genetics and movement studies and the incorporation of directed crab fisheries data from the State of Alaska observer program to inform the upcoming EFH 5-year review"**
+
+Response: Additional genetic work is currently underway as a research project funded by disaster relief research for BBRKC, the author is a collaborator on that project. THe ADFG observer program is currently working with the EFH group to incorporate directed fishery crab data, this is being lead by the ADFG Kodiak regional office. 
+
 **Responses to SSC Comments (June 2024/Oct 2024):**
 
 *"The SSC recommends that the author bring forward a model that adds the BSFRF prior on selectivity for the 2025 assessment."*
 
-Response: Models 25.1a, 25.1b, and 25.1b2 all use the BSFRF data as a prior on selectivity. The author has concerns over moving to these models without further model exploration for the 2025 assessment and this is discussed in this document.
+Response: The May 2025 model exploration document presented Models 25.1a, 25.1b, and 25.1b2 which all use the BSFRF data as a prior on selectivity. The author determined that these models do not improve model fit and rely on assumptions between the BSFRF and NMFS survey data that may not be valid for BBRKC, further work is planned on this topic for 2027. 
+
 
 *"The SSC agrees with the additional considerations by the CPT in their minutes prioritizing; 1) considerations of selectivity time periods based on gear types and 2) considerations of time-varying selectivity in the fishery data relative to the survey data."*
 
-Response: The selectivity models presented in this document do retain the two time blocks for survey selectivity for the NMFS time series. However, the author has not yet explored time-varying selectivity in the fishery data relative to the survey data and hopes to have some discussion with the CPT on what this exploration could look like. 
+Response: The selectivity models presented in the May 2025 document do retain the two time blocks for survey selectivity for the NMFS time series. However, the author has not yet explored time-varying selectivity in the fishery data relative to the survey data and hopes to have some discussion with the CPT on what this exploration could look like. 
 
 *"The SSC reiterates its request to evaluate whether crab biomass and fishing mortality in the northern district should be included."*
 
 Response: Since 2022 the SAFE document has tracked Northern RKC data from the NMFS trawl survey. Overall, the proportions of different size/sex groups of the Northern RKC during a recent dozen years are higher than in the past and do not trend higher except for mature females in 2021. The high survey mature female abundance in the Northern area in 2021 was primarily from three tows and one of them is more than 50% of total mature females. The survey abundance of the Northern RKC will continue to be plotted in the SAFE report in the future. After migration patterns between BBRKC and the Northern RKC are fully understood, we will model them in the stock assessment.
-An assessment model that includes crab outside the Bristol Bay boundary would have to include updates to data inputs for all catch and survey time series, and also include conversations with managers on the implications of a larger spatial model. Explorations into model based indices for other Bering Sea stocks may provide an option for BBRKC to utilize the Northern district crab to design a model based index that only predicts over the traditional Bristol Bay grid. Work on this is planned for 2025/2026. 
+An assessment model that includes crab outside the Bristol Bay boundary would have to include updates to data inputs for all catch and survey time series, and also include conversations with managers on the implications of a larger spatial model. Explorations into model based indices for other Bering Sea stocks may provide an option for BBRKC to utilize the Northern district crab to design a model based index that only predicts over the traditional Bristol Bay grid. Work on this started this spring but still needs some development and discussion before incorporating this into models runs. 
 
 
 *"The SSC recommends the author revisit previous CPT discussion and rationale on whether 50% handling mortality is appropriate for both pot and longline (fixed gear) gear and to provide additional information in the next assessment."*
 
-Response: This document (May 2025) includes a model run, model 24.0c.1a, that has a reduced handling mortality (20%) for the fixed gear groundfish catch in place of the historical 50% level. No measurable changes to model results were observed, only small changes in management quantities that lie within the range of variability for those estimates (Table \@ref(tab:likelihood-components) and Figure \@ref(fig:mmb1)). This is likely due to the small magnitude of fixed gear catch in the model compared to directed fishery catch. Ultimately a change in the handling mortality rate for fixed gear would have to be approved by the CPT. A review of the data available to inform handling mortality estimations occurred at the May 2022 CPT meeting ([**HM May 2022**](https://meetings.npfmc.org/CommentReview/DownloadFile?p=000d775c-1ef7-487b-98a7-47c4ce8bfb9b.pdf&fileName=PPT_HM%20rates%20GF%20Fisheries.pdf)). 
+Response: The May 2025 document includes a model run, model 24.0c.1a, that has a reduced handling mortality (20%) for the fixed gear groundfish catch in place of the historical 50% level. No measurable changes to model results were observed, only small changes in management quantities that lie within the range of variability for those estimates. This is likely due to the small magnitude of fixed gear catch in the model compared to directed fishery catch. Ultimately a change in the handling mortality rate for fixed gear would have to be approved by the CPT. A review of the data available to inform handling mortality estimations occurred at the May 2022 CPT meeting ([**HM May 2022**](https://meetings.npfmc.org/CommentReview/DownloadFile?p=000d775c-1ef7-487b-98a7-47c4ce8bfb9b.pdf&fileName=PPT_HM%20rates%20GF%20Fisheries.pdf)). 
 At this time there are no direct research studies conducted on mortality of crab caught as bycatch in the longline or pot groundfish fisheries. Historically ranges of 30 to 50% have been use in various Council analyses and since 2008 a 50% rate has been applied when splitting bycatch between fixed and trawl gear. 
 
 \noindent\rule{\textwidth}{0.4pt}
@@ -146,11 +174,11 @@ At this time there are no direct research studies conducted on mortality of crab
   
 *"Including BSFRF as a ‘ghost fleet’ as a check on model behavior."*
   
-Response: Further exploration of the BSFRF data and its use in the BBRKC model is needed and planned for 2025/2026, it was not examined prior to May 2025.
+Response: Further exploration of the BSFRF data and its use in the BBRKC model is needed and planned for in the future.
 
 *Split the selectivity into eras to reflect the change in survey gear, but still use the same priors, perhaps with larger CVs in the early era.*
 
-Response: Models 25.1a, 25.1b, and 25.1b2 all retain the time blocks for survey selectivity estimation and use the same priors for both periods. Model 25.1b2 has larger CVs for both eras, this resulted in a similar estimation as Model 25.1b for the se.
+Response: Models explored in May 2025 (25.1a, 25.1b, and 25.1b2) all retain the time blocks for survey selectivity estimation and use the same priors for both periods. Model 25.1b2 has larger CVs for both eras, this resulted in a similar estimation as Model 25.1b for the standard error.
 
 *Selectivity and retention explorations that may include: exploring parameters that allow for the retention curve to asymptote below one, exploring splines for selectivity, and exploring models using time-varying selectivity to better understand model dynamics.*
 
@@ -159,13 +187,8 @@ Response: Model sensitivity to selectivity and retention assumptions should be e
 
 *Explore including larger size bins in the model to explore dome shaped selectivity.*
 
-Response: Including larger size bins than the current model uses (>160mm for males specifically) would require re-visiting the growth matrix for this stock. This matrix has been established for some time and would require some historic data recovery to determine if larger size bin growth could be determined from the same data. To include larger size bins assumptions would need to be made for the growth matrix unless the historic data was recoverable. 
-Additionally, raw data to add size bins to each of the size comp data sets is still in the process but an initial look at the NMFS data to determine if larger size bins should be incorporate was explored here. Figure  \@ref(fig:sizecomp-explore) displays the distribution of size composition for all years of the NMFS data and the associated lower and upper cut offs for the model. Initial exploration does not suggest a large change in size distribution over time, at least for the last 15 years. 
-
-
-```{r sizecomp-explore, out.width="100%", fig.cap = "Size composition for all crab in all years in the NMFS trawl survey in 5mm size bins."}
-knitr::include_graphics("figures/size_comp_over_time_all.png", dpi = 200)
-```
+Response: Including larger size bins than the current model uses (>160mm for males specifically) would require re-visiting the growth matrix for this stock. This matrix has been established for some time and would require some historic data recovery to determine if larger size bin growth could be determined from the same data. To include larger size bins assumptions would need to be made for the growth matrix unless the historic data was recoverable, which is what was done in model 26.0 here. Growth was assumed to be the same for all the former "plus size" size bins.
+Model 26.0 in this document uses extended size bins for both males and females, this is explained in detail in the "model explorations" section of the document. 
 
 
 *Remove shell condition from the model since it's not being used currently*
@@ -191,7 +214,7 @@ Response: Shell condition was removed from the model, reflected as model 24.0c.2
 
 *MCMC output diagnostics, autocorrelation plots and parameter chains*
   
-  Response: These will be provided in Sept 2025 when a full MCMC is performed on the preferred models. The CPT will have discussions in May 2025 on the suite of diagnostics to report for MCMC output.
+  Response: These will be provided in Sept 2026 when a full MCMC is performed on the preferred models. The CPT has had discussions in May 2025 and will continue to explore and develop the suite of diagnostics to report for MCMC output.
 
 *Possible effect of high 2011 recruitment as scene in survey size composition figures*
   
@@ -205,9 +228,6 @@ Response: Shell condition was removed from the model, reflected as model 24.0c.2
   
   Response: The author is collaborating with biologists on the availability of more recent growth data, and investigating the feasibility of recovering the original raw data used in the historic growth specifications. Work is underway to determine the best path forward for growth parameterizations for this stock. 
 
-*Survey selectivity / q / catchability. Reconsider the strong prior and shape of the selectivity curve. Consider using the BSFRF data as a prior on selectivity/catchability as was done in the snow crab assessment (CPT and SSC May/June 2023 and Sept/Oct 2023)*
-  
-  Response: Models presented in May 2024 (24.0 and 24.0b) reflected explorations on using the BSFRF data as a prior on selectivity - similar to snow crab (fall 2023). Further explorations on priors and shape were not explored this round, although the previous assessment author did explore some aspects in models runs between 2020 and 2022.
 
 *Revisit blocking on molting probability from tagging data (CPT and SSC May/June 2023)*
   
@@ -215,31 +235,38 @@ Response: Shell condition was removed from the model, reflected as model 24.0c.2
 
 \noindent\rule{\textwidth}{0.4pt}
 **Response to SSC/CPT comments prior to 2023:** 
-See Fall 2024 document - linked above in intro - for further historical discussion of CPT and SSC comments.
+See Fall 2024 document, found on the NPFMC website, for further historical discussion of CPT and SSC comments.
 
 \noindent\rule{\textwidth}{0.4pt}
 
-# C. Modeling Approaches and Explorations for spring 2025{-}
+# C. Modeling Approaches and Explorations for spring 2026{-}
 
 
 ## Assessment Methodology {-}
 
 This assessment model uses the GMACS modeling framework (since 2019) and is detailed in Appendix A of the last full SAFE report (link in the summary section).
-An updated version of GMACS (version 2.20.20, 2025-01-30) was used in this document compared to that used for the final assessment in fall of 2024 (version 2.20.14, 2024-05-20). The newer version includes updates made during winter 2024/25, including those during the Jan modeling workshop, but did not include any substantive changes to code and therefore were not expected to change model fit. Progress of GMACS development has been documented on the GitHub development site ([**GMACS GitHub**](https://github.com/GMACS-project?view_as=public)).
+An updated version of GMACS (version 2.20.34a, 2026-01-XX) was used in this document compared to that used for the final assessment in fall of 2025 (version 2.20.20, 2025-01-30). The newer version includes updates made during winter 2025/26, including those during the Jan modeling workshop, but did not include any substantive changes to code and therefore did not change model fit. Progress of GMACS development has been documented on the GitHub development site ([**GMACS GitHub**](https://github.com/GMACS-project?view_as=public)).
 
 ## Model explorations{-}
 Models explored in this document:
 
-  - **24.0c**:          base model (fall 2024), M for males estimated in the model, molt time block removed + updated GMACS 
-  - **24.0c.1**:        24.0c + updated catch time series data for crab fisheries via ADF&G
-  - **24.0c.1a**:       24.0c.1 + 20% handling mortality for fixed gear 
-  - **24.0c.2**:        24.0c.1 + removing shell condition placeholders from code
-  - **25.1a**:          24.0c.2 + selectivity informed by BSFRF survey all data
-  - **25.1b**:          24.0c.2 + selectivity informed by BSFRF survey SBS subset of data 
-  - **25.1b2**:         25.1b + increased SD (2x m25.1b) on selectivity prior for each size bin
+  - **24.0c.2**:        base model (fall 2005, GMACS v2.20.20), M for males estimated in the model, molt time block removed, no shell condition
+  - **24.0c.2_v34a**:   + updated gmacs (version 2.20.34a)
+  - **26.0**:           24.0c.2 (updated GMACS) + extended size bins for all size comp data sets
+ 
 
 ### Reasoning for model explorations {-}
-Six model scenarios are presented in this report. The first set of models are updates to the base model that reflect model structure clean up (model 24.0c.2), data changes (model 24.0c.1), and sensitivities to fixed gear handling mortality (model 24.0c.1a). For these model runs the overall model fit is nearly identical, with similar MLE and likelihood components (Table \@ref(tab:likelihood-components)), which is expected due to the minimal changes in the input data. 
+Three model scenarios are presented in this report. The first model is updates to the base model to reflect GMACS versioning and development (from v2.20.20 to v2.20.34a). The second model is the base model (24.0c.2) framework with extended size bins for all size composition indices for both males and females (model 26.0). 
+
+Updating to a new version of GMACS produced identical model results, with similar MLE and likelihood components (Table \@ref(tab:likelihood-components)), which is expected due the updates to GMACS code not affecting the model structure. 
+
+The second model explored here was model 26.0 which uses extended size bins for both males and females. CPT/SSC comments in the last few cycles have highlighted the potential build up of crab into the plus group size bins (figure XXX) and suggested exploring extending the size bins included in the model. The NMFS trawl survey data was used to established a new size range and plus group designation for males and females. It was determined that male size groups could increase from a plus group of 160 mm CL to a plus group size of 175 mm CL, this increased the number of size bins in the model from 20 in the base model to 23 in model 26.0. Similarly for females it was determined that the plus group could increase from 140 mm CL to 150 mm CL, increasing the number of size bins in the model from 16 to 18. Once the size bins range was determine for both males and females the size composition data was recalculated to include these size bins. 
+
+There are eight size composition data sources in the model, each were updated to include the extended size bins, however some needed additional updating due to historical data carry overs. Data series 1, 2, and 3 are from the directed BBRKC fishery and include retained male catch and total catch, both males and females. These data sets were recently updated for historical accuracy (see May 2025 documents) and therefore were edited to include the extended size bins. Series 4 and 6 are groundfish trawl and fixed gear bycatch and prior to 2021 the data for these series had small updates, likely due to data base edits or changes. Post 2021 only the extended size bins were added. Series 5 is size composition of bycatch in the directed Tanner crab fishery, only representing a small number of years and sample size. This series was entirely updated from the base model due to changes in the ADFG observer catch data processing. Series 7 and 8 represent the index time series - the NMFS trawl survey data and BSFRF data - and these were only edited to reflect the extended size bins for males and females. 
+
+In addition to data updates for model 26.0 adjustments to the model had to be made to accommodate the extended size range, specifically assumptions on growth and molting in these extended size bins. Model 26.0 assumes that growth and molting for these extended size bins was the same as the "plus group" size bins they were part of in the base model. 
+
+Model exploration work in spring of both 2024 and 2025 included work on selectivity and catchability, specifically 
 
 The rest of the model scenarios explore using a prior on selectivity that is defined from the BSFRF data (models 25.1a, 25.1b, and 25.1b2), building on previous models presented in May of 2024. These models use model 24.0c.2 as the base model, which is the 2024 accepted base model with updated data and GMACS version (this model estimates the base M for males using a log-normal prior with a mean of 0.18 and a CV of 0.04, has no time block for molt probability, has updated catch data, and removal of shell condition considerations).  
 
@@ -250,10 +277,13 @@ Model explorations here use methods similar to those in Szuwalski (2023) to expl
 This analysis was performed on two data sets; the first used all of the size composition data for each survey for all years (2007, 2008, and 2013 to 2016), and the second was a subset of this data that included only the side-by-side haul data for the years in which the author had it available (2013 to 2016). The predicted means and standard errors of the resulting estimated GAMs were input as a prior on a selectivity parameter for each size class in GMACS (Figure \@ref(fig:exploreS) and \@ref(fig:exploreS2)). Specifically in GMACS parametrization, the selectivity type was set to 0 (parametric) in the .ctl file and catchability was fixed at 1. Model 25.1a uses all of the size composition data and is similar to the May 2024 model presented, but includes both time blocks for survey selectivity - unlike the May 2024 exploration (Figure \@ref(fig:exploreS)), while models 25.1b and 25.1b2 use the side-by-side subset of data (Figure \@ref(fig:exploreS2)). Model 25.1b2 doubles the standard error associated with each size bin's estimation in an attempt to explore variability.
 
 
+
+
 ## Results {-}
 
 
 ### a. Sensitivity to data and code clarification changes {-}
+Model 24.0c.2 using GMACS version 2.20.34a 
 Models 24.0c, 24.0c.1, 24.0c.1a, and 24.0c.2 reflect updates to the directed catch time series (model 24.0c1), removal of place holder for shell condition (model 24.0c.2), and sensitivities to handling mortality in the fixed gear groundfish fisheries (model 24.0c.1a). The likelihoods for these model comparisons are nearly identical (Table \@ref(tab:likelihood-components)). These updates are consist with improved base model practices, therefore model 24.0c.2 was used as the updated base model for further explorations. 
 Changes to the handling mortality rate for fixed gear groundfish bycatch was performed as a model sensitivity as requested by stakeholders and the SSC. Changes to the handling mortality rate would have to be adopted by the CPT before this was put into place in the base model data input. 
 
@@ -339,7 +369,7 @@ print(tab, caption.placement = "top", include.rownames = FALSE, tabular.environm
 
 
 # E. Projections and Future Outlook {-}
-Projections into the future will be performed in the Sept. 2025 assessment with the models selected from this document.
+Projections into the future will be performed in the Sept. 2026 assessment with the models selected from this document.
 
 The projections are subject to many uncertainties. Constant population parameters estimated in the models used for the projections include M, growth, and fishery selectivities. The uncertainty of abundance and biomass estimates in the terminal year also affects the projections. Uncertainties of the projections caused by these constant parameters and abundance estimates in the terminal year would be reduced by the 20% ABC buffer.  However, if an extreme event occurs, like a sharp increase of M during the projection period, the ABC buffer would be inadequate, and the projections might underestimate uncertainties. The largest uncertainty is likely from recruitment used for the projections. Higher or lower assumed recruitment would cause too optimistic or too pessimistic projections. Overall, recruitment and M used for projections are main factors for projection uncertainties. 
 
@@ -349,7 +379,7 @@ The author thanks Drs. Andre Punt, Jie Zheng, James Ianelli, and D’Arcy Webber
 
 # K. References {-}
 References can be found in the last full SAFE published on the NPFMC website and will not be repeated here.
-([**BBRKC 2024 SAFE**](https://meetings.npfmc.org/CommentReview/DownloadFile?p=7b8e95ba-6182-4a34-b141-92b0f13f5a07.pdf&fileName=BBRKC%20SAFE%202024.pdf))
+([**BBRKC 2025 SAFE**](https://meetings.npfmc.org/CommentReview/DownloadFile?p=6e6d66b7-d1f0-4aa7-931f-473c278aad85.pdf&fileName=C3%20BBRKC%20SAFE.pdf))
 
 
 \pagebreak 
@@ -507,7 +537,7 @@ knitr::include_graphics("figures/Model_runs/nmfs_trawl_slx_capture.png", dpi = 2
 
 
 ```{r surv1, out.width="100%", fig.cap = "Comparisons of area-swept estimates and model predictions for both the NMFS trawl survey and the BSFRF trawl survey under updated base models 24.0c, 24.0c.1, 24.0c.1a, and 24.0c.2 The error bars are plus and minus 2 standard deviations of the area swept estimates."} 
-knitr::include_graphics("figures/Base_models/index_fit.png", dpi = 200)
+knitr::include_graphics("figures/index_fit.png", dpi = 200)
 #knitr::include_graphics("figures/index_fit.png", dpi = 200)
 ```
 
