@@ -26,6 +26,14 @@ Model should run if input files are read in correctly.
 - May 26 
   - no new data updates for catch or survey
   - size composition changes to input - increased size bins? What does survey data suggest?
+  Size composition data changes:
+groundfish bycatch - trawl and fixed gear, small updates for entire time series pre 2021 in addition to increased size bins
+Tanner bycatch - all new data from base model, including extended size comps
+Catch total - only updated extended size bins for each year
+Catch retained - only udpated extended size bins for each year post 1990, pre 1990 used 1990 proportions to edit final size bins
+Surveys - just edited final plus group to extended size bins
+bsfrf - jsut edited final plus group BUT had to assume male / female ratio - need better raw data here. 
+
   
 ## Model options Sept ---------
 

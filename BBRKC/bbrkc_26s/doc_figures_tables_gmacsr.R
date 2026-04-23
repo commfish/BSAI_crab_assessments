@@ -26,7 +26,7 @@ cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#D55E00", "#0072B2",
 
 #plot.dir <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/")
 plot_save <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures")
-#plot_save_newD <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/Model_runs/")
+plot_save_newD <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures")
 plot_save_base <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/v34a")
 #plot_save_byC <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/bycatch_models/")
 #plot_save_state <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/state")
@@ -57,15 +57,19 @@ m26.0 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_26s/m26.0/G
 ## read std files -------------------
 #m24c.14_std <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_24f/model_24_0c/gmacs.std"), model_name = "m24.0c.14" )
 
-m24c.v20_std <- gmacs_read_std(file = paste0(here::here(),"/BBRKC/bbrkc_25s/ver20/v20_24.0c/gmacs.std"), model_name = "m24.0c.v20")
-m24c.2_2024_std <- gmacs_read_std(file = paste0(here::here(),"/BBRKC/bbrkc_25s/m24.0c.2/gmacs.std"), model_name = "m24.0c.2-2024")
-m24c.2_std <- gmacs_read_std(file = paste0(here::here(),"/BBRKC/bbrkc_25f/m24.0c.2/gmacs.std"), model_name = "m24.0c.2")
-# model groupings defined here for future plots ----------------
-base_models <- list(m24c.v14, m24c.v20, m24c.2_2024)
-newD_models <- list(m24c.2_2024, m24c.2) # comparing new data
-base_std <- list(m24c.v20_std, m24c.2_2024_std)
+m24c.2_std <- gmacs_read_std(file = paste0(here::here(),"/BBRKC/bbrkc_25f/m24.0c.2/gmacs.std"), model_name = "m24.0c.2.v21")
+m24c.2_v34a_std <- gmacs_read_std(file = paste0(here::here(), "/BBRKC/bbrkc_26s/v34a/gmacs.std"), model_name = "m24.0c.2" ) #version = "2.20.34a")
+m26.0_std <- gmacs_read_std(file = paste0(here::here(), "/BBRKC/bbrkc_26s/m26.0/gmacs.std"), model_name = "m26.0") #, version = "2.20.34a")
 
-newD_std <- list(m24c.2_2024_std, m24c.2_std)
+
+# model groupings defined here for future plots ----------------
+base_models <- list(m24c.2, m24c.2_v34a)
+newD_models <- list(m24c.2_v34a, m26.0) # comparing new data
+explore_model <- list(m24c.2, m24c.2_v34a, m26.0)
+
+base_std <- list(m24c.2_std, m24c.2_v34a_std)
+newD_std <- list(m24c.2_v34a_std, m26.0_std)
+
 
 
 #liklihood ------
@@ -140,7 +144,7 @@ gmacs_plot_molt_probability(all_out = newD_models, save_plot = T, plot_dir = plo
 # Molt and tagging plot --------
 # molt with tag data base
 #mdf <- gmacs_get_molt_probability(all_out = base_models)
-mdf <- gmacs_get_molt_probability(all_out = list(m24c.2))
+mdf <- gmacs_get_molt_probability(all_out = list(m24c.2_v34a))
 
 #mdf <- .get_molt_prob_df(M[rec_mod])
 
@@ -194,9 +198,12 @@ gmacs_plot_size_comp(all_out = base_models, save_plot = T, plot_dir = plot_save_
 gmacs_plot_sizecomp_kjp(all_out = base_models, save_plot = T, plot_dir = plot_save_base)
 gmacs_plot_sizecomp_kjp(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD)
 
+# aggregate not working
+gmacs_plot_size_comp_aggregate(all_out = list(m26.0), save_plot = T, plot_dir = plot_save_newD, version = "2.20.34a" )
 
 gmacs_plot_size_comp_aggregate(all_out = base_models, save_plot = T, plot_dir = plot_save_base)
 gmacs_plot_size_comp_aggregate(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD)
+
 gmacs_plot_mean_size(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD)
 
 #gmacs_plot_sizecomp(all_out = sel_models, save_plot = T, plot_dir = plot_save_sel)
@@ -214,9 +221,9 @@ gmacs_plot_mean_size(all_out = newD_models, save_plot = T, plot_dir = plot_save_
 # issues with tanner size comps because they are getting lumped with directed pot so remove those before plotting
 # **fix** fix the call to data summary to figure this out... I think season needs to be included.
 Sdata_summary <- gmacs_get_size_summary(all_out = newD_models)
-Sdata_summary %>% 
-  filter(year == 2016, size == 112.5, model == "m24.0c.2") %>% 
-  select(model, org_series, mod_series, year, fleet, season, sex, type)
+#Sdata_summary %>% 
+#  filter(year == 2016, size == 112.5, model == "m24.0c.2") %>% 
+#  select(model, org_series, mod_series, year, fleet, season, sex, type)
 
 Sdata_summary %>% 
   filter(org_series != 6) -> Sdata_summary
@@ -225,24 +232,26 @@ gmacs_plot_sizecomp(save_plot = T, plot_dir = plot_save_newD, data_summary = Sda
 # **fix** these to reflect series labels
 
 ## one step ahead residuals --------------
-gmacs_plot_osa_residuals(all_out = list(m24c.2), save_plot = T, plot_dir = plot_save_newD )
+gmacs_plot_osa_residuals(all_out = list(m24c.2_v34a), save_plot = T, plot_dir = plot_save_newD )
+#newD_models <- list(m24c.2_v34a, m26.0) # comparing new data
+gmacs_plot_osa_residuals(all_out = list(m26.0), save_plot = T, plot_dir = plot_save_newD )
 
 # ** fix ** aggregated size comps where now ???????????
 ## mmb ------------
 gmacs_plot_mmb(all_out = base_models, save_plot = T, plot_dir = plot_save_base, plot_ci = T, std_list = base_std)
 gmacs_plot_mmb(all_out = newD_models, plot_dir = plot_save_newD, plot_ci = T, std_list = newD_std)
-gmacs_plot_mmb(all_out = list(m24c.2_2024, m24c.2), save_plot = T, plot_dir = plot_save_newD, 
-               plot_ci = T, std_list = list(m24c.2_2024_std, m24c.2_std))
+#gmacs_plot_mmb(all_out = list(m24c.2_2024, m24c.2), save_plot = T, plot_dir = plot_save_newD, 
+#               plot_ci = T, std_list = list(m24c.2_2024_std, m24c.2_std))
 # not working need to **FIX** to get confidence intervals
 
 #gmacs_plot_mmb(all_out = molt_models, plot_dir = plot_save_molt, plot_ci = T, std_list = molt_std)
-gmacs_plot_mmb(all_out = list(m24c.2_2024, m24c.2), save_plot = T, plot_dir = plot_save_newD, 
-             plot_ci = F ) 
-gmacs_plot_mmb(all_out = list(m24c.2_2024, m24c.2), save_plot = T, plot_dir = plot_save_newD, 
-               plot_ci = T, std_list = list(m24c.2_2024_std, m24c.2_std))
+#gmacs_plot_mmb(all_out = list(m24c.2_2024, m24c.2), save_plot = T, plot_dir = plot_save_newD, 
+#             plot_ci = F ) 
+#gmacs_plot_mmb(all_out = list(m24c.2_2024, m24c.2), save_plot = T, plot_dir = plot_save_newD, 
+#               plot_ci = T, std_list = list(m24c.2_2024_std, m24c.2_std))
 
-gmacs_plot_mmb(all_out = base_models, save_plot = T, plot_dir = plot_save_base, plot_ci = F) #, std_list = base_std)
-gmacs_plot_mmb(all_out = list(m24c.v20, m24c.2_2024), save_plot = T, plot_dir = plot_save_base, plot_ci = T, std_list = list(m24c.v20_std,m24c.2_2024_std))
+#gmacs_plot_mmb(all_out = base_models, save_plot = T, plot_dir = plot_save_base, plot_ci = F) #, std_list = base_std)
+#gmacs_plot_mmb(all_out = list(m24c.v20, m24c.2_2024), save_plot = T, plot_dir = plot_save_base, plot_ci = T, std_list = list(m24c.v20_std,m24c.2_2024_std))
 
 ## recruitment ------
 #gmacs_plot_recruitment(all_out = list(m230a_23, m230a_24, m24c), save_plot = T, plot_dir = plot_save_newD)
@@ -250,8 +259,7 @@ gmacs_plot_recruitment(all_out = base_models, save_plot = T, plot_dir = plot_sav
 # look into if I can plot CI
 
 gmacs_plot_recruitment(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD) # plot_ci = T, std_list = newD_std)
-gmacs_plot_recruitment(all_out = list(m24c.2), save_plot = F, plot_ci = T, std_list = list(m24c.2_std))
-# **fix** confidence interval code NOT working 
+gmacs_plot_recruitment(all_out = list(m24c.2_v34a), save_plot = F, plot_ci = T, std_list = list(m24c.2_v34a_std))# **fix** confidence interval code NOT working 
 
 #gmacs_plot_recruitment(all_out = base_models, save_plot = T, plot_dir = plot_save, 
 #                       data_summary = data_summary)
@@ -362,7 +370,7 @@ ggsave(paste0(.FIGS, "mature_female_abundance_mod_scen.png"), width = 6*1.3, hei
 
 # here here 
 # get derived quantity summary
-deriv.quant <- gmacs_get_derived_quantity_summary(all_out = list(m24c.2))
+deriv.quant <- gmacs_get_derived_quantity_summary(all_out = list(m24c.2_v34a, m26.0))
 
 # stock recruit "stock_recruit_XX.png" ------
 #dquant230a <- gmacs_get_derived_quantity_summary(all_out = list(m230a_24))
@@ -440,7 +448,7 @@ table1specs_t <- c(msst_2324, mmb_2324, mmb_2425, ofl_2425, abc_2425)
 table1specs_t
 
 # use this as starting place for table 1 ----
-refT1 <- gmacs_get_ref_points(all_out = list(m24c.v14, m24c.2_2024, m24c.2))
+refT1 <- gmacs_get_ref_points(all_out = explore_models) #list(m24c.2, m24c.2_v34a, m26.0))
 refT1 %>% 
   as.data.frame() %>% 
   mutate(MMB = round(mmb/1000, 2), 
@@ -460,9 +468,10 @@ write.csv(tab1_ref, paste0(.TABS, "specs_all_mods_detailed.csv"), row.names = FA
 # get reference points table -------------
 gmacs_get_ref_points(all_out = newD_models)
 gmacs_get_ref_points(all_out = base_models)
+gmacs_get_ref_points(all_out = explore_models)
 #base_models <- list(m24c, m24c.1, m24c.1a, m24c.2)
 #newD_models <- list(m24c.2, m25.1a, m25.1b, m25.1b2) # 
-refT1 <- gmacs_get_ref_points(all_out = list(m24c.v14, m24c.2_2024, m24c.2 ))
+refT1 <- gmacs_get_ref_points(all_out = explore_models)
 refT1 %>% 
   as.data.frame() %>% 
   mutate(MMB = round(mmb/1000, 2), 
@@ -486,7 +495,7 @@ status_2425 <- (mmb_2425/bmsy_2425)*100
 
 # Table 7 nat mort----
 #nat_mort <- .get_M_df_kjp(M[2:4]) # bbrkc_functions.R
-nat_mort <- gmacs_get_m(all_out = list(m24c.v14, m24c.2_2024, m24c.2))
+nat_mort <- gmacs_get_m(all_out = explore_models)
 #nat_mort <- m230a$M_by_class
 nat_mort %>% 
   distinct(model, sex, M) %>% print(n =100)
@@ -510,17 +519,17 @@ write.csv(natural_mort_all2, paste0(.TABS, "M_out.csv"), row.names = FALSE)
 
 # get likelihood table --------------------
 # spring 25 - which models to include here???
-base_like <- gmacs_get_lik(all_out = list(m24c.v14, m24c.2_2024, m24c.2)) #base_models <- list(m24c, m24c.1, m24c.1a, m24c.2)
+base_like <- gmacs_get_lik(all_out = explore_models) #list(m24c.v14, m24c.2_2024, m24c.2)) #base_models <- list(m24c, m24c.1, m24c.1a, m24c.2)
 #newD_models <- list(m24c.2, m25.1a, m25.1b, m25.1b2) 
 # remove tagging and growth 
 
-base_pen <- gmacs_get_lik_type_pen(all_out = list(m24c.v14, m24c.2_2024, m24c.2))
+base_pen <- gmacs_get_lik_type_pen(all_out = explore_models) #list(m24c.v14, m24c.2_2024, m24c.2))
 
 all_like1 <- base_like[c(1:20), ]
 all_like2 <- base_pen[c(10, 8, 7), ]
 all_like3 <- base_like[c(26,25), ]
 
-ref_all_like4 <- gmacs_get_ref_points(all_out = list(m24c.v14, m24c.2_2024, m24c.2))
+ref_all_like4 <- gmacs_get_ref_points(all_out = explore_models) #list(m24c.v14, m24c.2_2024, m24c.2))
 ref_all_like4 %>% 
   as.data.frame() %>% 
   select(model, b35, mmb, f35, fofl, ofl_tot) %>% 
@@ -529,7 +538,7 @@ ref_all_like4 %>%
          ofl_tot = round(ofl_tot, 2)) %>% 
   select(b35, mmb, f35, fofl, ofl_tot) -> ref_all_like4a
   
-row.names(ref_all_like4a) <- c("m24.0c.v14", "m24.0c.2_2024", "m24.0c.2")
+row.names(ref_all_like4a) <- c("m24.0c.2.v21", "m24.0c.2", "m26.0")
 
 ref_all_like4a %>% 
   rotate_df() %>% 
