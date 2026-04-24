@@ -28,7 +28,8 @@ cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#D55E00", "#0072B2",
 plot_save <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures")
 plot_save_newD <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures")
 plot_save_base <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/v34a")
-#plot_save_byC <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/bycatch_models/")
+plot_save_compare <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/m26.0a compare")
+plot_save_extend <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/extended_size_illustrate/")
 #plot_save_state <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/state")
 #plot_save_sel <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/sel_models/")
 #plot_save_molt <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/molt_models/")
@@ -53,6 +54,7 @@ plot_save_base <- paste0(here::here(), "/BBRKC/", folder, "/doc/figures/v34a")
 m24c.2 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25f/m24.0c.2/Gmacsall.out"), model_name = "m24.0c.2.v21", version = "2.20.21")
 m24c.2_v34a <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_26s/v34a/Gmacsall.out"), model_name = "m24.0c.2", version = "2.20.34a")
 m26.0 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_26s/m26.0/Gmacsall.out"), model_name = "m26.0", version = "2.20.34a")
+m26.0a <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_26s/m26.0a/Gmacsall.out"), model_name = "m26.0a", version = "2.20.34a")
   
 ## read std files -------------------
 #m24c.14_std <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_24f/model_24_0c/gmacs.std"), model_name = "m24.0c.14" )
@@ -60,20 +62,22 @@ m26.0 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_26s/m26.0/G
 m24c.2_std <- gmacs_read_std(file = paste0(here::here(),"/BBRKC/bbrkc_25f/m24.0c.2/gmacs.std"), model_name = "m24.0c.2.v21")
 m24c.2_v34a_std <- gmacs_read_std(file = paste0(here::here(), "/BBRKC/bbrkc_26s/v34a/gmacs.std"), model_name = "m24.0c.2" ) #version = "2.20.34a")
 m26.0_std <- gmacs_read_std(file = paste0(here::here(), "/BBRKC/bbrkc_26s/m26.0/gmacs.std"), model_name = "m26.0") #, version = "2.20.34a")
-
+m26.0a_std <- gmacs_read_std(file = paste0(here::here(), "/BBRKC/bbrkc_26s/m26.0a/gmacs.std"), model_name = "m26.0a")
 
 # model groupings defined here for future plots ----------------
 base_models <- list(m24c.2, m24c.2_v34a)
 newD_models <- list(m24c.2_v34a, m26.0) # comparing new data
-explore_model <- list(m24c.2, m24c.2_v34a, m26.0)
+explore_models <- list(m24c.2_v34a, m26.0a, m26.0)
+
 
 base_std <- list(m24c.2_std, m24c.2_v34a_std)
 newD_std <- list(m24c.2_v34a_std, m26.0_std)
-
+explore_std <- list(m24c.2_v34a_std, m26.0a_std, m26.0_std)
 
 
 #liklihood ------
 gmacs_get_lik_type_pen(all_out = newD_models)
+gmacs_get_lik_type_pen(all_out = explore_models)
 temp <- gmacs_get_lik(all_out = newD_models) 
 print(temp, n = Inf)
 gmacs_get_pars(all_out = newD_models) 
@@ -90,7 +94,7 @@ gmacs_plot_data_range(all_out = newD_models, save_plot = T, plot_dir = plot_save
 #gmacs_plot_slx(all_out = base_models, save_plot = T, plot_dir = plot_save)
 
 # this code works if you load in the gmacs_plot_slx function from 'bbrkc_functions_gmacsr.R'
-gmacs_get_slx(all_out = list(m24c.2, m25.1a, m25.1a2)) %>%
+gmacs_get_slx(all_out = list(m24c.2_v34a, m26.0)) %>%
   mutate(capture_block = case_when(fleet %in% c("BSFRF", "Bairdi_Fishery_Bycatch", "Fixed_Gear") ~ "1975 - 2023",
                                    fleet == "NMFS_Trawl" & year %in% 1975:1981 ~ "1975 - 1981",
                                    fleet == "NMFS_Trawl" & year %in% 1982:2023 ~ "1982 - 2023",
@@ -106,7 +110,7 @@ gmacs_get_slx(all_out = newD_models) %>%
                                    fleet == "Trawl_Bycatch" ~ "1975 - 2024")) %>%
   gmacs_plot_slx(data_summary = ., save_plot = T, plot_dir = plot_save_newD)
 
-gmacs_get_slx(all_out = list(m24c.2)) %>% 
+gmacs_get_slx(all_out = list(m24c.2_v34a, m26.0)) %>% 
   mutate(capture_block = case_when(fleet %in% c("BSFRF", "Bairdi_Fishery_Bycatch", "Fixed_Gear") ~ "1975 - 2024",
                                    fleet == "NMFS_Trawl" & year %in% 1975:1981 ~ "1975 - 1981",
                                    fleet == "NMFS_Trawl" & year %in% 1982:2024 ~ "1982 - 2024",
@@ -118,13 +122,13 @@ semp %>%
   filter(year == 2023) %>% 
   select(model, sex, fleet, size, slx_capture, slx_retention, capture_block) %>% 
   pivot_longer(c(slx_capture, slx_retention)) %>% 
-  ggplot(aes(x = size, y = value, linetype  = name)) +
+  ggplot(aes(x = size, y = value, linetype  = name, color = model)) +
   geom_line() +
   #geom_line(aes(x = size, y = slx_retention), color = "black") +
-  labs(x = "Midpoint of size class (mm)", y = "Selectivity", linetype = NULL, title = "Pot fishery (males) \n Model 24.0c.2")+
+  labs(x = "Midpoint of size class (mm)", y = "Selectivity", linetype = NULL, title = "Directed pot fishery \n (males)")+
   scale_linetype_manual(values = c(1, 2), labels = c("Capture", "Retention"))+
   theme(legend.justification = c(0,1), legend.position = c(0,1)) -> x
-ggsave(paste0(plot_save_newD, "pot_fishery_slx_capture_retain.png"), plot = x, height= 3, width = 3, units = "in")
+ggsave(paste0(plot_save_newD, "/pot_fishery_slx_capture_retain.png"), plot = x, height= 3, width = 3, units = "in")
 
 
 #gmacs_get_slx(all_out = base_models) %>%
@@ -183,6 +187,7 @@ ggsave(paste0(.FIGS, "molt_tagging_males_base.png"), width = 6*1.15, height = 1.
 #gmacs_plot_index(all_out = base_models, plot_dir = plot_save)
 gmacs_plot_index(all_out = newD_models, plot_dir = plot_save_newD)
 gmacs_plot_index(all_out = base_models, plot_dir = plot_save_base)
+gmacs_plot_index(all_out = explore_models, plot_dir = plot_save_compare)
 
 #gmacs_plot_index(all_out = list(m24c, m24c_state), plot_dir = plot_save_state)
 
@@ -197,6 +202,7 @@ gmacs_plot_size_comp(all_out = base_models, save_plot = T, plot_dir = plot_save_
 # load from bbrkc_funcstions_gmacsr.R
 gmacs_plot_sizecomp_kjp(all_out = base_models, save_plot = T, plot_dir = plot_save_base)
 gmacs_plot_sizecomp_kjp(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD)
+gmacs_plot_sizecomp_kjp(all_out = explore_models, save_plot = T, plot_dir = plot_save_compare)
 
 # aggregate not working
 gmacs_plot_size_comp_aggregate(all_out = list(m26.0), save_plot = T, plot_dir = plot_save_newD, version = "2.20.34a" )
@@ -225,21 +231,26 @@ Sdata_summary <- gmacs_get_size_summary(all_out = newD_models)
 #  filter(year == 2016, size == 112.5, model == "m24.0c.2") %>% 
 #  select(model, org_series, mod_series, year, fleet, season, sex, type)
 
-Sdata_summary %>% 
-  filter(org_series != 6) -> Sdata_summary
+#Sdata_summary %>% 
+#  filter(org_series != 6) -> Sdata_summary
 
-gmacs_plot_sizecomp(save_plot = T, plot_dir = plot_save_newD, data_summary = Sdata_summary)
+Sdata_summary %>% 
+  filter(year >= 2010) -> Sdata_summary
+
+gmacs_plot_size_comp(save_plot = T, plot_dir = plot_save_extend, data_summary = Sdata_summary)
 # **fix** these to reflect series labels
 
 ## one step ahead residuals --------------
 gmacs_plot_osa_residuals(all_out = list(m24c.2_v34a), save_plot = T, plot_dir = plot_save_newD )
 #newD_models <- list(m24c.2_v34a, m26.0) # comparing new data
-gmacs_plot_osa_residuals(all_out = list(m26.0), save_plot = T, plot_dir = plot_save_newD )
+gmacs_plot_osa_residuals(all_out = list(m26.0), save_plot = T, plot_dir = plot_save_compare )
 
 # ** fix ** aggregated size comps where now ???????????
 ## mmb ------------
 gmacs_plot_mmb(all_out = base_models, save_plot = T, plot_dir = plot_save_base, plot_ci = T, std_list = base_std)
 gmacs_plot_mmb(all_out = newD_models, plot_dir = plot_save_newD, plot_ci = T, std_list = newD_std)
+gmacs_plot_mmb(all_out = explore_models, plot_dir = plot_save_compare, plot_ci = T, std_list = explore_std)
+
 #gmacs_plot_mmb(all_out = list(m24c.2_2024, m24c.2), save_plot = T, plot_dir = plot_save_newD, 
 #               plot_ci = T, std_list = list(m24c.2_2024_std, m24c.2_std))
 # not working need to **FIX** to get confidence intervals
@@ -259,6 +270,7 @@ gmacs_plot_recruitment(all_out = base_models, save_plot = T, plot_dir = plot_sav
 # look into if I can plot CI
 
 gmacs_plot_recruitment(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD) # plot_ci = T, std_list = newD_std)
+gmacs_plot_recruitment(all_out = explore_models, save_plot = T, plot_dir = plot_save_compare)
 gmacs_plot_recruitment(all_out = list(m24c.2_v34a), save_plot = F, plot_ci = T, std_list = list(m24c.2_v34a_std))# **fix** confidence interval code NOT working 
 
 #gmacs_plot_recruitment(all_out = base_models, save_plot = T, plot_dir = plot_save, 
@@ -320,6 +332,8 @@ gmacs_plot_catch(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD
   
 gmacs_plot_catch_kjp(all_out = base_models, save_plot = T, plot_dir = plot_save_base) 
 gmacs_plot_catch_kjp(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD)
+gmacs_plot_catch_kjp(all_out = explore_models, save_plot = T, plot_dir = plot_save_compare)
+
 # load from "bbrkc_functions_gmacsr.R", has correct fleet and component labels
 #gmacs_plot_catch(all_out = molt_models, save_plot = T, plot_dir = plot_save_molt)
 ## ** fix ** so that all directed catch is on the same scale and showing the entire time series - like old plot.
@@ -484,7 +498,7 @@ refT1 %>%
 write.csv(ref_pt_table, paste0(.TABS, "specs_all_mods.csv"), row.names = FALSE)
 
 # 2024/25 B/Bmsy
-gmacs_get_ref_points(all_out = list(m24c.2))
+gmacs_get_ref_points(all_out = list(m24c.2))  # update to model that is choosen
 round(M$bmsy/1000, 2) -> bmsy_2425
 round(M$derived_quant_summary$ssb[length(M$derived_quant_summary$ssb)]/1000, 2) -> mmb_2425
 status_2425 <- (mmb_2425/bmsy_2425)*100
@@ -519,17 +533,17 @@ write.csv(natural_mort_all2, paste0(.TABS, "M_out.csv"), row.names = FALSE)
 
 # get likelihood table --------------------
 # spring 25 - which models to include here???
-base_like <- gmacs_get_lik(all_out = explore_models) #list(m24c.v14, m24c.2_2024, m24c.2)) #base_models <- list(m24c, m24c.1, m24c.1a, m24c.2)
+base_like <- gmacs_get_lik(all_out = list(m24c.2, m24c.2_v34a, m26.0a, m26.0)) #list(m24c.v14, m24c.2_2024, m24c.2)) #base_models <- list(m24c, m24c.1, m24c.1a, m24c.2)
 #newD_models <- list(m24c.2, m25.1a, m25.1b, m25.1b2) 
 # remove tagging and growth 
 
-base_pen <- gmacs_get_lik_type_pen(all_out = explore_models) #list(m24c.v14, m24c.2_2024, m24c.2))
+base_pen <- gmacs_get_lik_type_pen(all_out = list(m24c.2, m24c.2_v34a, m26.0a, m26.0)) #list(m24c.v14, m24c.2_2024, m24c.2))
 
 all_like1 <- base_like[c(1:20), ]
 all_like2 <- base_pen[c(10, 8, 7), ]
 all_like3 <- base_like[c(26,25), ]
 
-ref_all_like4 <- gmacs_get_ref_points(all_out = explore_models) #list(m24c.v14, m24c.2_2024, m24c.2))
+ref_all_like4 <- gmacs_get_ref_points(all_out = list(m24c.2, m24c.2_v34a, m26.0a, m26.0)) #list(m24c.v14, m24c.2_2024, m24c.2))
 ref_all_like4 %>% 
   as.data.frame() %>% 
   select(model, b35, mmb, f35, fofl, ofl_tot) %>% 
@@ -538,7 +552,7 @@ ref_all_like4 %>%
          ofl_tot = round(ofl_tot, 2)) %>% 
   select(b35, mmb, f35, fofl, ofl_tot) -> ref_all_like4a
   
-row.names(ref_all_like4a) <- c("m24.0c.2.v21", "m24.0c.2", "m26.0")
+row.names(ref_all_like4a) <- c("m24.0c.2.v21", "m24.0c.2",  "m26.0a", "m26.0")
 
 ref_all_like4a %>% 
   rotate_df() %>% 
@@ -572,39 +586,39 @@ write.csv(like_all_out, paste0(.TABS, "likelihood.csv"), row.names = FALSE)
 # stop here
 
 # parameter tables -------------
-# model 24.0c from 2024
-base_24c_parm <- gmacs_get_pars(all_out = list(m24c.v14))
-base_24c_parm %>% 
-  filter(standard_error != "NA") %>% # get only estimated parameters not the fixed ones
-  select(model, parameter_count, parameter, estimate, standard_error) -> parm1
-
-parm1_a <- parm1[c(1:4, 40:72, 382:383), ]
-write.csv(parm1_a, paste0(.TABS, "para_model_24c.csv"))
-write.csv(parm1, paste0(.TABS, "para_model_24c_all.csv")) # use row names as index - don't need parameter count
-# IMPORTANT - need to edit in excel right now to remove "_" - can't have "_" in names...
-# 
-
-# model 24.0c.2 2024
-base_24c2_parm_2024 <- gmacs_get_pars(all_out = list(m24c.2_2024))
-base_24c2_parm_2024 %>% 
-  filter(standard_error != "NA") %>% # get only estimated parameters not the fixed ones
-  select(model, parameter_count, parameter, estimate, standard_error) -> parm1
-
-parm1_a <- parm1[c(1:4, 40:72, 382:383), ]
-write.csv(parm1_a, paste0(.TABS, "para_model_24c2_2024.csv"))
-write.csv(parm1, paste0(.TABS, "para_model_24c2_all_2024.csv")) # use row names as index - don't need parameter count
-# IMPORTANT - need to edit in excel right now to remove "_" - can't have "_" in names...
-#
-
-# model 24.0c.2 2025
+# model 24.0c.2 from 2025 - using version 21
 base_24c2_parm <- gmacs_get_pars(all_out = list(m24c.2))
 base_24c2_parm %>% 
   filter(standard_error != "NA") %>% # get only estimated parameters not the fixed ones
   select(model, parameter_count, parameter, estimate, standard_error) -> parm1
 
-parm1_a <- parm1[c(1:4, 40:72, 390:391), ] # update the last param rows here
-write.csv(parm1_a, paste0(.TABS, "para_model_24c2.csv"))
-write.csv(parm1, paste0(.TABS, "para_model_24c2_all.csv")) # use row names as index - don't need parameter count
+parm1_a <- parm1[c(1:4, 40:72, 390:391), ] #parm1[c(1:4, 40:72, 382:383), ]
+write.csv(parm1_a, paste0(.TABS, "para_model_24c2_v21.csv"))
+write.csv(parm1, paste0(.TABS, "para_model_24c2_v21_all.csv")) # use row names as index - don't need parameter count
+# IMPORTANT - need to edit in excel right now to remove "_" - can't have "_" in names...
+# 
+
+# model 24.0c.2 version 34
+base_24c2_parm_34 <- gmacs_get_pars(all_out = list(m24c.2_v34a))
+base_24c2_parm_34 %>% 
+  filter(standard_error != "NA") %>% # get only estimated parameters not the fixed ones
+  select(model, parameter_count, parameter, estimate, standard_error) -> parm1
+
+parm1_a <- parm1[c(1:4, 40:72, 390:391), ]
+write.csv(parm1_a, paste0(.TABS, "para_model_24c2_v34.csv"))
+write.csv(parm1, paste0(.TABS, "para_model_24c2_v34_all.csv")) # use row names as index - don't need parameter count
+# IMPORTANT - need to edit in excel right now to remove "_" - can't have "_" in names...
+#
+
+# model 26.0
+base_26_parm <- gmacs_get_pars(all_out = list(m26.0))
+base_26_parm %>% 
+  filter(standard_error != "NA") %>% # get only estimated parameters not the fixed ones
+  select(model, parameter_count, parameter, estimate, standard_error) -> parm1
+
+parm1_a <- parm1[c(1:4, 45:77, 395:396), ] # update the last param rows here
+write.csv(parm1_a, paste0(.TABS, "para_model_26.csv"))
+write.csv(parm1, paste0(.TABS, "para_model_26_all.csv")) # use row names as index - don't need parameter count
 # IMPORTANT - need to edit in excel right now to remove "_" - can't have "_" in names....KEEP in column names though
 #
 
@@ -628,15 +642,15 @@ source("./BBRKC/code/bbrkc_functions.R")
 
 # model 24c.2
 model <- "m24c.2"
-W <- m24c.2 ### CHANGE HERE
-Y <- m24c.2_std ### change here 
-A <- read_rep("./BBRKC/bbrkc_25f/m24.0c.2/gmacs.rep")
+W <- m24c.2_v34a ### CHANGE HERE
+Y <- m24c.2_v34a_std ### change here 
+A <- read_rep("./BBRKC/bbrkc_26s/v34a/gmacs.rep")
 
-# model 25.1b
-#model <- "m25.1b"
-#W <- m25.1b ### CHANGE HERE
-#Y <- m25.1b_std ### change here 
-#A <- read_rep("./BBRKC/bbrkc_25s/m25.1b/gmacs.rep")
+# model 26.0 
+model <- "m26.0"
+W <- m26.0 ### CHANGE HERE
+Y <- m26.0_std ### change here
+A <- read_rep("./BBRKC/bbrkc_26s/m26.0/gmacs.rep")
 
 # -- males - mature legal, females mature does NOT include projectino year!
 temp <- W$n_matrix
