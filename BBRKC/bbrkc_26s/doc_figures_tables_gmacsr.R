@@ -238,6 +238,15 @@ Sdata_summary %>%
   filter(year >= 2010) -> Sdata_summary
 
 gmacs_plot_size_comp(save_plot = T, plot_dir = plot_save_extend, data_summary = Sdata_summary)
+
+# plot just females in recent years with new and old data
+# **fix ** if needed for comparison
+
+Sdata_summary %>% 
+  filter(fleet == "NMFS_Trawl") %>% 
+  filter(aggregate_series == 2) -> temp_female_NMFS
+
+gmacs_plot_size_comp(data_summary = temp_female_NMFS, save_plot = F)  
 # **fix** these to reflect series labels
 
 ## one step ahead residuals --------------

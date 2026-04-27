@@ -37,7 +37,7 @@ folder <- "bbrkc_26s"
 ```
 
 # Summary {-}
-This document details model explorations for BBRKC that include some of those suggested by the crab plan team (CPT) and Scientific and Statistical Committee (SSC), and also version updates to the GMACS modeling framework (model 24.0c.2, GMACS version 2.20.34a. 2026-01-15). All GMACS updates were tested to ensure model fit (likelihood values, output, etc.) matched the last accepted base model from September 2025 (version 2.20.20, 2025-01-30). Model exploration in this document focus on extended size bins in the base model to account for potential shifts in growth over time. The work presented here is the beginning of work to explore this topic, and involves some assumptions on size increments and molting probability in these new size bins. 
+This document details model explorations for BBRKC that include some of those suggested by the crab plan team (CPT) and Scientific and Statistical Committee (SSC), and also version updates to the GMACS modeling framework (model 24.0c.2, GMACS version 2.20.34a. 2026-01-15). All GMACS updates were tested to ensure model fit (likelihood values, output, etc.) matched the last accepted base model from September 2025 (version 2.20.20, 2025-01-30). Model exploration in this document focus on extended size bins in the base model to account for potential shifts in growth over time. The work presented here is preliminary work to explore this topic by extending size bins for both males and females, and involves some assumptions on size increments and molting probability in these new size bins. 
 
 The results of these model explorations are presented in this document in section C. Background on the Bristol Bay red king crab modeling approach, modeling framework (GMACS), and history of the stock and fisheries can be found in the last full SAFE and will not be repeated here.
 ([**BBRKC 2025 SAFE**](https://meetings.npfmc.org/CommentReview/DownloadFile?p=6e6d66b7-d1f0-4aa7-931f-473c278aad85.pdf&fileName=C3%20BBRKC%20SAFE.pdf))
@@ -124,7 +124,7 @@ Response: These are provided in this document.
 
 **Responses to SSC Comments (June 2025/Oct 2025):**
 
-**Look at spatial aggregation of the directed fishery and spatial comparison of NMFS survey metrics (such as CPUE, average size, sex ratio) relative to fleet metrics to the extent possible to see what might be influencing increasing CPUE trends in the fishery.**
+*Look at spatial aggregation of the directed fishery and spatial comparison of NMFS survey metrics (such as CPUE, average size, sex ratio) relative to fleet metrics to the extent possible to see what might be influencing increasing CPUE trends in the fishery.*
 
 Response: The author plans to examine this in more detail for the Sept 2026 CPT meeting to include the most recent crab season (crab year 2025/26). Currently, CPUE from the directed fishery is not included as a model input therefore while differences in directed fishery CPUE and survey results are interesting they are not creating any assessment model conflict.
 
@@ -132,17 +132,24 @@ Response: The author plans to examine this in more detail for the Sept 2026 CPT 
 
 Response: Model 26.0 in this document explores an increased size bin range for both males and females. This document details this model run with results discussed in the Results and Discussion sections of this document. 
 
-**"Continued evaluation of the Northern District data in the stock assessment."**
+*"Continued evaluation of the Northern District data in the stock assessment."*
 
-Response: The author will continue to provide comparisons of sex and maturity groupings from both BB and the Northern Unstratified Area in the final SAFE document. Additionally, the author has preliminary work on a sdmTMB model that incorporates all red king crab caught in the NMFS trawl survey but only predicts abundance within the BB area in an attempt to determine potential influence of movement in / out of Bristol Bay on the biomass and abundance estimates used in the stock assessment. **fix** 
+Response: The author will continue to provide comparisons of sex and maturity groupings from both BB and the Northern Unstratified Area in the final SAFE document. Additionally, the author has preliminary work on a sdmTMB model (below) that incorporates all red king crab caught in the NMFS trawl survey but only predicts abundance within the Bristol Bay (BB) area in an attempt to determine potential influence of movement in / out of Bristol Bay on the biomass and abundance estimates used in the stock assessment. This is preliminary work and still needs more rigorous testing before incorporating into a model run, since this would involve both using model based indices and utilizing data outside of the Bristol Bay boundary. The author plans to collaborate with others to refine this process before incorporating into model runs.
 
 
-```{r sizecomp-explore, out.width="100%", fig.cap = "Size composition for all crab in all years in the NMFS trawl survey in 5mm size bins."}
-#knitr::include_graphics("figures/size_comp_over_time_all.png", dpi = 200)
+```{r sdm-explore, out.width="80%", fig.cap = "Abundance of mature female red king crab using design based (NMFS trawl survey cpue data) and model based estimation (sdmTMB)."}
+knitr::include_graphics("figures/extended_size_illustrate/mature_female_abundance_bristol bay predicted.png", dpi = 200)
+# figures were created in stm workshop R project
+```
+
+```{r sdm-explore2, out.width="80%", fig.cap = "Map of observed (NMFS trawl survey all EBS) vs predicted (model based prediction in Bristol Bay) abundance of mature female red king crab for the last 4 survey years."}
+knitr::include_graphics("figures/extended_size_illustrate/mature_females_last3_map.png", dpi = 200)
+# figures were created in stm workshop R project
 ```
 
 
-**"Consideration of Bristol Bay and Pribilof Islands genetics and movement studies and the incorporation of directed crab fisheries data from the State of Alaska observer program to inform the upcoming EFH 5-year review"**
+\newpage\clearpage
+*"Consideration of Bristol Bay and Pribilof Islands genetics and movement studies and the incorporation of directed crab fisheries data from the State of Alaska observer program to inform the upcoming EFH 5-year review"*
 
 Response: Additional genetic work is currently underway as a research project funded by disaster relief research for BBRKC, the author is a collaborator on that project. THe ADFG observer program is currently working with the EFH group to incorporate directed fishery crab data, this is being lead by the ADFG Kodiak regional office. 
 
@@ -195,7 +202,7 @@ Model 26.0 in this document uses extended size bins for both males and females, 
 
 Response: Shell condition was removed from the model, reflected as model 24.0c.2, and has no measurable effect on results since it was not being implemented in the current base model.
 
-\newpage
+
 \noindent\rule{\textwidth}{0.4pt}
 
 **Response to SSC Comments specific to this assessment (from October 2023):**
@@ -237,6 +244,7 @@ Response: Shell condition was removed from the model, reflected as model 24.0c.2
 **Response to SSC/CPT comments prior to 2023:** 
 See Fall 2024 document, found on the NPFMC website, for further historical discussion of CPT and SSC comments.
 
+\newpage
 \noindent\rule{\textwidth}{0.4pt}
 
 # C. Modeling Approaches and Explorations for spring 2026{-}
@@ -253,19 +261,19 @@ Models explored in this document:
   - **24.0c.2**:          base model (fall 2005, GMACS v2.20.20), M for males estimated in the model, molt time block removed, no shell condition
   - **24.0c.2_v34a**:     + updated gmacs (version 2.20.34a)
   - **26.0**:             24.0c.2 (updated GMACS) + extended size bins for all size comp data sets, includes updated bycatch size composition data
-  - **26.0a**:            24.0c.2 using updated size composition data for bycatch series, step-wise model
+  - **26.0a**:            24.0c.2 using updated size composition data for bycatch series - process step model for updated data
  
 
 ### Reasoning for model explorations {-}
 Three models are presented in this report, which are all referenced to the 2025 accepted base model (m24.0c.2, GMACS version 2.20.20). The first model is updates to the base model to reflect GMACS versioning and development (from v2.20.20 to v2.20.34a). The second model is the base model (24.0c.2) framework with extended size bins for all size composition indices for both males and females (model 26.0). The last model (model 26.0a) was done as a step-wise progress since the size composition data for the bycatch fleets was updated from the base model.
 
-Updating to a new version of GMACS produced identical model results, with similar MLE and likelihood components (Table \@ref(tab:likelihood-components)), which is expected due the updates to GMACS code not affecting the model structure. The base model, 24.0c.2 (estimates the base M for males using a log-normal prior with a mean of 0.18 and a CV of 0.04, has no time block for molt probability, has updated catch data, and removal of shell condition considerations), is the 2025 accepted model and future modeling work is based off this model and GMACS version 2.20.34a. 
+Updating to a new version of GMACS produced identical model results, with identical MLE and likelihood components (Table \@ref(tab:likelihood-components)), which is expected due the updates to GMACS code not affecting the model structure. The base model, 24.0c.2 (estimates the base M for males using a log-normal prior with a mean of 0.18 and a CV of 0.04, has no time block for molt probability, has updated catch data, and removal of shell condition considerations), is the 2025 accepted model and future modeling work is based off this model and GMACS version 2.20.34a. 
 
 The second model explored here was model 26.0 which uses extended size bins for both males and females. CPT/SSC comments in the last few cycles have highlighted the potential build up of crab into the plus group size bins (Figure \@ref(fig:sizecomp1)) and suggested exploring extending the size bins included in the model. The NMFS trawl survey data was used to established a new size range and plus group designation for males and females. It was determined that male size groups could increase from a plus group of 160 mm CL to a plus group size of 175 mm CL, this increased the number of size bins in the model from 20 in the base model to 23 in model 26.0. Similarly for females it was determined that the plus group could increase from 140 mm CL to 150 mm CL, increasing the number of size bins in the model from 16 to 18. Once the size bins range was determine for both males and females the size composition data was recalculated to include these size bins. 
 
 There are eight size composition data sources in the model, each were updated to include the extended size bins, however some needed additional updating due to historical data carry overs. Data series 1, 2, and 3 are from the directed BBRKC fishery and include retained male catch and total catch, both males and females. These data sets were recently updated for historical accuracy (see May 2025 documents) and therefore were edited to include the extended size bins. Series 4 and 6 are groundfish trawl and fixed gear bycatch and prior to 2021 the data for these series had small updates, likely due to data base edits or changes. Post 2021 only the extended size bins were added. Series 5 is size composition of bycatch in the directed Tanner crab fishery, only representing a small number of years and sample size. This series was entirely updated from the base model due to changes in the ADFG observer catch data processing. Series 7 and 8 represent the index time series - the NMFS trawl survey data and BSFRF data - and these were only edited to reflect the extended size bins for males and females. 
 
-In addition to data updates for model 26.0 adjustments to the model had to be made to accommodate the extended size range, specifically assumptions on growth and molting in these extended size bins. Model 26.0 assumes that growth and molting for these extended size bins was the same as the "plus group" size bins they were part of in the base model. Model 26.0a was performed to determine the affect of size composition data changes prior to adding the extended size range. 
+In addition to data updates for model 26.0 adjustments to the model had to be made to accommodate the extended size range, specifically assumptions on growth and molting in these extended size bins. Model 26.0 assumes that growth and molting for these extended size bins was the same as the "plus group" size bins they were part of in the base model. Model 26.0a was performed to determine the affect of size composition data changes prior to adding the extended size range (Figures \@ref(fig:sc-fixed) -- \@ref(fig:sc-tanner)). 
 
 Model exploration work in spring of both 2024 and 2025 included work on selectivity and catchability, specifically the relationship between the NMFS survey and BSFRF surveys. These explorations are detailed in the spring documents in May 2024 and 2025, but further work on selectivity was not explored in this cycle. This topic still remains a priority for the author, and will be explored in the future.
 
@@ -291,7 +299,7 @@ Refer to the 2024 completed SAFE document for further information on this sectio
 ### c. Evaluation of the fit to the data and model estimates.{-}
 - Selectivities by length (Figures \@ref(fig:sel1) - \@ref(fig:sel3))
 
-Model explorations focused on extended size bins, which can influence the selectivity estimates. Selecivity for the NMFS survey data and directed pot fishery were similar between the base model and model 26.0. The selectivity estimates for the groundfish trawl bycatch did change in model 26.0, due to the extended size bins, but the overall shape was similar. 
+Model explorations focused on extended size bins, which can influence the selectivity estimates. Selectivity for the NMFS survey data and directed pot fishery were similar between the base model and model 26.0. The selectivity estimates for the groundfish trawl bycatch did change in model 26.0, due to the extended size bins, but the overall shape was similar. Generally, the sample size for bycatch fleets effectively smaller than the survey or directed fishery fleets.
 
 
 - NMFS trawl survey biomass and BSFRF surveys (Figures \@ref(fig:surv1) -- \@ref(fig:surv1c)).
@@ -318,7 +326,7 @@ Fits to catch from the directed and non-directed fisheries is displayed in Figur
 Estimated mature male biomass for all models has a similar trend over time, however the scaling of the biomass is slightly higher with the extended size bins. This could be due to an overall better fit for the size composition data in model 26.0. 
 
 
-- Size composition fits by length and residual plots (Figures  \@ref(fig:sc-pot) -- \@ref(fig:sc-res-bubble-female-nmfs2)).
+- Size composition fits by length and residual plots (Figures  \@ref(fig:sc-fixed) -- \@ref(fig:sc-tanner) and \@ref(fig:sc-pot) -- \@ref(fig:sc-res-bubble-female-nmfs2)).
 
 Length composition fit is the largest difference in the base model vs the model the extended size bins. All size composition data sets show improved fit with the extended size range bins. This is especially apparent in the model estimates of size composition in the directed fishery (Figures \@ref(fig:sc-pot) -- \@ref(fig:sc-pot3)), all of which demonstrate the raw data (base model data in light grey and model 26.0 in dark grey) and resulting model fit. 
 Fits to the size composition data in the NMFS trawl survey also illustrate the build up of individuals in the larger size bin, especially for females and the improved fit using the extended size range. 
@@ -500,11 +508,11 @@ knitr::include_graphics("figures/m26.0a compare/index_fit.png", dpi = 200)
 ```
 
 
-```{r surv1b, out.width="100%",fig.cap = "Comparisons of area-swept estimates of total male NMFS survey biomass and model predictions for model estimates in 2024 under models 24.0c.2, m25.1a, m25.1b, and m25.1b2. The error bars are plus and minus 2 standard deviations of the area swept estimates."} 
+```{r surv1b, out.width="100%",fig.cap = "Comparisons of area-swept estimates of total male NMFS survey biomass and model predictions for model estimates in the base model, 24.0c.2, and extended size range model, 26.0. The error bars are plus and minus 2 standard deviations of the area swept estimates."} 
 knitr::include_graphics("figures/index_fit_nmfs_trawl_male.png", dpi = 200)
 ```
 
-```{r surv1c, out.width="100%",fig.cap = "Comparisons of area-swept estimates of total female NMFS survey biomass and model predictions for model estimates in 2024 under models 24.0c.2, m25.1a, m25.1b, and m25.1b2. The error bars are plus and minus 2 standard deviations of the area swept estimates."} 
+```{r surv1c, out.width="100%",fig.cap = "Comparisons of area-swept estimates of total female NMFS survey biomass and model predictions for model estimates in the base model, 24.0c.2, and extended size range model, 26.0. The error bars are plus and minus 2 standard deviations of the area swept estimates."} 
 knitr::include_graphics("figures/index_fit_nmfs_trawl_female.png", dpi = 200)
 ```
 
@@ -552,7 +560,7 @@ knitr::include_graphics("figures/trawl_bycatch_slx_capture.png", dpi = 200)
 \pagebreak 
 \newpage\clearpage  
 
-```{r rect1, out.width="100%", fig.cap = "Estimated recruitment (million of individuals) time series during 1976-2023 with models 24.0c, 24.0c.1, 24.0c.1a, and 24.0c.2. Mean male recruits during 1984-2022 was used to estimate B35. Recruitment estimates in the terminal year (2023) are unreliable."}
+```{r rect1, out.width="100%", fig.cap = "Estimated recruitment (million of individuals) time series during 1976-2024 with models 24.0c.2, 26.0a, and 26.0. Mean male recruits during 1984-2022 was used to estimate B35. Recruitment estimates in the terminal year (2024) are unreliable."}
 knitr::include_graphics("figures/m26.0a compare/total_recruitment.png", dpi = 200)
 ```
 
@@ -561,24 +569,24 @@ knitr::include_graphics("figures/m26.0a compare/total_recruitment.png", dpi = 20
 ```
 
 
-```{r Nmort, out.width="90%", fig.cap = "Comparison of natural mortality - either estimated or fixed depending on the model - for models 24.0c.2, m25.1a, m25.1b, and m25.1b2. The table above details the differences in base M for males between these models. Estimates for all 24 series models were the same as 24.0c.2."}
+```{r Nmort, out.width="90%", fig.cap = "Comparison of natural mortality - either estimated or fixed depending on the model - for models 24.0c.2, and 26.0. The table above details the differences in the natural mortality event for males between these models."}
 knitr::include_graphics("figures/natural_mortality.png", dpi = 200)
 ```
 
 
-```{r fmort, out.width="100%", fig.cap = "Comparison of estimated fishing mortality for models 24.0c.2, m25.1a, m25.1b, and m25.1b2. All other models are similar to the base models shown here. "}
+```{r fmort, out.width="100%", fig.cap = "Comparison of estimated fishing mortality for models 24.0c.2 and 26.0. All other models are similar to the base models shown here. "}
 knitr::include_graphics("figures/pot_fishery_f.png", dpi = 200)
 ```
 
-```{r mmb1, out.width="100%", fig.cap = "Estimated absolute mature male biomasses during 1975-2023 for models 24.0c, 24.0c.1, 24.0c.1a, 24.0c.2., with projected biomass for 2024. Mature male biomass is estimated on Feb. 15, year+1 (i.e. 2024 value is Feb. 15 2025)."}
+```{r mmb1, out.width="100%", fig.cap = "Estimated absolute mature male biomasses during 1975-2024 for models 24.0c.2 and 26.0, with projected biomass for 2025. Mature male biomass is estimated on Feb. 15, year+1 (i.e. 2025 value is Feb. 15 2026)."}
 knitr::include_graphics("figures/mmb_trajectory.png", dpi = 200)
 ```
 
-```{r mmb2, out.width="100%", fig.cap = "Estimated absolute mature male biomasses during 1975-2023 for models 24.0c.2, m25.1a, m25.1b, and m25.1b2, with projected biomass for 2024. Mature male biomass is estimated on Feb. 15, year+1 (i.e. 2024 value is Feb. 15 2025)."}
+```{r mmb2, out.width="100%", fig.cap = "Estimated absolute mature male biomasses during 1975-2024 for models 24.0c.2, 26.0a, and 26.0, with projected biomass for 2025. Mature male biomass is estimated on Feb. 15, year+1 (i.e. 2025 value is Feb. 15 2026)."}
 knitr::include_graphics("figures/m26.0a compare/mmb_trajectory.png", dpi = 200) 
 ```
 
-```{r catch, out.width="100%", fig.cap = "Estimated fit to catch data series **fix** not labeled correctly."}
+```{r catch, out.width="100%", fig.cap = "Observed (dots) and predicted (lines) RKC catch and bycatch biomass under models 24.0c.2 and 26.0. Note that model fit for Tanner crab fishery bycatch reflects utilizing effort data for extrapolation to bycatch in the early part of the time series."}
 knitr::include_graphics("figures/catch_fit.png", dpi = 200)
 ```
 
@@ -600,9 +608,6 @@ knitr::include_graphics("figures/comp_fit_series_3_Pot_Fishery_total_female.png"
 knitr::include_graphics("figures/comp_fit_series_7_NMFS_Trawl_total_male.png", dpi = 450)
 ```
 
-```{r sc-trawl2, out.width="100%", fig.cap = "Comparison of length compositions from fixed gear groundfish bycatch of Bristol Bay male (black) and female (gray) red king crab by year for the base model scenarios."}
-knitr::include_graphics("figures/comp_fit_series_6_Fixed_Gear_total_male.png", dpi = 450)
-```
 
 ```{r sc-bsfrfM, out.width="100%", fig.cap = "Comparisons of length compositions by the BSFRF survey and the model estimates during 2007-2008 and 2013-2016 for base model scenarios (male (black) and female (gray) red king crab)."}
 knitr::include_graphics("figures/comp_fit_series_8_BSFRF_total_male.png", dpi = 450)
