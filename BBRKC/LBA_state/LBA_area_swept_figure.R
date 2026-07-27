@@ -1,7 +1,7 @@
 # k.palof
 # Figure to compare area-swept from survey with model output from LBA model
 
-# created 7-13-22/ 8-18-23 / 7-16-24 / 7-23-25
+# created 7-13-22/ 8-18-23 / 7-16-24 / 7-23-25/ 7-26-26
 
 #READ ME:
 # data is from fortran program
@@ -28,7 +28,7 @@ theme_set(theme_bw(base_size=12,base_family='Times New Roman')+
                   panel.grid.minor = element_blank()))
 
 ## setup -------
-folder <- "rk25" #"rk25_prelim"  #"rk23" 
+folder <- "rk26_prelim" #"rk25_prelim"  #"rk23" 
 
 # data -----
 # read in area swept from lba data file "survey.dat" and surveyf.dat
@@ -38,7 +38,7 @@ folder <- "rk25" #"rk25_prelim"  #"rk23"
 #years <- as.character(c(1972:2022))
 #out[nrow(out)+1, ] <- years
 
-lba_out <- read.csv(paste0(here::here(), "/BBRKC/LBA_state/", folder, "/combo_output_v1_25.csv"))
+lba_out <- read.csv(paste0(here::here(), "/BBRKC/LBA_state/", folder, "/combo_output_v1_26.csv"))
 #lba_out3 <- read.csv("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/rk23_prelim/rk23_avgF_SC.csv")
 #lba_out4 <- read.csv("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/rk23_prelim/rk23_rawSC_manR.csv")
 #lba_out5 <- read.csv("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/rk23_prelim/rk23_wo_large_tow.csv")
@@ -150,7 +150,7 @@ lba_out %>%
             lower_dif_avg = mean(lower_dif))
 
 #upper_dif_avg lower_dif_avg
-#1     1.83325         -1.55975
+#1     0.97825         -0.76975
 
 lba_out %>% 
   filter(Year == 2025) %>% 
@@ -170,7 +170,8 @@ lba_out2_a %>%
 #  survey.f_lower = survey.f - ((survey.f*survey.f.CV)*1.96))
   
 #Figure with ribbons -------
-lba_out2_ab %>% 
+#lba_out2_ab %>% 
+lba_out %>%
     mutate(survey.f_upper = (survey.f + survey.f.CI), survey.f_lower = (survey.f - survey.f.CI)) %>% 
     select(Year, survey.f, model.mf, matf_lower, matf_upper, survey.f_upper, survey.f_lower) %>% 
     gather(type, number, survey.f:model.mf) %>% 
@@ -221,7 +222,7 @@ lba_out_no_boot_F %>%
     mutate(survey.f_upper = (survey.f + survey.f.CI), survey.f_lower = (survey.f - survey.f.CI)) %>% 
     select(Year, survey.f, model.mf, matf_lower, matf_upper, survey.f_upper, survey.f_lower) %>% 
     gather(type, number, survey.f:model.mf) %>% 
-   # filter(Year >= 2015) %>% 
+    #filter(Year >= 2015) %>% 
     ggplot(aes(Year, number, group = type)) +
     geom_point(aes(shape = type), size = 3) +
     geom_line(aes(group = type, linetype = type), lwd = 1) +

@@ -1,5 +1,5 @@
 # R script for summarizing survey data for prelim LBA
-# 7-11-2024 / 7-23-25
+# 7-11-2024 / 7-23-25 /6-30-26
 
 
 # load ----
@@ -7,14 +7,20 @@ library(tidyverse)
 
 # folder
 # BBRKC/data/2024/survey
-Cyear <- 2025
-m_size <- read.csv(paste0(here::here(), "/BBRKC/data/", Cyear, "/survey/BBRKC_Allmale_SizeComps_2025.csv"))
-fm_size <- read.csv(paste0(here::here(), "/BBRKC/data/", Cyear, "/survey/BBRKC_Allfemale_SizeComps_2025.csv"))
+Cyear <- 2026
+m_size <- read.csv(paste0(here::here(), "/BBRKC/data/", Cyear, "/survey/BBRKC_Allmale_SizeComps_", Cyear, ".csv"))
+fm_size <- read.csv(paste0(here::here(), "/BBRKC/data/", Cyear, "/survey/BBRKC_Allfemale_SizeComps_", Cyear, ".csv"))
+
+fem_mat <- read.csv(paste0(here::here(), "/BBRKC/data/", Cyear, "/survey/BBRKC_Matfemale_SizeComps_", Cyear, ".csv"))
 
 
 ## totals ------
 m_size %>% 
   summarise(total = sum(TOTAL_CRAB)) 
+
+m_size %>% 
+  filter(SIZE_BIN <120) %>%
+  summarise(total_immature = sum(TOTAL_CRAB))
 
 m_size %>% 
   filter(SIZE_BIN >= 135) %>% 
@@ -27,6 +33,9 @@ m_size %>%
 fm_size %>% 
   summarise(total = sum(TOTAL_CRAB))
 # these are used in excel file to extrapolate to area swept
+
+fem_mat %>% 
+  summarise(total = sum(TOTAL_CRAB))
 
 m_size %>% 
   mutate(shell = ifelse(SHELL_TEXT == "New Hard", "New", "Old")) %>% 
