@@ -204,11 +204,26 @@ gmacs_plot_sizecomp_kjp(all_out = base_models, save_plot = T, plot_dir = plot_sa
 gmacs_plot_sizecomp_kjp(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD)
 gmacs_plot_sizecomp_kjp(all_out = explore_models, save_plot = T, plot_dir = plot_save_compare)
 
-# aggregate not working
+#gmacs_plot_sizecomp_kjp(all_out = newD_models, save_plot = F)
+
+# attempt to get old and new data different colors in male and female figures 
+N_compare <- gmacs_get_n_matrix(all_out = newD_models)
+## **fix**
+N_compare %>% 
+  filter(year == 1975) %>% 
+  ggplot(aes(size, males)) +
+    geom_line()
+
+# aggregate not workingn ########
 gmacs_plot_size_comp_aggregate(all_out = list(m26.0), save_plot = T, plot_dir = plot_save_newD, version = "2.20.34a" )
 
 gmacs_plot_size_comp_aggregate(all_out = base_models, save_plot = T, plot_dir = plot_save_base)
 gmacs_plot_size_comp_aggregate(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD)
+
+#works :)
+gmacs_plot_size_comp_aggregate_cas(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD, size_lab = "Carapace length (mm)", 
+                                   model_set = "newD", add_n = F, add_n_est = F)
+
 
 gmacs_plot_mean_size(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD)
 
@@ -234,19 +249,26 @@ Sdata_summary <- gmacs_get_size_summary(all_out = newD_models)
 #Sdata_summary %>% 
 #  filter(org_series != 6) -> Sdata_summary
 
-Sdata_summary %>% 
-  filter(year >= 2010) -> Sdata_summary
+#Sdata_summary %>% 
+#  filter(year >= 2010) -> Sdata_summary
 
-gmacs_plot_size_comp(save_plot = T, plot_dir = plot_save_extend, data_summary = Sdata_summary)
+gmacs_plot_sizecomp_kjp(save_plot = T, plot_dir = plot_save_extend, data_summary = Sdata_summary)
 
 # plot just females in recent years with new and old data
-# **fix ** if needed for comparison
+##### **fix ** if needed for comparison -------------
 
 Sdata_summary %>% 
   filter(fleet == "NMFS_Trawl") %>% 
-  filter(aggregate_series == 2) -> temp_female_NMFS
+  filter(aggregate_series == 1) %>% 
+  #filter(aggregate_series == 2) %>% 
+  #mutate(sex = "female") %>% 
+  mutate(sex = "male") %>% 
+  select(-aggregate_series) -> temp_male_NMFS
 
 gmacs_plot_size_comp(data_summary = temp_female_NMFS, save_plot = F)  
+gmacs_plot_sizecomp_kjp(data_summary = temp_female_NMFS, save_plot = T, plot_dir = plot_save_extend)
+gmacs_plot_sizecomp_kjp(data_summary = temp_male_NMFS, save_plot = T, plot_dir = plot_save_extend)
+
 # **fix** these to reflect series labels
 
 ## one step ahead residuals --------------
@@ -349,6 +371,15 @@ gmacs_plot_catch_kjp(all_out = explore_models, save_plot = T, plot_dir = plot_sa
 
 # data extent -------
 #gmacs_plot_data_range(all_out = base_models, save_plot = T, plot_dir = plot_save)
+
+# N matrix ------
+N_mat <- gmacs_get_n_matrix(all_out = newD_models)
+
+N_mat %>% 
+  filter(year == 1975) %>% 
+  mutate(size = as.numeric(size)) %>% 
+  ggplot(aes(size, total, group = model, color = model)) +
+  geom_line()
 
 #mature female abundance -----------
 fem1 <- as.data.frame(m24c.2_2024$n_matrix)
