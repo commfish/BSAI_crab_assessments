@@ -39,7 +39,8 @@ bsfrf - jsut edited final plus group BUT had to assume male / female ratio - nee
 
 24.0c.2 - 24.0c.1(24.0c +updated catch time series - see above) + one shell condition in model - 2025 accepted model
         - in version 'v34a' folder
-26.0 
+26.0 - base model above with increased size bins
+26.0a - model 24.0c.2 with updates to historic bycatch data BEFORE adding in extended size bins.
 
 
 # Document updates ----------

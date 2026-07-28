@@ -38,6 +38,11 @@ bsfrf - jsut edited final plus group BUT had to assume male / female ratio - nee
 ## GMACS versions ---- 
 May 2026 used version 34a but need to update to version 37 due to error with bycatch size comps - see Buck's e-mail (paste error issue here for record keeping)
 
+24.0c.2_v38 - has fix for tanner crab size comps and also has tanner crab as fleet 3 instead of 1. 
+26.0_v38 - same as above, do these two fixes together and attribute differences to tanner crab bycatch changes
+
+--- need to document v38 changes and difference with version bridging.
+--- create figures for this purpose - focus on main components
 
   
 ## Model options Sept ---------
