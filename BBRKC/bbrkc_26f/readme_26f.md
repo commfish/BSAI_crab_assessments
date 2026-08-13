@@ -44,6 +44,12 @@ May 2026 used version 34a but need to update to version 37 due to error with byc
 --- need to document v38 changes and difference with version bridging.
 --- create figures for this purpose - focus on main components
 
+Tried version 39 and 44. Versions were having issues with tanner crab estimation. 
+Using version 44 went back to "old" tanner crab fleet designation in size comps. Fleet 1 instead of 3. Did this for both m24.0c.2 and m26.0 
+
+IMPORTANT !!!!
+Use folders "...tannerold" for assessment results 
+
   
 ## Model options Sept ---------
 

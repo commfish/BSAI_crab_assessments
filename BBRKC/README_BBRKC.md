@@ -1,5 +1,5 @@
 # Bristol Bay red king crab 
-# 7-30-24/6-20-25/ 1-15-26
+# 7-30-24/6-20-25/ 1-15-26 / 8-10-26
 
 ## Current assessment authors are:
   Katie Palof 
