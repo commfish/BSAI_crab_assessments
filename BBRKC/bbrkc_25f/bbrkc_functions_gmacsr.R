@@ -1,6 +1,6 @@
 # bbrkc functions for 2024 SAFE that aren't in gmacsr.R 
 # kjp
-# 7-31-24 / 4-23-25
+# 7-31-24 / 4-23-25 / 4-29-26
 
 # ideally would source this R doc at beginning 
 
@@ -371,17 +371,18 @@ gmacs_plot_catch_kjp <- function(all_out = NULL, save_plot = T, plot_dir = NULL,
                                                  ceiling(n_yr/2), ceiling(n_yr/3)))
           p <- data %>% mutate(obs = ifelse(obs == 0, NA, obs), 
                                pred = ifelse(pred == 0, NA, pred)) %>% ggplot() + 
-            geom_bar(aes(x = size, y = obs), stat = "identity", 
+            geom_bar(aes(x = size, y = obs, color = model), stat = "identity", 
+                     #position = "identity", color = NA, fill = "grey70", 
                      position = "identity", color = NA, fill = "grey70", 
                      width = bin_width, alpha = 0.5) + geom_line(aes(x = size, 
-                                                                     y = pred, color = model)) + scale_y_continuous(expand = expand_scale(mult = c(0, 
-                                                                                                                                                   0.1), add = c(0, 0))) + labs(x = size_lab, y = NULL, 
-                                                                                                                                                                                color = NULL, fill = NULL) + geom_text_npc(aes(npcx = "left", 
-                                                                                                                                                                                                                               npcy = 0.6, label = year), check_overlap = T, 
-                                                                                                                                                                                                                           size = 3) + geom_text_npc(aes(npcx = "right", 
-                                                                                                                                                                                                                                                         npcy = 0.9, label = n_note), check_overlap = T, 
-                                                                                                                                                                                                                                                     size = 3) + facet_wrap(~year, nrow = rows, ncol = cols, 
-                                                                                                                                                                                                                                                                            dir = "v") + scale_color_manual(values = cbpalette) + 
+                                   y = pred, color = model)) + scale_y_continuous(expand = expand_scale(mult = c(0, 0.1), 
+                                                                                    add = c(0, 0))) + labs(x = size_lab, y = NULL, 
+                                                                                    color = NULL, fill = NULL) + 
+                                                          geom_text_npc(aes(npcx = "left", npcy = 0.6, label = year), 
+                                                                        check_overlap = T, size = 3) + 
+                                                          geom_text_npc(aes(npcx = "right", npcy = 0.9, label = n_note), check_overlap = T, 
+                                                                   size = 3) + facet_wrap(~year, nrow = rows, ncol = cols, 
+                                                                  dir = "v") + scale_color_manual(values = cbpalette) + 
             theme(panel.spacing.x = unit(0.2, "lines"), panel.spacing.y = unit(0, 
                                                                                "lines"), panel.border = element_blank(), axis.line.x = element_line(color = "grey70", 
                                                                                                                                                     size = 0.2), axis.ticks.y = element_blank(), 
@@ -416,7 +417,7 @@ gmacs_plot_catch_kjp <- function(all_out = NULL, save_plot = T, plot_dir = NULL,
                                pred = ifelse(pred == 0, NA, pred)) %>% mutate(agg_series_label = factor(agg_series_label[aggregate_series], 
                                                                                                         levels = agg_series_label)) %>% ggplot() + geom_bar(aes(x = plot_size, 
                                                                                                                                                                 y = obs, fill = agg_series_label), stat = "identity", 
-                                                                                                                                                            position = "identity", color = NA, width = bin_width) + 
+                                                                                                                                                            position = "identity", color = NA, width = bin_width) + # color = NA
             geom_line(aes(x = plot_size, y = pred, group = interaction(aggregate_series, 
                                                                        model), color = model)) + geom_vline(xintercept = divider, 
                                                                                                             linetype = 2, color = "grey70") + scale_x_continuous(breaks = breaks, 
@@ -453,7 +454,170 @@ gmacs_plot_catch_kjp <- function(all_out = NULL, save_plot = T, plot_dir = NULL,
     }
   }
   
-  
+# size comp aggregate DOES WORK -------------
+gmacs_plot_size_comp_aggregate_kjp <-   function (all_out = NULL, save_plot = T, plot_dir = NULL, size_lab = "Size", 
+            add_n = T, add_n_est = T, agg_series = T, agg_series_label = NULL, 
+            plot_type = 1, data_summary = NULL, file = NULL, model_name = NULL, 
+            version = NULL) 
+  {
+    if (save_plot == T & is.null(plot_dir)) {
+      plot_dir <- file.path(getwd(), "plots")
+      dir.create(plot_dir, showWarnings = F, recursive = TRUE)
+    }
+    if (!is.null(plot_dir) && !file.exists(plot_dir)) {
+      dir.create(plot_dir, showWarnings = F, recursive = TRUE)
+    }
+    if (is.null(data_summary)) {
+      data_summary <- gmacs_get_size_summary(all_out, file, 
+                                             model_name, version)
+    }
+    data_summary <- Sdata_summary %>% group_by(model, mod_series, 
+                                              year, size) %>% mutate(nsamp_obs = sum(nsamp_obs), nsamp_est = sum(nsamp_est)) %>% 
+      ungroup
+    if (!("aggregate_series" %in% names(data_summary))) {
+      data_summary$aggregate_series <- NA
+    }
+    data_summary_sum <- data_summary %>% group_by(model, org_series, 
+                                                  mod_series, aggregate_series, size) %>% summarise(obs = sum(obs), 
+                                                                                                    pred = sum(pred), nsamp_obs = sum(nsamp_obs), nsamp_est = sum(nsamp_est)) %>% 
+      ungroup
+    if (add_n == T & add_n_est == F) {
+      data_summary_sum <- data_summary_sum %>% mutate(n_note = paste0("N = ", 
+                                                                      prettyNum(nsamp_obs, big.mark = ",")))
+    }
+    if (add_n == F & add_n_est == T) {
+      data_summary_sum <- data_summary_sum %>% mutate(n_note = paste0("N est = ", 
+                                                                      prettyNum(round(nsamp_est), big.mark = ",")))
+    }
+    if (add_n == T & add_n_est == T) {
+      data_summary_sum <- data_summary_sum %>% mutate(n_note = paste0("N = ", 
+                                                                      prettyNum(nsamp_obs, big.mark = ","), "\nN est = ", 
+                                                                      prettyNum(round(nsamp_est), big.mark = ",")))
+    }
+    if (add_n == F & add_n_est == F) {
+      data_summary_sum <- data_summary_sum %>% mutate(n_note = NA)
+    }
+    if (agg_series == F) {
+      data_summary_sum <- data_summary_sum %>% group_by(org_series, 
+                                                        mod_series, aggregate_series) %>% nest %>% ungroup %>% 
+        dplyr::select(-mod_series) %>% rowid_to_column(var = "mod_series") %>% 
+        unnest() %>% mutate(aggregate_series = NA)
+      data_summary <- data_summary %>% group_by(org_series, 
+                                                mod_series, aggregate_series) %>% nest %>% ungroup %>% 
+        dplyr::select(-mod_series) %>% rowid_to_column(var = "mod_series") %>% 
+        unnest() %>% mutate(aggregate_series = NA)
+    }
+    data <- data_summary_sum %>% nest_by(mod_series, .keep = T) %>% 
+      ungroup #%>%  #pull(data) %>% .[[4]] ####fix 
+    out <- mutate(plot = purrr::map(data, function(data) {
+      data_non_sum <- data_summary %>% filter(mod_series == 
+                                                unique(data$mod_series))
+      data_mean <- data_summary %>% filter(mod_series == unique(data$mod_series)) %>% 
+        group_by(model, mod_series, aggregate_series, size) %>% 
+        summarise(pred_bar = mean(pred))
+      agg <- ifelse(sum(data %>% pull(aggregate_series) %>% 
+                          is.na()) > 0, F, T)
+      size_bins <- data %>% pull(size) %>% unique
+      n_bins <- length(size_bins)
+      n_yr <- length(unique(data$year))
+      bin_width <- size_bins[2] - size_bins[1]
+      if (agg == F) {
+        p <- data %>% mutate(obs = ifelse(obs == 0, NA, obs), 
+                             pred = ifelse(pred == 0, NA, pred)) %>% ggplot() + 
+          (if (plot_type == 1) 
+            geom_bar(aes(x = size, y = obs), stat = "identity", 
+                     position = "identity", color = NA, fill = "grey70", 
+                     width = bin_width, alpha = 0.5)) + (if (plot_type == 
+                                                             2) 
+                       geom_boxplot(data = data_non_sum, aes(x = size, 
+                                                             y = obs, group = size), color = "grey70", alpha = 0.5)) + 
+          (if (plot_type == 1) 
+            geom_line(aes(x = size, y = pred, color = model))) + 
+          (if (plot_type == 2) 
+            geom_line(data = data_mean, aes(x = size, y = pred_bar, 
+                                            color = model))) + scale_y_continuous(expand = expand_scale(mult = c(0, 
+                                                                                                                 0.1), add = c(0, 0))) + labs(x = size_lab, y = NULL, 
+                                                                                                                                              color = NULL, fill = NULL) + geom_text_npc(aes(npcx = "left", 
+                                                                                                                                                                                             npcy = 0.9, label = n_note), check_overlap = T, 
+                                                                                                                                                                                         size = 3) + scale_color_manual(values = cbpalette) + 
+          theme(panel.spacing.x = unit(0.2, "lines"), panel.spacing.y = unit(0, 
+                                                                             "lines"), panel.border = element_blank(), axis.line.x = element_line(color = "grey70", 
+                                                                                                                                                  size = 0.2), axis.ticks.y = element_blank(), 
+                axis.text.y = element_blank(), axis.text.x = element_text(size = 8), 
+                plot.title = element_text(hjust = 0.5), strip.background = element_blank(), 
+                strip.text.x = element_blank(), panel.background = element_blank())
+      }
+      if (agg == T) {
+        data <- mutate(data, plot_size = (aggregate_series - 
+                                            1) * (max(size_bins) - min(size_bins) + bin_width * 
+                                                    2) + size)
+        data_non_sum <- mutate(data_non_sum, plot_size = (aggregate_series - 
+                                                            1) * (max(size_bins) - min(size_bins) + bin_width * 
+                                                                    2) + size)
+        data_mean <- mutate(data_mean, plot_size = (aggregate_series - 
+                                                      1) * (max(size_bins) - min(size_bins) + bin_width * 
+                                                              2) + size)
+        brks <- labeling::extended(1, n_bins, m = 3)
+        brks <- brks[brks != 0]
+        breaks <- data %>% distinct(aggregate_series, plot_size) %>% 
+          nest_by(aggregate_series) %>% ungroup %>% mutate(breaks = purrr::map(data, 
+                                                                               function(data) {
+                                                                                 data %>% dplyr::slice(brks)
+                                                                               })) %>% pull(breaks) %>% unlist %>% as.numeric
+        labels <- data %>% distinct(size, plot_size) %>% 
+          filter(plot_size %in% breaks) %>% pull(size)
+        divider <- data %>% filter(aggregate_series > 1) %>% 
+          group_by(aggregate_series) %>% summarise(divider = min(plot_size) - 
+                                                     bin_width) %>% pull(divider)
+        if (is.null(agg_series_label)) {
+          agg_series_label <- unique(data$aggregate_series)
+        }
+        p <- data %>% mutate(obs = ifelse(obs == 0, NA, obs), 
+                             pred = ifelse(pred == 0, NA, pred)) %>% mutate(agg_series_label = factor(agg_series_label[aggregate_series], 
+                                                                                                      levels = agg_series_label)) %>% ggplot() + (if (plot_type == 
+                                                                                                                                                      1) 
+                                                                                                        geom_bar(aes(x = plot_size, y = obs, fill = agg_series_label), 
+                                                                                                                 stat = "identity", position = "identity", color = NA, 
+                                                                                                                 width = bin_width, alpha = 0.5)) + (if (plot_type == 
+                                                                                                                                                         2) 
+                                                                                                                   geom_boxplot(data = data_non_sum, aes(x = plot_size, 
+                                                                                                                                                         y = obs, group = interaction(aggregate_series, 
+                                                                                                                                                                                      size)), color = "grey70", alpha = 0.5)) + 
+          (if (plot_type == 1) 
+            geom_line(aes(x = plot_size, y = pred, group = interaction(aggregate_series, 
+                                                                       model), color = model))) + (if (plot_type == 
+                                                                                                       2) 
+                                                                         geom_line(data = data_mean, aes(x = plot_size, 
+                                                                                                         y = pred_bar, group = interaction(aggregate_series, 
+                                                                                                                                           model), color = model))) + geom_vline(xintercept = divider, 
+                                                                                                                                                                                 linetype = 2, color = "grey70") + scale_x_continuous(breaks = breaks, 
+                                                                                                                                                                                                                                      labels = labels) + scale_y_continuous(expand = expand_scale(mult = c(0, 
+                                                                                                                                                                                                                                                                                                           0.1), add = c(0, 0))) + labs(x = size_lab, y = NULL, 
+                                                                                                                                                                                                                                                                                                                                        color = NULL, fill = NULL) + geom_text_npc(aes(npcx = "left", 
+                                                                                                                                                                                                                                                                                                                                                                                       npcy = 0.9, label = n_note), check_overlap = T, 
+                                                                                                                                                                                                                                                                                                                                                                                   size = 3) + scale_color_manual(values = cbpalette) + 
+          scale_fill_grey() + theme(panel.spacing.x = unit(0.2, 
+                                                           "lines"), panel.spacing.y = unit(0, "lines"), 
+                                    panel.border = element_blank(), axis.line.x = element_line(color = "grey70", 
+                                                                                               size = 0.2), axis.ticks.y = element_blank(), 
+                                    axis.text.y = element_blank(), axis.text.x = element_text(size = 8), 
+                                    plot.title = element_text(hjust = 0.5), strip.background = element_blank(), 
+                                    strip.text.x = element_blank(), panel.background = element_blank())
+      }
+      if (save_plot == T) {
+        ggsave(file.path(plot_dir, paste0("aggregated_comp_fit_series_", 
+                                          unique(data$mod_series), ".png")), plot = p, 
+               height = 3.6, width = 6, units = "in")
+      }
+      return(p)
+    }))
+    if (save_plot == T) {
+      return("done")
+    }
+    else {
+      out$plot
+    }
+  }
   
 # Caitlins --- I'm not using this --------------------
   
@@ -711,4 +875,134 @@ gmacs_plot_matfem <- function(all_out = NULL, save_plot = T, plot_dir = NULL) {
   }
   if(save_plot == F){return(list(mmb, mma))}
   
-}}
+  }}
+  
+  
+# Catilin version of size comp aggregate
+  gmacs_plot_size_comp_aggregate_cas <- function(all_out = NULL, save_plot = T, plot_dir = NULL, size_lab = "Size", add_n = T, add_n_est = T, agg_series = T, agg_series_label = NULL, data_summary = NULL, file = NULL, model_name = NULL, version = NULL, model_set = NULL) {
+    # create output directories
+    if(save_plot == T & is.null(plot_dir)) {plot_dir <- file.path(getwd(), "plots"); dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
+    if(!is.null(plot_dir) && !file.exists(plot_dir)) {dir.create(plot_dir, showWarnings = F, recursive = TRUE)}
+    # get size summary data
+    if(is.null(data_summary)){data_summary <- gmacs_get_size_summary(all_out, file, model_name, version)}
+    # combine sample sizes of aggregate series'
+    data_summary %>%
+      group_by(model, mod_series, year, size) %>%
+      mutate(nsamp_obs = sum(nsamp_obs),
+             nsamp_est = sum(nsamp_est)) %>% ungroup -> data_summary
+    # add aggregate series if missing
+    if(!("aggregate_series" %in% names(data_summary))) {data_summary$aggregate_series <- NA}
+    # summarise
+    data_summary %>%
+      group_by(model, org_series, mod_series, aggregate_series, size) %>%
+      summarise(obs = sum(obs),
+                pred = sum(pred),
+                nsamp_obs = sum(nsamp_obs),
+                nsamp_est = sum(nsamp_est)) %>% ungroup -> data_summary
+    
+    # sample size notation
+    if(add_n == T & add_n_est == F){data_summary <- data_summary %>% mutate(n_note = paste0("N = ", prettyNum(nsamp_obs, big.mark = ",")))}
+    if(add_n == F & add_n_est == T){data_summary <- data_summary %>% mutate(n_note = paste0("N est = ", prettyNum(round(nsamp_est), big.mark = ",")))}
+    if(add_n == T & add_n_est == T){data_summary <- data_summary %>% mutate(n_note = paste0("N = ", prettyNum(nsamp_obs, big.mark = ","), "\nN est = ", prettyNum(round(nsamp_est), big.mark = ",")))}
+    if(add_n == F & add_n_est == F){data_summary <- data_summary %>% mutate(n_note = NA)}
+    if(agg_series == F){
+      data_summary %>%
+        group_by(org_series, mod_series, aggregate_series) %>%
+        nest %>% ungroup %>%
+        dplyr::select(-mod_series) %>%
+        rowid_to_column(var = "mod_series") %>%
+        unnest() %>%
+        mutate(aggregate_series = NA) -> data_summary
+    }
+    data_summary %>%
+      nest_by(mod_series, .keep = T) %>% ungroup %>% #pull(data) %>% .[[5]] -> data
+      #nest_by(mod_series, .keep = T) %>% ungroup %>% filter(mod_series == 5) %>%
+      mutate(plot = purrr::map(data, function(data) {
+        # determine if comp is aggregated
+        agg <- ifelse(sum(data %>% pull(aggregate_series) %>% is.na()) > 0, F, T)
+        # get some detail about size bins
+        size_bins <- data %>% pull(size) %>% unique
+        n_bins <- length(size_bins)
+        n_yr <- length(unique(data$year))
+        bin_width <- size_bins[2] - size_bins[1]
+        if(agg == F){
+          ### plot
+          data %>%
+            mutate(obs = ifelse(obs == 0, NA, obs),
+                   pred = ifelse(pred == 0, NA, pred)) %>%
+            ggplot()+
+            geom_bar(aes(x = size, y = obs), stat = "identity", position = "identity", color = NA, fill = "grey70", width = bin_width, alpha = 0.5)+
+            geom_line(aes(x = size, y = pred, color = model))+
+            scale_y_continuous(expand = expand_scale(mult = c(0, 0.1), add = c(0, 0)))+
+            labs(x = size_lab, y = NULL, color = NULL, fill = NULL)+
+            geom_text_npc(aes(npcx = "left", npcy = 0.9, label = n_note),
+                          check_overlap = T, size = 3)+
+            scale_color_manual(values = cbpalette)+
+            theme(panel.spacing.x = unit(0.2, "lines"),
+                  panel.spacing.y = unit(0, "lines"),
+                  panel.border = element_blank(),
+                  axis.line.x = element_line(color = "grey70", size = 0.2),
+                  axis.ticks.y = element_blank(),
+                  axis.text.y = element_blank(),
+                  axis.text.x = element_text(size = 8),
+                  plot.title = element_text(hjust = 0.5),
+                  strip.background = element_blank(),
+                  strip.text.x = element_blank(),
+                  panel.background = element_blank()) -> p
+        }
+        if(agg == T){
+          # adjust size bin for the secondary series
+          data <- mutate(data, plot_size = (aggregate_series-1)*(max(size_bins)-min(size_bins)+bin_width*2) + size)
+          # get size breaks and labels for the plot
+          brks <- labeling::extended(1, n_bins, m = 3); brks <- brks[brks != 0]
+          data %>%
+            distinct(aggregate_series, plot_size) %>%
+            nest_by(aggregate_series) %>% ungroup %>%
+            mutate(breaks = purrr::map(data, function(data){data %>% dplyr::slice(brks)})) %>%
+            pull(breaks) %>% unlist %>% as.numeric -> breaks
+          data %>%
+            distinct(size, plot_size) %>%
+            filter(plot_size %in% breaks) %>% pull(size) -> labels
+          data %>%
+            filter(aggregate_series > 1) %>%
+            group_by(aggregate_series) %>%
+            summarise(divider = min(plot_size) - bin_width) %>% pull(divider) -> divider
+          if(is.null(agg_series_label)) {agg_series_label <- unique(data$aggregate_series)}
+          ### plot
+          data %>%
+            #mutate(obs = ifelse(obs == 0, NA, obs),
+            #pred = ifelse(pred == 0, NA, pred)) %>%
+            mutate(agg_series_label = factor(agg_series_label[aggregate_series], levels = agg_series_label)) %>%
+            ggplot()+
+            geom_bar(aes(x = plot_size, y = obs, fill = agg_series_label), stat = "identity", position = "identity", color = NA, width = bin_width)+
+            geom_line(aes(x = plot_size, y = pred, group = interaction(aggregate_series, model), color = model))+
+            geom_vline(xintercept = divider, linetype = 2, color = "grey70")+
+            scale_x_continuous(breaks = breaks, labels = labels)+
+            scale_y_continuous(expand = expand_scale(mult = c(0, 0.1), add = c(0, 0)))+
+            labs(x = size_lab, y = NULL, color = NULL, fill = NULL)+
+            geom_text_npc(aes(npcx = "left", npcy = 0.9, label = n_note),
+                          check_overlap = T, size = 3)+
+            scale_color_manual(values = cbpalette)+
+            scale_fill_grey()+
+            theme(panel.spacing.x = unit(0.2, "lines"),
+                  panel.spacing.y = unit(0, "lines"),
+                  panel.border = element_blank(),
+                  axis.line.x = element_line(color = "grey70", size = 0.2),
+                  axis.ticks.y = element_blank(),
+                  axis.text.y = element_blank(),
+                  axis.text.x = element_text(size = 8),
+                  plot.title = element_text(hjust = 0.5),
+                  strip.background = element_blank(),
+                  strip.text.x = element_blank(),
+                  panel.background = element_blank()) -> p
+        }
+        ### save
+        if(save_plot == T){
+          ggsave(file.path(plot_dir, paste0("aggregated_comp_fit_series_", unique(data$mod_series), "_", model_set, ".png")),
+                 plot = p, height = 3.6, width = 6, units = "in")
+        }
+        return(p)
+      } )) -> out
+    if(save_plot == T){return("done")}else{out$plot}
+  }
+  

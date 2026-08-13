@@ -1,5 +1,5 @@
 # k.palof katie.palof@alaska.gov
-# date updated: 8-16-2022 / 8-15-23 / 8-14-24
+# date updated: 8-16-2022 / 8-15-23 / 8-14-24 /8-6-25
 
 # Data manipulation for EBS trawl survey results to put into BBRKC model
 
@@ -8,7 +8,7 @@
 # "Crab Data" - tab
 # "EBS Trawl Survey" - "Summary Reports" - "Abundance/BIomass, Size Group Matrix" - 
 # drop down menu - 1975 to current year (2023) - red King Crab  - District - "BB"
-# click "Apply" 
+# click "Apply" urveyf
 # click "export" Data - csv 
 # for "by_weight"
 # save to 'BBRKC/data/"cur_yr"/survey/'

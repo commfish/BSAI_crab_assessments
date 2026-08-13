@@ -24,8 +24,8 @@
 #   
 # load -----
 source("./SMBKC/code/packages.R")
-model_yr = "bbrkc_25f"
-cur_yr = 2025 # need a note here if this should be 2021 or 2022
+model_yr = "bbrkc_26f"
+cur_yr = 2026 # need a note here if this should be 2021 or 2022
 cal_yr = cur_yr
 
 # data -----
@@ -148,7 +148,7 @@ output_female %>% # this is what is added to .dat file for females trawl and fix
 ## **fix** need to save these for input into .dat file?
 
 # 2026 extended size comps ----------
-gf_length <- read.csv(paste0(here::here(), '/BBRKC/data/', cal_yr, '/groundfish bycatch/norpac_length_report_extended/norpac_length_report.csv'), 
+gf_length <- read.csv(paste0(here::here(), '/BBRKC/data/', cal_yr, '/groundfish bycatch/norpac_length_report/norpac_length_report.csv'), 
                       skip = 8)
 # note: only have data from year 2000 on-ward, so can't go back further. Not sure why no data appears pre-2000??? there's data in the .dat file
 # pre-2000 data only has LatDD End
@@ -173,14 +173,15 @@ gf_length_bb %>%
   bind_rows(gf_length_bb2) -> gf_length_bb3
 
 ## total sampled by gear type ------
-gf_length_bb3 %>% 
+#gf_length_bb3 %>% 
+gf_length_bb %>%
   select(Year, Gear, Gear.Description, Species.Name, Sex, Length..cm.) %>% 
   mutate(Type = ifelse(Gear == 1 | Gear == 2, "TRW", 
                        ifelse(Gear == 6| Gear == 8, "FIX", "NA"))) %>% 
   group_by(Year, Type) %>% 
   summarise(Nsamp = n()) -> samp_by_gear # put this in table using "sample_size.csv"
 # male proportions ------
-gf_length_bb3 %>% 
+gf_length_bb %>% 
   select(Year, Gear, Gear.Description, Species.Name, Sex, Length..cm.) %>% 
   mutate(Type = ifelse(Gear == 1 | Gear == 2, "TRW", 
                        ifelse(Gear == 6| Gear == 8, "FIX", "NA"))) %>% 
@@ -196,7 +197,7 @@ gf_length_bb3 %>%
   as.data.frame() %>% 
   spread(size_bin, Nprop) -> output_male
 
-write.csv(output_male, paste0(here::here(), '/BBRKC/data/2025/extended size comps/male_groundfish_bycatch_size_comp_ext.csv'))
+write.csv(output_male, paste0(here::here(), '/BBRKC/data/2026/male_groundfish_bycatch_ext_size_comp_ext.csv'))
 
 output_male[is.na(output_male)] <- 0  
 
@@ -210,7 +211,7 @@ output_male %>%
 
 
 # female proportions ------
-gf_length_bb3 %>% 
+gf_length_bb %>% 
   select(Year, Gear, Gear.Description, Species.Name, Sex, Length..cm.) %>% 
   mutate(Type = ifelse(Gear == 1 | Gear == 2, "TRW", 
                        ifelse(Gear == 6| Gear == 8, "FIX", "NA"))) %>% 
@@ -231,5 +232,5 @@ output_female[is.na(output_female)] <- 0
 output_female %>% # this is what is added to .dat file for females trawl and fixed gear
   filter(Year >= cur_yr-2) # missing 65 need to add this
 
-write.csv(output_female, paste0(here::here(), '/BBRKC/data/2025/extended size comps/female_groundfish_bycatch_size_comp_ext.csv'))
+write.csv(output_female, paste0(here::here(), '/BBRKC/data/2026/female_groundfish_bycatch_ext_size_comp_ext.csv'))
 
