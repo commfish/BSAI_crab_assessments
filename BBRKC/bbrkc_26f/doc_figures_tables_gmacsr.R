@@ -194,28 +194,28 @@ gmacs_plot_data_range(all_out = newD_models, save_plot = T, plot_dir = plot_save
 #gmacs_plot_slx(all_out = base_models, save_plot = T, plot_dir = plot_save)
 
 # this code works if you load in the gmacs_plot_slx function from 'bbrkc_functions_gmacsr.R'
-gmacs_get_slx(all_out = list(m24c.2_v34a, m26.0)) %>%
-  mutate(capture_block = case_when(fleet %in% c("BSFRF", "Bairdi_Fishery_Bycatch", "Fixed_Gear") ~ "1975 - 2023",
+gmacs_get_slx(all_out = list(m26.0, m24c.2)) %>%
+  mutate(capture_block = case_when(fleet %in% c("BSFRF", "Bairdi_Fishery_Bycatch", "Fixed_Gear") ~ "1975 - 2025",
                                    fleet == "NMFS_Trawl" & year %in% 1975:1981 ~ "1975 - 1981",
-                                   fleet == "NMFS_Trawl" & year %in% 1982:2023 ~ "1982 - 2023",
-                                   fleet == "Pot_Fishery" ~ "1975 - 2022",
-                                   fleet == "Trawl_Bycatch" ~ "1975 - 2022")) %>%
+                                   fleet == "NMFS_Trawl" & year %in% 1982:2026 ~ "1982 - 2026",
+                                   fleet == "Pot_Fishery" ~ "1975 - 2025",
+                                   fleet == "Trawl_Bycatch" ~ "1975 - 2025")) %>%
   gmacs_plot_slx(data_summary = ., save_plot = F) #, plot_dir = plot_save_newD)
 
 gmacs_get_slx(all_out = newD_models) %>%
-  mutate(capture_block = case_when(fleet %in% c("BSFRF", "Bairdi_Fishery_Bycatch", "Fixed_Gear") ~ "1975 - 2024",
+  mutate(capture_block = case_when(fleet %in% c("BSFRF", "Bairdi_Fishery_Bycatch", "Fixed_Gear") ~ "1975 - 2025",
                                    fleet == "NMFS_Trawl" & year %in% 1975:1981 ~ "1975 - 1981",
-                                   fleet == "NMFS_Trawl" & year %in% 1982:2024 ~ "1982 - 2024",
-                                   fleet == "Pot_Fishery" ~ "1975 - 2024",
-                                   fleet == "Trawl_Bycatch" ~ "1975 - 2024")) %>%
+                                   fleet == "NMFS_Trawl" & year %in% 1982:2026 ~ "1982 - 2026",
+                                   fleet == "Pot_Fishery" ~ "1975 - 2025",
+                                   fleet == "Trawl_Bycatch" ~ "1975 - 2025")) %>%
   gmacs_plot_slx(data_summary = ., save_plot = T, plot_dir = plot_save_newD)
 
-gmacs_get_slx(all_out = list(m24c.2_v34a, m26.0)) %>% 
-  mutate(capture_block = case_when(fleet %in% c("BSFRF", "Bairdi_Fishery_Bycatch", "Fixed_Gear") ~ "1975 - 2024",
+gmacs_get_slx(all_out = list(m24c.2, m26.0)) %>% 
+  mutate(capture_block = case_when(fleet %in% c("BSFRF", "Bairdi_Fishery_Bycatch", "Fixed_Gear") ~ "1975 - 2025",
                                    fleet == "NMFS_Trawl" & year %in% 1975:1981 ~ "1975 - 1981",
-                                   fleet == "NMFS_Trawl" & year %in% 1982:2024 ~ "1982 - 2024",
-                                   fleet == "Pot_Fishery" ~ "1975 - 2024",
-                                   fleet == "Trawl_Bycatch" ~ "1975 - 2024")) %>% 
+                                   fleet == "NMFS_Trawl" & year %in% 1982:2026 ~ "1982 - 2026",
+                                   fleet == "Pot_Fishery" ~ "1975 - 2025",
+                                   fleet == "Trawl_Bycatch" ~ "1975 - 2025")) %>% 
   filter(fleet == "Pot_Fishery", sex == 'male') -> semp
 ## Slx ----retained -----
 semp %>% 
@@ -248,8 +248,8 @@ gmacs_plot_molt_probability(all_out = newD_models, save_plot = T, plot_dir = plo
 ## Molt and tagging plot --------
 # molt with tag data base
 #mdf <- gmacs_get_molt_probability(all_out = base_models)
-mdf <- gmacs_get_molt_probability(all_out = list(m24c.2_v34a))
-
+mdf <- gmacs_get_molt_probability(all_out = list(m24c.2))
+mdf2 <- gmacs_get_molt_probability(all_out = list(m26.0))
 #mdf <- .get_molt_prob_df(M[rec_mod])
 
 tag_molt <- read.csv(paste0(here::here(), '/BBRKC/data/tagging_data_molt_males.csv'))
@@ -257,7 +257,7 @@ tag_molt %>%
   mutate(year = as.factor(year)) %>% 
   mutate(model = block) -> tag_molt
 
-year_list <- c(1975, 2025) # adjust due to error
+year_list <- c(1975, 2026) # adjust due to error
 mdf %>% 
   filter(sex == "male") %>% 
   mutate(year = as.factor(year)) %>% 
@@ -265,7 +265,15 @@ mdf %>%
   select(-sex) %>% 
   select(size, molt_probability, year, block, model)-> mdf_temp
 
+mdf2 %>% 
+  filter(sex == "male") %>% 
+  mutate(year = as.factor(year)) %>% 
+  filter(year %in% year_list) %>% 
+  select(-sex) %>% 
+  select(size, molt_probability, year, block, model)-> mdf_temp2
+
 mdf_temp %>% 
+  rbind(mdf_temp2)%>%
   rbind(tag_molt) -> molt_tag_data
 
 molt_tag_data %>% 
@@ -273,13 +281,13 @@ molt_tag_data %>%
   expand_limits(y = c(0, 1)) + 
   labs(x = "Length(mm)", y = "Molting probabilities (males)") +
   geom_line(aes(linetype = model, col = year)) +
-  geom_point(aes(linetype = model, col = year)) + .THEME +
+  geom_point(aes(linetype = model, col = year)) +
   #scale_color_discrete(name = "Year Range", labels = c("1975-1979", "1980-2023", "1954-1961", "1966-1969"))+
   scale_color_manual(values = c("#999999", "#E69F00", "#56B4E9", "#009E73"), 
-                     name = "Year Range", labels = c("1975-2024", "1954-1961", "1966-1969"))-> p
+                     name = "Year Range", labels = c("1975-2025", "1954-1961", "1966-1969"))-> p
 # add in year range as labels. 
 print(p)
-ggsave(paste0(.FIGS, "molt_tagging_males_base.png"), width = 6*1.15, height = 1.25*5)
+ggsave(paste0(.FIGS, "molt_tagging_males_base2.png"), width = 6*1.15, height = 1.25*5)
 
 ## plot indices ------------
 #gmacs_plot_index(all_out = list(m211b, m211b_p7, m230a, m230a_p7), plot_dir = plot_save)
@@ -729,29 +737,17 @@ write.csv(like_all_out, paste0(.TABS, "likelihood.csv"), row.names = FALSE)
 # stop here
 
 # parameter tables -------------
-# model 24.0c.2 from 2025 - using version 21
+# model 24.0c.2 from 2026 - using version 21
 base_24c2_parm <- gmacs_get_pars(all_out = list(m24c.2))
 base_24c2_parm %>% 
   filter(standard_error != "NA") %>% # get only estimated parameters not the fixed ones
   select(model, parameter_count, parameter, estimate, standard_error) -> parm1
 
-parm1_a <- parm1[c(1:4, 40:72, 390:391), ] #parm1[c(1:4, 40:72, 382:383), ]
-write.csv(parm1_a, paste0(.TABS, "para_model_24c2_v21.csv"))
-write.csv(parm1, paste0(.TABS, "para_model_24c2_v21_all.csv")) # use row names as index - don't need parameter count
+parm1_a <- parm1[c(1:4, 40:72, 398:399), ] #parm1[c(1:4, 40:72, 382:383), ] # update last group
+write.csv(parm1_a, paste0(.TABS, "para_model_24c2_2026.csv"))
+write.csv(parm1, paste0(.TABS, "para_model_24c2_2026_all.csv")) # use row names as index - don't need parameter count
 # IMPORTANT - need to edit in excel right now to remove "_" - can't have "_" in names...
 # 
-
-# model 24.0c.2 version 34
-base_24c2_parm_34 <- gmacs_get_pars(all_out = list(m24c.2_v34a))
-base_24c2_parm_34 %>% 
-  filter(standard_error != "NA") %>% # get only estimated parameters not the fixed ones
-  select(model, parameter_count, parameter, estimate, standard_error) -> parm1
-
-parm1_a <- parm1[c(1:4, 40:72, 390:391), ]
-write.csv(parm1_a, paste0(.TABS, "para_model_24c2_v34.csv"))
-write.csv(parm1, paste0(.TABS, "para_model_24c2_v34_all.csv")) # use row names as index - don't need parameter count
-# IMPORTANT - need to edit in excel right now to remove "_" - can't have "_" in names...
-#
 
 # model 26.0
 base_26_parm <- gmacs_get_pars(all_out = list(m26.0))
@@ -759,9 +755,21 @@ base_26_parm %>%
   filter(standard_error != "NA") %>% # get only estimated parameters not the fixed ones
   select(model, parameter_count, parameter, estimate, standard_error) -> parm1
 
-parm1_a <- parm1[c(1:4, 45:77, 395:396), ] # update the last param rows here
-write.csv(parm1_a, paste0(.TABS, "para_model_26.csv"))
-write.csv(parm1, paste0(.TABS, "para_model_26_all.csv")) # use row names as index - don't need parameter count
+parm1_a <- parm1[c(1:4, 45:77, 403:404), ] # 
+write.csv(parm1_a, paste0(.TABS, "para_model_26_2026.csv"))
+write.csv(parm1, paste0(.TABS, "para_model_26-2026_all.csv")) # use row names as index - don't need parameter count
+# IMPORTANT - need to edit in excel right now to remove "_" - can't have "_" in names...
+#
+
+# model 26.0
+#base_26_parm <- gmacs_get_pars(all_out = list(m26.0))
+#base_26_parm %>% 
+#  filter(standard_error != "NA") %>% # get only estimated parameters not the fixed ones
+#  select(model, parameter_count, parameter, estimate, standard_error) -> parm1
+
+#parm1_a <- parm1[c(1:4, 45:77, 395:396), ] # update the last param rows here
+#write.csv(parm1_a, paste0(.TABS, "para_model_26.csv"))
+#write.csv(parm1, paste0(.TABS, "para_model_26_all.csv")) # use row names as index - don't need parameter count
 # IMPORTANT - need to edit in excel right now to remove "_" - can't have "_" in names....KEEP in column names though
 #
 
@@ -785,15 +793,15 @@ source("./BBRKC/code/bbrkc_functions.R")
 
 # model 24c.2
 model <- "m24c.2"
-W <- m24c.2_v34a ### CHANGE HERE
-Y <- m24c.2_v34a_std ### change here 
-A <- read_rep("./BBRKC/bbrkc_26s/v34a/gmacs.rep")
+W <- m24c.2 ### CHANGE HERE
+Y <- m24c.2_std ### change here 
+A <- read_rep("./BBRKC/bbrkc_26f/m24.0c.2/gmacs.rep")
 
 # model 26.0 
 model <- "m26.0"
 W <- m26.0 ### CHANGE HERE
 Y <- m26.0_std ### change here
-A <- read_rep("./BBRKC/bbrkc_26s/m26.0/gmacs.rep")
+A <- read_rep("./BBRKC/bbrkc_26f/m26.0/gmacs.rep")
 
 # -- males - mature legal, females mature does NOT include projectino year!
 temp <- W$n_matrix
@@ -818,7 +826,7 @@ temp2 %>%
 Y %>% filter(par == "sd_last_ssb") %>% 
   mutate(MMB = est/1000, 
          sd_mmb = se/1000) %>%
-  mutate(year = 2025) %>%  ### UPDATE ANNUALLY
+  mutate(year = 2026) %>%  ### UPDATE ANNUALLY
   select(year, MMB, sd_mmb) -> ref_prj
 
 derived_m %>% 
@@ -854,8 +862,14 @@ write.csv(abun_tab3, paste0(.TABS, "_", model, "_gmacs_sum_abun.csv"), row.names
 
 # jitter runs ----------------------
 gmacs_do_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_26f/m24.0c.2/gmacs.dat", 
-                jitter_type = 1, jitter_use_pin = 0, 0.12, 15, save_csv = T, save_plot = T, batch = T) #version = "2.20.44")
+                jitter_type = 1, jitter_use_pin = 0, 0.12, 30, save_csv = T, save_plot = T, batch = T) #version = "2.20.44")
 # sd = 0.1, iterations = 1 
+# 15 took 5 hours
+
+gmacs_do_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_26f/m26.0/gmacs.dat", 
+                jitter_type = 1, jitter_use_pin = 0, 0.12, 25, save_csv = T, save_plot = T, batch = T) #version = "2.20.44")
+# sd = 0.1, iterations = 1 
+# 15 took 5 hours
 
 # this took about 20 mins
 gmacs_do_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_25f/m24.0c.2/gmacs.dat", 
