@@ -1,7 +1,7 @@
 # notes ----
 ## figures 15 and 35 bbrkc safe
 ## Tyler Jackson (original code)
-## 8/23/2022 / 8-22-23 (k.palof) / 8-16-24(kjp)/ 8-18-25 (kjp)
+## 8/23/2022 / 8-22-23 (k.palof) / 8-16-24(kjp)/ 8-18-25 (kjp) / 8-19-26
 
 # load ----
 
@@ -9,8 +9,8 @@ library(tidyverse)
 library(patchwork)
 #library(FNGr); theme_set(theme_sleek())
 
-cur_yr <- 2025 # update annually
-folder <- "bbrkc_25f" # update annually
+cur_yr <- 2026 # update annually
+folder <- "bbrkc_26f" # update annually
 .FIGS     = c(paste0("./BBRKC/", folder, "/doc/figures/"))
 # y axis minor ticks
 yr_axis = tickr(tibble(yr = 1975:2050), yr, 5)
@@ -26,7 +26,7 @@ channel <- "API"
 ## Pull specimen data
 specimen_data <- crabpack::get_specimen_data(species = "RKC",
                                              region = "EBS",
-                                             years = c(1975:2025),
+                                             years = c(1975:2026),
                                              channel = "API")
 
 

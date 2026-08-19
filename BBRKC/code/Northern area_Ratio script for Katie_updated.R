@@ -1,5 +1,5 @@
 #Northern Unstratified to BB ratio
-# 8-22-2025
+# 8-22-2025 / 8-19-26
 # author: Erin Fedewa/ Shannon Hennnessay / 
 
 # load ------------
@@ -7,8 +7,8 @@ library(crabpack)
 library(tidyverse)
 library(patchwork)
 
-cur_yr <- 2025 # update annually
-folder <- "bbrkc_25f" # update annually
+cur_yr <- 2026 # update annually
+folder <- "bbrkc_26f" # update annually
 .FIGS     = c(paste0("./BBRKC/", folder, "/doc/figures/"))
 # y axis minor ticks
 yr_axis = tickr(tibble(yr = 1975:2050), yr, 5)
@@ -26,7 +26,7 @@ bio <- calc_bioabund(crab_data = specimen_data,
                               species = "RKC",
                               region = "EBS",
                               crab_category = "all_categories",
-                              years = c(1985:2025)) %>%
+                              years = c(1985:2026)) %>%
 	     filter(CATEGORY %in% c("mature_male", "legal_male"))
 
 #Plot BB
@@ -94,7 +94,7 @@ bio <- calc_bioabund(crab_data = specimen_data,
                      species = "RKC",
                      region = "EBS",
                      crab_category = "all_categories",
-                     years = c(1985:2025)) %>%
+                     years = c(1985:2026)) %>%
   filter(CATEGORY %in% c("immature_female", "mature_female"))
 
 #Plot BB  - abundance
