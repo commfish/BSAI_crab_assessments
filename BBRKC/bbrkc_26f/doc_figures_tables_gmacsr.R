@@ -324,13 +324,13 @@ N_compare %>%
     geom_line()
 
 # aggregate not workingn ########
-gmacs_plot_size_comp_aggregate(all_out = list(m26.0), save_plot = T, plot_dir = plot_save_newD, version = "2.20.34a" )
+#gmacs_plot_size_comp_aggregate(all_out = list(m26.0), save_plot = T, plot_dir = plot_save_newD, version = "2.20.34a" )
 
-gmacs_plot_size_comp_aggregate(all_out = base_models, save_plot = T, plot_dir = plot_save_base)
-gmacs_plot_size_comp_aggregate(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD)
+#gmacs_plot_size_comp_aggregate(all_out = base_models, save_plot = T, plot_dir = plot_save_base)
+#gmacs_plot_size_comp_aggregate(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD)
 
 #works :)
-gmacs_plot_size_comp_aggregate_cas(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD, size_lab = "Carapace length (mm)", 
+gmacs_plot_size_comp_aggregate_cas(all_out = base_models, save_plot = T, plot_dir = plot_save_base, size_lab = "Carapace length (mm)", 
                                    model_set = "newD", add_n = F, add_n_est = F)
 
 
@@ -381,7 +381,7 @@ gmacs_plot_sizecomp_kjp(data_summary = temp_male_NMFS, save_plot = T, plot_dir =
 # **fix** these to reflect series labels
 
 ## one step ahead residuals --------------
-gmacs_plot_osa_residuals(all_out = list(m24c.2_v34a), save_plot = T, plot_dir = plot_save_newD )
+gmacs_plot_osa_residuals(all_out = list(m24c.2), save_plot = T, plot_dir = plot_save_base )
 #newD_models <- list(m24c.2_v34a, m26.0) # comparing new data
 gmacs_plot_osa_residuals(all_out = list(m26.0), save_plot = T, plot_dir = plot_save_compare )
 
@@ -534,11 +534,14 @@ ggsave(paste0(.FIGS, "mature_female_abundance_mod_scen.png"), width = 6*1.3, hei
 
 # here here 
 # get derived quantity summary
-deriv.quant <- gmacs_get_derived_quantity_summary(all_out = list(m24c.2, m26.0))
-
+#deriv.quant <- gmacs_get_derived_quantity_summary(all_out = list(m24c.2, m26.0))
+deriv.quant <- gmacs_get_derived_quantity_summary(all_out = list(m24c.2))
+#deriv.quant <- gmacs_get_derived_quantity_summary(all_out = list(m26.0))
 # stock recruit "stock_recruit_XX.png" ------
 #dquant230a <- gmacs_get_derived_quantity_summary(all_out = list(m230a_24))
 b35 <- m24c.2$bmsy/1000
+#b35 <- m26.0$bmsy/1000
+
 
 deriv.quant %>% 
   select(year, ssb, recruit_male, recruit_female) %>% 
@@ -557,7 +560,8 @@ temp1 %>%
   xlab("Mature male biomass on 2/15 (1000 t)") +
   ylab("Total Recruits (millions)") +
   theme_sleek()
-ggsave(paste0(here::here(), "/BBRKC/", folder, "/doc/figures/stock_recruit_24c2.png"), width = 6, height = 5*1.35)
+#ggsave(paste0(here::here(), "/BBRKC/", folder, "/doc/figures/stock_recruit_24c2.png"), width = 6, height = 5*1.35)
+ggsave(paste0(here::here(), "/BBRKC/", folder, "/doc/figures/stock_recruit_26_0.png"), width = 6, height = 5*1.35)
 
 # stock recruit "log_stock_recruit_XX.png" ------
 #dquant230a <- gmacs_get_derived_quantity_summary(all_out = list(m230a_24))
@@ -585,7 +589,8 @@ temp1 %>%
   xlab("Mature male biomass on 2/15 (1000 t)") +
   ylab("Total Recruits/MMB") +
   theme_sleek()
-ggsave(paste0(here::here(), "/BBRKC/", folder, "/doc/figures/stock_recruit2_24c2.png"), width = 6, height = 5*1.35)
+#ggsave(paste0(here::here(), "/BBRKC/", folder, "/doc/figures/stock_recruit2_24c2.png"), width = 6, height = 5*1.35)
+ggsave(paste0(here::here(), "/BBRKC/", folder, "/doc/figures/stock_recruit2_26_0.png"), width = 6, height = 5*1.35)
 
 #ggsave(paste0(here::here(), "/BBRKC/", folder, "/doc/figures/log_stock_recruit_230a.png"), width = 6, height = 5*1.35)
 
@@ -865,20 +870,22 @@ gmacs_do_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_26
                 jitter_type = 1, jitter_use_pin = 0, 0.12, 30, save_csv = T, save_plot = T, batch = T) #version = "2.20.44")
 # sd = 0.1, iterations = 1 
 # 15 took 5 hours
+gmacs_do_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_26f/m24.0c.2/gmacs.dat", 
+                jitter_type = 1, jitter_use_pin = 0, 0.3, 30, save_csv = T, save_plot = T, batch = T) #version = "2.20.44")
 
 gmacs_do_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_26f/m26.0/gmacs.dat", 
-                jitter_type = 1, jitter_use_pin = 0, 0.12, 25, save_csv = T, save_plot = T, batch = T) #version = "2.20.44")
+                jitter_type = 1, jitter_use_pin = 0, 0.12, 20, save_csv = T, save_plot = T, batch = T) #version = "2.20.44")
 # sd = 0.1, iterations = 1 
 # 15 took 5 hours
 
 # this took about 20 mins
-gmacs_do_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_25f/m24.0c.2/gmacs.dat", 
-                0.1, 45, save_csv = T, save_plot = T, version = "2.20.21")
+#gmacs_do_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_25f/m24.0c.2/gmacs.dat", 
+#                0.1, 45, save_csv = T, save_plot = T, version = "2.20.21")
 
 
 
-gmacs_do_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_25f/m24.0c.2/gmacs.dat", 
-                0.3, 45, save_csv = T, save_plot = T, version = "2.20.21")
+#gmacs_do_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_25f/m24.0c.2/gmacs.dat", 
+#                0.3, 45, save_csv = T, save_plot = T, version = "2.20.21")
 # test to see if it works.
 #f_run_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_24f/model_23_0a_ph7_24", 0.1, 1, ref_points = F)  
 
@@ -920,12 +927,16 @@ ggsave(filename = paste0(here::here(), "/BBRKC/", folder, "/", m24c.2$model_name
 plots <- list(p_obj, p_mmb, p_bmsy, p_ofl)
 
 # retrospective ----------
-gmacs_do_retrospective("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_25f/m24.0c.2/gmacs.dat", 
-                       1, version = "2.20.21")
+gmacs_do_retrospective("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_26f/m24.0c.2/gmacs.dat", 
+                       1, version = "2.20.44")
 # confirm it works
 # run 10 peels
-gmacs_do_retrospective("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_25f/m24.0c.2/gmacs.dat", 
-                       10, version = "2.20.21")
+gmacs_do_retrospective("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_26f/m24.0c.2/gmacs.dat", 
+                       10, version = "2.20.44")
+
+# run 10 peels
+gmacs_do_retrospective("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_26f/m26.0_retro/gmacs.dat", 
+                       10, version = "2.20.44")
 
 
 # historic retrospective  ---------------

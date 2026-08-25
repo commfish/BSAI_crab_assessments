@@ -28,7 +28,7 @@ theme_set(theme_bw(base_size=12,base_family='Times New Roman')+
                   panel.grid.minor = element_blank()))
 
 ## setup -------
-folder <- "rk26_prelim" #"rk25_prelim"  #"rk23" 
+folder <- "rk26" #"rk26_prelim" #"rk25_prelim"  #"rk23" 
 
 # data -----
 # read in area swept from lba data file "survey.dat" and surveyf.dat
@@ -222,7 +222,7 @@ lba_out_no_boot_F %>%
     mutate(survey.f_upper = (survey.f + survey.f.CI), survey.f_lower = (survey.f - survey.f.CI)) %>% 
     select(Year, survey.f, model.mf, matf_lower, matf_upper, survey.f_upper, survey.f_lower) %>% 
     gather(type, number, survey.f:model.mf) %>% 
-    #filter(Year >= 2015) %>% 
+    filter(Year >= 2015) %>% 
     ggplot(aes(Year, number, group = type)) +
     geom_point(aes(shape = type), size = 3) +
     geom_line(aes(group = type, linetype = type), lwd = 1) +
@@ -242,8 +242,8 @@ lba_out_no_boot_F %>%
           axis.title=element_text(size=14,face="bold"), 
           axis.text.x = element_text(angle = 45, hjust = 1)) +
     theme(plot.title = element_text(hjust =0.5)) -> females 
-  ggsave(paste0('C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/', folder,'/mature_females_ribbons_NO_boot_error.png'), females, dpi = 800, width = 7.5, height = 5.5)
-  #ggsave(paste0('C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/', folder,'/mature_females_recent_ribbons_NO_boot_error.png'), females, dpi = 800, width = 7.5, height = 5.5)
+  #ggsave(paste0('C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/', folder,'/mature_females_ribbons_NO_boot_error.png'), females, dpi = 800, width = 7.5, height = 5.5)
+  ggsave(paste0('C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/LBA_state/', folder,'/mature_females_recent_ribbons_NO_boot_error.png'), females, dpi = 800, width = 7.5, height = 5.5)
   # to use "recent ribbons" just comment in the filter year line above
   
 
