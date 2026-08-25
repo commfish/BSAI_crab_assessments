@@ -1,5 +1,5 @@
 # BBRKC Sept 2026 final SAFE runs 
-# 7-27-26
+# 7-27-26 / 8-20-26
 katie.palof@alaska.gov
 
 
@@ -80,6 +80,7 @@ Test mcmc run (see above)
 
 gmacs -mcmc 500000 -mcsave 1000 -nox (this means don't show vector and gradient values in function minimizer screen report)
 (see below for time)
+# for model 26.0 on desktop took 45 hours
 
 # for projections
 Need to run mcmc above to get .psv file for projections
@@ -92,7 +93,7 @@ check Jie's prj file from 2021 - see what his parameters are here
 
 2) 'gmacs -mceval'
 
-There are five files generated from this run:
+There are five files generated from this run: (these are different 2026?)
 mcount.rep
 mcountPROJ.rep
 mcountREC.rep
@@ -168,6 +169,9 @@ files used for model: found in the gmacs.dat file in each folder, also have a fi
 Thinking this should be done for a few models to compare with base?
 Try with '-nohess' added to avoid error I'm getting in the resent version of GMACS.
 Performed on all 3 models. Ran with "gmacs -nohess" to avoid errors - need to track these down.
+
+retrospective runs:
+ - needed a .tpl fix - see GMACS/2026/...devel 202608/v2.20.44_retro for the exe for retrospectives
 
 ### retrospective run code is found in folder (here bbrkc_23f) under each models name
 
