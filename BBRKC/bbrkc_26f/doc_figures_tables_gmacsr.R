@@ -113,6 +113,7 @@ gmacs_plot_index(all_out = bridge_mods, plot_dir = plot_save_bridge, data_summar
 # load from bbrkc_funcstions_gmacsr.R
 gmacs_plot_sizecomp_kjp(all_out = bridge_mods, save_plot = T, plot_dir = plot_save_bridge)
 
+
 gmacs_plot_mmb(all_out = bridge_mods, plot_dir = plot_save_bridge, plot_ci = T, std_list = bridge_std)
 gmacs_plot_catch_kjp(all_out = bridge_mods, save_plot = T, plot_dir = plot_save_bridge)
 # load from "bbrkc_functions_gmacsr.R", has correct fleet and component labels
@@ -429,7 +430,9 @@ gmacs_plot_f_mmb_dir(all_out = base_models, save_plot = T, plot_dir = plot_save_
 gmacs_plot_f(all_out = base_models, save_plot = T, plot_dir = plot_save_base)
 gmacs_plot_f(all_out = newD_models, save_plot = T, plot_dir = plot_save_newD)
 #gmacs_plot_f(all_out = molt_models, save_plot = T, plot_dir = plot_save_molt)
-ftemp <- gmacs_get_f(all_out = list(m24c.2))
+ftemp <- gmacs_get_f(all_out = list(m26.0))
+ftemp <- gmacs_get_f(all_out = list(m24.0c.2))
+
 ftemp %>%
   group_by(model, year, sex, fleet, n_sex) %>%
   summarize(f = sum(`F`)) -> ftemp2
@@ -444,7 +447,12 @@ ftemp2 %>%
 # last two open years 2020/21 - 0.141
 # 2023/24 - 0.064
 # 2024/25 - 0.062
-
+# 2025/26  - 0.0711
+ftemp <- m26.0$F_by_sex_fleet_year_season
+ftemp %>% 
+  filter(fleet == "Pot_Fishery", sex == "male") %>%
+  filter(year >= 2020) %>% print(n = 100)
+  
 # SAFE se ction 4c. 
 ftemp2 %>% 
   filter(fleet == "Pot_Fishery", sex == "male") -> ftemp2_pot
@@ -653,11 +661,13 @@ refT1 %>%
   select(Model=model, MMB, b35, f35, fofl, OFL, male_rbar) -> ref_pt_table
 write.csv(ref_pt_table, paste0(.TABS, "specs_all_mods.csv"), row.names = FALSE)
 
-# 2024/25 B/Bmsy
-gmacs_get_ref_points(all_out = list(m24c.2))  # update to model that is choosen
-round(M$bmsy/1000, 2) -> bmsy_2425
-round(M$derived_quant_summary$ssb[length(M$derived_quant_summary$ssb)]/1000, 2) -> mmb_2425
-status_2425 <- (mmb_2425/bmsy_2425)*100
+# 2025/26 B/Bmsy
+gmacs_get_ref_points(all_out = list(m26.0))  # update to model that is choosen
+M = m26.0
+# status in last completed season
+round(M$bmsy/1000, 2) -> bmsy_past1
+round(M$derived_quant_summary$ssb[length(M$derived_quant_summary$ssb)]/1000, 2) -> mmb_past1
+status_past1 <- (mmb_past1/bmsy_past1)*100
 
 
 # table 2 -----------------------
@@ -877,6 +887,9 @@ gmacs_do_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_26
                 jitter_type = 1, jitter_use_pin = 0, 0.12, 20, save_csv = T, save_plot = T, batch = T) #version = "2.20.44")
 # sd = 0.1, iterations = 1 
 # 15 took 5 hours
+gmacs_do_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_26f/m26.0/gmacs.dat", 
+                jitter_type = 1, jitter_use_pin = 0, 0.3, 2, save_csv = T, save_plot = T, batch = T) #version = "2.20.44")
+
 
 # this took about 20 mins
 #gmacs_do_jitter("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/bbrkc_25f/m24.0c.2/gmacs.dat", 
@@ -941,22 +954,31 @@ gmacs_do_retrospective("C:/Users/kjpalof/Documents/BSAI_crab_assessments/BBRKC/b
 
 # historic retrospective  ---------------
 # load data 
+mmb_this_year <- gmacs_get_derived_quantity_summary(all_out = list(m26.0))
+model = "26.0"
+mmb_this_year |> 
+  select(year, ssb) |> 
+  mutate(MMB = ssb/1000) |> 
+  select(year, MMB) -> current_year_mmb
+write.csv(current_year_mmb, paste0(.TABS, "_", model, "_current_year_mmb_historic_retro.csv"), row.names = FALSE)
+
+
 hist_mmb <- read_csv(paste0(here::here(), "/BBRKC/data/historic_retro_MMB.csv"))
 yr_axis = tickr(tibble(yr = 1975:2050), yr, 5)
 
 hist_mmb %>% 
-  pivot_longer(MMB_24:MMB_15) %>% 
+  pivot_longer(MMB_25:MMB_15) %>% 
   ggplot(aes(x = year, y = value, color = name))+
   geom_line(lwd = .5)+
   scale_y_continuous(limit = c(0,130), labels = scales::comma)+
   scale_x_continuous(labels = yr_axis$labels, breaks = yr_axis$breaks)+
   labs(x = NULL, y = "Mature Male \n Biomass (MMB, mt)", color = "Assessment Year") +
-  scale_color_discrete(labels = c("2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024")) +
+  scale_color_discrete(labels = c("2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025")) +
   theme_bw() +
   scale_fill_manual(values = cbPalette)+
   theme(
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
-    legend.justification = c(.95,.9), legend.position = c(.95,.9)
+    legend.justification = c(.95,.9), legend.position = c(.98,.92)
   ) -> x
-ggsave(paste0(.FIGS, "historic_retro_mmb.png"), plot = x, height = 4.5, width = 5, units = "in")
+ggsave(paste0(.FIGS, "historic_retro_mmb.png"), plot = x, height = 4.5, width = 6, units = "in")

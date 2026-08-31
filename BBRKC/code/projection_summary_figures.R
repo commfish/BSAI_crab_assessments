@@ -10,17 +10,21 @@ source("./SMBKC/code/helper.R")
 cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 .THEME    = list(theme_bw(base_size = 12, base_family = ""), scale_fill_manual(values=cbPalette), 
                  scale_colour_manual(values=cbPalette))
-.FIGS     = c("./BBRKC/bbrkc_25f/doc/figures/")
+
+folder = "bbrkc_26f"
+.FIGS     = paste0(here::here(), "/BBRKC/", folder, "/doc/figures/")
 #.FIGS     = c("./BBRKC/bbrkc_25f/doc/figures/state/") # update annually 
 
-folder = "bbrkc_25f"
+folder = "bbrkc_26f"
 #model = "m23.0a"
 #folder2 = "model_23_0a_ph7_24_mcmc"
 
-model = "m24.0c.2"
+# switch models here instead of repeating code ---
+#model = "m24.0c.2"
+model = "m26.0"
 #folder2 = "m24.0c.2_mcmc_proj"
-folder2 = "m24.0c.2_mcmc_state"
-
+#folder2 = "proj_24.0c.2_state"
+folder2 = "proj_26.0_state"
 ###### data m 24.0c.2 ------
 
 #Bproj <- read.table("C:/Users/kjpalof/Documents/Current projects/statewide shellfish/bbrkc/rk22s/mcoutPROJ211b.rep", 
@@ -36,15 +40,15 @@ B_ref <- read.table(paste0(here::here(), "/BBRKC/", folder, "/", folder2, "/mcou
 
 ## ssb proj data summary -------------
 Bproj %>% 
-  select(F_val, f_for_fleet_1, BMSY, SSB_2025:SSB_2035) %>% #needs to be updated with correct years
+  select(F_val, f_for_fleet_1, BMSY, SSB_2026:SSB_2036) %>% #needs to be updated with correct years
   group_by(F_val) %>% 
   summarise(across(everything(), mean))
 
 Bproj%>% 
-  select(F_val, f_for_fleet_1, BMSY, SSB_2025:SSB_2035) %>% #needs to be updated with correct years
+  select(F_val, f_for_fleet_1, BMSY, SSB_2026:SSB_2036) %>% #needs to be updated with correct years
   group_by(F_val) %>% 
   #filter(F_val == 1) %>% 
-  gather(xvar, value, BMSY:SSB_2034) %>% 
+  gather(xvar, value, BMSY:SSB_2036) %>% 
   group_by(F_val, xvar) %>% 
   summarise(mean.x = quantile(value, probs = 0.50), 
             lower.x = quantile(value, probs = 0.05),
@@ -81,7 +85,7 @@ sum1 %>%
   geom_text(aes(x = 0.1, y = B_BMSY$`1`/2, label = "50% Bmsy"), 
             hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 4.0) +
   #scale_fill_discrete(labels = c("F=0", "F=0.1", "F=0.2", "F=0.25")) +
-  scale_fill_discrete(labels = c("F=0", "F=0.06", "F=0.10", "F=0.15", "F=0.22"))+
+  scale_fill_discrete(labels = c("F=0", "F=0.07", "F=0.10", "F=0.15", "F=0.22"))+
   #scale_fill_discrete(labels = c("F=0", "F=0.083", "F=0.167", "F=0.25"))+
   #scale_fill_discrete(labels = c("F=0", "F=0.038", "F=0.071", "F=0.107","F=0.143", "F=0.179", "F=0.214", "F=0.25"))+
   labs(fill = "Fishing mortality") +
@@ -116,7 +120,7 @@ sum1 %>%
   mutate(year = gsub("[^0-9]", "", xvar), 
          F_val = as.character(F_val)) %>% 
   select(-xvar) %>% 
-  filter(F_val <= 2) %>% 
+  filter(F_val <= 3) %>% 
   ggplot(aes(year, mean.x, group = F_val, fill = F_val))+
   geom_line(aes(color = F_val)) +
   geom_ribbon(aes(x=year, ymax = upper.x, ymin = lower.x), alpha = 0.15) +
@@ -131,7 +135,7 @@ sum1 %>%
             hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 4.0, parse = T) +
   geom_text(aes(x = 0.1, y = B_BMSY$`1`/2, label = "50% Bmsy"), 
             hjust = -0.45, vjust = -0.75, nudge_y = 0.05, size = 4.0) +
-  scale_fill_discrete(labels = c("F=0", "F=0.1", "F=0.2", "F=0.25")) +
+  scale_fill_discrete(labels = c("F=0", "F=0.07", "F=0.10", "F=0.15")) +
   #scale_fill_discrete(labels = c("F=0", "F=0.083", "F=0.167", "F=0.25"))+
   #scale_fill_discrete(labels = c("F=0", "F=0.038", "F=0.071", "F=0.107","F=0.143", "F=0.179", "F=0.214", "F=0.25"))+
   labs(fill = "Fishing mortality") +
@@ -159,7 +163,10 @@ B_ref %>%
 ggsave(paste0(.FIGS, "proj_MMB_histogram_", model, ".png"), width = 7, height = 3.5)
 ## MMB density ----
 library(gmacsr)
-m24c.2 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_25f/m24.0c.2/Gmacsall.out"), model_name = "m24.0c.2", version = "2.20.21")
+m26.0 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_26f/proj_26.0_state/Gmacsall.out"), model_name = "m26.0", version = "2.20.44")
+mod2 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_26f/m26.0/Gmacsall.out"), model_name = "m26.0", version = "2.20.44")
+#m24.0c.2 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_26f/proj_24.0c.2_state/Gmacsall.out"), model_name = "m24.0c.2", version = "2.20.44")
+#mod2 <- gmacs_read_allout(file = paste0(here::here(), "/BBRKC/bbrkc_26f/m24.0c.2/Gmacsall.out"), model_name = "m24.0c.2", version = "2.20.44")
 
 B_ref %>% 
   mutate(MMB = BMSY*BMSY.B0) %>% 
@@ -167,7 +174,8 @@ B_ref %>%
   #filter(MMB <= 21500) %>% 
   ggplot(aes(MMB/1000)) +
   geom_density(fill = "lightblue")+
-  geom_vline(aes(xintercept = m24c.2$mmb_curr/1000), ### change this with 23.0a #m230a_24 m24c
+  #geom_vline(aes(xintercept = m26.0$mmb_curr/1000), ### change this with 23.0a #m230a_24 m24c
+  geom_vline(aes(xintercept = mod2$mmb_curr/1000), 
              color="black", linetype="dashed", size=1) +
   xlab("MMB on 2/15 (1000 t)")+
   ylab("Density") +
@@ -198,8 +206,10 @@ B_ref %>%
   select(Draw, OFL) %>% 
   ggplot(aes(x = OFL/1000))+
   geom_density(fill = "lightblue")+
-  geom_vline(aes(xintercept = m24c.2$reference_points %>% filter(parameter_name == "OFL_tot") %>% pull(estimate)/1000), #m230a_24 m24c
-             color="black", linetype="dashed", size=1) +
+  #geom_vline(aes(xintercept = m26.0_2$reference_points %>% filter(parameter_name == "OFL_tot") %>% pull(estimate)/1000), #m230a_24 m24c
+  #           color="black", linetype="dashed", size=1) +
+  geom_vline(aes(xintercept = mean(B_ref$OFL)/1000), #m230a_24 m24c
+                    color="black", linetype="dashed", size=1) +
   theme_classic() +
   geom_text(aes(x = 5.7, y = 0.70, label = paste0("Model ", model, " OFL")), size = 3.5)+
   ylab("Density") +
@@ -217,7 +227,7 @@ B_ref %>%
 
 ggplot(temp1, aes(BMSY.B0))+
   stat_ecdf(geom = "step")+
-  xlab(expression(MMB[2025]/MMB[35~percent]))+
+  xlab(expression(MMB[2026]/MMB[35~percent]))+
   ylab("Cumulative probability")+
   scale_x_continuous(breaks = seq(0.4, 1.00, by = 0.1)) +
   geom_vline(xintercept = 0.5, color = "red", lty = "dashed") +
@@ -233,18 +243,18 @@ ggsave(paste0(.FIGS, "proj_CDF_MMB_model_", model, ".png"), width = 6, height = 
 head(Bproj)
 
 Bproj %>% 
-  select(F_val, BMSY, SSB_2025:SSB_2028) %>% # need to change years here
-  mutate(year1 = SSB_2025/BMSY, # update annually 
-         year2 = SSB_2026/BMSY,
-         year3 = SSB_2027/BMSY,
-         year4 = SSB_2028/BMSY,
+  select(F_val, BMSY, SSB_2026:SSB_2029) %>% # need to change years here
+  mutate(year1 = SSB_2026/BMSY, # update annually 
+         year2 = SSB_2027/BMSY,
+         year3 = SSB_2028/BMSY,
+         year4 = SSB_2029/BMSY,
          F_valu = ifelse(F_val == 1, "F=0", 
-                         ifelse(F_val == 2, "F=0.1", 
-                                ifelse(F_val ==3, "F=0.2", "F=0.25")))) %>% #"F=0", "F=0.083", "F=0.167", "F=0.25"
+                         ifelse(F_val == 2, "F=0.07", 
+                                ifelse(F_val ==3, "F=0.1", "F=0.15")))) %>% #"F=0", "F=0.083", "F=0.167", "F=0.25"
   select(F_valu, year1:year4) %>% 
   gather(year, value, year1:year4) -> temp2
 
-yearlabel <- c("Feb.15th,2026", "Feb.15th,2027", "Feb.15th,2028", "Feb.15th,2029") # update annually 
+yearlabel <- c("Feb.15th,2027", "Feb.15th,2028", "Feb.15th,2029", "Feb.15th,2030") # update annually 
 names(yearlabel) <- c("year1", "year2", "year3", "year4")
 
 ggplot(temp2, aes(value, group = year))+
@@ -253,7 +263,7 @@ ggplot(temp2, aes(value, group = year))+
   ylab("Cumulative probability")+
   facet_wrap(~year + F_valu, 
              labeller = labeller(year = yearlabel)) +
-  xlim(0.25, 1.1) +
+  xlim(0.25, 1.5) +
   geom_hline(yintercept = 0.5, color ="red", lty = "dashed") +
   geom_vline(xintercept = 0.5, color = "red", lty = "dashed") +
   theme_bw()+
@@ -392,13 +402,14 @@ B_ref %>%
 
 ggplot(temp1, aes(BMSY.B0))+
   stat_ecdf(geom = "step")+
-  xlab(expression(MMB[2022]/MMB[35~percent]))+
+  #xlab(expression(MMB[2026]/MMB[35~percent]))+
   ylab("Cumulative probability")+
   scale_x_continuous(breaks = seq(0.4, 1.00, by = 0.1)) +
   geom_vline(xintercept = 0.5, color = "red", lty = "dashed") +
-  xlab(expression(MMB[2022]/MMB[35~percent]))+
+  xlab(expression(MMB[2026]/MMB[35~percent]))+
+  ggtitle(paste0("Model ", model, "")) +
   .THEME
-ggsave(paste0(.FIGS, "proj_CDF_", model_folder, ".png"), width = 6, height = 7.5)
+ggsave(paste0(.FIGS, "proj_CDF_MMB_model_", model, ".png"), width = 6, height = 7.5)
 
 #CDF <- ecdf(temp1$BMSY.B0)
 #plot(CDF)
