@@ -32,9 +32,47 @@ options(xtable.comment = FALSE)
 
 ```
 
-# Appendix D. Draft Risk Table for BBRKC 2025 {-}
+# Appendix D. Buffer History BBRKC and Draft Risk Table for BBRKC 2026 {-}
 
-In the last year, risk tables have been under development for the annual crab stock assessments. During the 2023 fall assessment cycle for BSAI crab stocks, the SSC requested that the CPT take up risk tables again for crab stocks. The CPT recommended bringing forward a draft risk table for the "big three" stocks - BBRKC, tanner crab, and snow crab - for the 2024 assessment cycle. During the May 2025 crab plan team meeting, the CPT discussed risk tables for crab and developed some intitial guidelines.
+## History of Acceptable Biological Catch buffers and buffer justifications for the Bristol Bay red king crab stock {-}
+
+```{r abc-buffer, results = "asis"}
+
+options(xtable.sanitize.text.function=identity) # had to comment this out to get it to create pdf, figure out this option
+
+years <- c(2021:2025)
+buffers <- c("25\\%", "20\\%", "20\\%", "20\\%", "20\\%")
+justs <- c( 
+          # 2021
+          "- continued lack of recent recruitment \\newline - poor environmental conditions (as reflected in the ESP) \\newline - continued decline in female survey biomass in 2021  \\newline - model's lack of fit to the 2018-2021 female survey biomass", 
+          # 2022
+          "- continued lack of recent recruitment \\newline - poor and variable environmental conditions  \\newline - NMFS female survey biomass in 2022 remains at historically low levels  \\newline - lack of fit to the 2018-2022 NMFS female survey biomass  \\newline - restrospective patterns exhibited by the recommended model", 
+          # 2023
+          "- continued lack of recent recruitment  \\newline - poor and variable environmental conditions (e.g., cold pool distributional shifts) \\newline  - NMFS female survey biomass in 2023 increased above historically low levels for the first time in 5 years, but this was predicated on a single exceedingly large tow (thus the accompanying uncertainty was large)  \\newline  - lack of fit to 2018-2023 NMFS female survey biomass \\newline  - retrospective patterns exhibited by the recommended model, even though this was improved over last year's assessment model (21.1b) ", 
+          # 2024
+           "- continued lack of recent recruitment  \\newline - poor and variable environmental conditions (e.g., cold pool distributional shifts)  \\newline - lack of fit to 2021 - 2024 NMFS female survey biomass  \\newline - retrospective patterns exhibited by the recommended model", 
+          #2025 
+          "- similar concerns to 2024")
+abc.buffer <- cbind(years, buffers, justs)
+colnames(abc.buffer) <- c("Year", "ABC buffer", "Justifications")
+
+tab <- xtable(abc.buffer, caption = "History of Acceptable Biological Catch (ABC) buffers and buffer justifications for the Bristol Bay red king crab stock. Source: Crab Stock Assessment and Fishery Evaluation (SAFE) Report Introductions, https:\\///www.npfmc.org\\//library\\//safe-reports\\//.", label = "tab:abc-buffer", digits = 2, align=c(
+             "p{0.05\\textwidth}|",
+               "p{0.05\\textwidth}",
+               "p{0.11\\textwidth}",
+               "p{0.75\\textwidth}"))
+
+print(tab, caption.placement = "top", include.rownames = FALSE, booktabs = TRUE , hline.after=c(-1, 0, 1:nrow(abc.buffer)))
+
+```
+
+
+
+## Risk Table {-}
+
+In the last few years, risk tables have been under development for the annual crab stock assessments. During the 2023 fall assessment cycle for BSAI crab stocks, the SSC requested that the CPT take up risk tables again for crab stocks. The CPT recommended bringing forward a draft risk table for the "big three" stocks - BBRKC, tanner crab, and snow crab - for the 2024 assessment cycle. Draft risk tables were provided for these assessments in 2025, and the format and use of risk tables was further discussed at the May 2026 crab plan team meeting. At this meeting a crab centric version of the risk table was drafted and the table presented here reflects those discussions. 
+
+The crab risk tables will be two-tiered, with the top tier reflecting persistent, long-standing, model or stock-specfiic assessment uncertainties relative to the exceeding the OFL and tier-level information that underpin the historical buffer (defined as the average buffer used the last five years, reflected in the above section). 
 
 The risk table approach, currently used in the NPFMC groundfish assessments, highlights external factors to the assessment performance across four categories: assessment-related, population dynamics, environmental/ecosystem, and fishery-informed stock considerations. The risk table highlights potential issues in these four areas that should be considered when applying a buffer to the OFL to determine a recommended ABC. Currently, ABC buffers for crab stocks are set using uncertainties about the stock and assessment process that are not incorporated into the assessment model. These are documented in the SAFE reports in each year. The goal of incorporating the risk table process is to use this tool to organize the information that is currently used in ABC buffer considerations and other concerns that the CPT would like to track annually.
 
@@ -44,15 +82,15 @@ The risk table approach, currently used in the NPFMC groundfish assessments, hig
 options(xtable.sanitize.text.function=identity) # had to comment this out to get it to create pdf, figure out this option
 
 
-assessment <- c("Level: 1 Minimal concern",
+assessment <- c("- Retrospective pattern in MMB (high Mohn's rho) \\newline - Stable GMACS reference model since 2018     \\newline - Historic natural mortality event (early 80s)", "Level: 1 Minimal concern",
           # 
-          "- Retrospective pattern in MMB (high Mohn's rho). This has been present for the last few years \\newline - Stable GMACS reference model since 2018 \\newline - Historic natural mortality event (early 80s)")
+          "")
 
-pop_dy <- c("Level: 2 Substantial concern","- Unknown reasons behind recruitment failure (early life stages survival most likely) \\newline - Potential shifting spatial distributions \\newline - Weak to no stock-recruit relationship \\newline - Low levels of abundance compared to historic levels (shifting baseline, non-stationarity)")
+pop_dy <- c("", "Level: 2 Substantial concern","- Unknown reasons behind recruitment failure (early life stages survival most likely) \\newline - Potential shifting spatial distributions \\newline - Weak to no stock-recruit relationship \\newline - Low levels of abundance compared to historic levels (shifting baseline, non-stationarity)")
 
-Ecosys <- c("Level: 2 Substantial concern", "- Corrosive bottom waters and increased wind stress in Bristol Bay remain a concern for growth and survival of larval and juvenile BBRKC \\newline - BB bottom waters were warm in 2025 but there is uncertainty what impacts this has on the stock")
+Ecosys <- c("", "Level: 2 Substantial concern", "- Corrosive bottom waters and increased wind stress in Bristol Bay remain a concern for growth and survival of larval and juvenile BBRKC \\newline - BB bottom waters were warm in 2025 but there is uncertainty what impacts this has on the stock")
 
-fish <- c("Level: 1 Minimal concern", "- Recent year fishery CPUE was higher than last 10 year average  \\newline - Total potlifts and number of active vessels at or near historic lows  \\newline - Skipper survey reported high CPUE and majority saw an increase in legal males")
+fish <- c("", "Level: 1 Minimal concern", "- Recent year fishery CPUE was higher than last 10 year average  \\newline - Total potlifts and number of active vessels at or near historic lows  \\newline - Skipper survey reported high CPUE and majority saw an increase in legal males")
 
 
 risk_tab <- cbind(assessment, pop_dy, Ecosys, fish)

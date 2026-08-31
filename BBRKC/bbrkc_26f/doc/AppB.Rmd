@@ -3,12 +3,12 @@ output:
   pdf_document: default
   html_document: default
 ---
-# Appendix B. Data files for model 24.0c.2 {-}
+# Appendix B. Data files for model 26.0 {-}
 
 Data files can be provided by the author in a more readable format, katie.palof@alaska.gov
 
 
-## Model 24.0c.2 data file for 2025 {-}
+## Model 26.0 data file for 2026 {-}
 
 \fontsize{7}{9}
 ```{r data, eval = TRUE, include=TRUE,echo=FALSE, comment=NA, message = FALSE, warning=FALSE}
